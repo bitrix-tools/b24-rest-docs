@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод получает список служб доставки. 
+Метод `sale.delivery.getlist` получает список служб доставки. 
 
 ## Параметры метода
 

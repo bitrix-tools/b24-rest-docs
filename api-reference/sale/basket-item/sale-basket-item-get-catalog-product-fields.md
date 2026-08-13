@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод возвращает список доступных полей элемента (позиции) корзины для методов [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) — эти методы работают только с товарами модуля catalog в элементах (позициях) корзины.
+Метод `sale.basketitem.getFieldsCatalogProduct` возвращает список доступных полей элемента корзины для методов [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) — эти методы работают только с товарами модуля catalog в элементах корзины.
 
 В отличие от [sale.basketitem.getFields](./sale-basket-item-get-fields.md) метод `sale.basketitem.getFieldsCatalogProduct` возвращает минимально необходимый для работы список полей.
+
+## Параметры метода
 
 Без параметров.
 

@@ -14,6 +14,8 @@
 В этом разделе собраны методы для работы с позициями корзины в созданных заказах.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как покупателю оформить заказ в интернет-магазине](https://helpdesk.bitrix24.ru/open/8238203/)
 
 ## Связь корзины с другими объектами
 
@@ -33,6 +35,14 @@
 
 **Табличная часть отгрузки.** С помощью методов [sale.shipmentitem.*](../shipment-item/index.md) укажите, какие позиции корзины отправить на отгрузку. 
 
+## Как начать работу
+
+1. Создайте заказ методом [sale.order.add](../order/sale-order-add.md) или найдите существующий заказ методом [sale.order.list](../order/sale-order-list.md).
+2. Если добавляете товар из каталога, получите его идентификатор методами каталога и используйте [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md).
+3. Если добавляете произвольную позицию, используйте [sale.basketitem.add](./sale-basket-item-add.md) и передайте данные товара вручную.
+4. Проверьте состав корзины методом [sale.basketitem.list](./sale-basket-item-list.md).
+5. При необходимости измените количество или цену методом [sale.basketitem.update](./sale-basket-item-update.md), затем свяжите позицию с оплатой или отгрузкой.
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`sale`](../../scopes/permissions.md)
@@ -44,10 +54,10 @@
 || [sale.basketitem.add](./sale-basket-item-add.md) | Добавляет позицию в корзину существующего заказа ||
 || [sale.basketitem.update](./sale-basket-item-update.md) | Изменяет позицию корзины существующего заказа ||
 || [sale.basketitem.get](./sale-basket-item-get.md) | Получает информацию о позиции корзины заказа ||
-|| [sale.basketItem.list](./sale-basket-item-list.md) | Возвращает набор позиций корзины по фильтру ||
+|| [sale.basketitem.list](./sale-basket-item-list.md) | Возвращает набор позиций корзины по фильтру ||
 || [sale.basketitem.delete](./sale-basket-item-delete.md) | Удаляет позицию корзины из заказа ||
 || [sale.basketitem.getFields](./sale-basket-item-get-fields.md) | Возвращает доступные поля позиции корзины ||
 || [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) | Добавляет элемент с товаром или услугой из модуля catalog в корзину существующего заказа ||
 || [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) | Изменяет товар каталога в существующем заказе ||
-|| [sale.basketItem.getCatalogProductFields](./sale-basket-item-get-catalog-product-fields.md) | Возвращает доступные поля товара каталога в корзине ||
+|| [sale.basketitem.getFieldsCatalogProduct](./sale-basket-item-get-catalog-product-fields.md) | Возвращает доступные поля товара каталога в корзине ||
 |#

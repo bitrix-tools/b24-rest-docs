@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, delivery`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод создает оповещения по транспортной заявке.
+Метод `sale.delivery.request.sendmessage` создает оповещения по транспортной заявке.
 
 ## Параметры метода
 

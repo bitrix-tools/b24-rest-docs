@@ -1,4 +1,4 @@
-# Получить доступные поля значений свойств отгрузки sale.shipmentpropertyvalue.getfields
+# Получить доступные поля значений свойств отгрузки sale.shipmentpropertyvalue.getFields
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает доступные поля значений свойств отгрузки.
+Метод `sale.shipmentpropertyvalue.getFields` возвращает доступные поля значений свойств отгрузки.
+
+## Параметры метода
 
 Без параметров.
 
@@ -30,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.shipmentpropertyvalue.getfields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.shipmentpropertyvalue.getFields
     ```
 
 - cURL (OAuth)
@@ -40,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.shipmentpropertyvalue.getfields
+    https://**put_your_bitrix24_address**/rest/sale.shipmentpropertyvalue.getFields
     ```
 
 - JS (TS)
@@ -67,7 +69,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<GetFieldsResult>({
-        method: 'sale.shipmentpropertyvalue.getfields',
+        method: 'sale.shipmentpropertyvalue.getFields',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -97,7 +99,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'sale.shipmentpropertyvalue.getfields',
+            method: 'sale.shipmentpropertyvalue.getFields',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -128,7 +130,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'sale.shipmentpropertyvalue.getfields',
+                'sale.shipmentpropertyvalue.getFields',
                 []
             );
     
@@ -150,7 +152,7 @@
 
     ```js
     BX24.callMethod(
-        "sale.shipmentpropertyvalue.getfields", {},
+        "sale.shipmentpropertyvalue.getFields", {},
         function(result) {
             if (result.error()) {
                 console.error(result.error());
@@ -167,7 +169,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'sale.shipmentpropertyvalue.getfields',
+        'sale.shipmentpropertyvalue.getFields',
         []
     );
 
@@ -180,9 +182,9 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "sale.shipmentpropertyvalue.getfields", nil, b24.WithIdempotent())
+    res, err := client.Core().Call(ctx, "sale.shipmentpropertyvalue.getFields", nil, b24.WithIdempotent())
     if err != nil {
-    	return fmt.Errorf("sale.shipmentpropertyvalue.getfields: %w", err)
+        return fmt.Errorf("sale.shipmentpropertyvalue.getFields: %w", err)
     }
 
     // Метод заворачивает ответ в объект с ключом "propertyValue".
@@ -196,7 +198,7 @@
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 

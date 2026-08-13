@@ -17,7 +17,7 @@
 
 > Быстрый переход: [все методы](#all-methods)
 > 
-> Пользовательская документация: [Работа с чеками](https://helpdesk.bitrix24.ru/open/9612449/)
+> Пользовательская документация: [Как принимать оплату от клиентов и работать с чеками](https://helpdesk.bitrix24.ru/open/18225080/)
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -25,9 +25,17 @@
 
 {% endnote %}
 
+## Как начать работу
+
+1. Создайте обработчик кассы методом [sale.cashbox.handler.add](./sale-cashbox-handler-add.md).
+2. Получите список обработчиков методом [sale.cashbox.handler.list](./sale-cashbox-handler-list.md), чтобы выбрать код обработчика.
+3. Добавьте кассу методом [sale.cashbox.add](./sale-cashbox-add.md) и передайте настройки фискализации.
+4. Проверьте список касс методом [sale.cashbox.list](./sale-cashbox-list.md).
+5. После печати чека передайте результат методом [sale.cashbox.check.apply](./sale-cashbox-check-apply.md).
+
 ## Обзор методов {#all-methods}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять методы: администратор CRM с правом «Разрешить изменять настройки»
 

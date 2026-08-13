@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод добавляет REST-обработчик кассы.
+Метод `sale.cashbox.handler.add` добавляет REST-обработчик кассы.
 
 ## Параметры метода
 

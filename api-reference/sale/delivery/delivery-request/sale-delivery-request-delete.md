@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, delivery`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет транспортную заявку.
+Метод `sale.delivery.request.delete` удаляет транспортную заявку.
 
 ## Параметры метода
 

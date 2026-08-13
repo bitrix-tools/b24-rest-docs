@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод получает настройки службы доставки. 
+Метод `sale.delivery.config.get` получает настройки службы доставки.
 
 ## Параметры метода
 

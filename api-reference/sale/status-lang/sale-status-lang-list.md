@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список локализаций статусов заказа или доставки.
+Метод `sale.statusLang.list` получает список локализаций статусов заказа или доставки.
 
 ## Параметры метода
 
@@ -85,7 +85,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["statusId","lid","name","description"],"filter":{"statusId":"N","lid":"ru"},"order":{"statusId":"asc"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statuslang.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statusLang.list
     ```
 
 - cURL (OAuth)
@@ -95,7 +95,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["statusId","lid","name","description"],"filter":{"statusId":"N","lid":"ru"},"order":{"statusId":"asc"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.statuslang.list
+    https://**put_your_bitrix24_address**/rest/sale.statusLang.list
     ```
 
 - JS (TS)
@@ -119,13 +119,13 @@
     }
 
     try {
-      // sale.statuslang.list returns a single page (max 50 records). For the whole result set
+      // sale.statusLang.list returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
       // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<StatusLangListResult>({
-        method: 'sale.statuslang.list',
+        method: 'sale.statusLang.list',
         params: {
           select: ['statusId', 'lid', 'name', 'description'],
           filter: {
@@ -164,13 +164,13 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // sale.statuslang.list returns a single page (max 50 records). For the whole result set
+          // sale.statusLang.list returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
           // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
-            method: 'sale.statuslang.list',
+            method: 'sale.statusLang.list',
             params: {
               select: ['statusId', 'lid', 'name', 'description'],
               filter: {
@@ -211,7 +211,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'sale.statuslang.list',
+                'sale.statusLang.list',
                 [
                     'select' => [
                         'statusId',
@@ -245,7 +245,7 @@
 
     ```js
     BX24.callMethod(
-        "sale.statuslang.list", {
+        "sale.statusLang.list", {
             "select": [
                 "statusId",
                 "lid",
@@ -276,7 +276,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'sale.statuslang.list',
+        'sale.statusLang.list',
         [
             'select' => [
                 'statusId',
@@ -303,7 +303,7 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "sale.statuslang.list", b24.Params{
+    res, err := client.Core().Call(ctx, "sale.statusLang.list", b24.Params{
     	"select": []string{"statusId", "lid", "name", "description"},
     	"filter": b24.Params{
     		"statusId": "N",
@@ -314,7 +314,7 @@
     	},
     }, b24.WithIdempotent())
     if err != nil {
-    	return fmt.Errorf("sale.statuslang.list: %w", err)
+        return fmt.Errorf("sale.statusLang.list: %w", err)
     }
 
     // Метод заворачивает ответ в объект с ключом "statusLangs".
@@ -405,7 +405,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-status-lang-get-list-langs.md)

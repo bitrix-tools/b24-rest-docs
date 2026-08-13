@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список возможных языков для локализаций.
+Метод `sale.statusLang.getListLangs` получает список возможных языков для локализаций.
+
+## Параметры метода
 
 Без параметров.
 
@@ -30,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statuslang.getlistlangs
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statusLang.getListLangs
     ```
 
 - cURL (OAuth)
@@ -40,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.statuslang.getlistlangs
+    https://**put_your_bitrix24_address**/rest/sale.statusLang.getListLangs
     ```
 
 - JS (TS)
@@ -64,7 +66,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<GetListLangsResult>({
-        method: 'sale.statuslang.getlistlangs',
+        method: 'sale.statusLang.getListLangs',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -94,7 +96,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'sale.statuslang.getlistlangs',
+            method: 'sale.statusLang.getListLangs',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -125,7 +127,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'sale.statuslang.getlistlangs',
+                'sale.statusLang.getListLangs',
                 []
             );
     
@@ -147,7 +149,7 @@
 
     ```js
     BX24.callMethod(
-        'sale.statuslang.getlistlangs',
+        'sale.statusLang.getListLangs',
         {},
         function(result) {
             if (result.error()) {
@@ -165,7 +167,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'sale.statuslang.getlistlangs',
+        'sale.statusLang.getListLangs',
         []
     );
 
@@ -178,9 +180,9 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "sale.statuslang.getlistlangs", nil)
+    res, err := client.Core().Call(ctx, "sale.statusLang.getListLangs", nil)
     if err != nil {
-    	return fmt.Errorf("sale.statuslang.getlistlangs: %w", err)
+        return fmt.Errorf("sale.statusLang.getListLangs: %w", err)
     }
 
     // Метод заворачивает ответ в объект с ключом "langs".
@@ -366,7 +368,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-status-lang-add.md)

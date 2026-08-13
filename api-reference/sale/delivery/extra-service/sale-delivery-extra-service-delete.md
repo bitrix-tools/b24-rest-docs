@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, delivery`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет услугу службы доставки.
+Метод `sale.delivery.extra.service.delete` удаляет услугу службы доставки.
 
 ## Параметры метода
 

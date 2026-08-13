@@ -12,10 +12,20 @@
 Свойства корзины — это характеристики [позиций корзины](../basket-item/index.md): размер, цвет, артикул, производитель.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как создать и настроить свойства товаров в CRM](https://helpdesk.bitrix24.ru/open/27632310/)
 
 ## Связь свойств корзины с другими объектами
 
 **Корзина.** Укажите позицию корзины, к которой привязано свойство. Список позиций корзины можно получить методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md).
+
+## Как начать работу
+
+1. Получите идентификатор позиции корзины методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md).
+2. Создайте свойство позиции методом [sale.basketproperties.add](./sale-basket-properties-add.md).
+3. Проверьте значение свойства методом [sale.basketproperties.get](./sale-basket-properties-get.md) или получите список свойств методом [sale.basketproperties.list](./sale-basket-properties-list.md).
+4. Если данные изменились, обновите свойство методом [sale.basketproperties.update](./sale-basket-properties-update.md).
+5. Удалите неактуальное свойство методом [sale.basketproperties.delete](./sale-basket-properties-delete.md).
 
 ## Обзор методов {#all-methods}
 

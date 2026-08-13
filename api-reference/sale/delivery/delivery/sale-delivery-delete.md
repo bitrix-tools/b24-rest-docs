@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод удаляет службу доставки. 
+Метод `sale.delivery.delete` удаляет службу доставки.
 
 ## Параметры метода
 
