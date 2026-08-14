@@ -298,4 +298,4 @@ HTTP-статус: **200**
 
 - [{#T}](./index.md)
 - [{#T}](./timeman-timecontrol-report-add.md)
-- [{#T}](./timeman-timecontrol-reports-get.md) 
+- [{#T}](./timeman-timecontrol-reports-get.md)

@@ -1,5 +1,5 @@
 title: Управление SIP-подключениями
-href: voximplant-sip-connector-status.md
+href: index.md
 items: 
   - name: Обзор методов
     href: index.md
@@ -15,10 +15,3 @@ items:
     href: voximplant-sip-status.md
   - name: Удалить SIP-подключение
     href: voximplant-sip-delete.md
-
-
-
-
-
-
-
