@@ -90,8 +90,27 @@
 || [userfieldconfig.getTypes](./userfieldconfig-get-types.md) | Получает доступные типы пользовательских полей для модуля ||
 |#
 
+## События {#events}
+
+Битрикс24 отправляет события, когда меняются пользовательские поля смарт-процессов, новых счетов и документов на подпись. Как подписаться и что приходит в обработчик, описано в разделе [События при работе с настройками пользовательских полей](./events/index.md).
+
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [onCrmTypeUserFieldAdd](./events/on-crm-type-user-field-add.md) | При добавлении пользовательского поля вручную или методом [userfieldconfig.add](./userfieldconfig-add.md) ||
+|| [onCrmTypeUserFieldUpdate](./events/on-crm-type-user-field-update.md) | При изменении настроек пользовательского поля вручную или методом [userfieldconfig.update](./userfieldconfig-update.md) ||
+|| [onCrmTypeUserFieldDelete](./events/on-crm-type-user-field-delete.md) | При удалении пользовательского поля вручную или методом [userfieldconfig.delete](./userfieldconfig-delete.md) ||
+|| [onCrmTypeUserFieldSetEnumValues](./events/on-crm-type-user-field-set-enum-values.md) | При изменении набора значений пользовательского поля списочного типа вручную или методами [userfieldconfig.add](./userfieldconfig-add.md) и [userfieldconfig.update](./userfieldconfig-update.md) ||
+|#
+
+Для пользовательских полей лида, контакта, компании, сделки, предложения и реквизита есть свои события. Для полей в модулях `rpa` и `catalog` события не отправляются.
+
 ## Продолжите изучение
 
+- [{#T}](./events/index.md)
 - [{#T}](../user-defined-fields/index.md)
 - [{#T}](../user-defined-object-types/index.md)
 - [{#T}](../index.md)

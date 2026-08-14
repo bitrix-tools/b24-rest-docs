@@ -216,15 +216,31 @@
 
 Идентификатор объекта CRM **entityId** — [тип объекта пользовательского поля](#id), например `CRM_1`.
 
-#|
-|| **Метод** | **Описание** ||
-|| [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
-|| [userfieldconfig.update](../userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
-|| [userfieldconfig.get](../userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
-|| [userfieldconfig.getTypes](../userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
-|| [userfieldconfig.list](../userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
-|| [userfieldconfig.delete](../userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
+    || [userfieldconfig.update](../userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
+    || [userfieldconfig.get](../userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
+    || [userfieldconfig.getTypes](../userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
+    || [userfieldconfig.list](../userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
+    || [userfieldconfig.delete](../userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmTypeUserFieldAdd](../userfieldconfig/events/on-crm-type-user-field-add.md) | При добавлении пользовательского поля смарт-процесса ||
+    || [onCrmTypeUserFieldUpdate](../userfieldconfig/events/on-crm-type-user-field-update.md) | При изменении настроек пользовательского поля смарт-процесса ||
+    || [onCrmTypeUserFieldDelete](../userfieldconfig/events/on-crm-type-user-field-delete.md) | При удалении пользовательского поля смарт-процесса ||
+    || [onCrmTypeUserFieldSetEnumValues](../userfieldconfig/events/on-crm-type-user-field-set-enum-values.md) | При изменении набора значений пользовательского поля списочного типа ||
+    |#
+
+{% endlist %}
 
 ### Управление настройками карточки
 
