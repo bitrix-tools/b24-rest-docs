@@ -114,16 +114,16 @@
 - `Y` — встреча с участниками
 - `N` — встреча без участников
 
-Для встречи с участниками обязательно укажите список участников `attendees` и организатора события `host`. Без заполнения этих полей событие создано не будет
+Для встречи с участниками передайте список участников `attendees`. Организатором события будет пользователь, от имени которого выполняется метод
 ||
 || **location**
 [`string`](../../data-types.md) | Место проведения ||
 || **remind**
 [`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии. Структура описана [ниже](#remind) ||
-|| **attendees***
-[`array`](../../data-types.md) | Список идентификаторов участников события. Поле обязательное, если `is_meeting` = `Y` ||
-|| **host***
-[`integer`](../../data-types.md) | Идентификатор организатора события. Поле обязательное, если `is_meeting` = `Y` ||
+|| **attendees**
+[`array`](../../data-types.md) | Список идентификаторов участников события.
+
+Если не передать параметр для встречи с участниками, участником будет пользователь, от имени которого выполняется метод ||
 || **meeting**
 [`object`](../../data-types.md) | Объект с параметрами встречи. Структура описана [ниже](#meeting) ||
 || **crm_fields**
@@ -237,7 +237,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
+    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.add
     ```
 
@@ -247,7 +247,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
+    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
@@ -287,7 +287,6 @@
           ],
           location: 'London',
           attendees: [1, 2, 3],
-          host: 2,
           meeting: {
             notify: true,
             reinvite: false,
@@ -351,7 +350,6 @@
               ],
               location: 'London',
               attendees: [1, 2, 3],
-              host: 2,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -419,7 +417,6 @@
                     ],
                     'location'      => 'London',
                     'attendees'     => [1, 2, 3],
-                    'host'          => 2,
                     'meeting'       => [
                         'notify'      => true,
                         'reinvite'    => false,
@@ -478,7 +475,6 @@
             ],
             location: 'London',
             attendees: [1, 2, 3],
-            host: 2,
             meeting: {
                 notify: true,
                 reinvite: false,
@@ -526,7 +522,6 @@
             ],
             'location' => 'London',
             'attendees' => [1, 2, 3],
-            'host' => 2,
             'meeting' => [
                 'notify' => true,
                 'reinvite' => false,
@@ -575,7 +570,6 @@
     	},
     	"location":  "London",
     	"attendees": []int{1, 2, 3},
-    	"host":      2,
     	"meeting": b24.Params{
     		"notify":       true,
     		"reinvite":     false,
@@ -614,7 +608,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"host":1,"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false}}' \
+    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.add
     ```
 
@@ -624,7 +618,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"host":1,"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false},"auth":"**put_access_token_here**"}' \
+    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
@@ -672,7 +666,6 @@
             { type: 'min', count: 30 },
           ],
           attendees: [29, 93],
-          host: 1,
           meeting: {
             notify: true,
             reinvite: false,
@@ -737,7 +730,6 @@
                 { type: 'min', count: 30 },
               ],
               attendees: [29, 93],
-              host: 1,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -803,7 +795,6 @@
                         ['type' => 'min', 'count' => 30]
                     ],
                     'attendees'      => [29, 93],
-                    'host'           => 1,
                     'meeting'        => [
                         'notify'       => true,
                         'reinvite'     => false,
@@ -858,7 +849,6 @@
                 { type: 'min', count: 30 } // Напоминание за 30 минут до события
             ],
             attendees: [29, 93], // Список идентификаторов участников события
-            host: 1, // Идентификатор организатора события
             meeting: { // Параметры встречи
                 notify: true, // Оповещение о подтверждении или отказе участников
                 reinvite: false, // Не запрашивать повторное подтверждение участия
@@ -911,7 +901,6 @@
                 ['type' => 'min', 'count' => 30] // Напоминание за 30 минут до события
             ],
             'attendees' => [29, 93], // Список идентификаторов участников события
-            'host' => 1, // Идентификатор организатора события
             'meeting' => [ // Параметры встречи
                 'notify' => true, // Оповещение о подтверждении или отказе участников
                 'reinvite' => false, // Не запрашивать повторное подтверждение участия
@@ -964,7 +953,6 @@
     		},
     	},
     	"attendees": []int{29, 93},
-    	"host":      1,
     	"meeting": b24.Params{
     		"notify":       true,
     		"reinvite":     false,

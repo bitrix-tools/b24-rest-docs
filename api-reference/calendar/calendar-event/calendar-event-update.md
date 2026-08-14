@@ -111,15 +111,23 @@
 - `Y` — встреча с участниками
 - `N` — встреча без участников
 
-Для встречи с участниками обязательно укажите список участников `attendees` и организатора события `host`. Без заполнения этих полей событие создано не будет ||
+Для встречи с участниками передайте список участников `attendees` ||
 || **location**
 [`string`](../../data-types.md) | Место проведения ||
 || **remind**
 [`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии. Структура описана [ниже](#remind) ||
-|| **attendees***
-[`array`](../../data-types.md) | Список идентификаторов участников события. Поле обязательное, если `is_meeting` = `Y` ||
-|| **host***
-[`string`](../../data-types.md) | Идентиификатор организатора события. Поле обязательное, если `is_meeting` = `Y` ||
+|| **attendees**
+[`array`](../../data-types.md) | Список идентификаторов участников события.
+
+Если не передать параметр при обновлении встречи, текущий список участников сохранится ||
+|| **host**
+[`integer`](../../data-types.md) | Идентификатор организатора события.
+
+Передавайте параметр только если встречу обновляет не организатор. В этом случае укажите идентификатор текущего организатора. Если не передать параметр или передать идентификатор другого пользователя, метод вернет ошибку `Доступ запрещен`.
+
+Текущего организатора можно узнать методом [calendar.event.getbyid](./calendar-event-get-by-id.md) или [calendar.event.get](./calendar-event-get.md).
+
+Параметр нельзя использовать для смены организатора существующего события. Чтобы сменить организатора, удалите событие методом [calendar.event.delete](./calendar-event-delete.md) и создайте новое методом [calendar.event.add](./calendar-event-add.md) от имени нужного организатора ||
 || **meeting**
 [`object`](../../data-types.md) | Объект с параметрами встречи. Структура описана [ниже](#meeting) ||
 || **crm_fields**
@@ -233,7 +241,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
+    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.update
     ```
 
@@ -243,7 +251,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
+    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.update
     ```
 
@@ -297,7 +305,6 @@
           ],
           location: 'London',
           attendees: [1, 2, 3],
-          host: 2,
           meeting: {
             notify: true,
             reinvite: false,
@@ -367,7 +374,6 @@
               ],
               location: 'London',
               attendees: [1, 2, 3],
-              host: 2,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -438,7 +444,6 @@
                     ],
                     'location'        => 'London',
                     'attendees'       => [1, 2, 3],
-                    'host'            => 2,
                     'meeting'         => [
                         'notify'      => true,
                         'reinvite'    => false,
@@ -500,7 +505,6 @@
             ],
             location: 'London',
             attendees: [1, 2, 3],
-            host: 2,
             meeting: {
                 notify: true,
                 reinvite: false,
@@ -551,7 +555,6 @@
             ],
             'location' => 'London',
             'attendees' => [1, 2, 3],
-            'host' => 2,
             'meeting' => [
                 'notify' => true,
                 'reinvite' => false,
@@ -603,7 +606,6 @@
     	},
     	"location":  "London",
     	"attendees": []int{1, 2, 3},
-    	"host":      2,
     	"meeting": b24.Params{
     		"notify":       true,
     		"reinvite":     false,
