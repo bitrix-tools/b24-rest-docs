@@ -27,9 +27,19 @@
 || **TRACE**^*^
 [`string`](../../data-types.md) | JSON-строка с данными трейса.
 
-Для получения корректного значения смотрите [туториал](../../../tutorials/crm/how-to-use-analitycs/info-to-analitics.md) ||
+Готовое значение можно получить на сайте через `b24Tracker.guest.getTrace()`. Практический сценарий описан в [туториале](../../../tutorials/crm/how-to-use-analitycs/info-to-analitics.md).
+
+Если формируете `TRACE` вручную, передайте UTM-метки в объекте `tags.list`:
+
+```json
+{"tags":{"list":{"utm_source":"yandex-maps"}}}
+```
+
+В этом примере в трейс передается только одна UTM-метка: `utm_source` со значением `yandex-maps`. Чтобы передать другие UTM-метки, добавьте их в `tags.list`, например `utm_medium`, `utm_campaign`, `utm_content` или `utm_term` ||
 || **ENTITIES**
-[`object[]`](../../data-types.md) | Массив объектов, которые нужно связать с трейсом [подробнее](#entities) ||
+[`object[]`](../../data-types.md) | Массив объектов, которые нужно связать с трейсом [(подробное описание)](#entities)
+
+Если не передать `ENTITIES`, метод создаст трейс без привязки к объектам CRM ||
 |#
 
 ### Параметр ENTITIES {#entities}
@@ -38,15 +48,20 @@
 || **Название**
 `тип` | **Описание** ||
 || **TYPE**^*^
-[`string`](../../data-types.md) | Тип объекта. Возможные значения:
+[`string`](../../data-types.md) | Тип объекта CRM.
 
-- `COMPANY`
-- `CONTACT`
-- `DEAL`
-- `LEAD`
-- `QUOTE` ||
+Возможные значения:
+
+- `COMPANY` — компания, `entityTypeId = 4`
+- `CONTACT` — контакт, `entityTypeId = 3`
+- `DEAL` — сделка, `entityTypeId = 2`
+- `LEAD` — лид, `entityTypeId = 1`
+- `QUOTE` — коммерческое предложение, `entityTypeId = 7`
+||
 || **ID**^*^
-[`integer`](../../data-types.md) | Идентификатор элемента.
+[`integer`](../../data-types.md) | Идентификатор элемента CRM.
+
+Идентификатор можно получить методом [crm.item.list](../universal/crm-item-list.md) с `entityTypeId` нужного типа объекта.
 
 Для указанного объекта у пользователя должны быть права на изменение ||
 |#
@@ -56,8 +71,8 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 Пример создания трейса сквозной аналитики, где:
-- `TRACE` — JSON-строка с данными трейса
-- `ENTITIES` — объекты, которые связываются с трейсом
+- `TRACE` — JSON-строка с UTM-меткой `utm_source` и значением `yandex-maps`
+- `ENTITIES` — контакт и лид, которые связываются с трейсом
 
 {% list tabs %}
 
@@ -67,15 +82,15 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -d '{
-        "TRACE": "{\"SOURCE_ID\":\"6\",\"SOURCE_DESC\":\"Direct sale\",\"PAGES\":[{\"URL\":\"https://example.com/\",\"DATE\":\"2024-04-03T10:26:32+03:00\"}]}",
+        "TRACE": "{\"tags\":{\"list\":{\"utm_source\":\"yandex-maps\"}}}",
         "ENTITIES": [
           {
             "TYPE": "CONTACT",
-            "ID": 3215
+            "ID": 17
           },
           {
             "TYPE": "LEAD",
-            "ID": 1
+            "ID": 1000739
           }
         ]
       }' \
@@ -88,15 +103,15 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -d '{
-        "TRACE": "{\"SOURCE_ID\":\"6\",\"SOURCE_DESC\":\"Direct sale\",\"PAGES\":[{\"URL\":\"https://example.com/\",\"DATE\":\"2024-04-03T10:26:32+03:00\"}]}",
+        "TRACE": "{\"tags\":{\"list\":{\"utm_source\":\"yandex-maps\"}}}",
         "ENTITIES": [
           {
             "TYPE": "CONTACT",
-            "ID": 3215
+            "ID": 17
           },
           {
             "TYPE": "LEAD",
-            "ID": 1
+            "ID": 1000739
           }
         ],
         "auth": "**put_access_token_here**"
@@ -118,15 +133,15 @@
       const response = await $b24.actions.v2.call.make<number>({
         method: 'crm.tracking.trace.add',
         params: {
-          TRACE: '{"SOURCE_ID":"6","SOURCE_DESC":"Direct sale","PAGES":[{"URL":"https://example.com/","DATE":"2024-04-03T10:26:32+03:00"}]}',
+          TRACE: '{"tags":{"list":{"utm_source":"yandex-maps"}}}',
           ENTITIES: [
             {
               TYPE: 'CONTACT',
-              ID: 3215,
+              ID: 17,
             },
             {
               TYPE: 'LEAD',
-              ID: 1,
+              ID: 1000739,
             },
           ],
         },
@@ -160,15 +175,15 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.tracking.trace.add',
             params: {
-              TRACE: '{"SOURCE_ID":"6","SOURCE_DESC":"Direct sale","PAGES":[{"URL":"https://example.com/","DATE":"2024-04-03T10:26:32+03:00"}]}',
+              TRACE: '{"tags":{"list":{"utm_source":"yandex-maps"}}}',
               ENTITIES: [
                 {
                   TYPE: 'CONTACT',
-                  ID: 3215,
+                  ID: 17,
                 },
                 {
                   TYPE: 'LEAD',
-                  ID: 1,
+                  ID: 1000739,
                 },
               ],
             },
@@ -202,15 +217,15 @@
             ->call(
                 'crm.tracking.trace.add',
                 [
-                    'TRACE' => '{"SOURCE_ID":"6","SOURCE_DESC":"Direct sale","PAGES":[{"URL":"https://example.com/","DATE":"2024-04-03T10:26:32+03:00"}]}',
+                    'TRACE' => '{"tags":{"list":{"utm_source":"yandex-maps"}}}',
                     'ENTITIES' => [
                         [
                             'TYPE' => 'CONTACT',
-                            'ID' => 3215,
+                            'ID' => 17,
                         ],
                         [
                             'TYPE' => 'LEAD',
-                            'ID' => 1,
+                            'ID' => 1000739,
                         ],
                     ],
                 ]
@@ -233,15 +248,15 @@
     BX24.callMethod(
         'crm.tracking.trace.add',
         {
-            TRACE: '{"SOURCE_ID":"6","SOURCE_DESC":"Direct sale","PAGES":[{"URL":"https://example.com/","DATE":"2024-04-03T10:26:32+03:00"}]}',
+            TRACE: '{"tags":{"list":{"utm_source":"yandex-maps"}}}',
             ENTITIES: [
                 {
                     TYPE: 'CONTACT',
-                    ID: 3215
+                    ID: 17
                 },
                 {
                     TYPE: 'LEAD',
-                    ID: 1
+                    ID: 1000739
                 }
             ]
         },
@@ -271,15 +286,15 @@
 
     try:
         bitrix_response = client.crm.tracking.trace.add(
-            trace="{\"SOURCE_ID\":\"6\",\"SOURCE_DESC\":\"Direct sale\",\"PAGES\":[{\"URL\":\"https://example.com/\",\"DATE\":\"2024-04-03T10:26:32+03:00\"}]}",
+            trace="{\"tags\":{\"list\":{\"utm_source\":\"yandex-maps\"}}}",
             entities=[
                 {
                     "TYPE": "CONTACT",
-                    "ID": 3215
+                    "ID": 17
                 },
                 {
                     "TYPE": "LEAD",
-                    "ID": 1
+                    "ID": 1000739
                 }
             ],
         )
@@ -304,15 +319,15 @@
     $result = CRest::call(
         'crm.tracking.trace.add',
         [
-            'TRACE' => '{"SOURCE_ID":"6","SOURCE_DESC":"Direct sale","PAGES":[{"URL":"https://example.com/","DATE":"2024-04-03T10:26:32+03:00"}]}',
+            'TRACE' => '{"tags":{"list":{"utm_source":"yandex-maps"}}}',
             'ENTITIES' => [
                 [
                     'TYPE' => 'CONTACT',
-                    'ID' => 3215,
+                    'ID' => 17,
                 ],
                 [
                     'TYPE' => 'LEAD',
-                    'ID' => 1,
+                    'ID' => 1000739,
                 ],
             ],
         ]
@@ -328,15 +343,15 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.tracking.trace.add", b24.Params{
-    	"TRACE": "{\"SOURCE_ID\":\"6\",\"SOURCE_DESC\":\"Direct sale\",\"PAGES\":[{\"URL\":\"https://example.com/\",\"DATE\":\"2024-04-03T10:26:32+03:00\"}]}",
+        "TRACE": "{\"tags\":{\"list\":{\"utm_source\":\"yandex-maps\"}}}",
     	"ENTITIES": []b24.Params{
     		{
     			"TYPE": "CONTACT",
-    			"ID":   3215,
+                "ID":   17,
     		},
     		{
     			"TYPE": "LEAD",
-    			"ID":   1,
+                "ID":   1000739,
     		},
     	},
     })
@@ -359,15 +374,15 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": 341,
+    "result": 1581,
     "time": {
-        "start": 1775117366,
-        "finish": 1775117367.080829,
-        "duration": 1.0808289051055908,
+        "start": 1786711683,
+        "finish": 1786711683.296598,
+        "duration": 0.296597957611084,
         "processing": 0,
-        "date_start": "2026-04-02T11:09:26+03:00",
-        "date_finish": "2026-04-02T11:09:27+03:00",
-        "operating_reset_at": 1775117967,
+        "date_start": "2026-08-14T15:48:03+03:00",
+        "date_finish": "2026-08-14T15:48:03+03:00",
+        "operating_reset_at": 1786712283,
         "operating": 0
     }
 }
