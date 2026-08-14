@@ -15,3 +15,7 @@ items:
     href: userfieldconfig-list.md
   - name: Изменить значения пользовательского поля
     href: userfieldconfig-update.md
+  - name: События
+    include:
+      path: events/b24-toc.yaml
+      mode: link

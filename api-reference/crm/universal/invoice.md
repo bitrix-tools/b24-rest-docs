@@ -155,15 +155,31 @@
 
 Идентификатор объекта CRM **entityId** — `CRM_SMART_INVOICE`
 
-#|
-|| **Метод** | **Описание** ||
-|| [userfieldconfig.add](./userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
-|| [userfieldconfig.update](./userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
-|| [userfieldconfig.get](./userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
-|| [userfieldconfig.getTypes](./userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
-|| [userfieldconfig.list](./userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
-|| [userfieldconfig.delete](./userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [userfieldconfig.add](./userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
+    || [userfieldconfig.update](./userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
+    || [userfieldconfig.get](./userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
+    || [userfieldconfig.getTypes](./userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
+    || [userfieldconfig.list](./userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
+    || [userfieldconfig.delete](./userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmTypeUserFieldAdd](./userfieldconfig/events/on-crm-type-user-field-add.md) | При добавлении пользовательского поля счета ||
+    || [onCrmTypeUserFieldUpdate](./userfieldconfig/events/on-crm-type-user-field-update.md) | При изменении настроек пользовательского поля счета ||
+    || [onCrmTypeUserFieldDelete](./userfieldconfig/events/on-crm-type-user-field-delete.md) | При удалении пользовательского поля счета ||
+    || [onCrmTypeUserFieldSetEnumValues](./userfieldconfig/events/on-crm-type-user-field-set-enum-values.md) | При изменении набора значений пользовательского поля списочного типа ||
+    |#
+
+{% endlist %}
 
 ### Товарные позиции
 
