@@ -1,0 +1,125 @@
+{
+  "$v": 1,
+  "method": "catalog.catalog.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список торговых каталогов catalog.catalog.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта catalogcatalog). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля торговых каталогов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogcatalog. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных торговых каталогов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogcatalog. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/catalog/catalog-catalog-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "catalogs": [
+        {
+          "iblockId": 24,
+          "iblockTypeId": 0,
+          "id": 24,
+          "lid": "s1",
+          "name": "Товарный каталог CRM (предложения)",
+          "productIblockId": 23,
+          "skuPropertyId": 97,
+          "subscription": "N",
+          "vatId": 1
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1716796276.902035,
+      "finish": 1716796277.31202,
+      "duration": 0.4099850654602051,
+      "processing": 0.01759815216064453,
+      "date_start": "2024-05-27T10:51:16+03:00",
+      "date_finish": "2024-05-27T10:51:17+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "catalogs",
+      "type": "catalog_catalog[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных торговых каталогах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/catalog/catalog-catalog-list.html",
+  "executable": false,
+  "entityFields": [
+    "iblockId",
+    "iblockTypeId",
+    "id",
+    "lid",
+    "name",
+    "productIblockId",
+    "skuPropertyId",
+    "subscription",
+    "vatId"
+  ]
+}

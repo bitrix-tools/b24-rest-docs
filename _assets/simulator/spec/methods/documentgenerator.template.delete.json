@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.template.delete",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Удалить шаблон documentgenerator.template.delete",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона. Получить идентификатор шаблона можно после создания шаблона или методом получения списка шаблонов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/templates/document-generator-template-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1773914210,
+      "finish": 1773914211.747039,
+      "duration": 1.7470390796661377,
+      "processing": 1,
+      "date_start": "2026-03-19T12:56:50+03:00",
+      "date_finish": "2026-03-19T12:56:51+03:00",
+      "operating_reset_at": 1773914810,
+      "operating": 1.222714900970459
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Метод удаляет шаблон и возвращает null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/templates/document-generator-template-delete.html",
+  "executable": false
+}

@@ -1,0 +1,200 @@
+{
+  "$v": 1,
+  "method": "lists.get",
+  "scope": "lists",
+  "kind": "read",
+  "title": "Получить данные универсального списка или массив списков lists.get",
+  "permissions": "пользователь с правом «Чтение» для списков",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп Идентификатор можно получить с помощью метода lists.get.iblock.type.id"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор инфоблока"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Cимвольный код инфоблока При запросе без IBLOCK_ID или IBLOCK_CODE возвращаются все списки указанного типа, доступные пользователю"
+    },
+    {
+      "name": "SOCNET_GROUP_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы. Обязателен для списков групп, иначе произойдет ошибка доступа. Идентификатор можно получить с помощью методов socialnetwork.api.workgroup.list, sonetgroup.get и sonetgroup.user.groups"
+    },
+    {
+      "name": "IBLOCK_ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки полей списка в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Допустимые поля: - ID - идентификатор списка - IBLOCK_TYPE - тип инфоблока - NAME - название списка - CODE - символьный код списка - SORT - сортировка - TIMESTAMP_X - время последнего изменения Значение по умолча…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/lists/lists-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "89",
+        "TIMESTAMP_X": "05/17/2023 04:09:23 pm",
+        "IBLOCK_TYPE_ID": "lists_socnet",
+        "LID": "s1",
+        "CODE": null,
+        "API_CODE": null,
+        "NAME": "Список группы",
+        "ACTIVE": "Y",
+        "SORT": "500",
+        "LIST_PAGE_URL": null,
+        "DETAIL_PAGE_URL": null,
+        "SECTION_PAGE_URL": null,
+        "CANONICAL_PAGE_URL": null,
+        "PICTURE": null,
+        "DESCRIPTION": "",
+        "DESCRIPTION_TYPE": "text",
+        "RSS_TTL": "24",
+        "RSS_ACTIVE": "Y",
+        "RSS_FILE_ACTIVE": "N",
+        "RSS_FILE_LIMIT": null,
+        "RSS_FILE_DAYS": null,
+        "RSS_YANDEX_ACTIVE": "N",
+        "XML_ID": null,
+        "TMP_ID": null,
+        "INDEX_ELEMENT": "Y",
+        "INDEX_SECTION": "N",
+        "WORKFLOW": "N",
+        "BIZPROC": "Y",
+        "SECTION_CHOOSER": "L",
+        "LIST_MODE": null,
+        "RIGHTS_MODE": "E",
+        "SECTION_PROPERTY": null,
+        "PROPERTY_INDEX": null,
+        "VERSION": "1",
+        "LAST_CONV_ELEMENT": "0",
+        "SOCNET_GROUP_ID": "33",
+        "EDIT_FILE_BEFORE": null,
+        "EDIT_FILE_AFTER": null,
+        "SECTIONS_NAME": "Разделы",
+        "SECTION_NAME": "Раздел",
+        "ELEMENTS_NAME": "Элементы",
+        "ELEMENT_NAME": "Элемент",
+        "REST_ON": "N",
+        "FULLTEXT_INDEX": "N",
+        "EXTERNAL_ID": null,
+        "LANG_DIR": "/",
+        "SERVER_NAME": null
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1764694297,
+      "finish": 1764694298.018582,
+      "duration": 1.0185821056365967,
+      "processing": 1,
+      "date_start": "2025-12-02T15:51:37+03:00",
+      "date_finish": "2025-12-02T15:51:38+03:00",
+      "operating_reset_at": 1764694897,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Данные списка или массив списков. Пустой массив означает, что списки не найдены"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество списков"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/lists/lists-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "API_CODE",
+    "BIZPROC",
+    "CANONICAL_PAGE_URL",
+    "CODE",
+    "DESCRIPTION",
+    "DESCRIPTION_TYPE",
+    "DETAIL_PAGE_URL",
+    "EDIT_FILE_AFTER",
+    "EDIT_FILE_BEFORE",
+    "ELEMENTS_NAME",
+    "ELEMENT_NAME",
+    "EXTERNAL_ID",
+    "FULLTEXT_INDEX",
+    "IBLOCK_TYPE_ID",
+    "ID",
+    "INDEX_ELEMENT",
+    "INDEX_SECTION",
+    "LANG_DIR",
+    "LAST_CONV_ELEMENT",
+    "LID",
+    "LIST_MODE",
+    "LIST_PAGE_URL",
+    "NAME",
+    "PICTURE",
+    "PROPERTY_INDEX",
+    "REST_ON",
+    "RIGHTS_MODE",
+    "RSS_ACTIVE",
+    "RSS_FILE_ACTIVE",
+    "RSS_FILE_DAYS",
+    "RSS_FILE_LIMIT",
+    "RSS_TTL",
+    "RSS_YANDEX_ACTIVE",
+    "SECTIONS_NAME",
+    "SECTION_CHOOSER",
+    "SECTION_NAME",
+    "SECTION_PAGE_URL",
+    "SECTION_PROPERTY",
+    "SERVER_NAME",
+    "SOCNET_GROUP_ID",
+    "SORT",
+    "TIMESTAMP_X",
+    "TMP_ID",
+    "VERSION",
+    "WORKFLOW",
+    "XML_ID"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "$v": 1,
+  "method": "calendar.section.delete",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Удалить календарь calendar.section.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип календаря: - user — календарь пользователя - group — календарь группы"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор владельца календаря"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор календаря"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-section-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1733822629.623482,
+      "finish": 1733822629.878903,
+      "duration": 0.2554209232330322,
+      "processing": 0.049089908599853516,
+      "date_start": "2024-12-08T09:23:49+00:00",
+      "date_finish": "2024-12-08T09:23:49+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления календаря. Возвращает true, если календарь успешно удален"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-section-delete.html",
+  "executable": false
+}

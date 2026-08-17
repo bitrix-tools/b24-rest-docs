@@ -1,0 +1,260 @@
+{
+  "$v": 1,
+  "method": "catalog.productProperty.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Изменить свойство товаров или вариаций catalog.productProperty.update",
+  "permissions": "пользователь с правом на просмотр каталога",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор свойства. Идентификаторы свойств можно получить методом catalog.productProperty.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей для обновления свойства (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "iblockId",
+          "type": "catalog_catalog.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор торгового каталога. Идентификаторы можно получить методом catalog.catalog.list"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название свойства"
+        },
+        {
+          "name": "propertyType",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Базовый тип свойства. Изменять нельзя"
+        },
+        {
+          "name": "active",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак активности. Допустимые значения: - Y — да - N — нет"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код свойства. Код свойства может состоять из латинских символов, цифр и знака подчеркивания. Первый символ не может быть цифрой"
+        },
+        {
+          "name": "defaultValue",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Значение свойства по умолчанию"
+        },
+        {
+          "name": "userType",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Пользовательский тип свойства. Изменять нельзя"
+        },
+        {
+          "name": "rowCount",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Число строк поля ввода"
+        },
+        {
+          "name": "colCount",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Число колонок поля ввода"
+        },
+        {
+          "name": "listType",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Внешний вид списка. Допустимые значения: - L — выпадающий список - C — набор флажков"
+        },
+        {
+          "name": "multiple",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак множественного значения. Допустимые значения: - Y — да - N — нет"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор свойства"
+        },
+        {
+          "name": "fileType",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Список расширений файлов для свойства типа F"
+        },
+        {
+          "name": "multipleCnt",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Число полей для ввода множественных значений"
+        },
+        {
+          "name": "linkIblockId",
+          "type": "catalog_catalog.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор связанного инфоблока. Доступные идентификаторы можно получить методом catalog.catalog.list"
+        },
+        {
+          "name": "withDescription",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак хранения описания значения. Допустимые значения: - Y — да - N — нет"
+        },
+        {
+          "name": "searchable",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак участия в поиске. Допустимые значения: - Y — да - N — нет"
+        },
+        {
+          "name": "filtrable",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак участия в фильтрации. Допустимые значения: - Y — да - N — нет"
+        },
+        {
+          "name": "isRequired",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак обязательного значения. Допустимые значения: - Y — да - N — нет"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подсказка к полю"
+        },
+        {
+          "name": "userTypeSettings",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Настройки пользовательского типа. Поддерживаются только скалярные значения и вложенные объекты из скалярных значений. Если указан userType, но не указан userTypeSettings, настройки не валидируются методом дополнительно"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-property/catalog-product-property-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "productProperty": {
+        "active": "Y",
+        "code": null,
+        "colCount": 30,
+        "defaultValue": null,
+        "fileType": null,
+        "filtrable": "Y",
+        "hint": null,
+        "iblockId": 19,
+        "id": 115,
+        "name": "Размер",
+        "isRequired": "Y",
+        "linkIblockId": null,
+        "listType": "L",
+        "multiple": "N",
+        "multipleCnt": null,
+        "propertyType": "L",
+        "rowCount": 1,
+        "searchable": "N",
+        "sort": 500,
+        "timestampX": "2026-03-19T20:46:43+03:00",
+        "userType": null,
+        "userTypeSettings": null,
+        "withDescription": null,
+        "xmlId": null
+      }
+    },
+    "time": {
+      "start": 1773946003,
+      "finish": 1773946003.953583,
+      "duration": 0.9535830020904541,
+      "processing": 0,
+      "date_start": "2026-03-19T21:46:43+03:00",
+      "date_finish": "2026-03-19T21:46:43+03:00",
+      "operating_reset_at": 1773946603,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "productProperty",
+      "type": "catalog_product_property",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном свойстве"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-property/catalog-product-property-update.html",
+  "executable": false
+}

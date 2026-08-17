@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "tasks.template.checklist.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить пункт чек-листа шаблона задачи tasks.template.checklist.delete",
+  "permissions": "пользователь с правами на изменение шаблона задачи",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона задачи. Идентификатор шаблона задачи можно получить при создании нового шаблона"
+    },
+    {
+      "name": "checkListItemId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта чек-листа шаблона можно получить при создании нового пункта или методом получения списка пунктов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/checklist/tasks-template-checklist-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773233308,
+      "finish": 1773233308.985028,
+      "duration": 0.9850280284881592,
+      "processing": 0,
+      "date_start": "2026-03-11T15:48:28+03:00",
+      "date_finish": "2026-03-11T15:48:28+03:00",
+      "operating_reset_at": 1773233908,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true при успешном удалении пункта чек-листа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-delete.html",
+  "executable": false
+}

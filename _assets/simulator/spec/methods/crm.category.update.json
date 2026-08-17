@@ -1,0 +1,107 @@
+{
+  "$v": 1,
+  "method": "crm.category.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить воронку crm.category.update",
+  "permissions": "любой пользователь с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа сущностей CRM у которого будет обновлена воронка"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор воронки. Можно получить методом crm.category.list или при создании воронки методом crm.category.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для обновления полей воронки в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название воронки. Каким может быть название: - длина не может быть больше 255 символов - не может быть пустым - не может состоять только лишь из пробелов, табов и так далее По умолчанию равно -"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки. Не может быть отрицательным. Если передать в sort значение меньше нуля, оно будет проигнорировано и выставиться sort = 0 По умолчанию имеет значение 500"
+        },
+        {
+          "name": "isDefault",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли воронка, воронкой по умолчанию. Может иметь значения: - Y — да, является - N — нет По умолчанию равно N В сделках поле isDefault недоступно для изменения. Узнать неизменяемое ли поле можно с помощью метода crm.category.fields. Неизменяемые поля имеют свойство isReadonly = true"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/category/crm-category-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "category": {
+        "id": 4,
+        "name": "Новое название воронки",
+        "sort": 1000,
+        "entityTypeId": 1152,
+        "isDefault": "Y"
+      }
+    },
+    "time": {
+      "start": 1718359296.368324,
+      "finish": 1718359296.65352,
+      "duration": 0.28519606590270996,
+      "processing": 0.03645014762878418,
+      "date_start": "2024-06-14T12:01:36+02:00",
+      "date_finish": "2024-06-14T12:01:36+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект category"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/category/crm-category-update.html",
+  "executable": false
+}

@@ -1,0 +1,95 @@
+{
+  "$v": 1,
+  "method": "crm.company.contact.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля для связи компания-контакт crm.company.contact.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате: где: - field_n — поле элемента - value_n — информация о поле в формате crmrestfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/contacts/crm-company-contact-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "SORT": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Сортировка"
+      },
+      "IS_PRIMARY": {
+        "type": "char",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Первичный"
+      },
+      "CONTACT_ID": {
+        "type": "integer",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Контакт"
+      }
+    },
+    "time": {
+      "start": 1724065480.986461,
+      "finish": 1724065481.321185,
+      "duration": 0.33472418785095215,
+      "processing": 0.01616501808166504,
+      "date_start": "2024-08-19T13:04:40+02:00",
+      "date_finish": "2024-08-19T13:04:41+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате: где: - field_n — поле элемента - value_n — информация о поле в формате crmrestfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/contacts/crm-company-contact-fields.html",
+  "executable": false
+}

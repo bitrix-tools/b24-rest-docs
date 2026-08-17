@@ -1,0 +1,92 @@
+/* Виджет «Попробовать метод».
+   Внешний вид берётся из компонентов документации (g-card, g-button,
+   g-text-input, g-label, yfm-note, yfm-tabs). Здесь — только раскладка. */
+
+.b24sim {
+    margin: 24px 0;
+}
+
+.b24sim__card {
+    padding: 14px 16px 16px;
+}
+
+.b24sim__form table {
+    width: 100%;
+    margin: 0 0 4px;
+}
+
+.b24sim__param-cell {
+    width: 25%;
+    vertical-align: middle;
+}
+
+.b24sim__param-cell p {
+    margin: 0 0 4px;
+}
+
+.b24sim__fields > div:first-child {
+    margin-bottom: 6px;
+}
+
+.b24sim__field-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.b24sim__field-value {
+    min-width: 0;
+}
+
+.b24sim__add {
+    margin-top: 2px;
+}
+
+.b24sim__actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.b24sim__output:empty {
+    display: none;
+}
+
+.b24sim__result {
+    margin-top: 18px;
+}
+
+.b24sim__code {
+    max-height: 340px;
+    overflow: auto;
+}
+
+/* Нативный <select> внутри обёртки g-text-input */
+.b24sim-select .g-text-input__control {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+/* Панель таба показывается классом active — как в примерах кода документации */
+.b24sim .yfm-tab-panel.active {
+    position: relative;
+    visibility: visible;
+    overflow: visible;
+    height: auto;
+}
+
+@media (max-width: 700px) {
+    .b24sim__param-cell {
+        width: auto;
+    }
+
+    .b24sim__field-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+}

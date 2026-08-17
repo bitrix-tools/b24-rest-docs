@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.numerator.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить нумератор crm.documentgenerator.numerator.delete",
+  "permissions": "пользователь с правом \"изменения\" шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор нумератора"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/numerator/crm-document-generator-numerator-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1773752251,
+      "finish": 1773752251.165639,
+      "duration": 0.16563892364501953,
+      "processing": 0,
+      "date_start": "2026-03-17T15:57:31+03:00",
+      "date_finish": "2026-03-17T15:57:31+03:00",
+      "operating_reset_at": 1773752851,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа. Для метода удаления возвращается null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-delete.html",
+  "executable": false
+}

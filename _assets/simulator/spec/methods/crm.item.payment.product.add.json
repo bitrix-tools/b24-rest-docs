@@ -1,0 +1,55 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.product.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить товарную позицию в оплату crm.item.payment.product.add",
+  "permissions": "требуется право на изменение заказа, в оплату которого добавляется товарная позиция",
+  "params": [
+    {
+      "name": "paymentId",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты. Можно получить с помощью метода sale.payment.list"
+    },
+    {
+      "name": "rowId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор товарной позиции в объекте CRM. Можно получить с помощью crm.item.productrow.list"
+    },
+    {
+      "name": "quantity",
+      "type": "double",
+      "base": "number",
+      "required": true,
+      "description": "Количество товара"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-add.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор товарной позиции в оплате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-add.html",
+  "executable": false
+}

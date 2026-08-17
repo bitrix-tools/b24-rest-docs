@@ -1,0 +1,121 @@
+{
+  "$v": 1,
+  "method": "lists.element.add",
+  "scope": "lists",
+  "kind": "write",
+  "title": "Создать элемент универсального списка lists.element.add",
+  "permissions": "пользователь с правом «Добавление» или «Изменение» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "ELEMENT_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Символьный код элемента"
+    },
+    {
+      "name": "FIELDS",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив полей. Подробное описание",
+      "ref": "#/defs/FIELDSFields"
+    },
+    {
+      "name": "IBLOCK_SECTION_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор раздела, в который добавляется элемент. Если параметр не передается, элемент создается в корне списка. Значение по умолчанию — 0. Идентификатор можно получить с помощью метода lists.section.get"
+    },
+    {
+      "name": "LIST_ELEMENT_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Шаблон адреса к элементам списка. Поддерживает замены: #list_id#, #section_id#, #element_id#, #group_id#"
+    }
+  ],
+  "defs": {
+    "FIELDSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название элемента"
+        },
+        {
+          "name": "PROPERTY_PropertyId",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Пользовательские свойства. Любое свойство элемента можно настроить как множественное. Для множественных свойств передавайте массив, даже если значение только одно. Чтобы передать значение в поле типа Файл укажите: - для типа Файл — base64 или массив с названием и base64 - для типа Файл (Диск) — идентификатор файла с Диска"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/elements/lists-element-add.md"
+  },
+  "resultExample": {
+    "result": 6999,
+    "time": {
+      "start": 1763654360,
+      "finish": 1763654360.814629,
+      "duration": 0.814629077911377,
+      "processing": 0,
+      "date_start": "2025-11-19T13:59:20+03:00",
+      "date_finish": "2025-11-19T13:59:20+03:00",
+      "operating_reset_at": 1763654960,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного элемента"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/elements/lists-element-add.html",
+  "executable": false
+}

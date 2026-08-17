@@ -1,0 +1,124 @@
+{
+  "$v": 1,
+  "method": "crm.activity.communication.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить описание коммуникации crm.activity.communication.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Значения для поля result соответствуют полям объекта.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/activity-base/crm-activity-communication-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID"
+      },
+      "ACTIVITY_ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Дело"
+      },
+      "ENTITY_ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID элемента сущности"
+      },
+      "ENTITY_TYPE_ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип сущности"
+      },
+      "TYPE": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип"
+      },
+      "VALUE": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Значение"
+      }
+    },
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Значения для поля result соответствуют полям объекта."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-communication-fields.html",
+  "executable": false
+}

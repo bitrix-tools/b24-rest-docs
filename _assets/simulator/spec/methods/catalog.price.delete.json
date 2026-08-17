@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "catalog.price.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить цену товара catalog.price.delete",
+  "permissions": "пользователь с правом «Изменение цены продажи товара»",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор цены товара, можно получить методом catalog.price.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price/catalog-price-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price/catalog-price-delete.html",
+  "executable": false
+}

@@ -1,0 +1,96 @@
+{
+  "$v": 1,
+  "method": "crm.currency.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить валюту по id crm.currency.get",
+  "permissions": "любой пользователь с доступом к настройкам CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "crm_currency.CURRENCY",
+      "base": "any",
+      "required": false,
+      "description": "Символьный идентификатор валюты. Соответствует стандарту ISO 4217. Можно получить методом crm.currency.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/currency/crm-currency-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "CURRENCY": "RUB",
+      "AMOUNT_CNT": "1",
+      "AMOUNT": "1.0000",
+      "SORT": "100",
+      "BASE": "Y",
+      "FULL_NAME": "Российский рубль",
+      "LID": "ru",
+      "FORMAT_STRING": "# &#8381;",
+      "DEC_POINT": ".",
+      "THOUSANDS_SEP": "&nbsp;",
+      "DECIMALS": "2",
+      "DATE_UPDATE": "2024-01-29T12:28:40+02:00",
+      "LANG": {
+        "en": {
+          "FORMAT_STRING": "&#8381;#",
+          "FULL_NAME": "Russian Ruble",
+          "DEC_POINT": ".",
+          "THOUSANDS_SEP": null,
+          "DECIMALS": "2",
+          "THOUSANDS_VARIANT": "C",
+          "HIDE_ZERO": "Y"
+        },
+        "ru": {
+          "FORMAT_STRING": "# &#8381;",
+          "FULL_NAME": "Российский рубль",
+          "DEC_POINT": ".",
+          "THOUSANDS_SEP": "&nbsp;",
+          "DECIMALS": "2",
+          "THOUSANDS_VARIANT": "B",
+          "HIDE_ZERO": "Y"
+        }
+      }
+    },
+    "time": {
+      "start": 1718357792.091095,
+      "finish": 1718357792.889212,
+      "duration": 0.79811692237854,
+      "processing": 0.10800814628601074,
+      "date_start": "2024-06-14T11:36:32+02:00",
+      "date_finish": "2024-06-14T11:36:32+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "crm_currency",
+      "base": "string",
+      "required": false,
+      "description": "Объект с данными валюты"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/currency/crm-currency-get.html",
+  "executable": false,
+  "entityFields": [
+    "AMOUNT",
+    "AMOUNT_CNT",
+    "BASE",
+    "CURRENCY",
+    "LANG",
+    "SORT",
+    "en",
+    "ru"
+  ]
+}

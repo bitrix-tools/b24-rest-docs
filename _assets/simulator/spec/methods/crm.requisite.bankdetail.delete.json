@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.bankdetail.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить банковский реквизит crm.requisite.bankdetail.delete",
+  "permissions": "пользователь с правом на удаление контакта или компании — владельца реквизита",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор банковского реквизита. Идентификаторы банковских реквизитов можно получить с помощью метода crm.requisite.bankdetail.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1716554949.294631,
+      "finish": 1716554949.795059,
+      "duration": 0.5004279613494873,
+      "processing": 0.057311058044433594,
+      "date_start": "2024-05-24T14:49:09+02:00",
+      "date_finish": "2024-05-24T14:49:09+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления банковского реквизита: - true — удален - false — не удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-delete.html",
+  "executable": false
+}

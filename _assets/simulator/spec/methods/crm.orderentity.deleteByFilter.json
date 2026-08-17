@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "crm.orderentity.deleteByFilter",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить привязку заказа к объекту CRM crm.orderentity.deleteByFilter",
+  "permissions": "администратор интернет-магазина",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для удаления привязки",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "sale_order.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор заказа"
+        },
+        {
+          "name": "ownerTypeId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор типа объекта CRM. Привязка возможна только к сделке или счету"
+        },
+        {
+          "name": "ownerId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор объекта CRM. Для сделок может быть получен методом crm.deal.list. Для счетов может быть получен методом crm.invoice.list"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/order-entity/crm-order-entity-delete-by-filter.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1719325693.109545,
+      "finish": 1719325695.863527,
+      "duration": 2.7539820671081543,
+      "processing": 1.773292064666748,
+      "date_start": "2024-06-25T16:28:13+02:00",
+      "date_finish": "2024-06-25T16:28:15+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Содержит признак успешного завершения операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/order-entity/crm-order-entity-delete-by-filter.html",
+  "executable": false
+}

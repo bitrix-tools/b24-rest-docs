@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "access.name",
+  "scope": "базовый",
+  "kind": "write",
+  "title": "Получить названия прав доступа access.name",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ACCESS",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Список кодов доступа, названия для которых нужно получить. Форматы кодов: - U<id> — пользователь, например U1 - G<id> — группа пользователей, например G2 - AU — все авторизованные пользователи Если параметр не передан или пуст, метод вернет false",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/system/access-name.md"
+  },
+  "resultExample": {
+    "result": {
+      "G2": {
+        "provider": "",
+        "name": "Все посетители",
+        "provider_id": "other"
+      },
+      "AU": {
+        "provider": "",
+        "name": "Все авторизованные пользователи",
+        "provider_id": "other"
+      }
+    },
+    "time": {
+      "start": 1722002504.2838,
+      "finish": 1722002504.32483,
+      "duration": 0.0410301685333252,
+      "processing": 0.00145506858825684,
+      "date_start": "2024-07-26T14:01:44+00:00",
+      "date_finish": "2024-07-26T14:01:44+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, где ключ это код доступа из параметра ACCESS, а значение это описание кода. Структура описана ниже. Если параметр ACCESS не передан или пуст, метод вернет false"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/system/access-name.html",
+  "executable": false
+}

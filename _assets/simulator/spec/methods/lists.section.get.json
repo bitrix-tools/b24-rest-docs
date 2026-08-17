@@ -1,0 +1,130 @@
+{
+  "$v": 1,
+  "method": "lists.section.get",
+  "scope": "lists",
+  "kind": "read",
+  "title": "Получить параметры раздела или список разделов универсального списка lists.section.get",
+  "permissions": "пользователь с правом «Чтение» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации разделов {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Фильтруемое поле может принимать значения: - ID — идентификатор раздела - CODE — символьный код раздела - XML_ID — внешний идентификатор (XML ID) - EXTERNAL_ID — внешний идентификатор раздела - NAME — название раздела - ACTIVE — признак активности - GLOBAL_ACTIVE — глобальная активность - IBLOCK_ACTIVE — признак актив…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с полями для выборки. Доступные поля: - ID — идентификатор раздела - CODE — символьный код раздела - XML_ID — внешний идентификатор (XML ID) - EXTERNAL_ID — внешний идентификатор раздела - IBLOCK_SECTION_ID — идентификатор родительского раздела - TIMESTAMP_X — время последнего изменения - SORT — сортировка - NAME — название раздела - ACTIVE — признак активности - GLOBAL_ACTIVE — глобальная…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/sections/lists-section-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "169",
+        "CODE": "marketing_documents",
+        "XML_ID": "ext_marketing_docs_002",
+        "EXTERNAL_ID": "ext_marketing_docs_002",
+        "IBLOCK_SECTION_ID": null,
+        "TIMESTAMP_X": "10/27/2025 12:00:30 pm",
+        "SORT": "600",
+        "NAME": "Обновленные документы маркетинга",
+        "ACTIVE": "Y",
+        "GLOBAL_ACTIVE": "Y",
+        "LEFT_MARGIN": "17",
+        "RIGHT_MARGIN": "18",
+        "DEPTH_LEVEL": "1",
+        "SEARCHABLE_CONTENT": "ОБНОВЛЕННЫЕ ДОКУМЕНТЫ МАРКЕТИНГА\r\n",
+        "MODIFIED_BY": "1269",
+        "DATE_CREATE": "10/27/2025 11:36:56 am",
+        "CREATED_BY": "1269"
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1761556287,
+      "finish": 1761556287.844517,
+      "duration": 0.8445169925689697,
+      "processing": 0,
+      "date_start": "2025-10-27T12:11:27+03:00",
+      "date_finish": "2025-10-27T12:11:27+03:00",
+      "operating_reset_at": 1761556887,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Данные раздела или массив разделов. Результат зависит от параметра SELECT. Пустой массив означает, что в списке нет разделов, либо разделы не соответствуют фильтру"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/sections/lists-section-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "CODE",
+    "CREATED_BY",
+    "DATE_CREATE",
+    "DEPTH_LEVEL",
+    "EXTERNAL_ID",
+    "GLOBAL_ACTIVE",
+    "IBLOCK_SECTION_ID",
+    "ID",
+    "LEFT_MARGIN",
+    "MODIFIED_BY",
+    "NAME",
+    "RIGHT_MARGIN",
+    "SEARCHABLE_CONTENT",
+    "SORT",
+    "TIMESTAMP_X",
+    "XML_ID"
+  ]
+}

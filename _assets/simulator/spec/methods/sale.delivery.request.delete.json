@@ -1,0 +1,59 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.request.delete",
+  "scope": "delivery",
+  "kind": "write",
+  "title": "Удалить транспортную заявку sale.delivery.request.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "DELIVERY_ID",
+      "type": "sale_delivery_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор службы доставки, к которой относится транспортная заявка. Получить идентификаторы sale_delivery_service.ID служб доставки можно с помощью метода sale.delivery.getlist"
+    },
+    {
+      "name": "REQUEST_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор транспортной заявки. Идентификатор назначается внешней системой в ответе вебхука на создание заказа на доставку (подробнее в описании вебхука Создание заказа на доставку)"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1714549724.272976,
+      "finish": 1714549724.479944,
+      "duration": 0.20696806907653809,
+      "processing": 0.02615499496459961,
+      "date_start": "2024-05-01T10:48:44+03:00",
+      "date_finish": "2024-05-01T10:48:44+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления транспортной заявки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.html",
+  "executable": false
+}

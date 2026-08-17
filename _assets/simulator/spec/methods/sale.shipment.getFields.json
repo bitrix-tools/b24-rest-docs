@@ -1,0 +1,358 @@
+{
+  "$v": 1,
+  "method": "sale.shipment.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить доступные поля отгрузки sale.shipment.getFields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "shipment",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта sale_order_shipment , а value — объект типа rest_field_description",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment/sale-shipment-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "shipment": {
+        "accountNumber": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "allowDelivery": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "char"
+        },
+        "basePriceDelivery": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "canceled": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "comments": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "companyId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "currency": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "customPriceDelivery": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "dateAllowDelivery": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateCanceled": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateDeducted": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateInsert": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateMarked": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateResponsibleId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "deducted": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "char"
+        },
+        "deliveryDocDate": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "deliveryDocNum": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "deliveryId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "deliveryName": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "deliveryXmlId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "discountPrice": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "double"
+        },
+        "empAllowDeliveryId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empCanceledId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empDeductedId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empMarkedId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empResponsibleId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "externalDelivery": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "id1c": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "marked": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "orderId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "priceDelivery": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "reasonMarked": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "reasonUndoDeducted": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "responsibleId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "statusId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "statusXmlId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "system": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "trackingDescription": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "trackingLastCheck": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "trackingNumber": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "trackingStatus": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "updated1c": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "version1c": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "xmlId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1713190893.141474,
+      "finish": 1713190895.854316,
+      "duration": 2.7128419876098633,
+      "processing": 0.16173791885375977,
+      "date_start": "2024-04-15T17:21:33+03:00",
+      "date_finish": "2024-04-15T17:21:35+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "shipment",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта sale_order_shipment , а value — объект типа rest_field_description"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment/sale-shipment-get-fields.html",
+  "executable": false
+}

@@ -1,0 +1,91 @@
+{
+  "$v": 1,
+  "method": "crm.userfield.enumeration.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить описание полей для пользовательского поля типа «enumeration» (список) crm.userfield.enumeration.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/user-defined-fields/crm-userfield-enumeration-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "int",
+        "title": "Ид",
+        "isReadOnly": true
+      },
+      "SORT": {
+        "type": "int",
+        "title": "Сортировка"
+      },
+      "VALUE": {
+        "type": "string",
+        "title": "Значение"
+      },
+      "DEF": {
+        "type": "string",
+        "title": "Значение по умолчанию"
+      },
+      "DEL": {
+        "type": "string",
+        "title": "Флаг удаления элемента"
+      }
+    },
+    "time": {
+      "start": 1773992153,
+      "finish": 1773992153.048253,
+      "duration": 0.04825305938720703,
+      "processing": 0,
+      "date_start": "2026-03-20T10:35:53+03:00",
+      "date_finish": "2026-03-20T10:35:53+03:00",
+      "operating_reset_at": 1773992753,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/user-defined-fields/crm-userfield-enumeration-fields.html",
+  "executable": false
+}

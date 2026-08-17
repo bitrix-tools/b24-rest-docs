@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить пункт чек-листа task.checklistitem.delete",
+  "permissions": "> - любой пользователь с доступом к редактированию задачи",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта можно получить при добавлении нового пункта или методом получения списка пунктов чек-листа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1764594534,
+      "finish": 1764594535.201817,
+      "duration": 1.2018170356750488,
+      "processing": 0,
+      "date_start": "2025-12-01T16:08:54+03:00",
+      "date_finish": "2025-12-01T16:08:55+03:00",
+      "operating_reset_at": 1764595135,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если пункт чек-листа успешно удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-delete.html",
+  "executable": false
+}

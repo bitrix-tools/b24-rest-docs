@@ -1,0 +1,87 @@
+{
+  "$v": 1,
+  "method": "timeman.record.field.get",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить поле записи о рабочем времени timeman.record.field.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя поля, описание которого нужно получить. Доступные поля: - id — идентификатор записи - userId — идентификатор сотрудника - startTime — время начала рабочего интервала - endTime — время завершения рабочего интервала - duration — длительность рабочего интервала в секундах - breakLength — длительность перерывов в секундах - state — состояние записи - isApproved — признак подтверждения записи"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей описания, которые нужно вернуть в ответе. Доступные поля: - name — имя поля - type — тип данных - title — заголовок - description — описание - validationRules — правила валидации - requiredGroups — группы обязательности - filterable — признак доступности в фильтре - sortable — признак доступности в сортировке - editable — признак редактируемости - multiple — признак множественного зна…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/record/timeman-record-field-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "name": "startTime",
+        "type": "object",
+        "title": "startTime",
+        "filterable": true,
+        "sortable": true
+      }
+    },
+    "time": {
+      "start": 1780410633,
+      "finish": 1780410633.157809,
+      "duration": 0.15780901908874512,
+      "processing": 0,
+      "date_start": "2026-06-02T17:30:33+03:00",
+      "date_finish": "2026-06-02T17:30:33+03:00",
+      "operating_reset_at": 1780411233,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием поля. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/record/timeman-record-field-get.html",
+  "executable": false,
+  "entityFields": [
+    "filterable",
+    "name",
+    "sortable",
+    "title",
+    "type"
+  ]
+}

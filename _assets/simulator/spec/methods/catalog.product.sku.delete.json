@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "catalog.product.sku.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить головной товар catalog.product.sku.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_sku.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор головного товара. Для получения идентификаторов головных товаров необходимо использовать catalog.product.sku.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/sku/catalog-product-sku-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718630898.795719,
+      "finish": 1718630899.598307,
+      "duration": 0.8025879859924316,
+      "processing": 0.35277414321899414,
+      "date_start": "2024-06-17T16:28:18+03:00",
+      "date_finish": "2024-06-17T16:28:19+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления головного товара"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/sku/catalog-product-sku-delete.html",
+  "executable": false
+}

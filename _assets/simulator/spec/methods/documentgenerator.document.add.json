@@ -1,0 +1,164 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.document.add",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Создать новый документ на основании шаблона documentgenerator.document.add",
+  "permissions": "пользователь с правом на создание документов",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона. Получить идентификатор шаблона можно после создания шаблона или методом получения списка шаблонов"
+    },
+    {
+      "name": "providerClassName",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Класс провайдера данных. При вызове через REST всегда используется Bitrix\\DocumentGenerator\\DataProvider\\Rest: переданное значение игнорируется, поэтому параметр можно не указывать"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Внешний идентификатор объекта, для которого формируется документ. Формат value задается интеграцией. Используйте единый формат в рамках вашего приложения, чтобы искать и фильтровать документы. Рекомендуемый формат: <ТИП_ОБЪЕКТА>_<ID>, где: - <ТИП_ОБЪЕКТА> — строковый код типа объекта в верхнем регистре - <ID> — числовой или строковый идентификатор объекта во внешней системе Примеры значений value…"
+    },
+    {
+      "name": "values",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Значения полей документа вида {\"КодПоля\":\"Значение\"}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "stampsEnabled",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Режим печатей и подписей: - 1 — включить - 0 — выключить По умолчанию берется значение из шаблона"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Описание того, как интерпретировать и форматировать значения из values (подробное описание). Ключ объекта fields должен совпадать с кодом поля из шаблона. Если передаете только обычный текст, параметр можно не указывать. Пример структуры fields:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TYPE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип поля. Типы, для которых можно указать форматирование: - DATE — дата или дата-время - NAME — ФИО"
+        },
+        {
+          "name": "FORMAT",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Параметры формата для типа поля. FORMAT не фиксирован одним значением, его нужно выбирать под ваш шаблон и требования к выводу. Для DATE значение format задается в формате модификаторов даты генератора документов. Пример: {\"format\":\"d.m.Y\"} Для NAME: - format задает шаблон вывода частей имени, например #NAME# #LAST_NAME# - case задает падеж - Что такое модификаторы в шаблонах документов"
+        },
+        {
+          "name": "PROVIDER",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Класс провайдера"
+        },
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название поля"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/document-generator-document-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "document": {
+        "downloadUrl": "/bitrix/services/main/ajax.php?action=documentgenerator.api.document.getfile&SITE_ID=s1&id=51&ts=1773844068",
+        "publicUrl": null,
+        "title": "SUPPLY_CONTRACT Template 1773843147554 ДГ-2026-001",
+        "number": "ДГ-2026-001",
+        "id": 51,
+        "createTime": "2026-03-18T17:27:48+03:00",
+        "createdBy": 503,
+        "updateTime": "2026-03-18T17:27:48+03:00",
+        "updatedBy": null,
+        "stampsEnabled": true,
+        "isTransformationError": false,
+        "value": "SUPPLY_CONTRACT_2026_015",
+        "values": {
+          "productsTableVariant": "",
+          "_creationMethod": "rest",
+          "stampsEnabled": true,
+          "DocumentNumber": "ДГ-2026-001",
+          "CurrentDate": "2026-03-18T00:00:00+03:00",
+          "ClientName": "ООО Ромашка",
+          "ClientPhone": "+7 999 123-45-67",
+          "Total": "125000",
+          "Comment": "Оплата в течение 5 рабочих дней после подписания",
+          "UserName": "Иван Петров"
+        },
+        "templateId": "53",
+        "provider": "Bitrix\\DocumentGenerator\\DataProvider\\Rest",
+        "pullTag": "TRANSFORMDOCUMENT51",
+        "emailDiskFile": 5569,
+        "downloadUrlMachine": "https://**put_your_bitrix24_address**/rest/documentgenerator.api.document.getfile.json?auth=a0bfba690000071b00000844000001f7f0f1075f240da39bb5ea0e42c08c5fa182f3ed&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlJlNJVEVfSUQ9czEmaWQ9NTEmdHM9MTc3Mzg0NDA2OCZfPXZMVUFDSGMwQkY1QVpRbGQzTlNhV2ZIemNzMW5IZ1lM%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlfGRvY3VtZW50Z2VuZXJhdG9yfFlXTjBhVzl1UFdSdlkzVnRaVzUwWjJWdVpYSmhkRzl5TG1Gd2FTNWtiMk4xYldWdWRDNW5aWFJtYVd4bEpsTkpWRVZmU1VROWN6RW1hV1E5TlRFbWRITTlNVGMzTXpnME5EQTJPQ1pmUFhaTVZVRkRTR013UWtZMVFWcFJiR1F6VGxOaFYyWkllbU56TVc1SVoxbE18YTBiZmJhNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDc1ZjI0MGRhMzliYjVlYTBlNDJjMDhjNWZhMTgyZjNlZCI%3D.6lsKyiThwQT0n4UyMQfXdyS%2BnBVTG08%2FpGguggYNGLE%3D"
+      }
+    },
+    "time": {
+      "start": 1773844068,
+      "finish": 1773844068.572038,
+      "duration": 0.572037935256958,
+      "processing": 0,
+      "date_start": "2026-03-18T17:27:48+03:00",
+      "date_finish": "2026-03-18T17:27:48+03:00",
+      "operating_reset_at": 1773844668,
+      "operating": 0.9536302089691162
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/document-generator-document-add.html",
+  "executable": false
+}

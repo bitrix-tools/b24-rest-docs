@@ -1,0 +1,208 @@
+{
+  "$v": 1,
+  "method": "imconnector.register",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Зарегистрировать коннектор imconnector.register",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Уникальный идентификатор коннектора. Метод приводит значение к нижнему регистру. Рекомендуется добавлять в начало идентификатора уникальный префикс, чтобы избежать пересечения с текущими и будущими идентификаторами других коннекторов. Для формирования идентификатора используйте цифры, буквы в нижнем регистре и знак подчеркивания _. Символ . запрещен.…"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Название коннектора в интерфейсе"
+    },
+    {
+      "name": "ICON",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Параметры основной иконки. Структура объекта подробно описана ниже",
+      "ref": "#/defs/ICONFields"
+    },
+    {
+      "name": "PLACEMENT_HANDLER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "URL обработчика встраивания для настроек коннектора. По этому адресу Битрикс24 открывает интерфейс настройки в слайдере для пользователя. Подробнее о встраивании интерфейсов читайте в статье Механизм встраивания виджетов"
+    },
+    {
+      "name": "ICON_DISABLED",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры иконки неактивного состояния. Структура объекта подробно описана ниже",
+      "ref": "#/defs/ICON_DISABLEDFields"
+    },
+    {
+      "name": "DEL_EXTERNAL_MESSAGES",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Разрешает удалять входящие сообщения. Значение по умолчанию true"
+    },
+    {
+      "name": "EDIT_INTERNAL_MESSAGES",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Разрешает редактировать сообщения операторов. Значение по умолчанию true"
+    },
+    {
+      "name": "DEL_INTERNAL_MESSAGES",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Разрешает удалять сообщения операторов. Значение по умолчанию true"
+    },
+    {
+      "name": "NEWSLETTER",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Разрешает использовать канал в CRM-рассылках. Значение по умолчанию true"
+    },
+    {
+      "name": "NEED_SYSTEM_MESSAGES",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Разрешает отправку системных сообщений в канал. Значение по умолчанию true"
+    },
+    {
+      "name": "NEED_SIGNATURE",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Добавляет подпись оператора в сообщения. Значение по умолчанию true"
+    },
+    {
+      "name": "CHAT_GROUP",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак режима обработки чатов коннектора: true — группировка по chat.id (групповой чат), false — по user.id (чат один на один). Значение по умолчанию false. В групповом режиме CRM-трекер входящих сообщений не запускается. Из-за этого стандартная автопривязка CRM и автосоздание элементов CRM могут не выполняться для части диалогов.…"
+    }
+  ],
+  "defs": {
+    "ICONFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "DATA_IMAGE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "SVG-иконка в формате Data URI: строка с префиксом data:image/svg+xml,, после которого передается содержимое SVG, обычно URL-кодированное"
+        },
+        {
+          "name": "COLOR",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Цвет фона иконки. Пример: #69acc0"
+        },
+        {
+          "name": "SIZE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Размер фона. Пример: 90%"
+        },
+        {
+          "name": "POSITION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Позиция фона. Пример: center"
+        }
+      ]
+    },
+    "ICON_DISABLEDFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "DATA_IMAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "SVG-иконка неактивного состояния в формате Data URI: строка с префиксом data:image/svg+xml,, после которого передается содержимое SVG, обычно URL-кодированное"
+        },
+        {
+          "name": "COLOR",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Цвет фона неактивной иконки"
+        },
+        {
+          "name": "SIZE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Размер фона неактивной иконки"
+        },
+        {
+          "name": "POSITION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Позиция фона неактивной иконки"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-register.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.38,
+      "duration": 0.27,
+      "processing": 0.1,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если коннектор успешно зарегистрирован"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-register.html",
+  "executable": false
+}

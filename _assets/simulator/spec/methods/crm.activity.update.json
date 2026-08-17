@@ -1,0 +1,278 @@
+{
+  "$v": 1,
+  "method": "crm.activity.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить системное дело crm.activity.update",
+  "permissions": "любой пользователь с правом на обновление дела",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Целочисленный идентификатор дела в таймлайне, например 999"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив значений полей дела в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "OWNER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор элемента CRM"
+        },
+        {
+          "name": "OWNER_TYPE_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор типа объекта CRM"
+        },
+        {
+          "name": "TYPE_ID",
+          "type": "crm_enum_activitytype",
+          "base": "integer",
+          "required": true,
+          "description": "Тип дела"
+        },
+        {
+          "name": "ASSOCIATED_ENTITY_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор связанного с делом элемента"
+        },
+        {
+          "name": "COMMUNICATIONS",
+          "type": "crm_activity_communication",
+          "base": "object",
+          "required": true,
+          "description": "Описание коммуникации"
+        },
+        {
+          "name": "DEADLINE",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата и время срока исполнения дела. Поле напрямую не устанавливается, значение берётся из STARTTIME для звонка и встречи и из ENDTIME для задачи"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Текстовое описание дела"
+        },
+        {
+          "name": "DESCRIPTION_TYPE",
+          "type": "crm.enum.contenttype",
+          "base": "any",
+          "required": false,
+          "description": "Тип описания"
+        },
+        {
+          "name": "DIRECTION",
+          "type": "crm.enum.activitydirection",
+          "base": "any",
+          "required": false,
+          "description": "Направление дела: входящее/исходящее. Актуально для звонков и писем, для встреч не используется"
+        },
+        {
+          "name": "END_TIME",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Время завершения дела"
+        },
+        {
+          "name": "FILES",
+          "type": "diskfile",
+          "base": "any",
+          "required": false,
+          "description": "Добавленные в дело файлы"
+        },
+        {
+          "name": "LOCATION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Местоположение"
+        },
+        {
+          "name": "NOTIFY_TYPE",
+          "type": "crm.enum.activitynotifytype",
+          "base": "any",
+          "required": false,
+          "description": "Тип уведомления"
+        },
+        {
+          "name": "ORIGINATOR_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор источника данных, используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "ORIGIN_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента в источнике данных, используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "ORIGIN_VERSION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Оригинальная версия, используется для защиты данных от случайного перетирания внешней системой. Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных"
+        },
+        {
+          "name": "PRIORITY",
+          "type": "crm.enum.activitypriority",
+          "base": "any",
+          "required": false,
+          "description": "Приоритет"
+        },
+        {
+          "name": "PROVIDER_DATA",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительные данные провайдера"
+        },
+        {
+          "name": "PROVIDER_GROUP_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор группы провайдера"
+        },
+        {
+          "name": "PROVIDER_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор провайдера"
+        },
+        {
+          "name": "PROVIDER_TYPE_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор типа провайдера, статус из справочника"
+        },
+        {
+          "name": "PROVIDER_PARAMS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные параметры провайдера"
+        },
+        {
+          "name": "RESPONSIBLE_ID",
+          "type": "user",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор пользователя, ответственного за дело"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные настройки"
+        },
+        {
+          "name": "START_TIME",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Время начала выполнения дела"
+        },
+        {
+          "name": "STATUS",
+          "type": "crm_enum_activitystatus",
+          "base": "any",
+          "required": false,
+          "description": "Статус дела"
+        },
+        {
+          "name": "SUBJECT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительное описание дела"
+        },
+        {
+          "name": "WEBDAV_ELEMENTS",
+          "type": "diskfile",
+          "base": "any",
+          "required": false,
+          "description": "Добавленные файлы. Устарел, сохраняется для совместимости"
+        },
+        {
+          "name": "IS_INCOMING_CHANNEL",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Флаг, говорящий дело создано из входящего канала или нет (Y/N)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/activity-base/crm-activity-update.md"
+  },
+  "deprecated": {
+    "successor": "crm.activity.todo.update"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат операции. Возвращает true если дело успешно изменено, иначе — false"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-update.html",
+  "executable": false
+}

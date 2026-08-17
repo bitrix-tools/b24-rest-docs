@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "catalog.section.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей раздела торгового каталога catalog.section.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_section.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор раздела каталога"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/section/catalog-section-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "section": {
+        "active": "Y",
+        "code": "toys",
+        "description": "Товары для детей - игрушки",
+        "descriptionType": "text",
+        "iblockId": 14,
+        "iblockSectionId": 13,
+        "id": 31,
+        "name": "Детские игрушки",
+        "sort": 100,
+        "xmlId": "myXmlId"
+      }
+    },
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-05-24T15:43:35+02:00",
+      "date_finish": "2024-05-24T15:43:36+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "section",
+      "type": "catalog_section",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о разделе каталога с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/section/catalog-section-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "description",
+    "descriptionType",
+    "iblockId",
+    "iblockSectionId",
+    "id",
+    "name",
+    "sort",
+    "xmlId"
+  ]
+}

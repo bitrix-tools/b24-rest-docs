@@ -1,0 +1,300 @@
+{
+  "$v": 1,
+  "method": "telephony.externalCall.finish",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Завершить звонок и зафиксировать его в статистике telephony.externalCall.finish",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор звонка из метода telephony.externalCall.register"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, который завершает звонок. Пользователь также назначается ответственным за CRM-объекты, которые были автоматически созданы в рамках звонка. Для ранее существовавших CRM-объектов ответственный не изменяется. Идентификатор можно получить методом user.get"
+    },
+    {
+      "name": "USER_PHONE_INNER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Внутренний номер пользователя. Внутренний номер можно получить методом user.get Необходимо указать хотя бы один из параметров: USER_ID или USER_PHONE_INNER"
+    },
+    {
+      "name": "DURATION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Длительность звонка в секундах. По умолчанию — 0"
+    },
+    {
+      "name": "COST",
+      "type": "double",
+      "base": "number",
+      "required": false,
+      "description": "Стоимость звонка. По умолчанию — 0"
+    },
+    {
+      "name": "COST_CURRENCY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Валюта стоимости звонка. Список валют можно получить методом crm.currency.list. По умолчанию — пустая строка"
+    },
+    {
+      "name": "STATUS_CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код результата звонка. Возможные значения: - 200 — успешный звонок - 304 — пропущенный звонок - 603 — отклонено - 603-S — вызов отменен - 403 — запрещено - 404 — неверный номер - 486 — занято - 484 — направление недоступно - 503 — направление недоступно - 480 — временно недоступен - 402 — недостаточно средств - 423 — заблокировано - OTHER — не определено По умолчанию: - 200, если DURATION > 0 - 30…"
+    },
+    {
+      "name": "FAILED_REASON",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст причины несостоявшегося звонка. По умолчанию — пустая строка"
+    },
+    {
+      "name": "RECORD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL записи звонка. Параметр устарел и оставлен для обратной совместимости. Рекомендуется использовать telephony.externalCall.attachRecord"
+    },
+    {
+      "name": "VOTE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Оценка звонка. Возможные значения: - 1, 2, 3, 4, 5 Если оценка отсутствует — 0 или null"
+    },
+    {
+      "name": "ADD_TO_CHAT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Добавлять сообщение о звонке в чат сотрудника. Возможные значения: - 0 — не добавлять - 1 — добавлять По умолчанию — 1"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-call-finish.md"
+  },
+  "resultExample": {
+    "result": {
+      "CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+      "EXTERNAL_CALL_ID": null,
+      "PORTAL_USER_ID": 1269,
+      "PHONE_NUMBER": "79062195047",
+      "PORTAL_NUMBER": "3",
+      "INCOMING": "2",
+      "CALL_DURATION": 95,
+      "CALL_START_DATE": {},
+      "CALL_STATUS": 1,
+      "CALL_VOTE": 5,
+      "COST": 0,
+      "COST_CURRENCY": "",
+      "CALL_FAILED_CODE": "200",
+      "CALL_FAILED_REASON": "",
+      "REST_APP_ID": "3",
+      "REST_APP_NAME": "Документация по REST API",
+      "CRM_ACTIVITY_ID": 7943,
+      "COMMENT": null,
+      "CRM_ENTITY_TYPE": "CONTACT",
+      "CRM_ENTITY_ID": 797,
+      "ID": 7
+    },
+    "time": {
+      "start": 1773132478,
+      "finish": 1773132480.301376,
+      "duration": 2.3013761043548584,
+      "processing": 2,
+      "date_start": "2026-03-10T11:47:58+03:00",
+      "date_finish": "2026-03-10T11:48:00+03:00",
+      "operating_reset_at": 1773133078,
+      "operating": 1.4118058681488037
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные сохраненной записи звонка"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор записи в статистике"
+    },
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор звонка"
+    },
+    {
+      "name": "EXTERNAL_CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний идентификатор звонка на стороне интеграции"
+    },
+    {
+      "name": "PORTAL_USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя Битрикс24, от имени которого завершен звонок"
+    },
+    {
+      "name": "PHONE_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Номер абонента"
+    },
+    {
+      "name": "PORTAL_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Номер линии, через который проходил звонок"
+    },
+    {
+      "name": "INCOMING",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип звонка. Возможные значения: - 1 — исходящий - 2 — входящий - 3 — входящий с перенаправлением - 4 — обратный звонок - 5 — информационный звонок"
+    },
+    {
+      "name": "CALL_DURATION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Длительность звонка в секундах"
+    },
+    {
+      "name": "CALL_START_DATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время начала звонка"
+    },
+    {
+      "name": "CALL_STATUS",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Статус завершения. Возможные значения: - 1 — успешный разговор - 0 — неуспешный/пропущенный"
+    },
+    {
+      "name": "CALL_VOTE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Оценка звонка"
+    },
+    {
+      "name": "COST",
+      "type": "double",
+      "base": "number",
+      "required": false,
+      "description": "Стоимость звонка"
+    },
+    {
+      "name": "COST_CURRENCY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Валюта стоимости"
+    },
+    {
+      "name": "CALL_FAILED_CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код завершения звонка. Возможные значения: - 200 — успешный звонок - 304 — пропущенный звонок - 603 — отклонено - 603-S — вызов отменен - 403 — запрещено - 404 — неверный номер - 486 — занято - 484 — направление недоступно - 503 — направление недоступно - 480 — временно недоступен - 402 — недостаточно средств - 423 — заблокировано - OTHER — не определено"
+    },
+    {
+      "name": "CALL_FAILED_REASON",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текстовая причина завершения звонка"
+    },
+    {
+      "name": "REST_APP_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор приложения"
+    },
+    {
+      "name": "REST_APP_NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название приложения"
+    },
+    {
+      "name": "CRM_ACTIVITY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор CRM-дела звонка"
+    },
+    {
+      "name": "COMMENT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Комментарий к звонку"
+    },
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта CRM, связанного со звонком"
+    },
+    {
+      "name": "CRM_ENTITY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор объекта CRM, связанного со звонком"
+    },
+    {
+      "name": "ERRORS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные ошибки обработки (если возникли)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-call-finish.html",
+  "executable": false
+}

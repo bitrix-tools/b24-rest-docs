@@ -1,0 +1,180 @@
+{
+  "$v": 1,
+  "method": "vote.AttachedVote.vote",
+  "scope": "vote",
+  "kind": "write",
+  "title": "Проголосовать в прикрепленном голосовании vote.AttachedVote.vote",
+  "permissions": "пользователь с правами участия в голосовании",
+  "params": [
+    {
+      "name": "attachId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор прикрепленного голосования, получить можно методами vote.AttachedVote.get или vote.AttachedVote.getMany"
+    },
+    {
+      "name": "ballot",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Данные голоса в формате: Ключ - ID вопроса, значение - массив ID выбранных ответов. Получить ID вопроса и ответов можно методами vote.AttachedVote.get или vote.AttachedVote.getMany. Несколько вопросов в одном голосовании доступно в постах ленты, в сообщении чата в опросе доступен только один вопрос",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.attachedvote.vote.md"
+  },
+  "resultExample": {
+    "result": {
+      "attach": {
+        "ID": 1,
+        "VOTE_ID": 1,
+        "COUNTER": 1,
+        "QUESTIONS": {
+          "1": {
+            "ID": "1",
+            "ACTIVE": "Y",
+            "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+            "VOTE_ID": "1",
+            "C_SORT": "10",
+            "COUNTER": 1,
+            "QUESTION": "Как дела?",
+            "QUESTION_TYPE": "text",
+            "IMAGE_ID": null,
+            "DIAGRAM": "Y",
+            "DIAGRAM_TYPE": "histogram",
+            "REQUIRED": "N",
+            "FIELD_TYPE": "0",
+            "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+            "IMAGE": null,
+            "ANSWERS": {
+              "1": {
+                "ID": "1",
+                "ACTIVE": "Y",
+                "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+                "QUESTION_ID": "1",
+                "C_SORT": "10",
+                "IMAGE_ID": null,
+                "MESSAGE": "Отлично!",
+                "MESSAGE_TYPE": "text",
+                "COUNTER": 1,
+                "FIELD_TYPE": "0",
+                "FIELD_WIDTH": "0",
+                "FIELD_HEIGHT": "0",
+                "FIELD_PARAM": null,
+                "COLOR": "",
+                "REACTION": "",
+                "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][1]",
+                "~PERCENT": 100,
+                "PERCENT": 100
+              },
+              "3": {
+                "ID": "3",
+                "ACTIVE": "Y",
+                "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+                "QUESTION_ID": "1",
+                "C_SORT": "20",
+                "IMAGE_ID": null,
+                "MESSAGE": "Лучше всех!",
+                "MESSAGE_TYPE": "text",
+                "COUNTER": "0",
+                "FIELD_TYPE": "0",
+                "FIELD_WIDTH": "0",
+                "FIELD_HEIGHT": "0",
+                "FIELD_PARAM": null,
+                "COLOR": "",
+                "REACTION": "",
+                "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][3]",
+                "~PERCENT": 0,
+                "PERCENT": 0
+              },
+              "5": {
+                "ID": "5",
+                "ACTIVE": "Y",
+                "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+                "QUESTION_ID": "1",
+                "C_SORT": "30",
+                "IMAGE_ID": null,
+                "MESSAGE": "Какие дела??",
+                "MESSAGE_TYPE": "text",
+                "COUNTER": "0",
+                "FIELD_TYPE": "0",
+                "FIELD_WIDTH": "0",
+                "FIELD_HEIGHT": "0",
+                "FIELD_PARAM": null,
+                "COLOR": "",
+                "REACTION": "",
+                "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][5]",
+                "~PERCENT": 0,
+                "PERCENT": 0
+              }
+            }
+          }
+        },
+        "ANONYMITY": 1,
+        "OPTIONS": 1,
+        "userAnswerMap": {
+          "1": {
+            "1": {
+              "EVENT_ID": "27",
+              "EVENT_QUESTION_ID": "27",
+              "ANSWER_ID": "1",
+              "ID": "27",
+              "MESSAGE": ""
+            }
+          }
+        },
+        "canEdit": true,
+        "canVote": false,
+        "canRevote": true,
+        "isVoted": true,
+        "signedAttachId": "1.52280488561bf567f33cf03b5ce353e154a9c3552b51b2ffb67be3bb7f26f986",
+        "resultUrl": "/vote-result/me7hn922bm011mbf",
+        "downloadUrl": "/bitrix/services/main/ajax.php?action=vote.AttachedVote.download&SITE_ID=s1&signedAttachId=1.52280488561bf567f33cf03b5ce353e154a9c3552b51b2ffb67be3bb7f26f986",
+        "entityId": 13,
+        "isFinished": false
+      }
+    },
+    "time": {
+      "start": 1754466663.090774,
+      "finish": 1754466663.180457,
+      "duration": 0.08968305587768555,
+      "processing": 0.07362222671508789,
+      "date_start": "2025-08-06T10:51:03+03:00",
+      "date_finish": "2025-08-06T10:51:03+03:00",
+      "operating_reset_at": 1754467263,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект attach с информацией о голосовании, структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vote/vote.attachedvote.vote.html",
+  "executable": false
+}

@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "crm.calllist.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить информацию о деле обзвона crm.calllist.get",
+  "permissions": "пользователь с правами на чтение элементов CRM",
+  "params": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор дела обзвона"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/call-list/crm-calllist-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "13",
+      "DATE_CREATE": "2025-07-14 08:47:19",
+      "CREATED_BY_ID": "29",
+      "WEBFORM_ID": "1",
+      "ENTITY_TYPE_ID": "3",
+      "ENTITY_TYPE": "CONTACT"
+    },
+    "time": {
+      "start": 1752472572.278248,
+      "finish": 1752472572.332555,
+      "duration": 0.054306983947753906,
+      "processing": 0.004546165466308594,
+      "date_start": "2025-07-14T08:56:12+03:00",
+      "date_finish": "2025-07-14T08:56:12+03:00",
+      "operating_reset_at": 1752473172,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор обзвона"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания обзвона"
+    },
+    {
+      "name": "CREATED_BY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, который создал обзвон"
+    },
+    {
+      "name": "WEBFORM_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор связанной CRM-формы"
+    },
+    {
+      "name": "ENTITY_TYPE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор типа объекта"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/call-list/crm-calllist-get.html",
+  "executable": false,
+  "entityFields": [
+    "CREATED_BY_ID",
+    "DATE_CREATE",
+    "ENTITY_TYPE",
+    "ENTITY_TYPE_ID",
+    "ID",
+    "WEBFORM_ID"
+  ]
+}

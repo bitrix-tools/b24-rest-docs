@@ -1,0 +1,147 @@
+{
+  "$v": 1,
+  "method": "disk.attachedObject.get",
+  "scope": "disk",
+  "kind": "read",
+  "title": "Получить информацию о прикрепленном файле disk.attachedObject.get",
+  "permissions": "пользователь с правом «Чтение» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи о прикреплении файла, то есть связи, которая соединяет файл диска с другими объектами. Чтобы получить идентификатор связи, используйте методы, которые возвращают прикрепленные файлы. Например, если файл прикреплен к задаче, то узнать идентификатор связи можно с помощью метода tasks.task.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/attached-object/disk-attached-object-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "495",
+      "OBJECT_ID": "8903",
+      "MODULE_ID": "tasks",
+      "ENTITY_TYPE": "tasks_task",
+      "ENTITY_ID": "3845",
+      "CREATE_TIME": "2025-12-23T10:31:24+03:00",
+      "CREATED_BY": "1269",
+      "DOWNLOAD_URL": "https://test.bitrix24.ru/bitrix/tools/disk/uf.php?attachedId=495&auth[auth]=d78a4a690000071b006e2cf2000004f5000007746b9ad166e1b9bd67b8848714afc5a7&action=download&ncc=1",
+      "NAME": "Picture.png",
+      "SIZE": "52486"
+    },
+    "time": {
+      "start": 1766489404,
+      "finish": 1766489404.720053,
+      "duration": 0.72005295753479,
+      "processing": 0,
+      "date_start": "2025-12-23T11:30:04+03:00",
+      "date_finish": "2025-12-23T11:30:04+03:00",
+      "operating_reset_at": 1766490004,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными прикрепленного файла"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор записи о прикреплении файла"
+    },
+    {
+      "name": "OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла"
+    },
+    {
+      "name": "MODULE_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Модуль, в котором используется файл"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип привязанного объекта"
+    },
+    {
+      "name": "ENTITY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор элемента, к которому прикреплен файл"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Время создания привязки"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, который прикрепил файл"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для скачивания файла"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер файла в байтах"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/attached-object/disk-attached-object-get.html",
+  "executable": false,
+  "entityFields": [
+    "CREATED_BY",
+    "CREATE_TIME",
+    "DOWNLOAD_URL",
+    "ENTITY_ID",
+    "ENTITY_TYPE",
+    "ID",
+    "MODULE_ID",
+    "NAME",
+    "OBJECT_ID",
+    "SIZE"
+  ]
+}

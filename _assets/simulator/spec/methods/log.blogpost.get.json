@@ -1,0 +1,262 @@
+{
+  "$v": 1,
+  "method": "log.blogpost.get",
+  "scope": "log",
+  "kind": "read",
+  "title": "Получить доступные пользователю сообщения Ленты новостей log.blogpost.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "POST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Фильтрация по идентификатору сообщения. Получить идентификатор можно с помощью метода log.blogpost.get"
+    },
+    {
+      "name": "LOG_RIGHTS",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Фильтрация по получателям, у которых есть право на просмотр сообщения. Возможные значения: {% include notitle адресаты сообщения %}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/log-blogpost-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Параметры сообщения или список сообщений Ленты новостей. Пустой массив означает, что нет записей, удовлетворяющих фильтру"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сообщения"
+    },
+    {
+      "name": "BLOG_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор блога, к которому относится сообщение"
+    },
+    {
+      "name": "PUBLISH_STATUS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Статус публикации сообщения"
+    },
+    {
+      "name": "TITLE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Заголовок сообщения"
+    },
+    {
+      "name": "AUTHOR_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор автора сообщения"
+    },
+    {
+      "name": "ENABLE_COMMENTS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Разрешены ли комментарии"
+    },
+    {
+      "name": "NUM_COMMENTS",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество комментариев"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код сообщения"
+    },
+    {
+      "name": "MICRO",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак микросообщения"
+    },
+    {
+      "name": "DETAIL_TEXT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст сообщения"
+    },
+    {
+      "name": "DATE_PUBLISH",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время публикации"
+    },
+    {
+      "name": "CATEGORY_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификаторы тегов (категорий) через запятую"
+    },
+    {
+      "name": "HAS_SOCNET_ALL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак публикации для всех авторизованных пользователей"
+    },
+    {
+      "name": "HAS_TAGS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак наличия тегов"
+    },
+    {
+      "name": "HAS_IMAGES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак наличия изображений"
+    },
+    {
+      "name": "HAS_PROPS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак наличия пользовательских полей"
+    },
+    {
+      "name": "HAS_COMMENT_IMAGES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак наличия изображений в комментариях"
+    },
+    {
+      "name": "UF_\\",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Пользовательские поля сообщения. Набор полей зависит от настроек портала. Формат каждого поля описан ниже"
+    },
+    {
+      "name": "UF_BLOG_POST_DOC",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительное поле с файлами"
+    },
+    {
+      "name": "UF_BLOG_POST_URL_PRV",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные превью ссылки из текста сообщения, если превью удалось сформировать"
+    },
+    {
+      "name": "UF_GRATITUDE",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Служебное поле для функционала Благодарность"
+    },
+    {
+      "name": "UF_BLOG_POST_FILE",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Файлы Диска, прикрепленные к сообщению"
+    },
+    {
+      "name": "UF_BLOG_POST_IMPRTNT",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Признак важного сообщения"
+    },
+    {
+      "name": "UF_IMPRTANT_DATE_END",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дата и время, до которых сообщение считается важным"
+    },
+    {
+      "name": "UF_BLOG_POST_VOTE",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные опроса, если к сообщению прикреплен опрос"
+    },
+    {
+      "name": "UF_MAIL_MESSAGE",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Связь сообщения с почтой"
+    },
+    {
+      "name": "FILES",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив ID файлов из UF_BLOG_POST_FILE"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Значение для постраничной навигации (если есть)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных элементов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/log-blogpost-get.html",
+  "executable": false
+}

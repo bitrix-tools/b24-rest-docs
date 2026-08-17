@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.bindings.bind",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить связь записи таймлайна с элементом CRM crm.timeline.bindings.bind",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для добавления связи записи таймлайна с элементом CRM в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "OWNER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор записи таймлайна"
+        },
+        {
+          "name": "ENTITY_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор элемента CRM, к которому привязана запись таймлайна"
+        },
+        {
+          "name": "ENTITY_TYPE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип элемента CRM, к которому привязана запись таймлайна. Возможные значения: - lead — лид - deal — сделка - contact — контакт - company — компания - order — заказ"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/bindings/crm-timeline-bindings-bind.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если связь создана. Возвращает false, если связь не создана"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/bindings/crm-timeline-bindings-bind.html",
+  "executable": false
+}

@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "task.item.getdescription",
+  "scope": "task",
+  "kind": "write",
+  "title": "Получить описание задачи task.item.getdescription",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "FORMAT",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Допустимые значения: - 1 (соответствует PHP-константе CTaskItem::DESCR_FORMAT_RAW) — описание будет возвращено в том формате, в котором хранится в БД (HTML либо BB-code), обработка санитайзером производиться не будет - 2 (соответствует PHP-константе CTaskItem::DESCR_FORMAT_HTML) — описание будет возвращено в формате HTML, предварительно будет обработано санитайзером (если это включено в настройках…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-item-get-description.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.get"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-item-get-description.html",
+  "executable": false
+}

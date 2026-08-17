@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.role.list",
+  "scope": "documentgenerator",
+  "kind": "read",
+  "title": "Получить список ролей documentgenerator.role.list",
+  "permissions": "пользователь с правом на изменение настроек генератора документов",
+  "params": [
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N — 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/role/document-generator-role-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "roles": [
+        {
+          "id": 1,
+          "name": "Администратор",
+          "code": "ADMIN"
+        },
+        {
+          "id": 3,
+          "name": "Менеджер",
+          "code": "MANAGER"
+        },
+        {
+          "id": 9,
+          "name": "Редакторы своих шаблонов",
+          "code": "DOCGEN_TEMPLATE_EDITORS"
+        }
+      ]
+    },
+    "total": 3,
+    "time": {
+      "start": 1774015085,
+      "finish": 1774015085.612552,
+      "duration": 0.6125519275665283,
+      "processing": 0,
+      "date_start": "2026-03-20T16:58:05+03:00",
+      "date_finish": "2026-03-20T16:58:05+03:00",
+      "operating_reset_at": 1774015685,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество ролей в текущей выборке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/role/document-generator-role-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "id",
+    "name",
+    "permissions"
+  ]
+}

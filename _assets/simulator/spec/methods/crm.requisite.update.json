@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить реквизит crm.requisite.update",
+  "permissions": "пользователь с правом на изменение контакта или компании — владельца реквизита",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор реквизита, можно получить методом crm.requisite.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей реквизита — объект вида \"поле\": \"значение\"[, ...]}, значения которых нужно изменить",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/universal/crm-requisite-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1717163055.335685,
+      "finish": 1717163055.892722,
+      "duration": 0.5570368766784668,
+      "processing": 0.17116189002990723,
+      "date_start": "2024-05-31T15:44:15+02:00",
+      "date_finish": "2024-05-31T15:44:15+02:00",
+      "operating": 0.17112517356872559
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Вовзращает значение: - true — реквизит изменен - false — реквизит не изменен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/universal/crm-requisite-update.html",
+  "executable": false
+}

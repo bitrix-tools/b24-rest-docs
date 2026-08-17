@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.template.add",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Добавить шаблон бизнес-процесса bizproc.workflow.template.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "DOCUMENT_TYPE",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Тип документа. Состоит из трех элементов типа строка. Они определяют, к какому типу объектов прикрепить новый шаблон бизнес-процесса. Возможные варианты значений: - Модуль CRM ['crm', 'CCrmDocumentLead', 'LEAD'] — лиды ['crm', 'CCrmDocumentContact', 'CONTACT'] — контакты ['crm', 'CCrmDocumentCompany', 'COMPANY'] — компании ['crm', 'CCrmDocumentDeal', 'DEAL'] — сделки ['crm', 'Bitrix\\Crm\\Integratio…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Название шаблона"
+    },
+    {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание шаблона"
+    },
+    {
+      "name": "TEMPLATE_DATA",
+      "type": "file",
+      "base": "any",
+      "required": true,
+      "description": "Контент файла с шаблоном бизнес-процесса в формате .bpt. Подробнее о способах передачи файлов — в статье {#T}"
+    },
+    {
+      "name": "AUTO_EXECUTE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Настройки автозапуска шаблона. Может иметь значение: - 0 — без автозапуска - 1 — запуск на создание - 2 — запуск на изменение - 3 — запуск на создание и изменение По умолчанию — 0"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/template/bizproc-workflow-template-add.md"
+  },
+  "resultExample": {
+    "result": 525,
+    "time": {
+      "start": 1737529740.157058,
+      "finish": 1737529740.430257,
+      "duration": 0.27319908142089844,
+      "processing": 0.2516059875488281,
+      "date_start": "2025-01-22T10:09:00+03:00",
+      "date_finish": "2025-01-22T10:09:00+03:00",
+      "operating_reset_at": 1737530340,
+      "operating": 0.2515890598297119
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Идентификатор добавленного шаблона бизнес-процесса"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/template/bizproc-workflow-template-add.html",
+  "executable": false
+}

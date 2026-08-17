@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "imopenlines.crm.chat.get",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить чаты для объекта CRM imopenlines.crm.chat.get",
+  "permissions": "любой пользователь с доступом к объекту CRM",
+  "params": [
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+    },
+    {
+      "name": "CRM_ENTITY",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM. Получить идентификатор можно универсальным методом получения списка элементов CRM"
+    },
+    {
+      "name": "ACTIVE_ONLY",
+      "type": "char",
+      "base": "char",
+      "required": false,
+      "description": "Флаг возврата только активных чатов. Возможные значения: - Y — вернуть только активные чаты - N — вернуть все чаты По умолчанию — Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "CHAT_ID": "1763",
+        "CONNECTOR_ID": "livechat",
+        "CONNECTOR_TITLE": "Онлайн-чат"
+      }
+    ],
+    "time": {
+      "start": 1773758908,
+      "finish": 1773758908.592458,
+      "duration": 0.5924580097198486,
+      "processing": 0,
+      "date_start": "2026-03-17T17:48:28+03:00",
+      "date_finish": "2026-03-17T17:48:28+03:00",
+      "operating_reset_at": 1773759508,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список объектов чатов (подробное описание). Возвращает пустой массив \"result\":[], если объекта с указанным CRM_ENTITY не существует"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.html",
+  "executable": false,
+  "entityFields": [
+    "CHAT_ID",
+    "CONNECTOR_ID",
+    "CONNECTOR_TITLE"
+  ]
+}

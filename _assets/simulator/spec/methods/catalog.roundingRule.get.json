@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "catalog.roundingRule.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей правила округления цен catalog.roundingRule.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_rounding_rule.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор правила округления цен"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/rounding-rule/catalog-rounding-rule-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "roundingRule": {
+        "catalogGroupId": 14,
+        "createdBy": 1,
+        "dateCreate": "2024-09-25T16:40:59+02:00",
+        "dateModify": "2024-09-25T16:40:59+02:00",
+        "id": 1,
+        "modifiedBy": 1,
+        "price": 1000,
+        "roundPrecision": 100,
+        "roundType": 4
+      }
+    },
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-09-25T16:40:59+02:00",
+      "date_finish": "2024-09-25T16:40:59+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "roundingRule",
+      "type": "catalog_rounding_rule",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о правиле округления цен с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/rounding-rule/catalog-rounding-rule-get.html",
+  "executable": false,
+  "entityFields": [
+    "catalogGroupId",
+    "createdBy",
+    "dateCreate",
+    "dateModify",
+    "id",
+    "modifiedBy",
+    "price",
+    "roundPrecision",
+    "roundType"
+  ]
+}

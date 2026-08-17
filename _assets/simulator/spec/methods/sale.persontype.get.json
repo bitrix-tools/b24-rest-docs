@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "sale.persontype.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить тип плательщика по Id sale.persontype.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_person_type.id",
+      "base": "any",
+      "required": true,
+      "description": "Номер типа плательщика"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/person-type/sale-person-type-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "personType": {
+        "active": "Y",
+        "code": null,
+        "id": 37,
+        "name": "Физическое лицо",
+        "sort": "1233",
+        "xmlId": null
+      }
+    },
+    "time": {
+      "start": 1712325939.41209,
+      "finish": 1712325939.60039,
+      "duration": 0.188301086425781,
+      "processing": 0.00575995445251465,
+      "date_start": "2024-04-05T16:05:39+02:00",
+      "date_finish": "2024-04-05T16:05:39+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "personType",
+      "type": "sale_person_type",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном типе плательщика"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/person-type/sale-person-type-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "id",
+    "name",
+    "sort",
+    "xmlId"
+  ]
+}

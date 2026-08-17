@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "crm.contact.userfield.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить пользовательское поле контактов по Id crm.contact.userfield.get",
+  "permissions": "любой пользователь с правом «чтения» контактов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля, привязанного к контакту. Идентификатор можно получить с помощью методов crm.contact.userfield.add или crm.contact.userfield.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/userfield/crm-contact-userfield-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "userfield",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит информацию о пользовательском поле"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/userfield/crm-contact-userfield-get.html",
+  "executable": false,
+  "entityFields": [
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ERROR_MESSAGE",
+    "FIELD_NAME",
+    "HELP_MESSAGE",
+    "IS_SEARCHABLE",
+    "LABEL",
+    "LIST",
+    "LIST_COLUMN_LABEL",
+    "LIST_FILTER_LABEL",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "USER_TYPE_ID",
+    "XML_ID"
+  ]
+}

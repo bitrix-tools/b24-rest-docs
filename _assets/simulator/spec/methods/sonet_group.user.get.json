@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "sonet_group.user.get",
+  "scope": "sonet",
+  "kind": "read",
+  "title": "Получить список участников группы sonetgroup.user.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор рабочей группы или проекта. Идентификатор можно получить методом sonetgroup.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/members/sonet-group-user-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "USER_ID": "1269",
+        "ROLE": "A"
+      },
+      {
+        "USER_ID": "1271",
+        "ROLE": "E"
+      },
+      {
+        "USER_ID": "779",
+        "ROLE": "K"
+      }
+    ],
+    "time": {
+      "start": 1773850553,
+      "finish": 1773850553.261059,
+      "duration": 0.261059045791626,
+      "processing": 0,
+      "date_start": "2026-03-18T19:15:53+03:00",
+      "date_finish": "2026-03-18T19:15:53+03:00",
+      "operating_reset_at": 1773851153,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив участников группы или проекта"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор участника"
+    },
+    {
+      "name": "ROLE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Роль участника. Возможные значения: - A — владелец - E — модератор - K — участник"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sonet-group/members/sonet-group-user-get.html",
+  "executable": false,
+  "entityFields": [
+    "ROLE",
+    "USER_ID"
+  ]
+}

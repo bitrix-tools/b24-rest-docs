@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "im.notify.schema.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить схему типов уведомлений im.notify.schema.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект схемы уведомлений, ключ верхнего уровня — MODULE_ID. Структура объекта модуля подробно описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/notifications/im-notify-schema-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "tasks": {
+        "NAME": "Задачи",
+        "MODULE_ID": "tasks",
+        "LIST": [
+          {
+            "ID": "tasks|task_update",
+            "NAME": "Изменения задач"
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.1,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2026-03-03T10:00:00+03:00",
+      "date_finish": "2026-03-03T10:00:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект схемы уведомлений, ключ верхнего уровня — MODULE_ID. Структура объекта модуля подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/notifications/im-notify-schema-get.html",
+  "executable": false,
+  "entityFields": [
+    "LIST",
+    "MODULE_ID",
+    "NAME"
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.link.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список связей реквизитов crm.requisite.link.list",
+  "permissions": "пользователь с правом на чтение объектов CRM",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля связи реквизитов). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля связи реквизитов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных связей реквизитов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям связи реквизита. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных связей реквизитов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям связи реквизитов. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/links/crm-requisite-link-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ENTITY_TYPE_ID": "7",
+        "ENTITY_ID": "1",
+        "REQUISITE_ID": "0",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "0",
+        "MC_BANK_DETAIL_ID": "0"
+      },
+      {
+        "ENTITY_TYPE_ID": "7",
+        "ENTITY_ID": "2",
+        "REQUISITE_ID": "0",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "0",
+        "MC_BANK_DETAIL_ID": "0"
+      },
+      {
+        "ENTITY_TYPE_ID": "7",
+        "ENTITY_ID": "3",
+        "REQUISITE_ID": "0",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "0",
+        "MC_BANK_DETAIL_ID": "0"
+      },
+      {
+        "ENTITY_TYPE_ID": "7",
+        "ENTITY_ID": "4",
+        "REQUISITE_ID": "7",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "2",
+        "MC_BANK_DETAIL_ID": "2"
+      },
+      {
+        "ENTITY_TYPE_ID": "7",
+        "ENTITY_ID": "5",
+        "REQUISITE_ID": "0",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "2",
+        "MC_BANK_DETAIL_ID": "2"
+      },
+      {
+        "ENTITY_TYPE_ID": "7",
+        "ENTITY_ID": "6",
+        "REQUISITE_ID": "0",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "2",
+        "MC_BANK_DETAIL_ID": "2"
+      },
+      {
+        "ENTITY_TYPE_ID": "2",
+        "ENTITY_ID": "25",
+        "REQUISITE_ID": "38",
+        "BANK_DETAIL_ID": "0",
+        "MC_REQUISITE_ID": "0",
+        "MC_BANK_DETAIL_ID": "0"
+      },
+      {
+        "ENTITY_TYPE_ID": "31",
+        "ENTITY_ID": "315",
+        "REQUISITE_ID": "60",
+        "BANK_DETAIL_ID": "24",
+        "MC_REQUISITE_ID": "2",
+        "MC_BANK_DETAIL_ID": "2"
+      }
+    ],
+    "total": 8,
+    "time": {
+      "start": 1718709631.410351,
+      "finish": 1718709631.771324,
+      "duration": 0.36097288131713867,
+      "processing": 0.015230178833007812,
+      "date_start": "2024-06-18T13:20:31+02:00",
+      "date_finish": "2024-06-18T13:20:31+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией из выбранных связей реквизитов. Каждый элемент содержит выбранные поля связи реквизита"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/links/crm-requisite-link-list.html",
+  "executable": false,
+  "entityFields": [
+    "BANK_DETAIL_ID",
+    "ENTITY_ID",
+    "ENTITY_TYPE_ID",
+    "MC_BANK_DETAIL_ID",
+    "MC_REQUISITE_ID",
+    "REQUISITE_ID"
+  ]
+}

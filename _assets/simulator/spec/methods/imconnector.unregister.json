@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "imconnector.unregister",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Отменить регистрацию коннектора imconnector.unregister",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор коннектора, который был передан при регистрации в imconnector.register"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-unregister.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.25,
+      "duration": 0.14,
+      "processing": 0.06,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если регистрация коннектора снята"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-unregister.html",
+  "executable": false
+}

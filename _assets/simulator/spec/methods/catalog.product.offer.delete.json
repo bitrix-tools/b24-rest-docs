@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "catalog.product.offer.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить вариацию товара catalog.product.offer.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_offer.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор вариации товара. Для получения идентификаторов вариаций товара необходимо использовать catalog.product.offer.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/offer/catalog-product-offer-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718623769.704759,
+      "finish": 1718623770.549073,
+      "duration": 0.8443140983581543,
+      "processing": 0.4027719497680664,
+      "date_start": "2024-06-17T14:29:29+03:00",
+      "date_finish": "2024-06-17T14:29:30+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления вариации товара"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/offer/catalog-product-offer-delete.html",
+  "executable": false
+}

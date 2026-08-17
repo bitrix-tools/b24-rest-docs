@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.preset.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать шаблон crm.requisite.preset.add",
+  "permissions": "пользователь с правом на добавление и контактов, и компаний",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей — объект вида {\"поле\": \"значение\"[, ...]} для добавления шаблона",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ENTITY_TYPE_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор типа родительского объекта. Сейчас это только «Реквизит» (идентификатор 8). Идентификаторы типов объектов CRM отдает метод crm.enum.ownertype"
+        },
+        {
+          "name": "COUNTRY_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор страны, которой соответствует набор полей шаблона реквизитов (для получения доступных значений смотрите метод crm.requisite.preset.countries)"
+        },
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название шаблона"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний ключ. Используется для операций обмена. Идентификатор объекта внешней информационной базы. Назначение поля может меняться конечным разработчиком. Каждое приложение обеспечивает уникальность значений в этом поле. Рекомендуется использовать уникальный префикс для избежания коллизий с другими приложениями. В CRM зарезервированы значения вида #CRM_REQUISITE_PRESET_DEF_...…"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак активности. Используются значения Y или N. Определяет доступность шаблона в списке выбора при добавлении реквизитов"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/presets/crm-requisite-preset-add.md"
+  },
+  "resultExample": {
+    "result": 347,
+    "time": {
+      "start": 1716543593.35189,
+      "finish": 1716543593.683898,
+      "duration": 0.33200788497924805,
+      "processing": 0.016175031661987305,
+      "date_start": "2024-05-24T11:39:53+02:00",
+      "date_finish": "2024-05-24T11:39:53+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного шаблона реквизитов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/presets/crm-requisite-preset-add.html",
+  "executable": false
+}

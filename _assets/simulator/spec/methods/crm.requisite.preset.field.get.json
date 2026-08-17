@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.preset.field.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить настраиваемое поле шаблона реквизитов по id crm.requisite.preset.field.get",
+  "permissions": "пользователь с правом на чтение контактов и компаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настраиваемого поля. Идентификаторы настраиваемых полей шаблона реквизитов можно получить с помощью метода crm.requisite.preset.field.list"
+    },
+    {
+      "name": "preset",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий значение идентификатора шаблона, из которого извлекается информация о настраиваемом поле (например, {\"ID\": 27}). Идентификаторы шаблонов можно получить с помощью метода crm.requisite.preset.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 1,
+      "FIELD_NAME": "RQ_NAME",
+      "FIELD_TITLE": "TEST",
+      "IN_SHORT_LIST": "N",
+      "SORT": 580
+    },
+    "time": {
+      "start": 1716826213.057061,
+      "finish": 1716826213.541336,
+      "duration": 0.48427510261535645,
+      "processing": 0.025674104690551758,
+      "date_start": "2024-05-27T18:10:13+02:00",
+      "date_finish": "2024-05-27T18:10:13+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий поля, описывающие настраиваемое поле шаблона реквизитов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-get.html",
+  "executable": false,
+  "entityFields": [
+    "FIELD_NAME",
+    "FIELD_TITLE",
+    "ID",
+    "IN_SHORT_LIST",
+    "SORT"
+  ]
+}

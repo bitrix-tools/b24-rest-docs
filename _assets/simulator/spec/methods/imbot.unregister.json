@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "imbot.unregister",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Удалить чат-бота imbot.unregister",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота",
+  "params": [
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чат-бота. Значение должно быть больше 0. Получить идентификатор бота можно методом imbot.bot.list"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/bots/imbot-unregister.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Bot.unregister"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/bots/imbot-unregister.html",
+  "executable": false
+}

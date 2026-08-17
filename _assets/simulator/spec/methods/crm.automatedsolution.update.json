@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "crm.automatedsolution.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить цифровое рабочее место crm.automatedsolution.update",
+  "permissions": "пользователи с административным доступом к разделу crm",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор цифрового рабочего места. Может быть получен из ответа метода crm.automatedsolution.add (result.automatedSolution.id), который был вызван при добавлении цифрового рабочего места, или crm.automatedsolution.list. Так же можно воспользоваться разделом «Цифровые рабочие места» на портале Битрикс24 — колонка ID в списке цифровых рабочих мест"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для создания цифрового рабочего места в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название цифрового рабочего места. Будьте внимательны с изменением поля title. Так как ссылка на цифровое рабочее место строится на основании названия, при его изменении изменится и ссылка на цифровое рабочее место"
+        },
+        {
+          "name": "typeIds",
+          "type": "crm_dynamic_type.id[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив идентификаторов смарт-процессов, которые нужно привязать к этому рабочему месту. Чтобы изменить список привязанных смарт-процессов, нужно передать поле typeIds с желаемым набором смарт-процессов. Настройки переписываются полностью. При изменении списка привязанных смарт-процессов, надо передавать набор typeIds целиком, либо опустить ключ typeIds вообще"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/automated-solution/crm-automated-solution-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "automatedSolution": {
+        "id": 1,
+        "title": "HR",
+        "typeIds": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "time": {
+      "start": 1715849396.642359,
+      "finish": 1715849396.954623,
+      "duration": 0.31226396560668945,
+      "processing": 0.0068209171295166016,
+      "date_start": "2024-05-16T11:49:56+03:00",
+      "date_finish": "2024-05-16T11:49:56+03:00",
+      "operating_reset_at": 1715849996,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "automatedSolution",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с информацией об обновленном цифровом рабочем месте"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/automated-solution/crm-automated-solution-update.html",
+  "executable": false
+}

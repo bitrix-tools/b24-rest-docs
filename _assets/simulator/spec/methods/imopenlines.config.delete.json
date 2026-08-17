@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "imopenlines.config.delete",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Удалить открытую линию imopenlines.config.delete",
+  "permissions": "пользователь с правом изменения открытых линий",
+  "params": [
+    {
+      "name": "CONFIG_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор открытой линии. Получить идентификатор открытой линии можно при создании открытой линии или методом получения списка открытых линий"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/imopenlines-config-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1741688626.157568,
+      "finish": 1741688626.261411,
+      "duration": 0.10384297370910645,
+      "processing": 0.04578208923339844,
+      "date_start": "2025-03-11T10:30:26+03:00",
+      "date_finish": "2025-03-11T10:30:26+03:00",
+      "operating_reset_at": 1741689226,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает: - true — если линия успешно удалена - false — если линия с указанным CONFIG_ID не существует"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/imopenlines-config-delete.html",
+  "executable": false
+}

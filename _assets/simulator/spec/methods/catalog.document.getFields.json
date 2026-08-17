@@ -1,0 +1,192 @@
+{
+  "$v": 1,
+  "method": "catalog.document.getFields",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить описание полей документа складского учета catalog.document.getFields",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "document",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей документа складского учета Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта catalog_document, а value — объект типа rest_field_description.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "document": {
+        "commentary": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "createdBy": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "currency": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "char"
+        },
+        "dateCreate": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateDocument": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateModify": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateStatus": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "docNumber": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "docType": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "char"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "modifiedBy": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "responsibleId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "siteId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "status": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "statusBy": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "title": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "total": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        }
+      }
+    },
+    "time": {
+      "start": 1761727898,
+      "finish": 1761727898.554004,
+      "duration": 0.5540039539337158,
+      "processing": 0,
+      "date_start": "2025-10-29T11:51:38+03:00",
+      "date_finish": "2025-10-29T11:51:38+03:00",
+      "operating_reset_at": 1761728498,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "document",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей документа складского учета Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта catalog_document, а value — объект типа rest_field_description."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-get-fields.html",
+  "executable": false
+}

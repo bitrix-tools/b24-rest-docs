@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "mailservice.delete",
+  "scope": "mailservice",
+  "kind": "write",
+  "title": "Удалить почтовый сервис mailservice.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор почтового сервиса. Получить идентификатор можно методом mailservice.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mailservice/mailservice-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1710000400.123,
+      "finish": 1710000400.21,
+      "duration": 0.087,
+      "processing": 0.031,
+      "date_start": "2024-03-09T10:06:40+03:00",
+      "date_finish": "2024-03-09T10:06:40+03:00",
+      "operating_reset_at": 1710003600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если сервис успешно удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mailservice/mailservice-delete.html",
+  "executable": false
+}

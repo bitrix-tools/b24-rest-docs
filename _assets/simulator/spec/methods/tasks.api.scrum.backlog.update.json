@@ -1,0 +1,80 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.backlog.update",
+  "scope": "task",
+  "kind": "write",
+  "title": "Обновить бэклог tasks.api.scrum.backlog.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор бэклога. Можно получить методом tasks.api.scrum.backlog.get"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект содержащий записи о группе и пользователе (подробное описание приведено ниже) в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "groupId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор группы, к которой принадлежит бэклог. Идентификатор группы можно получить при создании новой группы sonetgroup.create или при получении списка существующих групп socialnetwork.api.workgroup.list"
+        },
+        {
+          "name": "createdBy",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, от кого будет создан бэклог"
+        },
+        {
+          "name": "modifiedBy",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, от кого будет модифицирован бэклог"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 1,
+      "groupId": 125,
+      "createdBy": 6,
+      "modifiedBy": 1
+    },
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-update.html",
+  "executable": false
+}

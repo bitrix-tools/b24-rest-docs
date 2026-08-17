@@ -1,0 +1,80 @@
+{
+  "$v": 1,
+  "method": "mailservice.fields",
+  "scope": "mailservice",
+  "kind": "read",
+  "title": "Получить поля почтового сервиса mailservice.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с названиями полей. Структура объекта подробно описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mailservice/mailservice-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "ID",
+      "SITE_ID": "Сайт",
+      "ACTIVE": "Активность",
+      "NAME": "Название",
+      "SERVER": "Адрес сервера",
+      "PORT": "Порт",
+      "ENCRYPTION": "Защищенное соединение",
+      "LINK": "Адрес веб-интерфейса",
+      "ICON": "Логотип",
+      "SORT": "Сортировка"
+    },
+    "time": {
+      "start": 1710000500.123,
+      "finish": 1710000500.2,
+      "duration": 0.077,
+      "processing": 0.02,
+      "date_start": "2024-03-09T10:08:20+03:00",
+      "date_finish": "2024-03-09T10:08:20+03:00",
+      "operating_reset_at": 1710003600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с названиями полей. Структура объекта подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mailservice/mailservice-fields.html",
+  "executable": false
+}

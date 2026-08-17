@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "task.item.update",
+  "scope": "task",
+  "kind": "write",
+  "title": "Изменить задачу task.item.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи."
+    },
+    {
+      "name": "TASKDATA",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Список полей с новыми значениями."
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-item-update.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.update"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-item-update.html",
+  "executable": false
+}

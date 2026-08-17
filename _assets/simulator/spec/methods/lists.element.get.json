@@ -1,0 +1,154 @@
+{
+  "$v": 1,
+  "method": "lists.element.get",
+  "scope": "lists",
+  "kind": "read",
+  "title": "Получить параметры элемента или список элементов lists.element.get",
+  "permissions": "пользователь с правом «Чтение» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "ELEMENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор элемента. Идентификатор можно получить с помощью метода lists.element.get"
+    },
+    {
+      "name": "ELEMENT_CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код элемента. Код можно получить с помощью метода lists.element.get Чтобы получить данные элемента, необходимо указать хотя бы один из параметров: ELEMENT_ID и ELEMENT_CODE"
+    },
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив содержит список полей, которые необходимо выбрать. Если поля не указаны, возвращаются все доступные по умолчанию. Доступные поля: - ID — идентификатор элемента - CODE — код элемента - NAME — название элемента - IBLOCK_SECTION_ID — идентификатор раздела, в который добавляется элемент - CREATED_BY — идентификатор пользователя, создавшего элемент - CREATED_USER_NAME — имя пользователя, создавш…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации полей элементов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Фильтруемое поле может принимать значения: - NAME — название элемента - IBLOCK_SECTION_ID — идентификатор раздела, в который добавляется элемент - CREATED_BY — идентификатор пользователя, создавшего элемент - ACTIVE_TO — дата окончания активности (устаревшее) - BP_PUBLISHED — публикация в рамках бизне…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ELEMENT_ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки полей элементов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Не поддерживается сортировка множественных свойств, а также свойств: - S:Money — тип деньги - PREVIEW_TEXT - DETAIL_TEXT - S:ECrm — тип привязка к элементам CRM - S:map_yandex — тип привязка к Яндекс.Карте - S…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/elements/lists-element-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "6999",
+        "NAME": "Тестовый элемент",
+        "IBLOCK_SECTION_ID": null,
+        "CREATED_BY": "1269",
+        "CODE": "test_element",
+        "PROPERTY_951": {
+          "3743": "1269",
+          "3745": "1271"
+        },
+        "PROPERTY_1003": {
+          "3747": "12/31/2024 11:59:59 pm"
+        }
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1763656328,
+      "finish": 1763656328.442951,
+      "duration": 0.442950963973999,
+      "processing": 0,
+      "date_start": "2025-11-19T14:32:08+03:00",
+      "date_finish": "2025-11-19T14:32:08+03:00",
+      "operating_reset_at": 1763656928,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Данные элемента или массив элементов. Результат зависит от параметра SELECT. Пустой массив означает, что в списке нет элементов, либо элементы не соответствуют фильтру"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество элементов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/elements/lists-element-get.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "CREATED_BY",
+    "IBLOCK_SECTION_ID",
+    "ID",
+    "NAME",
+    "PROPERTY_1003",
+    "PROPERTY_951"
+  ]
+}

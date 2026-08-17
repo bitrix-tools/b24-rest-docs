@@ -1,0 +1,336 @@
+{
+  "$v": 1,
+  "method": "disk.folder.getFields",
+  "scope": "disk",
+  "kind": "read",
+  "title": "Получить описание полей папки disk.folder.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с описанием полей папки. Структура описания каждого поля: - TYPE — тип данных поля - USE_IN_FILTER — возможность использовать поле при фильтрации - USE_IN_SHOW — доступность поля при получении ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор папки"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя папки"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": "unknown",
+      "description": "Тип объекта"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Символьный код папки"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор хранилища, в котором находится папка"
+    },
+    {
+      "name": "REAL_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время создания папки"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время последнего обновления папки"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время переноса папки в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, создавшего папку"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, удалившего папку"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": "unknown",
+      "description": "Статус удаления объекта"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/folder/disk-folder-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "NAME": {
+        "TYPE": "string",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "TYPE": {
+        "TYPE": "enum",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "CODE": {
+        "TYPE": "string",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "STORAGE_ID": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "REAL_OBJECT_ID": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": false,
+        "USE_IN_SHOW": true
+      },
+      "PARENT_ID": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "CREATE_TIME": {
+        "TYPE": "datetime",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "UPDATE_TIME": {
+        "TYPE": "datetime",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "DELETE_TIME": {
+        "TYPE": "datetime",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "CREATED_BY": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": false,
+        "USE_IN_SHOW": true
+      },
+      "UPDATED_BY": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": false,
+        "USE_IN_SHOW": true
+      },
+      "DELETED_BY": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": false,
+        "USE_IN_SHOW": true
+      },
+      "DELETED_TYPE": {
+        "TYPE": "enum",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      }
+    },
+    "time": {
+      "start": 1768343226,
+      "finish": 1768343226.742822,
+      "duration": 0.7428219318389893,
+      "processing": 0,
+      "date_start": "2026-01-13T16:47:06+03:00",
+      "date_finish": "2026-01-13T16:47:06+03:00",
+      "operating_reset_at": 1768343826,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с описанием полей папки. Структура описания каждого поля: - TYPE — тип данных поля - USE_IN_FILTER — возможность использовать поле при фильтрации - USE_IN_SHOW — доступность поля при получении ответа"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор папки"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя папки"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": "unknown",
+      "description": "Тип объекта"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Символьный код папки"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор хранилища, в котором находится папка"
+    },
+    {
+      "name": "REAL_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время создания папки"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время последнего обновления папки"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время переноса папки в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, создавшего папку"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, удалившего папку"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": "unknown",
+      "description": "Статус удаления объекта"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/folder/disk-folder-get-fields.html",
+  "executable": false
+}

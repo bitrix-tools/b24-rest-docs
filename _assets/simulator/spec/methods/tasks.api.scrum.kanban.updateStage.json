@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.kanban.updateStage",
+  "scope": "task",
+  "kind": "write",
+  "title": "Обновить стадию канбана Скрама tasks.api.scrum.kanban.updateStage",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "stageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор стадии. Получить идентификатор можно при помощи метода tasks.api.scrum.kanban.getStages"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Поля, соответствующие доступному списку полей tasks.api.scrum.kanban.getFields (подробное описание приведено ниже)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "sprintId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор спринта. Получить идентификатор можно при помощи метода tasks.api.scrum.sprint.list"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название стадии канбана"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип стадии канбана. Возможные значения: NEW, WORK, FINISH"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Порядок сортировки. Значение поля должно быть кратно 100"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Цвет стадии канбана"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-update-stage.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-update-stage.html",
+  "executable": false
+}

@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.settings.mode.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Определить текущий режим работы CRM crm.settings.mode.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Возвращает значение, определённое в crm.enum.settings.mode"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/crm-settings-mode-get.md"
+  },
+  "resultExample": {
+    "result": 1,
+    "time": {
+      "start": 1715091541.642592,
+      "finish": 1715091541.730599,
+      "duration": 0.08800697326660156,
+      "date_start": "2024-05-03T17:19:01+03:00",
+      "date_finish": "2024-05-03T17:19:01+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Возвращает значение, определённое в crm.enum.settings.mode"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/crm-settings-mode-get.html",
+  "executable": false
+}

@@ -1,0 +1,158 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.move",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Переместить отдел humanresources.node.move",
+  "permissions": "пользователь с правом «Редактирование отделов» или «Редактирование команд»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды, который нужно переместить. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "parentId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор нового родительского отдела. Идентификатор можно получить методом humanresources.node.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node/humanresources-node-move.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 44,
+      "name": "Отдел продаж B2B",
+      "type": "DEPARTMENT",
+      "structureId": 1,
+      "parentId": 2,
+      "description": "Работа с корпоративными клиентами",
+      "accessCode": "DR44",
+      "userCount": 18,
+      "colorName": null,
+      "xmlId": null,
+      "createdAt": "2026-05-30T09:20:15+03:00",
+      "updatedAt": "2026-06-02T14:40:18+03:00"
+    },
+    "time": {
+      "start": 1780400418,
+      "finish": 1780400418.402915,
+      "duration": 0.40291500091552734,
+      "processing": 0.3614809513092041,
+      "date_start": "2026-06-02T14:40:18+03:00",
+      "date_finish": "2026-06-02T14:40:18+03:00",
+      "operating_reset_at": 1780401018,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными перемещенного отдела или команды"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор отдела или команды"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название отдела или команды"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип элемента структуры"
+    },
+    {
+      "name": "structureId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор структуры компании"
+    },
+    {
+      "name": "parentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор нового родительского отдела"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание отдела или команды"
+    },
+    {
+      "name": "accessCode",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код доступа отдела или команды"
+    },
+    {
+      "name": "userCount",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество пользователей в отделе или команде"
+    },
+    {
+      "name": "colorName",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет команды, если он задан"
+    },
+    {
+      "name": "xmlId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний идентификатор отдела или команды"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания отдела или команды"
+    },
+    {
+      "name": "updatedAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления отдела или команды"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node/humanresources-node-move.html",
+  "executable": false
+}

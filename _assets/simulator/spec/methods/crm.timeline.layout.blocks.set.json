@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.layout.blocks.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить набор дополнительных контентных блоков в запись таймлайна crm.timeline.layout.blocks.set",
+  "permissions": "любой пользователь с правом на изменение элемента CRM, к которому привязана запись",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM, к которому привязана запись таймлайна"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM, к которому привязана запись таймлайна"
+    },
+    {
+      "name": "timelineId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи таймлайна"
+    },
+    {
+      "name": "layout",
+      "type": "RestAppLayoutDto",
+      "base": "any",
+      "required": true,
+      "description": "Объект, описывающий набор дополнительных контентных блоков"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/layout-blocks/crm-timeline-layout-blocks-set.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true
+    },
+    "time": {
+      "start": 1753341040.475739,
+      "finish": 1753341040.582705,
+      "duration": 0.10696601867675781,
+      "processing": 0.04708504676818848,
+      "date_start": "2025-07-24T17:57:20+00:00",
+      "date_finish": "2025-07-24T17:57:20+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. При успешном выполнении содержит объект с полем success. Если набор не установлен, возвращается null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/layout-blocks/crm-timeline-layout-blocks-set.html",
+  "executable": false
+}

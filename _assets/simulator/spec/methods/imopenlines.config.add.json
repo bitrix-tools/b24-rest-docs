@@ -1,0 +1,646 @@
+{
+  "$v": 1,
+  "method": "imopenlines.config.add",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Добавить открытую линию imopenlines.config.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "PARAMS",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с настройками открытой линии (подробное описание)",
+      "ref": "#/defs/PARAMSFields"
+    }
+  ],
+  "defs": {
+    "PARAMSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "LINE_NAME",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Название открытой линии"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Активность линии. Возможные значения: - Y — линия активна - N — линия неактивна"
+        },
+        {
+          "name": "QUEUE",
+          "type": "array",
+          "base": "array",
+          "required": "unknown",
+          "description": "Очередь операторов. Передается массив объектов с полями ENTITY_TYPE и ENTITY_ID. Возможные значения: - ENTITY_TYPE — пользователь user или подразделение department - ENTITY_ID — идентификатор объекта выбранного типа. Для user указывается ID пользователя, для department — ID подразделения Пример:"
+        },
+        {
+          "name": "QUEUE_TYPE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Режим распределения обращений. Возможные значения: - evenly — равномерно распределять обращения между операторами - strictly — направлять обращения строго по порядку очереди - all — направлять обращение всем операторам очереди"
+        },
+        {
+          "name": "QUEUE_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Время в секундах до перехода обращения к следующему оператору"
+        },
+        {
+          "name": "NO_ANSWER_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Время в секундах до срабатывания сценария без ответа"
+        },
+        {
+          "name": "WELCOME_MESSAGE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Отправлять приветственное сообщение. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "WELCOME_MESSAGE_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст приветственного сообщения"
+        },
+        {
+          "name": "WORKTIME_ENABLE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Учитывать рабочее время линии. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "WORKTIME_FROM",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Начало рабочего времени в формате HH:MM"
+        },
+        {
+          "name": "WORKTIME_TO",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Окончание рабочего времени в формате HH:MM"
+        },
+        {
+          "name": "WORKTIME_TIMEZONE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Часовой пояс, например Europe/Kaliningrad"
+        },
+        {
+          "name": "CRM",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Искать клиента в CRM. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CRM_CREATE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Что создавать в CRM для нового клиента"
+        },
+        {
+          "name": "VOTE_MESSAGE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Запрашивать оценку качества обслуживания. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "LANGUAGE_ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Язык линии, например ru"
+        },
+        {
+          "name": "CRM_CREATE_SECOND",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дополнительный режим создания элемента CRM"
+        },
+        {
+          "name": "CRM_CREATE_THIRD",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Создавать третий элемент CRM. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CRM_CHAT_TRACKER",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Включить чат-трекер для CRM. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CRM_FORWARD",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Переводить обращение на ответственного по CRM. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CRM_TRANSFER_CHANGE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Менять ответственного в CRM при переводе диалога. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CRM_SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Источник для создаваемого элемента CRM"
+        },
+        {
+          "name": "MAX_CHAT",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Максимальное число одновременных диалогов у оператора"
+        },
+        {
+          "name": "TYPE_MAX_CHAT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Тип ограничения MAX_CHAT. Возможные значения: - answered — учитывать только диалоги, в которых оператор уже ответил - answered_new — учитывать диалоги с ответом и новые диалоги - closed — учитывать закрытые диалоги"
+        },
+        {
+          "name": "CATEGORY_ENABLE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Включить категории. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CATEGORY_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор категории"
+        },
+        {
+          "name": "SESSION_PRIORITY",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Приоритет сессии в очереди"
+        },
+        {
+          "name": "WELCOME_BOT_ENABLE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Включить чат-бота приветствия. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "WELCOME_BOT_JOIN",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Когда подключать бота. Возможные значения: - first — подключать бота только в начале диалога - always — подключать бота в каждом диалоге"
+        },
+        {
+          "name": "WELCOME_BOT_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор чат-бота"
+        },
+        {
+          "name": "WELCOME_BOT_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Через сколько секунд переводить диалог от бота в очередь"
+        },
+        {
+          "name": "WELCOME_BOT_LEFT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Когда отключать бота. Возможные значения: - queue — отключать бота при переводе в очередь операторов - close — отключать бота при закрытии диалога"
+        },
+        {
+          "name": "CHECK_AVAILABLE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Проверять доступность оператора при распределении. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "WATCH_TYPING",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Показывать индикатор набора текста. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SEND_WELCOME_EACH_SESSION",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Отправлять приветствие в каждой сессии. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "OPERATOR_DATA",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Формат данных об операторе. Возможные значения: - profile — показывать профиль оператора - queue — показывать данные оператора из очереди - hide — скрывать данные оператора"
+        },
+        {
+          "name": "DEFAULT_OPERATOR_DATA",
+          "type": "object",
+          "base": "object",
+          "required": "unknown",
+          "description": "Данные оператора по умолчанию. Возможные поля: - NAME — имя оператора - AVATAR — ссылка на аватар оператора - AVATAR_ID — идентификатор файла аватара"
+        },
+        {
+          "name": "NO_ANSWER_RULE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Сценарий, если оператор не ответил. Возможные значения: - none — не выполнять сценарий - text — отправить текстовое сообщение"
+        },
+        {
+          "name": "NO_ANSWER_FORM_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор CRM-формы для сценария без ответа"
+        },
+        {
+          "name": "NO_ANSWER_BOT_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор чат-бота для сценария без ответа"
+        },
+        {
+          "name": "NO_ANSWER_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст для сценария без ответа"
+        },
+        {
+          "name": "WORKTIME_DAYOFF",
+          "type": "array",
+          "base": "array",
+          "required": "unknown",
+          "description": "Выходные дни. Возможные значения элементов: - MO — понедельник - TU — вторник - WE — среда - TH — четверг - FR — пятница - SA — суббота - SU — воскресенье"
+        },
+        {
+          "name": "WORKTIME_HOLIDAYS",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Праздничные дни в формате строки, перечисленные через запятую DD.MM,DD.MM"
+        },
+        {
+          "name": "WORKTIME_DAYOFF_RULE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Сценарий в нерабочее время. Возможные значения: - none — не выполнять сценарий - text — отправить текстовое сообщение"
+        },
+        {
+          "name": "WORKTIME_DAYOFF_FORM_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор CRM-формы для нерабочего времени"
+        },
+        {
+          "name": "WORKTIME_DAYOFF_BOT_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор чат-бота для нерабочего времени"
+        },
+        {
+          "name": "WORKTIME_DAYOFF_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст сообщения в нерабочее время"
+        },
+        {
+          "name": "CLOSE_RULE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Сценарий при закрытии. Возможные значения: - none — не выполнять сценарий - text — отправить текстовое сообщение"
+        },
+        {
+          "name": "CLOSE_FORM_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор CRM-формы при закрытии"
+        },
+        {
+          "name": "CLOSE_BOT_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор чат-бота при закрытии"
+        },
+        {
+          "name": "CLOSE_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст сообщения при закрытии"
+        },
+        {
+          "name": "VOTE_TIME_LIMIT",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Лимит времени на голосование"
+        },
+        {
+          "name": "VOTE_CLOSING_DELAY",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Закрывать сессию сразу после оценки. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "VOTE_BEFORE_FINISH",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Запрашивать оценку до завершения. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "VOTE_MESSAGE_1_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст запроса оценки в виджете"
+        },
+        {
+          "name": "VOTE_MESSAGE_1_LIKE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст после положительной оценки в виджете"
+        },
+        {
+          "name": "VOTE_MESSAGE_1_DISLIKE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст после отрицательной оценки в виджете"
+        },
+        {
+          "name": "VOTE_MESSAGE_2_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст запроса оценки в внешних каналах"
+        },
+        {
+          "name": "VOTE_MESSAGE_2_LIKE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст после положительной оценки в внешних каналах"
+        },
+        {
+          "name": "VOTE_MESSAGE_2_DISLIKE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст после отрицательной оценки в внешних каналах"
+        },
+        {
+          "name": "AUTO_CLOSE_RULE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Сценарий автозакрытия. Возможные значения: - none — не выполнять сценарий - text — отправить текстовое сообщение"
+        },
+        {
+          "name": "FULL_CLOSE_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Время полного закрытия после ручного закрытия"
+        },
+        {
+          "name": "AUTO_CLOSE_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Время до автозакрытия"
+        },
+        {
+          "name": "AUTO_CLOSE_FORM_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор CRM-формы для автозакрытия"
+        },
+        {
+          "name": "AUTO_CLOSE_BOT_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор чат-бота для автозакрытия"
+        },
+        {
+          "name": "AUTO_CLOSE_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст при автозакрытии"
+        },
+        {
+          "name": "AUTO_EXPIRE_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Срок жизни автоматически закрытой сессии"
+        },
+        {
+          "name": "TEMPORARY",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Создать временную линию. Возможные значения: - Y — создать временную линию - N — создать постоянную линию"
+        },
+        {
+          "name": "QUICK_ANSWERS_IBLOCK_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор инфоблока быстрых ответов"
+        },
+        {
+          "name": "KPI_FIRST_ANSWER_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Контроль времени первого ответа"
+        },
+        {
+          "name": "KPI_FIRST_ANSWER_ALERT",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Включить уведомление о первом ответе. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "KPI_FIRST_ANSWER_LIST",
+          "type": "array",
+          "base": "array",
+          "required": "unknown",
+          "description": "Список получателей уведомления о первом ответе"
+        },
+        {
+          "name": "KPI_FIRST_ANSWER_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст уведомления о первом ответе"
+        },
+        {
+          "name": "KPI_FURTHER_ANSWER_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Контроль времени последующих ответов"
+        },
+        {
+          "name": "KPI_FURTHER_ANSWER_ALERT",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Включить уведомление о последующих ответах. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "KPI_FURTHER_ANSWER_LIST",
+          "type": "array",
+          "base": "array",
+          "required": "unknown",
+          "description": "Список получателей уведомления о последующих ответах"
+        },
+        {
+          "name": "KPI_FURTHER_ANSWER_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Текст уведомления о последующих ответах"
+        },
+        {
+          "name": "KPI_CHECK_OPERATOR_ACTIVITY",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Контролировать активность оператора. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "USE_WELCOME_FORM",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Использовать приветственную CRM-форму. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "WELCOME_FORM_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор приветственной CRM-формы"
+        },
+        {
+          "name": "WELCOME_FORM_DELAY",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Показывать форму с задержкой. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CONFIRM_CLOSE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Запрашивать подтверждение закрытия. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "IGNORE_WELCOME_FORM_RESPONSIBLE",
+          "type": "char",
+          "base": "char",
+          "required": "unknown",
+          "description": "Игнорировать ответственного в приветственной форме. Возможные значения: - Y — да - N — нет"
+        }
+      ]
+    }
+  },
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/imopenlines-config-add.md"
+  },
+  "resultExample": {
+    "result": 15,
+    "time": {
+      "start": 1741688359.737944,
+      "finish": 1741688360.028349,
+      "duration": 0.2904050350189209,
+      "processing": 0.16270899772644043,
+      "date_start": "2025-03-11T10:25:59+03:00",
+      "date_finish": "2025-03-11T10:26:00+03:00",
+      "operating_reset_at": 1741688960,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор созданной открытой линии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/imopenlines-config-add.html",
+  "executable": false
+}

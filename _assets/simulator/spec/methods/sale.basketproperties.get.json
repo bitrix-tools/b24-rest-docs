@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "sale.basketproperties.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить значение свойства корзины sale.basketproperties.get",
+  "permissions": "менеджер магазина",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_basket_item_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор свойства элемента (позиции) корзины"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-properties/sale-basket-properties-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketProperty": {
+        "basketId": 6806,
+        "code": "ARTICUL",
+        "id": 17,
+        "name": "Артикул",
+        "sort": 100,
+        "value": "123-456-789",
+        "xmlId": "bx_662a44cff2b81"
+      }
+    },
+    "time": {
+      "start": 1714050273.999413,
+      "finish": 1714050274.990796,
+      "duration": 0.9913830757141113,
+      "processing": 0.17636895179748535,
+      "date_start": "2024-04-25T15:04:33+02:00",
+      "date_finish": "2024-04-25T15:04:34+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketProperty",
+      "type": "sale_basket_item_property",
+      "base": "any",
+      "required": false,
+      "description": "Объект с данными свойства элемента (позиции) корзины"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-properties/sale-basket-properties-get.html",
+  "executable": false,
+  "entityFields": [
+    "basketId",
+    "code",
+    "id",
+    "name",
+    "sort",
+    "value",
+    "xmlId"
+  ]
+}

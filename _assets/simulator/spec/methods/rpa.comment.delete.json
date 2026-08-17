@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "rpa.comment.delete",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Удалить комментарий rpa.comment.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/comment/rpa-comment-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/comment/rpa-comment-delete.html",
+  "executable": false
+}

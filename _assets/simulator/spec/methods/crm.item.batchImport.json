@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "crm.item.batchImport",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Импортировать группу записей crm.item.batchImport",
+  "permissions": "любой пользователь с правом «импорта» элемента объекта CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа, для которого нужно создать элемент. Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счёт — 31 и др.) приведены в справочнике типов объектов CRM. Идентификатор смарт-процесса можно узнать методом crm.type.list"
+    },
+    {
+      "name": "data",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив значений полей элементов. Можно рассматривать его как массив, каждый элемент которого содержит набор полей fields, описанный в методе crm.item.import",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "useOriginalUfNames",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Параметр для управления форматом имен пользовательских полей в запросе и ответе. Возможные значения: - Y — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830 - N — имена пользовательских полей в camelCase, например ufCrm2_1639669411830 По умолчанию — N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/import/crm-item-batch-import.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "item": {
+            "id": 15
+          }
+        },
+        {
+          "error": "CRM_FIELD_ERROR_REQUIRED",
+          "error_description": "Поле \"Название\" обязательно для заполнения"
+        }
+      ]
+    },
+    "time": {
+      "start": 1723414961.913589,
+      "finish": 1723414964.652124,
+      "duration": 2.738534927368164,
+      "processing": 2.376383066177368,
+      "date_start": "2024-08-11T22:22:41+00:00",
+      "date_finish": "2024-08-11T22:22:44+00:00",
+      "operating": 2.3762991428375244
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит единственный ключ item"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив содержащих объекты item или ошибки"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Информация о созданном элементе. Содержит единственный ключ id"
+    },
+    {
+      "name": "id",
+      "type": "int",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного элемента"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/import/crm-item-batch-import.html",
+  "executable": false
+}

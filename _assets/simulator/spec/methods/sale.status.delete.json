@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.status.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить статус sale.status.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_status.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор статуса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status/sale-status-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712144469.892859,
+      "finish": 1712144470.162582,
+      "duration": 0.26972293853759766,
+      "processing": 0.013709068298339844,
+      "date_start": "2024-04-03T14:41:09+03:00",
+      "date_finish": "2024-04-03T14:41:10+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления статуса"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status/sale-status-delete.html",
+  "executable": false
+}

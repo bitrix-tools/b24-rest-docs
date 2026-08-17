@@ -1,0 +1,128 @@
+{
+  "$v": 1,
+  "method": "catalog.section.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список разделов торгового каталога catalog.section.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта catalogsection). Если не передан или передан пустой массив, то будут выбраны все доступные поля раздела каталога",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных разделов каталога в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogsection. Поле iblockId является обязательным. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных разделов каталога в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogsection. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/section/catalog-section-list.md"
+  },
+  "resultExample": {
+    "sections": [
+      {
+        "id": 13,
+        "name": "Товары",
+        "sort": 500
+      },
+      {
+        "id": 14,
+        "name": "Услуги",
+        "sort": 500
+      },
+      {
+        "id": 22,
+        "name": "Обувь",
+        "sort": 50
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1712326352.63409,
+      "finish": 1712326352.8319,
+      "duration": 0.197818040847778,
+      "processing": 0.00833678245544434,
+      "date_start": "2024-04-05T16:12:32+02:00",
+      "date_finish": "2024-04-05T16:12:32+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "section",
+      "type": "catalog_section[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных разделах каталога"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/section/catalog-section-list.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "description",
+    "descriptionType",
+    "iblockId",
+    "iblockSectionId",
+    "name",
+    "sort",
+    "xmlId"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "placement.unbind",
+  "scope": "placement",
+  "kind": "write",
+  "title": "Удалить обработчик виджета placement.unbind",
+  "permissions": "администратор, авторизованный в приложении",
+  "params": [
+    {
+      "name": "PLACEMENT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код точки встраивания. PLACEMENT можно получить: - методом placement.list - методом placement.get в поле placement"
+    },
+    {
+      "name": "HANDLER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL обработчика виджета. HANDLER можно получить методом placement.get в поле handler. Если параметр не передан или передан пустым, метод удаляет все обработчики указанной точки встраивания, зарегистрированные приложением"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя Битрикс24, для которого был зарегистрирован обработчик. USER_ID можно получить: - методом user.get - методом user.current для текущего пользователя Если параметр передан, метод удаляет только обработчики указанного пользователя"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/widgets/placement-unbind.md"
+  },
+  "resultExample": {
+    "result": {
+      "count": 4
+    },
+    "time": {
+      "start": 1775058296,
+      "finish": 1775058296.998083,
+      "duration": 0.9980831146240234,
+      "processing": 0,
+      "date_start": "2026-04-01T18:44:56+03:00",
+      "date_finish": "2026-04-01T18:44:56+03:00",
+      "operating_reset_at": 1775058896,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом удаления: - count integer — число, которое метод увеличивает: - на 1 при каждой найденной записи обработчика перед вызовом удаления - еще на 1 после каждого успешного удаления"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/widgets/placement-unbind.html",
+  "executable": false
+}

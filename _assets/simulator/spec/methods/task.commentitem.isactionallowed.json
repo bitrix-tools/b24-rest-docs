@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "task.commentitem.isactionallowed",
+  "scope": "task",
+  "kind": "write",
+  "title": "Проверить, разрешено ли действие с комментарием task.commentitem.isactionallowed",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор комментария. Идентификатор комментария можно получить при добавлении нового комментария или методом получения списка комментариев"
+    },
+    {
+      "name": "ACTIONID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор проверяемого действия: - 1 — добавить комментарий - 2 — обновить комментарий - 3 — удалить комментарий"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/comment-item/task-comment-item-is-action-allowed.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1753275597.386571,
+      "finish": 1753275597.466896,
+      "duration": 0.08032512664794922,
+      "processing": 0.02973794937133789,
+      "date_start": "2025-07-23T15:59:57+03:00",
+      "date_finish": "2025-07-23T15:59:57+03:00",
+      "operating_reset_at": 1753276197,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат проверки разрешено ли действие: - true — разрешено - false — не разрешено Также возвращает false если в параметрах указаны несуществующие идентификаторы. Например, если задачи с ID = 95623 не существует в системе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/comment-item/task-comment-item-is-action-allowed.html",
+  "executable": false
+}

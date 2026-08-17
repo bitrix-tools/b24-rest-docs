@@ -1,0 +1,118 @@
+{
+  "$v": 1,
+  "method": "catalog.priceType.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Обновить тип цены catalog.priceType.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price_type.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор типа цены"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления типа цены (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Код типа цены"
+        },
+        {
+          "name": "base",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Является ли тип цены базовым. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код. Можно использовать для синхронизации текущего типа цены с аналогичной позицией во внешней системе"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/catalog-price-type-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceType": {
+        "base": "Y",
+        "createdBy": 1,
+        "dateCreate": "2024-10-02T17:49:44+02:00",
+        "id": 2,
+        "modifiedBy": 1,
+        "name": "Base wholesale price",
+        "sort": 1,
+        "timestampX": "2024-10-03T12:29:35+02:00",
+        "xmlId": "basewholesale"
+      }
+    },
+    "time": {
+      "start": 1712327086.69665,
+      "finish": 1712327086.95303,
+      "duration": 0.256376028060913,
+      "processing": 0.0112268924713135,
+      "date_start": "2024-10-03T12:29:35+02:00",
+      "date_finish": "2024-10-03T12:29:35+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceType",
+      "type": "catalog_price_type",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном типе цены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/catalog-price-type-update.html",
+  "executable": false
+}

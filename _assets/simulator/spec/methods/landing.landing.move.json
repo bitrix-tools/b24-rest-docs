@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "landing.landing.move",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Переместить страницу landing.landing.move",
+  "permissions": "пользователь с правами «редактирование» и «удаление» на сайте",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы, которую нужно переместить. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "toSiteId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сайта назначения. Если параметр не передан или равен 0, используется текущий сайт страницы. Идентификатор сайта можно получить методом landing.site.getList"
+    },
+    {
+      "name": "toFolderId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор папки назначения в целевом сайте. Если параметр не передан или равен 0, страница переносится в корень целевого сайта. Если переносите страницу в папку, эта папка должна относиться к тому же сайту. Сразу перенести страницу в другой сайт и в папку этого сайта нельзя — метод вернет ошибку.…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-move.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773789756,
+      "finish": 1773789756.4837,
+      "duration": 0.4837000370025635,
+      "processing": 0,
+      "date_start": "2026-03-18T02:22:36+03:00",
+      "date_finish": "2026-03-18T02:22:36+03:00",
+      "operating_reset_at": 1773790356,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат переноса. При успехе возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-move.html",
+  "executable": false
+}

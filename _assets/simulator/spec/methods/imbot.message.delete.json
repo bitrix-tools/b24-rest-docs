@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "imbot.message.delete",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Удалить сообщение imbot.message.delete",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота. Метод работает только с ботами этого приложения.",
+  "params": [
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода imbot.bot.list. Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением"
+    },
+    {
+      "name": "MESSAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения для удаления. Значение должно быть больше 0. Для сообщений, которые отправлены ботом через REST, идентификатор возвращает метод imbot.message.add"
+    },
+    {
+      "name": "COMPLETE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Режим удаления. Допустимые значения: - Y — удалить полностью, без отметки об удалении - N — обычное удаление, значение по умолчанию"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/messages/imbot-message-delete.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.Message.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/messages/imbot-message-delete.html",
+  "executable": false
+}

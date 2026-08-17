@@ -1,0 +1,131 @@
+{
+  "$v": 1,
+  "method": "timeman.timecontrol.reports.users.get",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить список пользователей подразделения timeman.timecontrol.reports.users.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "DEPARTMENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор подразделения. Параметр нужно указывать только руководителю или администратору. Получить идентификатор департамента можно методом получения списка подразделений"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/timecontrol/timeman-timecontrol-reports-users-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 3,
+        "name": "Мария Ившина",
+        "first_name": "Мария",
+        "last_name": "Ившина",
+        "work_position": "IT-специалист",
+        "avatar": "http://test.bitrix24.com/upload/resize_cache/45749/7acf4ca766af5d8/main/c89/c89c6b73470635c/4R5A1256.png",
+        "personal_gender": "F",
+        "last_activity_date": "2025-05-29T16:41:00+03:00"
+      }
+    ],
+    "time": {
+      "start": 1748526089.625516,
+      "finish": 1748526089.656787,
+      "duration": 0.03127098083496094,
+      "processing": 0.008746147155761719,
+      "date_start": "2025-05-29T16:41:29+03:00",
+      "date_finish": "2025-05-29T16:41:29+03:00",
+      "operating_reset_at": 1748526689,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив пользователей"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Полное имя пользователя"
+    },
+    {
+      "name": "first_name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя"
+    },
+    {
+      "name": "last_name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Фамилия"
+    },
+    {
+      "name": "work_position",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Должность"
+    },
+    {
+      "name": "avatar",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "URL аватара пользователя. Если значение пустое, у пользователя нет аватара"
+    },
+    {
+      "name": "personal_gender",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пол"
+    },
+    {
+      "name": "last_activity_date",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата последнего действия пользователя в формате ATOM"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-reports-users-get.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "first_name",
+    "id",
+    "last_activity_date",
+    "last_name",
+    "name",
+    "personal_gender",
+    "work_position"
+  ]
+}

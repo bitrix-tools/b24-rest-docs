@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "humanresources.employee.count",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Получить количество сотрудников humanresources.employee.count",
+  "permissions": "авторизованный пользователь, привязанный к отделу в структуре компании",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с данными ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество уникальных сотрудников в структуре компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/employee/humanresources-employee-count.md"
+  },
+  "resultExample": {
+    "result": {
+      "total": 128
+    },
+    "time": {
+      "start": 1780407600,
+      "finish": 1780407600.094112,
+      "duration": 0.09411191940307617,
+      "processing": 0.06981205940246582,
+      "date_start": "2026-06-02T16:40:00+03:00",
+      "date_finish": "2026-06-02T16:40:00+03:00",
+      "operating_reset_at": 1780408200,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество уникальных сотрудников в структуре компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/employee/humanresources-employee-count.html",
+  "executable": false
+}

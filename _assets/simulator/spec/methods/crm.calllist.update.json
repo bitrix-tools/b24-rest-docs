@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "crm.calllist.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить состав списка обзвона crm.calllist.update",
+  "permissions": "пользователь с правами на чтение элементов CRM",
+  "params": [
+    {
+      "name": "LIST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор обзвона"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта: - CONTACT — контакт, - COMPANY — компания"
+    },
+    {
+      "name": "ENTITIES",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив ID контактов или компаний, получить можно методом crm.item.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "WEBFORM_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "ID CRM-формы, которая будет выводиться в форме обзвона. ID можно найти в списке форм Битрикс24 https://your-domain.ru/crm/webform/"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/call-list/crm-calllist-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1752562914.533195,
+      "finish": 1752562914.606445,
+      "duration": 0.07325005531311035,
+      "processing": 0.044027090072631836,
+      "date_start": "2025-07-15T10:01:54+03:00",
+      "date_finish": "2025-07-15T10:01:54+03:00",
+      "operating_reset_at": 1752563514,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/call-list/crm-calllist-update.html",
+  "executable": false
+}

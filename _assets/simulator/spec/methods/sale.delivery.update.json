@@ -1,0 +1,94 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.update",
+  "scope": "delivery",
+  "kind": "write",
+  "title": "Обновить службу доставки sale.delivery.update",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_delivery_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор службы доставки. Получить идентификаторы служб доставки можно с помощью метода sale.delivery.getlist"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название службы доставки"
+    },
+    {
+      "name": "CURRENCY",
+      "type": "crm_currency.CURRENCY",
+      "base": "any",
+      "required": false,
+      "description": "Символьный код валюты службы доставки"
+    },
+    {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание службы доставки"
+    },
+    {
+      "name": "SORT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Сортировка"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Индикатор активности службы доставки. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "LOGOTYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Логотип службы доставки (base64-encoded строка)"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/delivery/sale-delivery-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1713950516.938559,
+      "finish": 1713950517.279213,
+      "duration": 0.3406538963317871,
+      "processing": 0.0717771053314209,
+      "date_start": "2024-04-24T12:21:56+03:00",
+      "date_finish": "2024-04-24T12:21:57+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления службы доставки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/delivery/sale-delivery-update.html",
+  "executable": false
+}

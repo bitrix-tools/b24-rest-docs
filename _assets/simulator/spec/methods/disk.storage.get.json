@@ -1,0 +1,120 @@
+{
+  "$v": 1,
+  "method": "disk.storage.get",
+  "scope": "disk",
+  "kind": "read",
+  "title": "Получить описание хранилища disk.storage.get",
+  "permissions": "пользователь с правом «Чтение» для нужного хранилища",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор хранилища. Идентификатор можно получить с помощью метода disk.storage.getList"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/storage/disk-storage-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "1357",
+      "NAME": "Хранилище",
+      "CODE": null,
+      "MODULE_ID": "disk",
+      "ENTITY_TYPE": "user",
+      "ENTITY_ID": "1269",
+      "ROOT_OBJECT_ID": "8875"
+    },
+    "time": {
+      "start": 1769545048,
+      "finish": 1769545048.556574,
+      "duration": 0.5565741062164307,
+      "processing": 0,
+      "date_start": "2026-01-26T16:37:28+03:00",
+      "date_finish": "2026-01-26T16:37:28+03:00",
+      "operating_reset_at": 1769545648,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с данными о хранилище. Возвращает null, если id не число"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя хранилища"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код хранилища"
+    },
+    {
+      "name": "MODULE_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор модуля, которому принадлежит хранилище"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта, с которым связано хранилище. Возможные значения: - user — хранилище пользователя - common — хранилище общих документов - group — хранилище группы"
+    },
+    {
+      "name": "ENTITY_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор объекта, с которым связано хранилище"
+    },
+    {
+      "name": "ROOT_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор корневой папки хранилища"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/storage/disk-storage-get.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "ENTITY_ID",
+    "ENTITY_TYPE",
+    "ID",
+    "MODULE_ID",
+    "NAME",
+    "ROOT_OBJECT_ID"
+  ]
+}

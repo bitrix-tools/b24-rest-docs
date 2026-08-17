@@ -1,0 +1,123 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.member.set",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Обновить состав участников отдела humanresources.node.member.set",
+  "permissions": "пользователь с правом «Добавление сотрудников в отдел» или «Добавление участников в команду»",
+  "params": [
+    {
+      "name": "nodeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "userIds",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект со списками идентификаторов пользователей в формате {\"Роль_пользователя\": [Идентификатор_пользователя]}. Описание структуры объекта Метод добавляет новых участников, обновляет роли существующих и удаляет из отдела пользователей, которых нет во входном объекте userIds. Идентификаторы пользователей можно получить методом user.get",
+      "ref": "#/defs/userIdsFields"
+    }
+  ],
+  "defs": {
+    "userIdsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "MEMBER_HEAD",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы руководителей отдела"
+        },
+        {
+          "name": "MEMBER_DEPUTY_HEAD",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы заместителей руководителя отдела"
+        },
+        {
+          "name": "MEMBER_EMPLOYEE",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы сотрудников отдела"
+        },
+        {
+          "name": "MEMBER_TEAM_HEAD",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы руководителей команды"
+        },
+        {
+          "name": "MEMBER_TEAM_DEPUTY_HEAD",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы заместителей руководителя команды"
+        },
+        {
+          "name": "MEMBER_TEAM_EMPLOYEE",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы участников команды"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node-member/humanresources-node-member-set.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true
+    },
+    "time": {
+      "start": 1780405900,
+      "finish": 1780405900.242662,
+      "duration": 0.2426619529724121,
+      "processing": 0.19870305061340332,
+      "date_start": "2026-06-02T16:11:40+03:00",
+      "date_finish": "2026-06-02T16:11:40+03:00",
+      "operating_reset_at": 1780406500,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом операции"
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Значение true, если состав участников успешно обновлен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node-member/humanresources-node-member-set.html",
+  "executable": false
+}

@@ -1,0 +1,137 @@
+{
+  "$v": 1,
+  "method": "crm.company.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список компаний по фильтру crm.company.list",
+  "permissions": "пользователь с правом «Чтение» компаний",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которыми можно ограничить выборку. При выборке можно использовать маски: - '*' — для выборки всех полей, без пользовательских и множественных, - 'UF_*' — для выборки всех пользовательских полей без множественных. Маски для выборки множественных полей нет. Для выборки множественных полей укажите нужные в списке выбора — PHONE, EMAIL и так далее.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля, по которому будет отфильтрована выборка элементов - value_n — значение фильтра К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля, по которому будет произведена сортировка выборки компаний - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных полей для сортировки можно узнать с помощью метода crm.company.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/crm-company-list.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.list"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "TITLE": "Перекресток",
+        "ASSIGNED_BY_ID": "811",
+        "ID": "2919",
+        "PHONE": [
+          {
+            "ID": "8303",
+            "VALUE_TYPE": "WORK",
+            "VALUE": "+79998887766",
+            "TYPE_ID": "PHONE"
+          }
+        ]
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1769498859,
+      "finish": 1769498859.948139,
+      "duration": 0.948138952255249,
+      "processing": 0,
+      "date_start": "2026-01-27T10:27:39+03:00",
+      "date_finish": "2026-01-27T10:27:39+03:00",
+      "operating_reset_at": 1769499459,
+      "operating": 0.1621239185333252
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив компаний, соответствующих фильтру. Формат возвращаемых данных зависит от параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных компаний"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/crm-company-list.html",
+  "executable": true,
+  "entityFields": [
+    "ASSIGNED_BY_ID",
+    "COMMENTS",
+    "COMPANY_TYPE",
+    "CURRENCY_ID",
+    "EMAIL",
+    "EMPLOYEES",
+    "ID",
+    "IM",
+    "INDUSTRY",
+    "IS_MY_COMPANY",
+    "LOGO",
+    "OPENED",
+    "PARENT_ID_...",
+    "PHONE",
+    "REVENUE",
+    "TITLE",
+    "UF_...",
+    "UTM_CAMPAIGN",
+    "UTM_CONTENT",
+    "UTM_MEDIUM",
+    "UTM_SOURCE",
+    "UTM_TERM",
+    "WEB"
+  ]
+}

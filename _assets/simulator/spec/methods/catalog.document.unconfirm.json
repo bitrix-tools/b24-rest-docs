@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "catalog.document.unconfirm",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Отменить проведение документа catalog.document.unconfirm",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/outdated/catalog-document-unconfirm.md"
+  },
+  "deprecated": {
+    "successor": "catalog.document.cancel"
+  },
+  "page": "/api-reference/catalog/document/outdated/catalog-document-unconfirm.html",
+  "executable": false
+}

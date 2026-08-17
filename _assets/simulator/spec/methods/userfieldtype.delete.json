@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "userfieldtype.delete",
+  "scope": "placement",
+  "kind": "write",
+  "title": "Удалить зарегистрированный тип пользовательских полей userfieldtype.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "USER_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код типа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/widgets/user-field/userfieldtype-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724421710.397825,
+      "finish": 1724421711.040353,
+      "duration": 0.6425280570983887,
+      "processing": 0.00005888938903808594,
+      "date_start": "2024-08-23T16:01:50+02:00",
+      "date_finish": "2024-08-23T16:01:51+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления типа пользовательских полей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/widgets/user-field/userfieldtype-delete.html",
+  "executable": false
+}

@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "im.disk.file.save",
+  "scope": "im",
+  "kind": "write",
+  "title": "Сохранить файл на свой диск im.disk.file.save",
+  "permissions": "участник чата",
+  "params": [
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/files/im-disk-file-save.md"
+  },
+  "resultExample": {
+    "result": {
+      "folder": {
+        "id": 4821,
+        "name": "Сохраненные файлы"
+      },
+      "file": {
+        "id": 5159,
+        "name": "image.jpg"
+      }
+    },
+    "time": {
+      "start": 1772193101,
+      "finish": 1772193101.625023,
+      "duration": 0.6250228881835938,
+      "processing": 0,
+      "date_start": "2026-02-27T14:51:41+03:00",
+      "date_finish": "2026-02-27T14:51:41+03:00",
+      "operating_reset_at": 1772193701,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "result.folder",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Папка Сохраненные файлы на личном диске (подробное описание)"
+    },
+    {
+      "name": "result.file",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Сохраненный файл (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/files/im-disk-file-save.html",
+  "executable": false
+}

@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "tasks.template.update",
+  "scope": "task",
+  "kind": "write",
+  "title": "Обновить шаблон задачи tasks.template.update",
+  "permissions": "пользователь с правом редактирования шаблона",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона задачи. Идентификатор шаблона задачи можно получить при создании нового шаблона"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Поля шаблона, которые нужно изменить. Поля и типы значений соответствуют описанию на странице Поля шаблона задачи",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/tasks-template-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773221471,
+      "finish": 1773221471.833299,
+      "duration": 0.833298921585083,
+      "processing": 0,
+      "date_start": "2026-03-11T12:31:11+03:00",
+      "date_finish": "2026-03-11T12:31:11+03:00",
+      "operating_reset_at": 1773222071,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если шаблон успешно обновлен. Возвращает false - шаблона с указанным templateId не существует - если у пользователя нет доступа к редактированию шаблона"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/tasks-template-update.html",
+  "executable": false
+}

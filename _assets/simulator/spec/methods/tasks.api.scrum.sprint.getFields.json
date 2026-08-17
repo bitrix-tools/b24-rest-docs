@@ -1,0 +1,162 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.sprint.getFields",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список доступных полей спринта tasks.api.scrum.sprint.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы (Скрама), к которой относится спринт"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название спринта"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Сортировка"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, создавшего спринт"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, изменившего спринт"
+    },
+    {
+      "name": "dateStart",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата начала спринта в формате ISO 8601"
+    },
+    {
+      "name": "dateEnd",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата окончания спринта в формате ISO 8601"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Статус спринта"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": {
+        "groupId": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer"
+        },
+        "createdBy": {
+          "type": "integer"
+        },
+        "modifiedBy": {
+          "type": "integer"
+        },
+        "dateStart": {
+          "type": "string"
+        },
+        "dateEnd": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "returns": [
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы (Скрама), к которой относится спринт"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название спринта"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Сортировка"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, создавшего спринт"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, изменившего спринт"
+    },
+    {
+      "name": "dateStart",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата начала спринта в формате ISO 8601"
+    },
+    {
+      "name": "dateEnd",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата окончания спринта в формате ISO 8601"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Статус спринта"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get-fields.html",
+  "executable": false
+}

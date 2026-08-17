@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "telephony.externalCall.show",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Показать карточку звонка пользователю telephony.externalCall.show",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор звонка из метода telephony.externalCall.register"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer/array",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор пользователя или массив идентификаторов пользователей. Идентификатор можно получить методом user.get. По умолчанию — пользователь, указанный при регистрации звонка"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-call-show.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773131821,
+      "finish": 1773131822.195407,
+      "duration": 1.1954069137573242,
+      "processing": 1,
+      "date_start": "2026-03-10T11:37:01+03:00",
+      "date_finish": "2026-03-10T11:37:02+03:00",
+      "operating_reset_at": 1773132421,
+      "operating": 0.2850658893585205
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true — карточка показана, false — звонок не найден"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-call-show.html",
+  "executable": false
+}

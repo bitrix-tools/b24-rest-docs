@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.template.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить шаблон документа crm.documentgenerator.template.delete",
+  "permissions": "пользователь с правом \"изменения\" шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор шаблона"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/templates/crm-document-generator-template-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1773844531,
+      "finish": 1773844531.844605,
+      "duration": 0.8446049690246582,
+      "processing": 0,
+      "date_start": "2026-03-18T17:35:31+03:00",
+      "date_finish": "2026-03-18T17:35:31+03:00",
+      "operating_reset_at": 1773845131,
+      "operating": 0.3437991142272949
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа. Для метода удаления возвращается null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/templates/crm-document-generator-template-delete.html",
+  "executable": false
+}

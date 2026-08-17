@@ -1,0 +1,119 @@
+{
+  "$v": 1,
+  "method": "crm.contact.details.configuration.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить параметры карточки crm.contact.details.configuration.get",
+  "permissions": "> - любой пользователь может получить свои личные и общие настройки",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Нужен только при запросе чужих личных настроек. Если не задан, то берется текущий"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/custom-form/crm-contact-details-configuration-get.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.get"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "name": "main",
+        "title": "О контакте",
+        "type": "section",
+        "elements": [
+          {
+            "name": "LAST_NAME",
+            "optionFlags": "0"
+          },
+          {
+            "name": "PHOTO",
+            "optionFlags": "0"
+          },
+          {
+            "name": "NAME",
+            "optionFlags": "1"
+          },
+          {
+            "name": "SECOND_NAME",
+            "optionFlags": "1"
+          },
+          {
+            "name": "BIRTHDATE",
+            "optionFlags": "1"
+          },
+          {
+            "name": "PHONE",
+            "optionFlags": "1",
+            "options": {
+              "defaultCountry": "AU"
+            }
+          },
+          {
+            "name": "EMAIL",
+            "optionFlags": "1"
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TYPE_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "SOURCE_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "OPENED",
+            "optionFlags": "0"
+          },
+          {
+            "name": "EXPORT",
+            "optionFlags": "0"
+          },
+          {
+            "name": "ASSIGNED_BY_ID",
+            "optionFlags": "0"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "start": 1724677217.639681,
+      "finish": 1724677217.986853,
+      "duration": 0.3471717834472656,
+      "processing": 0.01840806007385254,
+      "date_start": "2024-08-26T15:00:17+02:00",
+      "date_finish": "2024-08-26T15:00:17+02:00",
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/crm/contacts/custom-form/crm-contact-details-configuration-get.html",
+  "executable": false,
+  "entityFields": [
+    "elements",
+    "name",
+    "title",
+    "type"
+  ]
+}

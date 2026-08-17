@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "landing.block.addcard",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Добавить карточку блока landing.block.addcard",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getlist"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор блока в версии страницы для редактирования. Идентификатор блока можно получить методом landing.block.getlist с параметром params.edit_mode = 1"
+    },
+    {
+      "name": "selector",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Селектор карточки из ключа cards манифеста блока После селектора можно указать индекс через @<индекс>. Например, @0 добавит новую карточку после первой найденной, а @2 — после третьей. Если индекс указан, метод вставляет новую карточку после выбранной. Если эта карточка последняя, новая карточка появится в конце контейнера.…"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "HTML новой карточки. Если нужно взять существующую разметку блока за основу, получите HTML методом landing.block.getcontent и используйте структуру карточки из текущего блока. Если передать пустую строку или после фильтрации содержимое станет пустым, метод сработает как landing.block.clonecard и создаст копию карточки, указанной в selector"
+    },
+    {
+      "name": "preventHistory",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Не добавлять действие в историю изменений страницы. Возможные значения: true - не сохранять действие в истории, false - сохранить действие в истории. По умолчанию - false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-add-card.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774524862,
+      "finish": 1774524862.61318,
+      "duration": 0.6131799221038818,
+      "processing": 0,
+      "date_start": "2026-03-26T14:34:22+03:00",
+      "date_finish": "2026-03-26T14:34:22+03:00",
+      "operating_reset_at": 1774525462,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат добавления карточки. При успешном выполнении возвращается true, идентификатор новой карточки в ответ не приходит"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-add-card.html",
+  "executable": false
+}

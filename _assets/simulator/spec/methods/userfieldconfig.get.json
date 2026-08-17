@@ -1,0 +1,146 @@
+{
+  "$v": 1,
+  "method": "userfieldconfig.get",
+  "scope": "userfieldconfig",
+  "kind": "read",
+  "title": "Получить настройки пользовательского поля userfieldconfig.get",
+  "permissions": "пользователь с правом чтения объекта, которому принадлежит поле, в модуле moduleId",
+  "params": [
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор модуля, в котором находится поле"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настроек пользовательского поля. Идентификатор можно получить методом userfieldconfig.list или при создании поля методом userfieldconfig.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/userfieldconfig/userfieldconfig-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "field": {
+        "id": "7095",
+        "entityId": "CRM_7",
+        "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
+        "userTypeId": "enumeration",
+        "xmlId": null,
+        "sort": "100",
+        "multiple": "Y",
+        "mandatory": "N",
+        "showFilter": "N",
+        "showInList": "Y",
+        "editInList": "Y",
+        "isSearchable": "N",
+        "settings": {
+          "DISPLAY": "LIST",
+          "LIST_HEIGHT": 1,
+          "CAPTION_NO_VALUE": "",
+          "SHOW_NO_VALUE": "Y"
+        },
+        "languageId": {
+          "en": "en",
+          "ru": "ru"
+        },
+        "editFormLabel": {
+          "en": "List of characteristics",
+          "ru": "Список характеристик"
+        },
+        "listColumnLabel": {
+          "en": null,
+          "ru": null
+        },
+        "listFilterLabel": {
+          "en": null,
+          "ru": null
+        },
+        "errorMessage": {
+          "en": null,
+          "ru": null
+        },
+        "helpMessage": {
+          "en": null,
+          "ru": null
+        },
+        "enum": [
+          {
+            "id": "3671",
+            "userFieldId": "7095",
+            "value": "Характеристика 1",
+            "def": "N",
+            "sort": "100",
+            "xmlId": "38a8c98a5de02f8ccdca2244e5065ecd"
+          },
+          {
+            "id": "3673",
+            "userFieldId": "7095",
+            "value": "Характеристика 2",
+            "def": "Y",
+            "sort": "200",
+            "xmlId": "9520e17b39f3525b820b809914b52207"
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1774355752,
+      "finish": 1774355752.177393,
+      "duration": 0.17739295959472656,
+      "processing": 0,
+      "date_start": "2026-03-24T15:35:52+03:00",
+      "date_finish": "2026-03-24T15:35:52+03:00",
+      "operating_reset_at": 1774356352,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Если поле не найдено, может вернуться null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-get.html",
+  "executable": false,
+  "entityFields": [
+    "editFormLabel",
+    "editInList",
+    "entityId",
+    "enum",
+    "errorMessage",
+    "fieldName",
+    "helpMessage",
+    "id",
+    "isSearchable",
+    "languageId",
+    "listColumnLabel",
+    "listFilterLabel",
+    "mandatory",
+    "multiple",
+    "settings",
+    "showFilter",
+    "showInList",
+    "sort",
+    "userTypeId",
+    "xmlId"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.link.unregister",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить связь реквизита с объектом crm.requisite.link.unregister",
+  "permissions": "пользователь с правом на изменение объекта CRM, для которого удаляется связь",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта, к которому относится связь. Могут использоваться следующие типы: - сделка (значение 2) - старый счет (значение 5) - предложение (значение 7) - новый счет (значение 31) - другие динамические объекты (для получения возможных значений смотрите метод crm.type.list). Идентификаторы типов объектов CRM можно получить с помощью метода crm.enum.ownertype"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта, к которому относится связь. Идентификаторы объектов можно получить с помощью следующих методов: crm.deal.list, crm.quote.list, crm.item.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/links/crm-requisite-link-unregister.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718797597.015625,
+      "finish": 1718797598.098317,
+      "duration": 1.0826919078826904,
+      "processing": 0.13887691497802734,
+      "date_start": "2024-06-19T13:46:37+02:00",
+      "date_finish": "2024-06-19T13:46:38+02:00",
+      "operating": 0.1388249397277832
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления связи: - true — связь удалена - false — связь не удалена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/links/crm-requisite-link-unregister.html",
+  "executable": false
+}

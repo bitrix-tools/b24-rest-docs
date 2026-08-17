@@ -1,0 +1,111 @@
+{
+  "$v": 1,
+  "method": "timeman.timecontrol.reports.get",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить отчет о выявленных отсутствиях timeman.timecontrol.reports.get",
+  "permissions": "любой пользователь с правом просмотра отчетов",
+  "params": [
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, для которого запрашиваются отчеты. Получить идентификатор пользователя можно методом user.get"
+    },
+    {
+      "name": "MONTH",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Номер месяца"
+    },
+    {
+      "name": "YEAR",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Год"
+    },
+    {
+      "name": "IDLE_MINUTES",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Максимальное время отсутствия на рабочем месте, которое не учитывается как отсутствие. Параметр доступен руководителю и администратору. Если не указывать, используется время из настроек модуля"
+    },
+    {
+      "name": "WORKDAY_HOURS",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Продолжительность рабочего дня в часах. По умолчанию — 8 часов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/timecontrol/timeman-timecontrol-reports-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "report",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Информация об отчете"
+    },
+    {
+      "name": "month_title",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название месяца"
+    },
+    {
+      "name": "date_start",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата начала периода выборки в формате ATOM"
+    },
+    {
+      "name": "date_finish",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата окончания периода выборки в формате ATOM"
+    },
+    {
+      "name": "days",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список объектов с описанием отработанных дней"
+    },
+    {
+      "name": "user",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с информацией о пользователе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-reports-get.html",
+  "executable": false
+}

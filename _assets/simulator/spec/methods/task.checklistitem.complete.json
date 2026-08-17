@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.complete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Пометить пункт чек-листа как выполненный task.checklistitem.complete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта можно получить при добавлении нового пункта или методом получения списка пунктов чек-листа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-complete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1764595600,
+      "finish": 1764595601.102143,
+      "duration": 1.1021428108215332,
+      "processing": 0,
+      "date_start": "2025-12-01T16:26:40+03:00",
+      "date_finish": "2025-12-01T16:26:41+03:00",
+      "operating_reset_at": 1764596201,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если пункт чек-листа отмечен как выполненный. Возвращает false, если указанный ITEMID не существует или параметры переданы в неверном порядке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-complete.html",
+  "executable": false
+}

@@ -1,0 +1,202 @@
+{
+  "$v": 1,
+  "method": "sale.property.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Обновить свойство заказа sale.property.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор свойства заказа"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания свойства заказа",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название свойства заказа"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код свойства заказа"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор активности свойства заказа. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию значение Y"
+        },
+        {
+          "name": "util",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор, является ли свойство заказа служебным. Служебные свойства заказа не отображаются в публичной части. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию значение N"
+        },
+        {
+          "name": "userProps",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор, входит ли свойство заказа в профиль покупателя. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию значение N"
+        },
+        {
+          "name": "isFiltered",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор, доступно ли свойство заказа в фильтре на странице списка заказов. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию значение N"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание свойства заказа"
+        },
+        {
+          "name": "required",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор обязательности заполнения значения свойства заказа. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию значение N"
+        },
+        {
+          "name": "multiple",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор, является ли свойство заказа множественным. Для множественных свойств возможно указать несколько значений. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию значение N"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор свойства заказа"
+        },
+        {
+          "name": "defaultValue",
+          "type": "any",
+          "base": "any",
+          "required": false,
+          "description": "Дефолтное значение свойства заказа. Для свойств типа file нужно передать объект в формате {\"fileData\": [\"value1\", \"value2\"]}: - value1 — название файла с расширением, - value2 — файл в формате base64. Для удаления файла используется объект в формате {\"remove\": \"Y\"}.…"
+        },
+        {
+          "name": "settings",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"} для передачи дополнительных настроек свойства заказа. Список поддерживаемых ключей этого объекта зависит от типа свойства. Для некоторых типов свойств (например, Y/N) дополнительные свойства не предусмотрены. Описание параметра settings для разных типов свойств приведено в описании метода sale.property.add"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property/sale-property-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "property": {
+        "active": "Y",
+        "code": "PHONE",
+        "defaultValue": "",
+        "description": "описание свойства",
+        "id": 96,
+        "inputFieldLocation": "0",
+        "isAddress": "N",
+        "isAddressFrom": "N",
+        "isAddressTo": "N",
+        "isEmail": "N",
+        "isFiltered": "N",
+        "isLocation": "N",
+        "isLocation4tax": "N",
+        "isPayer": "Y",
+        "isPhone": "N",
+        "isProfileName": "Y",
+        "isZip": "N",
+        "multiple": "N",
+        "name": "Телефон (для связи с курьером)",
+        "personTypeId": 3,
+        "propsGroupId": 6,
+        "required": "Y",
+        "settings": {
+          "maxlength": "100",
+          "multiline": "Y"
+        },
+        "sort": 500,
+        "type": "STRING",
+        "userProps": "Y",
+        "util": "N",
+        "xmlId": ""
+      }
+    },
+    "time": {
+      "start": 1712818736.235335,
+      "finish": 1712818736.611224,
+      "duration": 0.3758888244628906,
+      "processing": 0.18679594993591309,
+      "date_start": "2024-04-11T09:58:56+03:00",
+      "date_finish": "2024-04-11T09:58:56+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "property",
+      "type": "sale_order_property",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном свойстве заказа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property/sale-property-update.html",
+  "executable": false
+}

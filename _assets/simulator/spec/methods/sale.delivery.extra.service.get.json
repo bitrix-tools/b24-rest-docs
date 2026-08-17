@@ -1,0 +1,99 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.extra.service.get",
+  "scope": "delivery",
+  "kind": "read",
+  "title": "Получить информацию обо всех услугах конкретной службы доставки sale.delivery.extra.service.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "DELIVERY_ID",
+      "type": "sale_delivery_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор службы доставки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/extra-service/sale-delivery-extra-service-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "136",
+        "CODE": "door_delivery",
+        "NAME": "Door Delivery",
+        "DESCRIPTION": "Door Delivery Description",
+        "ACTIVE": "Y",
+        "SORT": "100",
+        "TYPE": "checkbox",
+        "PRICE": 99.99
+      },
+      {
+        "ID": "129",
+        "CODE": "cargo_type",
+        "NAME": "Cargo Type",
+        "DESCRIPTION": "Cargo Type",
+        "ACTIVE": "Y",
+        "SORT": "200",
+        "TYPE": "enum",
+        "ITEMS": [
+          {
+            "TITLE": "Documents",
+            "CODE": null,
+            "PRICE": "69.99"
+          },
+          {
+            "TITLE": "Small Package(s)",
+            "CODE": null,
+            "PRICE": "129.99"
+          },
+          {
+            "TITLE": "Large Package(s)",
+            "CODE": null,
+            "PRICE": "199.99"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "start": 1714551728.295288,
+      "finish": 1714551728.519896,
+      "duration": 0.2246079444885254,
+      "processing": 0.01918506622314453,
+      "date_start": "2024-05-01T11:22:08+03:00",
+      "date_finish": "2024-05-01T11:22:08+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_delivery_extra_service[]",
+      "base": "array",
+      "required": false,
+      "description": "Список всех услуг службы доставки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "CODE",
+    "DESCRIPTION",
+    "ID",
+    "NAME",
+    "PRICE",
+    "SORT",
+    "TYPE"
+  ]
+}

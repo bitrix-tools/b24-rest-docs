@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "im.chat.mute",
+  "scope": "im",
+  "kind": "write",
+  "title": "Отключить уведомления от чата im.chat.mute",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чата. Обязателен, если не передан DIALOG_ID. Получить идентификатор можно с помощью метода im.chat.get"
+    },
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор чата в формате: - chatXXX — чат - sgXXX — чат группы или проекта - XXX — идентификатор пользователя личного чата Обязателен, если не передан CHAT_ID. Передайте либо CHAT_ID, либо DIALOG_ID. Идентификатор чата можно получить с помощью метода im.chat.get. Идентификатор пользователя — с помощью методов user.get и user.search"
+    },
+    {
+      "name": "MUTE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Управление уведомлениями: - Y — отключить уведомления - N — включить уведомления По умолчанию — Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/special-operations/im-chat-mute.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772541297,
+      "finish": 1772541297.419046,
+      "duration": 0.41904592514038086,
+      "processing": 0,
+      "date_start": "2026-03-03T15:34:57+03:00",
+      "date_finish": "2026-03-03T15:34:57+03:00",
+      "operating_reset_at": 1772541897,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если уведомления успешно отключены или включены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/special-operations/im-chat-mute.html",
+  "executable": false
+}

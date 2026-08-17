@@ -1,0 +1,88 @@
+{
+  "$v": 1,
+  "method": "imopenlines.bot.session.transfer",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Перевести диалог на оператора или очередь imopenlines.bot.session.transfer",
+  "permissions": "пользователь приложения с зарегистрированным чат-ботом",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата, диалог которого нужно перевести. Идентификатор чата можно получить с помощью методов imopenlines.dialog.get или imopenlines.crm.chat.get"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сотрудника, на которого нужно перевести диалог. Идентификатор пользователя можно получить с помощью методов user.get или user.search"
+    },
+    {
+      "name": "QUEUE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор очереди, в которую нужно перевести диалог. В параметр передавайте значение поля ID из ответа метода imopenlines.config.list.get. Поле QUEUE из ответа imopenlines.config.list.get содержит USER_ID сотрудников очереди и не подходит как QUEUE_ID"
+    },
+    {
+      "name": "TRANSFER_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Универсальный параметр назначения перевода. Допустимые форматы: USER_ID сотрудника или строка queue<QUEUE_ID>. Идентификатор пользователя можно получить методами user.get и user.search, идентификатор очереди — методом imopenlines.config.list.get"
+    },
+    {
+      "name": "LEAVE",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Флаг присутствия чат-бота в диалоге после перевода. Допустимые значения: - Y — бот покидает чат сразу - N — бот остается до подтверждения перевода По умолчанию используется N"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте: - тот же CLIENT_ID, который был указан при регистрации чат-бота методом imbot.register - или значение параметра botToken, переданного при регистрации чат-бота методом imbot.v2.Bot.register"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-transfer.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.456,
+      "finish": 1728626400.539,
+      "duration": 0.083,
+      "processing": 0.031,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Содержит true, если диалог успешно переведен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-transfer.html",
+  "executable": false
+}

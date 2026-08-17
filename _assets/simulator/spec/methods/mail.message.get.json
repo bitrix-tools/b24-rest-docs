@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "mail.message.get",
+  "scope": "mail",
+  "kind": "read",
+  "title": "Получить письмо mail.message.get",
+  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор письма. Идентификатор можно получить методом mail.message.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей письма, которые нужно вернуть. Доступные поля: - id — идентификатор письма - mailboxId — идентификатор почтового ящика - mailboxEmail — электронная почта почтового ящика - subject — тема письма - from — отправитель - to — получатель - cc — копия - date — дата письма - isSeen — признак прочтения - hasAttachments — признак наличия вложений - url — ссылка на письмо - bindings — привязки…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/message/mail-message-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 15,
+        "mailboxId": 1,
+        "mailboxEmail": "user@example.com",
+        "subject": "Тема письма",
+        "from": "client@example.com",
+        "to": "user@example.com",
+        "cc": null,
+        "date": "2026-05-25T10:00:00+03:00",
+        "isSeen": true,
+        "hasAttachments": false,
+        "url": "/mail/message/15",
+        "bindings": [],
+        "body": "Текст письма"
+      }
+    },
+    "time": {
+      "start": 1779819678,
+      "finish": 1779819678.84803,
+      "duration": 0.8480300903320312,
+      "processing": 0,
+      "date_start": "2026-05-26T21:21:18+03:00",
+      "date_finish": "2026-05-26T21:21:18+03:00",
+      "operating_reset_at": 1779820278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект письма. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/message/mail-message-get.html",
+  "executable": false,
+  "entityFields": [
+    "bindings",
+    "body",
+    "cc",
+    "date",
+    "from",
+    "hasAttachments",
+    "id",
+    "isSeen",
+    "mailboxEmail",
+    "mailboxId",
+    "subject",
+    "to",
+    "url"
+  ]
+}

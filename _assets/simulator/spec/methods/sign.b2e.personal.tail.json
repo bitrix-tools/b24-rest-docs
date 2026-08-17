@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "sign.b2e.personal.tail",
+  "scope": "sign.b2e",
+  "kind": "write",
+  "title": "Получить список подписанных документов пользователя sign.b2e.personal.tail",
+  "permissions": "пользователь с доступом к своим подписанным документам",
+  "params": [
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество записей на странице. Параметр принимает значение от 1 до 1000. По умолчанию выводится 20 записей на странице"
+    },
+    {
+      "name": "offset",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Аналогичен стандартному параметру start. Размер страницы результатов зависит от параметра limit"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sign/sign-b2e-personal-tail.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 59,
+        "title": "test-pdf е",
+        "signed_date": "2024-06-28T19:34:58+03:00",
+        "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=6348b367...&token=sign.b2e..."
+      },
+      {
+        "id": 55,
+        "title": "test-pdf 778484",
+        "signed_date": "2024-06-28T18:39:47+03:00",
+        "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=6348b367...&token=sign.b2e..."
+      }
+    ],
+    "time": {
+      "start": 1739799244.30626,
+      "finish": 1739799244.347396,
+      "duration": 0.04113578796386719,
+      "processing": 0.01007699966430664,
+      "date_start": "2025-02-17T16:34:04+03:00",
+      "date_finish": "2025-02-17T16:34:04+03:00",
+      "operating_reset_at": 1739799844,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о подписанных документах пользователя"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sign/sign-b2e-personal-tail.html",
+  "executable": false
+}

@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.bindings.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список связей записи в таймлайне crm.timeline.bindings.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект для фильтрации выбранных записей. Обязательно использовать поле OWNER_ID, остальные поля не нужны",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/bindings/crm-timeline-bindings-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "OWNER_ID": "999",
+        "ENTITY_ID": "39",
+        "ENTITY_TYPE": "deal"
+      },
+      {
+        "OWNER_ID": "999",
+        "ENTITY_ID": "92",
+        "ENTITY_TYPE": "company"
+      },
+      {
+        "OWNER_ID": "999",
+        "ENTITY_ID": "205",
+        "ENTITY_TYPE": "lead"
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1715091541.642592,
+      "finish": 1715091541.730599,
+      "duration": 0.08800697326660156,
+      "date_start": "2024-05-03T17:19:01+03:00",
+      "date_finish": "2024-05-03T17:19:01+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с найденными связями (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/bindings/crm-timeline-bindings-list.html",
+  "executable": false,
+  "entityFields": [
+    "ENTITY_ID",
+    "ENTITY_TYPE",
+    "OWNER_ID"
+  ]
+}

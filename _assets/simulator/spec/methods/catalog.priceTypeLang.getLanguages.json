@@ -1,0 +1,175 @@
+{
+  "$v": 1,
+  "method": "catalog.priceTypeLang.getLanguages",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Получить доступные для перевода языки catalog.priceTypeLang.getLanguages",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "languages",
+      "type": "catalog_language[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о доступных для перевода языках",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-get-languages.md"
+  },
+  "resultExample": {
+    "result": {
+      "languages": [
+        {
+          "active": "Y",
+          "lid": "ar",
+          "name": "ar"
+        },
+        {
+          "active": "Y",
+          "lid": "br",
+          "name": "br"
+        },
+        {
+          "active": "Y",
+          "lid": "en",
+          "name": "English"
+        },
+        {
+          "active": "Y",
+          "lid": "fr",
+          "name": "fr"
+        },
+        {
+          "active": "Y",
+          "lid": "id",
+          "name": "id"
+        },
+        {
+          "active": "Y",
+          "lid": "it",
+          "name": "it"
+        },
+        {
+          "active": "Y",
+          "lid": "ja",
+          "name": "ja"
+        },
+        {
+          "active": "Y",
+          "lid": "kz",
+          "name": "kz"
+        },
+        {
+          "active": "Y",
+          "lid": "la",
+          "name": "la"
+        },
+        {
+          "active": "Y",
+          "lid": "ms",
+          "name": "ms"
+        },
+        {
+          "active": "Y",
+          "lid": "pl",
+          "name": "pl"
+        },
+        {
+          "active": "Y",
+          "lid": "ru",
+          "name": "Russian"
+        },
+        {
+          "active": "Y",
+          "lid": "sc",
+          "name": "sc"
+        },
+        {
+          "active": "Y",
+          "lid": "tc",
+          "name": "tc"
+        },
+        {
+          "active": "Y",
+          "lid": "th",
+          "name": "th"
+        },
+        {
+          "active": "Y",
+          "lid": "tr",
+          "name": "tr"
+        },
+        {
+          "active": "Y",
+          "lid": "vn",
+          "name": "vn"
+        }
+      ]
+    },
+    "total": 17,
+    "time": {
+      "start": 1733844860.95129,
+      "finish": 1733844861.27092,
+      "duration": 0.319633007049561,
+      "processing": 0.0122489929199219,
+      "date_start": "2024-12-10T17:34:20+02:00",
+      "date_finish": "2024-12-10T17:34:21+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "languages",
+      "type": "catalog_language[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о доступных для перевода языках"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-get-languages.html",
+  "executable": false
+}

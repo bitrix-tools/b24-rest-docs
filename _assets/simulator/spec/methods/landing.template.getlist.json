@@ -1,0 +1,124 @@
+{
+  "$v": 1,
+  "method": "landing.template.getlist",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список шаблонов представления landing.template.getlist",
+  "permissions": "пользователь с правом доступа к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект параметров выборки шаблонов представления формата: Список доступных полей описан ниже",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "select",
+          "type": "string[]",
+          "base": "array",
+          "required": false,
+          "description": "Список полей из полей объекта Шаблон представления. Если параметр не передан, метод возвращает все доступные поля шаблона. Поля вида CREATED_BY.NAME не поддерживаются"
+        },
+        {
+          "name": "filter",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Фильтр по полям из полей объекта Шаблон представления. Если параметр не передан, метод возвращает все шаблоны текущего портала, включая неактивные. Поля вида CREATED_BY.NAME не поддерживаются"
+        },
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Сортировка в формате {\"FIELD\": \"ASC\"} или {\"FIELD\": \"DESC\"}. Можно передать несколько полей. Если параметр не передан, метод не задает собственную сортировку"
+        },
+        {
+          "name": "group",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив имен полей для группировки, например [\"ACTIVE\"] или [\"ACTIVE\", \"SORT\"]. Вычисляемые поля через runtime не поддерживаются"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Максимальное количество элементов в ответе. Если limit не указан, метод возвращает все найденные шаблоны без ограничения. Используйте вместе с offset для постраничной выборки"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Смещение от начала выборки. Используйте вместе с limit для постраничной выборки"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/template/landing-template-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "1",
+        "TITLE": "С шапкой и подвалом",
+        "XML_ID": "header_footer",
+        "SORT": "100",
+        "ACTIVE": "Y",
+        "DATE_MODIFY": "10/10/2022 03:25:30 pm"
+      },
+      {
+        "ID": "2",
+        "TITLE": "С сайдбаром слева",
+        "XML_ID": "sidebar_left",
+        "SORT": "200",
+        "ACTIVE": "Y",
+        "DATE_MODIFY": "10/10/2022 03:25:30 pm"
+      }
+    ],
+    "time": {
+      "start": 1774765200,
+      "finish": 1774765200.411258,
+      "duration": 0.4112579822540283,
+      "processing": 0,
+      "date_start": "2026-03-29T10:00:00+03:00",
+      "date_finish": "2026-03-29T10:00:00+03:00",
+      "operating_reset_at": 1774765800,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список шаблонов представления (подробное описание). Если по фильтру ничего не найдено, метод возвращает result: []"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/template/landing-template-get-list.html",
+  "executable": false
+}

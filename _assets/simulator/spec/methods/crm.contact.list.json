@@ -1,0 +1,217 @@
+{
+  "$v": 1,
+  "method": "crm.contact.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список контактов crm.contact.list",
+  "permissions": "любой пользователь с правом «чтения» контактов",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список полей, которые должны быть заполнены у контактов в выборке. При выборке можно использовать маски: - '*' — для выборки всех полей (без пользовательских и множественных) - 'UF_*' — для выборки всех пользовательских полей (без множественных) Маски для выборки множественных полей нет. Для выборки множественных полей укажите нужные в списке выбора (PHONE, EMAIL и так далее).…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля, по которому будет отфильтрована выборка элементов - value_n — значение фильтра К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля, по которому будет произведена сортировка выборки контактов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных полей для сортировки можно узнать с помощью метода crm.contact.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/crm-contact-list.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.list"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "75",
+        "NAME": "Анастасия",
+        "LAST_NAME": "Ильина",
+        "EXPORT": "Y",
+        "ASSIGNED_BY_ID": "6",
+        "DATE_CREATE": "2024-02-26T00:00:00+02:00",
+        "EMAIL": [
+          {
+            "ID": "215",
+            "VALUE_TYPE": "WORK",
+            "VALUE": "special-for@example.com",
+            "TYPE_ID": "EMAIL"
+          }
+        ]
+      },
+      {
+        "ID": "74",
+        "NAME": "Артем",
+        "LAST_NAME": "Исаев",
+        "EXPORT": "Y",
+        "ASSIGNED_BY_ID": "1",
+        "DATE_CREATE": "2024-08-15T00:00:00+02:00",
+        "EMAIL": [
+          {
+            "ID": "214",
+            "VALUE_TYPE": "WORK",
+            "VALUE": "special-for@example.com",
+            "TYPE_ID": "EMAIL"
+          }
+        ]
+      },
+      {
+        "ID": "78",
+        "NAME": "Артем",
+        "LAST_NAME": "Исаев",
+        "EXPORT": "Y",
+        "ASSIGNED_BY_ID": "1",
+        "DATE_CREATE": "2024-08-15T00:00:00+02:00",
+        "EMAIL": [
+          {
+            "ID": "218",
+            "VALUE_TYPE": "WORK",
+            "VALUE": "special-for@example.com",
+            "TYPE_ID": "EMAIL"
+          }
+        ]
+      },
+      {
+        "ID": "77",
+        "NAME": "Инна",
+        "LAST_NAME": "Кузнецова",
+        "EXPORT": "Y",
+        "ASSIGNED_BY_ID": "6",
+        "DATE_CREATE": "2024-07-01T00:00:00+02:00",
+        "EMAIL": [
+          {
+            "ID": "217",
+            "VALUE_TYPE": "WORK",
+            "VALUE": "special-for@example.com",
+            "TYPE_ID": "EMAIL"
+          }
+        ]
+      },
+      {
+        "ID": "73",
+        "NAME": "Иван",
+        "LAST_NAME": "Петров",
+        "EXPORT": "Y",
+        "ASSIGNED_BY_ID": "1",
+        "DATE_CREATE": "2024-02-20T00:00:00+02:00",
+        "EMAIL": [
+          {
+            "ID": "213",
+            "VALUE_TYPE": "WORK",
+            "VALUE": "special-for@example.com",
+            "TYPE_ID": "EMAIL"
+          }
+        ]
+      }
+    ],
+    "total": 5,
+    "time": {
+      "start": 1723807142.916445,
+      "finish": 1723807143.44846,
+      "duration": 0.5320150852203369,
+      "processing": 0.1967020034790039,
+      "date_start": "2024-08-16T13:19:02+02:00",
+      "date_finish": "2024-08-16T13:19:03+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "contact[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Массив, содержащий информацию о найденных контактах. Поля отдельно взятого контакта конфигурируются параметром select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных контактов по заданным условиям"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Содержит значение, которое нужно передать в следующий запрос в параметр start, чтобы получить следующую порцию данных. Параметр next появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение 50"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/crm-contact-list.html",
+  "executable": true,
+  "entityFields": [
+    "ASSIGNED_BY_ID",
+    "BIRTHDATE",
+    "COMMENTS",
+    "COMPANY_ID",
+    "COMPANY_IDS",
+    "DATE_CREATE",
+    "EMAIL",
+    "EXPORT",
+    "HONORIFIC",
+    "ID",
+    "IM",
+    "LAST_NAME",
+    "LINK",
+    "NAME",
+    "OPENED",
+    "PARENT_ID_...",
+    "PHONE",
+    "PHOTO",
+    "POST",
+    "SECOND_NAME",
+    "SOURCE_DESCRIPTION",
+    "SOURCE_ID",
+    "TRACE",
+    "TYPE_ID",
+    "UF_...",
+    "UTM_CAMPAIGN",
+    "UTM_CONTENT",
+    "UTM_MEDIUM",
+    "UTM_SOURCE",
+    "UTM_TERM",
+    "WEB"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "$v": 1,
+  "method": "landing.site.getGroupBindings",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить привязки к группам landing.site.getGroupBindings",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы для фильтрации. Если не передан, возвращаются привязки ко всем группам. groupId можно получить из интерфейса группы или из результата текущего метода в поле BINDING_ID для уже существующих привязок"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/embedding/knowledge-base/landing-site-get-group-bindings.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ENTITY_ID": "65",
+        "ENTITY_TYPE": "S",
+        "BINDING_ID": "5",
+        "TITLE": "База знаний в темной теме",
+        "PUBLIC_URL": "https://bitrix24.ru/knowledge/group/baza_znaniy_v_temnoy_teme/"
+      },
+      {
+        "ENTITY_ID": "41",
+        "ENTITY_TYPE": "S",
+        "BINDING_ID": "119",
+        "TITLE": "База знаний",
+        "PUBLIC_URL": "https://bitrix24.ru/knowledge/group/baza_znaniy/"
+      }
+    ],
+    "time": {
+      "start": 1774956574,
+      "finish": 1774956574.718824,
+      "duration": 0.7188239097595215,
+      "processing": 0,
+      "date_start": "2026-03-31T14:29:34+03:00",
+      "date_finish": "2026-03-31T14:29:34+03:00",
+      "operating_reset_at": 1774957174,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список привязок к группам подробнее"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/embedding/knowledge-base/landing-site-get-group-bindings.html",
+  "executable": false
+}

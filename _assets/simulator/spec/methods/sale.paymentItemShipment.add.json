@@ -1,0 +1,99 @@
+{
+  "$v": 1,
+  "method": "sale.paymentItemShipment.add",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить привязку оплаты к отгрузке sale.paymentItemShipment.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для создания привязки оплаты к отгрузке в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "shipmentId",
+          "type": "sale_order_shipment.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор отгрузки"
+        },
+        {
+          "name": "paymentId",
+          "type": "sale_order_payment.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор оплаты"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор записи"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-shipment/sale-payment-item-shipment-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "paymentItemShipment": {
+        "dateInsert": "2024-04-15T09:22:26+03:00",
+        "id": 1181,
+        "paymentId": 1025,
+        "shipmentId": 2471,
+        "xmlId": "myXmlId"
+      }
+    },
+    "time": {
+      "start": 1713165816.941795,
+      "finish": 1713165817.220281,
+      "duration": 0.2784857749938965,
+      "processing": 0.045699119567871094,
+      "date_start": "2024-04-15T10:23:36+03:00",
+      "date_finish": "2024-04-15T10:23:37+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "paymentItemShipment",
+      "type": "sale_payment_item_shipment",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленной привязке оплаты к отгрузке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-add.html",
+  "executable": false
+}

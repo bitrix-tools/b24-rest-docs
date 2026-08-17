@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "catalog.document.deleteList",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить несколько документов складского учета catalog.document.deleteList",
+  "permissions": "> - пользователь с правом «Удаление документа» на тип документа в запросе,",
+  "params": [
+    {
+      "name": "documentIds",
+      "type": "catalog_document.id[]",
+      "base": "array",
+      "required": true,
+      "description": "Список идентификаторов документов, получить можно методом catalog.document.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-delete-list.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1761909885,
+      "finish": 1761909885.557104,
+      "duration": 0.5571041107177734,
+      "processing": 0,
+      "date_start": "2025-10-31T14:24:45+03:00",
+      "date_finish": "2025-10-31T14:24:45+03:00",
+      "operating_reset_at": 1761910485,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true, если все документы удалены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-delete-list.html",
+  "executable": false
+}

@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.history.get",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить историю сообщений диалога imopenlines.session.history.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "SESSION_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сессии открытой линии. Идентификатор можно получить методом imopenlines.dialog.get из поля entity_data_1. Идентификатор SESSION_ID находится в шестом параметре строки entity_data_1. Например, для идентификатор сессии — 321"
+    },
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Числовой идентификатор чата открытой линии без префикса chat. Например, 1763, не chat1763. Идентификатор можно получить методами imopenlines.dialog.get или imopenlines.crm.chat.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа. Структура объекта подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.html",
+  "executable": false
+}

@@ -1,0 +1,193 @@
+{
+  "$v": 1,
+  "method": "telephony.externalCall.register",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Зарегистрировать звонок в Битрикс24 telephony.externalCall.register",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, для которого регистрируется звонок. Идентификатор можно получить методом user.get"
+    },
+    {
+      "name": "USER_PHONE_INNER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Внутренний номер пользователя. Внутренний номер можно получить методом user.get Необходимо указать хотя бы один из параметров: USER_ID или USER_PHONE_INNER"
+    },
+    {
+      "name": "PHONE_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Номер телефона клиента"
+    },
+    {
+      "name": "TYPE",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Тип звонка. Возможные значения: - 1 — исходящий - 2 — входящий - 3 — входящий с перенаправлением - 4 — обратный звонок - 5 — информационный звонок"
+    },
+    {
+      "name": "CALL_START_DATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время начала звонка в формате ISO-8601 с указанием часового пояса, например 2026-03-07T10:20:30+03:00. По умолчанию — текущее время на сервере"
+    },
+    {
+      "name": "CRM_CREATE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Автоматическое создание объекта CRM, если по номеру не найден подходящий объект. Возможные значения: - 0 — не создавать - 1 — создавать По умолчанию — 0. Для исходящих звонков через внешнюю линию итоговое поведение также зависит от значения параметра CRM_AUTO_CREATE, заданного для линии в методах telephony.externalLine.add и telephony.externalLine.update"
+    },
+    {
+      "name": "CRM_SOURCE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор источника CRM (значение поля STATUS_ID). Список значений можно получить методом crm.status.list с фильтром ENTITY_ID: 'SOURCE'"
+    },
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта CRM, с которым нужно связать звонок. Возможные значения: - CONTACT — контакт - COMPANY — компания - LEAD — лид"
+    },
+    {
+      "name": "CRM_ENTITY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор объекта CRM из CRM_ENTITY_TYPE. Идентификатор можно получить методами: - crm.contact.list - crm.company.list - crm.lead.list"
+    },
+    {
+      "name": "SHOW",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Показывать карточку звонка после регистрации. Возможные значения: - 0 — не показывать - 1 — показывать По умолчанию — 1"
+    },
+    {
+      "name": "ADD_TO_CHAT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Добавлять сообщение о звонке в чат сотрудника. Возможные значения: - 0 — не добавлять - 1 — добавлять По умолчанию — 1"
+    },
+    {
+      "name": "CALL_LIST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор списка обзвона, к которому привязывается звонок. Если звонок инициирован из обзвона, передавайте идентификатор, полученный в событии ONEXTERNALCALLSTART. Список доступных обзвонов можно получить методом crm.calllist.list"
+    },
+    {
+      "name": "LINE_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Номер внешней линии. Номер линии можно получить методом telephony.externalLine.get. Параметр не является обязательным, но рекомендуется передавать его всегда, особенно для входящих звонков, чтобы корректно работали привязка линии и отчеты/аналитика телефонии"
+    },
+    {
+      "name": "EXTERNAL_CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний идентификатор звонка на стороне АТС/интеграции. Рекомендуется передавать уникальное значение для каждого физического звонка, чтобы избежать возврата существующего CALL_ID при повторной регистрации в течение 30 минут"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-call-register.md"
+  },
+  "resultExample": {
+    "result": {
+      "CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+      "CRM_CREATED_LEAD": null,
+      "CRM_CREATED_ENTITIES": [],
+      "CRM_ENTITY_TYPE": "CONTACT",
+      "CRM_ENTITY_ID": 797
+    },
+    "time": {
+      "start": 1773130778,
+      "finish": 1773130779.120838,
+      "duration": 1.120837926864624,
+      "processing": 1,
+      "date_start": "2026-03-10T11:19:38+03:00",
+      "date_finish": "2026-03-10T11:19:39+03:00",
+      "operating_reset_at": 1773131378,
+      "operating": 0.22185301780700684
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор звонка"
+    },
+    {
+      "name": "CRM_CREATED_LEAD",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор автоматически созданного лида"
+    },
+    {
+      "name": "CRM_CREATED_ENTITIES",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив автоматически созданных объектов CRM"
+    },
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип основного объекта CRM звонка"
+    },
+    {
+      "name": "CRM_ENTITY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор основного объекта CRM звонка"
+    },
+    {
+      "name": "LEAD_CREATION_ERROR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст ошибки при автосоздании лида (если возникла)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-call-register.html",
+  "executable": false
+}

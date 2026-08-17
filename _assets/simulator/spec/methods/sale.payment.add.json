@@ -1,0 +1,369 @@
+{
+  "$v": 1,
+  "method": "sale.payment.add",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить оплату sale.payment.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для создания оплаты в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "sale_order.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор заказа"
+        },
+        {
+          "name": "paySystemId",
+          "type": "sale_paysystem.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор платежной системы"
+        },
+        {
+          "name": "paid",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Оплата оплачена: - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "datePaid",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата оплаты"
+        },
+        {
+          "name": "empPaidId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, который оплатил оплату"
+        },
+        {
+          "name": "psStatus",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг статуса платежной системы — успешно ли оплачена оплата. Варианты: - Y — да - N — нет По умолчанию устанавливается null"
+        },
+        {
+          "name": "psStatusCode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код статуса платёжной системы"
+        },
+        {
+          "name": "psStatusDescription",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание результата работы платежной системы"
+        },
+        {
+          "name": "psStatusMessage",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Сообщение от платежной системы"
+        },
+        {
+          "name": "psSum",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма платежной системы"
+        },
+        {
+          "name": "psCurrency",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Валюта платежной системы"
+        },
+        {
+          "name": "psResponseDate",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата ответа платежной системы"
+        },
+        {
+          "name": "payVoucherNum",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Номер платежного документа"
+        },
+        {
+          "name": "payVoucherDate",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата платежного документа"
+        },
+        {
+          "name": "datePayBefore",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Устаревший. Дата, по которой необходимо оплатить счет"
+        },
+        {
+          "name": "dateBill",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата выставления счета"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор"
+        },
+        {
+          "name": "sum",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма оплаты"
+        },
+        {
+          "name": "companyId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании, которая будет принимать оплату В настоящий момент не используется"
+        },
+        {
+          "name": "payReturnNum",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Номер документа возврата"
+        },
+        {
+          "name": "priceCod",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Актуально только для коробочной версии Стоимость оплаты при доставке. Используется для наложенного платежа"
+        },
+        {
+          "name": "payReturnDate",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата документа возврата"
+        },
+        {
+          "name": "empReturnId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, который выполнял возврат"
+        },
+        {
+          "name": "payReturnComment",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий к возврату"
+        },
+        {
+          "name": "responsibleId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, ответственного за оплату"
+        },
+        {
+          "name": "empResponsibleId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, назначившего ответственного"
+        },
+        {
+          "name": "isReturn",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Выполнялся ли возврат: - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарии к оплате"
+        },
+        {
+          "name": "updated1c",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Оплата обновлена через 1С: - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "id1c",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор в 1С"
+        },
+        {
+          "name": "version1c",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Версия документа оплаты от 1С"
+        },
+        {
+          "name": "externalPayment",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Актуально только для коробочной версии Внешняя оплата или нет. Используется для импорта из 1С через XML - Y — да - F — да, загружена вместе с заказом - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "psInvoiceId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор оплаты в платежной системе"
+        },
+        {
+          "name": "marked",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг маркировки. Признак того, является ли оплата отмеченной как проблемная: - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "reasonMarked",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Причина маркировки"
+        },
+        {
+          "name": "empMarkedId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, промаркировавшего оплату"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment/sale-payment-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "payment": {
+        "accountNumber": "356/1",
+        "comments": "",
+        "companyId": 1,
+        "currency": "RUB",
+        "dateBill": "2024-04-10T09:00:00+03:00",
+        "dateMarked": "2024-04-16T16:32:49+03:00",
+        "datePaid": "2024-04-10T09:00:00+03:00",
+        "datePayBefore": "2024-04-10T09:00:00+03:00",
+        "dateResponsibleId": "2024-04-16T16:32:49+03:00",
+        "empMarkedId": 1,
+        "empPaidId": 1,
+        "empResponsibleId": 1,
+        "empReturnId": 1,
+        "externalPayment": "N",
+        "id": 144,
+        "id1c": "",
+        "isReturn": "N",
+        "marked": "N",
+        "orderId": 200,
+        "paid": "Y",
+        "payReturnComment": "",
+        "payReturnDate": "2024-04-10T09:00:00+03:00",
+        "payReturnNum": "",
+        "paySystemId": 1,
+        "paySystemIsCash": "N",
+        "paySystemName": "Банковский перевод (Компании)",
+        "paySystemXmlId": "",
+        "payVoucherDate": "2024-04-10T09:00:00+03:00",
+        "payVoucherNum": "",
+        "priceCod": "100",
+        "psCurrency": "RUB",
+        "psInvoiceId": 1,
+        "psResponseDate": "2024-04-10T09:00:00+03:00",
+        "psStatus": "Y",
+        "psStatusCode": "",
+        "psStatusDescription": "",
+        "psStatusMessage": "",
+        "psSum": 100,
+        "reasonMarked": "",
+        "responsibleId": 1,
+        "sum": 100,
+        "updated1c": "N",
+        "version1c": "",
+        "xmlId": ""
+      }
+    },
+    "time": {
+      "start": 1713277968.822151,
+      "finish": 1713277972.577136,
+      "duration": 3.7549850940704346,
+      "processing": 3.3574018478393555,
+      "date_start": "2024-04-16T17:32:48+03:00",
+      "date_finish": "2024-04-16T17:32:52+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "payment",
+      "type": "sale_order_payment",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленной оплате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment/sale-payment-add.html",
+  "executable": false
+}

@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "rpa.type.get",
+  "scope": "rpa",
+  "kind": "read",
+  "title": "Получить информацию о процессе по id rpa.type.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "number",
+      "base": "number",
+      "required": true,
+      "description": "Идентификатор процесса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/type/rpa-type-get.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "type": {
+      "id": 1,
+      "title": "Название процесса",
+      "image": "list",
+      "createdBy": 1,
+      "settings": [],
+      "permissions": [
+        {
+          "id": "1",
+          "entity": "TYPE",
+          "entityId": "1",
+          "accessCode": "UA",
+          "action": "ITEMS_CREATE",
+          "permission": "X"
+        }
+      ]
+    }
+  },
+  "returns": [
+    {
+      "name": "id",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "title",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Название процесса"
+    },
+    {
+      "name": "image",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор иконки из списка"
+    },
+    {
+      "name": "createdBy",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор пользователя, который создал процесс"
+    },
+    {
+      "name": "settings",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Набор настроек процесса"
+    },
+    {
+      "name": "permissions",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Набор настроек прав доступа этого процесса"
+    }
+  ],
+  "page": "/api-reference/outdated/rpa/type/rpa-type-get.html",
+  "executable": false,
+  "entityFields": [
+    "image",
+    "permissions",
+    "settings",
+    "title"
+  ]
+}

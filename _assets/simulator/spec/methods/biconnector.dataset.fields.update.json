@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "biconnector.dataset.fields.update",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Обновить поля датасета biconnector.dataset.fields.update",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор датасета, можно получить методами biconnector.dataset.list или biconnector.dataset.add"
+    },
+    {
+      "name": "add",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий массив добавляемых полей со следующей структурой: - type — тип поля - name — название поля - externalCode — внешний код поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "update",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий массив обновляемых полей со следующей структурой: - id — Идентификатор поля, можно получить методом biconnector.dataset.get - visible — видимость поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "delete",
+      "type": "int[]",
+      "base": "array",
+      "required": false,
+      "description": "Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом biconnector.dataset.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/dataset/biconnector-dataset-fields-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725365418.056843,
+      "finish": 1725365419.671506,
+      "duration": 1.6146628856658936,
+      "processing": 1.3475170135498047,
+      "date_start": "2024-09-03T14:10:18+02:00",
+      "date_finish": "2024-09-03T14:10:19+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/dataset/biconnector-dataset-fields-update.html",
+  "executable": false
+}

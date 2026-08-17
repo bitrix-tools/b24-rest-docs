@@ -1,0 +1,121 @@
+{
+  "$v": 1,
+  "method": "sale.paysystem.add",
+  "scope": "pay_system",
+  "kind": "write",
+  "title": "Добавить платежную систему sale.paysystem.add",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Название платежной системы"
+    },
+    {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание платежной системы"
+    },
+    {
+      "name": "PERSON_TYPE_ID",
+      "type": "sale_person_type.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор типа плательщика"
+    },
+    {
+      "name": "BX_REST_HANDLER",
+      "type": "sale_paysystem_handler.CODE",
+      "base": "any",
+      "required": true,
+      "description": "Код REST-обработчика, указанный при добавлении обработчика методом sale.paysystem.handler.add"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Индикатор активности платежной системы. Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию N"
+    },
+    {
+      "name": "SETTINGS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Список значений настроек обработчика в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — название настройки, а value — объект, содержащий ключи TYPE и VALUE (описание смотрите ниже). Структура настроек задается при добавлении обработчика платежной системы в методе sale.paysystem.handler.add в ключе CODES параметра SETTINGS",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ENTITY_REGISTRY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Привязка платежной системы: - ORDER — значение для заказов магазина, сделок, смарт-процессов - CRM_INVOICE — значение для счетов CRM - CRM_QUOTE — значение для коммерческих предложений CRM"
+    },
+    {
+      "name": "LOGOTYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Логотип платежной системы (картинка в формате Base64)"
+    },
+    {
+      "name": "NEW_WINDOW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Флаг, отвечающий за настройку «Открывать в новом окне». Возможные значения: - Y — да - N — нет Если не передано, то по умолчанию N"
+    },
+    {
+      "name": "XML_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний идентификатор платежной системы. Может быть использован как дополнительный параметр для фильтрации в sale.paysystem.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/pay-system/sale-pay-system-add.md"
+  },
+  "resultExample": {
+    "result": 1,
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор добавленной платежной системы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/pay-system/sale-pay-system-add.html",
+  "executable": false
+}

@@ -1,0 +1,49 @@
+{
+  "$v": 1,
+  "method": "crm.activity.layout.blocks.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить набор дополнительных контентных блоков в дело crm.activity.layout.blocks.set",
+  "permissions": "любой пользователь с правом на изменение элемента CRM, к которому привязано дело",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM, к которому привязано дело"
+    },
+    {
+      "name": "activityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор дела"
+    },
+    {
+      "name": "layout",
+      "type": "RestAppLayoutDto",
+      "base": "any",
+      "required": true,
+      "description": "Объект, описывающий набор дополнительных контентных блоков"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-set.md"
+  },
+  "resultExample": {
+    "success": true
+  },
+  "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-set.html",
+  "executable": false
+}

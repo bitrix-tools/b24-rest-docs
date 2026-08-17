@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.site.bindingToMenu",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Привязать Базу знаний к меню landing.site.bindingToMenu",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты и правом Размещение в Расширениях в разделе База знаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сайта Базы знаний. id можно получить, например, из метода landing.site.getList в поле ID"
+    },
+    {
+      "name": "menuCode",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код меню. menuCode можно получить: - в интерфейсе через пункт «Выбрать Базу знаний»: в URL открывшегося фрейма параметр menuId содержит код меню (например, menuId=crm_switcher:deal) - из результата метода landing.site.getMenuBindings в поле BINDING_ID"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/embedding/knowledge-base/landing-site-binding-to-menu.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774952664,
+      "finish": 1774952665.017161,
+      "duration": 1.0171608924865723,
+      "processing": 0,
+      "date_start": "2026-03-31T13:24:24+03:00",
+      "date_finish": "2026-03-31T13:24:25+03:00",
+      "operating_reset_at": 1774953265,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат привязки: - true — привязка выполнена - false — привязка не выполнена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/embedding/knowledge-base/landing-site-binding-to-menu.html",
+  "executable": false
+}

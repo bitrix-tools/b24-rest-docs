@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "tasks.template.checklist.moveAfter",
+  "scope": "task",
+  "kind": "write",
+  "title": "Переместить пункт чек-листа после другого tasks.template.checklist.moveAfter",
+  "permissions": "пользователь с правами на изменение шаблона задачи",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона задачи. Идентификатор шаблона задачи можно получить при создании нового шаблона"
+    },
+    {
+      "name": "checkListItemId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор перемещаемого пункта. Идентификатор пункта чек-листа шаблона можно получить при создании нового пункта или методом получения списка пунктов"
+    },
+    {
+      "name": "afterItemId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта, после которого нужно разместить элемент"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/checklist/tasks-template-checklist-move-after.md"
+  },
+  "resultExample": {
+    "result": {
+      "checkListItem": {
+        "id": 25,
+        "copiedId": null,
+        "userId": 503,
+        "createdBy": null,
+        "parentId": 23,
+        "title": "1. Собрать данные",
+        "sortIndex": 3,
+        "displaySortIndex": "",
+        "isComplete": false,
+        "isImportant": false,
+        "completedCount": 0,
+        "members": [],
+        "attachments": [],
+        "nodeId": null,
+        "templateId": 139
+      }
+    },
+    "time": {
+      "start": 1773297966,
+      "finish": 1773297967.068526,
+      "duration": 1.068526029586792,
+      "processing": 1,
+      "date_start": "2026-03-12T09:46:06+03:00",
+      "date_finish": "2026-03-12T09:46:07+03:00",
+      "operating_reset_at": 1773298566,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-move-after.html",
+  "executable": false
+}

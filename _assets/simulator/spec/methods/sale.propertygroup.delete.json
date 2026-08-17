@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.propertygroup.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить группу свойств sale.propertygroup.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_group.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор группы свойств"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-group/sale-property-group-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1711454254.569172,
+      "finish": 1711454254.795907,
+      "duration": 0.22673511505126953,
+      "processing": 0.03125,
+      "date_start": "2024-03-26T14:57:34+03:00",
+      "date_finish": "2024-03-26T14:57:34+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления группы свойств"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-group/sale-property-group-delete.html",
+  "executable": false
+}

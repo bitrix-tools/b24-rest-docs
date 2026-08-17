@@ -1,0 +1,84 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.config.update",
+  "scope": "delivery",
+  "kind": "write",
+  "title": "Обновить настройки службы доставки sale.delivery.config.update",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_delivery_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор службы доставки."
+    },
+    {
+      "name": "CONFIG",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Значения настроек службы доставки (подробное описание приведено ниже). Сама структура настроек (код, название, тип данных) задается при создании или обновлении обработчика службы доставки методами: - sale.delivery.handler.add - sale.delivery.handler.update",
+      "ref": "#/defs/CONFIGFields"
+    }
+  ],
+  "defs": {
+    "CONFIGFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Символьный код настройки"
+        },
+        {
+          "name": "VALUE",
+          "type": "any",
+          "base": "any",
+          "required": true,
+          "description": "Значение настройки"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/delivery/sale-delivery-config-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1714134319.861777,
+      "finish": 1714134320.202336,
+      "duration": 0.3405590057373047,
+      "processing": 0.07335114479064941,
+      "date_start": "2024-04-26T15:25:19+03:00",
+      "date_finish": "2024-04-26T15:25:20+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления настроек службы доставки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/delivery/sale-delivery-config-update.html",
+  "executable": false
+}

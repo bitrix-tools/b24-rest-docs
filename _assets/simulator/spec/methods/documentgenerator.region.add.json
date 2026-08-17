@@ -1,0 +1,120 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.region.add",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Добавить регион documentgenerator.region.add",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Параметры региона (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название региона"
+        },
+        {
+          "name": "languageId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор языка региона, например, ru"
+        },
+        {
+          "name": "formatDate",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Формат даты"
+        },
+        {
+          "name": "formatDatetime",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Формат даты и времени"
+        },
+        {
+          "name": "formatName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Шаблон полного имени, например, #LAST_NAME# #NAME# #SECOND_NAME#. Список возможных модификаторов: - #TITLE# — обращение - #NAME# — имя - #LAST_NAME# — фамилия - #SECOND_NAME# — отчество - #NAME_SHORT# — первая буква имени с точкой - #LAST_NAME_SHORT# — первая буква фамилии с точкой - #SECOND_NAME_SHORT# — первая буква отчества с точкой - Что такое модификаторы в шаблонах документов"
+        },
+        {
+          "name": "phrases",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Набор локализованных фраз региона в формате код: текст. Ключи объекта строковые и задаются произвольно в зависимости от шаблона. Значения ключей тоже строковые. Чтобы понять, какие поля используются в шаблоне документа, получите их список методом documentgenerator.template.getfields. По этим полям удобно определить, для каких значений шаблона нужны свои языковые фразы.…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/region/document-generator-region-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "region": {
+        "id": "1",
+        "title": "Россия (Пользовательский)",
+        "languageId": "ru",
+        "formatDate": "DD.MM.YYYY",
+        "formatDatetime": "DD.MM.YYYY HH:MI:SS",
+        "formatName": "#LAST_NAME# #NAME# #SECOND_NAME#",
+        "phrases": {
+          "TAX_INCLUDED": "НДС включен в цену",
+          "TAX_NOT_INCLUDED": "НДС не включен в цену"
+        }
+      }
+    },
+    "time": {
+      "start": 1774431594,
+      "finish": 1774431594.911013,
+      "duration": 0.9110128879547119,
+      "processing": 0,
+      "date_start": "2026-03-25T12:39:54+03:00",
+      "date_finish": "2026-03-25T12:39:54+03:00",
+      "operating_reset_at": 1774432194,
+      "operating": 0.23056697845458984
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/region/document-generator-region-add.html",
+  "executable": false
+}

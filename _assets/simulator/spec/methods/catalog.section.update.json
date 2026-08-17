@@ -1,0 +1,154 @@
+{
+  "$v": 1,
+  "method": "catalog.section.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Изменить раздел торгового каталога catalog.section.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_section.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор раздела каталога"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления раздела каталога",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "iblockId",
+          "type": "catalog_catalog.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор инфоблока. Для получения существующих идентификаторов необходимо использовать catalog.catalog.list"
+        },
+        {
+          "name": "iblockSectionId",
+          "type": "catalog_section.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор родительского раздела. Для получения существующих идентификаторов необходимо использовать catalog.section.list"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название раздела каталога"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор. Можно использовать для синхронизации текущего раздела каталога с аналогичной позицией во внешней системе"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код раздела каталога. Должен быть уникальным"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор активности раздела каталога: - Y — активен - N — неактивен"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание раздела каталога"
+        },
+        {
+          "name": "descriptionType",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип описания. Доступные типы: text, html"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/section/catalog-section-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "section": {
+        "active": "Y",
+        "code": "toys1",
+        "description": "<H1>Детские игрушки</H1> <p>Товары для детей</p>",
+        "descriptionType": "html",
+        "iblockId": 14,
+        "iblockSectionId": 13,
+        "id": 32,
+        "name": "Детские игрушки",
+        "sort": 100,
+        "xmlId": "myXmlId"
+      }
+    },
+    "time": {
+      "start": 1712327086.69665,
+      "finish": 1712327086.95303,
+      "duration": 0.256376028060913,
+      "processing": 0.0112268924713135,
+      "date_start": "2024-04-05T16:24:46+02:00",
+      "date_finish": "2024-04-05T16:24:46+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "section",
+      "type": "catalog_section",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном разделе каталога"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/section/catalog-section-update.html",
+  "executable": false
+}

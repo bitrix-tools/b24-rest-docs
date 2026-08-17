@@ -1,0 +1,109 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.numerator.update",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Изменить нумератор documentgenerator.numerator.update",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор нумератора. Получить идентификатор можно после создания нумератора или методом получения списка нумераторов"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей для обновления (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое название нумератора"
+        },
+        {
+          "name": "template",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый шаблон номера с плейсхолдером {NUMBER}. {NUMBER} нужно указывать в фигурных скобках, при генерации документа плейсхолдер заменяется на следующее значение счетчика по настройкам settings. Примеры шаблонов: - {NUMBER} → 1000 - INV-{NUMBER} → INV-1000 - DG/{NUMBER}/2026 → DG/1000/2026"
+        },
+        {
+          "name": "settings",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Обновленные настройки генераторов (подробное описание)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/numerators/document-generator-numerator-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "name": "REST Invoice Numerator Updated",
+      "template": "INV-UPD-{NUMBER}",
+      "id": "55",
+      "code": null,
+      "settings": {
+        "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+          "start": 2000,
+          "step": 10,
+          "length": 8,
+          "padString": "0",
+          "periodicBy": "year",
+          "timezone": "Europe/Moscow",
+          "isDirectNumeration": false
+        }
+      }
+    },
+    "time": {
+      "start": 1774362882,
+      "finish": 1774362882.472678,
+      "duration": 0.47267794609069824,
+      "processing": 0,
+      "date_start": "2026-03-24T17:34:42+03:00",
+      "date_finish": "2026-03-24T17:34:42+03:00",
+      "operating_reset_at": 1774363482,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/numerators/document-generator-numerator-update.html",
+  "executable": false
+}

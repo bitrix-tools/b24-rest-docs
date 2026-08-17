@@ -1,0 +1,186 @@
+{
+  "$v": 1,
+  "method": "im.search.chat.list",
+  "scope": "im",
+  "kind": "read",
+  "title": "Найти чаты im.search.chat.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "FIND",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поисковая фраза для поиска по индексируемым данным чата. Минимальное количество символов для поиска — 2"
+    },
+    {
+      "name": "FIND_LINES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поисковая фраза для поиска чатов среди Открытых линий. Минимальное количество символов для поиска — 2"
+    },
+    {
+      "name": "OFFSET",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение выборки чатов. По умолчанию 0"
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество элементов в выборке. По умолчанию 10. Максимальное значение 50"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/search/im-search-chat-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 1137,
+        "parent_chat_id": 0,
+        "parent_message_id": 0,
+        "name": "Проект: \"разработка шаблона\"",
+        "description": null,
+        "owner": 27,
+        "extranet": false,
+        "avatar": "",
+        "color": "#3e99ce",
+        "type": "sonetGroup",
+        "counter": 0,
+        "user_counter": 2,
+        "message_count": 4,
+        "unread_id": 0,
+        "restrictions": {
+          "avatar": false,
+          "rename": false,
+          "extend": false,
+          "call": true,
+          "mute": true,
+          "leave": false,
+          "leave_owner": false,
+          "send": true,
+          "user_list": true,
+          "path": "/workgroups/group/#ID#/",
+          "path_title": "Перейти в группу"
+        },
+        "last_message_id": 80461,
+        "last_id": 80461,
+        "marked_id": 0,
+        "disk_folder_id": 0,
+        "entity_type": "SONET_GROUP",
+        "entity_id": "121",
+        "entity_data_1": "",
+        "entity_data_2": "",
+        "entity_data_3": "",
+        "mute_list": [],
+        "date_create": "2024-07-26T15:28:02+03:00",
+        "message_type": "C",
+        "public": "",
+        "role": "owner",
+        "entity_link": {
+          "type": "SONET_GROUP",
+          "url": "/workgroups/group/121/",
+          "id": "121"
+        },
+        "text_field_enabled": true,
+        "background_id": null,
+        "permissions": {
+          "manage_users_add": "member",
+          "manage_users_delete": "manager",
+          "manage_ui": "member",
+          "manage_settings": "owner",
+          "manage_messages": "member",
+          "can_post": "member"
+        },
+        "is_new": false
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1772645157,
+      "finish": 1772645157.558317,
+      "duration": 0.5583169460296631,
+      "processing": 0,
+      "date_start": "2026-03-04T20:25:57+03:00",
+      "date_finish": "2026-03-04T20:25:57+03:00",
+      "operating_reset_at": 1772645757,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список найденных чатов. Структура объекта чата подробно описана ниже"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных чатов"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение следующей страницы. Поле возвращается, если есть следующая страница"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/search/im-search-chat-list.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "background_id",
+    "color",
+    "counter",
+    "date_create",
+    "description",
+    "disk_folder_id",
+    "entity_data_1",
+    "entity_data_2",
+    "entity_data_3",
+    "entity_id",
+    "entity_link",
+    "entity_type",
+    "extranet",
+    "id",
+    "is_new",
+    "last_id",
+    "last_message_id",
+    "marked_id",
+    "message_count",
+    "message_type",
+    "mute_list",
+    "name",
+    "owner",
+    "parent_chat_id",
+    "parent_message_id",
+    "permissions",
+    "public",
+    "restrictions",
+    "role",
+    "text_field_enabled",
+    "type",
+    "unread_id",
+    "user_counter"
+  ]
+}

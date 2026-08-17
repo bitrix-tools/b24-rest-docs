@@ -1,0 +1,29 @@
+{
+  "$v": 1,
+  "method": "vote.AttachedVote.download",
+  "scope": "vote",
+  "kind": "write",
+  "title": "Скачать отчет по голосованию vote.AttachedVote.download",
+  "permissions": "пользователь с правами чтения голосования",
+  "params": [
+    {
+      "name": "attachId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор прикрепленного голосования, получить можно методами vote.AttachedVote.get или vote.AttachedVote.getMany"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.attachedvote.download.md"
+  },
+  "resultExample": {
+    "error": "ATTACH_NOT_FOUND",
+    "error_description": "Attach not found"
+  },
+  "page": "/api-reference/vote/vote.attachedvote.download.html",
+  "executable": false
+}

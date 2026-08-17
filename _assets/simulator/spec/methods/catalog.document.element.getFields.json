@@ -1,0 +1,131 @@
+{
+  "$v": 1,
+  "method": "catalog.document.element.getFields",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список полей товаров для документа складского учета catalog.document.element.getFields",
+  "permissions": "пользователи с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "documentElement",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей товара документа. Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта catalog_document_element, а value — объект типа rest_field_description. ||",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/document-element/catalog-document-element-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "documentElement": {
+        "amount": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "docId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "elementId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "purchasingPrice": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "storeFrom": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "storeTo": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        }
+      }
+    },
+    "time": {
+      "start": 1759482101.114239,
+      "finish": 1759482101.178452,
+      "duration": 0.06421303749084473,
+      "processing": 0.008214950561523438,
+      "date_start": "2025-11-02T12:21:41+03:00",
+      "date_finish": "2025-11-02T12:21:41+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "documentElement",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей товара документа. Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта catalog_document_element, а value — объект типа rest_field_description. ||"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/document-element/catalog-document-element-get-fields.html",
+  "executable": false
+}

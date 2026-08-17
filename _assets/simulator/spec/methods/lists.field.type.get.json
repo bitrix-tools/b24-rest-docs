@@ -1,0 +1,130 @@
+{
+  "$v": 1,
+  "method": "lists.field.type.get",
+  "scope": "lists",
+  "kind": "read",
+  "title": "Получить доступные типы полей для универсального списка lists.field.type.get",
+  "permissions": "пользователь с правом «Полный доступ» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп Идентификатор можно получить с помощью метода lists.get.iblock.type.id"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "FIELD_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор поля. Для пользовательского поля имеет вид PROPERTY_PropertyId. Для системного поля является его символьным кодом. Если указать идентификатор существующего в списке поля, его тип будет включен в результат. Для системных полей это означает, что их тип будет отображен, несмотря на то, что добавить их повторно нельзя"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/fields/lists-field-type-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "SORT": "Сортировка",
+      "ACTIVE_FROM": "Начало активности",
+      "ACTIVE_TO": "Окончание активности",
+      "PREVIEW_PICTURE": "Изображение для анонса",
+      "PREVIEW_TEXT": "Текст анонса",
+      "DETAIL_PICTURE": "Детальное изображение",
+      "DETAIL_TEXT": "Детальный текст",
+      "CREATED_BY": "Кем создан",
+      "TIMESTAMP_X": "Дата изменения",
+      "MODIFIED_BY": "Кем изменен",
+      "S": "Строка",
+      "N": "Число",
+      "L": "Список",
+      "F": "Файл",
+      "G": "Привязка к разделам",
+      "E": "Привязка к элементам",
+      "S:Date": "Дата",
+      "S:DateTime": "Дата/Время",
+      "S:HTML": "HTML/текст",
+      "E:EList": "Привязка к элементам в виде списка",
+      "N:Sequence": "Счетчик",
+      "S:ECrm": "Привязка к элементам CRM",
+      "S:Money": "Деньги",
+      "S:DiskFile": "Файл (Диск)",
+      "S:map_yandex": "Привязка к Яндекс.Карте",
+      "S:employee": "Привязка к сотруднику"
+    },
+    "time": {
+      "start": 1765379410,
+      "finish": 1765379410.123019,
+      "duration": 0.12301898002624512,
+      "processing": 0,
+      "date_start": "2025-12-10T16:10:10+03:00",
+      "date_finish": "2025-12-10T16:10:10+03:00",
+      "operating_reset_at": 1765380010,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив доступных типов полей для списка"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/fields/lists-field-type-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE_FROM",
+    "ACTIVE_TO",
+    "CREATED_BY",
+    "DETAIL_PICTURE",
+    "DETAIL_TEXT",
+    "E",
+    "E:EList",
+    "F",
+    "G",
+    "L",
+    "MODIFIED_BY",
+    "N",
+    "N:Sequence",
+    "PREVIEW_PICTURE",
+    "PREVIEW_TEXT",
+    "S",
+    "S:Date",
+    "S:DateTime",
+    "S:DiskFile",
+    "S:ECrm",
+    "S:HTML",
+    "S:Money",
+    "S:employee",
+    "S:map_yandex",
+    "SORT",
+    "TIMESTAMP_X"
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "$v": 1,
+  "method": "booking.v1.resource.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить список ресурсов booking.v1.resource.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле ресурса для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Значение по умолчанию — {ID: 'ASC'}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/resource/booking-v1-resource-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "resource": [
+        {
+          "confirmationCounterDelay": 10800,
+          "confirmationNotificationDelay": 86400,
+          "confirmationNotificationRepetitions": null,
+          "confirmationNotificationRepetitionsInterval": 10800,
+          "delayedCounterDelay": 300,
+          "delayedNotificationDelay": 300,
+          "description": null,
+          "id": 5,
+          "infoNotificationDelay": null,
+          "isConfirmationNotificationOn": "Y",
+          "isDelayedNotificationOn": "Y",
+          "isFeedbackNotificationOn": "N",
+          "isInfoNotificationOn": "Y",
+          "isMain": "Y",
+          "isReminderNotificationOn": "Y",
+          "name": "Легковой автомобиль 1",
+          "reminderNotificationDelay": -1,
+          "templateTypeConfirmation": "inanimate",
+          "templateTypeDelayed": "inanimate",
+          "templateTypeFeedback": "inanimate",
+          "templateTypeInfo": "inanimate",
+          "templateTypeReminder": "base",
+          "typeId": 1
+        },
+        {
+          "confirmationCounterDelay": 10800,
+          "confirmationNotificationDelay": 86400,
+          "confirmationNotificationRepetitions": null,
+          "confirmationNotificationRepetitionsInterval": 10800,
+          "delayedCounterDelay": 300,
+          "delayedNotificationDelay": 300,
+          "description": null,
+          "id": 7,
+          "infoNotificationDelay": null,
+          "isConfirmationNotificationOn": "Y",
+          "isDelayedNotificationOn": "Y",
+          "isFeedbackNotificationOn": "N",
+          "isInfoNotificationOn": "Y",
+          "isMain": "Y",
+          "isReminderNotificationOn": "Y",
+          "name": "Легковой автомобиль 2",
+          "reminderNotificationDelay": -1,
+          "templateTypeConfirmation": "inanimate",
+          "templateTypeDelayed": "inanimate",
+          "templateTypeFeedback": "inanimate",
+          "templateTypeInfo": "inanimate",
+          "templateTypeReminder": "base",
+          "typeId": 1
+        }
+      ]
+    },
+    "time": {
+      "start": 1746540454.261779,
+      "finish": 1746540454.303483,
+      "duration": 0.04170393943786621,
+      "processing": 0.009412050247192383,
+      "date_start": "2025-05-06T17:07:34+03:00",
+      "date_finish": "2025-05-06T17:07:34+03:00",
+      "operating_reset_at": 1746541054,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о ресурсах. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/resource/booking-v1-resource-list.html",
+  "executable": false,
+  "entityFields": [
+    "confirmationCounterDelay",
+    "confirmationDelay",
+    "confirmationNotificationDelay",
+    "confirmationNotificationRepetitions",
+    "confirmationNotificationRepetitionsInterval",
+    "confirmationRepetitions",
+    "confirmationRepetitionsInterval",
+    "delayedCounterDelay",
+    "delayedDelay",
+    "delayedNotificationDelay",
+    "description",
+    "id",
+    "infoDelay",
+    "infoNotificationDelay",
+    "isConfirmationNotificationOn",
+    "isDelayedNotificationOn",
+    "isFeedbackNotificationOn",
+    "isInfoNotificationOn",
+    "isMain",
+    "isReminderNotificationOn",
+    "name",
+    "reminderDelay",
+    "reminderNotificationDelay",
+    "templateTypeConfirmation",
+    "templateTypeDelayed",
+    "templateTypeFeedback",
+    "templateTypeInfo",
+    "templateTypeReminder",
+    "typeId"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "lists.field.get",
+  "scope": "lists",
+  "kind": "read",
+  "title": "Получить параметры поля или список полей универсального списка lists.field.get",
+  "permissions": "пользователь с правом «Чтение» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп Идентификатор можно получить с помощью метода lists.get.iblock.type.id"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "FIELD_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор поля. Для пользовательского поля имеет вид PROPERTY_PropertyId. Для системного поля является его символьным кодом. Если не указать, возвращаются все поля списка"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/fields/lists-field-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "L": {
+        "FIELD_ID": "PROPERTY_1151",
+        "SORT": 50,
+        "NAME": "Статус задачи",
+        "IS_REQUIRED": "N",
+        "MULTIPLE": "N",
+        "DEFAULT_VALUE": "1685",
+        "TYPE": "L",
+        "PROPERTY_TYPE": "L",
+        "PROPERTY_USER_TYPE": false,
+        "CODE": "PROJECT",
+        "ID": "1151",
+        "LINK_IBLOCK_ID": null,
+        "ROW_COUNT": "1",
+        "COL_COUNT": "30",
+        "USER_TYPE_SETTINGS": null,
+        "SETTINGS": {
+          "SHOW_ADD_FORM": "Y",
+          "SHOW_EDIT_FORM": "Y",
+          "ADD_READ_ONLY_FIELD": "N",
+          "EDIT_READ_ONLY_FIELD": "Y",
+          "SHOW_FIELD_PREVIEW": "N"
+        },
+        "DISPLAY_VALUES_FORM": {
+          "1669": "Планирование",
+          "1671": "В активной работе",
+          "1673": "Тестирование",
+          "1675": "Завершен",
+          "1677": "Отложен",
+          "1679": "Архив"
+        }
+      }
+    },
+    "time": {
+      "start": 1765375929,
+      "finish": 1765375929.696936,
+      "duration": 0.6969358921051025,
+      "processing": 0,
+      "date_start": "2025-12-10T12:12:09+03:00",
+      "date_finish": "2025-12-10T12:12:09+03:00",
+      "operating_reset_at": 1765376529,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Данные поля или массив полей. Пустой массив означает, что в списке нет полей с указанным FIELD_ID"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/fields/lists-field-get.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "COL_COUNT",
+    "DEFAULT_VALUE",
+    "DISPLAY_VALUES_FORM",
+    "FIELD_ID",
+    "ID",
+    "IS_REQUIRED",
+    "LINK_IBLOCK_ID",
+    "MULTIPLE",
+    "NAME",
+    "PROPERTY_TYPE",
+    "PROPERTY_USER_TYPE",
+    "ROW_COUNT",
+    "SETTINGS",
+    "SORT",
+    "TYPE",
+    "USER_TYPE_SETTINGS"
+  ]
+}

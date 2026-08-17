@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "booking.v1.resourceType.delete",
+  "scope": "booking",
+  "kind": "write",
+  "title": "Удалить тип ресурса booking.v1.resourceType.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа ресурса. Можно получить в методах booking.v1.resourceType.add и booking.v1.resourceType.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/resource/resource-type/booking-v1-resourcetype-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1741002472.477039,
+      "finish": 1741002472.598432,
+      "duration": 0.12139296531677246,
+      "processing": 0.012734174728393555,
+      "date_start": "2025-03-03T11:47:52+00:00",
+      "date_finish": "2025-03-03T11:47:52+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-delete.html",
+  "executable": false
+}

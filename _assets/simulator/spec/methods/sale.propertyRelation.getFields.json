@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "sale.propertyRelation.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить поля привязки свойства sale.propertyRelation.getFields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "propertyRelation",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта sale_order_property_relation , а value — объект типа rest_field_description",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-relation/sale-property-relation-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyRelation": {
+        "entityId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "entityType": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "propertyId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        }
+      }
+    },
+    "time": {
+      "start": 1712302994.342099,
+      "finish": 1712302994.75173,
+      "duration": 0.40963101387023926,
+      "processing": 0.009072065353393555,
+      "date_start": "2024-04-05T10:43:14+03:00",
+      "date_finish": "2024-04-05T10:43:14+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyRelation",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта sale_order_property_relation , а value — объект типа rest_field_description"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-relation/sale-property-relation-get-fields.html",
+  "executable": false
+}

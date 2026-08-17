@@ -1,0 +1,96 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.epic.getFields",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список доступных полей эпика tasks.api.scrum.epic.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название эпика"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Описание эпика"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы (скрама), к которой относится эпик"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Цвет эпика"
+    },
+    {
+      "name": "files",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив файлов, привязанных к эпику",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Кем создана"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Кем изменена"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get-fields.md"
+  },
+  "resultExample": {
+    "fields": {
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "groupId": {
+        "type": "integer"
+      },
+      "color": {
+        "type": "string"
+      },
+      "files": {
+        "type": "array"
+      },
+      "createdBy": {
+        "type": "integer"
+      },
+      "modifiedBy": {
+        "type": "integer"
+      }
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get-fields.html",
+  "executable": false
+}

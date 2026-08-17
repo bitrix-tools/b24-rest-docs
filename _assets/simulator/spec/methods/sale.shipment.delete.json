@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.shipment.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить отгрузку sale.shipment.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор отгрузки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment/sale-shipment-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712840164.173512,
+      "finish": 1712840165.403435,
+      "duration": 1.2299230098724365,
+      "processing": 1.053415060043335,
+      "date_start": "2024-04-11T15:56:04+03:00",
+      "date_finish": "2024-04-11T15:56:05+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления отгрузки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment/sale-shipment-delete.html",
+  "executable": false
+}

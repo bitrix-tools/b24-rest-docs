@@ -1,0 +1,219 @@
+{
+  "$v": 1,
+  "method": "crm.status.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список элементов справочника по фильтру crm.status.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n — название поля, по которому будет произведена сортировка элементов справочника - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию - Список полей для сортировки можно узнать методом crm.status.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n — название поля, по которому будет отфильтрована выборка элементов - value_n — значение фильтра Список полей для фильтрации можно узнать методом crm.status.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "101",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "NEW",
+        "NAME": "Новая",
+        "NAME_INIT": "Новая",
+        "SORT": "10",
+        "SYSTEM": "Y",
+        "CATEGORY_ID": null,
+        "COLOR": "#39A8EF",
+        "SEMANTICS": null,
+        "EXTRA": {
+          "SEMANTICS": "process",
+          "COLOR": "#39A8EF"
+        }
+      },
+      {
+        "ID": "103",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "PREPARATION",
+        "NAME": "Подготовка документов",
+        "NAME_INIT": "",
+        "SORT": "20",
+        "SYSTEM": "N",
+        "CATEGORY_ID": null,
+        "COLOR": "#2FC6F6",
+        "SEMANTICS": null,
+        "EXTRA": {
+          "SEMANTICS": "process",
+          "COLOR": "#2FC6F6"
+        }
+      },
+      {
+        "ID": "105",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "PREPAYMENT_INVOICE",
+        "NAME": "Cчет на предоплату",
+        "NAME_INIT": "",
+        "SORT": "30",
+        "SYSTEM": "N",
+        "CATEGORY_ID": null,
+        "COLOR": "#55D0E0",
+        "SEMANTICS": null,
+        "EXTRA": {
+          "SEMANTICS": "process",
+          "COLOR": "#55D0E0"
+        }
+      },
+      {
+        "ID": "107",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "EXECUTING",
+        "NAME": "В работе",
+        "NAME_INIT": "",
+        "SORT": "40",
+        "SYSTEM": "N",
+        "CATEGORY_ID": null,
+        "COLOR": "#47E4C2",
+        "SEMANTICS": null,
+        "EXTRA": {
+          "SEMANTICS": "process",
+          "COLOR": "#47E4C2"
+        }
+      },
+      {
+        "ID": "109",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "FINAL_INVOICE",
+        "NAME": "Финальный счет",
+        "NAME_INIT": "",
+        "SORT": "50",
+        "SYSTEM": "N",
+        "CATEGORY_ID": null,
+        "COLOR": "#FFA900",
+        "SEMANTICS": null,
+        "EXTRA": {
+          "SEMANTICS": "process",
+          "COLOR": "#FFA900"
+        }
+      },
+      {
+        "ID": "111",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "WON",
+        "NAME": "Сделка успешна",
+        "NAME_INIT": "Сделка успешна",
+        "SORT": "60",
+        "SYSTEM": "Y",
+        "CATEGORY_ID": null,
+        "COLOR": "#7BD500",
+        "SEMANTICS": "S",
+        "EXTRA": {
+          "SEMANTICS": "success",
+          "COLOR": "#7BD500"
+        }
+      },
+      {
+        "ID": "113",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "LOSE",
+        "NAME": "Сделка провалена",
+        "NAME_INIT": "Сделка провалена",
+        "SORT": "70",
+        "SYSTEM": "Y",
+        "CATEGORY_ID": null,
+        "COLOR": "#FF5752",
+        "SEMANTICS": "F",
+        "EXTRA": {
+          "SEMANTICS": "failure",
+          "COLOR": "#FF5752"
+        }
+      },
+      {
+        "ID": "115",
+        "ENTITY_ID": "DEAL_STAGE",
+        "STATUS_ID": "APOLOGY",
+        "NAME": "Анализ причины провала",
+        "NAME_INIT": "",
+        "SORT": "80",
+        "SYSTEM": "N",
+        "CATEGORY_ID": null,
+        "COLOR": "#FF5752",
+        "SEMANTICS": "F",
+        "EXTRA": {
+          "SEMANTICS": "apology",
+          "COLOR": "#FF5752"
+        }
+      }
+    ],
+    "total": 8,
+    "time": {
+      "start": 1752146147.312812,
+      "finish": 1752146147.354549,
+      "duration": 0.04173684120178223,
+      "processing": 0.00507807731628418,
+      "date_start": "2025-07-10T14:15:47+03:00",
+      "date_finish": "2025-07-10T14:15:47+03:00",
+      "operating_reset_at": 1752146747,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией об элементах справочника"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных элементов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-list.html",
+  "executable": true,
+  "entityFields": [
+    "CATEGORY_ID",
+    "COLOR",
+    "ENTITY_ID",
+    "EXTRA",
+    "ID",
+    "NAME",
+    "NAME_INIT",
+    "SEMANTICS",
+    "SORT",
+    "STATUS_ID",
+    "SYSTEM"
+  ]
+}

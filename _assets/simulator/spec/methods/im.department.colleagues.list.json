@@ -1,0 +1,69 @@
+{
+  "$v": 1,
+  "method": "im.department.colleagues.list",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить список коллег текущего пользователя im.department.colleagues.list",
+  "permissions": "любой интранет-пользователь, кроме ботов",
+  "params": [
+    {
+      "name": "USER_DATA",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Возвращать подробные данные пользователей. Возможные значения: - Y — да - N — нет По умолчанию: N"
+    },
+    {
+      "name": "OFFSET",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение выборки пользователей. По умолчанию 0"
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество элементов в выборке. По умолчанию 10. Максимальное значение 50"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/departments/im-department-colleagues-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список пользователей. - При USER_DATA = 'N' содержит идентификаторы пользователей - При USER_DATA = 'Y' содержит объекты пользователей (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество пользователей в выборке"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение для получения следующей страницы. Поле возвращается, если есть следующая страница"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/departments/im-department-colleagues-list.html",
+  "executable": false
+}

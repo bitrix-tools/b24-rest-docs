@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "crm.duplicate.volatileType.unregister",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить поле из поиска дубликатов crm.duplicate.volatileType.unregister",
+  "permissions": "администратор Битрикс24 или администратор CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи о поле, которую нужно удалить. Получить идентификаторы записей добавленных к поиску дубликатов полей можно методом crm.duplicate.volatileType.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-unregister.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1750935024.602893,
+      "finish": 1750935024.719883,
+      "duration": 0.1169898509979248,
+      "processing": 0.05846285820007324,
+      "date_start": "2025-06-26T13:50:24+03:00",
+      "date_finish": "2025-06-26T13:50:24+03:00",
+      "operating_reset_at": 1750935624,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-unregister.html",
+  "executable": false
+}

@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "im.v2.File.download",
+  "scope": "im",
+  "kind": "write",
+  "title": "Получить ссылку для скачивания файла im.v2.File.download",
+  "permissions": "пользователь с доступом к чату",
+  "params": [
+    {
+      "name": "dialogId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "ID диалога. Для групповых чатов — chat{chatId}, для личных — {userId}"
+    },
+    {
+      "name": "fileId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID файла на Диске. Можно получить из ответа метода im.v2.File.upload"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/im.v2/files/file-download.md"
+  },
+  "resultExample": {
+    "result": {
+      "downloadUrl": "https://**put_your_bitrix24_address**/rest/download.json?token=im%7CaW..."
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат операции"
+    },
+    {
+      "name": "result.downloadUrl",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Одноразовая ссылка для скачивания файла. Ссылка содержит авторизационный токен, повторное использование не гарантируется"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chat-bots/chat-bots-v2/im.v2/files/file-download.html",
+  "executable": false
+}

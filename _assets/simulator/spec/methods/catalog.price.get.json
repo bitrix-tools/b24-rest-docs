@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "catalog.price.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить цену товара по идентификатору catalog.price.get",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор цены товара, можно получить методом catalog.price.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price/catalog-price-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "price": {
+        "catalogGroupId": 1,
+        "currency": "USD",
+        "extraId": null,
+        "id": 1,
+        "price": 100,
+        "productId": 1,
+        "quantityFrom": null,
+        "quantityTo": null,
+        "timestampX": "2024-05-27T10:00:00+02:00"
+      }
+    },
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-05-27T10:00:00+02:00",
+      "date_finish": "2024-05-27T10:00:00+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "price",
+      "type": "catalog_price",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о цене товара с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price/catalog-price-get.html",
+  "executable": false,
+  "entityFields": [
+    "catalogGroupId",
+    "currency",
+    "extraId",
+    "id",
+    "price",
+    "productId",
+    "quantityFrom",
+    "quantityTo",
+    "timestampX"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.instances",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Получить список запущенных бизнес-процессов bizproc.workflow.instances",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержит список полей, которые необходимо выбрать. Можно указать только те поля, которые необходимы. Доступные поля: - ID — идентификатор бизнес-процесса - MODIFIED — дата последнего изменения - OWNED_UNTIL — время блокировки бизнес-процесса.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации списка запущенных бизнес-процессов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Список фильтруемых полей такой же, как для параметра SELECT. Перед названием фильтруемого поля можно указать тип фильтрации: - ! — не равно - < — меньше - <= — меньше либо равно - > — больше - >= — больше либо равно",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка запущенных бизнес-процессов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Список полей для сортировки такой же, как для параметра SELECT. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Значение по умолчанию: {'MODIFIED': 'desc'}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-workflow-instances.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о запущенных бизнес-процессах"
+    },
+    {
+      "name": "total",
+      "type": "inreger",
+      "base": "any",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-workflow-instances.html",
+  "executable": false
+}

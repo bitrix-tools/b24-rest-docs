@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "event.offline.error",
+  "scope": null,
+  "kind": "write",
+  "title": "Зарегистрировать ошибки обработки очереди офлайн-событий event.offline.error",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "process_id",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор процесса, который занимается обработкой записей"
+    },
+    {
+      "name": "message_id",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив значений поля MESSAGE_ID записей, которые нужно пометить как ошибочные",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/events/event-offline-error.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1721300231.498173,
+      "finish": 1721300231.596196,
+      "duration": 0.0980229377746582,
+      "processing": 0.0019490718841552734,
+      "date_start": "2024-07-18T12:57:11+02:00",
+      "date_finish": "2024-07-18T12:57:11+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Успешность выполнения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/events/event-offline-error.html",
+  "executable": false
+}

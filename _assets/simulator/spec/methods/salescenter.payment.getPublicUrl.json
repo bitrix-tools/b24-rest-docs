@@ -1,0 +1,69 @@
+{
+  "$v": 1,
+  "method": "salescenter.payment.getPublicUrl",
+  "scope": "salescenter",
+  "kind": "write",
+  "title": "Сгенерировать ссылку на определенную оплату salescenter.payment.getPublicUrl",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/salescenter-payment-get-public-url.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "result.payment",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ссылки на оплату"
+    },
+    {
+      "name": "result.payment.url",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка на оплату"
+    },
+    {
+      "name": "result.payment.shortUrl",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Короткая ссылка на оплату"
+    },
+    {
+      "name": "result.payment.qr",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "QR-код, содержащий короткую ссылку на оплату"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/salescenter-payment-get-public-url.html",
+  "executable": false
+}

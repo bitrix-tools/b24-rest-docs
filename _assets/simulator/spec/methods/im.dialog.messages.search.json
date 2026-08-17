@@ -1,0 +1,240 @@
+{
+  "$v": 1,
+  "method": "im.dialog.messages.search",
+  "scope": "im",
+  "kind": "write",
+  "title": "Найти сообщение в чате im.dialog.messages.search",
+  "permissions": "участник чата",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата, в котором выполняется поиск"
+    },
+    {
+      "name": "SEARCH_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Строка поиска по тексту сообщения. Поиск по этому параметру выполняется для строк длиной более 2 символов"
+    },
+    {
+      "name": "DATE_FROM",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Начало периода поиска в формате ISO 8601 (RFC3339)"
+    },
+    {
+      "name": "DATE_TO",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Конец периода поиска в формате ISO 8601 (RFC3339)"
+    },
+    {
+      "name": "DATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Поиск сообщений за конкретную дату в формате ISO 8601 (RFC3339). Если параметр передан, поиск выполняется в пределах суток от указанной даты"
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры сортировки. Поддерживаемое поле: - ID — сортировка по идентификатору сообщения, значения ASC или DESC По умолчанию: {\"ID\": \"DESC\"}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество возвращаемых сообщений. Значение по умолчанию: 50. Максимальное значение: 200"
+    },
+    {
+      "name": "LAST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего сообщения из предыдущей выборки для пагинации"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/messages/im-dialog-messages-search.md"
+  },
+  "resultExample": {
+    "result": {
+      "users": [
+        {
+          "id": 1,
+          "active": true,
+          "name": "Алекс",
+          "firstName": "Алекс",
+          "lastName": "",
+          "workPosition": "",
+          "color": "#df532d",
+          "avatar": "https://cdn-ru.bitrix24.ru/path/avatar.jpg",
+          "avatarHr": "https://cdn-ru.bitrix24.ru/path/avatar.jpg",
+          "gender": "F",
+          "birthday": "",
+          "extranet": false,
+          "network": false,
+          "bot": false,
+          "connector": false,
+          "externalAuthId": "socservices",
+          "status": "online",
+          "idle": false,
+          "lastActivityDate": "2026-02-13T14:27:33+03:00",
+          "mobileLastDate": false,
+          "desktopLastDate": false,
+          "absent": false,
+          "departments": [
+            1,
+            107,
+            47,
+            3
+          ],
+          "phones": {
+            "personal_mobile": "79998887766",
+            "inner_phone": "111"
+          },
+          "botData": null,
+          "type": "user",
+          "website": "",
+          "email": "user@example.com"
+        }
+      ],
+      "files": [],
+      "additionalMessages": [],
+      "copilot": null,
+      "stickers": [],
+      "reactions": [],
+      "tariffRestrictions": {
+        "isHistoryLimitExceeded": false
+      },
+      "usersShort": [],
+      "messages": [
+        {
+          "id": 33653,
+          "chatId": 2421,
+          "chat_id": 2421,
+          "authorId": 1,
+          "author_id": 1,
+          "date": "2026-02-13T14:28:00+03:00",
+          "text": "test message",
+          "isSystem": false,
+          "uuid": "18533186-232b-4423-8438-64501da182f5",
+          "forward": null,
+          "params": [],
+          "viewedByOthers": false,
+          "block": null,
+          "unread": false,
+          "viewed": true,
+          "viewedCount": 0
+        }
+      ]
+    },
+    "time": {
+      "start": 1770982150,
+      "finish": 1770982150.503861,
+      "duration": 0.5038609504699707,
+      "processing": 0,
+      "date_start": "2026-02-13T14:29:10+03:00",
+      "date_finish": "2026-02-13T14:29:10+03:00",
+      "operating_reset_at": 1770982750,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "result.messages",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив найденных сообщений (подробное описание)"
+    },
+    {
+      "name": "result.users",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Пользователи, связанные с найденными сообщениями (подробное описание)"
+    },
+    {
+      "name": "result.files",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Файлы из найденных сообщений"
+    },
+    {
+      "name": "result.additionalMessages",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Дополнительные сообщения, связанные с найденными, например пересылаемые или цитируемые (подробное описание)"
+    },
+    {
+      "name": "result.copilot",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные BitrixGPT, если присутствуют в ответе. Может быть null"
+    },
+    {
+      "name": "result.stickers",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Стикеры, связанные с найденными сообщениями"
+    },
+    {
+      "name": "result.reactions",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Реакции на найденные сообщения (подробное описание)"
+    },
+    {
+      "name": "result.tariffRestrictions",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Информация о тарифных ограничениях истории. Содержит флаг isHistoryLimitExceeded — признак превышения лимита истории сообщений по тарифу"
+    },
+    {
+      "name": "result.usersShort",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Краткая информация о пользователях, поставивших реакции. Используется как дополняющий справочник к result.reactions.reactionUsers, содержит id, name, avatar"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/messages/im-dialog-messages-search.html",
+  "executable": false
+}

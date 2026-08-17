@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.site.unbindingFromGroup",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Отвязать Базу знаний от группы Социальной сети landing.site.unbindingFromGroup",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты и правами на редактирование Базы знаний в указанной группе",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сайта Базы знаний. id можно получить, например, из метода landing.site.getList в поле ID"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы Социальной сети. groupId можно получить: - из интерфейса группы - из результата метода landing.site.getGroupBindings в поле BINDING_ID - методом socialnetwork.api.workgroup.list - методом sonetgroup.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/embedding/knowledge-base/landing-site-unbinding-from-group.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774952664,
+      "finish": 1774952665.017161,
+      "duration": 1.0171608924865723,
+      "processing": 0,
+      "date_start": "2026-03-31T13:24:24+03:00",
+      "date_finish": "2026-03-31T13:24:25+03:00",
+      "operating_reset_at": 1774953265,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат отвязки: - true — привязка удалена - false — привязка не удалена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/embedding/knowledge-base/landing-site-unbinding-from-group.html",
+  "executable": false
+}

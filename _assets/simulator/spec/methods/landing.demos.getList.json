@@ -1,0 +1,116 @@
+{
+  "$v": 1,
+  "method": "landing.demos.getList",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список зарегистрированных шаблонов landing.demos.getList",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - value_n — значение соответствующего параметра выборки Подробнее о каждом параметре смотрите в разделе Параметр params",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "select",
+          "type": "string[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив формата: где: - field_n — поле выборки Список доступных полей для выборки смотрите в разделе Тип элемента result. Элементы select со знаком . игнорируются"
+        },
+        {
+          "name": "filter",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект формата: где: - field_n — поле фильтрации - value_n — значение фильтра Список доступных полей для фильтрации смотрите в разделе Тип элемента result. Если filter не передан или передан не в формате object, метод использует пустой фильтр {}"
+        },
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект формата: где: - field_n — поле сортировки - value_n — направление сортировки: ASC или DESC Список доступных полей для сортировки смотрите в разделе Тип элемента result"
+        },
+        {
+          "name": "group",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив полей для группировки результата. Формат: где: - field_n — поле группировки Примеры: - [\"TYPE\"] - [\"ACTIVE\", \"TYPE\"] Список доступных полей смотрите в разделе Тип элемента result"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Лимит записей в выборке"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Смещение записей в выборке"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/demos/landing-demos-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "9",
+        "XML_ID": "ftmlt/biznes",
+        "TITLE": "Бизнес",
+        "TYPE": "page",
+        "DATE_MODIFY": "27.03.2026 14:18:15",
+        "MANIFEST": false
+      }
+    ],
+    "time": {
+      "start": 1774621455,
+      "finish": 1774621455.226454,
+      "duration": 0.2264540195465088,
+      "processing": 0,
+      "date_start": "2026-03-27T17:24:15+03:00",
+      "date_finish": "2026-03-27T17:24:15+03:00",
+      "operating_reset_at": 1774622055,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список зарегистрированных шаблонов подробнее. Если подходящих записей нет, метод возвращает result: []"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/demos/landing-demos-get-list.html",
+  "executable": false
+}

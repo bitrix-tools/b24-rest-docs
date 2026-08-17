@@ -1,0 +1,119 @@
+{
+  "$v": 1,
+  "method": "calendar.section.update",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Обновить календарь calendar.section.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип календаря. Возможные значения: - user — календарь пользователя - group — календарь группы"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор владельца календаря"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор календаря"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название календаря"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание календаря"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет календаря"
+    },
+    {
+      "name": "text_color",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет текста в календаре"
+    },
+    {
+      "name": "export",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект параметров экспорта календаря",
+      "ref": "#/defs/exportFields"
+    }
+  ],
+  "defs": {
+    "exportFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ALLOW",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Разрешить экспорт календаря"
+        },
+        {
+          "name": "SET",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Период, за который производить экспорт. Возможные значения: - all — за весь период - 3_9 — 3 месяца до и 9 после - 6_12 — 6 месяцев до и 12 после"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-section-update.md"
+  },
+  "resultExample": {
+    "result": 190,
+    "time": {
+      "start": 1733812564.64201,
+      "finish": 1733812565.71673,
+      "duration": 1.0747201442718506,
+      "processing": 0.05963897705078125,
+      "date_start": "2024-12-08T06:36:04+00:00",
+      "date_finish": "2024-12-08T06:36:05+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор измененного календаря"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-section-update.html",
+  "executable": false
+}

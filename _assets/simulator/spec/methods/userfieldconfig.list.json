@@ -1,0 +1,282 @@
+{
+  "$v": 1,
+  "method": "userfieldconfig.list",
+  "scope": "userfieldconfig",
+  "kind": "read",
+  "title": "Получить список настроек пользовательских полей userfieldconfig.list",
+  "permissions": "пользователь с правом чтения объекта, которому принадлежат поля, в модуле moduleId",
+  "params": [
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор модуля, в котором выполняется поиск полей"
+    },
+    {
+      "name": "select",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Набор полей, которые нужно вернуть (подробное описание)",
+      "ref": "#/defs/selectFields"
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n - название поля, по которому будет произведена сортировка выборки - value_n - значение типа string, равное: - ASC - сортировка по возрастанию - DESC - сортировка по убыванию Список доступных полей для сортировки: - id - идентификатор пользовательского поля - fieldName - код пользовательского поля - userTypeId - тип пользовательского поля - xmlId - внешний код - sort - инд…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n - название поля, по которому будет отфильтрована выборка пользовательских полей - value_n - значение фильтра Все условия по отдельным полям соединяются с помощью AND. Смотрите ниже список доступных полей для фильтрации",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для постраничной выборки. Используйте значение параметра next из предыдущего ответа"
+    }
+  ],
+  "defs": {
+    "selectFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "\\",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Вернуть все стандартные поля настройки"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Языковой идентификатор для языковых полей, например ru или en"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор настройки поля"
+        },
+        {
+          "name": "entityId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор объекта"
+        },
+        {
+          "name": "fieldName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код поля"
+        },
+        {
+          "name": "userTypeId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип поля"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор"
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индекс сортировки"
+        },
+        {
+          "name": "multiple",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Является ли пользовательское поле множественным. Возможные значения: Y или N"
+        },
+        {
+          "name": "mandatory",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Является ли пользовательское поле обязательным. Возможные значения: Y или N"
+        },
+        {
+          "name": "showFilter",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Показывать ли поле в фильтре списка. Возможные значения: N, I, E, S"
+        },
+        {
+          "name": "showInList",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Показывать ли поле в списке. Возможные значения: Y или N"
+        },
+        {
+          "name": "editInList",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Разрешать ли редактирование значения в списке. Возможные значения: Y или N"
+        },
+        {
+          "name": "isSearchable",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Участвуют ли значения поля в поиске. Возможные значения: Y или N"
+        },
+        {
+          "name": "settings",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительные настройки поля"
+        },
+        {
+          "name": "languageId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Языковой идентификатор. При передаче этого параметра возвращается набор языковых полей на выбранном языке: - editFormLabel - подпись в форме редактирования - listColumnLabel - заголовок в списке - listFilterLabel - подпись фильтра в списке - errorMessage - сообщение об ошибке - helpMessage - помощь"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": [
+        {
+          "id": "7095",
+          "entityId": "CRM_7",
+          "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
+          "userTypeId": "enumeration",
+          "xmlId": null,
+          "sort": "100",
+          "multiple": "Y",
+          "mandatory": "N",
+          "showFilter": "N",
+          "showInList": "Y",
+          "editInList": "Y",
+          "isSearchable": "N",
+          "settings": {
+            "DISPLAY": "LIST",
+            "LIST_HEIGHT": 1,
+            "CAPTION_NO_VALUE": "",
+            "SHOW_NO_VALUE": "Y"
+          },
+          "languageId": {
+            "ru": "ru"
+          },
+          "editFormLabel": {
+            "ru": "Список характеристик"
+          },
+          "listColumnLabel": null,
+          "listFilterLabel": null,
+          "errorMessage": null,
+          "helpMessage": null
+        }
+      ]
+    },
+    "next": 50,
+    "total": 94,
+    "time": {
+      "start": 1724239307.903115,
+      "finish": 1724239308.567422,
+      "duration": 0.6643068790435791,
+      "processing": 0.20090818405151367,
+      "date_start": "2024-08-21T13:21:47+02:00",
+      "date_finish": "2024-08-21T13:21:48+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных настроек"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение следующей страницы. Поле возвращается, если количество найденных элементов больше 50"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-list.html",
+  "executable": false,
+  "entityFields": [
+    "editFormLabel",
+    "editInList",
+    "entityId",
+    "errorMessage",
+    "fieldName",
+    "helpMessage",
+    "id",
+    "isSearchable",
+    "languageId",
+    "listColumnLabel",
+    "listFilterLabel",
+    "mandatory",
+    "multiple",
+    "settings",
+    "showFilter",
+    "showInList",
+    "sort",
+    "userTypeId",
+    "xmlId"
+  ]
+}

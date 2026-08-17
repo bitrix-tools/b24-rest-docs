@@ -1,0 +1,148 @@
+{
+  "$v": 1,
+  "method": "catalog.store.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список складов по фильтру catalog.store.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта catalogstore)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных складов в формате {\"field_1\": \"value_1\", ..., \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogstore. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных складов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogstore. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/store/catalog-store-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "stores": [
+        {
+          "active": "Y",
+          "address": "пр. Московский д. 52",
+          "code": "store_1",
+          "dateCreate": "2024-10-18T16:30:45+03:00",
+          "dateModify": "2024-10-21T14:29:06+03:00",
+          "description": "Описание",
+          "email": "test@test.ru",
+          "gpsN": 54.71411,
+          "gpsS": 21.56675,
+          "id": 1,
+          "imageId": {
+            "id": 1,
+            "url": "/upload/iblock/6f1/bkm7jmwso31wisk423gtp28iagy2e8v0/test.jpeg"
+          },
+          "issuingCenter": "N",
+          "modifiedBy": 1,
+          "phone": "8 (495) 212 85 06",
+          "schedule": "Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00",
+          "sort": 100,
+          "title": "Склад 1",
+          "userId": 1,
+          "xmlId": null
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1729524388.951684,
+      "finish": 1729524389.466658,
+      "duration": 0.5149741172790527,
+      "processing": 0.04066300392150879,
+      "date_start": "2024-10-21T18:26:28+03:00",
+      "date_finish": "2024-10-21T18:26:29+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "stores",
+      "type": "catalog_store[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных складах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/store/catalog-store-list.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "address",
+    "code",
+    "dateCreate",
+    "dateModify",
+    "description",
+    "email",
+    "gpsN",
+    "gpsS",
+    "id",
+    "imageId",
+    "issuingCenter",
+    "modifiedBy",
+    "phone",
+    "schedule",
+    "sort",
+    "title",
+    "userId",
+    "xmlId"
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.bankdetail.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить банковский реквизит по id crm.requisite.bankdetail.get",
+  "permissions": "пользователь с правом на чтение контакта или компании — владельца реквизита",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор банковского реквизита. Идентификаторы банковских реквизитов можно получить с помощью метода crm.requisite.bankdetail.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "357",
+      "ENTITY_ID": "27",
+      "COUNTRY_ID": "1",
+      "DATE_CREATE": "2024-06-03T17:52:22+02:00",
+      "DATE_MODIFY": "",
+      "CREATED_BY_ID": "1",
+      "MODIFY_BY_ID": null,
+      "NAME": "ПАО Супербанк",
+      "CODE": null,
+      "XML_ID": "1e4641fd-2dd9-31e6-b2f2-105056c00008",
+      "ORIGINATOR_ID": null,
+      "ACTIVE": "Y",
+      "SORT": "600",
+      "RQ_BANK_NAME": "ПАО Супербанк",
+      "RQ_BANK_CODE": null,
+      "RQ_BANK_ADDR": "117312, г. Москва, улица Вавилова, дом 19",
+      "RQ_BANK_ROUTE_NUM": null,
+      "RQ_BIK": "044525225",
+      "RQ_MFO": null,
+      "RQ_ACC_NAME": null,
+      "RQ_ACC_NUM": "40702810938000060473",
+      "RQ_ACC_TYPE": null,
+      "RQ_IIK": null,
+      "RQ_ACC_CURRENCY": "RUR",
+      "RQ_COR_ACC_NUM": "30101810400000000225",
+      "RQ_IBAN": null,
+      "RQ_SWIFT": null,
+      "RQ_BIC": null,
+      "RQ_CODEB": null,
+      "RQ_CODEG": null,
+      "RQ_RIB": null,
+      "RQ_AGENCY_NAME": null,
+      "COMMENTS": null
+    },
+    "time": {
+      "start": 1717495619.077607,
+      "finish": 1717495619.708617,
+      "duration": 0.6310100555419922,
+      "processing": 0.07691788673400879,
+      "date_start": "2024-06-04T12:06:59+02:00",
+      "date_finish": "2024-06-04T12:06:59+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий значения полей банковского реквизита"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "CODE",
+    "COMMENTS",
+    "COUNTRY_ID",
+    "CREATED_BY_ID",
+    "DATE_CREATE",
+    "DATE_MODIFY",
+    "ENTITY_ID",
+    "ID",
+    "MODIFY_BY_ID",
+    "NAME",
+    "ORIGINATOR_ID",
+    "RQ_ACC_CURRENCY",
+    "RQ_ACC_NAME",
+    "RQ_ACC_NUM",
+    "RQ_ACC_TYPE",
+    "RQ_AGENCY_NAME",
+    "RQ_BANK_ADDR",
+    "RQ_BANK_CODE",
+    "RQ_BANK_NAME",
+    "RQ_BANK_ROUTE_NUM",
+    "RQ_BIC",
+    "RQ_BIK",
+    "RQ_CODEB",
+    "RQ_CODEG",
+    "RQ_COR_ACC_NUM",
+    "RQ_IBAN",
+    "RQ_IIK",
+    "RQ_MFO",
+    "RQ_RIB",
+    "RQ_SWIFT",
+    "SORT",
+    "XML_ID"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить счет crm.invoice.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор счета"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Значения полей для обновления счета. Чтобы узнать требуемый формат полей, выполните метод crm.invoice.fields и посмотрите формат пришедших значений этих полей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-update.html",
+  "executable": false
+}

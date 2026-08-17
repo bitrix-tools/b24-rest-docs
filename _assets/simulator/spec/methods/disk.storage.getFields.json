@@ -1,0 +1,203 @@
+{
+  "$v": 1,
+  "method": "disk.storage.getFields",
+  "scope": "disk",
+  "kind": "read",
+  "title": "Получить описание полей хранилища disk.storage.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с описанием полей хранилища. Структура описания каждого поля: - TYPE — тип данных поля - USE_IN_FILTER — возможность использовать поле при фильтрации - USE_IN_SHOW — доступность поля при получении ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор хранилища"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя хранилища"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Символьный код хранилища"
+    },
+    {
+      "name": "MODULE_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор модуля, которому принадлежит хранилище"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип объекта, с которым связано хранилище. Возможные значения: - user — хранилище пользователя - common — хранилище общих документов - group — хранилище группы"
+    },
+    {
+      "name": "ENTITY_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор объекта, с которым связано хранилище"
+    },
+    {
+      "name": "ROOT_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор корневой папки хранилища"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/storage/disk-storage-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "NAME": {
+        "TYPE": "string",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "CODE": {
+        "TYPE": "string",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "MODULE_ID": {
+        "TYPE": "string",
+        "USE_IN_FILTER": false,
+        "USE_IN_SHOW": true
+      },
+      "ENTITY_TYPE": {
+        "TYPE": "string",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "ENTITY_ID": {
+        "TYPE": "string",
+        "USE_IN_FILTER": true,
+        "USE_IN_SHOW": true
+      },
+      "ROOT_OBJECT_ID": {
+        "TYPE": "integer",
+        "USE_IN_FILTER": false,
+        "USE_IN_SHOW": true
+      }
+    },
+    "time": {
+      "start": 1769541038,
+      "finish": 1769541038.113711,
+      "duration": 0.11371111869812012,
+      "processing": 0,
+      "date_start": "2026-01-26T15:10:38+03:00",
+      "date_finish": "2026-01-26T15:10:38+03:00",
+      "operating_reset_at": 1769541638,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с описанием полей хранилища. Структура описания каждого поля: - TYPE — тип данных поля - USE_IN_FILTER — возможность использовать поле при фильтрации - USE_IN_SHOW — доступность поля при получении ответа"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор хранилища"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя хранилища"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Символьный код хранилища"
+    },
+    {
+      "name": "MODULE_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор модуля, которому принадлежит хранилище"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип объекта, с которым связано хранилище. Возможные значения: - user — хранилище пользователя - common — хранилище общих документов - group — хранилище группы"
+    },
+    {
+      "name": "ENTITY_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор объекта, с которым связано хранилище"
+    },
+    {
+      "name": "ROOT_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор корневой папки хранилища"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/storage/disk-storage-get-fields.html",
+  "executable": false
+}

@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "crm.item.delivery.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список доставок объекта CRM crm.item.delivery.list",
+  "permissions": "требуется право на чтение объекта crm, из которого выбираются доставки",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта crm"
+    },
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта crm"
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительный фильтр для случаев, когда нужно получить не все доставки объекта crm, а по какому-то более специфичному фильтру. Формат параметра filter соответствует описанному в методе sale.shipment.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Формат параметра order соответствует описанному в методе sale.shipment.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/delivery/crm-item-delivery-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_order_shipment_crm_simple",
+      "base": "any",
+      "required": false,
+      "description": "Массив объектов, содержащий краткую информацию о выбранных доставках"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/delivery/crm-item-delivery-list.html",
+  "executable": false
+}

@@ -1,0 +1,124 @@
+{
+  "$v": 1,
+  "method": "sale.paymentitembasket.getfields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить доступные поля привязок элементов корзины к оплатам sale.paymentitembasket.getfields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "paymentItemBasket",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта salepaymentitembasket, а value — объект типа restfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-basket/sale-payment-item-basket-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "paymentItemBasket": {
+        "basketId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "dateInsert": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "paymentId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "quantity": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "double"
+        },
+        "xmlId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1713345432.601877,
+      "finish": 1713345432.909408,
+      "duration": 0.30753111839294434,
+      "processing": 0.0054111480712890625,
+      "date_start": "2024-04-17T12:17:12+03:00",
+      "date_finish": "2024-04-17T12:17:12+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "paymentItemBasket",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта salepaymentitembasket, а value — объект типа restfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-basket/sale-payment-item-basket-get-fields.html",
+  "executable": false
+}

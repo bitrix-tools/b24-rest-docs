@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.lead.userfield.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить пользовательское поле лидов crm.lead.userfield.delete",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля, привязанного к лиду. Идентификатор можно получить с помощью методов crm.lead.userfield.add или crm.lead.userfield.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/userfield/crm-lead-userfield-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724419843.518672,
+      "finish": 1724419844.120328,
+      "duration": 0.6016559600830078,
+      "processing": 0.1907808780670166,
+      "date_start": "2024-08-23T15:30:43+02:00",
+      "date_finish": "2024-08-23T15:30:44+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/userfield/crm-lead-userfield-delete.html",
+  "executable": false
+}

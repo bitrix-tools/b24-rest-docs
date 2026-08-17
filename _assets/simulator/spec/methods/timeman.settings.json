@@ -1,0 +1,111 @@
+{
+  "$v": 1,
+  "method": "timeman.settings",
+  "scope": "timeman",
+  "kind": "write",
+  "title": "Получить настройки рабочего времени пользователя timeman.settings",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя. По умолчанию — идентификатор текущего пользователя"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/base/timeman-settings.md"
+  },
+  "resultExample": {
+    "result": {
+      "UF_TIMEMAN": true,
+      "UF_TM_FREE": false,
+      "UF_TM_MAX_START": "09:15:00",
+      "UF_TM_MIN_FINISH": "17:45:00",
+      "UF_TM_MIN_DURATION": "08:00:00",
+      "UF_TM_ALLOWED_DELTA": "00:15:00",
+      "ADMIN": true
+    },
+    "time": {
+      "start": 1742994169.701416,
+      "finish": 1742994169.735551,
+      "duration": 0.03413510322570801,
+      "processing": 0.0076749324798583984,
+      "date_start": "2025-03-26T16:02:49+03:00",
+      "date_finish": "2025-03-26T16:02:49+03:00",
+      "operating_reset_at": 1742994769,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит объект с описанием настроек рабочего времени пользователя"
+    },
+    {
+      "name": "UF_TIMEMAN",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Включен ли учет рабочего времени для пользователя. Имеет значение true если включен"
+    },
+    {
+      "name": "UF_TM_FREE",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Включен ли для пользователя свободный график работы. Имеет значение true если включен. Пользователю со свободным графиком не нужно подтверждать у руководителя изменения рабочего времени и указывать причины изменений"
+    },
+    {
+      "name": "UF_TM_MAX_START",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Максимальное время начала рабочего дня в формате HH:MM:SS. Начало рабочего дня позже установленного времени считается нарушением"
+    },
+    {
+      "name": "UF_TM_MIN_FINISH",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Минимальное время завершения рабочего дня в формате HH:MM:SS. Завершение рабочего дня раньше установленного времени считается нарушением"
+    },
+    {
+      "name": "UF_TM_MIN_DURATION",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Минимальная длительность рабочего дня в формате HH:MM:SS. Рабочий день, длительность которого меньше установленной, считается нарушением"
+    },
+    {
+      "name": "UF_TM_ALLOWED_DELTA",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Допустимый промежуток изменения рабочего времени в формате HH:MM:SS. Изменение рабочего дня на период меньше установленного не требует подтверждения руководителя"
+    },
+    {
+      "name": "ADMIN",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Может ли пользователь управлять рабочими днями других сотрудников. Возвращается только для текущего пользователя. Имеет значение true если права есть"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/base/timeman-settings.html",
+  "executable": false
+}

@@ -1,0 +1,92 @@
+{
+  "$v": 1,
+  "method": "crm.item.productrow.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить товарные позиции объекта CRM crm.item.productrow.list",
+  "permissions": "требуется право на чтение объекта CRM, товарные позиции которого выбираются",
+  "params": [
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта crm_item_product_row. Следующие ключи должны обязательно присутствовать: =ownerType =ownerId В =ownerType передавайте Краткий символьный код типа. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных элементов табличной части отгрузки в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта crm_item_product_row. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/product-rows/crm-item-productrow-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "productRows",
+      "type": "crm_item_product_row[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, содержащий информацию о выбранных товарных позициях объекта CRM"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-list.html",
+  "executable": false,
+  "entityFields": [
+    "discountRate",
+    "discountSum",
+    "discountTypeId",
+    "measureCode",
+    "ownerId",
+    "ownerType",
+    "price",
+    "productId",
+    "productName",
+    "quantity",
+    "sort",
+    "taxIncluded",
+    "taxRate"
+  ]
+}

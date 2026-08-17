@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.recurring.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить настройку регулярного счета crm.invoice.recurring.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор настройки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-recurring-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-recurring-delete.html",
+  "executable": false
+}

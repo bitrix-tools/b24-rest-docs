@@ -1,0 +1,38 @@
+{
+  "$v": 1,
+  "method": "calendar.accessibility.get",
+  "scope": "calendar",
+  "kind": "read",
+  "title": "Получить занятость пользователей из списка calendar.accessibility.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат содержит объект. Ключ объекта — это идентификатор пользователя из запроса. Значение — массив объектов, каждый из которых описывает событие, в котором занят пользователь в указанный период",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-event/calendar-accessibility-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат содержит объект. Ключ объекта — это идентификатор пользователя из запроса. Значение — массив объектов, каждый из которых описывает событие, в котором занят пользователь в указанный период"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-event/calendar-accessibility-get.html",
+  "executable": false
+}

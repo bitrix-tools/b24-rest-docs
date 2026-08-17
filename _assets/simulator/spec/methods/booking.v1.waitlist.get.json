@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "booking.v1.waitlist.get",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить запись из листа ожидания booking.v1.waitlist.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи в листе ожидания. Можно получить в методах booking.v1.waitlist.add и booking.v1.waitlist.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/waitlist/booking-v1-waitlist-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "waitList": {
+        "id": 7,
+        "note": null
+      }
+    },
+    "time": {
+      "start": 1741002780.099604,
+      "finish": 1741002780.381558,
+      "duration": 0.2819540500640869,
+      "processing": 0.14896297454833984,
+      "date_start": "2025-03-03T11:53:00+00:00",
+      "date_finish": "2025-03-03T11:53:00+00:00",
+      "operating": 0.14890098571777344
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях записи в листе ожидания. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/waitlist/booking-v1-waitlist-get.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "note"
+  ]
+}

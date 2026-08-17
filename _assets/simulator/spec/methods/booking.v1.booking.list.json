@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "booking.v1.booking.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить список бронирований booking.v1.booking.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка бронирований. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Значение по умолчанию — {id: 'ASC'}. Описание доступных полей ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/booking/booking-v1-booking-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "booking": [
+        {
+          "datePeriod": {
+            "from": {
+              "timestamp": 1723446900,
+              "timezone": "Europe/Kaliningrad"
+            },
+            "to": {
+              "timestamp": 1723447800,
+              "timezone": "Europe/Kaliningrad"
+            }
+          },
+          "description": null,
+          "id": 15,
+          "name": "бронирование 15",
+          "resourceIds": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит массив объектов с информацией о бронированиях. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/booking/booking-v1-booking-list.html",
+  "executable": false,
+  "entityFields": [
+    "datePeriod",
+    "description",
+    "id",
+    "name",
+    "resourceIds"
+  ]
+}

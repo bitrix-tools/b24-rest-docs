@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "note.document.delete",
+  "scope": "note",
+  "kind": "write",
+  "title": "Переместить документ в корзину note.document.delete",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Редактирование» для базы знаний документа",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа. Идентификатор можно получить методом note.document.tree.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/document/note-document-delete.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1780391700,
+      "finish": 1780391700.241204,
+      "duration": 0.24120402336120605,
+      "processing": 0.19732117652893066,
+      "date_start": "2026-06-16T12:15:00+03:00",
+      "date_finish": "2026-06-16T12:15:00+03:00",
+      "operating_reset_at": 1780392300,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом удаления документа"
+    },
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Значение true, если документ успешно перенесен в корзину"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/document/note-document-delete.html",
+  "executable": false
+}

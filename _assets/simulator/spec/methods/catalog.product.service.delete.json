@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "catalog.product.service.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить услугу catalog.product.service.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_service.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор услуги. Для получения идентификаторов услуг необходимо использовать catalog.product.service.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/service/catalog-product-service-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718362658.676929,
+      "finish": 1718362659.517447,
+      "duration": 0.8405179977416992,
+      "processing": 0.39598703384399414,
+      "date_start": "2024-06-14T13:57:38+03:00",
+      "date_finish": "2024-06-14T13:57:39+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления услуги"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/service/catalog-product-service-delete.html",
+  "executable": false
+}

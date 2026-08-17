@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "task.stages.movetask",
+  "scope": "task",
+  "kind": "write",
+  "title": "Переместить задачу из одной стадии в другую task.stages.movetask",
+  "permissions": "> - любой пользователь для стадий «Моего плана»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "stageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID стадии, в которую надо переместить задачу"
+    },
+    {
+      "name": "before",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "ID задачи, перед которой надо поставить задачу в стадии"
+    },
+    {
+      "name": "after",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "ID задачи, после которой надо поставить задачу в стадии"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/stages/task-stages-move-task.md"
+  },
+  "resultExample": {
+    "result": true
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true в случае успешного перемещения стадии"
+    }
+  ],
+  "page": "/api-reference/tasks/stages/task-stages-move-task.html",
+  "executable": false
+}

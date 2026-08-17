@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.region.get",
+  "scope": "documentgenerator",
+  "kind": "read",
+  "title": "Получить регион по идентификатору documentgenerator.region.get",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор пользовательского региона или код предустановленного региона, например, ru. Получить идентификатор можно после создания региона или методом получения списка регионов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/region/document-generator-region-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "region": {
+        "id": "1",
+        "title": "Россия (Пользовательский)",
+        "languageId": "ru",
+        "formatDate": "YYYY-MM-DD",
+        "formatDatetime": "DD.MM.YYYY HH:MI:SS",
+        "formatName": "#LAST_NAME# #NAME# #SECOND_NAME#",
+        "phrases": {
+          "TAX_INCLUDED": "Налог включен в цену",
+          "TAX_NOT_INCLUDED": "НДС не включен в цену"
+        }
+      }
+    },
+    "time": {
+      "start": 1774505900,
+      "finish": 1774505900.746113,
+      "duration": 0.7461130619049072,
+      "processing": 0,
+      "date_start": "2026-03-26T09:18:20+03:00",
+      "date_finish": "2026-03-26T09:18:20+03:00",
+      "operating_reset_at": 1774506500,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/region/document-generator-region-get.html",
+  "executable": false,
+  "entityFields": [
+    "formatDate",
+    "formatDatetime",
+    "formatName",
+    "id",
+    "languageId",
+    "phrases",
+    "title"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "catalog.priceType.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей типа цены catalog.priceType.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price_type.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор типа цены"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/catalog-price-type-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceType": {
+        "base": "Y",
+        "createdBy": 1,
+        "dateCreate": "2023-08-30T13:43:41+02:00",
+        "id": 1,
+        "modifiedBy": 1,
+        "name": "BASE",
+        "sort": 100,
+        "timestampX": "2023-08-30T13:43:41+02:00",
+        "xmlId": "BASE"
+      }
+    },
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2023-08-30T13:43:41+02:00",
+      "date_finish": "2023-08-30T13:43:41+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceType",
+      "type": "catalog_price_type",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о типе цены с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/catalog-price-type-get.html",
+  "executable": false,
+  "entityFields": [
+    "base",
+    "createdBy",
+    "dateCreate",
+    "id",
+    "modifiedBy",
+    "name",
+    "sort",
+    "timestampX",
+    "xmlId"
+  ]
+}

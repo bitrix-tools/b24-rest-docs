@@ -1,0 +1,131 @@
+{
+  "$v": 1,
+  "method": "sale.basketproperties.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Изменить свойство элемента корзины sale.basketproperties.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_basket_item_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор позиции заказа"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения изменяемых полей (подробное описание приведено ниже) свойства элемента (позиции) корзины:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название свойства"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Значение свойства"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код свойства"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Положение в списке свойств"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код свойства"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-properties/sale-basket-properties-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketProperty": {
+        "basketId": 6806,
+        "code": "ARTICUL",
+        "id": 17,
+        "name": "Артикул",
+        "sort": 100,
+        "value": "123-456-789",
+        "xmlId": "bx_662a44cff2b81"
+      }
+    },
+    "total": 1,
+    "time": {
+      "start": 1714049553.754992,
+      "finish": 1714049555.158799,
+      "duration": 1.4038069248199463,
+      "processing": 0.67576003074646,
+      "date_start": "2024-04-25T14:52:33+02:00",
+      "date_finish": "2024-04-25T14:52:35+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketProperty",
+      "type": "sale_basket_item_property",
+      "base": "any",
+      "required": false,
+      "description": "Объект с данными измененного свойства элемента (позиции) корзины"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Число обработанных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-properties/sale-basket-properties-update.html",
+  "executable": false
+}

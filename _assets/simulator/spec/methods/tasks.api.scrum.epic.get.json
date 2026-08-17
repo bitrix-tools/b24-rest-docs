@@ -1,0 +1,137 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.epic.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить поля эпика по его идентификатору tasks.api.scrum.epic.get",
+  "permissions": "любой пользователь, имеющий доступ к Скраму",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор эпика. Получить идентификаторы эпиков можно методом tasks.api.scrum.epic.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get.md"
+  },
+  "resultExample": {
+    "id": 1,
+    "groupId": 143,
+    "name": "эпик",
+    "description": "",
+    "createdBy": 1,
+    "modifiedBy": 0,
+    "color": "#69dafc",
+    "files": {
+      "ID": "136",
+      "ENTITY_ID": "TASKS_SCRUM_EPIC",
+      "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
+      "USER_TYPE_ID": "disk_file",
+      "XML_ID": null,
+      "SORT": "100",
+      "MULTIPLE": "Y",
+      "MANDATORY": "N",
+      "SHOW_FILTER": "N",
+      "SHOW_IN_LIST": "N",
+      "EDIT_IN_LIST": "N",
+      "IS_SEARCHABLE": "N",
+      "SETTINGS": {
+        "IBLOCK_ID": null,
+        "SECTION_ID": null,
+        "UF_TO_SAVE_ALLOW_EDIT": false
+      },
+      "USER_TYPE": {
+        "USER_TYPE_ID": "disk_file",
+        "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
+        "DESCRIPTION": "Файл (Диск)",
+        "BASE_TYPE": "int",
+        "TAG": [
+          "DISK FILE ID",
+          "DOCUMENT ID"
+        ]
+      },
+      "VALUE": [],
+      "ENTITY_VALUE_ID": 1,
+      "CUSTOM_DATA": {
+        "PHOTO_TEMPLATE": ""
+      },
+      "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
+      "TAG": "DOCUMENT ID"
+    }
+  },
+  "returns": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор эпика"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы (скрама), к которой привязан эпик"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название эпика"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание эпика"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего эпик"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, который последним изменял эпик"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет эпика в формате HEX"
+    },
+    {
+      "name": "files",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными обо всех файлах, прикрепленных к эпику"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get.html",
+  "executable": false,
+  "entityFields": [
+    "color",
+    "createdBy",
+    "description",
+    "files",
+    "groupId",
+    "modifiedBy",
+    "name"
+  ]
+}

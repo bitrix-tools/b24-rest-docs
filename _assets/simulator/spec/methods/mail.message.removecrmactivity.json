@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "mail.message.removecrmactivity",
+  "scope": "mail",
+  "kind": "write",
+  "title": "Удалить связь письма с делом CRM mail.message.removecrmactivity",
+  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо",
+  "params": [
+    {
+      "name": "messageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор письма. Идентификатор можно получить методом mail.message.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/message/mail-message-removecrmactivity.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1779819678,
+      "finish": 1779819678.84803,
+      "duration": 0.8480300903320312,
+      "processing": 0,
+      "date_start": "2026-05-26T21:21:18+03:00",
+      "date_finish": "2026-05-26T21:21:18+03:00",
+      "operating_reset_at": 1779820278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если связь письма с делом CRM удалена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/message/mail-message-removecrmactivity.html",
+  "executable": false
+}

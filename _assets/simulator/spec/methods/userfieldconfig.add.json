@@ -1,0 +1,232 @@
+{
+  "$v": 1,
+  "method": "userfieldconfig.add",
+  "scope": "userfieldconfig",
+  "kind": "write",
+  "title": "Добавить пользовательское поле userfieldconfig.add",
+  "permissions": "пользователь с правом изменения настроек объекта в модуле moduleId (для crm — право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор модуля, в котором создается поле"
+    },
+    {
+      "name": "field",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с настройками пользовательского поля (подробное описание)",
+      "ref": "#/defs/fieldFields"
+    }
+  ],
+  "defs": {
+    "fieldFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "entityId",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Идентификатор объекта, для которого создается поле. Формат зависит от модуля, например CRM_7 для смарт-процесса"
+        },
+        {
+          "name": "fieldName",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Код поля в формате UF_{ИДЕНТИФИКАТОР_ОБЪЕКТА}_{POSTFIX}. Код должен быть уникальным в рамках объекта. Допустимы символы A-Z, 0-9, _. Максимальная длина кода 50 символов"
+        },
+        {
+          "name": "userTypeId",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Идентификатор типа поля. Список доступных типов возвращает метод userfieldconfig.getTypes"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор поля"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки. По умолчанию 100"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли поле множественным. Возможные значения: Y или N. По умолчанию N"
+        },
+        {
+          "name": "mandatory",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли поле обязательным. Возможные значения: Y или N. По умолчанию N"
+        },
+        {
+          "name": "showFilter",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли поле в фильтре. Возможные значения: Y или N. По умолчанию N"
+        },
+        {
+          "name": "editInList",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Разрешать ли редактирование значения в списке. Возможные значения: Y или N"
+        },
+        {
+          "name": "isSearchable",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Участвуют ли значения поля в поиске. Возможные значения: Y или N"
+        },
+        {
+          "name": "settings",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные настройки поля. Набор ключей зависит от userTypeId (подробное описание)"
+        },
+        {
+          "name": "editFormLabel",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подпись в форме редактирования. При передаче строки используется как общее значение, при передаче lang_map можно задать подпись по языкам"
+        },
+        {
+          "name": "helpMessage",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Текст подсказки. При передаче строки используется как общее значение, при передаче lang_map можно задать подсказку по языкам"
+        },
+        {
+          "name": "enum",
+          "type": "uf_enum_element[]",
+          "base": "array",
+          "required": false,
+          "description": "Варианты значений для поля типа enumeration"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "field": {
+        "id": "6953",
+        "entityId": "CRM_7",
+        "fieldName": "UF_CRM_7_NEW_REST_LIST_2026",
+        "userTypeId": "enumeration",
+        "xmlId": null,
+        "sort": "100",
+        "multiple": "Y",
+        "mandatory": "N",
+        "showFilter": "N",
+        "showInList": "Y",
+        "editInList": "Y",
+        "isSearchable": "N",
+        "settings": {
+          "DISPLAY": "LIST",
+          "LIST_HEIGHT": 1,
+          "CAPTION_NO_VALUE": "",
+          "SHOW_NO_VALUE": "Y"
+        },
+        "languageId": {
+          "en": "en",
+          "ru": "ru"
+        },
+        "editFormLabel": {
+          "en": "List of characteristics",
+          "ru": "Список характеристик"
+        },
+        "listColumnLabel": {
+          "en": null,
+          "ru": null
+        },
+        "listFilterLabel": {
+          "en": null,
+          "ru": null
+        },
+        "errorMessage": {
+          "en": null,
+          "ru": null
+        },
+        "helpMessage": {
+          "en": null,
+          "ru": null
+        },
+        "enum": [
+          {
+            "id": "3363",
+            "userFieldId": "6953",
+            "value": "Характеристика 1",
+            "def": "N",
+            "sort": "100",
+            "xmlId": "56dff18efcfe25f3bae0117a6b372567"
+          },
+          {
+            "id": "3365",
+            "userFieldId": "6953",
+            "value": "Характеристика 2",
+            "def": "Y",
+            "sort": "200",
+            "xmlId": "42e3ebcf5506a65283bf3bf510d8f05a"
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1724239307.903115,
+      "finish": 1724239308.567422,
+      "duration": 0.6643068790435791,
+      "processing": 0.20090818405151367,
+      "date_start": "2024-08-21T13:21:47+02:00",
+      "date_finish": "2024-08-21T13:21:48+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-add.html",
+  "executable": false
+}

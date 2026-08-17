@@ -1,0 +1,161 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Bot.register",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Зарегистрировать бота imbot.v2.Bot.register",
+  "permissions": "авторизованный пользователь",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с параметрами бота. Описание параметров — ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Уникальный код бота в рамках приложения"
+        },
+        {
+          "name": "botToken",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передайте уникальный botToken — этот ключ будет привязан к чат-боту и потребуется для всех последующих вызовов imbot.v2 через вебхук. Максимальная длина — 40 символов. С 06.08.2026 токены длиннее 40 символов будут отклоняться с ошибкой BOT_TOKEN_INVALID_LENGTH.…"
+        },
+        {
+          "name": "properties",
+          "type": "object",
+          "base": "object",
+          "required": true,
+          "description": "Свойства профиля бота. Описание параметров — ниже"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип бота. Описание типов и их поведения — Типы ботов. Значение по умолчанию: bot"
+        },
+        {
+          "name": "eventMode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Режим доставки событий. Допустимые значения: - fetch — бот забирает события через imbot.v2.Event.get - webhook — события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch"
+        },
+        {
+          "name": "webhookUrl",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "URL обработчика событий бота. Обязателен при eventMode = webhook"
+        },
+        {
+          "name": "isHidden",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Скрытый бот. Допустимые значения: true, false. По умолчанию false"
+        },
+        {
+          "name": "isReactionsEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включить поддержку реакций. Допустимые значения: true, false. По умолчанию true"
+        },
+        {
+          "name": "isSupportOpenline",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включить поддержку Открытых линий. Допустимые значения: true, false. По умолчанию false"
+        },
+        {
+          "name": "backgroundId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Фон чата бота. По умолчанию null — используется фон из настроек пользователя. Доступные значения — в таблице фонов. Невалидное значение нормализуется в null"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/bots/bot-register.md"
+  },
+  "resultExample": {
+    "result": {
+      "bot": {
+        "id": 456,
+        "code": "support_bot",
+        "type": "bot",
+        "isHidden": false,
+        "isSupportOpenline": false,
+        "isReactionsEnabled": true,
+        "backgroundId": null,
+        "language": "en",
+        "moduleId": "rest",
+        "eventMode": "fetch",
+        "countMessage": 0,
+        "countCommand": 0,
+        "countChat": 0,
+        "countUser": 0
+      },
+      "users": [
+        {
+          "id": 456,
+          "active": true,
+          "name": "Support Bot",
+          "firstName": "Support",
+          "lastName": "Bot",
+          "workPosition": "AI Assistant",
+          "color": "#df532d",
+          "avatar": "",
+          "gender": "M",
+          "birthday": "",
+          "extranet": false,
+          "bot": true,
+          "connector": false,
+          "externalAuthId": "bot",
+          "status": "online",
+          "idle": false,
+          "lastActivityDate": "2025-01-15T10:30:00+03:00",
+          "absent": false,
+          "departments": [
+            1
+          ],
+          "phones": false,
+          "type": "bot"
+        }
+      ]
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/bots/bot-register.html",
+  "executable": false
+}

@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "user.option.set",
+  "scope": "базовый",
+  "kind": "write",
+  "title": "Привязать данные к пользователю и приложению user.option.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "options",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив, где ключ — название сохраняемого свойства, а значение — значение свойства. Если передать значение с новым ключом, то метод его запишет, а если существующее — обновит",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/settings/user-option-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1722001311.94644,
+      "finish": 1722001311.98622,
+      "duration": 0.0397801399230957,
+      "processing": 0.000041961669921875,
+      "date_start": "2024-07-26T13:41:51+00:00",
+      "date_finish": "2024-07-26T13:41:51+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращается true, если настройки сохранены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/settings/user-option-set.html",
+  "executable": false
+}

@@ -1,0 +1,87 @@
+{
+  "$v": 1,
+  "method": "sign.b2e.document.get",
+  "scope": "sign.b2e",
+  "kind": "read",
+  "title": "Получить документ sign.b2e.document.get",
+  "permissions": "пользователь с правом просмотра документов КЭДО",
+  "params": [
+    {
+      "name": "uid",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный идентификатор документа"
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Язык локализации статусов в ответе. По умолчанию en"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sign/sign-b2e-document-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "uid": "b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c",
+      "state": {
+        "code": "in_progress",
+        "name": "В процессе"
+      },
+      "members": [
+        {
+          "uid": "f1c2d3e4",
+          "role": "signer",
+          "party": 0,
+          "user": {
+            "employeeCode": "EMP-001",
+            "employeeId": 123,
+            "userId": 25
+          },
+          "state": {
+            "code": "signed",
+            "name": "Подписано"
+          }
+        }
+      ]
+    },
+    "time": {
+      "start": 1739860000.123,
+      "finish": 1739860000.456,
+      "duration": 0.333,
+      "processing": 0.111,
+      "date_start": "2025-02-18T09:19:34+03:00",
+      "date_finish": "2025-02-18T09:19:34+03:00",
+      "operating_reset_at": 1739860600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Информация о документе и участниках подписания"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sign/sign-b2e-document-get.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "name"
+  ]
+}

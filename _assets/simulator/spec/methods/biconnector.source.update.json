@@ -1,0 +1,98 @@
+{
+  "$v": 1,
+  "method": "biconnector.source.update",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Изменить источник biconnector.source.update",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор источника, можно получить методами biconnector.source.list и biconnector.source.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий обновляемые данные. Формат объекта: - field_n — название поля - value_n — значение поля Подробное описание ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое название источника"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое описание источника"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Активность источника"
+        },
+        {
+          "name": "settings",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Список параметров для авторизации, передается объектом, где ключ — code параметра. Параметры можно получить методами biconnector.connector.list или biconnector.connector.get"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/source/biconnector-source-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725365418.056843,
+      "finish": 1725365419.671506,
+      "duration": 1.6146628856658936,
+      "processing": 1.3475170135498047,
+      "date_start": "2024-09-03T14:10:18+02:00",
+      "date_finish": "2024-09-03T14:10:19+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/source/biconnector-source-update.html",
+  "executable": false
+}

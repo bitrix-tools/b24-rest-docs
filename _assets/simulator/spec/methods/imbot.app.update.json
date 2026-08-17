@@ -1,0 +1,137 @@
+{
+  "$v": 1,
+  "method": "imbot.app.update",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Изменить данные о приложении в чате imbot.app.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "APP_ID",
+      "type": "unknown",
+      "base": "any",
+      "required": true,
+      "description": "13"
+    },
+    {
+      "name": "IFRAME",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'https://marta.bitrix24.tech/iframe/echo.php'"
+    },
+    {
+      "name": "IFRAME_WIDTH",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'350'"
+    },
+    {
+      "name": "IFRAME_HEIGHT",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'150'"
+    },
+    {
+      "name": "JS_METHOD",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'SEND'"
+    },
+    {
+      "name": "JS_PARAM",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'/help'"
+    },
+    {
+      "name": "HASH",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'register'"
+    },
+    {
+      "name": "ICON_FILE",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'/* base64 image */'"
+    },
+    {
+      "name": "CONTEXT",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'BOT'"
+    },
+    {
+      "name": "EXTRANET_SUPPORT",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'N'"
+    },
+    {
+      "name": "LIVECHAT_SUPPORT",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'N'"
+    },
+    {
+      "name": "IFRAME_POPUP",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'N'"
+    },
+    {
+      "name": "LANG",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Array(...)"
+    },
+    {
+      "name": "LANGUAGE_ID (LANG)",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'en'"
+    },
+    {
+      "name": "TITLE (LANG)",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'Echobot IFRAME'"
+    },
+    {
+      "name": "DESCRIPTION (LANG)",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'Open Echobot IFRAME app'"
+    },
+    {
+      "name": "COPYRIGHT (LANG)",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "'Bitrix24'"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/outdated/create-app/imbot-app-update.md"
+  },
+  "page": "/api-reference/chats/outdated/create-app/imbot-app-update.html",
+  "executable": false
+}

@@ -1,0 +1,138 @@
+{
+  "$v": 1,
+  "method": "note.collection.get",
+  "scope": "note",
+  "kind": "read",
+  "title": "Получить базу знаний note.collection.get",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Просмотр» для нужной базы знаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор базы знаний. Идентификатор можно получить методом note.collection.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/collection/note-collection-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 42,
+        "name": "Продуктовая документация",
+        "position": 100,
+        "policyLevel": "manage",
+        "createdBy": 1,
+        "createdAt": "2026-04-20T12:00:00Z",
+        "updatedBy": 1,
+        "updatedAt": "2026-04-21T09:15:30Z"
+      }
+    },
+    "time": {
+      "start": 1780640400,
+      "finish": 1780640400.215441,
+      "duration": 0.21544098854064941,
+      "processing": 0.1772141456604004,
+      "date_start": "2026-06-19T10:20:00+03:00",
+      "date_finish": "2026-06-19T10:20:00+03:00",
+      "operating_reset_at": 1780641000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными базы знаний"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект базы знаний"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор базы знаний"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название базы знаний"
+    },
+    {
+      "name": "position",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Позиция базы знаний в общем списке"
+    },
+    {
+      "name": "policyLevel",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Базовая политика доступа базы знаний. Возможные значения: - none — нет доступа - view — просмотр - manage — редактирование - moderate — администрирование"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор автора базы знаний"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания базы знаний в UTC"
+    },
+    {
+      "name": "updatedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего редактора базы знаний"
+    },
+    {
+      "name": "updatedAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего изменения базы знаний в UTC"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/collection/note-collection-get.html",
+  "executable": false,
+  "entityFields": [
+    "createdAt",
+    "createdBy",
+    "id",
+    "name",
+    "policyLevel",
+    "position",
+    "updatedAt",
+    "updatedBy"
+  ]
+}

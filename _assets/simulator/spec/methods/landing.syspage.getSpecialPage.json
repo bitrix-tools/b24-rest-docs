@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "landing.syspage.getSpecialPage",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить адрес специальной страницы сайта landing.syspage.getSpecialPage",
+  "permissions": "пользователь с правом «чтение» сайта",
+  "params": [
+    {
+      "name": "siteId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить методом landing.site.getList или из результата метода landing.site.add"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код специальной страницы, который метод ищет в привязках сайта. Метод ищет точное совпадение по строке, без обрезки пробелов и без нормализации регистра. Возможные значения: - mainpage — главная страница - catalog — главная страница каталога - personal — персональный раздел - cart — корзина - order — оформление заказа - payment — страница оплаты - compare — страница сравнения - feedback — страница…"
+    },
+    {
+      "name": "additional",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры URL (подробное описание). Каждая пара ключ-значение добавляется к итоговому URL найденной страницы. По умолчанию — пустой объект",
+      "ref": "#/defs/additionalFields"
+    }
+  ],
+  "defs": {
+    "additionalFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "result",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "URL специальной страницы. Если передан additional и страница найдена, параметры будут добавлены в строку запроса. Метод не проверяет, активна ли страница и не помечена ли она как удаленная. Возвращает null, если сайт не найден или у пользователя нет права «чтение» сайта siteId.…"
+        },
+        {
+          "name": "time",
+          "type": "time",
+          "base": "object",
+          "required": false,
+          "description": "Информация о времени выполнения запроса"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/special-pages/landing-syspage-get-special-page.md"
+  },
+  "resultExample": {
+    "result": "https://btest.bitrix24.shop/personalnyyrazdel/?SECTION=private",
+    "time": {
+      "start": 1774359422,
+      "finish": 1774359422.588757,
+      "duration": 0.5887570381164551,
+      "processing": 0,
+      "date_start": "2026-03-24T16:37:02+03:00",
+      "date_finish": "2026-03-24T16:37:02+03:00",
+      "operating_reset_at": 1774360022,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL специальной страницы. Если передан additional и страница найдена, параметры будут добавлены в строку запроса. Метод не проверяет, активна ли страница и не помечена ли она как удаленная. Возвращает null, если сайт не найден или у пользователя нет права «чтение» сайта siteId.…"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/special-pages/landing-syspage-get-special-page.html",
+  "executable": false
+}

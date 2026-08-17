@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "crm.product.property.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список свойств товаров crm.product.property.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "order",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Сортировка"
+    },
+    {
+      "name": "filter",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Поля фильтра"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/products/crm-product-property-list.md"
+  },
+  "deprecated": {
+    "successor": "catalog.productProperty.list"
+  },
+  "page": "/api-reference/crm/outdated/products/crm-product-property-list.html",
+  "executable": false
+}

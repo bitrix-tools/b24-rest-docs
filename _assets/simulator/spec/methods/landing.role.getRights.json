@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "landing.role.getRights",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить права роли landing.role.getRights",
+  "permissions": "администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор роли. Получить идентификатор можно с помощью метода landing.role.getList"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/role-model/landing-role-get-rights.md"
+  },
+  "resultExample": {
+    "result": {
+      "0": [
+        "read",
+        "edit"
+      ],
+      "5": [
+        "read"
+      ]
+    },
+    "time": {
+      "start": 1775064046,
+      "finish": 1775064046.935469,
+      "duration": 0.9354689121246338,
+      "processing": 0,
+      "date_start": "2026-04-01T20:20:46+03:00",
+      "date_finish": "2026-04-01T20:20:46+03:00",
+      "operating_reset_at": 1775064646,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив прав роли по сайтам, где ключом выступает идентификатор сайта, а значением — массив кодов прав (подробное описание). Если у роли нет сохраненных прав или роль с таким id не найдена, метод возвращает пустой массив []"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/role-model/landing-role-get-rights.html",
+  "executable": false
+}

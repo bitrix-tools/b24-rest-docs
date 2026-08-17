@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "task.item.delegate",
+  "scope": "task",
+  "kind": "write",
+  "title": "Делегировать задачу task.item.delegate",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "USERID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор нового исполнителя (ответственного)"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-item-delegate.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.delegate"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-item-delegate.html",
+  "executable": false
+}

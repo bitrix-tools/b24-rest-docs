@@ -1,0 +1,155 @@
+{
+  "$v": 1,
+  "method": "catalog.document.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Изменить документ складского учета catalog.document.update",
+  "permissions": "пользователь с правом «Cоздание и редактирование» на нужный тип документа",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_document.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор документа, можно получить методом catalog.document.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Поля документа (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "responsibleId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор ответственного"
+        },
+        {
+          "name": "dateModify",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Можно передать собственную дату изменения. По умолчанию — текущая дата"
+        },
+        {
+          "name": "dateDocument",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата проведения документа"
+        },
+        {
+          "name": "total",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Общая сумма по товарам документа. Пересчитывается автоматически после изменения товарных позиций"
+        },
+        {
+          "name": "commentary",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Комментарий к документу"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название документа"
+        },
+        {
+          "name": "docNumber",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внутренний номер документа"
+        },
+        {
+          "name": "modifiedBy",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, изменившего документ. Администратор может указать любое значение, по умолчанию заполняется текущим пользователем"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "document": {
+        "commentary": "Обновили ответсвенного",
+        "createdBy": 29,
+        "currency": "RUB",
+        "dateCreate": "2025-10-30T11:19:38+03:00",
+        "dateDocument": null,
+        "dateModify": "2025-10-30T11:33:42+03:00",
+        "dateStatus": "2025-10-30T11:19:38+03:00",
+        "docNumber": "IN-00042",
+        "docType": "A",
+        "id": 11,
+        "modifiedBy": 29,
+        "responsibleId": 21,
+        "siteId": "s1",
+        "status": "N",
+        "statusBy": null,
+        "title": "Поступление от Поставщик-1 (корректировка)",
+        "total": null
+      }
+    },
+    "time": {
+      "start": 1761806022,
+      "finish": 1761806022.36133,
+      "duration": 0.3613300323486328,
+      "processing": 0,
+      "date_start": "2025-10-30T09:33:42+03:00",
+      "date_finish": "2025-10-30T09:33:42+03:00",
+      "operating_reset_at": 1761806622,
+      "operating": 0.17665815353393555
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "document",
+      "type": "catalog_document",
+      "base": "any",
+      "required": false,
+      "description": "Объект с обновленными данными документа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-update.html",
+  "executable": false
+}

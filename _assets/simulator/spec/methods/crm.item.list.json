@@ -1,0 +1,205 @@
+{
+  "$v": 1,
+  "method": "crm.item.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список элементов crm.item.list",
+  "permissions": "любой пользователь с правом «чтения» элементов объекта CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа, чьи элементы нужно получить. Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счет — 31 и др.) приведены в справочнике типов объектов CRM. Идентификатор смарт-процесса можно узнать методом crm.type.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые должны быть заполнены у элементов в выборке. Может содержать в себе только названия полей элемента или '*'. Список всех доступных полей для выборки можно узнать методом crm.item.fields.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где - field_n — название поля по которому будет отфильтрована выборка элементов - value_n — значение фильтра Фильтр может иметь неограниченную вложенность и количество условий. По умолчанию все условия соединяются друг с другом как AND (логическое И). Если нужно использовать OR (Логическое ИЛИ), то можно передать специальный ключ logic со значением OR.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где - field_n — название поля по которому будет произведена сортировка выборки элементов - value_n — значение типа string равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список всех доступных полей для сортировки можно узнать методом crm.item.fields. Перечень стандартных полей доступен в статье Поля объектов CRM",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    },
+    {
+      "name": "useOriginalUfNames",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Параметр для управления форматом имен пользовательских полей в запросе и ответе. Возможные значения: - Y — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830 - N — имена пользовательских полей в camelCase, например ufCrm2_1639669411830 По умолчанию — N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/crm-item-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 253,
+          "assignedById": 6,
+          "stageId": "NEW",
+          "opportunity": 19000,
+          "sourceId": "WEB",
+          "title": "Лид #253",
+          "name": "Админ",
+          "lastName": null,
+          "isManualOpportunity": "Y"
+        },
+        {
+          "id": 255,
+          "assignedById": 1,
+          "stageId": "NEW",
+          "opportunity": 19600,
+          "sourceId": "WEB",
+          "title": "Лид #255",
+          "name": "Иван",
+          "lastName": "Иванов",
+          "isManualOpportunity": "Y"
+        },
+        {
+          "id": 252,
+          "assignedById": 1,
+          "stageId": "NEW",
+          "opportunity": 12000,
+          "sourceId": "ADVERTISING",
+          "title": "Лид #252",
+          "name": "Иван",
+          "lastName": "Котов",
+          "isManualOpportunity": "Y"
+        },
+        {
+          "id": 254,
+          "assignedById": 6,
+          "stageId": "IN_PROCESS",
+          "opportunity": 19000,
+          "sourceId": "ADVERTISING",
+          "title": "Лид #254",
+          "name": "Кот",
+          "lastName": "Котов",
+          "isManualOpportunity": "Y"
+        }
+      ]
+    },
+    "total": 4,
+    "time": {
+      "start": 1721724354.214286,
+      "finish": 1721724354.805263,
+      "duration": 0.5909769535064697,
+      "processing": 0.24513697624206543,
+      "date_start": "2024-07-23T10:45:54+02:00",
+      "date_finish": "2024-07-23T10:45:54+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит единственный ключ items"
+    },
+    {
+      "name": "items",
+      "type": "item[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив c информацией о найденных элементах. Возвращаемые поля зависят от параметра select, описание полей"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных элементов"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Содержит значение, которое нужно передать в следующий запрос в параметр start, чтобы получить следующую порцию данных. Параметр next появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение 50."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/crm-item-list.html",
+  "executable": false,
+  "entityFields": [
+    "assignedById",
+    "birthdate",
+    "comments",
+    "companyId",
+    "companyTitle",
+    "contactId",
+    "contactIds",
+    "currencyId",
+    "fm",
+    "honorific",
+    "id",
+    "isManualOpportunity",
+    "lastName",
+    "name",
+    "observers",
+    "opened",
+    "opportunity",
+    "originId",
+    "originatorId",
+    "parentId...",
+    "post",
+    "secondName",
+    "sourceDescription",
+    "sourceId",
+    "stageId",
+    "statusDescription",
+    "title",
+    "ufCrm...",
+    "utmCampaign",
+    "utmContent",
+    "utmMedium",
+    "utmSource",
+    "utmTerm",
+    "webformId"
+  ]
+}

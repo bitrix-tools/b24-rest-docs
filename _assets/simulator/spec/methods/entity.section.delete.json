@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "entity.section.delete",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Удалить раздел хранилища entity.section.delete",
+  "permissions": "пользователь с уровнем права W (запись) или X (управление) на хранилище данных",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор удаляемого раздела"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/sections/entity-section-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774341623,
+      "finish": 1774341623.380336,
+      "duration": 0.38033604621887207,
+      "processing": 0,
+      "date_start": "2026-03-24T11:40:23+03:00",
+      "date_finish": "2026-03-24T11:40:23+03:00",
+      "operating_reset_at": 1774342223,
+      "operating": 0.1318378448486328
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат выполнения метода. Для успешного удаления возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/sections/entity-section-delete.html",
+  "executable": false
+}

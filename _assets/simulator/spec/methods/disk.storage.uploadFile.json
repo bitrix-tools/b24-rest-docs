@@ -1,0 +1,239 @@
+{
+  "$v": 1,
+  "method": "disk.storage.uploadFile",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Загрузить новый файл в корень хранилища disk.storage.uploadFile",
+  "permissions": "пользователь с правом «Добавление» для нужного хранилища",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор хранилища, в которое нужно загрузить файл. Идентификатор можно получить с помощью метода disk.storage.getList"
+    },
+    {
+      "name": "data",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив с полем NAME, где NAME — имя файла",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "fileContent",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив из имени файла и строки с Base64",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "rights",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив прав доступа на загружаемый файл в формате {\"TASK_ID\": 42, \"ACCESS_CODE\": \"U35\"}, где - TASK_ID — идентификатор уровня доступа - ACCESS_CODE — код доступа, состоящий из буквенного кода пользователя или отдела и идентификатора Категории пользователей: - U — пользователь - * — все пользователи - D — все сотрудники отдела - DR — все сотрудники отдела с подотделами Список доступных идентификато…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "generateUniqueName",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Генерация уникального имени файла, если файл с таким именем уже существует. Например, file (1).docx. Возможные значения: - true — генерировать - false — не генерировать По умолчанию — false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/storage/disk-storage-upload-file.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 9035,
+      "NAME": "picture.png",
+      "CODE": null,
+      "STORAGE_ID": "1357",
+      "TYPE": "file",
+      "PARENT_ID": "8875",
+      "DELETED_TYPE": 0,
+      "GLOBAL_CONTENT_VERSION": 1,
+      "FILE_ID": 32895,
+      "SIZE": "1679",
+      "CREATE_TIME": "2026-02-02T16:01:59+03:00",
+      "UPDATE_TIME": "2026-02-02T16:01:59+03:00",
+      "DELETE_TIME": null,
+      "CREATED_BY": "1269",
+      "UPDATED_BY": "1269",
+      "DELETED_BY": null,
+      "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=b8d880690000071b006e2cf2000004f50000078dbaf74c54ad1b4e4205aba7ab57a395&token=disk%7CaWQ9OTAzNSZfPWU5eXpWQXpsVmJrdFE0OTJ3azBKQzNFVFVMek5UMTRU%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXpOU1pmUFdVNWVYcFdRWHBzVm1KcmRGRTBPVEozYXpCS1F6TkZWRlZNZWs1VU1UUlV8YjhkODgwNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc4ZGJhZjc0YzU0YWQxYjRlNDIwNWFiYTdhYjU3YTM5NSI%3D.DJafMz5LAuRzlGbCxNLoGiCleoFwz1qGyj4iPf7n110%3D",
+      "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/picture.png"
+    },
+    "time": {
+      "start": 1770051719,
+      "finish": 1770051719.707384,
+      "duration": 0.7073841094970703,
+      "processing": 0,
+      "date_start": "2026-02-02T16:01:59+03:00",
+      "date_finish": "2026-02-02T16:01:59+03:00",
+      "operating_reset_at": 1770052319,
+      "operating": 0.34273815155029297
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с полями файла"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код файла"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища, в котором находится файл"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой"
+    },
+    {
+      "name": "GLOBAL_CONTENT_VERSION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Инкрементальный счетчик версии файла"
+    },
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Внутреннее значение идентификатора файла"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер файла в байтах"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания файла"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления файла"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время переноса файла в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего файл"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, удалившего файл"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для скачивания файла"
+    },
+    {
+      "name": "DETAIL_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для открытия файла в интерфейсе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/storage/disk-storage-upload-file.html",
+  "executable": false
+}

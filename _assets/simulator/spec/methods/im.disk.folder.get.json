@@ -1,0 +1,73 @@
+{
+  "$v": 1,
+  "method": "im.disk.folder.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить папку хранения файлов чата im.disk.folder.get",
+  "permissions": "участник чата",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата. Обязателен, если не передан DIALOG_ID"
+    },
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор диалога в формате chatXXX, где XXX — идентификатор. Обязателен, если не передан CHAT_ID"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/files/im-disk-folder-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 5153
+    },
+    "time": {
+      "start": 1772192121,
+      "finish": 1772192121.447936,
+      "duration": 0.4479360580444336,
+      "processing": 0,
+      "date_start": "2026-02-27T14:35:21+03:00",
+      "date_finish": "2026-02-27T14:35:21+03:00",
+      "operating_reset_at": 1772192721,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "result.ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор папки хранения файлов чата"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/files/im-disk-folder-get.html",
+  "executable": false,
+  "entityFields": [
+    "ID"
+  ]
+}

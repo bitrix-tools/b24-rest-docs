@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "tasks.task.history.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить историю задачи tasks.task.history.list",
+  "permissions": "любой пользователь с доступом к задаче на чтение",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, для которой нужно получить историю. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Фильтр по типу события в формате {FIELD: 'EVENT'}. Список возможных значений для FIELD описан ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки результата вида {\"поле\": \"значение сортировки\", ... }. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию По умолчанию записи сортируются по убыванию по времени создания, то есть от новых к старым",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-history-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив list, который содержит объекты с описанием событий в задаче. Возвращает пустой массив \"list\":[], если задача не существует"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-history-list.html",
+  "executable": false
+}

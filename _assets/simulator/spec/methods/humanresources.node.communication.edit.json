@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.communication.edit",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Изменить коммуникации отдела humanresources.node.communication.edit",
+  "permissions": "пользователь с правом «Редактирование отделов» или «Редактирование команд»",
+  "params": [
+    {
+      "name": "nodeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "communicationType",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип коммуникации. Возможные значения: - CHAT — чат - CHANNEL — канал - COLLAB — коллаб"
+    },
+    {
+      "name": "createDefault",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Создает коммуникацию по умолчанию для отдела или команды. Возможные значения: - true — создать коммуникацию по умолчанию - false — не создавать коммуникацию по умолчанию По умолчанию — false"
+    },
+    {
+      "name": "ids",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Идентификаторы коммуникаций, которые нужно привязать. Идентификаторы чатов и каналов можно получить методом im.recent.list, а идентификаторы коллабов — методом socialnetwork.api.workgroup.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "removeIds",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Идентификаторы коммуникаций, которые нужно отвязать. Идентификаторы связанных коммуникаций можно получить методом humanresources.node.communication.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "withChildren",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Применяет изменение к дочерним отделам и командам. Возможные значения: - true — применить изменение к дочерним отделам и командам - false — применить изменение только к отделу или команде из параметра nodeId По умолчанию — false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node-communication/humanresources-node-communication-edit.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true
+    },
+    "time": {
+      "start": 1780407100,
+      "finish": 1780407100.186404,
+      "duration": 0.18640398979187012,
+      "processing": 0.1328411102294922,
+      "date_start": "2026-06-02T16:31:40+03:00",
+      "date_finish": "2026-06-02T16:31:40+03:00",
+      "operating_reset_at": 1780407700,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом операции"
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Значение true, если коммуникации изменены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node-communication/humanresources-node-communication-edit.html",
+  "executable": false
+}

@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "catalog.document.cancelList",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Отменить проведение нескольких документов catalog.document.cancelList",
+  "permissions": "> - пользователь с правом «Отмена проведения» на тип документа в запросе,",
+  "params": [
+    {
+      "name": "documentIds",
+      "type": "catalog_document.id[]",
+      "base": "array",
+      "required": true,
+      "description": "Список идентификаторов документов, получить можно методом catalog.document.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-cancel-list.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1762411998,
+      "finish": 1762411998.634683,
+      "duration": 0.6346828937530518,
+      "processing": 0,
+      "date_start": "2025-11-06T09:53:18+03:00",
+      "date_finish": "2025-11-06T09:53:18+03:00",
+      "operating_reset_at": 1762412598,
+      "operating": 0.30604004859924316
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true, если все документы отменены без ошибок. Если хотя бы один документ не удалось отменить, метод вернет ошибку в ответе error / error_description. Документы, которые удалось обработать, останутся в статусе «Отменен»"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-cancel-list.html",
+  "executable": false
+}

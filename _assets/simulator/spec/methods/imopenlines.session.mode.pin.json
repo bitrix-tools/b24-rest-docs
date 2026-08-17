@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.mode.pin",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Закрепить или открепить диалог imopenlines.session.mode.pin",
+  "permissions": "любой пользователь с правами на диалог",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.dialog.get"
+    },
+    {
+      "name": "ACTIVATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Флаг закрепления: - Y — закрепить - N — открепить По умолчанию используется Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-pin.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773670900,
+      "finish": 1773670900.415268,
+      "duration": 0.4152679443359375,
+      "processing": 0,
+      "date_start": "2026-03-16T17:21:40+03:00",
+      "date_finish": "2026-03-16T17:21:40+03:00",
+      "operating_reset_at": 1773671500,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если диалог успешно закреплен или откреплен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-pin.html",
+  "executable": false
+}

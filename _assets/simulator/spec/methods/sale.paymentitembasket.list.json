@@ -1,0 +1,119 @@
+{
+  "$v": 1,
+  "method": "sale.paymentitembasket.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список привязок элементов корзины к оплатам sale.paymentitembasket.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (см. поля объекта salepaymentitembasket). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля привязок элементов корзины к оплатам",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных привязок элементов корзины к оплатам в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта salepaymentitembasket. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных привязок элементов корзины к оплатам в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта salepaymentitembasket. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-basket/sale-payment-item-basket-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "paymentItemsBasket": [
+        {
+          "basketId": 2722,
+          "dateInsert": "2024-04-17T10:51:03+03:00",
+          "id": 1186,
+          "paymentId": 1025,
+          "quantity": 3,
+          "xmlId": "myXmlId"
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1713344692.788531,
+      "finish": 1713344693.055679,
+      "duration": 0.2671480178833008,
+      "processing": 0.017076969146728516,
+      "date_start": "2024-04-17T12:04:52+03:00",
+      "date_finish": "2024-04-17T12:04:53+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "paymentItemBasket",
+      "type": "sale_payment_item_basket[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных привязках элементов корзины к оплатам"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-basket/sale-payment-item-basket-list.html",
+  "executable": false,
+  "entityFields": [
+    "basketId",
+    "dateInsert",
+    "id",
+    "paymentId",
+    "quantity",
+    "xmlId"
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "$v": 1,
+  "method": "crm.deal.details.configuration.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить параметры карточки сделки crm.deal.details.configuration.get",
+  "permissions": "> - пользователь может получать свои и общие настройки",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Нужен только при запросе личных настроек другого пользователя. Если не задан, берется текущий"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры (подробное описание)",
+      "ref": "#/defs/extrasFields"
+    }
+  ],
+  "defs": {
+    "extrasFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "dealCategoryId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор воронки сделок. Можно получить с помощью crm.category.list Если не указан, используется воронка по умолчанию для сделок"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/custom-form/crm-deal-details-configuration-get.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.get"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "name": "main",
+        "title": "О сделке",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TITLE"
+          },
+          {
+            "name": "OPPORTUNITY_WITH_CURRENCY"
+          },
+          {
+            "name": "STAGE_ID"
+          },
+          {
+            "name": "CLOSEDATE"
+          },
+          {
+            "name": "CLIENT"
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TYPE_ID"
+          },
+          {
+            "name": "SOURCE_ID",
+            "optionFlags": "1"
+          },
+          {
+            "name": "SOURCE_DESCRIPTION"
+          },
+          {
+            "name": "BEGINDATE"
+          },
+          {
+            "name": "OPENED"
+          },
+          {
+            "name": "ASSIGNED_BY_ID"
+          },
+          {
+            "name": "OBSERVER"
+          },
+          {
+            "name": "COMMENTS"
+          },
+          {
+            "name": "UTM"
+          }
+        ]
+      },
+      {
+        "name": "products",
+        "title": "Товары",
+        "type": "section",
+        "elements": [
+          {
+            "name": "PRODUCT_ROW_SUMMARY"
+          }
+        ]
+      },
+      {
+        "name": "recurring",
+        "title": "Регулярная сделка",
+        "type": "section",
+        "elements": [
+          {
+            "name": "RECURRING"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "start": 1773240673,
+      "finish": 1773240673.91616,
+      "duration": 0.9161601066589355,
+      "processing": 0,
+      "date_start": "2026-03-11T17:51:13+03:00",
+      "date_finish": "2026-03-11T17:51:13+03:00",
+      "operating_reset_at": 1773241273,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "section[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки сделки. Возвращает null в случае отсутствия конфигурации"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/custom-form/crm-deal-details-configuration-get.html",
+  "executable": false,
+  "entityFields": [
+    "elements",
+    "name",
+    "title",
+    "type"
+  ]
+}

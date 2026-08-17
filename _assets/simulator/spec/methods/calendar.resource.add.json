@@ -1,0 +1,45 @@
+{
+  "$v": 1,
+  "method": "calendar.resource.add",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Добавить новый ресурс calendar.resource.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Наименование ресурса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/resource/calendar-resource-add.md"
+  },
+  "resultExample": {
+    "result": 197,
+    "time": {
+      "start": 1733318565.183275,
+      "finish": 1733318565.695058,
+      "duration": 0.5117831230163574,
+      "processing": 0.29406094551086426,
+      "date_start": "2024-12-04T13:22:45+00:00",
+      "date_finish": "2024-12-04T13:22:45+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного ресурса"
+    }
+  ],
+  "page": "/api-reference/calendar/resource/calendar-resource-add.html",
+  "executable": false
+}

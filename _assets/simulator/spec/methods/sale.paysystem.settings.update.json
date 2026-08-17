@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "sale.paysystem.settings.update",
+  "scope": "pay_system",
+  "kind": "write",
+  "title": "Обновить настройки платежной системы sale.paysystem.settings.update",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_paysystem.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор платежной системы, для которой нужно получить настройки"
+    },
+    {
+      "name": "PERSON_TYPE_ID",
+      "type": "sale_person_type.id",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор типа плательщика, для которого нужно получить настройки"
+    },
+    {
+      "name": "SETTINGS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Настройки, которые нужно обновить. Ключами выступают названия настроек, значениями — объекты, структура которых описана ниже",
+      "ref": "#/defs/SETTINGSFields"
+    }
+  ],
+  "defs": {
+    "SETTINGSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TYPE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Источник значения параметра"
+        },
+        {
+          "name": "VALUE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код параметра у источника либо значение параметра (для TYPE=\"VALUE\")"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/pay-system/sale-pay-system-settings-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712135335.026931,
+      "finish": 1712135335.407762,
+      "duration": 0.3808310031890869,
+      "processing": 0.0336611270904541,
+      "date_start": "2024-04-03T11:08:55+02:00",
+      "date_finish": "2024-04-03T11:08:55+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления настроек платежной системы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/pay-system/sale-pay-system-settings-update.html",
+  "executable": false
+}

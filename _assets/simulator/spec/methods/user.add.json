@@ -1,0 +1,404 @@
+{
+  "$v": 1,
+  "method": "user.add",
+  "scope": "user",
+  "kind": "write",
+  "title": "Пригласить пользователя user.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "EMAIL",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "E-mail пользователя"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя"
+    },
+    {
+      "name": "LAST_NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Фамилия"
+    },
+    {
+      "name": "SECOND_NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Отчество"
+    },
+    {
+      "name": "PERSONAL_GENDER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пол"
+    },
+    {
+      "name": "PERSONAL_PROFESSION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Профессия"
+    },
+    {
+      "name": "PERSONAL_WWW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Домашняя страничка"
+    },
+    {
+      "name": "PERSONAL_BIRTHDAY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата рождения"
+    },
+    {
+      "name": "PERSONAL_PHOTO",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Фотография, передавайте массив из имени файла и строки с Bаse64",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "PERSONAL_ICQ",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "ICQ"
+    },
+    {
+      "name": "PERSONAL_PHONE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Личный телефон"
+    },
+    {
+      "name": "PERSONAL_FAX",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Факс"
+    },
+    {
+      "name": "PERSONAL_MOBILE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Личный мобильный"
+    },
+    {
+      "name": "PERSONAL_PAGER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пейджер"
+    },
+    {
+      "name": "PERSONAL_STREET",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Улица проживания"
+    },
+    {
+      "name": "PERSONAL_CITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Город проживания"
+    },
+    {
+      "name": "PERSONAL_STATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область / край"
+    },
+    {
+      "name": "PERSONAL_ZIP",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Почтовый индекс"
+    },
+    {
+      "name": "PERSONAL_COUNTRY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Страна"
+    },
+    {
+      "name": "PERSONAL_MAILBOX",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Почтовый ящик"
+    },
+    {
+      "name": "PERSONAL_NOTES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дополнительные заметки"
+    },
+    {
+      "name": "WORK_PHONE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Телефон компании"
+    },
+    {
+      "name": "WORK_COMPANY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Компания"
+    },
+    {
+      "name": "WORK_POSITION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Должность"
+    },
+    {
+      "name": "WORK_DEPARTMENT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Отдел"
+    },
+    {
+      "name": "WORK_WWW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Сайт компании"
+    },
+    {
+      "name": "WORK_FAX",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKFAX"
+    },
+    {
+      "name": "WORK_PAGER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKPAGER"
+    },
+    {
+      "name": "WORK_STREET",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKSTREET"
+    },
+    {
+      "name": "WORK_MAILBOX",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKMAILBOX"
+    },
+    {
+      "name": "WORK_CITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Город работы"
+    },
+    {
+      "name": "WORK_STATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKSTATE"
+    },
+    {
+      "name": "WORK_ZIP",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKZIP"
+    },
+    {
+      "name": "WORK_COUNTRY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKCOUNTRY"
+    },
+    {
+      "name": "WORK_PROFILE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKPROFILE"
+    },
+    {
+      "name": "WORK_LOGO",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "WORKLOGO",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "WORK_NOTES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "WORKNOTES"
+    },
+    {
+      "name": "UF_SKYPE_LINK",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка на чат в Skype"
+    },
+    {
+      "name": "UF_ZOOM",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Zoom"
+    },
+    {
+      "name": "UF_DEPARTMENT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Подразделения"
+    },
+    {
+      "name": "UF_INTERESTS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Интересы"
+    },
+    {
+      "name": "UF_SKILLS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Навыки"
+    },
+    {
+      "name": "UF_WEB_SITES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Другие сайты"
+    },
+    {
+      "name": "UF_XING",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Xing"
+    },
+    {
+      "name": "UF_LINKEDIN",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "LinkedIn"
+    },
+    {
+      "name": "UF_FACEBOOK",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Facebook"
+    },
+    {
+      "name": "UF_TWITTER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Twitter"
+    },
+    {
+      "name": "UF_SKYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Skype"
+    },
+    {
+      "name": "UF_DISTRICT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Район"
+    },
+    {
+      "name": "UF_PHONE_INNER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний телефон"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user/user-add.md"
+  },
+  "resultExample": {
+    "result": 12,
+    "time": {
+      "start": 1721733827.713938,
+      "finish": 1721733828.286292,
+      "duration": 0.5723540782928467,
+      "processing": 0.5508849620819092,
+      "date_start": "2024-07-23T11:23:47+00:00",
+      "date_finish": "2024-07-23T11:23:48+00:00",
+      "operating": 0.5508630275726318
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор нового пользователя"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user/user-add.html",
+  "executable": false
+}

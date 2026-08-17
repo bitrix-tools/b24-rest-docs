@@ -1,0 +1,115 @@
+{
+  "$v": 1,
+  "method": "sale.statusLang.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список локализаций статусов sale.statusLang.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта salestatuslang). Если не передан или передан пустой массив, то будут выбраны все доступные поля локализаций статусов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных элементов табличной части отгрузки в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта salestatuslang. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - = — равно (работает и с массивами) - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных статусов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта salestatuslang. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status-lang/sale-status-lang-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "statusLangs": [
+        {
+          "description": "Заказ принят, но пока не обрабатывается (например, заказ только что создан или ожидается оплата заказа)",
+          "lid": "ru",
+          "name": "Принят, ожидается оплата",
+          "statusId": "N"
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1712656146.769524,
+      "finish": 1712656146.98067,
+      "duration": 0.21114587783813477,
+      "processing": 0.02018594741821289,
+      "date_start": "2024-04-09T12:49:06+03:00",
+      "date_finish": "2024-04-09T12:49:06+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "statusLangs",
+      "type": "sale_status_lang[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных локализациях статусов"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status-lang/sale-status-lang-list.html",
+  "executable": false,
+  "entityFields": [
+    "description",
+    "lid",
+    "name",
+    "statusId"
+  ]
+}

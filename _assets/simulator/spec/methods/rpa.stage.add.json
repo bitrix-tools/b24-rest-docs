@@ -1,0 +1,32 @@
+{
+  "$v": 1,
+  "method": "rpa.stage.add",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Создать новую стадию rpa.stage.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями стадии",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/stage/rpa-stage-add.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/stage/rpa-stage-add.html",
+  "executable": false
+}

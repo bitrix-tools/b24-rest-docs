@@ -1,0 +1,112 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.get",
+  "scope": "humanresources",
+  "kind": "read",
+  "title": "Получить отдел humanresources.node.get",
+  "permissions": "пользователь с правом «Просмотр отделов» или «Просмотр команд»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей отдела, которые нужно вернуть. Доступные поля: - id — идентификатор отдела - name — название отдела - type — тип элемента структуры - structureId — идентификатор структуры компании - parentId — идентификатор родительского отдела - description — описание отдела - accessCode — код доступа отдела - userCount — количество пользователей в отделе - colorName — цвет команды - xmlId — внешний…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node/humanresources-node-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 1,
+        "name": "Отдел продаж",
+        "type": "DEPARTMENT",
+        "structureId": 1,
+        "parentId": null,
+        "description": "Основной отдел продаж",
+        "accessCode": "DR1",
+        "userCount": 18,
+        "colorName": null,
+        "xmlId": null,
+        "createdAt": "2026-05-20T10:15:00+03:00",
+        "updatedAt": "2026-06-02T10:30:00+03:00",
+        "members": [
+          {
+            "userId": 7,
+            "name": "Анна Смирнова",
+            "workPosition": "Руководитель отдела продаж",
+            "role": "MEMBER_HEAD",
+            "avatar": "https://example.bitrix24.ru/upload/main/1/avatar.jpg",
+            "url": "/company/personal/user/7/"
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1780403400,
+      "finish": 1780403400.213411,
+      "duration": 0.2134110927581787,
+      "processing": 0.1820049285888672,
+      "date_start": "2026-06-02T15:30:00+03:00",
+      "date_finish": "2026-06-02T15:30:00+03:00",
+      "operating_reset_at": 1780404000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными отдела или команды. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node/humanresources-node-get.html",
+  "executable": false,
+  "entityFields": [
+    "accessCode",
+    "colorName",
+    "createdAt",
+    "description",
+    "id",
+    "members",
+    "name",
+    "parentId",
+    "structureId",
+    "type",
+    "updatedAt",
+    "userCount",
+    "xmlId"
+  ]
+}

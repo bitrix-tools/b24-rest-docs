@@ -1,0 +1,158 @@
+{
+  "$v": 1,
+  "method": "biconnector.connector.fields",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить поля коннектора biconnector.connector.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей коннектора. Структура элемента массива описана в статье Коннектор: обзор методов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/connector/biconnector-connector-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": [
+        {
+          "title": "id",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "title",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "logo",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "description",
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "sort",
+          "type": "integer",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "urlCheck",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "urlData",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "urlTableList",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "urlTableDescription",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "settings",
+          "type": "array",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": true
+        },
+        {
+          "title": "dateCreate",
+          "type": "datetime",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        }
+      ]
+    },
+    "time": {
+      "start": 1740671757.058651,
+      "finish": 1740671757.179896,
+      "duration": 0.12124514579772949,
+      "processing": 0.00005507469177246094,
+      "date_start": "2025-02-27T15:55:57+00:00",
+      "date_finish": "2025-02-27T15:55:57+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей коннектора. Структура элемента массива описана в статье Коннектор: обзор методов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/connector/biconnector-connector-fields.html",
+  "executable": false
+}

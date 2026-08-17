@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "voximplant.infocall.startwithsound",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Осуществить автозвонок с проигрыванием MP3-файла voximplant.infocall.startwithsound",
+  "permissions": "пользователь с правом Исходящий звонок — Выполнение",
+  "params": [
+    {
+      "name": "FROM_LINE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор исходящей линии, с которой запускается звонок. Список доступных линий можно получить методом voximplant.line.get"
+    },
+    {
+      "name": "TO_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Номер, на который нужно выполнить звонок"
+    },
+    {
+      "name": "URL",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Ссылка на MP3-файл, который нужно проиграть во время звонка"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.md"
+  },
+  "resultExample": {
+    "result": {
+      "RESULT": true,
+      "CALL_ID": "infocall.e51f04feaf1b58fb5dc6ee9d03d98fea.1773740145"
+    },
+    "time": {
+      "start": 1773740189,
+      "finish": 1773740189.20988,
+      "duration": 0.20988011360168457,
+      "processing": 0,
+      "date_start": "2026-03-17T12:36:29+03:00",
+      "date_finish": "2026-03-17T12:36:29+03:00",
+      "operating_reset_at": 1773740789,
+      "operating": 0.13379693031311035
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом запуска автозвонка"
+    },
+    {
+      "name": "RESULT",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак успешного запуска. true — автозвонок успешно запущен"
+    },
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор звонка"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.html",
+  "executable": false
+}

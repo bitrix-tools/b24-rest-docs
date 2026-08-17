@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "bizproc.activity.log",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Записать информацию в журнал бизнес-процесса bizproc.activity.log",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "EVENT_TOKEN",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Уникальный ключ, необходимый для отправки события бизнес-процессу. Токен поступает на обработчик действия приложения, когда бизнес-процесс доходит до выполнения этого действия. Запись в журнал возможна, если при регистрации или обновлении действия в bizproc.activity.add или bizproc.activity.update параметр USE_SUBSCRIPTION задан со значением 'Y'"
+    },
+    {
+      "name": "LOG_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Сообщение для записи в лог"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-activity/bizproc-activity-log.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1738152146.805903,
+      "finish": 1738152146.844209,
+      "duration": 0.03830695152282715,
+      "processing": 0.0035429000854492188,
+      "date_start": "2025-01-29T15:02:26+03:00",
+      "date_finish": "2025-01-29T15:02:26+03:00",
+      "operating_reset_at": 1738152746,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если запись в журнал добавлена успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-activity/bizproc-activity-log.html",
+  "executable": false
+}

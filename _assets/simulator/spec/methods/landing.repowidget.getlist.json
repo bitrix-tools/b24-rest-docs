@@ -1,0 +1,80 @@
+{
+  "$v": 1,
+  "method": "landing.repowidget.getlist",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список виджетов landing.repowidget.getlist",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Массив полей для получения списка виджетов",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "select",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив со списком полей, которые необходимо выбрать. Если не передан или передан пустой массив, то будут выбраны все доступные доступные виджеты"
+        },
+        {
+          "name": "filter",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field смотрите в таблице ниже. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…"
+        },
+        {
+          "name": "group",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив для группировки виджетов. Группировать можно по полям виджета"
+        },
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект для сортировки выбранных записей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field смотрите в таблице ниже. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vibe/landing-repowidget-get-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Массив виджетов. Каждый элемент массива — объект, допустимые поля описаны выше."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vibe/landing-repowidget-get-list.html",
+  "executable": false
+}

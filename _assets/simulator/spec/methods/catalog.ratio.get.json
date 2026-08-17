@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "catalog.ratio.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей коэффициента единицы измерения catalog.ratio.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_ratio.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор коэффициента единицы измерения. Для получения идентификаторов коэффициентов единиц измерения используйте метод catalog.ratio.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/ratio/catalog-ratio-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "ratio",
+      "type": "catalog_ratio",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о коэффициенте единицы измерения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/ratio/catalog-ratio-get.html",
+  "executable": false
+}

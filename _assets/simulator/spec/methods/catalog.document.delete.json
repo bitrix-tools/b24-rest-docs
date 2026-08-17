@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "catalog.document.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить документ складского учета catalog.document.delete",
+  "permissions": "> - пользователь с правом «Удаление документа» на тип документа в запросе,",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_document.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор документа, получить можно методом catalog.document.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1761908531,
+      "finish": 1761908531.935914,
+      "duration": 0.9359140396118164,
+      "processing": 0,
+      "date_start": "2025-10-31T14:02:11+03:00",
+      "date_finish": "2025-10-31T14:02:11+03:00",
+      "operating_reset_at": 1761909131,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true, если документ удален. Если ответ содержит null — документ нельзя удалить, потому что он проведен. Сначала отмените проведение документа методом catalog.document.cancel"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-delete.html",
+  "executable": false
+}

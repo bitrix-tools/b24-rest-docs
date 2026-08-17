@@ -1,0 +1,268 @@
+{
+  "$v": 1,
+  "method": "crm.company.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить существующую компанию crm.company.update",
+  "permissions": "пользователь с правом «Изменение» компаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор компании"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект формата: где: - field_n — название поля - value_n — новое значение поля Список доступных полей описан в методе crm.company.fields. Некорректное поле в fields будет проигнорировано",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий набор дополнительных параметров: - REGISTER_SONET_EVENT — отправить уведомление ответственному - REGISTER_HISTORY_EVENT — регистрировать событие в истории. Возможные значения: - Y — да - N — нет",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название компании"
+        },
+        {
+          "name": "COMPANY_TYPE",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Тип компании. Значения можно получить методом crm.status.list с фильтром по ENTITY_ID=COMPANY_TYPE"
+        },
+        {
+          "name": "LOGO",
+          "type": "file",
+          "base": "any",
+          "required": false,
+          "description": "Логотип"
+        },
+        {
+          "name": "INDUSTRY",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Сфера деятельности. Значения можно получить методом crm.status.list с фильтром по ENTITY_ID=INDUSTRY"
+        },
+        {
+          "name": "EMPLOYEES",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Количество сотрудников. Значения можно получить методом crm.status.list с фильтром по ENTITY_ID=EMPLOYEES"
+        },
+        {
+          "name": "CURRENCY_ID",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Валюта"
+        },
+        {
+          "name": "REVENUE",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Годовой оборот"
+        },
+        {
+          "name": "OPENED",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Доступна ли компания для всех. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий"
+        },
+        {
+          "name": "ASSIGNED_BY_ID",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Ответственный"
+        },
+        {
+          "name": "CONTACT_ID",
+          "type": "crm_contact",
+          "base": "integer",
+          "required": false,
+          "description": "Контакт. Множественное"
+        },
+        {
+          "name": "ORIGINATOR_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор источника данных. Используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "ORIGIN_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "ORIGIN_VERSION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Оригинальная версия. Используется для защиты данных от случайного перетирания внешней системой"
+        },
+        {
+          "name": "UTM_SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Рекламная система. Yandex-Direct, Google-Adwords и другие"
+        },
+        {
+          "name": "UTM_MEDIUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+        },
+        {
+          "name": "UTM_CAMPAIGN",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обозначение рекламной кампании"
+        },
+        {
+          "name": "UTM_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержание кампании. Например, для контекстных объявлений"
+        },
+        {
+          "name": "UTM_TERM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы"
+        },
+        {
+          "name": "PARENT_ID_...",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Поля связей. Если на портале есть смарт-процессы, связанные с компаниями, для каждого такого смарт-процесса существует поле, хранящее связь между этим смарт-процессом и компанией. Само поле хранит идентификатор элемента такого смарт-процесса"
+        },
+        {
+          "name": "PHONE",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Телефон. Множественное"
+        },
+        {
+          "name": "EMAIL",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "E-mail. Множественное"
+        },
+        {
+          "name": "WEB",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Сайт. Множественное"
+        },
+        {
+          "name": "IM",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Мессенджер. Множественное"
+        },
+        {
+          "name": "LINK",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "LINK. Множественное"
+        },
+        {
+          "name": "UF_...",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Пользовательские поля. Например, UF_CRM_25534736. В зависимости от настроек портала у компаний может быть набор пользовательских полей определенных типов. Добавить пользовательское поле в компанию можно с помощью метода crm.company.userfield.add"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/crm-company-update.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.update"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1769499930,
+      "finish": 1769499931.074515,
+      "duration": 1.0745151042938232,
+      "processing": 1,
+      "date_start": "2026-01-27T10:45:30+03:00",
+      "date_finish": "2026-01-27T10:45:31+03:00",
+      "operating_reset_at": 1769500530,
+      "operating": 0.2604348659515381
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, возвращает true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/crm-company-update.html",
+  "executable": false
+}

@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.status.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить статус счета crm.invoice.status.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор статуса счета"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Набор полей — массив вида array(\"обновляемое поле\"=>\"значение\"[, ...]), где \"обновляемое поле\" может принимать значения из возвращаемых методом crm.invoice.status.fields. Чтобы узнать требуемый формат полей, выполните метод crm.invoice.status.fields и посмотрите формат пришедших значений этих полей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice-status-old/crm-invoice-status-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice-status-old/crm-invoice-status-update.html",
+  "executable": false
+}

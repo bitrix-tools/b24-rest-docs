@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "sale.cashbox.check.apply",
+  "scope": "cashbox",
+  "kind": "write",
+  "title": "Сохранить результат печати чека sale.cashbox.check.apply",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "UUID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "UUID чека"
+    },
+    {
+      "name": "PRINT_END_TIME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Время окончания печати чека"
+    },
+    {
+      "name": "REG_NUMBER_KKT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Регистрационный номер ККТ"
+    },
+    {
+      "name": "FISCAL_DOC_ATTR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Фискальный признак документа"
+    },
+    {
+      "name": "FISCAL_DOC_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Номер фискального документа"
+    },
+    {
+      "name": "FISCAL_RECEIPT_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Фискальный номер чека"
+    },
+    {
+      "name": "FN_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Номер фискального накопителя"
+    },
+    {
+      "name": "SHIFT_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Номер смены"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/cashbox/sale-cashbox-check-apply.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712135335.026931,
+      "finish": 1712135335.407762,
+      "duration": 0.3808310031890869,
+      "processing": 0.0336611270904541,
+      "date_start": "2024-04-03T11:08:55+02:00",
+      "date_finish": "2024-04-03T11:08:55+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат сохранения печати чека"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/cashbox/sale-cashbox-check-apply.html",
+  "executable": false
+}

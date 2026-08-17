@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "disk.file.delete",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Удалить файл навсегда disk.file.delete",
+  "permissions": "пользователь с правом «Полный доступ» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла. Идентификатор можно получить с помощью метода disk.storage.getChildren, если файл находится в корне хранилища, и с помощью метода disk.folder.getChildren, если файл находится в папке"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/file/disk-file-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1770649732,
+      "finish": 1770649732.50942,
+      "duration": 0.5094199180603027,
+      "processing": 0,
+      "date_start": "2026-02-09T13:08:52+03:00",
+      "date_finish": "2026-02-09T13:08:52+03:00",
+      "operating_reset_at": 1770650332,
+      "operating": 0.2615058422088623
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если файл удален успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/file/disk-file-delete.html",
+  "executable": false
+}

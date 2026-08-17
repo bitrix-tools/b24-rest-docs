@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "crm.vat.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить ставку НДС crm.vat.delete",
+  "permissions": "пользователь с правами администратора CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор ставки НДС, которую требуется удалить. Получить список ставок с идентификаторами можно методом crm.vat.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/vat/crm-vat-delete.md"
+  },
+  "deprecated": {
+    "successor": "catalog.vat.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1751983429.678159,
+      "finish": 1751983429.873604,
+      "duration": 0.19544506072998047,
+      "processing": 0.01796698570251465,
+      "date_start": "2025-07-08T17:03:49+03:00",
+      "date_finish": "2025-07-08T17:03:49+03:00",
+      "operating_reset_at": 1751984029,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/outdated/vat/crm-vat-delete.html",
+  "executable": false
+}

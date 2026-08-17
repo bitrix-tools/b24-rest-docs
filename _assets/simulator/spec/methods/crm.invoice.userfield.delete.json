@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.userfield.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить пользовательское поле счетов crm.invoice.userfield.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользовательского поля"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-user-field-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-user-field-delete.html",
+  "executable": false
+}

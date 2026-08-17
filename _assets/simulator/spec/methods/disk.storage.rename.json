@@ -1,0 +1,118 @@
+{
+  "$v": 1,
+  "method": "disk.storage.rename",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Переименовать хранилище приложения disk.storage.rename",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор хранилища приложения. Идентификатор можно получить с помощью метода disk.storage.getForApp"
+    },
+    {
+      "name": "newName",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Новое имя хранилища"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/storage/disk-storage-rename.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "1366",
+      "NAME": "Bitrix REST API",
+      "CODE": null,
+      "MODULE_ID": "disk",
+      "ENTITY_TYPE": "restapp",
+      "ENTITY_ID": "3",
+      "ROOT_OBJECT_ID": "8910"
+    },
+    "time": {
+      "start": 1770048169,
+      "finish": 1770048169.935598,
+      "duration": 0.9355978965759277,
+      "processing": 0,
+      "date_start": "2026-02-02T14:02:49+03:00",
+      "date_finish": "2026-02-02T14:02:49+03:00",
+      "operating_reset_at": 1770048769,
+      "operating": 0.11735081672668457
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с описанием полей хранилища"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя хранилища"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код хранилища"
+    },
+    {
+      "name": "MODULE_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор модуля, которому принадлежит хранилище"
+    },
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта, с которым связано хранилище"
+    },
+    {
+      "name": "ENTITY_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор объекта, с которым связано хранилище"
+    },
+    {
+      "name": "ROOT_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор корневой папки хранилища"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/storage/disk-storage-rename.html",
+  "executable": false
+}

@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.handler.delete",
+  "scope": "delivery",
+  "kind": "write",
+  "title": "Удалить обработчик службы доставки sale.delivery.handler.delete",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_delivery_handler.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор обработчика службы доставки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/handler/sale-delivery-handler-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1713859948.030196,
+      "finish": 1713859948.315044,
+      "duration": 0.2848479747772217,
+      "processing": 0.027885913848876953,
+      "date_start": "2024-04-23T11:12:28+03:00",
+      "date_finish": "2024-04-23T11:12:28+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления обработчика службы доставки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/handler/sale-delivery-handler-delete.html",
+  "executable": false
+}
