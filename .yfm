@@ -8,8 +8,7 @@ resources:
   script:
     - _assets/b24loc.js?20240925-02
     - _assets/b24addons.js?20241208-01
-    - _assets/simulator/core.js?20260814-01
-    - _assets/simulator/widget.js?20260814-01
+    - _assets/simulator/boot.js?20260817-01
 
 search: true
 

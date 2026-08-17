@@ -35,6 +35,7 @@ run('generate-spec.js', []);
 run('generate-fixtures.js', dateArg ? [dateArg] : []);
 
 console.log('\nКопирование runtime:');
+copy(path.join(__dirname, 'widget', 'boot.js'), path.join(OUT, 'boot.js'));
 copy(path.join(__dirname, 'lib', 'core.js'), path.join(OUT, 'core.js'));
 copy(path.join(__dirname, 'widget', 'widget.js'), path.join(OUT, 'widget.js'));
 copy(path.join(__dirname, 'widget', 'widget.css'), path.join(OUT, 'widget.css'));

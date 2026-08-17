@@ -10,18 +10,22 @@
     padding: 14px 16px 16px;
 }
 
-.b24sim__form table {
-    width: 100%;
-    margin: 0 0 4px;
+.b24sim__param + .b24sim__param {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--g-color-line-generic, rgba(0, 0, 0, 0.1));
 }
 
-.b24sim__param-cell {
-    width: 25%;
-    vertical-align: middle;
+.b24sim__label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
 }
 
-.b24sim__param-cell p {
-    margin: 0 0 4px;
+.b24sim__type {
+    font-size: 0.9em;
 }
 
 .b24sim__fields > div:first-child {
@@ -30,14 +34,24 @@
 
 .b24sim__field-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 11fr) minmax(0, 13fr) auto;
     gap: 6px;
     align-items: center;
     margin-bottom: 6px;
 }
 
+/* Когда выбрано «другое поле», рядом со списком появляется ввод имени —
+   строка становится из четырёх колонок, а не переносится. */
+.b24sim__field-row_custom {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 8fr) minmax(0, 8fr) auto;
+}
+
 .b24sim__field-value {
     min-width: 0;
+}
+
+.b24sim-select .g-text-input__control {
+    text-overflow: ellipsis;
 }
 
 .b24sim__add {
@@ -63,13 +77,19 @@
     overflow: auto;
 }
 
-/* Нативный <select> внутри обёртки g-text-input */
+/* Нативный <select> внутри обёртки g-text-input: отступы обёртки рассчитаны на
+   <input>, у select они обрезают текст по вертикали. */
 .b24sim-select .g-text-input__control {
     width: 100%;
+    height: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
     border: 0;
     background: transparent;
     color: inherit;
     font: inherit;
+    line-height: normal;
+    text-overflow: ellipsis;
     cursor: pointer;
 }
 
