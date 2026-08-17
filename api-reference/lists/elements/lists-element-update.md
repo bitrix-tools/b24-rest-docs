@@ -84,7 +84,7 @@
 - для типа Файл — [base64](../../files/how-to-upload-files.md) или массив с названием и base64
 - для типа Файл (Диск) — идентификатор файла с Диска
 
-Подробнее о работе с файлами в статье [Как обновить и удалить файлы](../../files/how-to-update-files.md#listselementupdate-obnovit-pole-v-spiske)
+Подробнее о работе с файлами в статье [Как обновить и удалить файлы](../../files/how-to-update-files.md#lists-element-update)
 
 ||
 |#

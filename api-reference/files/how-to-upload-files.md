@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-На странице описано, как передать новый файл в Битрикс24 через REST API: как закодировать файл в Base64, в каком формате передать его в метод и какие ограничения учесть.
+Новый файл попадает в Битрикс24 в теле запроса: его кодируют в Base64 и передают в поле или параметр метода. Дальше — как закодировать файл, в каком формате его ждет конкретный метод и какие ограничения учесть.
 
 Единого формата для всех методов нет: одни принимают строку с Base64, другие — массив из имени файла и такой строки, третьи — отдельный параметр. Перед вызовом сверьтесь с таблицей [Как выбрать формат](#formats).
 
@@ -23,7 +23,7 @@
 
 - **Файл.** Поле не связано с Диском. Файл передается прямо в поле — строкой в формате Base64 или массивом из имени файла и такой строки. Битрикс24 декодирует строку и сохраняет файл, а в поле остается `ID` файла.
 
-- **Файл (диск).** Поле связано с Диском, в поле хранится `ID` объекта на Диске. Часть методов принимает Base64 и загружает файл на Диск сама — так работают поля типа «файл (диск)» в CRM. Если метод ожидает готовый `ID`, сначала загрузите файл на Диск, а потом передайте `ID` в поле. Подробнее — в разделе [Как передать файл в поле, связанное с Диском](#disk-field).
+- **Файл (диск).** Поле связано с Диском, в поле хранится `ID` объекта на Диске. Такие поля есть в списках, задачах и ленте. Обычно методу нужен готовый `ID`: сначала загрузите файл на Диск, а потом передайте `ID` в поле. Подробнее — в разделе [Как передать файл в поле, связанное с Диском](#disk-field).
 
 ## Как кодировать файл в Base64
 
@@ -79,7 +79,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
 || [user.add](../user/user-add.md) | [массив «имя — Base64»](#array) в поле `PERSONAL_PHOTO` | — ||
 || [crm.item.add](../crm/universal/crm-item-add.md) | [массив «имя — Base64»](#array) в поле типа «файл» | [массив пар](#multiple-array) ||
 || [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md) | [массив пар](#multiple-array) из одного элемента в поле `FILES` | [массив пар](#multiple-array) в поле `FILES` ||
-|| [log.blogpost.add](../log/log-blogpost-add.md) | [массив пар](#multiple-array) из одного элемента в поле `FILES` | [массив пар](#multiple-array) в поле `FILES` ||
+|| [log.blogpost.add](../log/log-blogpost-add.md), [log.blogcomment.add](../log/blogcomment/log-blogcomment-add.md) | [массив пар](#multiple-array) из одного элемента в поле `FILES` | [массив пар](#multiple-array) в поле `FILES` ||
 || [lists.element.add](../lists/elements/lists-element-add.md) | [массив «имя — Base64»](#array) в свойстве типа «файл» | [массив пар](#multiple-array) ||
 || [entity.item.add](../entity/items/entity-item-add.md) | [массив «имя — Base64»](#array) в свойстве типа «файл» | [массив пар](#multiple-array) ||
 || [crm.lead.add](../crm/leads/crm-lead-add.md), [crm.deal.add](../crm/deals/crm-deal-add.md), [crm.contact.add](../crm/contacts/crm-contact-add.md), [crm.company.add](../crm/companies/crm-company-add.md) | [объект `fileData`](#filedata) в поле типа «файл» | [массив объектов `fileData`](#multiple-filedata) ||
@@ -87,7 +87,14 @@ $base64 = base64_encode($fileData); // Кодируем в base64
 || [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md), [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md), [disk.file.uploadversion](../disk/file/disk-file-upload-version.md) | [параметр `fileContent`](#filecontent) | — ||
 || [catalog.productImage.add](../catalog/product-image/catalog-product-image-add.md) | [параметр `fileContent`](#filecontent) | — ||
 || [telephony.externalCall.attachRecord](../telephony/telephony-external-call-attach-record.md) | [параметры `FILENAME` и `FILE_CONTENT`](#filename) | — ||
+|| [note.file.add](../note/file/note-file-add.md) | Имя в параметре `fileName`, содержимое — строкой Base64 в параметре `fileContent` | — ||
+|| [im.v2.File.upload](../chat-bots/chat-bots-v2/im.v2/files/file-upload.md), [imbot.v2.File.upload](../chat-bots/chat-bots-v2/imbot.v2/files/file-upload.md) | Имя в поле `fields.name`, содержимое — строкой Base64 в поле `fields.content` | — ||
+|| [landing.block.uploadfile](../landing/block/methods/landing-block-upload-file.md) | В параметре `picture` — URL изображения или [массив «имя — Base64»](#array) | — ||
+|| [tasks.task.add](../tasks/tasks-task-add.md) | Base64 не принимает: в поле `UF_TASK_WEBDAV_FILES` передают `ID` файла, который уже лежит на Диске, с префиксом `n` — например `"n12345"` | Массив таких значений ||
+|| [tasks.task.file.attach](../tasks/tasks-task-file-attach.md) | Base64 не принимает: в параметре `fileIds` передают `ID` файлов Диска числами | Массив `ID` ||
 |#
+
+В таблице методы создания. Парный метод обновления принимает файл в том же формате: например, [crm.item.update](../crm/universal/crm-item-update.md) — как [crm.item.add](../crm/universal/crm-item-add.md). Что при этом происходит со старыми файлами, показывает таблица [Как методы обрабатывают файлы](./how-to-update-files.md#behavior).
 
 Если нужного метода нет в таблице, формат смотрите в описании параметров на странице метода.
 
@@ -1479,7 +1486,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
 
 2. Возьмите `ID` из ответа и передайте его в поле объекта. Например, метод [tasks.task.file.attach](../tasks/tasks-task-file-attach.md) прикрепляет к задаче файл, который уже лежит на Диске.
 
-Поля типа «файл (диск)» в CRM — исключение. Они принимают [объект `fileData`](#filedata) с Base64, а Битрикс24 сам сохраняет файл на Диск в служебную папку для файлов из REST.
+Отдельные методы принимают Base64 и сохраняют файл на Диск сами. Так работают вложения комментария таймлайна: это не тип поля, а поведение метода — параметр `FILES` принимает контент файла, а Битрикс24 кладет файл на Диск в служебную папку для файлов из REST. Полей типа «файл (диск)» в CRM нет.
 
 ## Что вернется в ответе
 
@@ -1524,7 +1531,7 @@ $base64 = base64_encode($fileData); // Кодируем в base64
 
 - Размер POST-запроса в облачном Битрикс24 ограничен настройками серверов — 2 Гбайт. Файл больше этого размера обработан не будет. Если в одном запросе передается несколько файлов суммарно больше лимита, запрос прервется — передавайте такие файлы отдельными запросами. Сверяйтесь с размером строки Base64, а не исходного файла: строка примерно на треть длиннее.
 
-- В коробочной версии предел размера запроса задается настройками вашего сервера, а не Битрикс24. Уточняйте его у администратора портала.
+- В коробочной версии предел размера запроса задается настройками вашего сервера, а не Битрикс24. Уточняйте его у администратора Битрикс24.
 
 - Ограничение на время выполнения запроса — 60 секунд для облачного Битрикс24. Запрос прервется по таймауту, если обработка занимает дольше. Проверить время выполнения можно в объекте [time](../data-types.md#time) ответа, параметр `duration`.
 

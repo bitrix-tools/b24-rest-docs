@@ -115,7 +115,7 @@ RIGHTS: {
 || **SORT**
 [`integer`](../../data-types.md) | Сортировка ||
 || **PICTURE**
-[`array`](../../data-types.md) | Картинка. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате [base64](../../files/how-to-update-files.md#kak-kodirovat-fajl-v-base64) ||
+[`array`](../../data-types.md) | Картинка. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате [base64](../../files/how-to-upload-files.md#kak-kodirovat-fajl-v-base64) ||
 || **BIZPROC**
 [`string`](../../data-types.md) | Включение поддержки бизнес-процессов. Возможные значения:
 - `Y` — да
