@@ -1,0 +1,88 @@
+{
+  "$v": 1,
+  "method": "crm.lead.details.configuration.reset",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Сбросить параметры карточки crm.lead.details.configuration.reset",
+  "permissions": "> - любой пользователь может сбросить свои настройки,",
+  "params": [
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, для которого нужно сбросить личную конфигурацию. Если параметр не передан, будет использован userId пользователя, который вызывает метод. Нужен только при сбросе личных настроек"
+    },
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - 'P' - личные настройки - 'C' - общие настройки По умолчанию используется значение 'P'"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры для выбора типа лида. Структура описана ниже",
+      "ref": "#/defs/extrasFields"
+    }
+  ],
+  "defs": {
+    "extrasFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "lead.customer.type",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Тип лида. Возможные значения: - 1 - простой лид - 2 - повторный лид"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/custom-form/crm-lead-details-configuration-reset.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.reset"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1720687072.190654,
+      "finish": 1720687072.586945,
+      "duration": 0.39629101753234863,
+      "processing": 0.057084083557128906,
+      "date_start": "2024-07-11T10:37:52+02:00",
+      "date_finish": "2024-07-11T10:37:52+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true, если настройки успешно сброшены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/custom-form/crm-lead-details-configuration-reset.html",
+  "executable": false
+}

@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "landing.syspage.set",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Установить специальную страницу для сайта landing.syspage.set",
+  "permissions": "пользователь с правом «изменение настроек» сайта",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить методом landing.site.getList или из результата метода landing.site.add"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код специальной страницы. Возможные значения: - mainpage — главная страница - catalog — главная страница каталога - personal — персональный раздел - cart — корзина - order — оформление заказа - payment — страница оплаты - compare — страница сравнения - feedback — страница обратной связи Пробелы в начале и конце значения удаляются.…"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор страницы, которую нужно назначить специальной для сайта. Параметр заполняют, если страницу нужно назначить специальной. Если параметр не передать, метод удалит текущую привязку для type. Метод завершится без изменений и без ошибки в двух случаях: если привязки для пары id и type еще нет или если передана страница, которой не существует либо которая недоступна для изменения.…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/special-pages/landing-syspage-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774296164,
+      "finish": 1774296164.30144,
+      "duration": 0.3014400005340576,
+      "processing": 0,
+      "date_start": "2026-03-23T23:02:44+03:00",
+      "date_finish": "2026-03-23T23:02:44+03:00",
+      "operating_reset_at": 1774296764,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат вызова. Метод возвращает true, если вызов завершился без ошибки. Это не всегда значит, что привязка была создана, обновлена или удалена. В некоторых случаях метод может вернуть true, если ничего не изменилось. Например, если type не поддерживается, сайт или страница недоступны, страница из lid не найдена или привязки для удаления еще нет"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/special-pages/landing-syspage-set.html",
+  "executable": false
+}

@@ -1,0 +1,55 @@
+{
+  "$v": 1,
+  "method": "crm.item.productrow.getAvailableForPayment",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить неоплаченные товарные позиции объекта CRM crm.item.productrow.getAvailableForPayment",
+  "permissions": "требуется право на чтение объекта CRM, товарные позиции которого выбираются",
+  "params": [
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM"
+    },
+    {
+      "name": "ownerType",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM. Передавайте Краткий символьный код типа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/product-rows/crm-item-productrow-get-available-for-payment.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "productRows",
+      "type": "crm_item_product_row[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, содержащий информацию о всех товарных позициях объекта CRM, по которым клиенту еще не была выставлена оплата"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-get-available-for-payment.html",
+  "executable": false
+}

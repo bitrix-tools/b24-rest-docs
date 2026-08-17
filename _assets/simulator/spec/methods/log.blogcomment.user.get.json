@@ -1,0 +1,113 @@
+{
+  "$v": 1,
+  "method": "log.blogcomment.user.get",
+  "scope": "log",
+  "kind": "read",
+  "title": "Получить комментарии пользователя log.blogcomment.user.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, чьи комментарии нужно получить. Если идентификатор не указан, метод вернет комментарии текущего пользователя. Если запрос выполняется администратором за другого пользователя, в ответе поле text может быть пустым. Идентификатор пользователя можно получить с помощью метода user.get или user.search"
+    },
+    {
+      "name": "FIRST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Метод вернет комментарии с идентификаторами, которые больше указанного значения"
+    },
+    {
+      "name": "LAST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Метод вернет комментарии с идентификаторами, которые меньше указанного значения"
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество записей в ответе. Допустимое значение — от 1 до 100. По умолчанию возвращается 100 комментариев"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/blogcomment/log-blogcomment-user-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "comments": [
+        {
+          "id": 4821,
+          "comment_id": 4821,
+          "log_id": 13579,
+          "date": "2025-01-28T11:05:42+03:00",
+          "text": "Поддерживаю идею!",
+          "attach": [
+            90210
+          ]
+        }
+      ],
+      "files": {
+        "90210": {
+          "id": 90210,
+          "date": "2025-01-28T11:02:18+03:00",
+          "type": "image",
+          "name": "diagram.png",
+          "size": 184320,
+          "image": {
+            "width": 1280,
+            "height": 720
+          },
+          "authorId": 28,
+          "authorName": "Иван Иванов",
+          "urlPreview": "https://example.bitrix24.ru/disk/showPreview/90210",
+          "urlShow": "https://example.bitrix24.ru/disk/showFile/90210",
+          "urlDownload": "https://example.bitrix24.ru/disk/downloadFile/90210"
+        }
+      }
+    },
+    "time": {
+      "start": 1728905100.112233,
+      "finish": 1728905100.498321,
+      "duration": 0.38608813285827637,
+      "processing": 0.14598798751831055,
+      "date_start": "2025-10-14T12:45:00+03:00",
+      "date_finish": "2025-10-14T12:45:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа. Содержит массив комментариев и информацию о прикрепленных файлах"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/blogcomment/log-blogcomment-user-get.html",
+  "executable": false,
+  "entityFields": [
+    "attach",
+    "comment_id",
+    "date",
+    "id",
+    "log_id",
+    "text"
+  ]
+}

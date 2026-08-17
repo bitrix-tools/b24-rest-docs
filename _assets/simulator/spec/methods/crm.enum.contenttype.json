@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "crm.enum.contenttype",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить элементы перечисления «Тип описания» crm.enum.contenttype",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами описания (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/outdated/crm-enum-content-type.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 0,
+        "NAME": "",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 1,
+        "NAME": "Plain text",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 2,
+        "NAME": "bbCode",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 3,
+        "NAME": "HTML",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750152369.176959,
+      "finish": 1750152369.209383,
+      "duration": 0.032423973083496094,
+      "processing": 0.0003228187561035156,
+      "date_start": "2025-06-17T12:26:09+03:00",
+      "date_finish": "2025-06-17T12:26:09+03:00",
+      "operating_reset_at": 1750152969,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами описания (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-content-type.html",
+  "executable": false
+}

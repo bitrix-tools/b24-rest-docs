@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "imopenlines.network.message.add",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Отправить сообщение пользователю от имени открытой линии imopenlines.network.message.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код открытой линии, строка из 32 символов, например ab515f5d85a8b844d484f6ea75a2e494"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор получателя сообщения, например 2"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст сообщения. Как форматировать текст — в статье форматирование"
+    },
+    {
+      "name": "ATTACH",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Вложение. Формат вложения описан в статье Как использовать вложения",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "KEYBOARD",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Клавиатура. Как создавать клавиатуры — в статье Работа с клавиатурами",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "URL_PREVIEW",
+      "type": "char",
+      "base": "char",
+      "required": false,
+      "description": "Предпросмотр ссылок. Включен Y по умолчанию. Передайте N, чтобы отключить предпросмотр ссылок"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/imopenlines-network-message-add.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773740787,
+      "finish": 1773740787.828814,
+      "duration": 0.8288140296936035,
+      "processing": 0,
+      "date_start": "2026-03-17T12:46:27+03:00",
+      "date_finish": "2026-03-17T12:46:27+03:00",
+      "operating_reset_at": 1773741387,
+      "operating": 0.17312097549438477
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если сообщение отправлено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/imopenlines-network-message-add.html",
+  "executable": false
+}

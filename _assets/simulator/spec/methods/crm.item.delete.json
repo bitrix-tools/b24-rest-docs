@@ -1,0 +1,44 @@
+{
+  "$v": 1,
+  "method": "crm.item.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить элемент crm.item.delete",
+  "permissions": "любой пользователь с правом «удаление» элементов объекта CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа, чей элемент мы хотим удалить. Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счёт — 31 и др.) приведены в справочнике типов объектов CRM. Идентификатор смарт-процесса можно узнать методом crm.type.list"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента, который нужно удалить. Можно получить методом crm.item.list или при создании элемента crm.item.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/crm-item-delete.md"
+  },
+  "resultExample": {
+    "result": [],
+    "time": {
+      "start": 1721657688.755373,
+      "finish": 1721657689.65017,
+      "duration": 0.8947970867156982,
+      "processing": 0.6092040538787842,
+      "date_start": "2024-07-22T16:14:48+02:00",
+      "date_finish": "2024-07-22T16:14:49+02:00",
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/crm/universal/crm-item-delete.html",
+  "executable": false
+}

@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "crm.lead.details.configuration.forceCommonScopeForAll",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить общую карточку для всех пользователей crm.lead.details.configuration.forceCommonScopeForAll",
+  "permissions": "пользователь с правом «Разрешить изменять настройки» в CRM",
+  "params": [
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры для выбора типа лида. Структура описана ниже",
+      "ref": "#/defs/extrasFields"
+    }
+  ],
+  "defs": {
+    "extrasFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "leadCustomerType",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Тип лида. Возможные значения: - 1 - простой лид - 2 - повторный лид"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/custom-form/crm-lead-details-configuration-force-common-scope-for-all.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.forceCommonScopeForAll"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1720687903.685834,
+      "finish": 1720687904.076471,
+      "duration": 0.3906371593475342,
+      "processing": 0.02508091926574707,
+      "date_start": "2024-07-11T10:51:43+02:00",
+      "date_finish": "2024-07-11T10:51:44+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true, если операция выполнена успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/custom-form/crm-lead-details-configuration-force-common-scope-for-all.html",
+  "executable": false
+}

@@ -1,0 +1,183 @@
+{
+  "$v": 1,
+  "method": "main.eventlog.list",
+  "scope": "main",
+  "kind": "read",
+  "title": "Получить список записей журнала main.eventlog.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые нужно вернуть в ответе. Доступные поля: - id — идентификатор записи журнала - timestampX — дата и время события - severity — уровень важности события - auditTypeId — тип события - moduleId — идентификатор модуля - itemId — идентификатор объекта - remoteAddr — IP-адрес - userAgent — User-Agent запроса - requestUri — URI запроса - siteId — идентификатор сайта - userId — идентиф…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Условия фильтрации записей в формате: - [\"field\", \"operator\", value] - [\"field\", value], оператор по умолчанию = Доступные поля аналогичны полям в select. Подробнее о работе фильтрации в REST 3.0",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Сортировка результатов в формате { \"field\": \"value\" }. Доступные значения: - ASC — по возрастанию - DESC — по убыванию Доступные поля для сортировки аналогичны полям в select.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры постраничной навигации: - page — номер страницы - limit — количество записей на страницу, по умолчанию 50 - offset — смещение записей. Если переданы page и limit, смещение вычисляется автоматически",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/event-log/main-eventlog-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов записей журнала"
+    },
+    {
+      "name": "items[]",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект записи журнала"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор записи журнала"
+    },
+    {
+      "name": "timestampX",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время события"
+    },
+    {
+      "name": "severity",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уровень важности события"
+    },
+    {
+      "name": "auditTypeId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип события"
+    },
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор модуля"
+    },
+    {
+      "name": "itemId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор объекта"
+    },
+    {
+      "name": "remoteAddr",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "IP-адрес"
+    },
+    {
+      "name": "userAgent",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "User-Agent запроса"
+    },
+    {
+      "name": "requestUri",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URI запроса"
+    },
+    {
+      "name": "siteId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор сайта"
+    },
+    {
+      "name": "userId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя"
+    },
+    {
+      "name": "guestId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор гостя"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание события"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/event-log/main-eventlog-list.html",
+  "executable": false
+}

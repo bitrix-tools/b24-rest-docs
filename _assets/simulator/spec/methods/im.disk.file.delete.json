@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "im.disk.file.delete",
+  "scope": "im",
+  "kind": "write",
+  "title": "Удалить файл из папки чата im.disk.file.delete",
+  "permissions": "участник чата, который отправил файл",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата"
+    },
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/files/im-disk-file-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772194631,
+      "finish": 1772194631.786718,
+      "duration": 0.7867178916931152,
+      "processing": 0,
+      "date_start": "2026-02-27T15:17:11+03:00",
+      "date_finish": "2026-02-27T15:17:11+03:00",
+      "operating_reset_at": 1772195231,
+      "operating": 0.2657620906829834
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true: - если файл успешно удален, - пользователь является участником чата, но не отправлял файл. Файл в этом случае не удалится. Метод возвращает false: - если у пользователя нет доступа к чату, - указан неверный CHAT_ID или FILE_ID"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/files/im-disk-file-delete.html",
+  "executable": false
+}

@@ -1,0 +1,168 @@
+{
+  "$v": 1,
+  "method": "sonet_group.user.groups",
+  "scope": "sonet",
+  "kind": "write",
+  "title": "Получить список групп текущего пользователя sonetgroup.user.groups",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив групп текущего пользователя. Пустой массив означает, что пользователь не состоит ни в одной группе или проекте",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "GROUP_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы"
+    },
+    {
+      "name": "GROUP_NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название группы"
+    },
+    {
+      "name": "ROLE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Роль текущего пользователя. Возможные значения: - A — владелец - E — модератор - K — участник"
+    },
+    {
+      "name": "GROUP_IMAGE_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор аватара группы"
+    },
+    {
+      "name": "GROUP_IMAGE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "URL аватара группы"
+    },
+    {
+      "name": "IS_EXTRANET",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Признак экстранет-группы. Поле возвращается только для экстранет-групп: - Y — экстранет-группа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/sonet-group-user-groups.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "GROUP_ID": "77",
+        "GROUP_NAME": "Новый заголовок проекта",
+        "ROLE": "K",
+        "GROUP_IMAGE_ID": null,
+        "GROUP_IMAGE": ""
+      },
+      {
+        "GROUP_ID": "79",
+        "GROUP_NAME": "Скрам-проект",
+        "ROLE": "A",
+        "GROUP_IMAGE_ID": null,
+        "GROUP_IMAGE": ""
+      }
+    ],
+    "time": {
+      "start": 1773927027,
+      "finish": 1773927028.025164,
+      "duration": 1.0251638889312744,
+      "processing": 1,
+      "date_start": "2026-03-19T16:30:27+03:00",
+      "date_finish": "2026-03-19T16:30:28+03:00",
+      "operating_reset_at": 1773927627,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив групп текущего пользователя. Пустой массив означает, что пользователь не состоит ни в одной группе или проекте"
+    },
+    {
+      "name": "GROUP_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы"
+    },
+    {
+      "name": "GROUP_NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название группы"
+    },
+    {
+      "name": "ROLE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Роль текущего пользователя. Возможные значения: - A — владелец - E — модератор - K — участник"
+    },
+    {
+      "name": "GROUP_IMAGE_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор аватара группы"
+    },
+    {
+      "name": "GROUP_IMAGE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "URL аватара группы"
+    },
+    {
+      "name": "IS_EXTRANET",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Признак экстранет-группы. Поле возвращается только для экстранет-групп: - Y — экстранет-группа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sonet-group/sonet-group-user-groups.html",
+  "executable": false
+}

@@ -1,0 +1,107 @@
+{
+  "$v": 1,
+  "method": "crm.status.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать элемент справочника crm.status.add",
+  "permissions": "пользователь с правами администратора CRM",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями нового элемента справочника. Список доступных полей описан ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ENTITY_ID",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип справочника, например DEAL_STAGE, SOURCE. Получить список типов можно методом crm.status.entity.types"
+        },
+        {
+          "name": "STATUS_ID",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Код значения статуса. Код должен быть уникальным в рамках справочника. Ограничения по длине и символам зависят от типа справочника"
+        },
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка. По умолчанию 10"
+        },
+        {
+          "name": "COLOR",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Цвет hex-код, например #39A8EF. Используйте для статусов-стадий"
+        },
+        {
+          "name": "SEMANTICS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Группа стадий: - \"S\" — «Успех», - \"F\" — «Провал», - \"\" — «В работе». Используйте для статусов-стадий. По умолчанию передается группа «В работе»"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-add.md"
+  },
+  "resultExample": {
+    "result": 773,
+    "time": {
+      "start": 1752215174.862923,
+      "finish": 1752215174.916697,
+      "duration": 0.053774118423461914,
+      "processing": 0.014070987701416016,
+      "date_start": "2025-07-11T09:26:14+03:00",
+      "date_finish": "2025-07-11T09:26:14+03:00",
+      "operating_reset_at": 1752215774,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного элемента справочника"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-add.html",
+  "executable": false
+}

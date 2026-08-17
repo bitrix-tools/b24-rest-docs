@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "imopenlines.crm.chat.getLastId",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Получить Id последнего чата imopenlines.crm.chat.getLastId",
+  "permissions": "любой пользователь с доступом к объекту CRM",
+  "params": [
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+    },
+    {
+      "name": "CRM_ENTITY",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM. Получить идентификатор можно универсальным методом получения списка элементов CRM"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.md"
+  },
+  "resultExample": {
+    "result": 1763,
+    "time": {
+      "start": 1773758808,
+      "finish": 1773758808.520651,
+      "duration": 0.52065110206604,
+      "processing": 0,
+      "date_start": "2026-03-17T17:46:48+03:00",
+      "date_finish": "2026-03-17T17:46:48+03:00",
+      "operating_reset_at": 1773759408,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего чата"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.html",
+  "executable": false
+}

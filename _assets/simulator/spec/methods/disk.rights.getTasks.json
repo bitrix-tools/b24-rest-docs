@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "disk.rights.getTasks",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Получить список доступных уровней доступа disk.rights.getTasks",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с доступными уровнями доступа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор уровня доступа"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Символьный код уровня доступа"
+    },
+    {
+      "name": "TITLE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название уровня доступа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/rights/disk-rights-get-tasks.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "79",
+        "NAME": "disk_access_full",
+        "TITLE": "Полный доступ"
+      },
+      {
+        "ID": "75",
+        "NAME": "disk_access_edit",
+        "TITLE": "Редактирование"
+      },
+      {
+        "ID": "71",
+        "NAME": "disk_access_read",
+        "TITLE": "Чтение"
+      }
+    ],
+    "time": {
+      "start": 1766494790,
+      "finish": 1766494790.095506,
+      "duration": 0.09550595283508301,
+      "processing": 0,
+      "date_start": "2025-12-23T12:59:50+03:00",
+      "date_finish": "2025-12-23T12:59:50+03:00",
+      "operating_reset_at": 1766495390,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с доступными уровнями доступа"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор уровня доступа"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Символьный код уровня доступа"
+    },
+    {
+      "name": "TITLE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название уровня доступа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/rights/disk-rights-get-tasks.html",
+  "executable": false
+}

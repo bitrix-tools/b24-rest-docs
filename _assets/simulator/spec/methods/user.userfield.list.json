@@ -1,0 +1,155 @@
+{
+  "$v": 1,
+  "method": "user.userfield.list",
+  "scope": "user.userfield",
+  "kind": "read",
+  "title": "Получить список пользовательских полей user.userfield.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "order",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Сортировка выбранных пользовательских полей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field_N: - ID — идентификатор пользовательского поля - FIELD_NAME — название поля - USER_TYPE_ID — тип данных поля - XML_ID — внешний код - SORT — порядок сортировки поля - MULTIPLE — возможность ввода нескольких значений - MANDATORY — обязательность заполнения - SHOW_FILT…"
+    },
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Фильтр выбранных пользовательских полей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field_N аналогичны полям в сортировке. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user/userfields/user-userfield-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "176",
+        "ENTITY_ID": "USER",
+        "FIELD_NAME": "UF_USR_1724228142162",
+        "USER_TYPE_ID": "enumeration",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "DISPLAY": "UI",
+          "LIST_HEIGHT": 1,
+          "CAPTION_NO_VALUE": "",
+          "SHOW_NO_VALUE": "Y"
+        },
+        "LIST": [
+          {
+            "ID": "26",
+            "SORT": "0",
+            "VALUE": "1",
+            "DEF": "N",
+            "XML_ID": "2a53ce08b86a6aba152b1b19204fdef2"
+          },
+          {
+            "ID": "27",
+            "SORT": "100",
+            "VALUE": "2",
+            "DEF": "N",
+            "XML_ID": "292df2be1171ed6ab038996deac29ac8"
+          },
+          {
+            "ID": "28",
+            "SORT": "200",
+            "VALUE": "3",
+            "DEF": "N",
+            "XML_ID": "3c5af70eafbba79a6cf52e299ed75123"
+          }
+        ]
+      },
+      {
+        "ID": "177",
+        "ENTITY_ID": "USER",
+        "FIELD_NAME": "UF_USR_MONEY",
+        "USER_TYPE_ID": "money",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "N",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "DEFAULT_VALUE": ""
+        }
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1747313326.788124,
+      "finish": 1747313328.641663,
+      "duration": 1.853538990020752,
+      "processing": 0.011211156845092773,
+      "date_start": "2025-05-15T14:48:46+02:00",
+      "date_finish": "2025-05-15T14:48:48+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user/userfields/user-userfield-list.html",
+  "executable": false,
+  "entityFields": [
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ENTITY_ID",
+    "ERROR_MESSAGE",
+    "FIELD_NAME",
+    "HELP_MESSAGE",
+    "ID",
+    "IS_SEARCHABLE",
+    "LABEL",
+    "LIST",
+    "LIST_COLUMN_LABEL",
+    "LIST_FILTER_LABEL",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "USER_TYPE_ID",
+    "XML_ID"
+  ]
+}

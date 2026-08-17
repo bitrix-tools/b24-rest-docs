@@ -1,0 +1,152 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.communication.list",
+  "scope": "humanresources",
+  "kind": "read",
+  "title": "Получить коммуникации отдела humanresources.node.communication.list",
+  "permissions": "пользователь с правом «Просмотр отделов» или «Просмотр команд»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node-communication/humanresources-node-communication-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "channels": [
+        {
+          "avatar": "",
+          "color": "#8474c8",
+          "dialogId": "chat21",
+          "hasAccess": true,
+          "id": 21,
+          "isExtranet": false,
+          "originalNodeId": null,
+          "subtitle": "Закрытый канал",
+          "title": "Канал отдела",
+          "type": "CHANNEL"
+        }
+      ],
+      "channelsNoAccess": 0,
+      "chats": [
+        {
+          "avatar": "",
+          "color": "#1eb4aa",
+          "dialogId": "chat22",
+          "hasAccess": true,
+          "id": 22,
+          "isExtranet": false,
+          "originalNodeId": null,
+          "subtitle": "Закрытый чат",
+          "title": "Чат отдела",
+          "type": "CHAT"
+        }
+      ],
+      "chatsNoAccess": 0,
+      "collabs": [
+        {
+          "avatar": null,
+          "dialogId": "chat23",
+          "hasAccess": true,
+          "id": 23,
+          "originalNodeId": null,
+          "subtitle": "Коллаба",
+          "title": "Коллаба отдела",
+          "type": "COLLAB"
+        }
+      ],
+      "collabsNoAccess": 0
+    },
+    "time": {
+      "start": 1780407000,
+      "finish": 1780407000.104211,
+      "duration": 0.10421109199523926,
+      "processing": 0.08111310005187988,
+      "date_start": "2026-06-02T16:30:00+03:00",
+      "date_finish": "2026-06-02T16:30:00+03:00",
+      "operating_reset_at": 1780407600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "chats[]",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив чатов, связанных с отделом или командой. Описание полей коммуникации"
+    },
+    {
+      "name": "chatsNoAccess",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество связанных чатов, недоступных текущему пользователю"
+    },
+    {
+      "name": "channels[]",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив каналов, связанных с отделом или командой. Описание полей коммуникации"
+    },
+    {
+      "name": "channelsNoAccess",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество связанных каналов, недоступных текущему пользователю"
+    },
+    {
+      "name": "collabs[]",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив коллабов, связанных с отделом или командой. Описание полей коммуникации"
+    },
+    {
+      "name": "collabsNoAccess",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество связанных коллабов, недоступных текущему пользователю"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node-communication/humanresources-node-communication-list.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "color",
+    "dialogId",
+    "hasAccess",
+    "id",
+    "isExtranet",
+    "originalNodeId",
+    "subtitle",
+    "title",
+    "type"
+  ]
+}

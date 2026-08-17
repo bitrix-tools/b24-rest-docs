@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "crm.item.details.configuration.reset",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Сбросить параметры карточки элементов crm.item.details.configuration.reset",
+  "permissions": "проверка прав при выполнении метода зависит от переданных данных:",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа объектов CRM"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, чью конфигурацию вы хотите сбросить. Если параметр не передан, то будет взят userId пользователя, вызывающего этот метод. Нужен только при запросе личных настроек"
+    },
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Допустимые значения: - 'P' — личные настройки - 'C' — общие настройки По умолчанию значение равно 'P'"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры. Возможные значения и их структура описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-reset.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1720687072.190654,
+      "finish": 1720687072.586945,
+      "duration": 0.39629101753234863,
+      "processing": 0.057084083557128906,
+      "date_start": "2024-07-11T10:37:52+02:00",
+      "date_finish": "2024-07-11T10:37:52+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успешного сброса настроек"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-reset.html",
+  "executable": false
+}

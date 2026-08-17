@@ -1,0 +1,198 @@
+{
+  "$v": 1,
+  "method": "lists.field.update",
+  "scope": "lists",
+  "kind": "write",
+  "title": "Изменить поле универсального списка lists.field.update",
+  "permissions": "пользователь с правом «Полный доступ» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп Идентификатор можно получить с помощью метода lists.get.iblock.type.id"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "FIELDS",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив параметров. Подробное описание",
+      "ref": "#/defs/FIELDSFields"
+    },
+    {
+      "name": "FIELD_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор поля. Для пользовательского поля имеет вид PROPERTY_PropertyId. Для системного поля является его символьным кодом. Идентификатор можно получить с помощью метода lists.field.get"
+    }
+  ],
+  "defs": {
+    "FIELDSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название поля"
+        },
+        {
+          "name": "TYPE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип поля. Изменить тип нельзя, передавайте тот, который был задан при создании поля. Пользовательские поля: - S — Строка - N — Число - L — Список - F — Файл - G — Привязка к разделам - E — Привязка к элементам - S:Date — Дата - S:DateTime — Дата/Время - S:HTML — HTML/текст - E:EList — Привязка к элементам в виде списка - N:Sequence — Счетчик - S:ECrm — Привязка к элементам CRM - S:Money — Деньги -…"
+        },
+        {
+          "name": "IS_REQUIRED",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг обязательности поля. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "MULTIPLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг множественности поля. Возможные значения: - Y — да - N — нет Системные поля и поле типа Привязка к Яндекс.Карте не могут быть множественными"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "DEFAULT_VALUE",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Значение по умолчанию. Если включена настройка ADD_READ_ONLY_FIELD в SETTINGS, параметр становится обязательным"
+        },
+        {
+          "name": "LIST",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Значения для поля типа Список. Массив в формате {'ID': { 'VALUE': 'Value_1', 'SORT': 10, 'DEF': 'N' }}, где 'ID' — идентификатор, VALUE — отображаемый текст, SORT — порядок сортировки, DEF — признак значения по умолчанию. Получить идентификатор можно методом lists.field.get"
+        },
+        {
+          "name": "LIST_TEXT_VALUES",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Альтернативный способ задания значений для поля типа Список. Строка, где значения разделены символом переноса \\n При обновлении поля типа Список можно использовать либо LIST, либо LIST_TEXT_VALUES, либо оба параметра вместе. В этом случае значения из строки добавятся к тем, что уже есть в массиве"
+        },
+        {
+          "name": "LIST_DEF",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Значение по умолчанию для поля типа Список. Массив принимает идентификатор из LIST"
+        },
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код поля. Обязателен для пользовательских полей. Для системных полей не используется"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Настройки отображения и поведения. Поддерживаются значения: - SHOW_ADD_FORM — показывать в форме добавления - SHOW_EDIT_FORM — показывать в форме редактирования - ADD_READ_ONLY_FIELD — только для чтения (форма добавления) - EDIT_READ_ONLY_FIELD — только для чтения (форма редактирования) - SHOW_FIELD_PREVIEW — показать поле при формировании ссылки на элемент списка Для включения настройки используй…"
+        },
+        {
+          "name": "USER_TYPE_SETTINGS",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив настроек для пользовательских полей. Структура зависит от типа поля: - HTML/текст — массив в формате {'height': 200}, где height — высота окна редактора - Привязка к элементам в виде списка — массив в формате {'size': 1, 'width': 0, 'group': 'N', 'multiple': 'N'}, где size — высота списка, width — ограничение по ширине (0 - не ограничивать), group — группировка по разделам, multiple — отобр…"
+        },
+        {
+          "name": "ROW_COUNT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Высота поля"
+        },
+        {
+          "name": "COL_COUNT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Ширина поля"
+        },
+        {
+          "name": "LINK_IBLOCK_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор связанного списка. Обязателен для типов Привязка к разделам, Привязка к элементам и Привязка к элементам в виде списка"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/fields/lists-field-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1765371241,
+      "finish": 1765371241.084551,
+      "duration": 0.08455109596252441,
+      "processing": 0,
+      "date_start": "2025-12-09T16:54:01+03:00",
+      "date_finish": "2025-12-09T16:54:01+03:00",
+      "operating_reset_at": 1765371841,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если поле обновлено успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/fields/lists-field-update.html",
+  "executable": false
+}

@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "im.user.status.idle.end",
+  "scope": "im",
+  "kind": "write",
+  "title": "Выключить автоматический статус «Отошел» im.user.status.idle.end",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращает true, если статус «Отошел» выключен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/users/im-user-status-idle-end.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.05,
+      "duration": 0.05,
+      "processing": 0.02,
+      "date_start": "2026-03-02T09:30:00+03:00",
+      "date_finish": "2026-03-02T09:30:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращает true, если статус «Отошел» выключен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/users/im-user-status-idle-end.html",
+  "executable": false
+}

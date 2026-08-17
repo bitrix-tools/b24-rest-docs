@@ -1,0 +1,95 @@
+{
+  "$v": 1,
+  "method": "crm.status.entity.items",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить элементы справочника по типу crm.status.entity.items",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип справочника, например DEAL_STAGE, SOURCE. Получить список типов можно методом crm.status.entity.types"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-entity-items.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "NAME": "Новая",
+        "SORT": 10,
+        "STATUS_ID": "NEW"
+      },
+      {
+        "NAME": "Подготовка документов",
+        "SORT": 20,
+        "STATUS_ID": "PREPARATION"
+      },
+      {
+        "NAME": "Cчет на предоплату",
+        "SORT": 30,
+        "STATUS_ID": "PREPAYMENT_INVOICE"
+      },
+      {
+        "NAME": "В работе",
+        "SORT": 40,
+        "STATUS_ID": "EXECUTING"
+      },
+      {
+        "NAME": "Финальный счет",
+        "SORT": 50,
+        "STATUS_ID": "FINAL_INVOICE"
+      },
+      {
+        "NAME": "Сделка успешна",
+        "SORT": 60,
+        "STATUS_ID": "WON"
+      },
+      {
+        "NAME": "Сделка провалена",
+        "SORT": 70,
+        "STATUS_ID": "LOSE"
+      },
+      {
+        "NAME": "Анализ причины провала",
+        "SORT": 80,
+        "STATUS_ID": "APOLOGY"
+      }
+    ],
+    "time": {
+      "start": 1752144806.703358,
+      "finish": 1752144806.76889,
+      "duration": 0.06553196907043457,
+      "processing": 0.010729789733886719,
+      "date_start": "2025-07-10T13:53:26+03:00",
+      "date_finish": "2025-07-10T13:53:26+03:00",
+      "operating_reset_at": 1752145406,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив элементов справочника"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-entity-items.html",
+  "executable": false
+}

@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "mail.message.movetofolder",
+  "scope": "mail",
+  "kind": "write",
+  "title": "Переместить письма в папку mail.message.movetofolder",
+  "permissions": "пользователь с доступом к почтовому ящику, где находятся письма",
+  "params": [
+    {
+      "name": "messageIds",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов писем. Идентификаторы можно получить методом mail.message.list. Передавайте в одном запросе письма только из одной папки и одного почтового ящика",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "action",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Действие для писем: - move — переместить в папку, указанную в folder - spam — переместить в спам - delete — переместить в корзину"
+    },
+    {
+      "name": "folder",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя или путь существующей папки в этом почтовом ящике. Обязательно для действия move"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/message/mail-message-movetofolder.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true,
+      "movedCount": 2,
+      "action": "spam"
+    },
+    "time": {
+      "start": 1779819678,
+      "finish": 1779819678.84803,
+      "duration": 0.8480300903320312,
+      "processing": 0,
+      "date_start": "2026-05-26T21:21:18+03:00",
+      "date_finish": "2026-05-26T21:21:18+03:00",
+      "operating_reset_at": 1779820278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом перемещения"
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак успешного выполнения операции"
+    },
+    {
+      "name": "movedCount",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество обработанных писем"
+    },
+    {
+      "name": "action",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Выполненное действие"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/message/mail-message-movetofolder.html",
+  "executable": false
+}

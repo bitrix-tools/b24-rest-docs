@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "sale.paymentitembasket.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить значения всех полей привязки элемента корзины к оплате sale.paymentitembasket.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_payment_item_basket.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки элемента корзины к оплате"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-basket/sale-payment-item-basket-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "paymentItemBasket": {
+        "basketId": 2722,
+        "dateInsert": "2024-04-17T10:51:03+03:00",
+        "id": 1186,
+        "paymentId": 1025,
+        "quantity": 3,
+        "xmlId": "myXmlId"
+      }
+    },
+    "time": {
+      "start": 1713343923.033388,
+      "finish": 1713343923.350584,
+      "duration": 0.3171961307525635,
+      "processing": 0.03599095344543457,
+      "date_start": "2024-04-17T11:52:03+03:00",
+      "date_finish": "2024-04-17T11:52:03+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "paymentItemBasket",
+      "type": "sale_payment_item_basket",
+      "base": "any",
+      "required": false,
+      "description": "Информация о привязке элемента корзины к оплате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-basket/sale-payment-item-basket-get.html",
+  "executable": false,
+  "entityFields": [
+    "basketId",
+    "dateInsert",
+    "id",
+    "paymentId",
+    "quantity",
+    "xmlId"
+  ]
+}

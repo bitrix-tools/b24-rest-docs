@@ -1,0 +1,128 @@
+{
+  "$v": 1,
+  "method": "crm.type.getByEntityTypeId",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить пользовательский тип по entityTypeId crm.type.getByEntityTypeId",
+  "permissions": "любой пользователь с административным доступом к смарт-процессу, либо пользователь с правом на чтение смарт-процесса",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа смарт-процесса."
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/user-defined-object-types/crm-type-get-by-entity-type-id.md"
+  },
+  "resultExample": {
+    "result": {
+      "type": {
+        "id": 16,
+        "title": "Смарт-процесс",
+        "code": "",
+        "createdBy": 1,
+        "entityTypeId": 2024,
+        "customSectionId": null,
+        "isCategoriesEnabled": "Y",
+        "isStagesEnabled": "Y",
+        "isBeginCloseDatesEnabled": "Y",
+        "isClientEnabled": "Y",
+        "isUseInUserfieldEnabled": "Y",
+        "isLinkWithProductsEnabled": "Y",
+        "isMycompanyEnabled": "Y",
+        "isDocumentsEnabled": "Y",
+        "isSourceEnabled": "Y",
+        "isObserversEnabled": "Y",
+        "isRecyclebinEnabled": "Y",
+        "isAutomationEnabled": "Y",
+        "isBizProcEnabled": "Y",
+        "isSetOpenPermissions": "Y",
+        "isPaymentsEnabled": "N",
+        "isCountersEnabled": "N",
+        "createdTime": "2024-07-08T14:46:54+02:00",
+        "updatedTime": "2024-07-08T14:46:54+02:00",
+        "updatedBy": 1,
+        "relations": {
+          "parent": [
+            {
+              "entityTypeId": 3,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "Y"
+            },
+            {
+              "entityTypeId": 4,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "Y"
+            },
+            {
+              "entityTypeId": 1,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            },
+            {
+              "entityTypeId": 2,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            },
+            {
+              "entityTypeId": 31,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            }
+          ],
+          "child": [
+            {
+              "entityTypeId": 3,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            },
+            {
+              "entityTypeId": 4,
+              "isChildrenListEnabled": "N",
+              "isPredefined": "N"
+            }
+          ]
+        },
+        "linkedUserFields": {
+          "CALENDAR_EVENT|UF_CRM_CAL_EVENT": "Y",
+          "TASKS_TASK|UF_CRM_TASK": "Y",
+          "TASKS_TASK_TEMPLATE|UF_CRM_TASK": "N"
+        },
+        "customSections": []
+      }
+    },
+    "time": {
+      "start": 1720442829.865672,
+      "finish": 1720442830.334845,
+      "duration": 0.46917295455932617,
+      "processing": 0.13246917724609375,
+      "date_start": "2024-07-08T14:47:09+02:00",
+      "date_finish": "2024-07-08T14:47:10+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа, содержащий объект type с информацией о смарт-процессе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-get-by-entity-type-id.html",
+  "executable": false
+}

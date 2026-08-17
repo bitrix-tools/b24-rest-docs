@@ -1,0 +1,152 @@
+{
+  "$v": 1,
+  "method": "sale.basketitem.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список элементов (позиций) корзины sale.basketitem.list",
+  "permissions": "менеджер магазина",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта salebasketitem). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля торговых каталогов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта salebasketitem. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных записей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта salebasketitem. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-item/sale-basket-item-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketItems": [
+        {
+          "currency": "RUB",
+          "id": 6802,
+          "name": "Стул офисный",
+          "orderId": 5147,
+          "price": 1100,
+          "productId": 4343
+        },
+        {
+          "currency": "RUB",
+          "id": 6791,
+          "name": "Стул из каталога",
+          "orderId": 5146,
+          "price": 900,
+          "productId": 0
+        },
+        {
+          "currency": "RUB",
+          "id": 6770,
+          "name": "Сборка",
+          "orderId": 5146,
+          "price": 1110,
+          "productId": 4342
+        }
+      ]
+    },
+    "total": 3,
+    "time": {
+      "start": 1713958546.058793,
+      "finish": 1713958548.507179,
+      "duration": 2.4483859539031982,
+      "processing": 0.2580289840698242,
+      "date_start": "2024-04-24T13:35:46+02:00",
+      "date_finish": "2024-04-24T13:35:48+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketItems",
+      "type": "sale_basket_item[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных элементах (позициях) корзины заказов"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-item/sale-basket-item-list.html",
+  "executable": false,
+  "entityFields": [
+    "basePrice",
+    "canBuy",
+    "catalogXmlId",
+    "currency",
+    "customPrice",
+    "dimensions",
+    "discountPrice",
+    "id",
+    "measureCode",
+    "measureName",
+    "name",
+    "orderId",
+    "price",
+    "productId",
+    "productXmlId",
+    "productid",
+    "quantity",
+    "sort",
+    "vatIncluded",
+    "vatRate",
+    "weight",
+    "xmlId"
+  ]
+}

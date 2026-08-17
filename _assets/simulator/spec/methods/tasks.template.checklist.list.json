@@ -1,0 +1,138 @@
+{
+  "$v": 1,
+  "method": "tasks.template.checklist.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список пунктов чек-листа шаблона задачи tasks.template.checklist.list",
+  "permissions": "пользователь с правом чтения шаблона задачи",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона задачи. Идентификатор шаблона задачи можно получить при создании нового шаблона"
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Фильтр выборки пунктов чек-листа вида { \"поле\": \"значение\", ... }. Фильтровать можно по полям: - ID — идентификатор пункта чек-листа - TEMPLATE_ID — идентификатор шаблона задачи - PARENT_ID — идентификатор родительского пункта - TITLE — текст пункта чек-листа - SORT_INDEX — индекс сортировки - IS_COMPLETE — статус выполнения пункта - IS_IMPORTANT — отметка важности пункта Параметр templateId прину…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей для выборки. В выборке можно указать поля: - ID — идентификатор пункта чек-листа - TEMPLATE_ID — идентификатор шаблона задачи - PARENT_ID — идентификатор родительского пункта - TITLE — текст пункта чек-листа - SORT_INDEX — индекс сортировки - IS_COMPLETE — статус выполнения пункта - IS_IMPORTANT — отметка важности пункта - MEMBERS — список участников пункта - ATTACHMENTS — список влож…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки результата вида { \"поле\": \"значение сортировки\", ... }. Сортировать можно по полям: - ID — идентификатор пункта чек-листа - PARENT_ID — идентификатор родительского пункта - CREATED_BY — идентификатор автора пункта - TITLE — текст пункта чек-листа - SORT_INDEX — индекс сортировки - IS_COMPLETE — статус выполнения пункта - IS_IMPORTANT — отметка важности пункта - TOGGLED_BY — и…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/checklist/tasks-template-checklist-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "checkListItems": {
+        "23": {
+          "id": "23",
+          "templateId": "139",
+          "parentId": 0,
+          "title": "Что нужно сделать",
+          "sortIndex": "0",
+          "isComplete": "N",
+          "isImportant": "N"
+        },
+        "25": {
+          "id": "25",
+          "templateId": "139",
+          "parentId": "23",
+          "title": "1. Собрать данные",
+          "sortIndex": "4",
+          "isComplete": "N",
+          "isImportant": "N"
+        },
+        "27": {
+          "id": "27",
+          "templateId": "139",
+          "parentId": "23",
+          "title": "2. Заполнить форму отчета",
+          "sortIndex": "1",
+          "isComplete": "N",
+          "isImportant": "N"
+        },
+        "29": {
+          "id": "29",
+          "templateId": "139",
+          "parentId": "23",
+          "title": "3. Отправить отчет руководителю",
+          "sortIndex": "3",
+          "isComplete": "N",
+          "isImportant": "N"
+        }
+      }
+    },
+    "time": {
+      "start": 1773316805,
+      "finish": 1773316806.016895,
+      "duration": 1.016895055770874,
+      "processing": 0,
+      "date_start": "2026-03-12T15:00:05+03:00",
+      "date_finish": "2026-03-12T15:00:06+03:00",
+      "operating_reset_at": 1773317406,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-list.html",
+  "executable": false,
+  "entityFields": [
+    "23",
+    "25",
+    "27",
+    "29",
+    "IS_COMPLETE",
+    "IS_IMPORTANT",
+    "MEMBERS",
+    "PARENT_ID",
+    "SORT_INDEX",
+    "TITLE"
+  ]
+}

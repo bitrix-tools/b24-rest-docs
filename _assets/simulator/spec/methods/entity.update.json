@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "entity.update",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Изменить параметры хранилища entity.update",
+  "permissions": "пользователь с уровнем права X (управление) на хранилище данных",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое название хранилища"
+    },
+    {
+      "name": "ENTITY_NEW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый идентификатор хранилища. Используется для переименования кода хранилища. Разрешены только символы a-z, A-Z, 0-9, _. Максимальная длина рассчитывается динамически по формуле: 50 - strlen(\"APP_<clientId>_\"). В большинстве случаев для Битрикс24 это 13 символов"
+    },
+    {
+      "name": "ACCESS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Новый набор прав в формате {\"код_доступа\":\"уровень_права\"}. Примеры кодов доступа: - U<id> — пользователь, например U1 - G<id> — группа пользователей, например G2 - AU — все авторизованные пользователи Метод принимает стандартные коды доступа Битрикс24. Проверить название кода можно методом access.name.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/entities/entity-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774257803,
+      "finish": 1774257803.550779,
+      "duration": 0.5507791042327881,
+      "processing": 0,
+      "date_start": "2026-03-23T12:23:23+03:00",
+      "date_finish": "2026-03-23T12:23:23+03:00",
+      "operating_reset_at": 1774258403,
+      "operating": 0.11757302284240723
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат выполнения метода. При успешном выполнении возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/entities/entity-update.html",
+  "executable": false
+}

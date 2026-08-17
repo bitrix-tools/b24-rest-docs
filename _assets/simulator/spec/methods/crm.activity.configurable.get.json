@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "crm.activity.configurable.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить конфигурируемое дело по id crm.activity.configurable.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Целочисленный идентификатор дела, например 999"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/configurable/crm-activity-configurable-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа - ассоциативный массив с ключом activity, в котором будет содержаться поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/configurable/crm-activity-configurable-get.html",
+  "executable": false,
+  "entityFields": [
+    "badgeCode",
+    "completed",
+    "deadline",
+    "isIncomingChannel",
+    "originId",
+    "originatorId",
+    "pingOffsets",
+    "responsibleId",
+    "typeId"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "$v": 1,
+  "method": "event.offline.get",
+  "scope": null,
+  "kind": "read",
+  "title": "Получить список офлайн-событий с «очисткой» event.offline.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Фильтр записей. По умолчанию отдаются все записи, без фильтрации. Поддерживается фильтрация по полям: ID, TIMESTAMP_X, EVENT_NAME, MESSAGE_ID со стандартными операциями типа =, >, <, <= и так далее. Важно: тип операции ставится перед именем поля фильтрации",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Сортировка записей. Поддерживается сортировка по тем же полям, что и в фильтре, на вход принимается массив вида [поле=>ASC\\|DESC]. По умолчанию — [TIMESTAMPX:ASC]",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество выбираемых записей. По умолчанию 50"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/events/event-offline-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "process_id": null,
+      "events": [
+        {
+          "ID": "1",
+          "TIMESTAMP_X": "2024-07-18T12:32:31+02:00",
+          "EVENT_NAME": "ONCRMLEADADD",
+          "EVENT_DATA": false,
+          "EVENT_ADDITIONAL": false,
+          "MESSAGE_ID": "1"
+        }
+      ]
+    },
+    "time": {
+      "start": 1721299720.388504,
+      "finish": 1721299720.509809,
+      "duration": 0.12130498886108398,
+      "processing": 0.008239030838012695,
+      "date_start": "2024-07-18T12:48:40+02:00",
+      "date_finish": "2024-07-18T12:48:40+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/events/event-offline-get.html",
+  "executable": false
+}

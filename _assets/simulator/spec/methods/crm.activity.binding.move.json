@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "crm.activity.binding.move",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить связь дела с элементом CRM crm.activity.binding.move",
+  "permissions": "пользователь c правом редактирования элементов CRM",
+  "params": [
+    {
+      "name": "activityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор дела в таймлайне, например 999"
+    },
+    {
+      "name": "sourceEntityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело, например 2 для сделки"
+    },
+    {
+      "name": "sourceEntityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента CRM, к которому привязано дело, например 1"
+    },
+    {
+      "name": "targetEntityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому нужно привязать дело, например 2 для сделки"
+    },
+    {
+      "name": "targetEntityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента CRM, к которому нужно привязать дело, например 100"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат операции. Возвращает true если связь успешно изменена, иначе — false"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/binding/crm-activity-binding-move.html",
+  "executable": false
+}

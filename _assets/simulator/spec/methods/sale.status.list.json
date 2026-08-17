@@ -1,0 +1,119 @@
+{
+  "$v": 1,
+  "method": "sale.status.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список статусов sale.status.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта salestatus). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля статусов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных групп свойств в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта salestatus. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных статусов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта salestatus. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status/sale-status-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "statuses": [
+        {
+          "color": "#BEEDF1",
+          "id": "N",
+          "notify": "Y",
+          "sort": 10,
+          "type": "O",
+          "xmlId": null
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1712655587.593758,
+      "finish": 1712655587.816158,
+      "duration": 0.22239995002746582,
+      "processing": 0.016273975372314453,
+      "date_start": "2024-04-09T12:39:47+03:00",
+      "date_finish": "2024-04-09T12:39:47+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "status",
+      "type": "sale_status[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных статусах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status/sale-status-list.html",
+  "executable": false,
+  "entityFields": [
+    "color",
+    "id",
+    "notify",
+    "sort",
+    "type",
+    "xmlId"
+  ]
+}

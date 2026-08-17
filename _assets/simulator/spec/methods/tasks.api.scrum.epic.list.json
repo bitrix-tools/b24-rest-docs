@@ -1,0 +1,138 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.epic.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список эпиков tasks.api.scrum.epic.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "order",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив для сортировки результата вида {'поле_сортировки': 'направление сортировки' [, ...]}. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Возможные значения элементов массива соответствуют полям ответа tasks.api.scrum.epic.add",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив вида {'фильтруемое_поле': 'значение фильтра' [, ...]}. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - = — равно (работает и с массивами) - % — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив полей записей, которые будут возвращены методом. Возможные значения элементов массива соответствуют полям ответа tasks.api.scrum.epic.add. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение \"*\", то будут возвращены все доступные поля. Значение по умолчанию — пустой массив array(). Это означает, что будут возвращены все поля основной таблицы запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Номер страницы вывода. Работает для https запросов. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-list.md"
+  },
+  "resultExample": [
+    {
+      "id": 1,
+      "groupId": 143,
+      "name": "эпик",
+      "description": "",
+      "createdBy": 1,
+      "modifiedBy": 0,
+      "color": "#69dafc"
+    },
+    {
+      "id": 3,
+      "groupId": 143,
+      "name": "эпик2",
+      "description": "new epic",
+      "createdBy": 3,
+      "modifiedBy": 5,
+      "color": "#69dagc"
+    }
+  ],
+  "returns": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор эпика"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы (скрама), к которой привязан эпик"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название эпика"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Описание эпика"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, создавшего эпик"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который последним изменял эпик"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Цвет эпика в формате HEX"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-list.html",
+  "executable": false,
+  "entityFields": [
+    "color",
+    "createdBy",
+    "description",
+    "files",
+    "groupId",
+    "modifiedBy",
+    "name"
+  ]
+}

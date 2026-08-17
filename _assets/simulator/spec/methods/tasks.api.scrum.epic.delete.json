@@ -1,0 +1,29 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.epic.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить эпик tasks.api.scrum.epic.delete",
+  "permissions": "любой пользователь, имеющий доступ к Скраму",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор эпика. Получить идентификаторы эпиков можно методом tasks.api.scrum.epic.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-delete.md"
+  },
+  "resultExample": {
+    "error": 0,
+    "error_description": "Epic not found"
+  },
+  "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-delete.html",
+  "executable": false
+}

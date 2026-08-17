@@ -1,0 +1,47 @@
+{
+  "$v": 1,
+  "method": "im.v2.Event.unsubscribe",
+  "scope": "im",
+  "kind": "write",
+  "title": "Отписаться от событий im.v2.Event.unsubscribe",
+  "permissions": "авторизованный пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "true при успешной отписке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/im.v2/events/event-unsubscribe.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/im.v2/events/event-unsubscribe.html",
+  "executable": false
+}

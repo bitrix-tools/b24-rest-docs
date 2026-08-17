@@ -1,0 +1,154 @@
+{
+  "$v": 1,
+  "method": "imopenlines.dialog.get",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить информацию о диалоге оператора imopenlines.dialog.get",
+  "permissions": "любой пользователь с правом на доступ к диалогу",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.session.history.get"
+    },
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор диалога в формате chat<ID>, где <ID> — индентификатор чата открытой линии"
+    },
+    {
+      "name": "SESSION_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сессии. Идентификатор можно получить методом imopenlines.session.history.get в поле sessionId"
+    },
+    {
+      "name": "USER_CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Строковый код пользователя для канала внешней системы. Формат кода: , где: - <connector> — идентификатор коннектора: livechat, telegram и другие - <LINE_ID> — идентификатор открытой линии - <CONNECTOR_CHAT_ID> — идентификатор чата в канале - <CONNECTOR_USER_ID> — идентификатор пользователя в канале Значение можно получить методом imopenlines.session.history.get из result.chat.<chatId>.entityId"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-dialog-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 1777,
+      "parent_chat_id": 0,
+      "parent_message_id": 0,
+      "name": "Салатовый гость №17 - Документация Битрикс24",
+      "description": null,
+      "owner": 27,
+      "extranet": false,
+      "avatar": "",
+      "color": "#58cc47",
+      "type": "lines",
+      "counter": 0,
+      "user_counter": 2,
+      "message_count": 104,
+      "unread_id": 0,
+      "restrictions": {
+        "avatar": true,
+        "rename": true,
+        "extend": true,
+        "call": true,
+        "mute": true,
+        "leave": true,
+        "leave_owner": true,
+        "send": true,
+        "user_list": true
+      },
+      "last_message_id": 86313,
+      "last_id": 86313,
+      "marked_id": 0,
+      "disk_folder_id": 0,
+      "entity_type": "LINES",
+      "entity_id": "livechat|22|1775|599",
+      "entity_data_1": "Y|LEAD|1209|N|N|343|1773682918|0|0|0",
+      "entity_data_2": "LEAD|1209|COMPANY|0|CONTACT|0|DEAL|0",
+      "entity_data_3": "N",
+      "mute_list": [],
+      "date_create": "2026-03-13T16:50:15+03:00",
+      "message_type": "L",
+      "public": "",
+      "role": "owner",
+      "entity_link": {
+        "type": "LINES",
+        "url": "",
+        "id": "livechat|22|1775|599"
+      },
+      "text_field_enabled": true,
+      "background_id": null,
+      "permissions": {
+        "manage_users_add": "member",
+        "manage_users_delete": "manager",
+        "manage_ui": "member",
+        "manage_settings": "owner",
+        "manage_messages": "member",
+        "can_post": "member"
+      },
+      "is_new": false,
+      "readed_list": [
+        {
+          "user_id": 599,
+          "user_name": "Гость",
+          "message_id": 86101,
+          "date": null
+        }
+      ],
+      "manager_list": [
+        27
+      ],
+      "last_message_views": {
+        "message_id": 86313,
+        "first_viewers": [
+          {
+            "user_id": 27,
+            "user_name": "Светлана Иванова",
+            "date": "2026-03-16T20:50:37+03:00"
+          }
+        ],
+        "count_of_viewers": 0
+      },
+      "dialog_id": "chat1777"
+    },
+    "time": {
+      "start": 1773683678,
+      "finish": 1773683678.423382,
+      "duration": 0.423382043838501,
+      "processing": 0,
+      "date_start": "2026-03-16T20:54:38+03:00",
+      "date_finish": "2026-03-16T20:54:38+03:00",
+      "operating_reset_at": 1773684278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект данных чата (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-dialog-get.html",
+  "executable": false
+}

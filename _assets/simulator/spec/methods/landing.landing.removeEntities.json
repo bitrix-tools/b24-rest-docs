@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "landing.landing.removeEntities",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить блоки и очистить файловые привязки изображений страницы landing.landing.removeEntities",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "data",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор объектов для удаления (подробное описание). Если не указать блоки или изображения для удаления, страница останется без изменений. При этом метод все равно вернет true, если страница существует",
+      "ref": "#/defs/dataFields"
+    }
+  ],
+  "defs": {
+    "dataFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "blocks",
+          "type": "integer[]",
+          "base": "array",
+          "required": false,
+          "description": "Идентификаторы блоков страницы, которые нужно удалить полностью. Для каждого блока метод также удаляет все связанные изображения. Если в списке есть блоки, которых нет на странице, или блоки, которые пользователь не может удалить, метод пропустит их. Для существующей доступной страницы он может вернуть true, даже если часть блоков или все блоки из списка не были удалены"
+        },
+        {
+          "name": "images",
+          "type": "object[]",
+          "base": "array",
+          "required": false,
+          "description": "Пары идентификаторов блока и изображения для удаления файловой привязки. Содержимое блока не изменяется — используйте, когда изображение уже убрано из блока и нужно очистить оставшуюся служебную запись. (подробное описание). Метод не вернет отдельную ошибку в трех случаях: если блок не найден, если он уже указан в параметре blocks или если изображение не связано с этим блоком"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-remove-entities.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773796328,
+      "finish": 1773796328.413521,
+      "duration": 0.41352105140686035,
+      "processing": 0,
+      "date_start": "2026-03-18T04:12:08+03:00",
+      "date_finish": "2026-03-18T04:12:08+03:00",
+      "operating_reset_at": 1773796928,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления, при успехе возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-remove-entities.html",
+  "executable": false
+}

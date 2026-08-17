@@ -1,0 +1,102 @@
+{
+  "$v": 1,
+  "method": "catalog.enum.getRoundTypes",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Получить список типов округления catalog.enum.getRoundTypes",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "enum",
+      "type": "catalog_enum[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив элементов перечисления типов округления",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/enum/catalog-enum-get-round-types.md"
+  },
+  "resultExample": {
+    "result": {
+      "enum": [
+        {
+          "id": 1,
+          "name": "Математическое"
+        },
+        {
+          "id": 2,
+          "name": "В пользу магазина"
+        },
+        {
+          "id": 4,
+          "name": "В пользу клиента"
+        }
+      ]
+    },
+    "time": {
+      "start": 1774267910,
+      "finish": 1774267910.959061,
+      "duration": 0.9590609073638916,
+      "processing": 0,
+      "date_start": "2026-03-23T15:11:50+03:00",
+      "date_finish": "2026-03-23T15:11:50+03:00",
+      "operating_reset_at": 1774268510,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "enum",
+      "type": "catalog_enum[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив элементов перечисления типов округления"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/enum/catalog-enum-get-round-types.html",
+  "executable": false
+}

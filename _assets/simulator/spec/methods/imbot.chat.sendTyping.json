@@ -1,0 +1,55 @@
+{
+  "$v": 1,
+  "method": "imbot.chat.sendTyping",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Отправить признак «Чат-бот пишет» imbot.chat.sendTyping",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота. Метод работает только с ботами этого приложения.",
+  "params": [
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода imbot.bot.list. Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением"
+    },
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор объекта, который получит сообщение: пользователь или чат. Поддерживаемые форматы: - USER_ID — идентификатор пользователя, который можно получить через user.get или user.search - chatXXX, где XXX — идентификатор чата, который можно получить через imbot.chat.get"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/chats/imbot-chat-send-typing.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.InputAction.notify"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/chats/imbot-chat-send-typing.html",
+  "executable": false
+}

@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.sprint.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить спринт tasks.api.scrum.sprint.delete",
+  "permissions": "любой пользователь, имеющий доступ к Скраму",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор спринта"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-delete.md"
+  },
+  "resultExample": {
+    "result": []
+  },
+  "page": "/api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-delete.html",
+  "executable": false
+}

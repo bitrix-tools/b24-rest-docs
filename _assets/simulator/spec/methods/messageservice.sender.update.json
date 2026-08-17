@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "messageservice.sender.update",
+  "scope": "messageservice",
+  "kind": "write",
+  "title": "Обновить провайдер сообщений messageservice.sender.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код провайдера, который нужно обновить. Код провайдера можно получить методом messageservice.sender.list"
+    },
+    {
+      "name": "HANDLER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый URL обработчика приложения"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое название провайдера. Может быть строкой или ассоциативным массивом локализированных строк вида:"
+    },
+    {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое описание провайдера. Может быть строкой или ассоциативным массивом локализированных строк вида:"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/messageservice/messageservice-sender-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1742895600,
+      "finish": 1742895600.845505,
+      "duration": 0.845505952835083,
+      "processing": 0.1402289867401123,
+      "date_start": "2025-03-25T10:00:00+03:00",
+      "date_finish": "2025-03-25T10:00:00+03:00",
+      "operating_reset_at": 1742896200,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если провайдер успешно обновлен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/messageservice/messageservice-sender-update.html",
+  "executable": false
+}

@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "bizproc.activity.list",
+  "scope": "bizproc",
+  "kind": "read",
+  "title": "Получить список действий приложения bizproc.activity.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список идентификаторов действий приложения",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-activity/bizproc-activity-list.md"
+  },
+  "resultExample": {
+    "result": [
+      "md5_action",
+      "doc_action"
+    ],
+    "time": {
+      "start": 1738151724.710429,
+      "finish": 1738151724.731927,
+      "duration": 0.02149796485900879,
+      "processing": 0.0011229515075683594,
+      "date_start": "2025-01-29T14:55:24+03:00",
+      "date_finish": "2025-01-29T14:55:24+03:00",
+      "operating_reset_at": 1738152324,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список идентификаторов действий приложения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-activity/bizproc-activity-list.html",
+  "executable": false
+}

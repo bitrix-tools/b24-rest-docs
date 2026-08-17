@@ -1,0 +1,211 @@
+{
+  "$v": 1,
+  "method": "crm.quote.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить коммерческое предложение crm.quote.add",
+  "permissions": "пользователь с правом «добавления» коммерческих предложений",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями коммерческого предложения формата: где: - field_n — название поля - value_n — значение поля Список обязательных и основных полей — ниже. Полный список доступных полей и их типов можно получить методом crm.quote.fields",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект дополнительных параметров (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тема коммерческого предложения Ограничение длины — до 255 символов. Если передать значение длиннее 255, система обрежет его до 255 символов"
+        },
+        {
+          "name": "STATUS_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Стадия предложения Передавайте значение явно в каждом запросе. Список доступных стадий можно получить методом crm.status.list с фильтром ENTITY_ID = QUOTE_STATUS"
+        },
+        {
+          "name": "CURRENCY_ID",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Валюта суммы предложения"
+        },
+        {
+          "name": "OPPORTUNITY",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма предложения Передавайте числовое значение в паре с CURRENCY_ID"
+        },
+        {
+          "name": "ASSIGNED_BY_ID",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор ответственного"
+        },
+        {
+          "name": "COMPANY_ID",
+          "type": "crm_company",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании-клиента"
+        },
+        {
+          "name": "CONTACT_IDS",
+          "type": "crm_contact[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив идентификаторов контактов клиента"
+        },
+        {
+          "name": "MYCOMPANY_ID",
+          "type": "crm_company",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор «вашей компании» для реквизитов продавца"
+        },
+        {
+          "name": "OPENED",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Доступно ли предложение для всех. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "PERSON_TYPE_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор типа плательщика"
+        },
+        {
+          "name": "BEGINDATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата выставления"
+        },
+        {
+          "name": "CLOSEDATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Срок действия предложения"
+        },
+        {
+          "name": "CLIENT_TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название клиента, до 255 символов"
+        },
+        {
+          "name": "CLIENT_ADDR",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Адрес клиента, до 255 символов"
+        },
+        {
+          "name": "CLIENT_EMAIL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Email клиента, до 255 символов"
+        },
+        {
+          "name": "CLIENT_PHONE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Телефон клиента, до 255 символов"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий"
+        }
+      ]
+    },
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "IMPORT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Режим импорта. Возможные значения: - Y — да - N — нет"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/crm-quote-add.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.add"
+  },
+  "resultExample": {
+    "result": 43,
+    "time": {
+      "start": 1773396937,
+      "finish": 1773396937.557957,
+      "duration": 0.5579569339752197,
+      "processing": 0,
+      "date_start": "2026-03-13T13:15:37+03:00",
+      "date_finish": "2026-03-13T13:15:37+03:00",
+      "operating_reset_at": 1773397537,
+      "operating": 0.5224320888519287
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит идентификатор созданного коммерческого предложения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/crm-quote-add.html",
+  "executable": false
+}

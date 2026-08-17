@@ -1,0 +1,128 @@
+{
+  "$v": 1,
+  "method": "task.item.userfield.add",
+  "scope": "task",
+  "kind": "write",
+  "title": "Добавить пользовательское поле task.item.userfield.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "PARAMS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор параметров создаваемого поля (подробное описание)",
+      "ref": "#/defs/PARAMSFields"
+    }
+  ],
+  "defs": {
+    "PARAMSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "USER_TYPE_ID",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип данных пользовательского поля. Поддерживаются значения: - string — строка - double — число - datetime — дата и время - boolean — да/нет"
+        },
+        {
+          "name": "FIELD_NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Код пользовательского поля"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор"
+        },
+        {
+          "name": "EDIT_FORM_LABEL",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Подпись в форме редактирования (подробное описание)"
+        },
+        {
+          "name": "LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название пользовательского поля"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "MULTIPLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Множественное значение. Возможные значения: - Y — множественное - N — единственное Применяется для типов string, double, datetime. Для типа boolean всегда используется N"
+        },
+        {
+          "name": "MANDATORY",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обязательное значение. Возможные значения: - Y — обязательно - N — не обязательное"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные настройки типа поля (подробное описание)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/user-field/task-item-user-field-add.md"
+  },
+  "resultExample": {
+    "result": 1325,
+    "time": {
+      "start": 1772711476,
+      "finish": 1772711476.284127,
+      "duration": 0.28412699699401855,
+      "processing": 0,
+      "date_start": "2026-03-05T14:51:16+03:00",
+      "date_finish": "2026-03-05T14:51:16+03:00",
+      "operating_reset_at": 1772712076,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного пользовательского поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/user-field/task-item-user-field-add.html",
+  "executable": false
+}

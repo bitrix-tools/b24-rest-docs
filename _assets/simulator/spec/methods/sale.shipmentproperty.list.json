@@ -1,0 +1,223 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentproperty.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список свойств отгрузки sale.shipmentproperty.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта saleshipmentproperty). Если не передан или передан пустой массив, то будут выбраны все доступные поля свойств",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных свойств отгрузки в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта saleshipmentproperty. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - = — равно (работает и с массивами) - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных свойств отгрузки в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта saleshipmentproperty. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-property/sale-shipment-property-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "properties": [
+        {
+          "active": "Y",
+          "code": "EMAIL",
+          "defaultValue": "",
+          "description": "",
+          "id": 47,
+          "inputFieldLocation": "0",
+          "isAddress": "N",
+          "isAddressFrom": "N",
+          "isAddressTo": "N",
+          "isEmail": "Y",
+          "isFiltered": "Y",
+          "isLocation": "N",
+          "isPayer": "N",
+          "isPhone": "N",
+          "isProfileName": "N",
+          "isZip": "N",
+          "multiple": "N",
+          "name": "E-Mail",
+          "personTypeId": 3,
+          "propsGroupId": 5,
+          "required": "Y",
+          "settings": [],
+          "sort": 300,
+          "type": "STRING",
+          "userProps": "Y",
+          "util": "N",
+          "xmlId": ""
+        },
+        {
+          "active": "Y",
+          "code": "EMAIL",
+          "defaultValue": "",
+          "description": "",
+          "id": 33,
+          "inputFieldLocation": "0",
+          "isAddress": "N",
+          "isAddressFrom": "N",
+          "isAddressTo": "N",
+          "isEmail": "Y",
+          "isFiltered": "N",
+          "isLocation": "N",
+          "isPayer": "N",
+          "isPhone": "N",
+          "isProfileName": "N",
+          "isZip": "N",
+          "multiple": "N",
+          "name": "E-Mail",
+          "personTypeId": 4,
+          "propsGroupId": 8,
+          "required": "Y",
+          "settings": {
+            "size": 40
+          },
+          "sort": 250,
+          "type": "STRING",
+          "userProps": "Y",
+          "util": "N",
+          "xmlId": ""
+        },
+        {
+          "active": "Y",
+          "code": "EMAIL",
+          "defaultValue": "",
+          "description": "",
+          "id": 21,
+          "inputFieldLocation": "0",
+          "isAddress": "N",
+          "isAddressFrom": "N",
+          "isAddressTo": "N",
+          "isEmail": "Y",
+          "isFiltered": "Y",
+          "isLocation": "N",
+          "isPayer": "N",
+          "isPhone": "N",
+          "isProfileName": "N",
+          "isZip": "N",
+          "multiple": "N",
+          "name": "E-Mail",
+          "personTypeId": 3,
+          "propsGroupId": 5,
+          "required": "Y",
+          "settings": {
+            "size": 40
+          },
+          "sort": 110,
+          "type": "STRING",
+          "userProps": "Y",
+          "util": "N",
+          "xmlId": ""
+        }
+      ]
+    },
+    "total": 3,
+    "time": {
+      "start": 1712818881.719586,
+      "finish": 1712818881.960037,
+      "duration": 0.24045109748840332,
+      "processing": 0.06902408599853516,
+      "date_start": "2024-04-11T10:01:21+03:00",
+      "date_finish": "2024-04-11T10:01:21+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "properties",
+      "type": "sale_shipment_property[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных свойствах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-property/sale-shipment-property-list.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "defaultValue",
+    "description",
+    "id",
+    "inputFieldLocation",
+    "isAddress",
+    "isAddressFrom",
+    "isAddressTo",
+    "isEmail",
+    "isFiltered",
+    "isLocation",
+    "isPayer",
+    "isPhone",
+    "isProfileName",
+    "isZip",
+    "multiple",
+    "name",
+    "personTypeId",
+    "propsGroupId",
+    "required",
+    "settings",
+    "sort",
+    "type",
+    "userProps",
+    "util",
+    "xmlId"
+  ]
+}

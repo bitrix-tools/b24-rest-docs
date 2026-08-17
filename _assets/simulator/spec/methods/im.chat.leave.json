@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "im.chat.leave",
+  "scope": "im",
+  "kind": "write",
+  "title": "Покинуть чат im.chat.leave",
+  "permissions": "участник чата",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата. Идентификатор чата можно получить с помощью метода im.chat.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/chat-users/im-chat-leave.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772482559,
+      "finish": 1772482559.780171,
+      "duration": 0.7801709175109863,
+      "processing": 0,
+      "date_start": "2026-03-02T13:15:59+03:00",
+      "date_finish": "2026-03-02T13:15:59+03:00",
+      "operating_reset_at": 1772483159,
+      "operating": 0.10254502296447754
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если пользователь вышел из чата"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/chat-users/im-chat-leave.html",
+  "executable": false
+}

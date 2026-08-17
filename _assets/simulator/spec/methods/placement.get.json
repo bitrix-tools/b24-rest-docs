@@ -1,0 +1,141 @@
+{
+  "$v": 1,
+  "method": "placement.get",
+  "scope": null,
+  "kind": "read",
+  "title": "Получить обработчики, зарегистрированные приложением placement.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращает список зарегистрированных обработчиков виджетов. Структура каждого элемента соответствует параметрам метода регистрации обработчика"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/widgets/placement-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "placement": "CRM_DEAL_LIST_TOOLBAR",
+        "userId": 0,
+        "handler": "https://myapp.com/?handler=1",
+        "options": [],
+        "title": "Add invoice",
+        "description": "",
+        "langAll": {
+          "ru": {
+            "TITLE": "Add invoice",
+            "DESCRIPTION": "",
+            "GROUP_NAME": "Documents"
+          }
+        }
+      },
+      {
+        "placement": "CRM_DEAL_LIST_TOOLBAR",
+        "userId": 0,
+        "handler": "https://myapp.com/?handler=1",
+        "options": [],
+        "title": "Import invoice",
+        "description": "",
+        "langAll": {
+          "ru": {
+            "TITLE": "Import invoice",
+            "DESCRIPTION": "",
+            "GROUP_NAME": "Documents"
+          }
+        }
+      },
+      {
+        "placement": "IM_CONTEXT_MENU",
+        "userId": 0,
+        "handler": "https://myapp.com/?handler=2",
+        "options": {
+          "extranet": "N",
+          "context": "ALL",
+          "role": "USER"
+        },
+        "title": "My App 1",
+        "description": "",
+        "langAll": {
+          "ru": {
+            "TITLE": "My App 1",
+            "DESCRIPTION": "",
+            "GROUP_NAME": ""
+          }
+        }
+      },
+      {
+        "placement": "PAGE_BACKGROUND_WORKER",
+        "userId": 1,
+        "handler": "https://myapp.com/?handler=3",
+        "options": {
+          "errorHandlerUrl": "https://myapp.com/?handler=3"
+        },
+        "title": "My App 2",
+        "description": "",
+        "langAll": {
+          "ru": {
+            "TITLE": "My App 2",
+            "DESCRIPTION": "",
+            "GROUP_NAME": ""
+          }
+        }
+      }
+    ],
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращает список зарегистрированных обработчиков виджетов. Структура каждого элемента соответствует параметрам метода регистрации обработчика"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/widgets/placement-get.html",
+  "executable": false,
+  "entityFields": [
+    "description",
+    "handler",
+    "langAll",
+    "options",
+    "placement",
+    "title",
+    "userId"
+  ]
+}

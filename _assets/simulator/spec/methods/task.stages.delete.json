@@ -1,0 +1,44 @@
+{
+  "$v": 1,
+  "method": "task.stages.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить стадию канбана или «Моего плана» task.stages.delete",
+  "permissions": "> - любой пользователь для стадий «Моего плана»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор стадии, которую необходимо удалить"
+    },
+    {
+      "name": "isAdmin",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Если установлено true, то проверки прав происходить не будет, при условии, что запрашивающий является администратором портала"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/stages/task-stages-delete.md"
+  },
+  "resultExample": {
+    "result": true
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true в случае успешного удаления стадии"
+    }
+  ],
+  "page": "/api-reference/tasks/stages/task-stages-delete.html",
+  "executable": false
+}

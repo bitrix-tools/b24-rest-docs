@@ -1,0 +1,100 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.count",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Получить количество отделов humanresources.node.count",
+  "permissions": "пользователь с правом «Просмотр отделов» или «Просмотр команд»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с итоговыми счетчиками",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "departments",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество отделов"
+    },
+    {
+      "name": "teams",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество команд"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node/humanresources-node-count.md"
+  },
+  "resultExample": {
+    "result": {
+      "departments": 25,
+      "teams": 8
+    },
+    "time": {
+      "start": 1780396500,
+      "finish": 1780396500.211403,
+      "duration": 0.21140313148498535,
+      "processing": 0.1825411319732666,
+      "date_start": "2026-06-02T13:35:00+03:00",
+      "date_finish": "2026-06-02T13:35:00+03:00",
+      "operating_reset_at": 1780397100,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с итоговыми счетчиками"
+    },
+    {
+      "name": "departments",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество отделов"
+    },
+    {
+      "name": "teams",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество команд"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node/humanresources-node-count.html",
+  "executable": false
+}

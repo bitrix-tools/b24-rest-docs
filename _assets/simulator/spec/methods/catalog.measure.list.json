@@ -1,0 +1,130 @@
+{
+  "$v": 1,
+  "method": "catalog.measure.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список единиц измерения catalog.measure.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта catalogmeasure). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля единиц измерения",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogmeasure. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных полей единиц измерения в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogmeasure. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/measure/catalog-measure-list.md"
+  },
+  "resultExample": {
+    "measures": [
+      {
+        "code": 166,
+        "id": 4,
+        "symbolIntl": "kg"
+      },
+      {
+        "code": 163,
+        "id": 3,
+        "symbolIntl": "g"
+      },
+      {
+        "code": 112,
+        "id": 2,
+        "symbolIntl": "l"
+      },
+      {
+        "code": 6,
+        "id": 1,
+        "symbolIntl": "m"
+      }
+    ],
+    "total": 4,
+    "time": {
+      "start": 1712326352.63409,
+      "finish": 1712326352.8319,
+      "duration": 0.197818040847778,
+      "processing": 0.00833678245544434,
+      "date_start": "2024-04-05T16:12:32+02:00",
+      "date_finish": "2024-04-05T16:12:32+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "measure",
+      "type": "catalog_measure[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных единицах измерения"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/measure/catalog-measure-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "isDefault",
+    "measureTitle",
+    "symbol",
+    "symbolIntl",
+    "symbolLetterIntl"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список оплат crm.item.payment.list",
+  "permissions": "требуется право на чтение объекта CRM, из которого выбираются оплаты",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM"
+    },
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM"
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительный фильтр для случаев, когда нужно получить не все оплаты сущности, а по какому-то более специфичному фильтру. Описание формата приведено в параметре filter метода sale.payment.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Описание формата приведено в параметре order метода sale.payment.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/crm-item-payment-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_order_payment_crm_simple[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, содержащий краткую информацию о выбранных оплатах"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/crm-item-payment-list.html",
+  "executable": false
+}

@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "imbot.command.unregister",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Удалить команду imbot.command.unregister",
+  "permissions": "пользователь приложения, которое зарегистрировало чат-бота",
+  "params": [
+    {
+      "name": "COMMAND_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор команды для удаления"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/commands/imbot-command-unregister.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Command.unregister"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772105363,
+      "finish": 1772105363.56206,
+      "duration": 0.5620601177215576,
+      "processing": 0,
+      "date_start": "2026-02-26T14:29:23+03:00",
+      "date_finish": "2026-02-26T14:29:23+03:00",
+      "operating_reset_at": 1772105963,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если команда успешно удалена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chat-bots/outdated/commands/imbot-command-unregister.html",
+  "executable": false
+}

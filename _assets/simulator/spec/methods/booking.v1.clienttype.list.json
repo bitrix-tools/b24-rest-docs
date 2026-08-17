@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "booking.v1.clienttype.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить список типов клиентов booking.v1.clienttype.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект, содержащий список типов клиентов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/booking-v1-clienttype-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "clientType": [
+        {
+          "code": "COMPANY",
+          "module": "crm"
+        },
+        {
+          "code": "CONTACT",
+          "module": "crm"
+        }
+      ]
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект, содержащий список типов клиентов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/booking-v1-clienttype-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "module"
+  ]
+}

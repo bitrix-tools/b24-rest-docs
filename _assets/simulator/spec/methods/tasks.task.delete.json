@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "tasks.task.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить задачу tasks.task.delete",
+  "permissions": "любой пользователь с правом удаления задачи",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-delete.md"
+  },
+  "resultExample": {
+    "result": {
+      "task": true
+    },
+    "time": {
+      "start": 1758184832.67041,
+      "finish": 1758184832.961555,
+      "duration": 0.29114508628845215,
+      "processing": 0.2604410648345947,
+      "date_start": "2025-09-18T11:40:32+03:00",
+      "date_finish": "2025-09-18T11:40:32+03:00",
+      "operating_reset_at": 1758185432,
+      "operating": 0.2604219913482666
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "task",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если задача успешно удалена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-delete.html",
+  "executable": false
+}

@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "crm.contact.details.configuration.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить параметры индивидуальной карточки crm.contact.details.configuration.set",
+  "permissions": "> - любой пользователь может установить свои личные настройки",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Нужен только при установке личных настроек. Если не задан — берется id текущего пользователя"
+    },
+    {
+      "name": "data",
+      "type": "section[]",
+      "base": "array",
+      "required": true,
+      "description": "Список section описывает конфигурацию разделов полей в карточке элемента. Структура описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/custom-form/crm-contact-details-configuration-set.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.set"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724677217.639681,
+      "finish": 1724677217.986853,
+      "duration": 0.3471717834472656,
+      "processing": 0.01840806007385254,
+      "date_start": "2024-08-26T15:00:17+02:00",
+      "date_finish": "2024-08-26T15:00:17+02:00",
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/crm/contacts/custom-form/crm-contact-details-configuration-set.html",
+  "executable": false
+}

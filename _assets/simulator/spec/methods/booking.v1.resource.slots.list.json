@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "booking.v1.resource.slots.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить настройку слотов для ресурса booking.v1.resource.slots.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "resourceId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор ресурса. Можно получить методами booking.v1.resource.add и booking.v1.resource.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/resource/slots/booking-v1-resource-slots-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "slots": [
+        {
+          "from": 100,
+          "id": 171,
+          "slotSize": 1,
+          "timezone": "Europe/Kaliningrad",
+          "to": 300,
+          "weekDays": [
+            "Mon",
+            "Tue"
+          ]
+        }
+      ]
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о слотах. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/resource/slots/booking-v1-resource-slots-list.html",
+  "executable": false,
+  "entityFields": [
+    "from",
+    "id",
+    "slotSize",
+    "timezone",
+    "to",
+    "weekDays"
+  ]
+}

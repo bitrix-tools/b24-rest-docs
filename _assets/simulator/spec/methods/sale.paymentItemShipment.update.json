@@ -1,0 +1,92 @@
+{
+  "$v": 1,
+  "method": "sale.paymentItemShipment.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Изменить привязку оплаты к отгрузке sale.paymentItemShipment.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_payment_item_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки оплаты к отгрузке"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для создания привязки оплаты к отгрузке в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор записи"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-shipment/sale-payment-item-shipment-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "paymentItemShipment": {
+        "dateInsert": "2024-04-15T09:22:26+03:00",
+        "id": 1181,
+        "paymentId": 1025,
+        "shipmentId": 2471,
+        "xmlId": "myNewXmlId"
+      }
+    },
+    "time": {
+      "start": 1713167192.849789,
+      "finish": 1713167193.547071,
+      "duration": 0.697282075881958,
+      "processing": 0.4292449951171875,
+      "date_start": "2024-04-15T10:46:32+03:00",
+      "date_finish": "2024-04-15T10:46:33+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "paymentItemShipment",
+      "type": "sale_payment_item_shipment",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленной привязке оплаты к отгрузке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-update.html",
+  "executable": false
+}

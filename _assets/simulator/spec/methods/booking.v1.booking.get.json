@@ -1,0 +1,80 @@
+{
+  "$v": 1,
+  "method": "booking.v1.booking.get",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить информацию о бронировании booking.v1.booking.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор бронирования"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/booking/booking-v1-booking-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "booking": {
+        "datePeriod": {
+          "from": {
+            "timestamp": 1723446900,
+            "timezone": "Europe/Kaliningrad"
+          },
+          "to": {
+            "timestamp": 1723447800,
+            "timezone": "Europe/Kaliningrad"
+          }
+        },
+        "description": null,
+        "id": 15,
+        "name": "бронирование 1",
+        "resourceIds": [
+          1,
+          2
+        ]
+      }
+    },
+    "time": {
+      "start": 1741002780.099604,
+      "finish": 1741002780.381558,
+      "duration": 0.2819540500640869,
+      "processing": 0.14896297454833984,
+      "date_start": "2025-03-03T11:53:00+00:00",
+      "date_finish": "2025-03-03T11:53:00+00:00",
+      "operating": 0.14890098571777344
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях бронирования. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/booking/booking-v1-booking-get.html",
+  "executable": false,
+  "entityFields": [
+    "datePeriod",
+    "description",
+    "id",
+    "name",
+    "resourceIds"
+  ]
+}

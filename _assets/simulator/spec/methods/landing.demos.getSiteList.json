@@ -1,0 +1,95 @@
+{
+  "$v": 1,
+  "method": "landing.demos.getSiteList",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить список шаблонов для создания сайтов landing.demos.getSiteList",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип шаблона. Возможные значения: - page — шаблоны для страниц - store — шаблоны для магазинов - knowledge — шаблоны для баз знаний - group — шаблоны для групп - mainpage — шаблоны для главных страниц"
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — поле фильтра - value_n — значение фильтра Фильтрация применяется к полям верхнего уровня объекта шаблона. Фильтровать можно по полям из раздела Тип шаблона сайта. Вложенные поля (например, DATA.*) в фильтре не учитываются",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/demos/landing-demos-get-site-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "empty": {
+        "ID": "empty",
+        "XML_ID": "empty",
+        "TYPE": [
+          "KNOWLEDGE",
+          "GROUP",
+          "PAGE",
+          "MAINPAGE"
+        ],
+        "TITLE": "Пустой шаблон",
+        "ACTIVE": true,
+        "PUBLICATION": false,
+        "LOCK_DELETE": false,
+        "AVAILABLE": true,
+        "SINGLETON": false,
+        "SECTION": [],
+        "DESCRIPTION": "Создайте собственный сайт с чистого листа и привлекайте клиентов!",
+        "PREVIEW": "//bitrix24.ru/bitrix/components/bitrix/landing.demo/data/site/empty/preview.jpg",
+        "PREVIEW2X": "//bitrix24.ru/bitrix/components/bitrix/landing.demo/data/site/empty/preview@2x.jpg",
+        "PREVIEW3X": "//bitrix24.ru/bitrix/components/bitrix/landing.demo/data/site/empty/preview@3x.jpg",
+        "APP_CODE": "",
+        "REST": 0,
+        "DATA": {
+          "name": "Пустой шаблон",
+          "items": [],
+          "encoded": true,
+          "charset": "UTF-8"
+        }
+      }
+    },
+    "time": {
+      "start": 1774623040,
+      "finish": 1774623040.337361,
+      "duration": 0.33736109733581543,
+      "processing": 0,
+      "date_start": "2026-03-27T17:50:40+03:00",
+      "date_finish": "2026-03-27T17:50:40+03:00",
+      "operating_reset_at": 1774623640,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Карта демо-шаблонов сайтов в формате: где: - template_code — код шаблона - site_template — объект шаблона подробнее Если подходящих шаблонов нет, метод возвращает пустой массив result: []. Состав полей шаблонов может отличаться и зависит от конкретного шаблона"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/demos/landing-demos-get-site-list.html",
+  "executable": false
+}

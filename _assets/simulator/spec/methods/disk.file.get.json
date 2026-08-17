@@ -1,0 +1,219 @@
+{
+  "$v": 1,
+  "method": "disk.file.get",
+  "scope": "disk",
+  "kind": "read",
+  "title": "Получить параметры файла disk.file.get",
+  "permissions": "пользователь с правом «Чтение» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла. Идентификатор можно получить с помощью метода disk.storage.getChildren, если файл находится в корне хранилища, и с помощью метода disk.folder.getChildren, если файл находится в папке"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/file/disk-file-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "9043",
+      "NAME": "Тест.docx",
+      "CODE": null,
+      "STORAGE_ID": "1357",
+      "TYPE": "file",
+      "PARENT_ID": "8996",
+      "DELETED_TYPE": "0",
+      "GLOBAL_CONTENT_VERSION": "2",
+      "FILE_ID": "32969",
+      "SIZE": "21668",
+      "CREATE_TIME": "2026-02-16T12:52:05+03:00",
+      "UPDATE_TIME": "2026-02-16T12:56:20+03:00",
+      "DELETE_TIME": null,
+      "CREATED_BY": "1269",
+      "UPDATED_BY": "1269",
+      "DELETED_BY": "0",
+      "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=904993690000071b006e2cf2000004f5000007bb5f672541f2cec7c7f0b65135f70180&token=disk%7CaWQ9OTA0MyZfPTZkdUNQZrl3N1BhSXVOTGJ1bkxmU3RSNlVvOGYzejRK%7CImRvd25sb2FkfGRpc2t8YVdROU9UQTBNeVpmUFRaa2RVTlFaVmwzTjFCaFNYVk9UR0oxYmt4bVUzUlNObFZ2T0dZemVqUkt8OTA0OTkzNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDdiYjVmNjcyNTQxZjJjZWM3YzdmMGI2NTEzNWY3MDE4MCI%3D.Kv1YxTQuB7zmzGYcQ9arBBCd35P80KyIyZJIYkwBUZ4%3D",
+      "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка/Тест.docx"
+    },
+    "time": {
+      "start": 1771259148,
+      "finish": 1771259149.01976,
+      "duration": 1.0197598934173584,
+      "processing": 0,
+      "date_start": "2026-02-16T13:25:48+03:00",
+      "date_finish": "2026-02-16T13:25:49+03:00",
+      "operating_reset_at": 1771259749,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с полями файла"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код файла"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища, в котором находится файл"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой"
+    },
+    {
+      "name": "GLOBAL_CONTENT_VERSION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Инкрементальный счетчик версии файла"
+    },
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Внутреннее значение идентификатора файла"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер файла в байтах"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания файла"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления файла"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время переноса файла в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего файл"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, удалившего файл"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для скачивания файла"
+    },
+    {
+      "name": "DETAIL_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для открытия файла в интерфейсе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/file/disk-file-get.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "CREATED_BY",
+    "CREATE_TIME",
+    "DELETED_BY",
+    "DELETED_TYPE",
+    "DELETE_TIME",
+    "DETAIL_URL",
+    "DOWNLOAD_URL",
+    "FILE_ID",
+    "GLOBAL_CONTENT_VERSION",
+    "ID",
+    "NAME",
+    "PARENT_ID",
+    "SIZE",
+    "STORAGE_ID",
+    "TYPE",
+    "UPDATED_BY",
+    "UPDATE_TIME"
+  ]
+}

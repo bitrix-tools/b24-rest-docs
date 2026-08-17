@@ -1,0 +1,206 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.userfield.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список пользовательских полей реквизита по фильтру crm.requisite.userfield.list",
+  "permissions": "пользователь с правом на чтение реквизитов",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных пользовательских полей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field: - ID - ENTITYID - FIELDNAME - USERTYPEID - XMLID - SORT Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных реквизитов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. В фильтре этого метода поддерживается только обычное сравнение значений. Возможные значения для field: - ID - ENTITYID - FIELDNAME - USERTYPEID - XMLID - SORT - MULTIPLE - MANDATORY - SHOWFILTER - SHOWINLIST - EDITINLIST - ISSEARCHABLE - LANG Дополнительные префиксы в ключах, уточняющие поведение…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/user-fields/crm-requisite-userfield-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "232",
+        "ENTITY_ID": "CRM_REQUISITE",
+        "FIELD_NAME": "UF_CRM_NEWTECH_V1_BOOLEAN",
+        "USER_TYPE_ID": "boolean",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "N",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "DEFAULT_VALUE": 0,
+          "DISPLAY": "CHECKBOX",
+          "LABEL": [
+            "",
+            ""
+          ],
+          "LABEL_CHECKBOX": "UF - Да/Нет"
+        },
+        "EDIT_FORM_LABEL": "UF - Да/Нет",
+        "LIST_COLUMN_LABEL": "UF - Да/Нет",
+        "LIST_FILTER_LABEL": "UF - Да/Нет",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "233",
+        "ENTITY_ID": "CRM_REQUISITE",
+        "FIELD_NAME": "UF_CRM_NEWTECH_V1_DATETIME",
+        "USER_TYPE_ID": "datetime",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "N",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "DEFAULT_VALUE": {
+            "TYPE": "NONE",
+            "VALUE": ""
+          },
+          "USE_SECOND": "Y",
+          "USE_TIMEZONE": "N"
+        },
+        "EDIT_FORM_LABEL": "UF - Дата",
+        "LIST_COLUMN_LABEL": "UF - Дата",
+        "LIST_FILTER_LABEL": "UF - Дата",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "234",
+        "ENTITY_ID": "CRM_REQUISITE",
+        "FIELD_NAME": "UF_CRM_NEWTECH_V1_DOUBLE",
+        "USER_TYPE_ID": "double",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "N",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "PRECISION": 2,
+          "SIZE": 20,
+          "MIN_VALUE": 0,
+          "MAX_VALUE": 0,
+          "DEFAULT_VALUE": null
+        },
+        "EDIT_FORM_LABEL": "ПП - Число",
+        "LIST_COLUMN_LABEL": "ПП - Число",
+        "LIST_FILTER_LABEL": "ПП - Число",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "235",
+        "ENTITY_ID": "CRM_REQUISITE",
+        "FIELD_NAME": "UF_CRM_NEWTECH_V1_STRING",
+        "USER_TYPE_ID": "string",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "N",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "SIZE": 20,
+          "ROWS": 1,
+          "REGEXP": "",
+          "MIN_LENGTH": 0,
+          "MAX_LENGTH": 0,
+          "DEFAULT_VALUE": ""
+        },
+        "EDIT_FORM_LABEL": "ПП - Строка",
+        "LIST_COLUMN_LABEL": "ПП - Строка",
+        "LIST_FILTER_LABEL": "ПП - Строка",
+        "ERROR_MESSAGE": "UF_CRM_NEWTECH_V1_STRING",
+        "HELP_MESSAGE": "UF_CRM_NEWTECH_V1_STRING"
+      }
+    ],
+    "total": 4,
+    "time": {
+      "start": 1717754823.56747,
+      "finish": 1717754823.938955,
+      "duration": 0.37148499488830566,
+      "processing": 0.007915973663330078,
+      "date_start": "2024-06-07T12:07:03+02:00",
+      "date_finish": "2024-06-07T12:07:03+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией из выбранных пользовательских полей. Каждый элемент содержит выбранные поля, описывающие пользовательское поле реквизита"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/user-fields/crm-requisite-userfield-list.html",
+  "executable": false,
+  "entityFields": [
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ENTITY_ID",
+    "ERROR_MESSAGE",
+    "FIELD_NAME",
+    "HELP_MESSAGE",
+    "ID",
+    "IS_SEARCHABLE",
+    "LIST",
+    "LIST_COLUMN_LABEL",
+    "LIST_FILTER_LABEL",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "USER_TYPE_ID",
+    "XML_ID"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "catalog.document.confirm",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Провести документ складского учета catalog.document.confirm",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/outdated/catalog-document-confirm.md"
+  },
+  "deprecated": {
+    "successor": "catalog.document.conduct"
+  },
+  "page": "/api-reference/catalog/document/outdated/catalog-document-confirm.html",
+  "executable": false
+}

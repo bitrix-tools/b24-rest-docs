@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "catalog.store.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей склада catalog.store.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_store.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор склада. Получить идентификаторы складов можно методом catalog.store.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/store/catalog-store-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "store",
+      "type": "catalog_store",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о складе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/store/catalog-store-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "address",
+    "code",
+    "dateCreate",
+    "dateModify",
+    "description",
+    "email",
+    "gpsN",
+    "gpsS",
+    "imageId",
+    "issuingCenter",
+    "modifiedBy",
+    "phone",
+    "schedule",
+    "sort",
+    "title",
+    "userId",
+    "xmlId"
+  ]
+}

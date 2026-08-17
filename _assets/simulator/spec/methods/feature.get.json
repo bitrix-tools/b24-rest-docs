@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "feature.get",
+  "scope": "базовый",
+  "kind": "read",
+  "title": "Получить информацию о доступности функционала в Битрикс24 feature.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Доступные ключи: - rest_offline_extended — доступность офлайн-событий - rest_auth_connector — доступность ключа auth_connector в событиях"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/system/feature-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "value": "Y"
+    },
+    "time": {
+      "start": 1722434594.84942,
+      "finish": 1722434594.90542,
+      "duration": 0.0560011863708496,
+      "processing": 0.000065088272094726,
+      "date_start": "2024-07-31T14:03:14+00:00",
+      "date_finish": "2024-07-31T14:03:14+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект содержит информацию о доступности метода: - value — (Y/N) наличие функционала в Битрикс24 - lang_selfhosted — lang заменяется на en, ru, ua, kz и так далее (используется для коробочной версии Битрикс24)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/system/feature-get.html",
+  "executable": false,
+  "entityFields": [
+    "value"
+  ]
+}

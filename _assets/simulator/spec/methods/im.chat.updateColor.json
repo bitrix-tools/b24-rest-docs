@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "im.chat.updateColor",
+  "scope": "im",
+  "kind": "write",
+  "title": "Изменить цвет чата im.chat.updateColor",
+  "permissions": "участник чата с правом менять оформление",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата. Передайте число без префикса chat. Обязателен, если не передан DIALOG_ID. Идентификатор чата можно получить с помощью метода im.chat.get"
+    },
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор диалога в формате chatXXX, где XXX — идентификатор чата. Можно передать вместо CHAT_ID. Метод работает только с групповыми чатами: для личного диалога он вернет ошибку DIALOG_ID_EMPTY"
+    },
+    {
+      "name": "COLOR",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Цвет чата. Отображается в мобильном приложении и там, где у чата нет аватара. Возможные значения: - RED — красный - GREEN — зеленый - MINT — мятный - LIGHT_BLUE — светло-синий - DARK_BLUE — темно-синий - PURPLE — фиолетовый - AQUA — аквамариновый - PINK — розовый - LIME — лаймовый - BROWN — коричневый - AZURE — лазурный - KHAKI — хаки - SAND — песочный - MARENGO — маренго - GRAY — серый - GRAPHITE…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/chat-update/im-chat-update-color.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772459571,
+      "finish": 1772459571.876142,
+      "duration": 0.8761420249938965,
+      "processing": 0,
+      "date_start": "2026-03-02T13:52:51+03:00",
+      "date_finish": "2026-03-02T13:52:51+03:00",
+      "operating_reset_at": 1772460171,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если цвет чата обновлен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/chat-update/im-chat-update-color.html",
+  "executable": false
+}

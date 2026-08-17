@@ -1,0 +1,87 @@
+{
+  "$v": 1,
+  "method": "landing.site.getadditionalfields",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить дополнительные поля сайта landing.site.getadditionalfields",
+  "permissions": "пользователь с правом «просмотр» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить с помощью метода landing.site.getList или из результата метода landing.site.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/site/landing-site-get-additional-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "COOKIES_USE": "Y",
+      "COOKIES_AGREEMENT_ID": "19",
+      "COOKIES_COLOR_BG": "#03c1fe",
+      "COOKIES_COLOR_TEXT": "#fff",
+      "COOKIES_POSITION": "bottom_left",
+      "COOKIES_MODE": "I",
+      "B24BUTTON_CODE": "https://cdn-ru.bitrix24.ru/b13743910/crm/site_button/loader_1_68znkz.js",
+      "B24BUTTON_COLOR": "site",
+      "B24BUTTON_COLOR_VALUE": "#03c1fe",
+      "COPYRIGHT_SHOW": "Y",
+      "COPYRIGHT_CODE": "6",
+      "SETTINGS_PRICE_CODE": [
+        "BASE"
+      ],
+      "SETTINGS_SHOW_PRICE_COUNT": 1,
+      "SETTINGS_CURRENCY_ID": "RUB",
+      "SPEED_USE_LAZY": "Y",
+      "THEME_CODE": "1construction",
+      "THEME_COLOR": "#f7b70b",
+      "YACOUNTER_USE": "Y",
+      "YACOUNTER_COUNTER": "73521121",
+      "ROBOTS_USE": "Y",
+      "ROBOTS_CONTENT": "Disallow: /preview/*",
+      "CSSBLOCK_USE": "N",
+      "HEADBLOCK_USE": "N"
+    },
+    "time": {
+      "start": 1773278929,
+      "finish": 1773278929.806224,
+      "duration": 0.8062241077423096,
+      "processing": 0,
+      "date_start": "2026-03-12T04:28:49+03:00",
+      "date_finish": "2026-03-12T04:28:49+03:00",
+      "operating_reset_at": 1773279529,
+      "operating": 0.11928892135620117
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Набор дополнительных полей сайта в формате {\"<КОД_ПОЛЯ>\": \"<ЗНАЧЕНИЕ>\"}. Если доступных полей нет, метод может вернуть null или пустой массив [] (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/site/landing-site-get-additional-fields.html",
+  "executable": false
+}

@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "imopenlines.crm.chat.user.add",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Добавить пользователя к существующему чату imopenlines.crm.chat.user.add",
+  "permissions": "любой пользователь с доступом к объекту CRM",
+  "params": [
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+    },
+    {
+      "name": "CRM_ENTITY",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM. Получить идентификатор можно универсальным методом получения списка элементов CRM"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя или бота, которого нужно добавить в чат. Получить идентификатор пользователя позволяют методы user.get и user.search"
+    },
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чата. По умолчанию используется последний чат, привязанный к объекту CRM. Получить идентификаторы чатов, привязанных к объекту CRM можно методом imopenlines.crm.chat.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.md"
+  },
+  "resultExample": {
+    "result": 1763,
+    "time": {
+      "start": 1773814042,
+      "finish": 1773814043.189039,
+      "duration": 1.1890389919281006,
+      "processing": 0,
+      "date_start": "2026-03-18T09:07:22+03:00",
+      "date_finish": "2026-03-18T09:07:23+03:00",
+      "operating_reset_at": 1773814643,
+      "operating": 0.16756796836853027
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чата, в который добавлен пользователь. Если CHAT_ID не передан и чат для объекта CRM не найден или не существует, метод вернет \"result\":0"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.html",
+  "executable": false
+}

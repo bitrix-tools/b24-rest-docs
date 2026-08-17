@@ -1,0 +1,45 @@
+{
+  "$v": 1,
+  "method": "calendar.resource.delete",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Удалить ресурс calendar.resource.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "resourceId",
+      "type": "unknown",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор ресурса. Получить идентификатор можно методом создания ресурса calendar.resource.add или методом получения списка ресурсов calendar.resource.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/resource/calendar-resource-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1733318565.183275,
+      "finish": 1733318565.695058,
+      "duration": 0.5117831230163574,
+      "processing": 0.29406094551086426,
+      "date_start": "2024-12-04T13:22:45+00:00",
+      "date_finish": "2024-12-04T13:22:45+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "В случае успешного удаления возвращает true"
+    }
+  ],
+  "page": "/api-reference/calendar/resource/calendar-resource-delete.html",
+  "executable": false
+}

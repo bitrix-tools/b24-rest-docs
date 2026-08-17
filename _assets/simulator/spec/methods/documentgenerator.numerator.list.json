@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.numerator.list",
+  "scope": "documentgenerator",
+  "kind": "read",
+  "title": "Получить список нумераторов documentgenerator.numerator.list",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 элементов. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов, необходимо передавать 100 и так далее. Формула расчета значения start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/numerators/document-generator-numerator-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество нумераторов в текущей выборке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/numerators/document-generator-numerator-list.html",
+  "executable": false,
+  "entityFields": [
+    "name",
+    "settings",
+    "template"
+  ]
+}

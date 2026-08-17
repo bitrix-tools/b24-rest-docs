@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.member.field.get",
+  "scope": "humanresources",
+  "kind": "read",
+  "title": "Получить поле участника отдела humanresources.node.member.field.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя поля, описание которого нужно получить. Доступные поля: - userId — идентификатор пользователя - name — имя участника - workPosition — должность - role — роль участника - avatar — ссылка на аватар - url — ссылка на профиль"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей описания, которые нужно вернуть в ответе. Доступные поля: - name — имя поля - type — тип данных - title — заголовок - description — описание - validationRules — правила валидации - requiredGroups — группы обязательности - filterable — признак доступности в фильтре - sortable — признак доступности в сортировке - editable — признак редактируемости - multiple — признак множественного зна…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node-member/humanresources-node-member-field-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "name": "userId",
+        "type": "int",
+        "title": "userId"
+      }
+    },
+    "time": {
+      "start": 1780407000,
+      "finish": 1780407000.094214,
+      "duration": 0.09421396255493164,
+      "processing": 0,
+      "date_start": "2026-06-02T16:30:00+03:00",
+      "date_finish": "2026-06-02T16:30:00+03:00",
+      "operating_reset_at": 1780407600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием поля. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node-member/humanresources-node-member-field-get.html",
+  "executable": false,
+  "entityFields": [
+    "name",
+    "title",
+    "type"
+  ]
+}

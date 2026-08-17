@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "crm.activity.layout.blocks.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.get",
+  "permissions": "любой пользователь с правом на чтение элемента CRM, к которому привязано дело",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM, к которому привязано дело"
+    },
+    {
+      "name": "activityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор дела"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-get.md"
+  },
+  "resultExample": {
+    "layout": {
+      "blocks": {
+        "block_1": {
+          "type": "text",
+          "properties": {
+            "value": "Здравствуйте!\nМы начинаем.",
+            "multiline": true,
+            "bold": true,
+            "color": "base_90"
+          }
+        },
+        "block_2": {
+          "type": "largeText",
+          "properties": {
+            "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания."
+          }
+        },
+        "block_3": {
+          "type": "link",
+          "properties": {
+            "text": "Открыть сделку",
+            "bold": true,
+            "action": {
+              "type": "redirect",
+              "uri": "/crm/deal/details/123/"
+            }
+          }
+        },
+        "block_4": {
+          "type": "withTitle",
+          "properties": {
+            "title": "Заголовок",
+            "block": {
+              "type": "text",
+              "properties": {
+                "value": "Какое-то значение"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-get.html",
+  "executable": false
+}

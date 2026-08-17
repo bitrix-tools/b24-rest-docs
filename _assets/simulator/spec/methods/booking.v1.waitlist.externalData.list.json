@@ -1,0 +1,71 @@
+{
+  "$v": 1,
+  "method": "booking.v1.waitlist.externalData.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить связи записи в лист ожидания booking.v1.waitlist.externalData.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "waitListId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи в лист ожидания. Можно получить методами booking.v1.waitlist.add и booking.v1.waitlist.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "externalData": [
+        {
+          "entityTypeId": "DEAL",
+          "moduleId": "crm",
+          "value": "1"
+        },
+        {
+          "entityTypeId": "DEAL",
+          "moduleId": "crm",
+          "value": "2"
+        }
+      ]
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив объектов с информацией о связях. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-list.html",
+  "executable": false,
+  "entityFields": [
+    "entityTypeId",
+    "moduleId",
+    "value"
+  ]
+}

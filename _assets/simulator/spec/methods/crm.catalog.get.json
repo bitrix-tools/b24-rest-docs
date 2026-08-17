@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.catalog.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить товарный каталог по идентификатору crm.catalog.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор товарного каталога"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/catalog/crm-catalog-get.md"
+  },
+  "deprecated": {
+    "successor": "catalog.catalog.get"
+  },
+  "page": "/api-reference/crm/outdated/catalog/crm-catalog-get.html",
+  "executable": false
+}

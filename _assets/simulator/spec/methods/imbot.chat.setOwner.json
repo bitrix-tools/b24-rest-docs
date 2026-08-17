@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "imbot.chat.setOwner",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Сменить владельца чата от лица чат-бота imbot.chat.setOwner",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата. Идентификатор можно получить с помощью метода imbot.chat.get"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор нового владельца чата. Получить идентификатор пользователя можно с помощью методов user.get и user.search"
+    },
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода imbot.bot.list. Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Технический параметр для сценариев без clientId в авторизации. Если передан, используется как custom{CLIENT_ID} для определения приложения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/chats/imbot-chat-set-owner.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.setOwner"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1771952858,
+      "finish": 1771952858.856461,
+      "duration": 0.8564610481262207,
+      "processing": 0,
+      "date_start": "2026-02-24T17:07:38+03:00",
+      "date_finish": "2026-02-24T17:07:38+03:00",
+      "operating_reset_at": 1771953458,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если владелец чата изменен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chat-bots/outdated/chats/imbot-chat-set-owner.html",
+  "executable": false
+}

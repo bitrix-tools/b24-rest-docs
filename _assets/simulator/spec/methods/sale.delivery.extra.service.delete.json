@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.extra.service.delete",
+  "scope": "delivery",
+  "kind": "write",
+  "title": "Удалить услугу службы доставки sale.delivery.extra.service.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_delivery_extra_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор услуги. Получить идентификаторы услуг службы доставки можно с помощью метода sale.delivery.extra.service.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/extra-service/sale-delivery-extra-service-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1714551146.367727,
+      "finish": 1714551146.571992,
+      "duration": 0.20426487922668457,
+      "processing": 0.03886008262634277,
+      "date_start": "2024-05-01T11:12:26+03:00",
+      "date_finish": "2024-05-01T11:12:26+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления услуги"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-delete.html",
+  "executable": false
+}

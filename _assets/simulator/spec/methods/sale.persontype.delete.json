@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "sale.persontype.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить тип плательщика sale.persontype.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_person_type.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор типа плательщика"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/person-type/sale-person-type-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712326002.94315,
+      "finish": 1712326003.25198,
+      "duration": 0.308833837509155,
+      "processing": 0.0920200347900391,
+      "date_start": "2024-04-05T16:06:42+02:00",
+      "date_finish": "2024-04-05T16:06:43+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления типа плательщика"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/person-type/sale-person-type-delete.html",
+  "executable": false
+}

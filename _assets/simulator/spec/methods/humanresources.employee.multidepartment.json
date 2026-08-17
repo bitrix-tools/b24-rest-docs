@@ -1,0 +1,223 @@
+{
+  "$v": 1,
+  "method": "humanresources.employee.multidepartment",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Получить сотрудников в нескольких отделах humanresources.employee.multidepartment",
+  "permissions": "авторизованный пользователь, привязанный к отделу в структуре компании",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с данными ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "employees",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив сотрудников, которые состоят в нескольких отделах",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "employees[].userId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя"
+    },
+    {
+      "name": "employees[].name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя сотрудника"
+    },
+    {
+      "name": "employees[].workPosition",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Должность сотрудника"
+    },
+    {
+      "name": "employees[].departments[]",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив отделов сотрудника",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "employees[].departments[].id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор отдела"
+    },
+    {
+      "name": "employees[].departments[].name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название отдела"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество найденных сотрудников"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/employee/humanresources-employee-multidepartment.md"
+  },
+  "resultExample": {
+    "result": {
+      "employees": [
+        {
+          "userId": 7,
+          "name": "Иван Петров",
+          "workPosition": "",
+          "departments": [
+            {
+              "id": 15,
+              "name": "Отдел продаж"
+            },
+            {
+              "id": 22,
+              "name": "Отдел развития"
+            }
+          ]
+        },
+        {
+          "userId": 11,
+          "name": "Мария Иванова",
+          "workPosition": "Руководитель отдела",
+          "departments": [
+            {
+              "id": 22,
+              "name": "Отдел развития"
+            },
+            {
+              "id": 31,
+              "name": "Проектный офис"
+            }
+          ]
+        }
+      ],
+      "total": 2
+    },
+    "time": {
+      "start": 1780407700,
+      "finish": 1780407700.166208,
+      "duration": 0.16620802879333496,
+      "processing": 0.12675189971923828,
+      "date_start": "2026-06-02T16:41:40+03:00",
+      "date_finish": "2026-06-02T16:41:40+03:00",
+      "operating_reset_at": 1780408300,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "employees",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив сотрудников, которые состоят в нескольких отделах"
+    },
+    {
+      "name": "employees[].userId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя"
+    },
+    {
+      "name": "employees[].name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя сотрудника"
+    },
+    {
+      "name": "employees[].workPosition",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Должность сотрудника"
+    },
+    {
+      "name": "employees[].departments[]",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив отделов сотрудника"
+    },
+    {
+      "name": "employees[].departments[].id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор отдела"
+    },
+    {
+      "name": "employees[].departments[].name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название отдела"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество найденных сотрудников"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/employee/humanresources-employee-multidepartment.html",
+  "executable": false
+}

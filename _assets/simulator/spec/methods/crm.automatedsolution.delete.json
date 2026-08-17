@@ -1,0 +1,38 @@
+{
+  "$v": 1,
+  "method": "crm.automatedsolution.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить цифровое рабочее место crm.automatedsolution.delete",
+  "permissions": "пользователи с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор цифрового рабочего места. Может быть получен из ответа метода crm.automatedsolution.add (result.automatedSolution.id), который был вызван при добавлении цифрового рабочего места, или crm.automatedsolution.list. Так же можно воспользоваться разделом «Цифровые рабочие места» на портале Битрикс24 — колонка ID в списке цифровых рабочих мест"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/automated-solution/crm-automated-solution-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1715852365.744733,
+      "finish": 1715852366.078274,
+      "duration": 0.3335409164428711,
+      "processing": 0.01611018180847168,
+      "date_start": "2024-05-16T12:39:25+03:00",
+      "date_finish": "2024-05-16T12:39:26+03:00",
+      "operating_reset_at": 1715852966,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/crm/automated-solution/crm-automated-solution-delete.html",
+  "executable": false
+}

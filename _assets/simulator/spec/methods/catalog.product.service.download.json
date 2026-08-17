@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "catalog.product.service.download",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Скачать файлы услуги catalog.product.service.download",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для скачивания файлов услуги",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "fileId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор зарегистрированного файла. Для получения идентификаторов файлов услуги необходимо использовать catalog.product.service.get либо catalog.product.service.list"
+        },
+        {
+          "name": "productId",
+          "type": "catalog_product_service.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор услуги. Для получения идентификаторов услуги необходимо использовать catalog.product.service.list"
+        },
+        {
+          "name": "fieldName",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Имя поля (свойства или поля элемента информационного блока), в котором хранится файл. Возможные значения: - DETAIL_PICTURE — детальная картинка, поле доступно в старой карточке товара - PREVIEW_PICTURE — картинка для анонса, поле доступно в старой карточке товара - PROPERTY_N — свойство, где N — идентификатор свойства либо код свойства Для получения существующих идентификаторов либо кодов свойств…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/service/catalog-product-service-download.md"
+  },
+  "resultExample": {
+    "error": 0,
+    "error_description": "Required fields: fileId"
+  },
+  "returns": [],
+  "page": "/api-reference/catalog/product/service/catalog-product-service-download.html",
+  "executable": false
+}

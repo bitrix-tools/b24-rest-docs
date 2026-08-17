@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "timeman.networkrange.set",
+  "scope": "timeman",
+  "kind": "write",
+  "title": "Установить диапазон сетевых адресов timeman.networkrange.set",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "RANGES",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Диапазоны сетевых адресов в виде списка объектов. Каждый объект содержит описание диапазона сетевых адресов. Диапазон может содержать: - блок адресов, например, 10.0.0.0-10.255.255.255 - один адрес, например, 10.10.0.1"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/networkrange/timeman-networkrange-set.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1742999863.024414,
+      "finish": 1742999863.057137,
+      "duration": 0.03272294998168945,
+      "processing": 0.0023658275604248047,
+      "date_start": "2025-03-26T17:37:43+03:00",
+      "date_finish": "2025-03-26T17:37:43+03:00",
+      "operating_reset_at": 1743000463,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Может иметь значения: - true — все диапазоны успешно установлены - false — есть диапазоны с ошибками"
+    },
+    {
+      "name": "error_range",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив диапазонов, в которых были найдены ошибки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/networkrange/timeman-networkrange-set.html",
+  "executable": false
+}

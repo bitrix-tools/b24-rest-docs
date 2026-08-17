@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "crm.automatedsolution.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить данные о цифровом рабочем месте по id crm.automatedsolution.get",
+  "permissions": "пользователи с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор цифрового рабочего места"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/automated-solution/crm-automated-solution-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "automatedSolution": {
+        "id": 393,
+        "title": "HR",
+        "typeIds": [
+          4,
+          9,
+          77,
+          157,
+          225
+        ]
+      }
+    },
+    "time": {
+      "start": 1715849396.642359,
+      "finish": 1715849396.954623,
+      "duration": 0.31226396560668945,
+      "processing": 0.0068209171295166016,
+      "date_start": "2024-05-16T11:49:56+03:00",
+      "date_finish": "2024-05-16T11:49:56+03:00",
+      "operating_reset_at": 1715849996,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "automatedSolution",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Информация о цифровом рабочем месте"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/automated-solution/crm-automated-solution-get.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "title",
+    "typeIds"
+  ]
+}

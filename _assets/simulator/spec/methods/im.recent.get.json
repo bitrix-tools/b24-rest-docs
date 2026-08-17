@@ -1,0 +1,276 @@
+{
+  "$v": 1,
+  "method": "im.recent.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить сокращенный список последних чатов im.recent.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "SKIP_OPENLINES",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропустить чаты открытых линий. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "SKIP_CHAT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропустить групповые чаты. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "SKIP_DIALOG",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропустить диалоги один-на-один. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "LAST_UPDATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Сделать выборку с указанной даты в формате ATOM (ISO-8601)"
+    },
+    {
+      "name": "ONLY_OPENLINES",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Выбрать только чаты открытых линий. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "LAST_SYNC_DATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата предыдущей выборки в формате ATOM (ISO-8601) для загрузки изменений, которые произошли в списке с указанной даты. Выборка возвращает данные не старше 7 дней"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/im-recent-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": "chat1451",
+        "chat_id": 1451,
+        "type": "chat",
+        "avatar": {
+          "url": "",
+          "color": "#df532d"
+        },
+        "title": "Максимально полный шаблон задачи",
+        "message": {
+          "id": 84501,
+          "text": "Иван Иванов создал задачу [Вложение]",
+          "file": false,
+          "author_id": 0,
+          "attach": true,
+          "sticker": null,
+          "date": "2026-02-26T00:01:26+03:00",
+          "status": "received",
+          "uuid": null
+        },
+        "counter": 0,
+        "last_id": 84501,
+        "pinned": false,
+        "unread": false,
+        "has_reminder": false,
+        "date_update": "2026-02-26T00:01:26+03:00",
+        "date_last_activity": "2026-02-26T00:01:26+03:00",
+        "chat": {
+          "id": 1451,
+          "parent_chat_id": 0,
+          "parent_message_id": 0,
+          "name": "Максимально полный шаблон задачи",
+          "owner": 503,
+          "extranet": false,
+          "contains_collaber": false,
+          "avatar": "",
+          "color": "#df532d",
+          "type": "tasksTask",
+          "entity_type": "TASKS_TASK",
+          "entity_id": "8293",
+          "entity_data_1": "",
+          "entity_data_2": "",
+          "entity_data_3": "",
+          "mute_list": [],
+          "manager_list": [
+            503
+          ],
+          "date_create": "2026-02-26T00:01:26+03:00",
+          "message_type": "X",
+          "user_counter": 4,
+          "restrictions": {
+            "avatar": true,
+            "rename": true,
+            "extend": true,
+            "call": true,
+            "mute": true,
+            "leave": true,
+            "leave_owner": true,
+            "send": true,
+            "user_list": true
+          },
+          "role": "OWNER",
+          "text_field_enabled": true,
+          "background_id": null,
+          "entity_link": {
+            "type": "TASKS",
+            "url": "/company/personal/user/503/tasks/task/view/8293/?ta_sec=chat_tasks&ta_el=view_button",
+            "id": "8293"
+          },
+          "permissions": {
+            "manage_users_add": "member",
+            "manage_users_delete": "manager",
+            "manage_ui": "member",
+            "manage_settings": "owner",
+            "manage_messages": "member",
+            "can_post": "member"
+          },
+          "public": ""
+        },
+        "user": {
+          "id": 0
+        },
+        "options": []
+      },
+      {
+        "id": "chat1449",
+        "chat_id": 1449,
+        "type": "chat",
+        "avatar": {
+          "url": "",
+          "color": "#ab7761"
+        },
+        "title": "Максимально полный шаблон задачи",
+        "message": {
+          "id": 84499,
+          "text": "Иван Иванов создал задачу [Вложение]",
+          "file": false,
+          "author_id": 0,
+          "attach": true,
+          "sticker": null,
+          "date": "2026-02-26T00:01:25+03:00",
+          "status": "received",
+          "uuid": null
+        },
+        "counter": 0,
+        "last_id": 84499,
+        "pinned": false,
+        "unread": false,
+        "has_reminder": false,
+        "date_update": "2026-02-26T00:01:25+03:00",
+        "date_last_activity": "2026-02-26T00:01:25+03:00",
+        "chat": {
+          "id": 1449,
+          "parent_chat_id": 0,
+          "parent_message_id": 0,
+          "name": "Максимально полный шаблон задачи",
+          "owner": 503,
+          "extranet": false,
+          "contains_collaber": false,
+          "avatar": "",
+          "color": "#ab7761",
+          "type": "tasksTask",
+          "entity_type": "TASKS_TASK",
+          "entity_id": "8291",
+          "entity_data_1": "",
+          "entity_data_2": "",
+          "entity_data_3": "",
+          "mute_list": [],
+          "manager_list": [
+            503
+          ],
+          "date_create": "2026-02-26T00:01:25+03:00",
+          "message_type": "X",
+          "user_counter": 4,
+          "restrictions": {
+            "avatar": true,
+            "rename": true,
+            "extend": true,
+            "call": true,
+            "mute": true,
+            "leave": true,
+            "leave_owner": true,
+            "send": true,
+            "user_list": true
+          },
+          "role": "OWNER",
+          "text_field_enabled": true,
+          "background_id": null,
+          "entity_link": {
+            "type": "TASKS",
+            "url": "/company/personal/user/503/tasks/task/view/8291/?ta_sec=chat_tasks&ta_el=view_button",
+            "id": "8291"
+          },
+          "permissions": {
+            "manage_users_add": "member",
+            "manage_users_delete": "manager",
+            "manage_ui": "member",
+            "manage_settings": "owner",
+            "manage_messages": "member",
+            "can_post": "member"
+          },
+          "public": ""
+        },
+        "user": {
+          "id": 0
+        },
+        "options": []
+      }
+    ],
+    "time": {
+      "start": 1772086038,
+      "finish": 1772086038.652287,
+      "duration": 0.6522870063781738,
+      "processing": 0,
+      "date_start": "2026-02-26T09:07:18+03:00",
+      "date_finish": "2026-02-26T09:07:18+03:00",
+      "operating_reset_at": 1772086638,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список последних диалогов (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/im-recent-get.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "chat",
+    "chat_id",
+    "counter",
+    "date_last_activity",
+    "date_update",
+    "has_reminder",
+    "id",
+    "last_id",
+    "message",
+    "options",
+    "pinned",
+    "title",
+    "type",
+    "unread",
+    "user"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "biconnector.connector.delete",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Удалить коннектор biconnector.connector.delete",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор коннектора, можно получить методами biconnector.connector.list и biconnector.connector.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/connector/biconnector-connector-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725365418.056843,
+      "finish": 1725365419.671506,
+      "duration": 1.6146628856658936,
+      "processing": 1.3475170135498047,
+      "date_start": "2024-09-03T14:10:18+02:00",
+      "date_finish": "2024-09-03T14:10:19+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/connector/biconnector-connector-delete.html",
+  "executable": false
+}

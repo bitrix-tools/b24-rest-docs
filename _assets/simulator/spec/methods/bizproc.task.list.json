@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "bizproc.task.list",
+  "scope": "bizproc",
+  "kind": "read",
+  "title": "Получить список заданий бизнес-процесса bizproc.task.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив содержит список полей, которые необходимо выбрать. Можно указать только те поля, которые необходимы. По умолчанию возвращает поля ENTITY, DOCUMENT_ID, ID, WORKFLOW_ID, DOCUMENT_NAME, NAME, DOCUMENT_URL",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации списка заданий в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле задания для фильтра - value_N — значение поля Если в фильтре присутствует USER_ID, то проверяется субординация пользователей: - руководитель может запросить список заданий своих подчиненных - администратор может запрашивать задания любых пользователей без ограничений Если метод выз…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки списка заданий в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле задания для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Можно указать несколько полей для сортировки, например, {NAME: 'ASC', ID: 'DESC'}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "START",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-task/bizproc-task-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив объектов с информацией о заданиях бизнес-процессов. Каждый объект содержит поля задания, указанные в параметре SELECT"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-task/bizproc-task-list.html",
+  "executable": false
+}

@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.userfield.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить пользовательское поле по id crm.requisite.userfield.get",
+  "permissions": "пользователь с правом на чтение реквизитов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля. Можно получить с помощью метода crm.requisite.userfield.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/user-fields/crm-requisite-userfield-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "235",
+      "ENTITY_ID": "CRM_REQUISITE",
+      "FIELD_NAME": "UF_CRM_NEWTECH_V1_STRING",
+      "USER_TYPE_ID": "string",
+      "XML_ID": null,
+      "SORT": "100",
+      "MULTIPLE": "N",
+      "MANDATORY": "N",
+      "SHOW_FILTER": "N",
+      "SHOW_IN_LIST": "Y",
+      "EDIT_IN_LIST": "Y",
+      "IS_SEARCHABLE": "N",
+      "SETTINGS": {
+        "SIZE": 20,
+        "ROWS": 1,
+        "REGEXP": "",
+        "MIN_LENGTH": 0,
+        "MAX_LENGTH": 0,
+        "DEFAULT_VALUE": ""
+      },
+      "EDIT_FORM_LABEL": {
+        "en": "ПП - Строка",
+        "ru": "ПП - Строка"
+      },
+      "LIST_COLUMN_LABEL": {
+        "en": "ПП - Строка",
+        "ru": "ПП - Строка"
+      },
+      "LIST_FILTER_LABEL": {
+        "en": "ПП - Строка",
+        "ru": "ПП - Строка"
+      },
+      "ERROR_MESSAGE": {
+        "en": "UF_CRM_NEWTECH_V1_STRING",
+        "ru": "UF_CRM_NEWTECH_V1_STRING"
+      },
+      "HELP_MESSAGE": {
+        "en": "UF_CRM_NEWTECH_V1_STRING",
+        "ru": "UF_CRM_NEWTECH_V1_STRING"
+      }
+    },
+    "time": {
+      "start": 1717686921.82579,
+      "finish": 1717686922.874864,
+      "duration": 1.0490741729736328,
+      "processing": 0.05396890640258789,
+      "date_start": "2024-06-06T17:15:21+02:00",
+      "date_finish": "2024-06-06T17:15:22+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий значения полей, описывающих пользовательское поле реквизита"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/user-fields/crm-requisite-userfield-get.html",
+  "executable": false,
+  "entityFields": [
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ENTITY_ID",
+    "ERROR_MESSAGE",
+    "FIELD_NAME",
+    "HELP_MESSAGE",
+    "IS_SEARCHABLE",
+    "LIST",
+    "LIST_COLUMN_LABEL",
+    "LIST_FILTER_LABEL",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "USER_TYPE_ID",
+    "XML_ID"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "catalog.priceType.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить тип цены catalog.priceType.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price_type.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор типа цены. Нельзя удалить базовый тип цены"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/catalog-price-type-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-05-24T15:43:35+02:00",
+      "date_finish": "2024-05-24T15:43:36+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления типа цены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/catalog-price-type-delete.html",
+  "executable": false
+}

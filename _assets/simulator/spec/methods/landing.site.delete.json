@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.site.delete",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить сайт landing.site.delete",
+  "permissions": "пользователь с правом «удаления» сайтов",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта Идентификатор сайта можно получить с помощью метода landing.site.getList или из результата метода landing.site.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/site/landing-site-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773178832,
+      "finish": 1773178832.235556,
+      "duration": 0.23555588722229004,
+      "processing": 0,
+      "date_start": "2026-03-11T00:40:32+03:00",
+      "date_finish": "2026-03-11T00:40:32+03:00",
+      "operating_reset_at": 1773179432,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления, при успехе возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/site/landing-site-delete.html",
+  "executable": false
+}

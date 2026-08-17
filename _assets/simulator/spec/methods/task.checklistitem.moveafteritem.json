@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.moveafteritem",
+  "scope": "task",
+  "kind": "write",
+  "title": "Перенести пункт чек-листа task.checklistitem.moveafteritem",
+  "permissions": null,
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получить список задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор перемещаемого пункта чек-листа. Идентификатор пункта чек-листа можно получить при создании пункта или методом получить список пунктов чек-листа"
+    },
+    {
+      "name": "AFTERITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа, после которого нужно расположить перемещаемый элемент. Элемент должен относиться к той же задаче, что и ITEMID. Идентификатор пункта чек-листа можно получить при создании пункта или методом получить список пунктов чек-листа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-move-after-item.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1764597401,
+      "finish": 1764597401.936492,
+      "duration": 0.9364919662475586,
+      "processing": 0,
+      "date_start": "2025-12-01T16:56:41+03:00",
+      "date_finish": "2025-12-01T16:56:41+03:00",
+      "operating_reset_at": 1764598001,
+      "operating": 0.29050707817077637
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Возвращает null, если пункт успешно перемещен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-move-after-item.html",
+  "executable": false
+}

@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "crm.vat.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля ставки НДС crm.vat.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/vat/crm-vat-fields.md"
+  },
+  "deprecated": {
+    "successor": "catalog.vat.getFields"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "integer",
+        "size": "11",
+        "isRequired": false,
+        "isReadOnly": true,
+        "title": "ID"
+      },
+      "TIMESTAMP_X": {
+        "type": "datetime",
+        "isRequired": false,
+        "isReadOnly": true,
+        "title": "Дата изменения"
+      },
+      "ACTIVE": {
+        "type": "string",
+        "size": "1",
+        "isRequired": false,
+        "isReadOnly": false,
+        "title": "Активность"
+      },
+      "C_SORT": {
+        "type": "integer",
+        "size": "18",
+        "isRequired": false,
+        "isReadOnly": false,
+        "title": "Сортировка"
+      },
+      "NAME": {
+        "type": "string",
+        "size": "50",
+        "isRequired": false,
+        "isReadOnly": false,
+        "title": "Название"
+      },
+      "RATE": {
+        "type": "double",
+        "size": "18,2",
+        "isRequired": false,
+        "isReadOnly": false,
+        "title": "Ставка"
+      }
+    },
+    "time": {
+      "start": 1751984389.802849,
+      "finish": 1751984389.832249,
+      "duration": 0.029399871826171875,
+      "processing": 0.0001289844512939453,
+      "date_start": "2025-07-08T17:19:49+03:00",
+      "date_finish": "2025-07-08T17:19:49+03:00",
+      "operating_reset_at": 1751984989,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/outdated/vat/crm-vat-fields.html",
+  "executable": false
+}

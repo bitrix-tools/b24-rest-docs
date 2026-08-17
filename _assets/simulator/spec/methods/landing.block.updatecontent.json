@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "landing.block.updatecontent",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Изменить контент блока landing.block.updatecontent",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор блока в черновике страницы. Идентификатор блока можно получить методом landing.block.getlist с параметром params.edit_mode = 1. Если передать идентификатор блока из опубликованной версии страницы, метод может вернуть ошибку"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Новый HTML блока целиком. Метод полностью заменяет текущее содержимое блока. Текущий HTML блока можно получить методом landing.block.getcontent или методом landing.block.getlist с параметром params.get_content = true"
+    },
+    {
+      "name": "designed",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Помечает блок как измененный вручную. Чтобы включить этот признак, передайте true, \"true\" или 1. Любое другое значение его не включает. По умолчанию — false"
+    },
+    {
+      "name": "preventHistory",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Не добавлять изменение в историю страницы. По умолчанию — false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-update-content.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774524519,
+      "finish": 1774524519.331829,
+      "duration": 0.3318290710449219,
+      "processing": 0,
+      "date_start": "2026-03-26T14:28:39+03:00",
+      "date_finish": "2026-03-26T14:28:39+03:00",
+      "operating_reset_at": 1774525119,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления блока. Метод возвращает true, если вызов выполнен успешно. Если вызвать метод с designed = true для блока, в котором недоступен пользовательский дизайн, вернется null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-update-content.html",
+  "executable": false
+}

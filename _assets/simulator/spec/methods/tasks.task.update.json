@@ -1,0 +1,216 @@
+{
+  "$v": 1,
+  "method": "tasks.task.update",
+  "scope": "task",
+  "kind": "write",
+  "title": "Изменить задачу tasks.task.update",
+  "permissions": "> - любой пользователь с доступом к редактированию задачи",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей задачи. В параметре нужно передать хотя бы одно поле, иначе метод вернет ошибку. В метод можно передать параметр SE_PARAMETER — список объектов с дополнительными параметрами задачи. Возможные значения кодов CODE: - 1 — сроки определяются сроками подзадач - 2 — автоматически завершать задачу при завершении подзадач (и наоборот) - 3 — не завершать задачу без результата",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "task": {
+        "id": "8157",
+        "title": "Пример задачи",
+        "description": "",
+        "mark": null,
+        "priority": "1",
+        "multitask": "N",
+        "notViewed": "N",
+        "replicate": "N",
+        "stageId": "0",
+        "sprintId": null,
+        "backlogId": null,
+        "createdBy": "503",
+        "createdDate": "2025-10-06T17:40:12+03:00",
+        "responsibleId": "503",
+        "changedBy": "503",
+        "changedDate": "2025-10-07T16:32:02+03:00",
+        "statusChangedBy": "503",
+        "closedBy": "0",
+        "closedDate": null,
+        "activityDate": "2025-10-07T16:29:55+03:00",
+        "dateStart": null,
+        "deadline": "2025-12-31T23:59:00+03:00",
+        "startDatePlan": "2024-11-02T11:06:00+03:00",
+        "endDatePlan": "2024-11-02T19:06:00+03:00",
+        "guid": "{1a90e51d-5423-4c1e-b1a2-664a519b4612}",
+        "xmlId": null,
+        "commentsCount": "4",
+        "serviceCommentsCount": "4",
+        "allowChangeDeadline": "N",
+        "allowTimeTracking": "N",
+        "taskControl": "N",
+        "addInReport": "N",
+        "forkedByTemplateId": null,
+        "timeEstimate": "0",
+        "timeSpentInLogs": null,
+        "matchWorkTime": "N",
+        "forumTopicId": "1439",
+        "forumId": "11",
+        "siteId": "s1",
+        "subordinate": "Y",
+        "exchangeModified": null,
+        "exchangeId": null,
+        "outlookVersion": "8",
+        "viewedDate": "2025-10-07T16:30:34+03:00",
+        "sorting": null,
+        "durationFact": null,
+        "isMuted": "N",
+        "isPinned": "N",
+        "isPinnedInGroup": "N",
+        "flowId": null,
+        "descriptionInBbcode": "Y",
+        "status": "2",
+        "statusChangedDate": "2025-10-07T16:22:24+03:00",
+        "durationPlan": "0",
+        "durationType": "days",
+        "favorite": "N",
+        "groupId": "0",
+        "auditors": [
+          "503",
+          "547"
+        ],
+        "accomplices": [],
+        "checklist": [],
+        "group": [],
+        "creator": {
+          "id": "503",
+          "name": "Мария Иванова",
+          "link": "/company/personal/user/503/",
+          "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
+          "workPosition": "Администратор"
+        },
+        "responsible": {
+          "id": "503",
+          "name": "Мария Иванова",
+          "link": "/company/personal/user/503/",
+          "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
+          "workPosition": "Администратор"
+        },
+        "accomplicesData": [],
+        "auditorsData": {
+          "547": {
+            "id": "547",
+            "name": "Елена",
+            "link": "/company/personal/user/547/",
+            "icon": "/bitrix/images/tasks/default_avatar.png",
+            "workPosition": "Юрист"
+          }
+        },
+        "newCommentsCount": 0,
+        "action": {
+          "accept": false,
+          "decline": false,
+          "complete": true,
+          "approve": false,
+          "disapprove": false,
+          "start": true,
+          "pause": false,
+          "delegate": true,
+          "remove": true,
+          "edit": true,
+          "defer": true,
+          "renew": false,
+          "create": true,
+          "changeDeadline": true,
+          "checklistAddItems": true,
+          "addFavorite": true,
+          "deleteFavorite": false,
+          "rate": true,
+          "take": false,
+          "edit.originator": false,
+          "checklist.reorder": true,
+          "elapsedtime.add": true,
+          "dayplan.timer.toggle": false,
+          "edit.plan": true,
+          "checklist.add": true,
+          "favorite.add": true,
+          "favorite.delete": false
+        },
+        "checkListTree": {
+          "nodeId": 0,
+          "fields": {
+            "id": null,
+            "copiedId": null,
+            "entityId": null,
+            "userId": 503,
+            "createdBy": null,
+            "parentId": null,
+            "title": "",
+            "sortIndex": null,
+            "displaySortIndex": "",
+            "isComplete": false,
+            "isImportant": false,
+            "completedCount": 0,
+            "members": [],
+            "attachments": [],
+            "nodeId": null
+          },
+          "action": [],
+          "descendants": []
+        },
+        "checkListCanAdd": true
+      }
+    },
+    "time": {
+      "start": 1759843922,
+      "finish": 1759843922.725389,
+      "duration": 0.7253890037536621,
+      "processing": 0,
+      "date_start": "2025-10-07T16:32:02+03:00",
+      "date_finish": "2025-10-07T16:32:02+03:00",
+      "operating_reset_at": 1759844522,
+      "operating": 0.4929828643798828
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "task",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием задачи после выполнения операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-update.html",
+  "executable": false
+}

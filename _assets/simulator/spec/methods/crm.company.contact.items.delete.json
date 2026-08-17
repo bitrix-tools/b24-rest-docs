@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "crm.company.contact.items.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Очистить набор контактов, связанных с указанной компанией crm.company.contact.items.delete",
+  "permissions": "пользователь с правом «Изменение» компаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор компании. Идентификатор можно получить с помощью методов crm.company.list или crm.company.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/contacts/crm-company-contact-items-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724075916.767978,
+      "finish": 1724075917.346106,
+      "duration": 0.5781280994415283,
+      "processing": 0.2096860408782959,
+      "date_start": "2024-08-19T15:58:36+02:00",
+      "date_finish": "2024-08-19T15:58:37+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/contacts/crm-company-contact-items-delete.html",
+  "executable": false
+}

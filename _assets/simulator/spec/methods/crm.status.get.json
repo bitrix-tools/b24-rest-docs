@@ -1,0 +1,140 @@
+{
+  "$v": 1,
+  "method": "crm.status.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить элемент справочника по идентификатору crm.status.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента справочника. Получить список элементов с идентификаторами можно методом crm.status.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "733",
+      "ENTITY_ID": "DYNAMIC_1038_STAGE_37",
+      "STATUS_ID": "DT1038_37:SUCCESS",
+      "NAME": "Успех",
+      "NAME_INIT": "Успех",
+      "SORT": "40",
+      "SYSTEM": "Y",
+      "CATEGORY_ID": "37",
+      "COLOR": "#00ff00",
+      "SEMANTICS": "S"
+    },
+    "time": {
+      "start": 1752133970.651926,
+      "finish": 1752133970.690207,
+      "duration": 0.03828096389770508,
+      "processing": 0.0060749053955078125,
+      "date_start": "2025-07-10T10:52:50+03:00",
+      "date_finish": "2025-07-10T10:52:50+03:00",
+      "operating_reset_at": 1752134570,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор элемента справочника"
+    },
+    {
+      "name": "ENTITY_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор объекта, к которому относится справочник"
+    },
+    {
+      "name": "STATUS_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код значения статуса"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название"
+    },
+    {
+      "name": "NAME_INIT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Изначальное название"
+    },
+    {
+      "name": "SORT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Сортировка"
+    },
+    {
+      "name": "SYSTEM",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак системного значения"
+    },
+    {
+      "name": "CATEGORY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор воронки, к которой относится статус"
+    },
+    {
+      "name": "COLOR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет статуса для канбана"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Группа стадий"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-get.html",
+  "executable": false,
+  "entityFields": [
+    "CATEGORY_ID",
+    "COLOR",
+    "ENTITY_ID",
+    "ID",
+    "NAME",
+    "NAME_INIT",
+    "SEMANTICS",
+    "SORT",
+    "STATUS_ID",
+    "SYSTEM"
+  ]
+}

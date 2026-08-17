@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "crm.item.delivery.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить информацию о доставке по id crm.item.delivery.get",
+  "permissions": "требуется право на чтение заказа доставки",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор доставки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/delivery/crm-item-delivery-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_order_shipment_crm_simple",
+      "base": "any",
+      "required": false,
+      "description": "Объект, содержащий краткую информацию о доставке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/delivery/crm-item-delivery-get.html",
+  "executable": false
+}

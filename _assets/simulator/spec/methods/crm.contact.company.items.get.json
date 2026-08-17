@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "crm.contact.company.items.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить набор компаний, связанных с указанным контактом crm.contact.company.items.get",
+  "permissions": "любой пользователь с правом «чтения» контактов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор контакта. Идентификатор можно получить с помощью методов crm.contact.list или crm.contact.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/company/crm-contact-company-items-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "COMPANY_ID": 7,
+        "SORT": 100,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "Y"
+      },
+      {
+        "COMPANY_ID": 8,
+        "SORT": 110,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "N"
+      },
+      {
+        "COMPANY_ID": 9,
+        "SORT": 120,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "N"
+      }
+    ],
+    "time": {
+      "start": 1724078791.470108,
+      "finish": 1724078791.969407,
+      "duration": 0.4992990493774414,
+      "processing": 0.19150400161743164,
+      "date_start": "2024-08-19T16:46:31+02:00",
+      "date_finish": "2024-08-19T16:46:31+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "contact_company_binding[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив с информацией о привязанных к контакту компаниях"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/company/crm-contact-company-items-get.html",
+  "executable": false,
+  "entityFields": [
+    "COMPANY_ID",
+    "IS_PRIMARY",
+    "ROLE_ID",
+    "SORT"
+  ]
+}

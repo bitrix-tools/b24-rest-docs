@@ -1,0 +1,193 @@
+{
+  "$v": 1,
+  "method": "vote.AttachedVote.getWithVoted",
+  "scope": "vote",
+  "kind": "write",
+  "title": "Получить данные голосования с информацией о проголосовавших vote.AttachedVote.getWithVoted",
+  "permissions": "любой пользователь с правами чтения голосования",
+  "params": [
+    {
+      "name": "attachId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор прикрепленного голосования, получить можно методами vote.AttachedVote.get или vote.AttachedVote.getMany"
+    },
+    {
+      "name": "pageSize",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество записей на странице для списка проголосовавших. Значение по умолчанию: 10"
+    },
+    {
+      "name": "userForMobileFormat",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Формат данных пользователей для мобильных устройств. Значение по умолчанию: false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.attachedvote.getWithVoted.md"
+  },
+  "resultExample": {
+    "result": {
+      "attach": {
+        "ID": 1,
+        "VOTE_ID": 1,
+        "COUNTER": 1,
+        "QUESTIONS": {
+          "1": {
+            "ID": "1",
+            "ACTIVE": "Y",
+            "TIMESTAMP_X": "2025-08-12T11:47:50+03:00",
+            "VOTE_ID": "1",
+            "C_SORT": "10",
+            "COUNTER": "1",
+            "QUESTION": "Первое рест голосование",
+            "QUESTION_TYPE": "text",
+            "IMAGE_ID": null,
+            "DIAGRAM": "Y",
+            "DIAGRAM_TYPE": "histogram",
+            "REQUIRED": "N",
+            "FIELD_TYPE": "0",
+            "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+            "IMAGE": null,
+            "ANSWERS": {
+              "1": {
+                "ID": "1",
+                "ACTIVE": "Y",
+                "TIMESTAMP_X": "2025-08-12T11:47:50+03:00",
+                "QUESTION_ID": "1",
+                "C_SORT": "10",
+                "IMAGE_ID": null,
+                "MESSAGE": "первый вариант",
+                "MESSAGE_TYPE": "html",
+                "COUNTER": "0",
+                "FIELD_TYPE": "0",
+                "FIELD_WIDTH": "0",
+                "FIELD_HEIGHT": "0",
+                "FIELD_PARAM": null,
+                "COLOR": "",
+                "REACTION": "",
+                "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][1]",
+                "~PERCENT": 0,
+                "PERCENT": 0
+              },
+              "3": {
+                "ID": "3",
+                "ACTIVE": "Y",
+                "TIMESTAMP_X": "2025-08-12T11:47:50+03:00",
+                "QUESTION_ID": "1",
+                "C_SORT": "20",
+                "IMAGE_ID": null,
+                "MESSAGE": "Второй вариант",
+                "MESSAGE_TYPE": "html",
+                "COUNTER": "1",
+                "FIELD_TYPE": "0",
+                "FIELD_WIDTH": "0",
+                "FIELD_HEIGHT": "0",
+                "FIELD_PARAM": null,
+                "COLOR": "",
+                "REACTION": "",
+                "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][3]",
+                "~PERCENT": 100,
+                "PERCENT": 100
+              },
+              "5": {
+                "ID": "5",
+                "ACTIVE": "Y",
+                "TIMESTAMP_X": "2025-08-12T11:47:50+03:00",
+                "QUESTION_ID": "1",
+                "C_SORT": "30",
+                "IMAGE_ID": null,
+                "MESSAGE": "Третий вариант",
+                "MESSAGE_TYPE": "html",
+                "COUNTER": "0",
+                "FIELD_TYPE": "0",
+                "FIELD_WIDTH": "0",
+                "FIELD_HEIGHT": "0",
+                "FIELD_PARAM": null,
+                "COLOR": "",
+                "REACTION": "",
+                "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+                "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][5]",
+                "~PERCENT": 0,
+                "PERCENT": 0
+              }
+            }
+          }
+        },
+        "ANONYMITY": 0,
+        "OPTIONS": 0,
+        "userAnswerMap": {
+          "1": {
+            "3": {
+              "EVENT_ID": "1",
+              "EVENT_QUESTION_ID": "1",
+              "ANSWER_ID": "3",
+              "ID": "1",
+              "MESSAGE": ""
+            }
+          }
+        },
+        "canEdit": true,
+        "canVote": false,
+        "canRevote": false,
+        "isVoted": true,
+        "signedAttachId": "1.d6db75c1a03fe2313547841960f1d4e95906721cf211763be19855fc6aeec45b",
+        "resultUrl": "/vote-result/qgp3r31sg4vj5vas",
+        "downloadUrl": "/bitrix/services/main/ajax.php?action=vote.AttachedVote.download&SITE_ID=s1&signedAttachId=1.d6db75c1a03fe2313547841960f106721cf211763be19855fc6aeec45b",
+        "entityId": 32219,
+        "isFinished": false
+      },
+      "voted": {
+        "3": [
+          {
+            "ID": 1,
+            "NAME": "Саша",
+            "IMAGE": "https://your-domain.bitrix24.ru/b13743910/resize_cache/2267/cec8d72046af30148f6f5b573a3a0aa8/main/c7b/c7bd44b1bab25dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
+            "WORK_POSITION": ""
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1755077476.824466,
+      "finish": 1755077476.928421,
+      "duration": 0.10395503044128418,
+      "processing": 0.10184097290039062,
+      "date_start": "2025-08-13T12:31:16+03:00",
+      "date_finish": "2025-08-13T12:31:16+03:00",
+      "operating_reset_at": 1755078076,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о голосовании и проголосовавших, структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vote/vote.attachedvote.getWithVoted.html",
+  "executable": false
+}

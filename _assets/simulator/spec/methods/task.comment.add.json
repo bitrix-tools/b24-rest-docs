@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "task.comment.add",
+  "scope": "task",
+  "kind": "write",
+  "title": "Добавить комментарий к задаче task.comment.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "COMMENTTEXT",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Комментарий"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-comment-add.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.chat.message.send"
+  },
+  "page": "/api-reference/tasks/deprecated/task-comment-add.html",
+  "executable": false
+}

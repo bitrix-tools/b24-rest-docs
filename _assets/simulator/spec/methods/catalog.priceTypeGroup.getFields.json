@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "catalog.priceTypeGroup.getFields",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить поля привязки типов цен к группам покупателей catalog.priceTypeGroup.getFields",
+  "permissions": "пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "priceTypeGroup",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта catalogpricetypegroup, а value — объект типа restfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/price-type-group/catalog-price-type-group-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceTypeGroup": {
+        "access": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "char"
+        },
+        "catalogGroupId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "groupId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "id": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        }
+      }
+    },
+    "time": {
+      "start": 1774259882,
+      "finish": 1774259882.700544,
+      "duration": 0.7005441188812256,
+      "processing": 0,
+      "date_start": "2026-03-23T12:58:02+03:00",
+      "date_finish": "2026-03-23T12:58:02+03:00",
+      "operating_reset_at": 1774260482,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceTypeGroup",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта catalogpricetypegroup, а value — объект типа restfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-get-fields.html",
+  "executable": false
+}

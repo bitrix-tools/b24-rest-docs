@@ -1,0 +1,183 @@
+{
+  "$v": 1,
+  "method": "note.document.update",
+  "scope": "note",
+  "kind": "write",
+  "title": "Обновить документ note.document.update",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Редактирование» для нужного документа или базы знаний документа",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа. Идентификатор можно получить методом note.document.tree.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями, которые нужно изменить. Описание структуры объекта",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "overwrite",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Определяет, нужно ли принудительно перезаписать содержимое документа, если у него есть несохраненные изменения совместного редактора. Возможные значения: - true — перезаписать содержимое документа - false — не перезаписывать содержимое, если есть несохраненные изменения По умолчанию: false Используйте, если передаете fields.markdown"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый заголовок документа. Заголовок документа не должен превышать 255 символов. Передайте fields.title, fields.markdown или оба поля сразу"
+        },
+        {
+          "name": "markdown",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое содержимое документа в Markdown. Чтобы добавить в документ файл, вставьте assetMarkdown, полученный методом note.file.get или note.file.add, отдельной строкой с начала строки, без префикса и суффикса в той же строке. Для изображений и видео блок можно дополнить параметрами width и align, например [[image fileId=5001 width=30.98 align=left]].…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/document/note-document-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 77,
+        "collectionId": 42,
+        "parentId": 10,
+        "title": "Глава 1 (обновлено)",
+        "markdown": "# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]",
+        "position": 5,
+        "createdBy": 1,
+        "updatedBy": 1,
+        "createdAt": "2026-04-20T12:00:00Z",
+        "updatedAt": "2026-04-21T09:15:30Z"
+      }
+    },
+    "time": {
+      "start": 1780391100,
+      "finish": 1780391100.266341,
+      "duration": 0.266340970993042,
+      "processing": 0.22421908378601074,
+      "date_start": "2026-06-16T12:05:00+03:00",
+      "date_finish": "2026-06-16T12:05:00+03:00",
+      "operating_reset_at": 1780391700,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом обновления документа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект документа после обновления"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор документа"
+    },
+    {
+      "name": "collectionId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор базы знаний или null, если документ доступен через прямой доступ к документу"
+    },
+    {
+      "name": "parentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительского документа или null"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Заголовок документа"
+    },
+    {
+      "name": "markdown",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Содержимое документа в Markdown"
+    },
+    {
+      "name": "position",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Позиция документа среди соседних страниц"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор автора документа"
+    },
+    {
+      "name": "updatedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего редактора документа"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания документа в UTC"
+    },
+    {
+      "name": "updatedAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего изменения документа в UTC"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/document/note-document-update.html",
+  "executable": false
+}

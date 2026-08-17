@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "sale.cashbox.handler.delete",
+  "scope": "cashbox",
+  "kind": "write",
+  "title": "Удалить обработчик кассы sale.cashbox.handler.delete",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_cashbox_handler.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор удаляемого обработчика"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/cashbox/sale-cashbox-handler-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712135335.026931,
+      "finish": 1712135335.407762,
+      "duration": 0.3808310031890869,
+      "processing": 0.0336611270904541,
+      "date_start": "2024-04-03T11:08:55+02:00",
+      "date_finish": "2024-04-03T11:08:55+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления REST-обработчика кассы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/cashbox/sale-cashbox-handler-delete.html",
+  "executable": false
+}

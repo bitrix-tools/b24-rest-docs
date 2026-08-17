@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "crm.item.productrow.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить товарную позицию из объекта CRM crm.item.productrow.delete",
+  "permissions": "требуется право на изменение объекта CRM, товарная позиция которого удаляется",
+  "params": [
+    {
+      "name": "id",
+      "type": "crm_item_product_row.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор товарной позиции"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/product-rows/crm-item-productrow-delete.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "any",
+      "base": "any",
+      "required": false,
+      "description": "Результат операции. Значение всегда null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-delete.html",
+  "executable": false
+}

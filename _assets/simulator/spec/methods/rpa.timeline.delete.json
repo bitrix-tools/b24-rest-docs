@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "rpa.timeline.delete",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Удалить запись таймлайна rpa.timeline.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/timeline/rpa-timeline-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/timeline/rpa-timeline-delete.html",
+  "executable": false
+}

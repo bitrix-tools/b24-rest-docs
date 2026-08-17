@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "rpa.timeline.listForItem",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Получить список записей таймлайна для элемента rpa.timeline.listForItem",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "itemId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор элемента"
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/timeline/rpa-timeline-list-for-item.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "returns": [
+    {
+      "name": "id",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор записи"
+    },
+    {
+      "name": "typeId",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "itemId",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор элемента"
+    },
+    {
+      "name": "createdTime",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Время создания записи"
+    },
+    {
+      "name": "userId",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который инициировал действие"
+    },
+    {
+      "name": "title",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Заголовок записи"
+    },
+    {
+      "name": "description",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Текстовое содержимое записи"
+    },
+    {
+      "name": "action",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Код типа действия"
+    },
+    {
+      "name": "isFixed",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Флаг прикрепления записи"
+    },
+    {
+      "name": "data",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Сериализованные данные о выполненном действии и связанных сущностях на момент создания записи. В зависимости от типа действия может содержать разный набор данных"
+    }
+  ],
+  "page": "/api-reference/outdated/rpa/timeline/rpa-timeline-list-for-item.html",
+  "executable": false
+}

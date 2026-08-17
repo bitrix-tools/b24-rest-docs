@@ -1,0 +1,300 @@
+{
+  "$v": 1,
+  "method": "crm.contact.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новый контакт crm.contact.add",
+  "permissions": "любой пользователь с правом «добавления|импорта» контакта",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля - value_n — значение поля Список доступных полей описан ниже. Некорректное поле в fields будет проигнорировано",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект, содержащий набор дополнительных параметров. Структура и возможные значения описана ниже",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "HONORIFIC",
+          "type": "crm_status",
+          "base": "string",
+          "required": "unknown",
+          "description": "Обращение. Список доступных типов обращений можно узнать с помощью метода [crm.status.list][2], применив фильтр { ENTITY_ID: \"HONORIFIC\" }. По умолчанию — первый доступный тип обращения"
+        },
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Имя"
+        },
+        {
+          "name": "SECOND_NAME",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Отчество"
+        },
+        {
+          "name": "LAST_NAME",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Фамилия"
+        },
+        {
+          "name": "PHOTO",
+          "type": "file",
+          "base": "any",
+          "required": "unknown",
+          "description": "Фотография"
+        },
+        {
+          "name": "BIRTHDATE",
+          "type": "date",
+          "base": "date",
+          "required": "unknown",
+          "description": "Дата рождения"
+        },
+        {
+          "name": "TYPE_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": "unknown",
+          "description": "Тип контакта. Список доступных типов контакта можно узнать с помощью метода [crm.status.list][2], применив фильтр { ENTITY_ID: \"CONTACT_TYPE\" }. По умолчанию — первый доступный тип контакта"
+        },
+        {
+          "name": "SOURCE_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": "unknown",
+          "description": "Источник. Список доступных типов источника можно узнать с помощью метода [crm.status.list][2], применив фильтр { ENTITY_ID: \"SOURCE\" }. По умолчанию — первый доступный тип источника"
+        },
+        {
+          "name": "SOURCE_DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дополнительно об источнике"
+        },
+        {
+          "name": "POST",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Должность"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Комментарий. Поддерживает bb-коды"
+        },
+        {
+          "name": "OPENED",
+          "type": "boolean",
+          "base": "boolean",
+          "required": "unknown",
+          "description": "Доступен ли для всех. Возможные значения: - Y — да - N — нет По умолчанию Y. Значение по умолчанию может быть изменено в настройках CRM"
+        },
+        {
+          "name": "EXPORT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": "unknown",
+          "description": "Участвует ли контакт в экспорте. Возможные значения: - Y — да - N — нет По умолчанию Y"
+        },
+        {
+          "name": "ASSIGNED_BY_ID",
+          "type": "user",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор пользователя, ответственного за элемент. По умолчанию — идентификатор пользователя, который вызывает метод"
+        },
+        {
+          "name": "COMPANY_ID",
+          "type": "crm_company",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор основной компании для контакта. Список компаний можно получить с помощью метода crm.item.list по entityTypeId = 4"
+        },
+        {
+          "name": "COMPANY_IDS",
+          "type": "crm_company[]",
+          "base": "array",
+          "required": "unknown",
+          "description": "Массив идентификаторов компаний, к которым привязан контакт. Список компаний можно получить с помощью метода crm.item.list по entityTypeId = 4"
+        },
+        {
+          "name": "UTM_SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Рекламная система (Yandex-Direct, Google-Adwords и другие)"
+        },
+        {
+          "name": "UTM_MEDIUM",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+        },
+        {
+          "name": "UTM_CAMPAIGN",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Обозначение рекламной кампании"
+        },
+        {
+          "name": "UTM_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Содержание кампании. Например, для контекстных объявлений"
+        },
+        {
+          "name": "UTM_TERM",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы"
+        },
+        {
+          "name": "TRACE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Информация для сквозной аналитики"
+        },
+        {
+          "name": "PHONE",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": "unknown",
+          "description": "Телефон"
+        },
+        {
+          "name": "EMAIL",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": "unknown",
+          "description": "E-mail"
+        },
+        {
+          "name": "WEB",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": "unknown",
+          "description": "Сайт"
+        },
+        {
+          "name": "IM",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": "unknown",
+          "description": "Мессенджер"
+        },
+        {
+          "name": "LINK",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": "unknown",
+          "description": "Ссылки. Служебное поле"
+        },
+        {
+          "name": "UF_...",
+          "type": "unknown",
+          "base": "any",
+          "required": "unknown",
+          "description": "Пользовательские поля. Например, UF_CRM_25534736. В зависимости от настроек портала у контактов может быть набор пользовательских полей определенных типов. Добавить пользовательское поле в контакт можно с помощью метода crm.contact.userfield.add"
+        },
+        {
+          "name": "PARENT_ID_...",
+          "type": "unknown",
+          "base": "any",
+          "required": "unknown",
+          "description": "Поля связей. Если на портале есть смарт-процессы, связанные с контактами, для каждого такого смарт-процесса существует поле, хранящее связь между этим смарт-процессом и контактом. Само поле хранит идентификатор элемента такого смарт-процесса. Например, поле PARENT_ID_153 — связь со смарт-процессом entityTypeId=153.…"
+        }
+      ]
+    },
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "REGISTER_SONET_EVENT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": "unknown",
+          "description": "Производить ли регистрацию события добавления контакта в живой ленте. Возможные значения: - Y — да - N — нет По умолчанию N"
+        },
+        {
+          "name": "IMPORT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": "unknown",
+          "description": "Включен ли режим импорта. Возможные значения: - Y — да Чтобы передать значение Нет, необходимо либо вообще не передавать параметр, либо передать значение 0, '' По умолчанию Нет"
+        }
+      ]
+    }
+  },
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/crm-contact-add.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.add"
+  },
+  "resultExample": {
+    "result": 46,
+    "time": {
+      "start": 1723713732.235658,
+      "finish": 1723713733.742049,
+      "duration": 1.5063910484313965,
+      "processing": 1.1416668891906738,
+      "date_start": "2024-08-15T11:22:12+02:00",
+      "date_finish": "2024-08-15T11:22:13+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Корневой элемент ответа, содержит идентификатор созданного контакта"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/crm-contact-add.html",
+  "executable": false
+}

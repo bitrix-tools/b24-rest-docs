@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "im.user.status.set",
+  "scope": "im",
+  "kind": "write",
+  "title": "Установить статус пользователя im.user.status.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "STATUS",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Новый статус пользователя. Значение чувствительно к регистру и должно передаваться в нижнем регистре. Допустимые значения: - online — в сети, пользователь получает все уведомления - dnd — не беспокоить, статус отключает уведомления - away — отсутствую - break — перерыв"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/users/im-user-status-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.1,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2026-03-02T09:30:00+03:00",
+      "date_finish": "2026-03-02T09:30:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если статус установлен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/users/im-user-status-set.html",
+  "executable": false
+}

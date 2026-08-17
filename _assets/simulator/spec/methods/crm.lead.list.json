@@ -1,0 +1,124 @@
+{
+  "$v": 1,
+  "method": "crm.lead.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список лидов crm.lead.list",
+  "permissions": "пользователь с правами на чтение лидов",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив содержит список полей, которые необходимо выбрать (смотрите поля лида crm-lead-fields). При выборке используйте маски: - \"\" - для выборки всех полей (без пользовательских и множественных) - \"UF\"- для выборки всех пользовательских полей (без множественных) Маски для выборки множественных полей нет.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных лидов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям лида crm-lead-fields. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/crm-lead-list.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.list"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив из объектов, содержащих информацию о полях сделок. Стоит учитывать, что структура полей может быть изменена из-за параметра select. Для получения информации о структуре лида смотрите метод crm.lead.get"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных элементов"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Содержит значение, которое нужно передать в следующий запрос в параметр start, чтобы получить следующую порцию данных. Параметр next появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение 50"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/crm-lead-list.html",
+  "executable": true,
+  "entityFields": [
+    "ADDRESS",
+    "ADDRESS_2",
+    "ADDRESS_CITY",
+    "ADDRESS_COUNTRY",
+    "ADDRESS_COUNTRY_CODE",
+    "ADDRESS_POSTAL_CODE",
+    "ADDRESS_PROVINCE",
+    "ADDRESS_REGION",
+    "ASSIGNED_BY_ID",
+    "BIRTHDATE",
+    "COMMENTS",
+    "COMPANY_ID",
+    "COMPANY_TITLE",
+    "CONTACT_ID",
+    "CONTACT_IDS",
+    "CURRENCY_ID",
+    "EMAIL",
+    "HONORIFIC",
+    "IM",
+    "IS_MANUAL_OPPORTUNITY",
+    "LAST_NAME",
+    "LINK",
+    "NAME",
+    "OPENED",
+    "OPPORTUNITY",
+    "ORIGINATOR_ID",
+    "ORIGIN_ID",
+    "PHONE",
+    "POST",
+    "SECOND_NAME",
+    "SOURCE_DESCRIPTION",
+    "SOURCE_ID",
+    "STATUS_DESCRIPTION",
+    "STATUS_ID",
+    "TITLE",
+    "UF_...",
+    "UTM_CAMPAIGN",
+    "UTM_CONTENT",
+    "UTM_MEDIUM",
+    "UTM_SOURCE",
+    "UTM_TERM",
+    "WEB"
+  ]
+}

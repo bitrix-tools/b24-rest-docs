@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "bizproc.task.complete",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Выполнить задание бизнес-процесса bizproc.task.complete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задания. Получить идентификатор можно методом bizproc.task.list"
+    },
+    {
+      "name": "STATUS",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Целевой статус задания. Возможные значения: - 1 или yes — да, утвержден - 2 или no — нет, отклонен - 3 или ok — ок, ознакомлен - 4 или cancel — отмена Набор допустимых значений меняется в зависимости от типа задания: - Утверждение документа — 1 или 2 - Ознакомление с документом — 3 - Запрос дополнительной информации — 3 - Запрос дополнительной информации с отклонением — 3 или 4"
+    },
+    {
+      "name": "COMMENT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Комментарий пользователя. Обязательность параметра зависит от настроек задания"
+    },
+    {
+      "name": "FIELDS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием полей для выполнения заданий с запросом дополнительной информации в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — символьный идентификатор поля задания - value_N — значение поля Получить описания полей в задании можно методом bizproc.task.list в объекте \"PARAMETERS\": \"Fields\" ответа.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-task/bizproc-task-complete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1738746693.921897,
+      "finish": 1738746694.136799,
+      "duration": 0.21490216255187988,
+      "processing": 0.19237995147705078,
+      "date_start": "2025-02-05T12:11:33+03:00",
+      "date_finish": "2025-02-05T12:11:34+03:00",
+      "operating_reset_at": 1738747293,
+      "operating": 0.19236207008361816
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если задание выполнено успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-task/bizproc-task-complete.html",
+  "executable": false
+}

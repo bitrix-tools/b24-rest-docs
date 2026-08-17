@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.propertyvariant.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить вариант свойства sale.propertyvariant.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_variant.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор варианта значения свойства"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-variant/sale-property-variant-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1711631569.144029,
+      "finish": 1711631569.45937,
+      "duration": 0.3153409957885742,
+      "processing": 0.010441780090332031,
+      "date_start": "2024-03-28T16:12:49+03:00",
+      "date_finish": "2024-03-28T16:12:49+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления варианта значения свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-variant/sale-property-variant-delete.html",
+  "executable": false
+}

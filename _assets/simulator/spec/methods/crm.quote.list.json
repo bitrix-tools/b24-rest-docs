@@ -1,0 +1,142 @@
+{
+  "$v": 1,
+  "method": "crm.quote.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список коммерческих предложений по фильтру crm.quote.list",
+  "permissions": "пользователь с правом «чтения» коммерческих предложений",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые нужно вернуть в ответе. При выборке можно использовать маски: - '*' — для выборки всех стандартных полей (без пользовательских и множественных), - 'UF_*' — для выборки всех пользовательских полей. Список доступных полей для выборки можно получить с помощью метода crm.quote.fields. По умолчанию возвращаются все стандартные поля и пользовательские поля ('*' + 'UF_*')",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля, по которому фильтруется выборка, - value_n — значение фильтра. Формат ключа фильтра: <оператор><поле>. Пример: >=DATE_CREATE, @ASSIGNED_BY_ID, =%TITLE. Поддерживаемые операторы: - = — равно (точное совпадение, используется по умолчанию) - != — не равно - ! — не равно - > — больше - >= — больше либо равно - < — меньше - <= — меньше либо равно - @ — IN…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — поле сортировки, - значение: - ASC — по возрастанию, - DESC — по убыванию. Список доступных полей для сортировки можно получить с помощью метода crm.quote.fields. При сортировке по STATUS_ID используется внутреннее поле STATUS_SORT",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы — 50 записей. Формула: start = (N - 1) * 50, где N — номер страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/crm-quote-list.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.list"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "9",
+        "TITLE": "Последняя версия нашего продукта",
+        "STATUS_ID": "SENT",
+        "OPPORTUNITY": "45000.00",
+        "CURRENCY_ID": "RUB",
+        "ASSIGNED_BY_ID": "7"
+      },
+      {
+        "ID": "43",
+        "TITLE": "КП на поставку мебели",
+        "STATUS_ID": "SENT",
+        "OPPORTUNITY": "150000.00",
+        "CURRENCY_ID": "RUB",
+        "ASSIGNED_BY_ID": "1"
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1773413037,
+      "finish": 1773413037.105712,
+      "duration": 0.1057119369506836,
+      "processing": 0,
+      "date_start": "2026-03-13T17:43:57+03:00",
+      "date_finish": "2026-03-13T17:43:57+03:00",
+      "operating_reset_at": 1773413637,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив коммерческих предложений. Состав полей зависит от параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Значение для параметра start в следующем запросе. Параметр next возвращается, если количество элементов в выборке больше 50"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/crm-quote-list.html",
+  "executable": false,
+  "entityFields": [
+    "ASSIGNED_BY_ID",
+    "BEGINDATE",
+    "CLIENT_ADDR",
+    "CLIENT_EMAIL",
+    "CLIENT_PHONE",
+    "CLIENT_TITLE",
+    "CLOSEDATE",
+    "COMMENTS",
+    "COMPANY_ID",
+    "CONTACT_IDS",
+    "CURRENCY_ID",
+    "ID",
+    "MYCOMPANY_ID",
+    "OPENED",
+    "OPPORTUNITY",
+    "PERSON_TYPE_ID",
+    "STATUS_ID",
+    "TITLE"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "userfieldconfig.delete",
+  "scope": "userfieldconfig",
+  "kind": "write",
+  "title": "Удалить пользовательское поле userfieldconfig.delete",
+  "permissions": "пользователь с правом изменения настроек объекта в модуле moduleId (для crm — право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор модуля, в котором удаляется поле"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настроек пользовательского поля. Идентификатор можно получить методом userfieldconfig.list или при создании поля методом userfieldconfig.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1724239307.903115,
+      "finish": 1724239308.567422,
+      "duration": 0.6643068790435791,
+      "processing": 0.20090818405151367,
+      "date_start": "2024-08-21T13:21:47+02:00",
+      "date_finish": "2024-08-21T13:21:48+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Возвращает null, если поле успешно удалено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.html",
+  "executable": false
+}

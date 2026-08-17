@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.role.delete",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Удалить роль documentgenerator.role.delete",
+  "permissions": "пользователь с правом на изменение настроек генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор роли. Получить идентификатор можно после создания роли или методом получения списка ролей"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/role/document-generator-role-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1774006789,
+      "finish": 1774006789.076573,
+      "duration": 0.07657289505004883,
+      "processing": 0,
+      "date_start": "2026-03-20T14:39:49+03:00",
+      "date_finish": "2026-03-20T14:39:49+03:00",
+      "operating_reset_at": 1774007389,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Метод удаляет роль и возвращает null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/role/document-generator-role-delete.html",
+  "executable": false
+}

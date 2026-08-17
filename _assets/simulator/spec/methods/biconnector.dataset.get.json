@@ -1,0 +1,131 @@
+{
+  "$v": 1,
+  "method": "biconnector.dataset.get",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить датасет по id biconnector.dataset.get",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор датасета, можно получить методами biconnector.dataset.list и biconnector.dataset.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/dataset/biconnector-dataset-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 2,
+        "type": "rest",
+        "name": "rest_dataset11111",
+        "description": "new__2_",
+        "externalCode": "extrnalCode",
+        "externalName": "extranalName",
+        "dateCreate": "2025-03-26 15:28:06",
+        "dateUpdate": "2025-03-27 07:47:43",
+        "createdById": 1,
+        "updatedById": 1,
+        "externalId": 275,
+        "fields": [
+          {
+            "id": 224,
+            "datasetId": 2,
+            "type": "int",
+            "name": "ID",
+            "externalCode": "ID",
+            "visible": true
+          },
+          {
+            "id": 225,
+            "datasetId": 2,
+            "type": "string",
+            "name": "NAME",
+            "externalCode": "NAME",
+            "visible": true
+          },
+          {
+            "id": 226,
+            "datasetId": 2,
+            "type": "string",
+            "name": "SURNAME",
+            "externalCode": "SURNAME",
+            "visible": true
+          },
+          {
+            "id": 227,
+            "datasetId": 2,
+            "type": "double",
+            "name": "SCORE",
+            "externalCode": "SCORE",
+            "visible": true
+          },
+          {
+            "id": 228,
+            "datasetId": 2,
+            "type": "date",
+            "name": "DATA",
+            "externalCode": "DATA",
+            "visible": true
+          },
+          {
+            "id": 229,
+            "datasetId": 2,
+            "type": "datetime",
+            "name": "TIME",
+            "externalCode": "TIME",
+            "visible": true
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1743061675.963969,
+      "finish": 1743061676.064591,
+      "duration": 0.10062193870544434,
+      "processing": 0.011152029037475586,
+      "date_start": "2025-03-27T07:47:55+00:00",
+      "date_finish": "2025-03-27T07:47:56+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "item",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях датасета. Описание полей в статье Датасеты: обзор методов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/dataset/biconnector-dataset-get.html",
+  "executable": false,
+  "entityFields": [
+    "createdById",
+    "dateCreate",
+    "dateUpdate",
+    "description",
+    "externalCode",
+    "externalId",
+    "externalName",
+    "fields",
+    "id",
+    "name",
+    "sourceId",
+    "type",
+    "updatedById"
+  ]
+}

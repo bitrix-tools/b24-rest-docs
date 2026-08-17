@@ -1,0 +1,161 @@
+{
+  "$v": 1,
+  "method": "calendar.user.settings.set",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Установить пользовательские настройки календаря calendar.user.settings.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "settings",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект со значениями пользовательских настроек календаря",
+      "ref": "#/defs/settingsFields"
+    }
+  ],
+  "defs": {
+    "settingsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "meetSection",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Календарь для приглашений"
+        },
+        {
+          "name": "crmSection",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Календарь для CRM"
+        },
+        {
+          "name": "showDeclined",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать события, в которых пользователь отказался принять участие"
+        },
+        {
+          "name": "denyBusyInvitation",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Запрещать приглашать в событие, если время занято"
+        },
+        {
+          "name": "collapseOffHours",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Скрывать нерабочее время в календаре в недельном и дневном представлении. Возможные значения: - Y — скрывать - N — не скрывать"
+        },
+        {
+          "name": "showWeekNumbers",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Показывать номер недель. Возможные значения: - Y — показывать - N — не показывать"
+        },
+        {
+          "name": "showTasks",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Отображать задачи в календаре. Возможные значения: - Y — отображать - N — не отображать"
+        },
+        {
+          "name": "syncTasks",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Синхронизировать календарь задач. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "showCompletedTasks",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Отображать завершенные задачи. Возможные значения: - Y — отображать - N — не отображать"
+        },
+        {
+          "name": "lastUsedSection",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор календаря, который используется при создании событий, если в параметрах не передан идентификатор календаря. Значение по умолчанию — false"
+        },
+        {
+          "name": "sendFromEmail",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "E-mail для отправки почтовых приглашений"
+        },
+        {
+          "name": "defaultSections",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Настройки предустановленных календарей. Ключем объекта настроек может быть: - user[id] — тип Календарь пользователя c идентификатором пользователя. Например, user12 соответствует календарю пользователя с идентификатором 12 - group[id] — тип Календарь группы с идентификатором группы.…"
+        },
+        {
+          "name": "syncPeriodPast",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Количество месяцев для синхронизации в прошлом периоде"
+        },
+        {
+          "name": "syncPeriodFuture",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Количество месяцев для синхронизации в будущем периоде"
+        },
+        {
+          "name": "defaultReminders",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект со стандартными настройками напоминаний о событии"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-user-settings-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1733318565.183275,
+      "finish": 1733318565.695058,
+      "duration": 0.5117831230163574,
+      "processing": 0.29406094551086426,
+      "date_start": "2024-12-04T13:22:45+00:00",
+      "date_finish": "2024-12-04T13:22:45+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true в случае успешного выполнения"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-user-settings-set.html",
+  "executable": false
+}

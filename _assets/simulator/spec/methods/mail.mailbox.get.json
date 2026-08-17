@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "mail.mailbox.get",
+  "scope": "mail",
+  "kind": "read",
+  "title": "Получить почтовый ящик mail.mailbox.get",
+  "permissions": "пользователь с доступом к почтовому ящику",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор почтового ящика. Идентификатор можно получить методом mail.mailbox.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей почтового ящика, которые нужно вернуть. Доступные поля: - id — идентификатор почтового ящика - name — имя почтового ящика - email — электронная почта - senderName — имя отправителя",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/mailbox/mail-mailbox-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 1,
+        "name": "Рабочая почта",
+        "email": "user@example.com",
+        "senderName": "Иван Петров"
+      }
+    },
+    "time": {
+      "start": 1779819427,
+      "finish": 1779819427.356922,
+      "duration": 0.356921911239624,
+      "processing": 0,
+      "date_start": "2026-05-26T21:17:07+03:00",
+      "date_finish": "2026-05-26T21:17:07+03:00",
+      "operating_reset_at": 1779820027,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект почтового ящика. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/mailbox/mail-mailbox-get.html",
+  "executable": false,
+  "entityFields": [
+    "email",
+    "id",
+    "name",
+    "senderName"
+  ]
+}

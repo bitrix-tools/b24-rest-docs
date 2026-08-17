@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "crm.currency.localizations.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить локализации валюты crm.currency.localizations.delete",
+  "permissions": "любой пользователь с доступом к изменению настроек CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор валюты. Соответствует стандарту ISO 4217. Идентификатор можно получить методом crm.currency.list"
+    },
+    {
+      "name": "lids",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов языков, для которых нужно удалить локализации",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/currency/localizations/crm-currency-localizations-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718117124.923431,
+      "finish": 1718117125.511803,
+      "duration": 0.588371992111206,
+      "processing": 0.043914079666137695,
+      "date_start": "2024-06-11T16:45:24+02:00",
+      "date_finish": "2024-06-11T16:45:25+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает: - true — в случае успеха - false — в случае, когда операцию выполнить не удалось, но ошибки нет, либо ситуация не считается ошибочной. Возможные причины: - отсутствует модуль валют - передан пустой массив в параметре lids - не была удалена ни одна локализация"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/currency/localizations/crm-currency-localizations-delete.html",
+  "executable": false
+}

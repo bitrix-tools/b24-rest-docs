@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentitem.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить элемент коллекции sale.shipmentitem.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_shipment_item.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор элемента табличной части отгрузки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-item/sale-shipment-item-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712571751.487018,
+      "finish": 1712571752.329445,
+      "duration": 0.8424267768859863,
+      "processing": 0.6462001800537109,
+      "date_start": "2024-04-08T13:22:31+03:00",
+      "date_finish": "2024-04-08T13:22:32+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления элемента табличной части отгрузки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-item/sale-shipment-item-delete.html",
+  "executable": false
+}

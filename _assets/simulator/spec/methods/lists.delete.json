@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "lists.delete",
+  "scope": "lists",
+  "kind": "write",
+  "title": "Удалить универсальный список lists.delete",
+  "permissions": "пользователь с правом «Полный доступ» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп Идентификатор можно получить с помощью метода lists.get.iblock.type.id"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/lists/lists-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1764698473,
+      "finish": 1764698473.663904,
+      "duration": 0.6639039516448975,
+      "processing": 0,
+      "date_start": "2025-12-02T17:01:13+03:00",
+      "date_finish": "2025-12-02T17:01:13+03:00",
+      "operating_reset_at": 1764699073,
+      "operating": 0.16965889930725098
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если список удален успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/lists/lists-delete.html",
+  "executable": false
+}

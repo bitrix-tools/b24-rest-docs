@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "catalog.productPropertyFeature.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить параметр свойства товаров или вариаций catalog.productPropertyFeature.get",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор параметра свойства. Идентификатор параметра можно получить методом catalog.productPropertyFeature.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-property-feature/catalog-product-property-feature-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "productPropertyFeature": {
+        "featureId": "LIST_PAGE_SHOW",
+        "id": 101,
+        "isEnabled": "Y",
+        "moduleId": "iblock",
+        "propertyId": 901
+      }
+    },
+    "time": {
+      "start": 1774016738,
+      "finish": 1774016738.424501,
+      "duration": 0.4245009422302246,
+      "processing": 0,
+      "date_start": "2026-03-20T17:25:38+03:00",
+      "date_finish": "2026-03-20T17:25:38+03:00",
+      "operating_reset_at": 1774017338,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "productPropertyFeature",
+      "type": "catalog_product_property_features",
+      "base": "any",
+      "required": false,
+      "description": "Объект параметра свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-property-feature/catalog-product-property-feature-get.html",
+  "executable": false,
+  "entityFields": [
+    "featureId",
+    "id",
+    "isEnabled",
+    "moduleId",
+    "propertyId"
+  ]
+}

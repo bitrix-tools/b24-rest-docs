@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.product.setQuantity",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить количество товара crm.item.payment.product.setQuantity",
+  "permissions": "требуется право на изменение заказа оплаты",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор товарной позиции в оплате"
+    },
+    {
+      "name": "quantity",
+      "type": "double",
+      "base": "number",
+      "required": true,
+      "description": "Количество товара"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-set-quantity.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-set-quantity.html",
+  "executable": false
+}

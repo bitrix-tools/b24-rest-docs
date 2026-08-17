@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "sonet_group.delete",
+  "scope": "sonet",
+  "kind": "write",
+  "title": "Удалить группу или проект sonetgroup.delete",
+  "permissions": "администратор или владелец группы или проекта",
+  "params": [
+    {
+      "name": "GROUP_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор группы или проекта для удаления. Идентификатор можно получить методом sonetgroup.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/sonet-group-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773931621,
+      "finish": 1773931622.233361,
+      "duration": 1.233361005783081,
+      "processing": 1,
+      "date_start": "2026-03-19T17:47:01+03:00",
+      "date_finish": "2026-03-19T17:47:02+03:00",
+      "operating_reset_at": 1773932221,
+      "operating": 0.4352729320526123
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если группа или проект удалены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sonet-group/sonet-group-delete.html",
+  "executable": false
+}

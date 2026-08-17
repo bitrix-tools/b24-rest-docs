@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "sale.paymentItemShipment.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить привязку по Id sale.paymentItemShipment.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_payment_item_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки оплаты к отгрузке"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-shipment/sale-payment-item-shipment-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "paymentItemShipment": {
+        "dateInsert": "2024-04-15T10:53:42+03:00",
+        "id": 1183,
+        "paymentId": 1025,
+        "shipmentId": 2471,
+        "xmlId": "myXmlId"
+      }
+    },
+    "time": {
+      "start": 1713171284.974848,
+      "finish": 1713171285.256904,
+      "duration": 0.2820558547973633,
+      "processing": 0.035675048828125,
+      "date_start": "2024-04-15T11:54:44+03:00",
+      "date_finish": "2024-04-15T11:54:45+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "paymentItemShipment",
+      "type": "sale_payment_item_shipment",
+      "base": "any",
+      "required": false,
+      "description": "Информация о привязке оплаты к отгрузке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-get.html",
+  "executable": false,
+  "entityFields": [
+    "dateInsert",
+    "id",
+    "paymentId",
+    "shipmentId",
+    "xmlId"
+  ]
+}

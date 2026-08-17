@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.userfield.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить пользовательское поле реквизита crm.requisite.userfield.delete",
+  "permissions": "администратор, пользователь с правом «Разрешить изменять настройки» в CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля. Можно получить с помощью метода crm.requisite.userfield.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/user-fields/crm-requisite-userfield-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1717771689.639506,
+      "finish": 1717771690.189804,
+      "duration": 0.5502979755401611,
+      "processing": 0.10051202774047852,
+      "date_start": "2024-06-07T16:48:09+02:00",
+      "date_finish": "2024-06-07T16:48:10+02:00",
+      "operating": 0.1004788875579834
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления пользовательского поля реквизита: - true — удалено - false — не удалено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/user-fields/crm-requisite-userfield-delete.html",
+  "executable": false
+}

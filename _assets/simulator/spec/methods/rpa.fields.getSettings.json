@@ -1,0 +1,46 @@
+{
+  "$v": 1,
+  "method": "rpa.fields.getSettings",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Получить полный набор настроек видимости полей rpa.fields.getSettings",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "stageId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор стадии. По умолчанию имеет значение 0, то есть — общие настройки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/fields/rpa-fields-get-settings.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "fields": {
+      "kanban": {
+        "id": true,
+        "UF_RPA_1_NAME": true
+      },
+      "create": {
+        "UF_RPA_1_NAME": true
+      }
+    }
+  },
+  "page": "/api-reference/outdated/rpa/fields/rpa-fields-get-settings.html",
+  "executable": false
+}

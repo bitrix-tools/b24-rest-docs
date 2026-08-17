@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "crm.calllist.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новый список обзвона crm.calllist.add",
+  "permissions": "пользователь с правами на чтение элементов CRM",
+  "params": [
+    {
+      "name": "ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта: - CONTACT — контакт, - COMPANY — компания"
+    },
+    {
+      "name": "ENTITIES",
+      "type": "integer[]",
+      "base": "array",
+      "required": true,
+      "description": "Массив числовых идентификаторов контактов или компаний, получить можно методом crm.item.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "WEBFORM_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "ID CRM-формы, которая будет выводиться в форме обзвона. ID можно найти в списке форм Битрикс24 https://your-domain.ru/crm/webform/"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/call-list/crm-calllist-add.md"
+  },
+  "resultExample": {
+    "result": 11,
+    "time": {
+      "start": 1752471668.062547,
+      "finish": 1752471668.531711,
+      "duration": 0.4691641330718994,
+      "processing": 0.4174520969390869,
+      "date_start": "2025-07-14T08:41:08+03:00",
+      "date_finish": "2025-07-14T08:41:08+03:00",
+      "operating_reset_at": 1752472268,
+      "operating": 0.41742897033691406
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "ID созданного списка обзвона"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/call-list/crm-calllist-add.html",
+  "executable": false
+}

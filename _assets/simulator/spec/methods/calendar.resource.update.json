@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "calendar.resource.update",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Обновить ресурс calendar.resource.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "resourceId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор ресурса. Получить идентификатор можно методом создания ресурса calendar.resource.add или методом получения списка ресурсов calendar.resource.list"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Новое наименование ресурса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/resource/calendar-resource-update.md"
+  },
+  "resultExample": {
+    "result": 197,
+    "time": {
+      "start": 1733318565.183275,
+      "finish": 1733318565.695058,
+      "duration": 0.5117831230163574,
+      "processing": 0.29406094551086426,
+      "date_start": "2024-12-04T13:22:45+00:00",
+      "date_finish": "2024-12-04T13:22:45+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор обновленного ресурса"
+    }
+  ],
+  "page": "/api-reference/calendar/resource/calendar-resource-update.html",
+  "executable": false
+}

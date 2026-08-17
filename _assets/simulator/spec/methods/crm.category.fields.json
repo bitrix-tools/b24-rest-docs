@@ -1,0 +1,126 @@
+{
+  "$v": 1,
+  "method": "crm.category.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля воронки crm.category.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа объектов CRM, для которого нужно получить информацию о полях воронки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/category/crm-category-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": {
+        "id": {
+          "type": "integer",
+          "isRequired": false,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "ID",
+          "upperName": "ID"
+        },
+        "name": {
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "NAME",
+          "upperName": "NAME"
+        },
+        "sort": {
+          "type": "integer",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "SORT",
+          "upperName": "SORT"
+        },
+        "entityTypeId": {
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "ENTITY_TYPE_ID",
+          "upperName": "ENTITY_TYPE_ID"
+        },
+        "isDefault": {
+          "type": "boolean",
+          "isRequired": false,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "IS_DEFAULT",
+          "upperName": "IS_DEFAULT"
+        },
+        "originId": {
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "ORIGIN_ID",
+          "upperName": "ORIGIN_ID"
+        },
+        "originatorId": {
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "ORIGINATOR_ID",
+          "upperName": "ORIGINATOR_ID"
+        }
+      }
+    },
+    "time": {
+      "start": 1718098629.350263,
+      "finish": 1718098629.800741,
+      "duration": 0.45047783851623535,
+      "processing": 0.02919292449951172,
+      "date_start": "2024-06-11T11:37:09+02:00",
+      "date_finish": "2024-06-11T11:37:09+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект со списком доступных полей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field_N – идентификатор поля объекта, а value — объект типа crmrestfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/category/crm-category-fields.html",
+  "executable": false
+}

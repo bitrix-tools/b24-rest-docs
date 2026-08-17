@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.site.getPreview",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить URL превью сайта landing.site.getPreview",
+  "permissions": "пользователь с правом «просмотр» сайтов",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить с помощью метода landing.site.getList или из результата метода landing.site.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/site/landing-site-get-preview.md"
+  },
+  "resultExample": {
+    "result": "/preview.jpg",
+    "time": {
+      "start": 1773275667,
+      "finish": 1773275667.66318,
+      "duration": 0.6631801128387451,
+      "processing": 0,
+      "date_start": "2026-03-12T03:34:27+03:00",
+      "date_finish": "2026-03-12T03:34:27+03:00",
+      "operating_reset_at": 1773276267,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL или относительный путь до изображения превью индексной страницы сайта. Метод возвращает строку с путем или URL превью. Частые варианты: \"/preview.jpg\" и \"/bitrix/images/landing/nopreview.jpg\""
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/site/landing-site-get-preview.html",
+  "executable": false
+}

@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.status.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить статус счета по идентификатору crm.invoice.status.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор статуса счета"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice-status-old/crm-invoice-status-get.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice-status-old/crm-invoice-status-get.html",
+  "executable": false
+}

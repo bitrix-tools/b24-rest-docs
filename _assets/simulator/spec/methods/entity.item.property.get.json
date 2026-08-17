@@ -1,0 +1,80 @@
+{
+  "$v": 1,
+  "method": "entity.item.property.get",
+  "scope": "entity",
+  "kind": "read",
+  "title": "Получить свойства элементов хранилища entity.item.property.get",
+  "permissions": "любой пользователь при авторизации приложения",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "PROPERTY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код свойства. Если параметр не передан, метод возвращает список всех свойств хранилища. Разрешены символы a-z, A-Z, 0-9, _"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/items/properties/entity-item-property-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "PROPERTY": "test",
+        "NAME": "Тестовое свойство",
+        "TYPE": "S",
+        "SORT": "100"
+      },
+      {
+        "PROPERTY": "test1",
+        "NAME": "Второе свойство",
+        "TYPE": "N",
+        "SORT": "200"
+      }
+    ],
+    "time": {
+      "start": 1774439396,
+      "finish": 1774439396.082458,
+      "duration": 0.0824580192565918,
+      "processing": 0,
+      "date_start": "2026-03-25T14:49:56+03:00",
+      "date_finish": "2026-03-25T14:49:56+03:00",
+      "operating_reset_at": 1774439996,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "result",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект свойства или массив свойств"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/items/properties/entity-item-property-get.html",
+  "executable": false,
+  "entityFields": [
+    "NAME",
+    "PROPERTY",
+    "SORT",
+    "TYPE"
+  ]
+}

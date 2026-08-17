@@ -1,0 +1,98 @@
+{
+  "$v": 1,
+  "method": "telephony.externalCall.attachRecord",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Прикрепить запись к завершенному звонку telephony.externalCall.attachRecord",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор звонка из метода telephony.externalCall.register. Если вызвать метод повторно для одного и того же звонка, новая запись заменит ранее прикрепленную"
+    },
+    {
+      "name": "RECORD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL записи на внешнем сервере. Если параметр передан, Битрикс24 скачивает файл по ссылке. Рекомендуется использовать только если файл доступен стабильно и быстро"
+    },
+    {
+      "name": "FILENAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла записи. Возможные расширения: - wav - mp3 В режиме RECORD_URL: - если FILENAME не передан, имя берется из URL"
+    },
+    {
+      "name": "FILE_CONTENT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Файл в кодировке Base64"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-call-attach-record.md"
+  },
+  "resultExample": {
+    "result": {
+      "FILE_ID": 9079
+    },
+    "time": {
+      "start": 1773134738,
+      "finish": 1773134740.398239,
+      "duration": 2.3982388973236084,
+      "processing": 2,
+      "date_start": "2026-03-10T12:25:38+03:00",
+      "date_finish": "2026-03-10T12:25:40+03:00",
+      "operating_reset_at": 1773135338,
+      "operating": 1.9444890022277832
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор прикрепленного файла"
+    },
+    {
+      "name": "uploadUrl",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL загрузки файла, если FILE_CONTENT не был передан"
+    },
+    {
+      "name": "fieldName",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя поля для загрузки файла"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-call-attach-record.html",
+  "executable": false
+}

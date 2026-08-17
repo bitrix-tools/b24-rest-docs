@@ -1,0 +1,108 @@
+{
+  "$v": 1,
+  "method": "mail.recipient.listemployees",
+  "scope": "mail",
+  "kind": "write",
+  "title": "Получить список сотрудников mail.recipient.listemployees",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "query",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Поисковая строка по имени или электронной почте сотрудника. Необходимо указать хотя бы один символ"
+    },
+    {
+      "name": "pagination",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры постраничной навигации: - page — номер страницы - limit — количество записей на страницу, по умолчанию 50, максимум 200 - offset — смещение записей. Если переданы page и limit, смещение вычисляется автоматически",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/recipient/mail-recipient-listemployees.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 7,
+          "email": "user@example.com",
+          "name": "Иван Петров"
+        }
+      ]
+    },
+    "time": {
+      "start": 1779820087,
+      "finish": 1779820087.962438,
+      "duration": 0.9624381065368652,
+      "processing": 0,
+      "date_start": "2026-05-26T21:28:07+03:00",
+      "date_finish": "2026-05-26T21:28:07+03:00",
+      "operating_reset_at": 1779820687,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов сотрудников"
+    },
+    {
+      "name": "items[]",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект сотрудника"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сотрудника"
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Email сотрудника"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя сотрудника"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/recipient/mail-recipient-listemployees.html",
+  "executable": false
+}

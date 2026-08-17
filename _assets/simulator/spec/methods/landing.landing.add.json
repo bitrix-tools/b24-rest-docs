@@ -1,0 +1,156 @@
+{
+  "$v": 1,
+  "method": "landing.landing.add",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Добавить страницу или папку landing.landing.add",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей новой страницы или папки (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название страницы"
+        },
+        {
+          "name": "SITE_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор сайта, в котором создается страница. Идентификатор сайта можно получить методом landing.site.getList или из результата метода landing.site.add"
+        },
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код страницы. Он не должен содержать символ / и не должен быть в формате <символы>_<число>_<число>, например code_12_34. Если поле не передать или передать строку только из пробелов, код сгенерируется из TITLE. Если после транслитерации код окажется пустым, будет сгенерирована строка из 12 символов. Пустую строку '' без параметра FOLDER передавать нельзя — метод вернет ошибку.…"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Произвольное описание страницы"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор страницы"
+        },
+        {
+          "name": "SITEMAP",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг включения страницы в карту сайта. Поддерживаются Y и N, по умолчанию N"
+        },
+        {
+          "name": "FOLDER",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Используется, если вместо страницы нужно создать папку. Поддерживаются Y и N, по умолчанию N"
+        },
+        {
+          "name": "FOLDER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор папки, в которой нужно создать страницу. Папка должна принадлежать тому же сайту, что и SITE_ID. Идентификатор папки можно получить методом landing.site.getFolders"
+        },
+        {
+          "name": "TPL_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор шаблона представления страницы. Идентификатор шаблона представления можно получить методом landing.template.getlist"
+        },
+        {
+          "name": "ADDITIONAL_FIELDS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные поля страницы. Доступные коды и значения описаны в статье Дополнительные поля страницы"
+        },
+        {
+          "name": "BLOCK_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Вместе с MENU_CODE используется, чтобы после создания страницы добавить ссылку в меню блока с указанным идентификатором"
+        },
+        {
+          "name": "MENU_CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Вместе с BLOCK_ID указывает код меню в блоке, куда нужно добавить ссылку на созданную страницу"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-add.md"
+  },
+  "resultExample": {
+    "result": 2227,
+    "time": {
+      "start": 1773694924,
+      "finish": 1773694924.307754,
+      "duration": 0.3077540397644043,
+      "processing": 0,
+      "date_start": "2026-03-17T00:02:04+03:00",
+      "date_finish": "2026-03-17T00:02:04+03:00",
+      "operating_reset_at": 1773695524,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной страницы или папки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-add.html",
+  "executable": false
+}

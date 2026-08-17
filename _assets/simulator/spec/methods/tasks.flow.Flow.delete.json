@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "tasks.flow.Flow.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить поток tasks.flow.Flow.delete",
+  "permissions": "создатель или администратор потока",
+  "params": [
+    {
+      "name": "flowData",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с данными для удаления потока",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "flowData.id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор потока, который нужно удалить. Получить идентификатор можно методом создания нового потока tasks.flow.Flow.create или методом получения задачи tasks.task.get для задачи из потока"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/flow/tasks-flow-flow-delete.md"
+  },
+  "resultExample": {
+    "result": {
+      "deleted": true
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом операции"
+    },
+    {
+      "name": "deleted",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Успешность удаления потока"
+    }
+  ],
+  "page": "/api-reference/tasks/flow/tasks-flow-flow-delete.html",
+  "executable": false
+}

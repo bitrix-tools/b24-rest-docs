@@ -1,0 +1,167 @@
+{
+  "$v": 1,
+  "method": "tasks.task.result.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список результатов задачи tasks.task.result.list",
+  "permissions": "любой пользователь с доступом к задаче",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, из которой нужно получить результаты. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/result/tasks-task-result-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 23,
+        "taskId": 8017,
+        "commentId": 3197,
+        "createdBy": 503,
+        "createdAt": "2025-07-15T14:30:00+03:00",
+        "updatedAt": "2025-08-19T16:45:48+03:00",
+        "status": 0,
+        "text": "Клиент подписал документы",
+        "formattedText": "Клиент подписал документы",
+        "files": []
+      },
+      {
+        "id": 21,
+        "taskId": 8017,
+        "commentId": 3199,
+        "createdBy": 503,
+        "createdAt": "2025-07-13T14:30:00+03:00",
+        "updatedAt": "2025-08-19T16:45:56+03:00",
+        "status": 0,
+        "text": "Отправил документы клиенту. Клиент обещает ответить в [B]понедельник[/B].",
+        "formattedText": "Отправил документы клиенту. Клиент обещает ответить в <b>понедельник</b>.",
+        "files": [
+          1055,
+          1057,
+          1059,
+          1061,
+          1063
+        ]
+      }
+    ],
+    "time": {
+      "start": 1755611166.509052,
+      "finish": 1755611166.542696,
+      "duration": 0.03364396095275879,
+      "processing": 0.00906991958618164,
+      "date_start": "2025-08-19T16:46:06+03:00",
+      "date_finish": "2025-08-19T16:46:06+03:00",
+      "operating_reset_at": 1755611766,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, где каждый объект описывает результат задачи"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор результата"
+    },
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "commentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор комментария, закрепленного как результат"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, закрепившего результат"
+    },
+    {
+      "name": "createdAt",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время закрепления результата в формате ISO 8601"
+    },
+    {
+      "name": "updatedAt",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время последнего изменения результата в формате ISO 8601"
+    },
+    {
+      "name": "status",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Статус результата. Возможные значения: - 0 — результат открыт - 1 — результат закрыт Результат становится закрытым после завершения задачи и сохраняет этот статус после возобновления задачи. Открытыми будут только новые результаты в незавершенной задаче. Комментарий с открытым результатом нельзя повторно добавить в результат. Если результат закрыт — добавление возможно"
+    },
+    {
+      "name": "text",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст результата"
+    },
+    {
+      "name": "formattedText",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст результата с форматированием"
+    },
+    {
+      "name": "files",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список идентификаторов файлов, прикрепленных к результату. Соддержит пустой массив, если файлов в комментарии нет"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/result/tasks-task-result-list.html",
+  "executable": false,
+  "entityFields": [
+    "commentId",
+    "createdAt",
+    "createdBy",
+    "files",
+    "formattedText",
+    "id",
+    "status",
+    "taskId",
+    "text",
+    "updatedAt"
+  ]
+}

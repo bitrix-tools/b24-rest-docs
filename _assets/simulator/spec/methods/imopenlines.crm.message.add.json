@@ -1,0 +1,66 @@
+{
+  "$v": 1,
+  "method": "imopenlines.crm.message.add",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Отправить сообщение в открытую линию imopenlines.crm.message.add",
+  "permissions": "пользователь с правом чтения элемента CRM, к которому привязан чат",
+  "params": [
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта CRM: - lead — лид - deal — сделка - company — компания - contact — контакт"
+    },
+    {
+      "name": "CRM_ENTITY",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента CRM, к которому привязан чат. Список элементов определенного типа объекта CRM можно получить с помощью метода crm.item.list"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отправителя сообщения — пользователя или бота, который должен быть участником чата и иметь доступ к элементу CRM. Идентификатор пользователя можно получить с помощью метода user.get или user.search. Список чат-ботов можно получить с помощью метода imbot.bot.list"
+    },
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии, который связан с элементом CRM. Идентификатор чата можно получить с помощью метода imopenlines.crm.chat.get или imopenlines.dialog.get"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст сообщения, который будет отображен в чате"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.md"
+  },
+  "resultExample": {
+    "result": 19880117,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.html",
+  "executable": false
+}

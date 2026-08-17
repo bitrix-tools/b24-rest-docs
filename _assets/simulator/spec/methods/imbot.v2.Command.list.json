@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Command.list",
+  "scope": "imbot",
+  "kind": "read",
+  "title": "Получить список команд imbot.v2.Command.list",
+  "permissions": "владелец зарегистрированного бота",
+  "params": [
+    {
+      "name": "botId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID бота"
+    },
+    {
+      "name": "botToken",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "commands": [
+        {
+          "id": 42,
+          "botId": 456,
+          "command": "/help",
+          "title": "Показать помощь",
+          "params": "текст запроса",
+          "common": false,
+          "hidden": false,
+          "extranetSupport": false,
+          "category": "My Bot",
+          "context": ""
+        }
+      ]
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-list.html",
+  "executable": false,
+  "entityFields": [
+    "botId",
+    "category",
+    "command",
+    "common",
+    "context",
+    "extranetSupport",
+    "hidden",
+    "id",
+    "params",
+    "title"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.product.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить товар crm.product.delete",
+  "permissions": "администратор, пользователь с правом «Разрешить изменять настройки» в CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор товара"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/products/crm-product-delete.md"
+  },
+  "deprecated": {
+    "successor": "catalog.product.delete"
+  },
+  "page": "/api-reference/crm/outdated/products/crm-product-delete.html",
+  "executable": false
+}

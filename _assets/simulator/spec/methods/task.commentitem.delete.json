@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "task.commentitem.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить комментарий task.commentitem.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор комментария. Идентификатор комментария можно получить при добавлении нового комментария или методом получения списка комментариев"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/comment-item/task-comment-item-delete.md"
+  },
+  "deprecated": {
+    "successor": "im.message.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1753274713.135909,
+      "finish": 1753274713.503945,
+      "duration": 0.36803603172302246,
+      "processing": 0.32417798042297363,
+      "date_start": "2025-07-23T15:45:13+03:00",
+      "date_finish": "2025-07-23T15:45:13+03:00",
+      "operating_reset_at": 1753275313,
+      "operating": 0.32415318489074707
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true если комментарий удален успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/comment-item/task-comment-item-delete.html",
+  "executable": false
+}

@@ -1,0 +1,386 @@
+{
+  "$v": 1,
+  "method": "crm.lead.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новый лид crm.lead.add",
+  "permissions": "любой пользователь с правом на создание лидов",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля - value_n — значение поля Список доступных полей описан ниже",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Необязательный массив опций (\"optionName\"=>\"value\"[, ...]). Перечень возможных полей описан ниже",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ADDRESS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Адрес"
+        },
+        {
+          "name": "ADDRESS_2",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Вторая страница адреса. В некоторых странах принято разбивать адрес на 2 части"
+        },
+        {
+          "name": "ADDRESS_CITY",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Город"
+        },
+        {
+          "name": "ADDRESS_COUNTRY",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Страна"
+        },
+        {
+          "name": "ADDRESS_COUNTRY_CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код страны"
+        },
+        {
+          "name": "ADDRESS_POSTAL_CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Почтовый индекс"
+        },
+        {
+          "name": "ADDRESS_PROVINCE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Область"
+        },
+        {
+          "name": "ADDRESS_REGION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Район"
+        },
+        {
+          "name": "ASSIGNED_BY_ID",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Ответственный"
+        },
+        {
+          "name": "BIRTHDATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата рождения"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарии"
+        },
+        {
+          "name": "COMPANY_ID",
+          "type": "crm_company",
+          "base": "integer",
+          "required": false,
+          "description": "Привязка лида к компании"
+        },
+        {
+          "name": "COMPANY_TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название компании, указанное в соответствующем поле лида. Для привязки существующей компании стоит передавать её id в поле COMPANYID"
+        },
+        {
+          "name": "CONTACT_ID",
+          "type": "crm_contact",
+          "base": "integer",
+          "required": false,
+          "description": "Привязка лида к контакту"
+        },
+        {
+          "name": "CONTACT_IDS",
+          "type": "crm_contact",
+          "base": "integer",
+          "required": false,
+          "description": "Список привязанных к лиду контактов. Контакты можно добавлять или удалять группой методов crm.lead.contact."
+        },
+        {
+          "name": "CURRENCY_ID",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор валюты"
+        },
+        {
+          "name": "EMAIL",
+          "type": "crm_multifield",
+          "base": "array",
+          "required": false,
+          "description": "Адрес электронной почты. Множественное"
+        },
+        {
+          "name": "HONORIFIC",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Вид обращения"
+        },
+        {
+          "name": "IM",
+          "type": "crm_multifield",
+          "base": "array",
+          "required": false,
+          "description": "Мессенджер. Множественное"
+        },
+        {
+          "name": "LINK",
+          "type": "crm_multifield",
+          "base": "array",
+          "required": false,
+          "description": "ID пользователя, привязанного через открытую линию. Множественное"
+        },
+        {
+          "name": "LAST_NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Фамилия"
+        },
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Имя"
+        },
+        {
+          "name": "SECOND_NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Отчество"
+        },
+        {
+          "name": "OPENED",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак доступности лида для всех. Допустимые значения Y или N."
+        },
+        {
+          "name": "OPPORTUNITY",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма"
+        },
+        {
+          "name": "IS_MANUAL_OPPORTUNITY",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак ручного режима расчёта суммы. Допустимые значения Y или N"
+        },
+        {
+          "name": "ORIGINATOR_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор источника данных. Используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "ORIGIN_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "PHONE",
+          "type": "crm_multifield",
+          "base": "array",
+          "required": false,
+          "description": "Телефон. Множественное"
+        },
+        {
+          "name": "POST",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Должность"
+        },
+        {
+          "name": "SOURCE_DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание источника"
+        },
+        {
+          "name": "SOURCE_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор источника. Значения по умолчанию: #| ||SOURCEID|Название|| ||CALL|Звонок|| ||EMAIL|Электронная почта|| ||WEB|Веб-сайт|| ||ADVERTISING|Реклама|| ||PARTNER|Существующий клиент|| ||RECOMMENDATION|По рекомендации|| ||TRADESHOW|Выставка|| ||WEBFORM|CRM-форма|| ||CALLBACK|Обратный звонок|| ||RCGENERATOR|Генератор продаж|| ||STORE|Интернет-магазин|| ||OTHER|Другое|| |# Список всех возможных…"
+        },
+        {
+          "name": "STATUS_DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительно о стадии"
+        },
+        {
+          "name": "STATUS_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор стадии лида. Стадии по умолчанию: #| ||STATUSID|Название|| ||NEW | Не обработан|| ||INPROCESS | В работе|| ||PROCESSED | Обработан|| ||JUNK | Некачественный лид|| ||CONVERTED | Качественный лид|| |# Список всех возможных стадий из справочника можно получить методом crm.status.list с фильтром filter[ENTITY_ID]=STATUS"
+        },
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название лида"
+        },
+        {
+          "name": "UTM_CAMPAIGN",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обозначение рекламной кампании"
+        },
+        {
+          "name": "UTM_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержание кампании. Например, для контекстных объявлений"
+        },
+        {
+          "name": "UTM_MEDIUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип трафика. CPC (объявления), CPM (баннеры)"
+        },
+        {
+          "name": "UTM_SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Рекламная система. Yandex-Direct, Google-Adwords и другие"
+        },
+        {
+          "name": "UTM_TERM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы"
+        },
+        {
+          "name": "WEB",
+          "type": "crm_multifield",
+          "base": "array",
+          "required": false,
+          "description": "Сайт. Множественное"
+        },
+        {
+          "name": "UF_...",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Пользовательские поля. Например, UF_CRM_25534736. В зависимости от настроек портала у лидов может быть набор пользовательских полей определенных типов. Для создания, изменения или удаления пользовательских полей в лидах используйте методы crm.lead.userfield."
+        }
+      ]
+    },
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "REGISTER_SONET_EVENT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Флаг Y/N - произвести регистрацию события добавления лида. Дополнительно будет отправлено уведомление ответственному за лид"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/crm-lead-add.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.add"
+  },
+  "resultExample": {
+    "result": 3465,
+    "time": {
+      "start": 1705764932.998683,
+      "finish": 1705764937.173995,
+      "duration": 4.175312042236328,
+      "processing": 3.3076529502868652,
+      "date_start": "2024-01-20T18:35:32+03:00",
+      "date_finish": "2024-01-20T18:35:37+03:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит идентификатор созданного лида"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/crm-lead-add.html",
+  "executable": false
+}

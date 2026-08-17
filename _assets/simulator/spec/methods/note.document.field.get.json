@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "note.document.field.get",
+  "scope": "note",
+  "kind": "read",
+  "title": "Получить поле документа note.document.field.get",
+  "permissions": "пользователь с доступом к модулю База знаний",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя поля, описание которого нужно получить. Доступные поля: - id — идентификатор документа - collectionId — идентификатор базы знаний - parentId — идентификатор родительского документа - title — заголовок документа - markdown — содержимое документа в Markdown - position — позиция документа среди соседних страниц - createdBy — идентификатор автора документа - createdAt — дата и время создания - upd…"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей описания, которые нужно вернуть в ответе. Доступные поля: - name — имя поля - type — тип данных - title — заголовок - description — описание - validationRules — правила валидации - requiredGroups — группы обязательности - filterable — признак доступности в фильтре - sortable — признак доступности в сортировке - editable — признак редактируемости - multiple — признак множественного зна…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/document/note-document-field-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "name": "title",
+        "type": "string",
+        "title": "title"
+      }
+    },
+    "time": {
+      "start": 1780802100,
+      "finish": 1780802100.082114,
+      "duration": 0.08211398124694824,
+      "processing": 0,
+      "date_start": "2026-06-22T09:15:00+03:00",
+      "date_finish": "2026-06-22T09:15:00+03:00",
+      "operating_reset_at": 1780802700,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием поля. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/document/note-document-field-get.html",
+  "executable": false,
+  "entityFields": [
+    "name",
+    "title",
+    "type"
+  ]
+}

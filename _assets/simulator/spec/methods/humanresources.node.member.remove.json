@@ -1,0 +1,111 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.member.remove",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Удалить участников из отдела humanresources.node.member.remove",
+  "permissions": "пользователь с правом «Удаление сотрудников из отдела» или «Удаление участников из команды»",
+  "params": [
+    {
+      "name": "nodeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "userIds",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов пользователей, которых нужно удалить. Идентификаторы пользователей можно получить методом user.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node-member/humanresources-node-member-remove.md"
+  },
+  "resultExample": {
+    "result": {
+      "removed": [
+        18,
+        25
+      ],
+      "failed": [
+        {
+          "userId": 31,
+          "reason": "Not found in this node"
+        }
+      ]
+    },
+    "time": {
+      "start": 1780406400,
+      "finish": 1780406400.207548,
+      "duration": 0.2075481414794922,
+      "processing": 0.16550898551940918,
+      "date_start": "2026-06-02T16:20:00+03:00",
+      "date_finish": "2026-06-02T16:20:00+03:00",
+      "operating_reset_at": 1780407000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом операции"
+    },
+    {
+      "name": "removed",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов пользователей, которые успешно удалены"
+    },
+    {
+      "name": "failed",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив пользователей, которых не удалось удалить"
+    },
+    {
+      "name": "failed[]",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием ошибки удаления"
+    },
+    {
+      "name": "userId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, которого не удалось удалить"
+    },
+    {
+      "name": "reason",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Причина, по которой пользователь не был удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node-member/humanresources-node-member-remove.html",
+  "executable": false
+}

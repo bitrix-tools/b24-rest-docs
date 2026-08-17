@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "catalog.store.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить склад catalog.store.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_store.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор склада. Получить идентификаторы складов можно методом catalog.store.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/store/catalog-store-delete.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления склада"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/store/catalog-store-delete.html",
+  "executable": false
+}

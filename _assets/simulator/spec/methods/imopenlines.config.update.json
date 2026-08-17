@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "imopenlines.config.update",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Изменить открытую линию imopenlines.config.update",
+  "permissions": "пользователь с правом изменения открытых линий",
+  "params": [
+    {
+      "name": "CONFIG_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор открытой линии. Получить идентификатор открытой линии можно при создании открытой линии или методом получения списка открытых линий"
+    },
+    {
+      "name": "PARAMS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с настройками для обновления. Набор полей соответствует параметру PARAMS метода imopenlines.config.add",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/imopenlines-config-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773667094,
+      "finish": 1773667094.239236,
+      "duration": 0.23923611640930176,
+      "processing": 0,
+      "date_start": "2026-03-16T16:18:14+03:00",
+      "date_finish": "2026-03-16T16:18:14+03:00",
+      "operating_reset_at": 1773667694,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает: - true — если линия успешно обновлена - false — если линия с указанным CONFIG_ID не существует"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/imopenlines-config-update.html",
+  "executable": false
+}

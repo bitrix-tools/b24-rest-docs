@@ -1,0 +1,46 @@
+{
+  "$v": 1,
+  "method": "rpa.fields.setSettings",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Установить полный набора настроек видимости полей rpa.fields.setSettings",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "number",
+      "base": "number",
+      "required": true,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "stageId",
+      "type": "number",
+      "base": "number",
+      "required": false,
+      "description": "Идентификатор стадии. По умолчанию имеет значение 0, то есть — общие настройки"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Массив с настройками видимости полей. Если передать пустой fields — все настройки будут стерты",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/fields/rpa-fields-set-settings.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/fields/rpa-fields-set-settings.html",
+  "executable": false
+}

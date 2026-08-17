@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "catalog.document.cancel",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Отменить проведение документа складского учета catalog.document.cancel",
+  "permissions": "> - пользователь с правом «Отмена проведения» на тип документа в запросе,",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_document.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор документа, получить можно методом catalog.document.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-cancel.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1762411074,
+      "finish": 1762411074.877169,
+      "duration": 0.8771688938140869,
+      "processing": 0,
+      "date_start": "2025-11-06T09:37:54+03:00",
+      "date_finish": "2025-11-06T09:37:54+03:00",
+      "operating_reset_at": 1762411674,
+      "operating": 0.2729671001434326
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true, если проведение документа отменено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-cancel.html",
+  "executable": false
+}

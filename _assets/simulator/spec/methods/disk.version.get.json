@@ -1,0 +1,129 @@
+{
+  "$v": 1,
+  "method": "disk.version.get",
+  "scope": "disk",
+  "kind": "read",
+  "title": "Получить версию файла disk.version.get",
+  "permissions": "пользователь с правом «Чтение» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор версии файла. Идентификатор можно получить с помощью метода disk.file.getVersions"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/version/disk-version-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "7169",
+      "OBJECT_ID": "8903",
+      "SIZE": "52486",
+      "NAME": "Picture.png",
+      "GLOBAL_CONTENT_VERSION": "1",
+      "CREATE_TIME": "2025-12-23T10:30:01+03:00",
+      "CREATED_BY": "1269",
+      "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=b79c4a690000071b006e2cf2000004f50000076312db694aabed7ccf9e3d4fd1b992e3&token=disk%7CaWQ9NzE2OSZzZXJ2aWNlPXZlcnNpb24mXz0xR2VaZDdER2RBZW1WbU8xc0swSGRxYzVBclhJU0pYcQ%3D%3D%7CImRvd25sb2FkfGRpc2t8YVdROU56RTJPU1p6WlhKMmFXTmxQWFpsY25OcGIyNG1YejB4UjJWYVpEZEVSMlJCWlcxV2JVOHhjMHN3U0dSeFl6VkJjbGhKVTBwWWNRPT18Yjc5YzRhNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc2MzEyZGI2OTRhYWJlZDdjY2Y5ZTNkNGZkMWI5OTJlMyI%3D.MCpHhZb32NO7IClkN44tbm%2FkyPM%2F4ZJ1P2uaMEPo0As%3D"
+    },
+    "time": {
+      "start": 1766496433,
+      "finish": 1766496433.618999,
+      "duration": 0.6189990043640137,
+      "processing": 0,
+      "date_start": "2025-12-23T14:27:13+03:00",
+      "date_finish": "2025-12-23T14:27:13+03:00",
+      "operating_reset_at": 1766497033,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с данными о версии"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор версии"
+    },
+    {
+      "name": "OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла, к которому принадлежит версия"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер версии в байтах"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название файла на момент создания версии"
+    },
+    {
+      "name": "GLOBAL_CONTENT_VERSION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Инкрементальный счетчик версии файла"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Время создания версии"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, который создал версию"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка на скачивание версии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/version/disk-version-get.html",
+  "executable": false,
+  "entityFields": [
+    "CREATED_BY",
+    "CREATE_TIME",
+    "DOWNLOAD_URL",
+    "GLOBAL_CONTENT_VERSION",
+    "ID",
+    "NAME",
+    "OBJECT_ID",
+    "SIZE"
+  ]
+}

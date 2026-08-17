@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "imconnector.status",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Получить статус коннектора imconnector.status",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код коннектора, который задали в параметре ID при вызове imconnector.register"
+    },
+    {
+      "name": "LINE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор открытой линии"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-status.md"
+  },
+  "resultExample": {
+    "result": {
+      "LINE": 12,
+      "CONNECTOR": "myconnector",
+      "ERROR": false,
+      "CONFIGURED": true,
+      "STATUS": true
+    },
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.18,
+      "duration": 0.07,
+      "processing": 0.03,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "LINE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор открытой линии"
+    },
+    {
+      "name": "CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор коннектора"
+    },
+    {
+      "name": "ERROR",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак ошибки состояния коннектора"
+    },
+    {
+      "name": "CONFIGURED",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак завершенной настройки коннектора"
+    },
+    {
+      "name": "STATUS",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Итоговый статус доступности коннектора"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-status.html",
+  "executable": false
+}

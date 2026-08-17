@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "rpa.comment.update",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Изменить запись таймлайна rpa.comment.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор комментария"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект, описывающий поля комментария",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/comment/rpa-comment-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/comment/rpa-comment-update.html",
+  "executable": false
+}

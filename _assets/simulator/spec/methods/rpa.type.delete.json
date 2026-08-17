@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "rpa.type.delete",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Удалить процесс rpa.type.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "number",
+      "base": "number",
+      "required": true,
+      "description": "Идентификатор процесса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/type/rpa-type-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/type/rpa-type-delete.html",
+  "executable": false
+}

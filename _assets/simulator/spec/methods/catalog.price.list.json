@@ -1,0 +1,126 @@
+{
+  "$v": 1,
+  "method": "catalog.price.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список цен по фильтру catalog.price.list",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей catalogprice, которые необходимо выбрать. Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля цены",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных цен товаров в формате {\"field_1\": \"value_1\", ..., \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogprice. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных цен товаров в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogprice. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price/catalog-price-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "prices": [
+        {
+          "catalogGroupId": 3,
+          "currency": "RUB",
+          "id": 381,
+          "price": 50,
+          "productId": 6461
+        },
+        {
+          "catalogGroupId": 1,
+          "currency": "USD",
+          "id": 787,
+          "price": 100.5,
+          "productId": 6461
+        }
+      ]
+    },
+    "total": 2,
+    "time": {
+      "start": 1756796975.535775,
+      "finish": 1756796975.569925,
+      "duration": 0.034150123596191406,
+      "processing": 0.0042951107025146484,
+      "date_start": "2025-09-02T10:09:35+03:00",
+      "date_finish": "2025-09-02T10:09:35+03:00",
+      "operating_reset_at": 1756797575,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "prices",
+      "type": "catalog_price[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных ценах товаров, структура зависит от параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price/catalog-price-list.html",
+  "executable": false,
+  "entityFields": [
+    "catalogGroupId",
+    "currency",
+    "id",
+    "price",
+    "productId"
+  ]
+}

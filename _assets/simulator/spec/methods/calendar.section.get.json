@@ -1,0 +1,174 @@
+{
+  "$v": 1,
+  "method": "calendar.section.get",
+  "scope": "calendar",
+  "kind": "read",
+  "title": "Получить список календарей calendar.section.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип календаря: - user — календарь пользователя - group — календарь группы - company_calendar — календарь компании - location — календарь переговорной комнаты. Используется для бронирования времени в календаре переговорной комнаты через стороннее приложение - другие типы, в том числе пользовательские"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор владельца календаря. Параметр можно не передавать, если тип календаря user. В этом случае используется идентификатор текущего пользователя. Для типа календаря location параметр ownerId должен иметь значение 0"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-section-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив календарей"
+    },
+    {
+      "name": "ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор календаря"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название календаря"
+    },
+    {
+      "name": "GAPI_CALENDAR_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор синхронизации"
+    },
+    {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание календаря"
+    },
+    {
+      "name": "COLOR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет календаря"
+    },
+    {
+      "name": "TEXT_COLOR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет текста в календаре"
+    },
+    {
+      "name": "EXPORT",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с параметрами экспорта календаря"
+    },
+    {
+      "name": "CAL_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип календаря"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор владельца календаря. Для типа Календарь пользователя user поле содержит идентификатор пользователя. Для Календаря группы group — идентификатор группы"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор создателя календаря"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата создания календаря"
+    },
+    {
+      "name": "TIMESTAMP_X",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата изменения календаря"
+    },
+    {
+      "name": "CAL_DAV_CON",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор синхронизации"
+    },
+    {
+      "name": "SYNC_TOKEN",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор синхронизации"
+    },
+    {
+      "name": "PAGE_TOKEN",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор синхронизации"
+    },
+    {
+      "name": "EXTERNAL_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип провайдера для синхронизации"
+    },
+    {
+      "name": "ACCESS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект данных доступа к календарю. Ключ объекта — идентификатор прав доступа. Получить название прав доступа можно методом access.name. Определить права доступа для текущего пользователя — методом user.access. Значение обьекта содержит числовой идентификатор разрешения на право доступа. Индентификаторы разрешения на право доступа отличаются на разных порталах.…"
+    },
+    {
+      "name": "IS_COLLAB",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Флаг принадлежности календаря к коллабе"
+    },
+    {
+      "name": "PERM",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект прав доступа текущего пользователя к календарю"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-section-get.html",
+  "executable": false
+}

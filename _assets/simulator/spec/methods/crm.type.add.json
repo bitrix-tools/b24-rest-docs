@@ -1,0 +1,292 @@
+{
+  "$v": 1,
+  "method": "crm.type.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новый пользовательский тип crm.type.add",
+  "permissions": "любой пользователь с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для добавления нового смарт-процесса",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название смарт-процесса"
+        },
+        {
+          "name": "entityTypeId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор создаваемого смарт-процесса. Если не передавать данное поле, то оно будет сгенерировано автоматически. Стоит учитывать, что: 1. Данный параметр является уникальны. Не получится создать два смарт-процесса с одинаковыми entityTypeId 2. Значение entityTypeId обязано быть в одном из двух диапазонов: - четным целым числом, которое больше или равно 1030 - в диапазоне от 128 до 192"
+        },
+        {
+          "name": "relations",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект, содержащий в себе связи к другим сущностям CRM. Структура описана ниже"
+        },
+        {
+          "name": "isUseInUserfieldEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли использование смарт-процесса в пользовательском поле"
+        },
+        {
+          "name": "linkedUserFields",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Набор пользовательских полей в которых должен отображаться данный смарт-процесс. Структура описана ниже"
+        },
+        {
+          "name": "isAutomationEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включены ли роботы и триггеры"
+        },
+        {
+          "name": "isBeginCloseDatesEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включены ли поля Дата начала и Дата завершения"
+        },
+        {
+          "name": "isBizProcEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли использование дизайнера бизнес процессов"
+        },
+        {
+          "name": "isCategoriesEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включены ли свои воронки и туннели продаж"
+        },
+        {
+          "name": "isClientEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли поле Клиент. При включенной опции у смарт-процесса появляется предустановленная привязка к Контактам и Компаниям"
+        },
+        {
+          "name": "isDocumentsEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включена ли печать документов"
+        },
+        {
+          "name": "isLinkWithProductsEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включена ли привязка товаров каталога"
+        },
+        {
+          "name": "isMycompanyEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли поле Реквизиты вашей компании"
+        },
+        {
+          "name": "isObserversEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли поле Наблюдатели"
+        },
+        {
+          "name": "isRecyclebinEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли использование корзины"
+        },
+        {
+          "name": "isSetOpenPermissions",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Делать ли новые воронки доступными для всех"
+        },
+        {
+          "name": "isSourceEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включены ли поля Источник и Дополнительно об источнике"
+        },
+        {
+          "name": "isStagesEnabled",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Включено ли использование своих стадий и канбана"
+        },
+        {
+          "name": "isExternal",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли смарт-процесс вынесенным из CRM (привязанным к цифровому рабочему месту) Параметр устарел. Для работы с цифровыми рабочими местами используйте методы crm.automatedsolution.*"
+        },
+        {
+          "name": "customSectionId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор цифрового рабочего места Параметр устарел. Для работы с цифровыми рабочими местами используйте методы crm.automatedsolution.*"
+        },
+        {
+          "name": "customSections",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив цифровых рабочих мест Параметр устарел. Для работы с цифровыми рабочими местами используйте методы crm.automatedsolution.*"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/user-defined-object-types/crm-type-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "type": {
+        "id": 16,
+        "createdBy": 1,
+        "entityTypeId": 2024,
+        "isCategoriesEnabled": "Y",
+        "isStagesEnabled": "Y",
+        "isBeginCloseDatesEnabled": "Y",
+        "isClientEnabled": "Y",
+        "isUseInUserfieldEnabled": "Y",
+        "isLinkWithProductsEnabled": "Y",
+        "isMycompanyEnabled": "Y",
+        "isDocumentsEnabled": "Y",
+        "isSourceEnabled": "Y",
+        "isObserversEnabled": "Y",
+        "isRecyclebinEnabled": "Y",
+        "isAutomationEnabled": "Y",
+        "isBizProcEnabled": "Y",
+        "isSetOpenPermissions": "Y",
+        "isPaymentsEnabled": "N",
+        "isCountersEnabled": "N",
+        "createdTime": "2024-07-05T19:47:33+02:00",
+        "updatedTime": "2024-07-05T19:47:33+02:00",
+        "updatedBy": 1,
+        "title": "Смарт-процесс",
+        "relations": {
+          "parent": [
+            {
+              "entityTypeId": 3,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "Y"
+            },
+            {
+              "entityTypeId": 4,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "Y"
+            },
+            {
+              "entityTypeId": 1,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            },
+            {
+              "entityTypeId": 2,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            },
+            {
+              "entityTypeId": 31,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            }
+          ],
+          "child": [
+            {
+              "entityTypeId": 3,
+              "isChildrenListEnabled": "Y",
+              "isPredefined": "N"
+            },
+            {
+              "entityTypeId": 4,
+              "isChildrenListEnabled": "N",
+              "isPredefined": "N"
+            }
+          ]
+        },
+        "linkedUserFields": {
+          "CALENDAR_EVENT|UF_CRM_CAL_EVENT": "Y",
+          "TASKS_TASK|UF_CRM_TASK": "Y",
+          "TASKS_TASK_TEMPLATE|UF_CRM_TASK": "N"
+        },
+        "customSections": [],
+        "customSectionId": null
+      }
+    },
+    "time": {
+      "start": 1720201651.707909,
+      "finish": 1720201654.748627,
+      "duration": 3.040717840194702,
+      "processing": 2.71589994430542,
+      "date_start": "2024-07-05T19:47:31+02:00",
+      "date_finish": "2024-07-05T19:47:34+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит единственный ключ type"
+    },
+    {
+      "name": "type",
+      "type": "type",
+      "base": "any",
+      "required": false,
+      "description": "Информация о созданном смарт-процессе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-add.html",
+  "executable": false
+}

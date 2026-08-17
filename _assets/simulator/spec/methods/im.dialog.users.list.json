@@ -1,0 +1,233 @@
+{
+  "$v": 1,
+  "method": "im.dialog.users.list",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить список участников im.dialog.users.list",
+  "permissions": "пользователь с доступом к чату",
+  "params": [
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор чата в формате: - chatXXX — чат - sgXXX — чат группы или проекта - XXX — идентификатор пользователя личного чата Идентификатор чата можно получить с помощью метода im.chat.get. Идентификатор пользователя — с помощью методов user.get и user.search"
+    },
+    {
+      "name": "SKIP_EXTERNAL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Исключить системных пользователей: - Y — исключить - N — не исключать По умолчанию: N"
+    },
+    {
+      "name": "SKIP_EXTERNAL_EXCEPT_TYPES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Список типов системных пользователей, которых нужно оставить в выборке, через запятую. Например: bot, email"
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество элементов на страницу. По умолчанию: 50. Максимальное значение: 200"
+    },
+    {
+      "name": "LAST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего пользователя из выборки LIMIT. Используется для последовательной загрузки списка"
+    },
+    {
+      "name": "OFFSET",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для постраничной выборки. По умолчанию: 0"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/chat-users/im-dialog-users-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 1269,
+        "active": true,
+        "name": "Александр Смирнов",
+        "first_name": "Александр",
+        "last_name": "Смирнов",
+        "work_position": "Руководитель отдела продаж",
+        "color": "#58cc47",
+        "avatar": "https://cdn-ru.bitrix24.ru/avatars/alexander-smirnov.png",
+        "avatar_hr": "https://cdn-ru.bitrix24.ru/avatars/alexander-smirnov@2x.png",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "network": false,
+        "bot": false,
+        "connector": false,
+        "external_auth_id": "socservices",
+        "status": "online",
+        "idle": false,
+        "last_activity_date": "2026-03-02T17:45:59+03:00",
+        "mobile_last_date": false,
+        "desktop_last_date": false,
+        "absent": false,
+        "departments": [
+          1
+        ],
+        "phones": {
+          "personal_mobile": "79165554419"
+        },
+        "bot_data": null,
+        "type": "user",
+        "website": "",
+        "email": "a.smirnov@example.ru"
+      },
+      {
+        "id": 99,
+        "active": true,
+        "name": "Екатерина Иванова",
+        "first_name": "Екатерина",
+        "last_name": "Иванова",
+        "work_position": "Бизнес-аналитик",
+        "color": "#58cc47",
+        "avatar": "https://cdn-ru.bitrix24.ru/avatars/ekaterina-ivanova.png",
+        "avatar_hr": "https://cdn-ru.bitrix24.ru/avatars/ekaterina-ivanova@2x.png",
+        "gender": "F",
+        "birthday": "",
+        "extranet": false,
+        "network": false,
+        "bot": false,
+        "connector": false,
+        "external_auth_id": "socservices",
+        "status": "online",
+        "idle": false,
+        "last_activity_date": "2026-03-02T17:44:31+03:00",
+        "mobile_last_date": false,
+        "desktop_last_date": false,
+        "absent": false,
+        "departments": [
+          121
+        ],
+        "phones": false,
+        "bot_data": null,
+        "type": "user",
+        "website": "",
+        "email": "e.ivanova@mail.ru"
+      },
+      {
+        "id": 1271,
+        "active": true,
+        "name": "Дмитрий Кузнецов",
+        "first_name": "Дмитрий",
+        "last_name": "Кузнецов",
+        "work_position": "Старший разработчик",
+        "color": "#df532d",
+        "avatar": "https://cdn-ru.bitrix24.ru/avatars/dmitry-kuznetsov.png",
+        "avatar_hr": "https://cdn-ru.bitrix24.ru/avatars/dmitry-kuznetsov@2x.png",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "network": false,
+        "bot": false,
+        "connector": false,
+        "external_auth_id": "socservices",
+        "status": "online",
+        "idle": false,
+        "last_activity_date": "2026-03-02T17:45:02+03:00",
+        "mobile_last_date": false,
+        "desktop_last_date": false,
+        "absent": false,
+        "departments": [
+          1
+        ],
+        "phones": false,
+        "bot_data": null,
+        "type": "user",
+        "website": "",
+        "email": "d.kuznetsov@mail.ru"
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1772477165,
+      "finish": 1772477165.266759,
+      "duration": 0.26675891876220703,
+      "processing": 0,
+      "date_start": "2026-03-02T17:46:05+03:00",
+      "date_finish": "2026-03-02T17:46:05+03:00",
+      "operating_reset_at": 1772477765,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с данными участников диалога"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество участников, доступных текущему пользователю"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение следующей страницы результатов. Возвращается, если есть следующая страница"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/chat-users/im-dialog-users-list.html",
+  "executable": false,
+  "entityFields": [
+    "absent",
+    "active",
+    "avatar",
+    "avatar_hr",
+    "birthday",
+    "bot",
+    "bot_data",
+    "color",
+    "connector",
+    "departments",
+    "desktop_last_date",
+    "email",
+    "external_auth_id",
+    "extranet",
+    "first_name",
+    "gender",
+    "id",
+    "idle",
+    "last_activity_date",
+    "last_name",
+    "mobile_last_date",
+    "name",
+    "network",
+    "phones",
+    "status",
+    "type",
+    "website",
+    "work_position"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.renew",
+  "scope": "task",
+  "kind": "write",
+  "title": "Пометить пункт чек-листа как невыполненный task.checklistitem.renew",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта можно получить при добавлении нового пункта или методом получения списка пунктов чек-листа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-renew.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1764596600,
+      "finish": 1764596601.087321,
+      "duration": 1.0873208045959473,
+      "processing": 0,
+      "date_start": "2025-12-01T16:43:20+03:00",
+      "date_finish": "2025-12-01T16:43:21+03:00",
+      "operating_reset_at": 1764597201,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если пункт чек-листа успешно отмечен как невыполненный. Возвращает false, если указанный ITEMID не существует или параметры переданы в неверном порядке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-renew.html",
+  "executable": false
+}

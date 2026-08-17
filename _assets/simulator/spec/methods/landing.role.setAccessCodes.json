@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "landing.role.setAccessCodes",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Установить коды доступа для роли landing.role.setAccessCodes",
+  "permissions": "администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор роли. Получить идентификатор можно с помощью метода landing.role.getList"
+    },
+    {
+      "name": "codes",
+      "type": "string[]",
+      "base": "array",
+      "required": false,
+      "description": "Итоговый список кодов доступа для роли. Метод полностью заменяет ранее сохраненный список и не объединяет его с текущим. Варианты кодов доступа: - U<ID> — пользователь - G<ID> — группа пользователей - DR<ID> — отдел вместе с подотделами - AU — все авторизованные пользователи - SG<ID> — рабочая группа Подробнее о кодах доступа и правилах их использования рассказано в описании метода landing.site.se…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/role-model/landing-role-set-access-codes.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1775067129,
+      "finish": 1775067129.196438,
+      "duration": 0.19643807411193848,
+      "processing": 0,
+      "date_start": "2026-04-01T21:12:09+03:00",
+      "date_finish": "2026-04-01T21:12:09+03:00",
+      "operating_reset_at": 1775067729,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат вызова Метод возвращает true, если запрос завершился без ошибки доступа или системной ошибки. Значение true само по себе не подтверждает, что роль с таким id существует или что список кодов был изменен. После вызова проверьте результат в интерфейсе.…"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/role-model/landing-role-set-access-codes.html",
+  "executable": false
+}

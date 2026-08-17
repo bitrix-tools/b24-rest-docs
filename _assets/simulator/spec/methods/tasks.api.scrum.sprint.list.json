@@ -1,0 +1,180 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.sprint.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список спринтов tasks.api.scrum.sprint.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки результата. Объект вида {'поле_сортировки': 'направление сортировки' [, ...]}. Доступные поля описаны в таблице ниже. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект вида {'фильтруемое_поле': 'значение фильтра' [, ...]}. Доступные поля описаны в таблице ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение \"*\", то будут возвращены все доступные поля. Значение по умолчанию — пустой массив array(). В этом случае будут возвращены все поля основной таблицы запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Номер страницы вывода. Работает для https запросов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-list.md"
+  },
+  "resultExample": [
+    {
+      "id": 2,
+      "groupId": 143,
+      "entityType": "sprint",
+      "name": "Спринт 1",
+      "goal": "",
+      "sort": 1,
+      "createdBy": 1,
+      "modifiedBy": 1,
+      "dateStart": "2024-07-19T15:03:01+00:00",
+      "dateEnd": "2024-08-02T15:03:01+00:00",
+      "status": "planned"
+    },
+    {
+      "id": 3,
+      "groupId": 1,
+      "entityType": "sprint",
+      "name": "Sprint 1",
+      "goal": "",
+      "sort": 1,
+      "createdBy": 1,
+      "modifiedBy": 1,
+      "dateStart": "2021-11-21T22:00:00+00:00",
+      "dateEnd": "2021-11-28T22:00:00+00:00",
+      "status": "planned"
+    }
+  ],
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект, содержащий данные о спринте"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор спринта"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы (Скрама), к которой относится спринт"
+    },
+    {
+      "name": "entityType",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип сущности (в данном случае sprint)"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название спринта"
+    },
+    {
+      "name": "goal",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Цель спринта. Устанавливается только в интерфейсе при запуске спринта"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Сортировка"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, создавшего спринт"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, изменившего спринт"
+    },
+    {
+      "name": "dateStart",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата начала спринта в формате ISO 8601"
+    },
+    {
+      "name": "dateEnd",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата окончания спринта в формате ISO 8601"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Статус спринта"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-list.html",
+  "executable": false,
+  "entityFields": [
+    "dateEnd",
+    "dateStart",
+    "groupId",
+    "name",
+    "sort",
+    "status"
+  ]
+}

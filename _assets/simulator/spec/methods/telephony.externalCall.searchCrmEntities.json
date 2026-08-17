@@ -1,0 +1,118 @@
+{
+  "$v": 1,
+  "method": "telephony.externalCall.searchCrmEntities",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Найти клиента в CRM по номеру телефона telephony.externalCall.searchCrmEntities",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "PHONE_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Номер телефона клиента"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-call-search-crm-entities.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "CRM_ENTITY_TYPE": "CONTACT",
+        "CRM_ENTITY_ID": 651,
+        "ASSIGNED_BY_ID": 99,
+        "NAME": "Иван Иванов",
+        "ASSIGNED_BY": {
+          "ID": "99",
+          "TIMEMAN_STATUS": "CLOSED",
+          "USER_PHONE_INNER": null,
+          "WORK_PHONE": null,
+          "PERSONAL_PHONE": null,
+          "PERSONAL_MOBILE": "79062195047"
+        }
+      },
+      {
+        "CRM_ENTITY_TYPE": "COMPANY",
+        "CRM_ENTITY_ID": 643,
+        "ASSIGNED_BY_ID": 99,
+        "NAME": "ООО Ромашка",
+        "ASSIGNED_BY": {
+          "ID": "99",
+          "TIMEMAN_STATUS": "CLOSED",
+          "USER_PHONE_INNER": null,
+          "WORK_PHONE": null,
+          "PERSONAL_PHONE": null,
+          "PERSONAL_MOBILE": "79062195047"
+        }
+      }
+    ],
+    "time": {
+      "start": 1772808159,
+      "finish": 1772808159.397228,
+      "duration": 0.3972280025482178,
+      "processing": 0,
+      "date_start": "2026-03-06T17:42:39+03:00",
+      "date_finish": "2026-03-06T17:42:39+03:00",
+      "operating_reset_at": 1772808759,
+      "operating": 0.25037074089050293
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив найденных объектов CRM"
+    },
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта CRM. Возможные значения: - CONTACT — контакт - LEAD — лид - COMPANY — компания"
+    },
+    {
+      "name": "CRM_ENTITY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор объекта CRM"
+    },
+    {
+      "name": "ASSIGNED_BY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор ответственного сотрудника"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название или ФИО найденного объекта CRM"
+    },
+    {
+      "name": "ASSIGNED_BY",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные ответственного сотрудника"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-call-search-crm-entities.html",
+  "executable": false
+}

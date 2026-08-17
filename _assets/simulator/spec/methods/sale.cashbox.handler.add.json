@@ -1,0 +1,149 @@
+{
+  "$v": 1,
+  "method": "sale.cashbox.handler.add",
+  "scope": "cashbox",
+  "kind": "write",
+  "title": "Добавить обработчик кассы sale.cashbox.handler.add",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код REST-обработчика. Должен быть уникальным среди всех обработчиков"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Название REST-обработчика"
+    },
+    {
+      "name": "SORT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Сортировка. Значение по умолчанию: 100"
+    },
+    {
+      "name": "SUPPORTS_FFD105",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поддерживает ли касса формат фискальных данных версии 1.05. Возможные значения: - Y — да - N — нет Значение по умолчанию: N"
+    },
+    {
+      "name": "SETTINGS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Настройки обработчика (подробное описание приведено ниже)",
+      "ref": "#/defs/SETTINGSFields"
+    }
+  ],
+  "defs": {
+    "SETTINGSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TYPE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип настройки. Возможные значения: - STRING — строка - NUMBER — число с плавающей точкой - Y/N — строка, принимающая значения Y или N - ENUM — список строковых значений - DATE — дата"
+        },
+        {
+          "name": "LABEL",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название настройки"
+        },
+        {
+          "name": "REQUIRED",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Является ли настройка обязательной. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "DISABLED",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Отключена ли возможность редактирования настройки. Возможные значения: - Y — да - N — нет Значение по умолчанию: N"
+        },
+        {
+          "name": "MULTIPLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Является ли настройка множественной. Возможные значения: - Y — да - N — нет Значение по умолчанию: N"
+        },
+        {
+          "name": "MULTILINE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Является ли поле многострочным. Используется для типа STRING. Возможные значения: - Y — да - N — нет Значение по умолчанию: N"
+        },
+        {
+          "name": "OPTIONS",
+          "type": "object",
+          "base": "object",
+          "required": true,
+          "description": "Список возможных значений свойства. Используется для типа ENUM. Ключ объекта — значение свойства, значение ключа — название значения, отображаемое в интерфейсе"
+        },
+        {
+          "name": "TIME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Есть ли возможность выбрать время. Используется для типа DATE. Возможные значения: - Y — да - N — нет Значение по умолчанию: N"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/cashbox/sale-cashbox-handler-add.md"
+  },
+  "resultExample": {
+    "result": 5,
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_cashbox_handler.ID",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор созданного обработчика"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/cashbox/sale-cashbox-handler-add.html",
+  "executable": false
+}

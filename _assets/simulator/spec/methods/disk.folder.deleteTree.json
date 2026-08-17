@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "disk.folder.deleteTree",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Удалить папку и все ее содержимое навсегда disk.folder.deleteTree",
+  "permissions": "пользователь с правом «Полный доступ» для нужной папки",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор папки. Идентификатор можно получить с помощью метода disk.folder.getChildren"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/folder/disk-folder-delete-tree.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1768316913,
+      "finish": 1768316913.467206,
+      "duration": 0.4672060012817383,
+      "processing": 0,
+      "date_start": "2026-01-13T15:08:33+03:00",
+      "date_finish": "2026-01-13T15:08:33+03:00",
+      "operating_reset_at": 1768317513,
+      "operating": 0.3324289321899414
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если папка удалена успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/folder/disk-folder-delete-tree.html",
+  "executable": false
+}

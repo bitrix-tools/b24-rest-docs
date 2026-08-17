@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "imopenlines.config.path.get",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить ссылку на публичную страницу открытых линий imopenlines.config.path.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с адресом портала и публичным путем (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/imopenlines-config-path-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "SERVER_ADDRESS": "https://example.bitrix24.ru",
+      "PUBLIC_PATH": "/contact_center/"
+    },
+    "time": {
+      "start": 1773666618,
+      "finish": 1773666618.766981,
+      "duration": 0.7669808864593506,
+      "processing": 0,
+      "date_start": "2026-03-16T16:10:18+03:00",
+      "date_finish": "2026-03-16T16:10:18+03:00",
+      "operating_reset_at": 1773667218,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с адресом портала и публичным путем (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/imopenlines-config-path-get.html",
+  "executable": false,
+  "entityFields": [
+    "PUBLIC_PATH",
+    "SERVER_ADDRESS"
+  ]
+}

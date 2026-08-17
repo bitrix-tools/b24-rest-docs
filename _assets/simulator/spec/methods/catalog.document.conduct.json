@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "catalog.document.conduct",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Провести документ складского учета catalog.document.conduct",
+  "permissions": "> - пользователь с правом «Проведение документа» на тип документа в запросе,",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_document.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор документа, получить можно методом catalog.document.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-conduct.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1762409135,
+      "finish": 1762409136.304248,
+      "duration": 1.3042480945587158,
+      "processing": 1,
+      "date_start": "2025-11-06T09:05:35+03:00",
+      "date_finish": "2025-11-06T09:05:36+03:00",
+      "operating_reset_at": 1762409735,
+      "operating": 0.3091859817504883
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true, если документ проведен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-conduct.html",
+  "executable": false
+}

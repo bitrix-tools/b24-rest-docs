@@ -1,0 +1,248 @@
+{
+  "$v": 1,
+  "method": "crm.contact.userfield.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список пользовательских полей контактов crm.contact.userfield.list",
+  "permissions": "любой пользователь с правом «чтения» контактов",
+  "params": [
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля, по которому будет отфильтрована выборка пользовательских полей - value_n — значение фильтра (доступно лишь точное соответствие) Все условия по отдельным полям соединяются с помощью AND. Смотрите ниже список доступных полей для фильтрации",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля, по которому будет произведена сортировка выборки элементов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных полей для сортировки: - ID — идентификатор пользовательского поля - FIELD_NAME — код пользовательского поля - USER_TYPE_ID — тип пользовательского поля - XML_ID — внешн…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/userfield/crm-contact-userfield-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "474",
+        "ENTITY_ID": "CRM_CONTACT",
+        "FIELD_NAME": "UF_CRM_1724412832",
+        "USER_TYPE_ID": "address",
+        "XML_ID": null,
+        "SORT": "300",
+        "MULTIPLE": "Y",
+        "MANDATORY": "Y",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "SHOW_MAP": "Y"
+        },
+        "EDIT_FORM_LABEL": "Пользовательское поле (Адрес)",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (Адрес)",
+        "LIST_FILTER_LABEL": "Пользовательское поле (Адрес)",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "475",
+        "ENTITY_ID": "CRM_CONTACT",
+        "FIELD_NAME": "UF_CRM_1724412867",
+        "USER_TYPE_ID": "crm",
+        "XML_ID": null,
+        "SORT": "1400",
+        "MULTIPLE": "Y",
+        "MANDATORY": "Y",
+        "SHOW_FILTER": "I",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "CONTACT": "Y",
+          "COMPANY": "Y",
+          "DYNAMIC_1224": "Y",
+          "DYNAMIC_1226": "Y",
+          "DYNAMIC_1268": "Y",
+          "DYNAMIC_1278": "Y",
+          "LEAD": null
+        },
+        "EDIT_FORM_LABEL": "Пользовательское поле (Привязка к элементам CRM))",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (Привязка к элементам CRM))",
+        "LIST_FILTER_LABEL": "Пользовательское поле (Привязка к элементам CRM))",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "472",
+        "ENTITY_ID": "CRM_CONTACT",
+        "FIELD_NAME": "UF_CRM_1724412764",
+        "USER_TYPE_ID": "date",
+        "XML_ID": null,
+        "SORT": "2000",
+        "MULTIPLE": "Y",
+        "MANDATORY": "Y",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "DEFAULT_VALUE": {
+            "VALUE": "2024-08-22",
+            "TYPE": "FIXED"
+          }
+        },
+        "EDIT_FORM_LABEL": "Пользовательское поле (Дата)",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (Дата)",
+        "LIST_FILTER_LABEL": "Пользовательское поле (Дата)",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "471",
+        "ENTITY_ID": "CRM_CONTACT",
+        "FIELD_NAME": "UF_CRM_1724412713",
+        "USER_TYPE_ID": "double",
+        "XML_ID": null,
+        "SORT": "1500",
+        "MULTIPLE": "Y",
+        "MANDATORY": "Y",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "PRECISION": 2,
+          "SIZE": 20,
+          "MIN_VALUE": 0,
+          "MAX_VALUE": 0,
+          "DEFAULT_VALUE": 150
+        },
+        "EDIT_FORM_LABEL": "Пользовательское поле (число)",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (число)",
+        "LIST_FILTER_LABEL": "Пользовательское поле (число)",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "473",
+        "ENTITY_ID": "CRM_CONTACT",
+        "FIELD_NAME": "UF_CRM_1724412805",
+        "USER_TYPE_ID": "employee",
+        "XML_ID": null,
+        "SORT": "800",
+        "MULTIPLE": "Y",
+        "MANDATORY": "Y",
+        "SHOW_FILTER": "I",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": [],
+        "EDIT_FORM_LABEL": "Пользовательское поле (Сотрудник)",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (Сотрудник)",
+        "LIST_FILTER_LABEL": "Пользовательское поле (Сотрудник)",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "476",
+        "ENTITY_ID": "CRM_CONTACT",
+        "FIELD_NAME": "UF_CRM_1724412914",
+        "USER_TYPE_ID": "file",
+        "XML_ID": null,
+        "SORT": "1200",
+        "MULTIPLE": "Y",
+        "MANDATORY": "Y",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "SIZE": 20,
+          "LIST_WIDTH": 0,
+          "LIST_HEIGHT": 0,
+          "MAX_SHOW_SIZE": 0,
+          "MAX_ALLOWED_SIZE": 0,
+          "EXTENSIONS": [],
+          "TARGET_BLANK": "Y"
+        },
+        "EDIT_FORM_LABEL": "Пользовательское поле (Файл)",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (Файл)",
+        "LIST_FILTER_LABEL": "Пользовательское поле (Файл)",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      }
+    ],
+    "total": 6,
+    "time": {
+      "start": 1724435524.016968,
+      "finish": 1724435527.855702,
+      "duration": 3.8387339115142822,
+      "processing": 0.366832971572876,
+      "date_start": "2024-08-23T19:52:04+02:00",
+      "date_finish": "2024-08-23T19:52:07+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "userfield[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа, содержит список пользовательских полей. Структура отдельно взятого пользовательского поля идентична userfield за исключением того, что поля: EDIT_FORM_LABEL, LIST_COLUMN_LABEL, LIST_FILTER_LABEL, ERROR_MESSAGE, HELP_MESSAGE отдаются либо в виде string при передаче filter.LANG, либо не отдаются вовсе"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество найденных пользовательских полей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/userfield/crm-contact-userfield-list.html",
+  "executable": false,
+  "entityFields": [
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ENTITY_ID",
+    "ERROR_MESSAGE",
+    "FIELD_NAME",
+    "HELP_MESSAGE",
+    "ID",
+    "IS_SEARCHABLE",
+    "LABEL",
+    "LIST",
+    "LIST_COLUMN_LABEL",
+    "LIST_FILTER_LABEL",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "USER_TYPE_ID",
+    "XML_ID"
+  ]
+}

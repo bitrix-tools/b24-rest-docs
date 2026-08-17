@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "rpa.stage.update",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Обновить стадию rpa.stage.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "number",
+      "base": "number",
+      "required": "unknown",
+      "description": "Идентификатор стадии"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Объект с полями стадии",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/stage/rpa-stage-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/stage/rpa-stage-update.html",
+  "executable": false
+}

@@ -1,0 +1,42 @@
+{
+  "$v": 1,
+  "method": "crm.activity.layout.blocks.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.delete",
+  "permissions": "любой пользователь с правом на изменение элемента CRM, к которому привязано дело",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM, к которому привязано дело"
+    },
+    {
+      "name": "activityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор дела"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-delete.md"
+  },
+  "resultExample": {
+    "success": true
+  },
+  "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-delete.html",
+  "executable": false
+}

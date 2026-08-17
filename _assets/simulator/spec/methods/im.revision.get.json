@@ -1,0 +1,152 @@
+{
+  "$v": 1,
+  "method": "im.revision.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить ревизии API im.revision.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой объект с ревизиями API",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "result.rest",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия REST API IM"
+    },
+    {
+      "name": "result.web",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия web API IM"
+    },
+    {
+      "name": "result.mobile",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия mobile API IM"
+    },
+    {
+      "name": "result.desktop",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия desktop API IM"
+    },
+    {
+      "name": "result.im_revision_mobile",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Дополнительное поле совместимости, дублирует result.mobile"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/im-revision-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "rest": 32,
+      "web": 130,
+      "mobile": 22,
+      "desktop": 6,
+      "im_revision_mobile": 22
+    },
+    "time": {
+      "start": 1771599789,
+      "finish": 1771599789.521072,
+      "duration": 0.5210719108581543,
+      "processing": 0,
+      "date_start": "2026-02-20T18:03:09+03:00",
+      "date_finish": "2026-02-20T18:03:09+03:00",
+      "operating_reset_at": 1771600389,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой объект с ревизиями API"
+    },
+    {
+      "name": "result.rest",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия REST API IM"
+    },
+    {
+      "name": "result.web",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия web API IM"
+    },
+    {
+      "name": "result.mobile",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия mobile API IM"
+    },
+    {
+      "name": "result.desktop",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Ревизия desktop API IM"
+    },
+    {
+      "name": "result.im_revision_mobile",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Дополнительное поле совместимости, дублирует result.mobile"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/im-revision-get.html",
+  "executable": false,
+  "entityFields": [
+    "desktop",
+    "im_revision_mobile",
+    "mobile",
+    "rest",
+    "web"
+  ]
+}

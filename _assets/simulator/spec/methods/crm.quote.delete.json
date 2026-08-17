@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "crm.quote.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить коммерческое предложение crm.quote.delete",
+  "permissions": "пользователь с правом «удаления» коммерческих предложений",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор коммерческого предложения. Идентификатор можно получить с помощью методов crm.quote.list или crm.quote.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/crm-quote-delete.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773414644,
+      "finish": 1773414644.363449,
+      "duration": 0.3634490966796875,
+      "processing": 0,
+      "date_start": "2026-03-13T18:10:44+03:00",
+      "date_finish": "2026-03-13T18:10:44+03:00",
+      "operating_reset_at": 1773415244,
+      "operating": 0.2564728260040283
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, возвращает true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/crm-quote-delete.html",
+  "executable": false
+}

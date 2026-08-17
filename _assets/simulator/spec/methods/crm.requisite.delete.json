@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить реквизит и связанные объекты crm.requisite.delete",
+  "permissions": "пользователь с правом на удаление контакта или компании — владельца реквизита",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор реквизита. Идентификатор можно получить методом crm.requisite.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/universal/crm-requisite-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1717166469.477791,
+      "finish": 1717166470.500321,
+      "duration": 1.0225298404693604,
+      "processing": 0.3063521385192871,
+      "date_start": "2024-05-31T16:41:09+02:00",
+      "date_finish": "2024-05-31T16:41:10+02:00",
+      "operating": 0.30628108978271484
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает значение: - true — реквизит удален - false — реквизит не удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/universal/crm-requisite-delete.html",
+  "executable": false
+}

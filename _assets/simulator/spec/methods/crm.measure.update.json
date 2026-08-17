@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "crm.measure.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить единицу измерения crm.measure.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "unknown",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор единицы измерения"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Набор полей — массив вида array(\"обновляемое поле\"=>\"значение\"[, ...]), где обновляемое поле может принимать значения из возвращаемых методом crm.measure.fields. Чтобы узнать требуемый формат полей, выполните метод crm.measure.fields и посмотрите формат пришедших значений этих полей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/measure/crm-measure-update.md"
+  },
+  "deprecated": {
+    "successor": "catalog.measure.update"
+  },
+  "page": "/api-reference/crm/outdated/measure/crm-measure-update.html",
+  "executable": false
+}

@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.preset.field.availabletoadd",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить поля, доступные для добавления в шаблон реквизитов crm.requisite.preset.field.availabletoadd",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "preset",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий значение идентификатора шаблона, для которого нужно получить список доступных для добавления настраиваемых полей. Идентификаторы шаблонов можно получить с помощью метода crm.requisite.preset.list. Поля с префиксом UF_ в ответе являются пользовательскими (смотрите методы для работы с пользовательскими полями реквизитов)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-available-to-add.md"
+  },
+  "resultExample": {
+    "result": [
+      "RQ_FIRST_NAME",
+      "RQ_LAST_NAME",
+      "RQ_SECOND_NAME",
+      "RQ_COMPANY_NAME",
+      "RQ_COMPANY_FULL_NAME",
+      "RQ_COMPANY_REG_DATE",
+      "RQ_DIRECTOR",
+      "RQ_ACCOUNTANT",
+      "RQ_ADDR",
+      "RQ_CONTACT",
+      "RQ_EMAIL",
+      "RQ_PHONE",
+      "RQ_FAX",
+      "RQ_IDENT_DOC",
+      "RQ_IDENT_DOC_SER",
+      "RQ_IDENT_DOC_NUM",
+      "RQ_IDENT_DOC_DATE",
+      "RQ_IDENT_DOC_ISSUED_BY",
+      "RQ_IDENT_DOC_DEP_CODE",
+      "RQ_INN",
+      "RQ_KPP",
+      "RQ_IFNS",
+      "RQ_OGRN",
+      "RQ_OGRNIP",
+      "RQ_OKPO",
+      "RQ_OKTMO",
+      "RQ_OKVED",
+      "RQ_ST_CERT_SER",
+      "RQ_ST_CERT_NUM",
+      "RQ_ST_CERT_DATE",
+      "RQ_SIGNATURE",
+      "RQ_STAMP",
+      "UF_CRM_1707997209",
+      "UF_CRM_1707997236",
+      "UF_CRM_1707997253",
+      "UF_CRM_1708012333"
+    ]
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с названиями полей, которые можно добавить в указанный шаблон реквизитов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-available-to-add.html",
+  "executable": false
+}

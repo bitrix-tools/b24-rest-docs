@@ -1,0 +1,336 @@
+{
+  "$v": 1,
+  "method": "crm.deal.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить сделку crm.deal.update",
+  "permissions": "любой пользователь с правом «изменения» сделок",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сделки. Идентификатор можно получить с помощью методов crm.deal.list или crm.deal.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля - value_n — новое значение поля Список доступных полей описан ниже. Некорректное поле в fields будет проигнорировано. В fields нужно передавать только те поля, которые требуется изменить",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Набор дополнительных параметров (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название сделки"
+        },
+        {
+          "name": "TYPE_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор типа сделки. Список доступных типов сделки можно узнать с помощью метода crm.status.list, применив фильтр { ENTITY_ID: 'DEAL_TYPE' }"
+        },
+        {
+          "name": "STAGE_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Стадия сделки. Список доступных стадий можно узнать с помощью метода crm.status.list, применив фильтр: - { ENTITY_ID: \"DEAL_STAGE\" } — если сделка находится в общей воронке (направлении) - { ENTITY_ID: \"DEAL_STAGE_{categoryId}\" } — если сделка находится не в общей воронке, где categoryId — это идентификатор воронки и равен CATEGORY_ID сделки.…"
+        },
+        {
+          "name": "IS_RECURRING",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Является ли сделка шаблоном регулярной сделки. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "IS_RETURN_CUSTOMER",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Является ли сделка повторной. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "IS_REPEATED_APPROACH",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Является ли сделка повторным обращением. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "PROBABILITY",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Вероятность, %"
+        },
+        {
+          "name": "CURRENCY_ID",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Валюта. Список доступных валют можно узнать с помощью метода crm.currency.list"
+        },
+        {
+          "name": "OPPORTUNITY",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма"
+        },
+        {
+          "name": "IS_MANUAL_OPPORTUNITY",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Включен ли режим ручного подсчета суммы. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "TAX_VALUE",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма налога"
+        },
+        {
+          "name": "COMPANY_ID",
+          "type": "crm_company",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании, привязанной к сделке. Список компаний можно узнать с помощью метода crm.item.list, передав entityTypeId = 4"
+        },
+        {
+          "name": "CONTACT_ID",
+          "type": "crm_contact",
+          "base": "integer",
+          "required": false,
+          "description": "Контакт. Устаревшее"
+        },
+        {
+          "name": "CONTACT_IDS",
+          "type": "crm_contact[]",
+          "base": "array",
+          "required": false,
+          "description": "Список привязанных к сделке контактов. Поле изменяется полностью. Чтобы изменить отдельные связанные контакты, используйте методы crm.deal.contact.items.."
+        },
+        {
+          "name": "BEGINDATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата начала"
+        },
+        {
+          "name": "CLOSEDATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата завершения"
+        },
+        {
+          "name": "OPENED",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Доступна ли сделка для всех. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CLOSED",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Является ли сделка закрытой. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий. Поддерживает bb-коды"
+        },
+        {
+          "name": "ASSIGNED_BY_ID",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Ответственный"
+        },
+        {
+          "name": "SOURCE_ID",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор типа источника. Список доступных источников можно узнать с помощью метода crm.status.list, применив фильтр { ENTITY_ID: \"SOURCE\" }"
+        },
+        {
+          "name": "SOURCE_DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительно об источнике"
+        },
+        {
+          "name": "ADDITIONAL_INFO",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительная информация"
+        },
+        {
+          "name": "LOCATION_ID",
+          "type": "location",
+          "base": "object",
+          "required": false,
+          "description": "Местоположение клиента. Служебное поле"
+        },
+        {
+          "name": "ORIGINATOR_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор источника данных. Используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "ORIGIN_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику"
+        },
+        {
+          "name": "UTM_SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Рекламная система (Google-Adwords и другие)"
+        },
+        {
+          "name": "UTM_MEDIUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+        },
+        {
+          "name": "UTM_CAMPAIGN",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обозначение рекламной кампании"
+        },
+        {
+          "name": "UTM_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержание кампании. Например, для контекстных объявлений"
+        },
+        {
+          "name": "UTM_TERM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы"
+        },
+        {
+          "name": "UF_CRM_...",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Пользовательские поля. Например, UF_CRM_25534736. В зависимости от настроек портала у сделок может быть набор пользовательских полей определенных типов. Значения множественных полей передаются в виде массива. Для изменения файловых полей рекомендуется использовать метод crm.item.update. Добавить пользовательское поле в сделку можно с помощью метода crm.deal.userfield.add"
+        },
+        {
+          "name": "PARENT_ID_...",
+          "type": "crm_entity",
+          "base": "integer",
+          "required": false,
+          "description": "Поля связей. Если на портале есть смарт-процессы, связанные со сделками, для каждого такого смарт-процесса существует поле, хранящее связь между этим смарт-процессом и сделкой. Само поле хранит идентификатор элемента такого смарт-процесса. Например, поле PARENT_ID_153 — связь со смарт-процессом entityTypeId=153, хранит идентификатор элемента этого смарт-процесса, связанного с текущей сделкой"
+        }
+      ]
+    },
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "REGISTER_SONET_EVENT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Зарегистрировать ли событие изменения сделки в живой ленте. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "REGISTER_HISTORY_EVENT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Создать ли запись в истории. Возможные значения: - Y — да - N — нет"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/crm-deal-update.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.update"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725365418.056843,
+      "finish": 1725365419.671506,
+      "duration": 1.6146628856658936,
+      "processing": 1.3475170135498047,
+      "date_start": "2024-09-03T14:10:18+02:00",
+      "date_finish": "2024-09-03T14:10:19+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/crm-deal-update.html",
+  "executable": false
+}

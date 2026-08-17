@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "log.blogcomment.delete",
+  "scope": "log",
+  "kind": "write",
+  "title": "Удалить комментарий из сообщению log.blogcomment.delete",
+  "permissions": "автор комментария или пользователь с полными правами на запись",
+  "params": [
+    {
+      "name": "COMMENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор комментария. Значение должно быть больше 0. Идентификатор комментария можно получить с помощью метода log.blogcomment.add"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, от имени которого выполняется удаление. Доступно только администраторам. По умолчанию используется текущий пользователь, инициировавший вызов. Идентификатор пользователя можно получить с помощью метода user.get или user.search"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/blogcomment/log-blogcomment-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728901200.123456,
+      "finish": 1728901200.456789,
+      "duration": 0.33333301544189453,
+      "processing": 0.12000012397766113,
+      "date_start": "2025-10-14T11:40:00+03:00",
+      "date_finish": "2025-10-14T11:40:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/blogcomment/log-blogcomment-delete.html",
+  "executable": false
+}

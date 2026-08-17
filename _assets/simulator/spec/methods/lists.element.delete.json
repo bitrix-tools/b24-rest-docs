@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "lists.element.delete",
+  "scope": "lists",
+  "kind": "write",
+  "title": "Удалить элемент универсального списка lists.element.delete",
+  "permissions": "пользователь с правом «Изменение» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "ELEMENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента. Идентификатор можно получить с помощью метода lists.element.get"
+    },
+    {
+      "name": "ELEMENT_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Символьный код элемента. Код можно получить с помощью метода lists.element.get Необходимо указать хотя бы один из параметров: ELEMENT_ID или ELEMENT_CODE"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/elements/lists-element-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1763660361,
+      "finish": 1763660361.659232,
+      "duration": 0.6592319011688232,
+      "processing": 0,
+      "date_start": "2025-11-19T15:39:21+03:00",
+      "date_finish": "2025-11-19T15:39:21+03:00",
+      "operating_reset_at": 1763660961,
+      "operating": 3.2583250999450684
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если элемент удален успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/elements/lists-element-delete.html",
+  "executable": false
+}

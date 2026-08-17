@@ -1,0 +1,233 @@
+{
+  "$v": 1,
+  "method": "crm.company.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новую компанию crm.company.add",
+  "permissions": "пользователь с правом «Добавление|Импорт» компаний",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект формата: где: - field_n — название поля - value_n — значение поля Список доступных полей описан в методе crm.company.fields. Некорректное поле в fields будет проигнорировано Чтобы узнать перечень обязательных полей, выполните метод crm.company.fields",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий набор дополнительных параметров: - REGISTER_SONET_EVENT — регистрировать событие добавления компании и отправить уведомление ответственному - IMPORT — режим импорта. Возможные значения: - Y — да - N — нет",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название компании"
+        },
+        {
+          "name": "COMPANY_TYPE",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Тип компании. Список доступных типов можно узнать с помощью метода crm.status.list, применив фильтр { ENTITY_ID: \"COMPANY_TYPE\" }. По умолчанию — первый доступный тип компании"
+        },
+        {
+          "name": "INDUSTRY",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Сфера деятельности. Список доступных значений можно узнать с помощью метода crm.status.list, применив фильтр { ENTITY_ID: \"INDUSTRY\" }. По умолчанию — первая доступная сфера деятельности"
+        },
+        {
+          "name": "EMPLOYEES",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Количество сотрудников. Список доступных значений можно узнать с помощью метода crm.status.list, применив фильтр { ENTITY_ID: \"EMPLOYEES\" }. По умолчанию — первое доступное значение"
+        },
+        {
+          "name": "CURRENCY_ID",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Валюта. Список доступных валют можно узнать с помощью метода crm.currency.list"
+        },
+        {
+          "name": "REVENUE",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Годовой оборот"
+        },
+        {
+          "name": "LOGO",
+          "type": "file",
+          "base": "any",
+          "required": false,
+          "description": "Логотип компании"
+        },
+        {
+          "name": "OPENED",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Доступна ли компания для всех. Возможные значения: - Y — да - N — нет По умолчанию Y. Значение по умолчанию может быть изменено в настройках CRM"
+        },
+        {
+          "name": "ASSIGNED_BY_ID",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, ответственного за элемент. По умолчанию — идентификатор пользователя, который вызывает метод"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий"
+        },
+        {
+          "name": "PHONE",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Телефон"
+        },
+        {
+          "name": "EMAIL",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "E-mail"
+        },
+        {
+          "name": "WEB",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Сайт"
+        },
+        {
+          "name": "IM",
+          "type": "crm_multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Мессенджер"
+        },
+        {
+          "name": "UTM_SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Рекламная система, например Yandex-Direct, Google-Adwords"
+        },
+        {
+          "name": "UTM_MEDIUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+        },
+        {
+          "name": "UTM_CAMPAIGN",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обозначение рекламной кампании"
+        },
+        {
+          "name": "UTM_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержание кампании. Например, для контекстных объявлений"
+        },
+        {
+          "name": "UTM_TERM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы"
+        },
+        {
+          "name": "IS_MY_COMPANY",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Является ли компания «моей компанией». Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "UF_...",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Пользовательские поля. Например, UF_CRM_25534736. В зависимости от настроек портала у компаний может быть набор пользовательских полей определенных типов. Добавить пользовательское поле в компанию можно с помощью метода crm.company.userfield.add"
+        },
+        {
+          "name": "PARENT_ID_...",
+          "type": "unknown",
+          "base": "any",
+          "required": false,
+          "description": "Поля связей. Если на портале есть смарт-процессы, связанные с компаниями, для каждого такого смарт-процесса существует поле, хранящее связь между этим смарт-процессом и компанией. Само поле хранит идентификатор элемента такого смарт-процесса"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/crm-company-add.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.add"
+  },
+  "resultExample": {
+    "result": 2921,
+    "time": {
+      "start": 1769500710,
+      "finish": 1769500711.551784,
+      "duration": 1.5517840385437012,
+      "processing": 1,
+      "date_start": "2026-01-27T10:58:30+03:00",
+      "date_finish": "2026-01-27T10:58:31+03:00",
+      "operating_reset_at": 1769501310,
+      "operating": 0.6509370803833008
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит идентификатор созданной компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/crm-company-add.html",
+  "executable": false
+}

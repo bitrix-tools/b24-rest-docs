@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.productsection.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить раздел товаров crm.productsection.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор раздела товаров"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/product-section/crm-product-section-delete.md"
+  },
+  "deprecated": {
+    "successor": "catalog.section.delete"
+  },
+  "page": "/api-reference/crm/outdated/product-section/crm-product-section-delete.html",
+  "executable": false
+}

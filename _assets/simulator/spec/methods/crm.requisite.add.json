@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить реквизит crm.requisite.add",
+  "permissions": "пользователь с правом на добавление контакта или компании — владельца реквизита",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей — объект вида {\"поле\": \"значение\"[, ...]} для добавления реквизита",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/universal/crm-requisite-add.md"
+  },
+  "resultExample": {
+    "result": 27,
+    "time": {
+      "start": 1716998748.040801,
+      "finish": 1716998749.444508,
+      "duration": 1.4037070274353027,
+      "processing": 0.32904696464538574,
+      "date_start": "2024-05-29T18:05:48+02:00",
+      "date_finish": "2024-05-29T18:05:49+02:00",
+      "operating": 0.32897305488586426
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного реквизита"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/universal/crm-requisite-add.html",
+  "executable": false
+}

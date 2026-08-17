@@ -1,0 +1,55 @@
+{
+  "$v": 1,
+  "method": "task.dependence.add",
+  "scope": "task",
+  "kind": "write",
+  "title": "Создать связь между задачами task.dependence.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "taskIdFrom",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, от которой создается зависимость"
+    },
+    {
+      "name": "taskIdTo",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, для которой создается зависимость"
+    },
+    {
+      "name": "linkType",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Тип зависимости: - 0 — связь старт-старт - 1 — связь старт-финиш - 2 — связь финиш-старт - 3 — связь финиш-финиш"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/task-dependence-add.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "В случае успеха содержит пустой массив"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/task-dependence-add.html",
+  "executable": false
+}

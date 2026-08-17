@@ -1,0 +1,135 @@
+{
+  "$v": 1,
+  "method": "landing.repo.getList",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список пользовательских блоков landing.repo.getList",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - value_n — значение соответствующего параметра выборки Подробнее о каждом параметре смотрите в разделе Параметр params",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "select",
+          "type": "string[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив формата: где: - field_n — поле выборки Список доступных полей для выборки смотрите в разделе Тип элемента result. Элементы select со знаком . игнорируются"
+        },
+        {
+          "name": "filter",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект формата: где: - field_n — поле фильтрации - value_n — значение фильтра Список доступных полей для фильтрации смотрите в разделе Тип элемента result. Если filter не передан или передан не в формате object, метод использует пустой фильтр {}"
+        },
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект формата: где: - field_n — поле сортировки - value_n — направление сортировки: ASC или DESC Список доступных полей для сортировки смотрите в разделе Тип элемента result"
+        },
+        {
+          "name": "group",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив полей для группировки результата. Формат: где: - field_n — поле группировки Примеры: - [\"ACTIVE\"] - [\"APP_CODE\", \"ACTIVE\"] Список доступных полей смотрите в разделе Тип элемента result"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Лимит записей"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Смещение записей"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/user-blocks/landing-repo-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "5",
+        "XML_ID": "ctx_full_1774873150158",
+        "APP_CODE": "bitrix.restapi",
+        "ACTIVE": "Y",
+        "NAME": "Context full test block",
+        "DESCRIPTION": "Check full fields from getList",
+        "SECTIONS": "cover,about",
+        "SITE_TEMPLATE_ID": null,
+        "PREVIEW": "https://www.bitrix24.ru/images/b24_screen.png",
+        "MANIFEST": {
+          "block": {
+            "name": "Context full test block"
+          },
+          "nodes": {
+            ".landing-block-node-text": {
+              "name": "Text",
+              "type": "text"
+            }
+          }
+        },
+        "CONTENT": "<section class=\"landing-block\"><div class=\"container\">Test</div></section>",
+        "CREATED_BY_ID": "577",
+        "MODIFIED_BY_ID": "577",
+        "DATE_CREATE": "30.03.2026 14:19:11",
+        "DATE_MODIFY": "30.03.2026 14:19:11"
+      }
+    ],
+    "time": {
+      "start": 1774873153,
+      "finish": 1774873153.634216,
+      "duration": 0.6342160701751709,
+      "processing": 0,
+      "date_start": "2026-03-30T15:19:13+03:00",
+      "date_finish": "2026-03-30T15:19:13+03:00",
+      "operating_reset_at": 1774873753,
+      "operating": 0.11733078956604004
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список блоков подробнее"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/user-blocks/landing-repo-get-list.html",
+  "executable": false
+}
