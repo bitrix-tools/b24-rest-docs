@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.template.get",
+  "scope": "documentgenerator",
+  "kind": "read",
+  "title": "Получить шаблон по идентификатору documentgenerator.template.get",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона. Получить идентификатор шаблона можно после создания шаблона или методом получения списка шаблонов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/templates/document-generator-template-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "template": {
+        "id": "57",
+        "name": "SUPPLY_CONTRACT_NEW Template",
+        "region": "ru",
+        "code": "REST_TEMPLATE",
+        "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=57&ts=0",
+        "active": "Y",
+        "moduleId": "rest",
+        "numeratorId": "3",
+        "withStamps": "N",
+        "providers": {
+          "bitrix\\documentgenerator\\dataprovider\\rest": "bitrix\\documentgenerator\\dataprovider\\rest"
+        },
+        "users": {
+          "U503": "U503"
+        },
+        "isDeleted": "N",
+        "sort": "700",
+        "createTime": "2026-03-23T16:51:25+03:00",
+        "updateTime": "2026-03-23T17:26:39+03:00",
+        "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=6d53c1690000071b00000844000001f7f0f1075612a492ef6fe0b4127e521b543e4376&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3JnRzPTAmXz00a1NkZTRVdWtNZk1XODVrVlczS2dTc2x5c1lyMmRGag%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKblJ6UFRBbVh6MDBhMU5rWlRSVmRXdE5aazFYT0RWclZsY3pTMmRUYzJ4NWMxbHlNbVJHYWc9PXw2ZDUzYzE2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzU2MTJhNDkyZWY2ZmUwYjQxMjdlNTIxYjU0M2U0Mzc2Ig%3D%3D.9JnHSEVzH2jcCA1zZA%2BlsYJCTGs6V3dGLNsnjfbnuNs%3D"
+      }
+    },
+    "time": {
+      "start": 1774276994,
+      "finish": 1774276994.504076,
+      "duration": 0.5040760040283203,
+      "processing": 0,
+      "date_start": "2026-03-23T17:43:14+03:00",
+      "date_finish": "2026-03-23T17:43:14+03:00",
+      "operating_reset_at": 1774277594,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/templates/document-generator-template-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "createTime",
+    "download",
+    "downloadMachine",
+    "file",
+    "fileId",
+    "id",
+    "isDeleted",
+    "moduleId",
+    "name",
+    "numeratorId",
+    "providers",
+    "region",
+    "sort",
+    "updateTime",
+    "users",
+    "withStamps"
+  ]
+}

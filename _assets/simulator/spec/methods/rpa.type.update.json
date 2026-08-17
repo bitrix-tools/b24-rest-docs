@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "rpa.type.update",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Обновить процесс rpa.type.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "number",
+      "base": "number",
+      "required": "unknown",
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список с полями процесса. Полностью аналогичен набору из метода rpa.type.add",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/type/rpa-type-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/type/rpa-type-update.html",
+  "executable": false
+}

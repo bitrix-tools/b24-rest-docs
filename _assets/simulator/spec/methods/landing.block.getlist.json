@@ -1,0 +1,125 @@
+{
+  "$v": 1,
+  "method": "landing.block.getlist",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список блоков страницы landing.block.getlist",
+  "permissions": "пользователь с правом «просмотр» сайтов",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы или массив идентификаторов страниц. Идентификаторы страниц можно получить методом landing.landing.getList Если lid передан массивом, метод объединяет блоки всех указанных страниц в один список. В каждом элементе ответа есть поле lid, по которому можно определить страницу-источник.…"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры чтения списка (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "edit_mode",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Если значение приводится к true, метод читает черновик страницы вместо опубликованной версии. По умолчанию — false. Без этого параметра метод читает только опубликованные блоки"
+        },
+        {
+          "name": "deleted",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Если значение приводится к true, метод возвращает только блоки, помеченные как удаленные. По умолчанию — false. Параметр влияет только на выборку блоков. Поиск удаленной страницы он не включает, поэтому для страницы из корзины метод вернет ошибку. Чтобы получить удаленные блоки, передайте deleted: true вместе с edit_mode: true. Параметр deleted сам по себе не переключает метод на черновик.…"
+        },
+        {
+          "name": "get_content",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Если передать true, метод добавит в каждый элемент результата поля content, css и js. По умолчанию — false. Поле content содержит уже подготовленный HTML блока вместе с системным контейнером блока, а не исходное сохраненное содержимое. Если edit_mode выключен, метод вернет HTML опубликованной версии блока. Если edit_mode включен, метод вернет HTML черновика"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 28181,
+        "lid": 2215,
+        "code": "0.menu_02",
+        "name": "Меню с логотипом слева и пунктами меню справа",
+        "active": true,
+        "meta": {
+          "LID": "2215",
+          "FAVORITE_META": "Array",
+          "CREATED_BY_ID": "779",
+          "DATE_CREATE": "09/13/2024 10:28:08 am",
+          "MODIFIED_BY_ID": "1295",
+          "DATE_MODIFY": "03/26/2026 12:21:48 pm",
+          "SITE_TYPE": "PAGE",
+          "LANDING_TITLE": "",
+          "LANDING_TPL_CODE": "bitrix.krayt_otdykh_na_prirode",
+          "SITE_TPL_CODE": "empty",
+          "XML_ID": "",
+          "DESIGNER_MODE": ""
+        },
+        "content": "<div id=\"b2884\" class=\"block-wrapper block-0-menu-02\"><header class=\"landing-block u-header u-header--float u-header--sticky\">...</header></div>",
+        "css": [],
+        "js": []
+      }
+    ],
+    "time": {
+      "start": 1774521039,
+      "finish": 1774521039.570632,
+      "duration": 0.5706319808959961,
+      "processing": 0,
+      "date_start": "2026-03-26T13:30:39+03:00",
+      "date_finish": "2026-03-26T13:30:39+03:00",
+      "operating_reset_at": 1774521639,
+      "operating": 0.48987889289855957
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список блоков (подробное описание). Метод может вернуть result: [] без ошибки в трех случаях. - На странице нет блоков для выбранного режима чтения. - Страница еще не публиковалась и params.edit_mode не включен. - Фильтр deleted не нашел подходящих блоков"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-get-list.html",
+  "executable": false
+}

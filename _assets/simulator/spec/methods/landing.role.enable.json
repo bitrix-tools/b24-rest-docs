@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "landing.role.enable",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Включить или выключить ролевую модель прав landing.role.enable",
+  "permissions": "администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "mode",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Режим модели прав. Проверить текущую модель можно методом landing.role.isEnabled. Возможные значения: - 1 - включить ролевую модель прав - 0 - выключить ролевую модель прав и использовать расширенную модель"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/landing-role-enable.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1775073692,
+      "finish": 1775073692.6858,
+      "duration": 0.6858000755310059,
+      "processing": 0,
+      "date_start": "2026-04-01T23:01:32+03:00",
+      "date_finish": "2026-04-01T23:01:32+03:00",
+      "operating_reset_at": 1775074292,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак успешного выполнения метода. Метод возвращает true, если вызов выполнен без ошибок. Если нужная модель уже была включена, ответ все равно останется true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/landing-role-enable.html",
+  "executable": false
+}

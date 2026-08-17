@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "landing.site.setRights",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Установить права доступа для сайта landing.site.setRights",
+  "permissions": "администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить с помощью метода landing.site.getList или из результата метода landing.site.add Специальное значение 0 позволяет сохранить отдельный набор прав. Индивидуальные права конкретного сайта задаются по его id"
+    },
+    {
+      "name": "rights",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - access_code_n — код доступа - operation_n — код операции Список кодов доступа и операций описан ниже. Метод полностью заменяет ранее сохраненные индивидуальные права для сайта. Если параметр не передать, передать пустой объект {} или пустой массив [], метод очистит индивидуальные права сайта",
+      "ref": "#/defs/rightsFields"
+    }
+  ],
+  "defs": {
+    "rightsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "<ACCESS_CODE>",
+          "type": "string[]",
+          "base": "array",
+          "required": false,
+          "description": "Список операций для одного кода доступа. Возможные значения: denied - запретить доступ read - разрешить просмотр сайта edit - разрешить изменять страницы сайта sett - разрешить изменять настройки сайта public - разрешить публикацию сайта delete - разрешить перемещать сайт в корзину и восстанавливать его Если в наборе есть denied, все остальные операции для этого кода доступа игнорируются.…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/extended-model/landing-site-set-rights.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1775055086,
+      "finish": 1775055086.8533,
+      "duration": 0.8533000946044922,
+      "processing": 0,
+      "date_start": "2026-04-01T17:51:26+03:00",
+      "date_finish": "2026-04-01T17:51:26+03:00",
+      "operating_reset_at": 1775055686,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат сохранения прав. - true — права успешно сохранены или очищены - false — сайт с таким id не найден или уже находится в корзине Метод не возвращает итоговый список прав. После вызова проверьте примененные права методом landing.site.getRights"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/extended-model/landing-site-set-rights.html",
+  "executable": false
+}

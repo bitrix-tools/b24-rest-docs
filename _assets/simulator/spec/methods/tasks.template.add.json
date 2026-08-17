@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "tasks.template.add",
+  "scope": "task",
+  "kind": "write",
+  "title": "Добавить шаблон задачи tasks.template.add",
+  "permissions": "пользователь с правом создания шаблона",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Поля нового шаблона задачи (подробное описание). Обязательные поля для создания шаблона: - TITLE — название шаблона задачи - CREATED_BY — идентификатор постановщика - RESPONSIBLE_ID — идентификатор исполнителя",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/tasks-template-add.md"
+  },
+  "resultExample": {
+    "result": 109,
+    "time": {
+      "start": 1771937035,
+      "finish": 1771937035.427759,
+      "duration": 0.42775893211364746,
+      "processing": 0,
+      "date_start": "2026-02-24T15:43:55+03:00",
+      "date_finish": "2026-02-24T15:43:55+03:00",
+      "operating_reset_at": 1771937635,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного шаблона задачи. Метод не создаст шаблон и вернет \"result\": 0, если в fields не указаны все обязательные поля: TITLE, CREATED_BY, RESPONSIBLE_ID"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/tasks-template-add.html",
+  "executable": false
+}

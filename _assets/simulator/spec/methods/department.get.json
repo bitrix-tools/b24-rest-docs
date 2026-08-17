@@ -1,0 +1,147 @@
+{
+  "$v": 1,
+  "method": "department.get",
+  "scope": "department",
+  "kind": "read",
+  "title": "Получить список подразделений department.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "sort",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название поля, по которому нужна сортировка. Сортировка работает по полям: - ID — идентификатор подразделения - NAME — название подразделения - SORT — порядок сортировки - PARENT — идентификатор родительского отдела - UF_HEAD — идентификатор пользователя-руководителя отдела"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Направление сортировки: - ASC — по возрастанию - DESC — по убыванию"
+    },
+    {
+      "name": "ID",
+      "type": "int",
+      "base": "integer",
+      "required": false,
+      "description": "Фильтр по идентификатору подразделения"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Фильтр по имени подразделения. Указывается полное название подразделения"
+    },
+    {
+      "name": "SORT",
+      "type": "int",
+      "base": "integer",
+      "required": false,
+      "description": "Фильтр по полю сортировки"
+    },
+    {
+      "name": "PARENT",
+      "type": "int",
+      "base": "integer",
+      "required": false,
+      "description": "Фильтр по идентификатору родительского подразделения"
+    },
+    {
+      "name": "UF_HEAD",
+      "type": "int",
+      "base": "integer",
+      "required": false,
+      "description": "Фильтр по идентификатору руководителя подразделения"
+    },
+    {
+      "name": "START",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы. Подробности в статье {#T}"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/department-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "15",
+        "NAME": "R&D",
+        "SORT": 500,
+        "PARENT": "1"
+      },
+      {
+        "ID": "2",
+        "NAME": "Бухгалтерия",
+        "SORT": 500,
+        "PARENT": "1"
+      },
+      {
+        "ID": "4",
+        "NAME": "Отдел маркетинга и рекламы",
+        "SORT": 500,
+        "PARENT": "1"
+      },
+      {
+        "ID": "3",
+        "NAME": "Отдел продаж",
+        "SORT": 500,
+        "PARENT": "1"
+      },
+      {
+        "ID": "17",
+        "NAME": "Юр. отдел",
+        "SORT": 500,
+        "PARENT": "1"
+      }
+    ],
+    "total": 5,
+    "time": {
+      "start": 1736924749.531017,
+      "finish": 1736924749.719845,
+      "duration": 0.1888279914855957,
+      "processing": 0.00179290771484375,
+      "date_start": "2025-01-15T07:05:49+00:00",
+      "date_finish": "2025-01-15T07:05:49+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "department[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа, который содержит отфильтрованный список подразделений"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/department-get.html",
+  "executable": false,
+  "entityFields": [
+    "ID",
+    "NAME",
+    "PARENT",
+    "SORT"
+  ]
+}

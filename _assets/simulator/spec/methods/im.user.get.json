@@ -1,0 +1,96 @@
+{
+  "$v": 1,
+  "method": "im.user.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить данные о пользователе im.user.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Если не передан, метод вернет данные текущего пользователя. Получить идентификатор пользователя можно методами user.get, user.search или im.chat.user.list"
+    },
+    {
+      "name": "AVATAR_HR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр для запроса поля avatar_hr с адресом аватара в высоком разрешении. Допустимые значения: Y или N, по умолчанию N. На текущий момент поле avatar_hr возвращается всегда, независимо от значения параметра"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/users/im-user-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 5,
+      "active": true,
+      "name": "Иван Петров",
+      "first_name": "Иван",
+      "last_name": "Петров",
+      "work_position": "Менеджер",
+      "color": "#048bd0",
+      "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+      "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar_hr.png",
+      "gender": "M",
+      "birthday": "",
+      "extranet": false,
+      "network": false,
+      "bot": false,
+      "connector": false,
+      "external_auth_id": "default",
+      "status": "online",
+      "idle": false,
+      "last_activity_date": "2026-03-02T09:30:00+03:00",
+      "mobile_last_date": false,
+      "desktop_last_date": false,
+      "absent": false,
+      "departments": [
+        10
+      ],
+      "phones": {
+        "work_phone": "+71234567890",
+        "personal_mobile": "+71234567890",
+        "inner_phone": "21"
+      },
+      "website": "example.ru",
+      "email": "user@example.ru",
+      "bot_data": null,
+      "type": "user"
+    },
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.2,
+      "duration": 0.2,
+      "processing": 0.08,
+      "date_start": "2026-03-02T09:30:00+03:00",
+      "date_finish": "2026-03-02T09:30:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными пользователя. Структура объекта подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/users/im-user-get.html",
+  "executable": false
+}

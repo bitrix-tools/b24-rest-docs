@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "tasks.task.files.attach",
+  "scope": "task",
+  "kind": "write",
+  "title": "Прикрепить файлы к задаче tasks.task.files.attach",
+  "permissions": "постановщик задачи или пользователь с доступом к редактированию задачи",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, к которой нужно прикрепить файл. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "fileId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла на Диске. Получить идентификатор файла можно двумя способами. Использовать один из методов загрузки файла: - disk.storage.uploadfile - disk.folder.uploadfile Использовать один из методов получения списка файлов: - disk.storage.getchildren - disk.folder.getchildren"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-files-attach.md"
+  },
+  "resultExample": {
+    "result": {
+      "attachmentId": 1079
+    },
+    "time": {
+      "start": 1758806783,
+      "finish": 1758806783.609955,
+      "duration": 0.6099550724029541,
+      "processing": 0,
+      "date_start": "2025-09-25T16:26:23+03:00",
+      "date_finish": "2025-09-25T16:26:23+03:00",
+      "operating_reset_at": 1758807383,
+      "operating": 0.4156019687652588
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект с описанием прикрепленного файла"
+    },
+    {
+      "name": "attachmentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор прикрепления файла к задаче. Получить данные о файле по идентификатору прикрепления можно методом disk.attachedObject.get"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-files-attach.html",
+  "executable": false
+}

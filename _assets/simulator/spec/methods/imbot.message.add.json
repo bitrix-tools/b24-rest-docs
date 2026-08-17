@@ -1,0 +1,130 @@
+{
+  "$v": 1,
+  "method": "imbot.message.add",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Отправить сообщение imbot.message.add",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота. Метод работает только с ботами этого приложения.",
+  "params": [
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода imbot.bot.list. Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением"
+    },
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор объекта, который получит сообщение: пользователь или чат. Поддерживаемые форматы: - USER_ID — идентификатор пользователя, который можно получить через user.get или user.search - chatXXX, где XXX — идентификатор чата, который можно получить через imbot.chat.get Параметр обязателен, если не переданы одновременно FROM_USER_ID и TO_USER_ID."
+    },
+    {
+      "name": "FROM_USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя-отправителя для отправки в приватный диалог. Получить идентификатор пользователя можно с помощью user.get и user.search. Используется только вместе с TO_USER_ID. Если оба параметра переданы и больше 0, поле DIALOG_ID игнорируется, а SYSTEM принудительно становится Y"
+    },
+    {
+      "name": "TO_USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя-получателя для отправки в приватный диалог. Получить идентификатор пользователя можно с помощью user.get и user.search. Используется только вместе с FROM_USER_ID"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст сообщения. Метод автоматически убирает пробелы и переносы по краям текста сообщения"
+    },
+    {
+      "name": "ATTACH",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Вложение с блоками контента: изображения, ссылки, файлы. Можно передать: - строку JSON - объект с корневым ключом BLOCKS - массив блоков без обертки Подробнее читайте в разделе Вложения",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "KEYBOARD",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Кнопки под сообщением, с которыми может взаимодействовать пользователь. Подробнее читайте в статье Работа с клавиатурами",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "MENU",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные пункты в контекстном меню чата. Подробнее читайте в статье Контекстное меню",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SYSTEM",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак системного сообщения. Допустимые значения: - Y — системное сообщение - N — обычное сообщение, значение по умолчанию В режиме FROM_USER_ID + TO_USER_ID значение принудительно устанавливается в Y."
+    },
+    {
+      "name": "URL_PREVIEW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Управляет отображением ссылок: при включении ссылка показывается как «богатая ссылка» с карточкой. Допустимые значения: - Y — включено, по умолчанию - N — выключено"
+    },
+    {
+      "name": "SKIP_CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пропустить отправку сообщения во внешние коннекторы открытых линий. Допустимые значения: - Y — пропустить - N — не пропускать (по умолчанию)"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/messages/imbot-message-add.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.Message.send"
+  },
+  "resultExample": {
+    "result": 19880117,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/messages/imbot-message-add.html",
+  "executable": false
+}

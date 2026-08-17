@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "task.dependence.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить связь между задачами task.dependence.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "taskIdFrom",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, от которой удаляется зависимость. Идентификатор задачи возвращается методом создания новой задачи"
+    },
+    {
+      "name": "taskIdTo",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, для которой удаляется зависимость"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/task-dependence-delete.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "В случае успеха содержит пустой массив"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/task-dependence-delete.html",
+  "executable": false
+}

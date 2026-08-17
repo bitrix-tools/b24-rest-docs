@@ -13,4 +13,6 @@ items:
       - name: Битрикс24 Вайбкод в коробочной версии
         href: vibecode-onpremise.md
   - name: MCP-сервер для AI
-    href: mcp.md 
+    href: mcp.md
+  - name: Симулятор REST API
+    href: simulator.md 

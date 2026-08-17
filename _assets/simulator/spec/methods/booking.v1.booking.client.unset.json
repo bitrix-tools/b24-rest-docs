@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "booking.v1.booking.client.unset",
+  "scope": "booking",
+  "kind": "write",
+  "title": "Удалить клиентов из бронирования booking.v1.booking.client.unset",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "bookingId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор бронирования. Можно получить методами booking.v1.booking.add и booking.v1.booking.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/booking/client/booking-v1-booking-client-unset.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/booking/client/booking-v1-booking-client-unset.html",
+  "executable": false
+}

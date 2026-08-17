@@ -1,0 +1,92 @@
+{
+  "$v": 1,
+  "method": "event.bind",
+  "scope": null,
+  "kind": "write",
+  "title": "Зарегистрировать новый обработчик события event.bind",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "event",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя события"
+    },
+    {
+      "name": "handler",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Ссылка на обработчик события"
+    },
+    {
+      "name": "auth_type",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, под которым авторизуется обработчик события. По умолчанию будет использоваться авторизация пользователя, действия которого привели к срабатыванию события"
+    },
+    {
+      "name": "event_type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Значения: online\\|offline. По умолчанию event_type=online, и поведение метода не меняется. Если вызывается event_type=offline, то метод работает с офлайн-событиями"
+    },
+    {
+      "name": "auth_connector",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ключ источника. Параметр предназначен для офлайн-событий. Позволяет исключать ложные срабатывания событий"
+    },
+    {
+      "name": "options",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные настройки регистрируемого события. Набор полей зависит от события. Для события ONOFFLINEEVENT поддерживается параметр minTimeout — минимальный интервал между уведомлениями в секундах. По умолчанию 1. Подробнее в статье {#T}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/events/event-bind.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1721296536.908506,
+      "finish": 1721296537.007365,
+      "duration": 0.09885907173156738,
+      "processing": 0.03251290321350098,
+      "date_start": "2024-07-18T11:55:36+02:00",
+      "date_finish": "2024-07-18T11:55:37+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Успешность выполнения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/events/event-bind.html",
+  "executable": false
+}

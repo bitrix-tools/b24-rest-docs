@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "crm.currency.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список валют crm.currency.list",
+  "permissions": "любой пользователь с доступом к настройкам CRM",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки записей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}, где field_N — идентификатор поля crmcurrency. Возможные значения для order_N: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/currency/crm-currency-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "crm_currency[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных валютах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "На текущий момент всегда имеет значение 0"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/currency/crm-currency-list.html",
+  "executable": false,
+  "entityFields": [
+    "AMOUNT",
+    "AMOUNT_CNT",
+    "BASE",
+    "CURRENCY",
+    "LANG",
+    "SORT"
+  ]
+}

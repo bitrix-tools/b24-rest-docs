@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "catalog.catalog.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения всех полей торгового каталога catalog.catalog.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_catalog.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор торгового каталога"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/catalog/catalog-catalog-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "catalog": {
+        "iblockId": 23,
+        "iblockTypeId": 0,
+        "id": 23,
+        "lid": "s1",
+        "name": "Товары 1С",
+        "productIblockId": null,
+        "skuPropertyId": null,
+        "subscription": "N",
+        "vatId": null
+      }
+    },
+    "time": {
+      "start": 1716390151.446282,
+      "finish": 1716390151.902625,
+      "duration": 0.4563431739807129,
+      "processing": 0.016014814376831055,
+      "date_start": "2024-05-22T18:02:31+03:00",
+      "date_finish": "2024-05-22T18:02:31+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "catalog",
+      "type": "catalog_catalog",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о торговом каталоге"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/catalog/catalog-catalog-get.html",
+  "executable": false,
+  "entityFields": [
+    "iblockId",
+    "iblockTypeId",
+    "id",
+    "lid",
+    "name",
+    "productIblockId",
+    "skuPropertyId",
+    "subscription",
+    "vatId"
+  ]
+}

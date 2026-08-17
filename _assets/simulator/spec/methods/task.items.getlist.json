@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "task.items.getlist",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список задач task.items.getlist",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Массив вида {'поле_сортировки': 'направление сортировки' [, ...]} для сортировки результата. Поле для сортировки может принимать значения: - TITLE — название задачи - DATE_START — дата старта - DEADLINE — крайний срок - STATUS — статус - PRIORITY — приоритет - MARK — оценка - CREATED_BY — постановщик - RESPONSIBLE_ID — исполнитель - GROUP_ID — рабочая группа Направление сортировки может принимать…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Массив вида {'фильтруемое_поле': \"значение фильтра\" [, ...]}. Фильтруемое поле может принимать значения: - ID — идентификатор задачи - PARENT_ID — идентификатор родительской задачи - GROUP_ID — идентификатор рабочей группы - CREATED_BY — постановщик - STATUS_CHANGED_BY — пользователь, последним изменивший статус задачи - PRIORITY — приоритет - FORUM_TOPIC_ID — идентификатор темы форума - RESPONSIB…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "TASKDATA",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив возвращаемых полей задачи",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "NAV_PARAMS",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Постраничная навигация. Доступна опция iNumPage — номер страницы",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-items-get-list.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.list"
+  },
+  "page": "/api-reference/tasks/deprecated/task-items-get-list.html",
+  "executable": false
+}

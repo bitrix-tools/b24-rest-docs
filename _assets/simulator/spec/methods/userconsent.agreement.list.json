@@ -1,0 +1,228 @@
+{
+  "$v": 1,
+  "method": "userconsent.agreement.list",
+  "scope": "userconsent",
+  "kind": "read",
+  "title": "Получить список соглашений userconsent.agreement.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор соглашения"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название соглашения"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "LANGUAGE_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор языка соглашения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user-consent/user-consent-agreement-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "35",
+        "NAME": "Согласие на получение рассылки",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "ru"
+      },
+      {
+        "ID": "33",
+        "NAME": "Conditions d'utilisation de Bitrix24 Sites",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "fr"
+      },
+      {
+        "ID": "31",
+        "NAME": "Условия использования сервиса уведомлений",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": null
+      },
+      {
+        "ID": "29",
+        "NAME": "SASHA",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": ""
+      },
+      {
+        "ID": "27",
+        "NAME": "Условия использования Центра уведомлений Б24",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": null
+      },
+      {
+        "ID": "25",
+        "NAME": "Termos de Uso do Bitrix24 Sites",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "br"
+      },
+      {
+        "ID": "23",
+        "NAME": "Второе соглашение",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": ""
+      },
+      {
+        "ID": "21",
+        "NAME": "Bitrix24 Sites: Nutzungsbedingungen",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "de"
+      },
+      {
+        "ID": "19",
+        "NAME": "Согласие с Cookies-файлами",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "ru"
+      },
+      {
+        "ID": "17",
+        "NAME": "Cookie consent",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "en"
+      },
+      {
+        "ID": "15",
+        "NAME": "Правила використання Бітрікс24.Сайти",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "ua"
+      },
+      {
+        "ID": "13",
+        "NAME": "Test newwef",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": ""
+      },
+      {
+        "ID": "11",
+        "NAME": "Bitrix24 Sites Terms of Use",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "en"
+      },
+      {
+        "ID": "9",
+        "NAME": "Правила использования Битрикс24.Сайты",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "es"
+      },
+      {
+        "ID": "7",
+        "NAME": "Правила использования Битрикс24.Сайты",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": "ru"
+      },
+      {
+        "ID": "1",
+        "NAME": "Пример согласия на обработку персональных данных",
+        "ACTIVE": "Y",
+        "LANGUAGE_ID": ""
+      }
+    ],
+    "time": {
+      "start": 1760352862,
+      "finish": 1760352862.776508,
+      "duration": 0.776508092880249,
+      "processing": 0,
+      "date_start": "2025-10-13T13:54:22+03:00",
+      "date_finish": "2025-10-13T13:54:22+03:00",
+      "operating_reset_at": 1760353462,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор соглашения"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название соглашения"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "LANGUAGE_ID",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор языка соглашения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user-consent/user-consent-agreement-list.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "ID",
+    "LANGUAGE_ID",
+    "NAME"
+  ]
+}

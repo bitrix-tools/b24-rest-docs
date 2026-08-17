@@ -1,0 +1,178 @@
+{
+  "$v": 1,
+  "method": "user.get",
+  "scope": "user",
+  "kind": "read",
+  "title": "Получить список пользователей по фильтру user.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "sort",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поле, по которому сортируются результаты. Сортировка работает по всем полям из user.add"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Направление сортировки: - ASC — по возрастанию - DESC — по убыванию"
+    },
+    {
+      "name": "FILTER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дополнительно можно указывать любые параметры из user.add для фильтрации по их значениям. Кроме основных полей, доступны дополнительные: - UF_DEPARTMENT — принадлежность к структуре компании; - UF_PHONE_INNER — внутренний телефонный номер; - IS_ONLINE — [Y\\|N] позволяет показать только авторизованных или нет пользователей. - NAME_SEARCH — быстрый поиск по персональным данным.…"
+    },
+    {
+      "name": "ADMIN_MODE",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Ключ для работы в режиме администратора. Служит для получения данных о любых пользователях"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с названиями полей, которые вернутся в ответе. Без этого параметра метод возвращает все поля, доступные скоупу приложения или вебхука. При выборке используйте маски: - * — все доступные поля - UF_* — все доступные пользовательские поля, в том числе созданные в Битрикс24 Недоступные скоупу и несуществующие поля метод пропускает без ошибки",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "IMAGE_RESIZE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Размер копии фотографии в поле PERSONAL_PHOTO: - small — 150 × 150 пикселей - medium — 300 × 300 пикселей - large — 1000 × 1000 пикселей Без этого параметра метод возвращает ссылку на исходное изображение"
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user/user-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "1",
+        "ACTIVE": true,
+        "NAME": "Вадим",
+        "LAST_NAME": "Валеев",
+        "SECOND_NAME": "",
+        "EMAIL": "v.r.valeev@bitrix.com",
+        "LAST_LOGIN": "2024-07-25T13:06:54+00:00",
+        "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
+        "TIME_ZONE": "",
+        "IS_ONLINE": "Y",
+        "TIMESTAMP_X": {},
+        "LAST_ACTIVITY_DATE": {},
+        "PERSONAL_GENDER": "",
+        "PERSONAL_WWW": "",
+        "PERSONAL_BIRTHDAY": "2018-07-14T00:00:00+00:00",
+        "PERSONAL_MOBILE": "",
+        "PERSONAL_CITY": "",
+        "WORK_PHONE": "",
+        "WORK_POSITION": "",
+        "UF_EMPLOYMENT_DATE": "",
+        "UF_DEPARTMENT": [
+          1
+        ],
+        "USER_TYPE": "employee"
+      },
+      {
+        "ID": "3",
+        "ACTIVE": true,
+        "NAME": "Иван",
+        "LAST_NAME": "Иванов",
+        "EMAIL": "test@gmail.com",
+        "LAST_LOGIN": "2024-07-24T09:01:55+00:00",
+        "DATE_REGISTER": "2024-07-22T00:00:00+00:00",
+        "IS_ONLINE": "N",
+        "TIMESTAMP_X": {},
+        "LAST_ACTIVITY_DATE": {},
+        "PERSONAL_GENDER": "",
+        "PERSONAL_BIRTHDAY": "",
+        "WORK_POSITION": "",
+        "UF_EMPLOYMENT_DATE": "",
+        "UF_DEPARTMENT": [
+          1
+        ],
+        "USER_TYPE": "employee"
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1721913235.39648,
+      "finish": 1721913235.45078,
+      "duration": 0.05430006980896,
+      "processing": 0.0187909603118897,
+      "date_start": "2024-07-25T13:13:55+00:00",
+      "date_finish": "2024-07-25T13:13:55+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа, который содержит отфильтрованный список пользователей"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user/user-get.html",
+  "executable": true,
+  "entityFields": [
+    "ACTIVE",
+    "DATE_REGISTER",
+    "EMAIL",
+    "ID",
+    "IS_ONLINE",
+    "LAST_ACTIVITY_DATE",
+    "LAST_LOGIN",
+    "LAST_NAME",
+    "NAME",
+    "PERSONAL_BIRTHDAY",
+    "PERSONAL_CITY",
+    "PERSONAL_GENDER",
+    "PERSONAL_MOBILE",
+    "PERSONAL_WWW",
+    "SECOND_NAME",
+    "TIMESTAMP_X",
+    "TIME_ZONE",
+    "UF_DEPARTMENT",
+    "UF_EMPLOYMENT_DATE",
+    "USER_TYPE",
+    "WORK_PHONE",
+    "WORK_POSITION"
+  ]
+}

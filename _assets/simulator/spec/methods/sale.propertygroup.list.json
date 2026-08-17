@@ -1,0 +1,107 @@
+{
+  "$v": 1,
+  "method": "sale.propertygroup.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список групп свойств sale.propertygroup.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта saleorderpropertygroup). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля групп свойств",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных групп свойств в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта saleorderpropertygroup. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных групп свойств в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта saleorderpropertygroup. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-group/sale-property-group-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyGroups": [
+        {
+          "id": 18,
+          "name": "Новая группа свойств 2",
+          "personTypeId": 3,
+          "sort": 100
+        },
+        {
+          "id": 14,
+          "name": "Новая группа свойств 1",
+          "personTypeId": 3,
+          "sort": 100
+        }
+      ]
+    },
+    "total": 2,
+    "time": {
+      "start": 1711544498.747502,
+      "finish": 1711544498.987554,
+      "duration": 0.2400519847869873,
+      "processing": 0.010115861892700195,
+      "date_start": "2024-03-27T16:01:38+03:00",
+      "date_finish": "2024-03-27T16:01:38+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyGroups",
+      "type": "sale_order_property_group[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных группах свойств"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-group/sale-property-group-list.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "name",
+    "personTypeId",
+    "sort"
+  ]
+}

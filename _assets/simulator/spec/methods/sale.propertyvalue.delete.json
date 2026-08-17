@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.propertyvalue.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить значение свойства sale.propertyvalue.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_value.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор значения свойства"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-value/sale-property-value-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712051970.57877,
+      "finish": 1712051971.60512,
+      "duration": 1.0263500213623047,
+      "processing": 0.7483029365539551,
+      "date_start": "2024-04-02T12:59:30+03:00",
+      "date_finish": "2024-04-02T12:59:31+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления значения свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-value/sale-property-value-delete.html",
+  "executable": false
+}

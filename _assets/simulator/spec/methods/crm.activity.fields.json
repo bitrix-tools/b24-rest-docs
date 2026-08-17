@@ -1,0 +1,467 @@
+{
+  "$v": 1,
+  "method": "crm.activity.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список полей дела crm.activity.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Значения для поля result соответствуют полям объекта.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/activity-base/crm-activity-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID"
+      },
+      "OWNER_ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID владельца"
+      },
+      "OWNER_TYPE_ID": {
+        "type": "crm_enum_ownertype",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип владельца"
+      },
+      "TYPE_ID": {
+        "type": "crm_enum_activitytype",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип"
+      },
+      "PROVIDER_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID провайдера"
+      },
+      "PROVIDER_TYPE_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип провайдера"
+      },
+      "PROVIDER_GROUP_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип коннектора"
+      },
+      "ASSOCIATED_ENTITY_ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID связанной с делом сущности"
+      },
+      "SUBJECT": {
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тема"
+      },
+      "START_TIME": {
+        "type": "datetime",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Начало"
+      },
+      "END_TIME": {
+        "type": "datetime",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Срок"
+      },
+      "DEADLINE": {
+        "type": "datetime",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Срок исполнения"
+      },
+      "COMPLETED": {
+        "type": "char",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Выполнено"
+      },
+      "STATUS": {
+        "type": "crm_enum_activitystatus",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Статус"
+      },
+      "RESPONSIBLE_ID": {
+        "type": "user",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Ответственный"
+      },
+      "PRIORITY": {
+        "type": "crm_enum_activitypriority",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Важность"
+      },
+      "NOTIFY_TYPE": {
+        "type": "crm_enum_activitynotifytype",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип уведомлений"
+      },
+      "NOTIFY_VALUE": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Параметр уведомления"
+      },
+      "DESCRIPTION": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Описание"
+      },
+      "DESCRIPTION_TYPE": {
+        "type": "crm_enum_contenttype",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип описания"
+      },
+      "DIRECTION": {
+        "type": "crm_enum_activitydirection",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Направление"
+      },
+      "LOCATION": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Место"
+      },
+      "CREATED": {
+        "type": "datetime",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Дата создания"
+      },
+      "AUTHOR_ID": {
+        "type": "user",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Создал"
+      },
+      "LAST_UPDATED": {
+        "type": "datetime",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Дата изменения"
+      },
+      "EDITOR_ID": {
+        "type": "user",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Изменил"
+      },
+      "SETTINGS": {
+        "type": "object",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Настройки"
+      },
+      "ORIGIN_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Внешний код"
+      },
+      "ORIGINATOR_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Внешний источник"
+      },
+      "RESULT_STATUS": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_STATUS"
+      },
+      "RESULT_STREAM": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_STREAM"
+      },
+      "RESULT_SOURCE_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_SOURCE_ID"
+      },
+      "PROVIDER_PARAMS": {
+        "type": "object",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Параметры провайдера"
+      },
+      "PROVIDER_DATA": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Данные провайдера"
+      },
+      "RESULT_MARK": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_MARK"
+      },
+      "RESULT_VALUE": {
+        "type": "double",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_VALUE"
+      },
+      "RESULT_SUM": {
+        "type": "double",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_SUM"
+      },
+      "RESULT_CURRENCY_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "RESULT_CURRENCY_ID"
+      },
+      "AUTOCOMPLETE_RULE": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Автозаполнение"
+      },
+      "BINDINGS": {
+        "type": "crm_activity_binding",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": true,
+        "isDynamic": false,
+        "title": "Привязки"
+      },
+      "COMMUNICATIONS": {
+        "type": "crm_activity_communication",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": true,
+        "isDynamic": false,
+        "title": "Канал коммуникации"
+      },
+      "FILES": {
+        "type": "diskfile",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": true,
+        "isDynamic": false,
+        "title": "Файлы"
+      },
+      "WEBDAV_ELEMENTS": {
+        "type": "diskfile",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": true,
+        "isDynamic": false,
+        "isDeprecated": true,
+        "title": "Добавленные файлы"
+      },
+      "IS_INCOMING_CHANNEL": {
+        "type": "char",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "IS_INCOMING_CHANNEL"
+      }
+    },
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Значения для поля result соответствуют полям объекта."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-fields.html",
+  "executable": false
+}

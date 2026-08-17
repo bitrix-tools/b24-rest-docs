@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.dealcategory.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить направление сделок crm.dealcategory.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор направления"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/category-old/crm-deal-category-delete.md"
+  },
+  "deprecated": {
+    "successor": "crm.category.delete"
+  },
+  "page": "/api-reference/crm/outdated/category-old/crm-deal-category-delete.html",
+  "executable": false
+}

@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Revision.get",
+  "scope": "imbot",
+  "kind": "read",
+  "title": "Получить ревизии API imbot.v2.Revision.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Номера ревизий API и клиентских протоколов (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/revision-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "rest": 33,
+      "web": 130,
+      "mobile": 23,
+      "desktop": 6
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/revision-get.html",
+  "executable": false,
+  "entityFields": [
+    "desktop",
+    "mobile",
+    "rest",
+    "web"
+  ]
+}

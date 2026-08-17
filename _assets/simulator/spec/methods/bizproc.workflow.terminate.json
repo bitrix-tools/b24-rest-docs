@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.terminate",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Остановить активный бизнес-процесс bizproc.workflow.terminate",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор бизнес-процесса, который нужно остановить. Идентификатор можно получить методом bizproc.workflow.instances"
+    },
+    {
+      "name": "STATUS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Установить текст статуса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-workflow-terminate.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-workflow-terminate.html",
+  "executable": false
+}

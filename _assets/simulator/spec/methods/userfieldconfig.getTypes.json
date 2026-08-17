@@ -1,0 +1,125 @@
+{
+  "$v": 1,
+  "method": "userfieldconfig.getTypes",
+  "scope": "userfieldconfig",
+  "kind": "write",
+  "title": "Получить доступные типы пользовательских полей userfieldconfig.getTypes",
+  "permissions": "пользователь с правом чтения объекта, которому принадлежит поле, в модуле moduleId",
+  "params": [
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор модуля, для которого нужно получить доступные типы полей"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.md"
+  },
+  "resultExample": {
+    "result": {
+      "types": {
+        "crm": {
+          "userTypeId": "crm",
+          "description": "Привязка к элементам CRM"
+        },
+        "crm_status": {
+          "userTypeId": "crm_status",
+          "description": "Привязка к справочникам CRM"
+        },
+        "money": {
+          "userTypeId": "money",
+          "description": "Деньги"
+        },
+        "employee": {
+          "userTypeId": "employee",
+          "description": "Привязка к сотруднику"
+        },
+        "rest_219_test": {
+          "userTypeId": "rest_219_test",
+          "description": "Test type"
+        },
+        "string": {
+          "userTypeId": "string",
+          "description": "Строка"
+        },
+        "integer": {
+          "userTypeId": "integer",
+          "description": "Целое число"
+        },
+        "double": {
+          "userTypeId": "double",
+          "description": "Число"
+        },
+        "datetime": {
+          "userTypeId": "datetime",
+          "description": "Дата со временем"
+        },
+        "date": {
+          "userTypeId": "date",
+          "description": "Дата"
+        },
+        "boolean": {
+          "userTypeId": "boolean",
+          "description": "Да/Нет"
+        },
+        "address": {
+          "userTypeId": "address",
+          "description": "Адрес"
+        },
+        "url": {
+          "userTypeId": "url",
+          "description": "Ссылка"
+        },
+        "file": {
+          "userTypeId": "file",
+          "description": "Файл"
+        },
+        "enumeration": {
+          "userTypeId": "enumeration",
+          "description": "Список"
+        },
+        "iblock_section": {
+          "userTypeId": "iblock_section",
+          "description": "Привязка к разделам инф. блоков"
+        },
+        "iblock_element": {
+          "userTypeId": "iblock_element",
+          "description": "Привязка к элементам инф. блоков"
+        }
+      }
+    },
+    "time": {
+      "start": 1774356634,
+      "finish": 1774356634.880673,
+      "duration": 0.8806729316711426,
+      "processing": 0,
+      "date_start": "2026-03-24T15:50:34+03:00",
+      "date_finish": "2026-03-24T15:50:34+03:00",
+      "operating_reset_at": 1774357234,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.html",
+  "executable": false
+}

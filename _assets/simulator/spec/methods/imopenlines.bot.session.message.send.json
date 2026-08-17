@@ -1,0 +1,67 @@
+{
+  "$v": 1,
+  "method": "imopenlines.bot.session.message.send",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Отправить автоматическое сообщение в диалог imopenlines.bot.session.message.send",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата, в который метод отправляет сообщение. Идентификатор чата можно получить с помощью методов imopenlines.dialog.get или imopenlines.crm.chat.get"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код типа автоответа. Допустимые значения: - WELCOME — отправляет автоматическое приветствие из настроек Открытой линии, параметр MESSAGE в этом режиме игнорируется - DEFAULT — отправляет текст из параметра MESSAGE"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст сообщения для режима NAME=DEFAULT. По умолчанию используется пустая строка. Если передать NAME=DEFAULT и пустой MESSAGE, новое сообщение в чат не добавится"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-message-send.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.456,
+      "finish": 1728626400.539,
+      "duration": 0.083,
+      "processing": 0.031,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Флаг успешного вызова метода. Метод не возвращает признак фактического создания сообщения в чате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-message-send.html",
+  "executable": false
+}

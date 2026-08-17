@@ -1,0 +1,169 @@
+{
+  "$v": 1,
+  "method": "crm.lead.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить лид по Id crm.lead.get",
+  "permissions": "пользователь с правом на чтение запрашиваемого лида",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор лида. Идентификатор можно получить с помощью методов crm.lead.list или crm.lead.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/crm-lead-get.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.get"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "123",
+      "TITLE": "Лид #1591",
+      "HONORIFIC": null,
+      "NAME": "",
+      "SECOND_NAME": null,
+      "LAST_NAME": null,
+      "COMPANY_TITLE": null,
+      "COMPANY_ID": null,
+      "CONTACT_ID": null,
+      "IS_RETURN_CUSTOMER": "N",
+      "BIRTHDATE": "",
+      "SOURCE_ID": "1",
+      "SOURCE_DESCRIPTION": null,
+      "STATUS_ID": "IN_PROCESS",
+      "STATUS_DESCRIPTION": null,
+      "POST": null,
+      "COMMENTS": null,
+      "CURRENCY_ID": "RUB",
+      "OPPORTUNITY": "0.00",
+      "IS_MANUAL_OPPORTUNITY": "N",
+      "HAS_PHONE": "N",
+      "HAS_EMAIL": "N",
+      "HAS_IMOL": "N",
+      "ASSIGNED_BY_ID": "1",
+      "CREATED_BY_ID": "1",
+      "MODIFY_BY_ID": "1",
+      "DATE_CREATE": "2024-05-23T18:18:25+03:00",
+      "DATE_MODIFY": "2024-05-23T18:18:25+03:00",
+      "DATE_CLOSED": "",
+      "STATUS_SEMANTIC_ID": "P",
+      "OPENED": "Y",
+      "ORIGINATOR_ID": null,
+      "ORIGIN_ID": null,
+      "MOVED_BY_ID": "1",
+      "MOVED_TIME": "2024-05-23T18:18:25+03:00",
+      "ADDRESS": null,
+      "ADDRESS_2": null,
+      "ADDRESS_CITY": null,
+      "ADDRESS_POSTAL_CODE": null,
+      "ADDRESS_REGION": null,
+      "ADDRESS_PROVINCE": null,
+      "ADDRESS_COUNTRY": null,
+      "ADDRESS_COUNTRY_CODE": null,
+      "ADDRESS_LOC_ADDR_ID": null,
+      "UTM_SOURCE": null,
+      "UTM_MEDIUM": null,
+      "UTM_CAMPAIGN": null,
+      "UTM_CONTENT": null,
+      "UTM_TERM": null,
+      "LAST_ACTIVITY_BY": "1",
+      "LAST_ACTIVITY_TIME": "2024-05-23T18:18:25+03:00",
+      "PHONE": [
+        {
+          "ID": "11658",
+          "VALUE_TYPE": "OTHER",
+          "VALUE": "+5454777777",
+          "TYPE_ID": "PHONE"
+        }
+      ],
+      "IM": [
+        {
+          "ID": "11660",
+          "VALUE_TYPE": "OPENLINE",
+          "VALUE": "imol|livechat|1|67|21",
+          "TYPE_ID": "IM"
+        }
+      ]
+    },
+    "time": {
+      "start": 1705764932.998683,
+      "finish": 1705764937.173995,
+      "duration": 4.175312042236328,
+      "processing": 3.3076529502868652,
+      "date_start": "2024-01-20T18:35:32+03:00",
+      "date_finish": "2024-01-20T18:35:37+03:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "lead",
+      "base": "integer",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях лида. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/crm-lead-get.html",
+  "executable": true,
+  "entityFields": [
+    "ADDRESS",
+    "ADDRESS_2",
+    "ADDRESS_CITY",
+    "ADDRESS_COUNTRY",
+    "ADDRESS_COUNTRY_CODE",
+    "ADDRESS_POSTAL_CODE",
+    "ADDRESS_PROVINCE",
+    "ADDRESS_REGION",
+    "ASSIGNED_BY_ID",
+    "BIRTHDATE",
+    "COMMENTS",
+    "COMPANY_ID",
+    "COMPANY_TITLE",
+    "CONTACT_ID",
+    "CONTACT_IDS",
+    "CURRENCY_ID",
+    "EMAIL",
+    "HONORIFIC",
+    "IM",
+    "IS_MANUAL_OPPORTUNITY",
+    "LAST_NAME",
+    "LINK",
+    "NAME",
+    "OPENED",
+    "OPPORTUNITY",
+    "ORIGINATOR_ID",
+    "ORIGIN_ID",
+    "PHONE",
+    "POST",
+    "SECOND_NAME",
+    "SOURCE_DESCRIPTION",
+    "SOURCE_ID",
+    "STATUS_DESCRIPTION",
+    "STATUS_ID",
+    "TITLE",
+    "UF_...",
+    "UTM_CAMPAIGN",
+    "UTM_CONTENT",
+    "UTM_MEDIUM",
+    "UTM_SOURCE",
+    "UTM_TERM",
+    "WEB"
+  ]
+}

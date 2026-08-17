@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "crm.address.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список адресов по фильтру crm.address.list",
+  "permissions": "пользователь с правом на чтение контактов, компаний и лидов",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля адресов). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля адресов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных адресов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям адреса. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных адресов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям адреса. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/addresses/crm-address-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "TYPE_ID": "1",
+        "ENTITY_TYPE_ID": "8",
+        "ENTITY_ID": "7335",
+        "ADDRESS_1": "Ленина 2",
+        "ADDRESS_2": "701",
+        "CITY": "Тюмень",
+        "POSTAL_CODE": "625003",
+        "REGION": "Тюменская обл",
+        "PROVINCE": "Тюменская обл",
+        "COUNTRY": "Россия",
+        "COUNTRY_CODE": null,
+        "LOC_ADDR_ID": "479",
+        "ANCHOR_TYPE_ID": "3",
+        "ANCHOR_ID": "17192"
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1716301758.664873,
+      "finish": 1716301759.73158,
+      "duration": 1.0667071342468262,
+      "processing": 0.028820037841796875,
+      "date_start": "2024-05-21T16:29:18+02:00",
+      "date_finish": "2024-05-21T16:29:19+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных адресах. Каждый элемент содержит выбранные поля адресов"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/addresses/crm-address-list.html",
+  "executable": false,
+  "entityFields": [
+    "ADDRESS_1",
+    "ADDRESS_2",
+    "ANCHOR_ID",
+    "ANCHOR_TYPE_ID",
+    "CITY",
+    "COUNTRY",
+    "COUNTRY_CODE",
+    "ENTITY_ID",
+    "ENTITY_TYPE_ID",
+    "LOC_ADDR_ID",
+    "POSTAL_CODE",
+    "PROVINCE",
+    "REGION",
+    "TYPE_ID"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "booking.v1.waitlist.client.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить список клиентов записи в лист ожидания booking.v1.waitlist.client.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "waitListId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи в лист ожидания. Можно получить методами booking.v1.waitlist.add и booking.v1.waitlist.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/waitlist/client/booking-v1-waitlist-client-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "waitListClient": [
+        {
+          "id": 1,
+          "type": {
+            "code": "COMPANY",
+            "module": "crm"
+          }
+        },
+        {
+          "id": 2,
+          "type": {
+            "code": "CONTACT",
+            "module": "crm"
+          }
+        }
+      ]
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив объектов с информацией о клиентах. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/waitlist/client/booking-v1-waitlist-client-list.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "type"
+  ]
+}

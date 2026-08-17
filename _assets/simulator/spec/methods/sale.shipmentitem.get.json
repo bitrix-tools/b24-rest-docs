@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentitem.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить доступ к полям элемента sale.shipmentitem.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_shipment_item.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор элемента табличной части отгрузки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-item/sale-shipment-item-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "shipmentItem": {
+        "basketId": 2716,
+        "dateInsert": "2024-04-11T09:10:34+03:00",
+        "id": 7,
+        "orderDeliveryId": 2431,
+        "quantity": 5,
+        "reservedQuantity": 0,
+        "xmlId": "myNewXmlId"
+      }
+    },
+    "time": {
+      "start": 1712819691.140072,
+      "finish": 1712819691.534972,
+      "duration": 0.394899845123291,
+      "processing": 0.21921396255493164,
+      "date_start": "2024-04-11T10:14:51+03:00",
+      "date_finish": "2024-04-11T10:14:51+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "shipmentItem",
+      "type": "sale_order_shipment_item",
+      "base": "any",
+      "required": false,
+      "description": "Информация об элементе табличной части отгрузки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-item/sale-shipment-item-get.html",
+  "executable": false,
+  "entityFields": [
+    "basketId",
+    "dateInsert",
+    "id",
+    "orderDeliveryId",
+    "quantity",
+    "reservedQuantity",
+    "xmlId"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "$v": 1,
+  "method": "task.elapseditem.delete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить запись о затраченном времени task.elapseditem.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи о затраченном времени. Его можно получить при создании новой записи или методом получения списка записей о затраченном времени"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/elapsed-item/task-elapsed-item-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-delete.html",
+  "executable": false
+}

@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "landing.site.getRights",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить права доступа к сайту landing.site.getRights",
+  "permissions": "пользователь с правом «просмотр» раздела «Сайты и магазины»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить с помощью метода landing.site.getList или из результата метода landing.site.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/extended-model/landing-site-get-rights.md"
+  },
+  "resultExample": {
+    "result": [
+      "read",
+      "edit",
+      "sett"
+    ],
+    "time": {
+      "start": 1774765200,
+      "finish": 1774765200.411258,
+      "duration": 0.4112579822540283,
+      "processing": 0,
+      "date_start": "2026-03-29T10:00:00+03:00",
+      "date_finish": "2026-03-29T10:00:00+03:00",
+      "operating_reset_at": 1774765800,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string[]",
+      "base": "array",
+      "required": false,
+      "description": "Коды прав текущего пользователя для указанного сайта. Массив может содержать одно или несколько значений: denied - для текущего пользователя или одной из его групп доступа запрещен доступ к сайту read - просмотр сайта edit - изменение страниц сайта sett - изменение настроек сайта public - публикация сайта delete - перемещение сайта в корзину и восстановление из корзины Если для пользователя настро…"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/extended-model/landing-site-get-rights.html",
+  "executable": false
+}

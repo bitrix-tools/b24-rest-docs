@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "userconsent.consent.add",
+  "scope": "userconsent",
+  "kind": "write",
+  "title": "Сохранить полученное согласие пользователя userconsent.consent.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "AGREEMENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор соглашения. Идентификатор можно получить с помощью метода userconsent.agreement.list"
+    },
+    {
+      "name": "IP",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "IP-адрес пользователя"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Идентификатор можно получить с помощью методов user.get и user.search"
+    },
+    {
+      "name": "URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL страницы, где было получено согласие"
+    },
+    {
+      "name": "ORIGIN_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор источника, например, my_contact_form"
+    },
+    {
+      "name": "ORIGINATOR_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор элемента в источнике, например, e-mail"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user-consent/user-consent-consent-add.md"
+  },
+  "resultExample": {
+    "result": 525,
+    "time": {
+      "start": 1760459630,
+      "finish": 1760459630.700988,
+      "duration": 0.7009880542755127,
+      "processing": 0,
+      "date_start": "2025-10-14T19:33:50+03:00",
+      "date_finish": "2025-10-14T19:33:50+03:00",
+      "operating_reset_at": 1760460230,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор добавленного согласия"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user-consent/user-consent-consent-add.html",
+  "executable": false
+}

@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentpropertyvalue.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить значения свойства отгрузки по id sale.shipmentpropertyvalue.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_shipment_property_value.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор значения свойства отгрузки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-property-value/sale-shipment-property-value-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyValue": {
+        "code": null,
+        "id": 38164,
+        "name": "Comments",
+        "shipmentPropsId": 105,
+        "value": "Comments value"
+      }
+    },
+    "time": {
+      "start": 1718023082.525679,
+      "finish": 1718023082.798483,
+      "duration": 0.27280378341674805,
+      "processing": 0.055876970291137695,
+      "date_start": "2024-06-10T15:38:02+03:00",
+      "date_finish": "2024-06-10T15:38:02+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyValue",
+      "type": "sale_shipment_property_value.id",
+      "base": "any",
+      "required": false,
+      "description": "Информация о значении свойства отгрузки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-property-value/sale-shipment-property-value-get.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "id",
+    "name",
+    "shipmentPropsId",
+    "value"
+  ]
+}

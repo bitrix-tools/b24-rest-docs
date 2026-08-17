@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.children",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Получить дочерние отделы humanresources.node.children",
+  "permissions": "пользователь с правом «Просмотр отделов» или «Просмотр команд»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор родительского отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей отдела или команды, которые нужно вернуть. Доступные поля: - id — идентификатор элемента структуры - name — название отдела или команды - type — тип элемента структуры - structureId — идентификатор структуры компании - parentId — идентификатор родительского отдела или команды - description — описание элемента структуры - accessCode — код доступа элемента структуры - userCount — количе…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node/humanresources-node-children.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 12,
+          "name": "Продажи B2B",
+          "type": "DEPARTMENT",
+          "structureId": 1,
+          "parentId": 1,
+          "description": "Работа с корпоративными клиентами",
+          "accessCode": "DR12",
+          "userCount": 9,
+          "colorName": null,
+          "xmlId": null,
+          "createdAt": "2026-05-20T10:15:00+03:00",
+          "updatedAt": "2026-06-01T16:30:00+03:00"
+        },
+        {
+          "id": 18,
+          "name": "Маркетинг",
+          "type": "DEPARTMENT",
+          "structureId": 1,
+          "parentId": 1,
+          "description": "Продвижение продуктов и бренда",
+          "accessCode": "DR18",
+          "userCount": 6,
+          "colorName": null,
+          "xmlId": null,
+          "createdAt": "2026-05-22T11:40:00+03:00",
+          "updatedAt": "2026-06-03T10:05:00+03:00"
+        }
+      ]
+    },
+    "time": {
+      "start": 1780396400,
+      "finish": 1780396400.428761,
+      "duration": 0.42876100540161133,
+      "processing": 0.3972141742706299,
+      "date_start": "2026-06-02T13:33:20+03:00",
+      "date_finish": "2026-06-02T13:33:20+03:00",
+      "operating_reset_at": 1780397000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив дочерних отделов и команд. Состав полей элемента зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node/humanresources-node-children.html",
+  "executable": false
+}

@@ -1,0 +1,184 @@
+{
+  "$v": 1,
+  "method": "sale.property.getfieldsbytype",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Получить поля и настройки свойства заказа для определенного типа свойств sale.property.getfieldsbytype",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип свойства заказа Возможные значения: - STRING - Y/N - NUMBER - ENUM - FILE - DATE - LOCATION - ADDRESS"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property/sale-property-get-fields-by-type.md"
+  },
+  "resultExample": {
+    "result": {
+      "property": {
+        "active": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "code": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "defaultValue": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "any"
+        },
+        "description": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "isFiltered": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "multiple": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "name": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "personTypeId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "propsGroupId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "required": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "settings": {
+          "fields": {
+            "max": {
+              "isImmutable": false,
+              "isReadOnly": false,
+              "isRequired": false,
+              "type": "integer"
+            },
+            "min": {
+              "isImmutable": false,
+              "isReadOnly": false,
+              "isRequired": false,
+              "type": "integer"
+            },
+            "step": {
+              "isImmutable": false,
+              "isReadOnly": false,
+              "isRequired": false,
+              "type": "integer"
+            }
+          },
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datatype"
+        },
+        "sort": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "type": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "userProps": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "util": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "xmlId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1712325081.703631,
+      "finish": 1712325082.067712,
+      "duration": 0.36408114433288574,
+      "processing": 0.023890972137451172,
+      "date_start": "2024-04-05T16:51:21+03:00",
+      "date_finish": "2024-04-05T16:51:22+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "property",
+      "type": "sale_order_property",
+      "base": "any",
+      "required": false,
+      "description": "Описание полей и настроек свойства заказа для выбранного типа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property/sale-property-get-fields-by-type.html",
+  "executable": false
+}

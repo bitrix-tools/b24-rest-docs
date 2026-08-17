@@ -1,0 +1,91 @@
+{
+  "$v": 1,
+  "method": "crm.enum.activitydirection",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить элементы перечисления «Направление активности» crm.enum.activitydirection",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с направлениями активности (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-direction.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 0,
+        "NAME": "",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 1,
+        "NAME": "Входящее",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 2,
+        "NAME": "Исходящее",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750149628.891727,
+      "finish": 1750149628.919669,
+      "duration": 0.02794194221496582,
+      "processing": 0.00030112266540527344,
+      "date_start": "2025-06-17T11:40:28+03:00",
+      "date_finish": "2025-06-17T11:40:28+03:00",
+      "operating_reset_at": 1750150228,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с направлениями активности (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-direction.html",
+  "executable": false
+}

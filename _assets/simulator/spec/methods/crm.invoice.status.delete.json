@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.status.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить статус счета crm.invoice.status.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор статуса счета"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice-status-old/crm-invoice-status-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice-status-old/crm-invoice-status-delete.html",
+  "executable": false
+}

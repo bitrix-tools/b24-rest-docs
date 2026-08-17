@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "landing.demos.unregister",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить зарегистрированный шаблон landing.demos.unregister",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний код шаблона. Код можно получить, например, из результата метода landing.demos.getList в поле XML_ID"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/demos/landing-demos-unregister.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774619450,
+      "finish": 1774619450.991452,
+      "duration": 0.9914519786834717,
+      "processing": 0,
+      "date_start": "2026-03-27T16:50:50+03:00",
+      "date_finish": "2026-03-27T16:50:50+03:00",
+      "operating_reset_at": 1774620050,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления: - true — найден хотя бы один шаблон с указанным кодом и успешно удален - false — код не найден, пустой или передан не строкой"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/demos/landing-demos-unregister.html",
+  "executable": false
+}

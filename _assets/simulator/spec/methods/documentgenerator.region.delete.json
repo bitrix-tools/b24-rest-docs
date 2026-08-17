@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.region.delete",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Удалить регион documentgenerator.region.delete",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского региона. Получить идентификатор можно после создания региона или методом получения списка регионов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/region/document-generator-region-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1742906400,
+      "finish": 1742906400.201234,
+      "duration": 0.2012341022491455,
+      "processing": 0,
+      "date_start": "2025-03-25T10:00:00+03:00",
+      "date_finish": "2025-03-25T10:00:00+03:00",
+      "operating_reset_at": 1742907000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Метод удаляет регион и возвращает null. Также может вернуть null без ошибок, если в параметре id указан несуществующий регион"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/region/document-generator-region-delete.html",
+  "executable": false
+}

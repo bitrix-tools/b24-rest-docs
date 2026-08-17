@@ -1,0 +1,169 @@
+{
+  "$v": 1,
+  "method": "crm.status.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить описание полей справочника crm.status.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID"
+      },
+      "ENTITY_ID": {
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID элемента сущности"
+      },
+      "STATUS_ID": {
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Статус"
+      },
+      "SORT": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Сортировка"
+      },
+      "NAME": {
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Название"
+      },
+      "NAME_INIT": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Название по умолчанию"
+      },
+      "SYSTEM": {
+        "type": "char",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Системный"
+      },
+      "CATEGORY_ID": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "CATEGORY_ID"
+      },
+      "COLOR": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "COLOR"
+      },
+      "SEMANTICS": {
+        "type": "char",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "SEMANTICS"
+      },
+      "EXTRA": {
+        "type": "crm_status_extra",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Дополнительные поля"
+      }
+    },
+    "time": {
+      "start": 1752132864.335154,
+      "finish": 1752132864.366912,
+      "duration": 0.03175783157348633,
+      "processing": 0.002053976058959961,
+      "date_start": "2025-07-10T10:34:24+03:00",
+      "date_finish": "2025-07-10T10:34:24+03:00",
+      "operating_reset_at": 1752133464,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-fields.html",
+  "executable": false
+}

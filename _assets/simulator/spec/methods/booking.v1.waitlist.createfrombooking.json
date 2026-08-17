@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "booking.v1.waitlist.createfrombooking",
+  "scope": "booking",
+  "kind": "write",
+  "title": "Создать запись в листе ожидания из бронирования booking.v1.waitlist.createfrombooking",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "bookingId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор бронирования, на основе которого создается запись в листе ожидания. Можно получить методами booking.v1.booking.add и booking.v1.booking.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/waitlist/booking-v1-waitlist-createfrombooking.md"
+  },
+  "resultExample": {
+    "result": 140,
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит идентификатор добавленной записи в лист ожидания"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/waitlist/booking-v1-waitlist-createfrombooking.html",
+  "executable": false
+}

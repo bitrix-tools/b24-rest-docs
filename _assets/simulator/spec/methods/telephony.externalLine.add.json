@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "telephony.externalLine.add",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Добавить внешнюю линию telephony.externalLine.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Номер внешней линии"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название внешней линии"
+    },
+    {
+      "name": "CRM_AUTO_CREATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Автосоздание объекта CRM при исходящих звонках. Возможные значения: Y — включено N — выключено По умолчанию — Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-line-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 7
+    },
+    "time": {
+      "start": 1772801648,
+      "finish": 1772801648.420551,
+      "duration": 0.420551061630249,
+      "processing": 0,
+      "date_start": "2026-03-06T15:54:08+03:00",
+      "date_finish": "2026-03-06T15:54:08+03:00",
+      "operating_reset_at": 1772802248,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной внешней линии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-line-add.html",
+  "executable": false
+}

@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.product.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список товарных позиций оплаты crm.item.payment.product.list",
+  "permissions": "требуется право на чтение заказа оплаты",
+  "params": [
+    {
+      "name": "paymentId",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты. Можно получить с помощью метода sale.payment.list"
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект для фильтрации выбранных товарных позиций оплаты в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field: - id - quantity Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - = — равно, точное совпадение (используется по умолчанию) - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных товарных позиций оплаты в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field: - id - quantity Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "crm_item_payment_product[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, содержащий информацию о выбранных товарных позициях оплаты"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-list.html",
+  "executable": false
+}

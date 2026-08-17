@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "task.logitem.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Просмотреть историю изменения задачи task.logitem.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ID",
+      "type": "unknown",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор задачи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-log-item-list.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.history.list"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-log-item-list.html",
+  "executable": false
+}

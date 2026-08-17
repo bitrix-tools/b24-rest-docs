@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.lead.contact.items.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Прикрепить список контактов к лиду crm.lead.contact.items.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор лида. Идентификатор лида можно получить методом получения списка лидов"
+    },
+    {
+      "name": "items",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор контактов в виде массива объектов со следующими полями: - CONTACTID^^ — идентификатор контакта - SORT — индекс сортировки - ISPRIMARY — флаг первичного контакта",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/management-communication/crm-lead-contact-items-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1715091541.642592,
+      "finish": 1715091541.730599,
+      "duration": 0.08800697326660156,
+      "date_start": "2024-05-03T17:19:01+03:00",
+      "date_finish": "2024-05-03T17:19:01+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/management-communication/crm-lead-contact-items-set.html",
+  "executable": false
+}

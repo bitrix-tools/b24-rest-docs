@@ -1,0 +1,98 @@
+{
+  "$v": 1,
+  "method": "crm.vat.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить ставку НДС по идентификатору crm.vat.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор ставки НДС. Получить список ставок можно методом crm.vat.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/vat/crm-vat-get.md"
+  },
+  "deprecated": {
+    "successor": "catalog.vat.get"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "13",
+      "ACTIVE": "Y",
+      "NAME": "НДС 20%",
+      "RATE": "20.00",
+      "C_SORT": "100"
+    },
+    "time": {
+      "start": 1752043855.534128,
+      "finish": 1752043855.598301,
+      "duration": 0.06417298316955566,
+      "processing": 0.008214235305786133,
+      "date_start": "2025-07-09T09:50:55+03:00",
+      "date_finish": "2025-07-09T09:50:55+03:00",
+      "operating_reset_at": 1752044455,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор ставки НДС"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Активность ставки"
+    },
+    {
+      "name": "C_SORT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Сортировка"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название ставки"
+    },
+    {
+      "name": "RATE",
+      "type": "double",
+      "base": "number",
+      "required": false,
+      "description": "Значение ставки НДС, %"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/outdated/vat/crm-vat-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "C_SORT",
+    "ID",
+    "NAME",
+    "RATE"
+  ]
+}

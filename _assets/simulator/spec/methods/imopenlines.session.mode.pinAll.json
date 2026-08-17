@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.mode.pinAll",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Закрепить все доступные диалоги за оператором imopenlines.session.mode.pinAll",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "integer[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов сессий, которые удалось закрепить",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-pin-all.md"
+  },
+  "resultExample": {
+    "result": [
+      339,
+      337
+    ],
+    "time": {
+      "start": 1773673238,
+      "finish": 1773673238.659743,
+      "duration": 0.659743070602417,
+      "processing": 0,
+      "date_start": "2026-03-16T18:00:38+03:00",
+      "date_finish": "2026-03-16T18:00:38+03:00",
+      "operating_reset_at": 1773673838,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов сессий, которые удалось закрепить"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-pin-all.html",
+  "executable": false
+}

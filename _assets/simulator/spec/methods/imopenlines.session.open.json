@@ -1,0 +1,56 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.open",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Получить чат по коду пользователя imopenlines.session.open",
+  "permissions": "любой пользователь с правом на доступ к диалогу",
+  "params": [
+    {
+      "name": "USER_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код пользователя для канала внешней системы. Формат кода: , где: - <connector> — идентификатор коннектора: livechat, telegram и другие - <LINE_ID> — идентификатор открытой линии - <CONNECTOR_CHAT_ID> — идентификатор чата в канале - <CONNECTOR_USER_ID> — идентификатор пользователя в канале Значение можно получить методом imopenlines.dialog.get из поля entity_id или методом imopenlines.ses…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-open.md"
+  },
+  "resultExample": {
+    "result": {
+      "chatId": "1763"
+    },
+    "time": {
+      "start": 1773666416,
+      "finish": 1773666416.279787,
+      "duration": 0.2797870635986328,
+      "processing": 0,
+      "date_start": "2026-03-16T16:06:56+03:00",
+      "date_finish": "2026-03-16T16:06:56+03:00",
+      "operating_reset_at": 1773667016,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-open.html",
+  "executable": false
+}

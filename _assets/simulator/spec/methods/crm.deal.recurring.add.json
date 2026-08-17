@@ -1,0 +1,121 @@
+{
+  "$v": 1,
+  "method": "crm.deal.recurring.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать шаблон регулярной сделки crm.deal.recurring.add",
+  "permissions": "пользователь с правами «добавление» и «изменение» сделок",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект формата: где: - field_n — название поля настройки - value_n — значение поля настройки Список доступных полей описан ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "DEAL_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор сделки, на основе которой создается шаблон регулярной сделки. Идентификатор сделки можно получить с помощью методов crm.deal.list или crm.deal.add"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Флаг активности настройки. Возможные значения: - Y — активна - N — неактивна"
+        },
+        {
+          "name": "CATEGORY_ID",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "id воронки для новых сделок, создаваемых из шаблона. Список доступных воронок можно узнать с помощью метода crm.category.list, передав entityTypeId = 2"
+        },
+        {
+          "name": "IS_LIMIT",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Ограничение по созданию новых сделок: N — без ограничений D — ограничение по дате (LIMIT_DATE) T — ограничение по количеству (LIMIT_REPEAT) Если передано любое другое значение, оно будет приведено к N"
+        },
+        {
+          "name": "LIMIT_REPEAT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Максимальное количество сделок, которые можно создать из шаблона. Используется при IS_LIMIT = T"
+        },
+        {
+          "name": "LIMIT_DATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата окончания генерации сделок из шаблона в формате YYYY-MM-DD. Используется при IS_LIMIT = D"
+        },
+        {
+          "name": "START_DATE",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата начала расчета следующего запуска в формате YYYY-MM-DD"
+        },
+        {
+          "name": "PARAMS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Параметры периодичности (подробное описание)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/recurring-deals/crm-deal-recurring-add.md"
+  },
+  "resultExample": {
+    "result": 15,
+    "time": {
+      "start": 1772664456,
+      "finish": 1772664457.379632,
+      "duration": 1.3796319961547852,
+      "processing": 1,
+      "date_start": "2026-03-05T01:47:36+03:00",
+      "date_finish": "2026-03-05T01:47:37+03:00",
+      "operating_reset_at": 1772665056,
+      "operating": 0.7352650165557861
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной настройки шаблона регулярной сделки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/recurring-deals/crm-deal-recurring-add.html",
+  "executable": false
+}

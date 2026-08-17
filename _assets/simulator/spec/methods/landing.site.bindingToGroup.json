@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.site.bindingToGroup",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Привязать к группе Социальной сети landing.site.bindingToGroup",
+  "permissions": "пользователь с правом Размещение в Расширениях в разделе База знаний и правами на редактирование Базы знаний в указанной группе",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор сайта Базы знаний. id можно получить, например, из метода landing.site.getList в поле ID"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы Социальной сети. groupId можно получить: - из интерфейса группы - из результата метода landing.site.getGroupBindings в поле BINDING_ID для уже существующих привязок - методом socialnetwork.api.workgroup.list - методом sonetgroup.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/embedding/knowledge-base/landing-site-binding-to-group.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774952664,
+      "finish": 1774952665.017161,
+      "duration": 1.0171608924865723,
+      "processing": 0,
+      "date_start": "2026-03-31T13:24:24+03:00",
+      "date_finish": "2026-03-31T13:24:25+03:00",
+      "operating_reset_at": 1774953265,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат привязки: - true — привязка выполнена - false — привязка не выполнена Метод может вернуть false без ошибки, если: - у пользователя нет права Размещение в Расширениях в разделе «База знаний» - у пользователя нет прав на редактирование Базы знаний в указанной группе - для группы уже существует привязка Базы знаний"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/embedding/knowledge-base/landing-site-binding-to-group.html",
+  "executable": false
+}

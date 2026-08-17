@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "landing.repo.checkContent",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Проверить контент на опасные подстроки landing.repo.checkContent",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "content",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Контент для проверки"
+    },
+    {
+      "name": "splitter",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Разделитель, которым помечаются опасные фрагменты в content. По умолчанию: #SANITIZE#"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/user-blocks/landing-repo-check-content.md"
+  },
+  "resultExample": {
+    "result": {
+      "is_bad": true,
+      "content": "<div style=\"color:red\" oncl#AAA#ick=\"alert(1)\"><ifr#AAA#ame src=\"//evil.com\"></iframe></div>"
+    },
+    "time": {
+      "start": 1774952664,
+      "finish": 1774952665.017161,
+      "duration": 1.0171608924865723,
+      "processing": 0,
+      "date_start": "2026-03-31T13:24:24+03:00",
+      "date_finish": "2026-03-31T13:24:25+03:00",
+      "operating_reset_at": 1774953265,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат проверки подробнее"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/user-blocks/landing-repo-check-content.html",
+  "executable": false
+}

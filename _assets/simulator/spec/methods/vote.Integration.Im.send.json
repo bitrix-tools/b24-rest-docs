@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "vote.Integration.Im.send",
+  "scope": "vote",
+  "kind": "write",
+  "title": "Создать и отправить голосование в чат vote.Integration.Im.send",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "chatId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата, в который отправляется голосование. Получить можно методами im.chat.add, im.chat.get, im.recent.get, im.recent.list"
+    },
+    {
+      "name": "IM_MESSAGE_VOTE_DATA",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Данные голосования с вопросом и вариантами ответов. Структура описана ниже",
+      "ref": "#/defs/IM_MESSAGE_VOTE_DATAFields"
+    },
+    {
+      "name": "templateId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный идентификатор запроса, требований к формату нет. Цель идентификатора — защита от дублирования. Если из-за сбоя сети запрос отправится повторно с тем же templateId, сервер поймет это и создаст опрос только один раз"
+    }
+  ],
+  "defs": {
+    "IM_MESSAGE_VOTE_DATAFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "QUESTIONS",
+          "type": "array",
+          "base": "array",
+          "required": true,
+          "description": "Массив вопросов голосования, структура описана ниже. Максимум 1 вопрос"
+        },
+        {
+          "name": "ANONYMITY",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Анонимность голосования. Возможные значения: - 0 — неанонимное голосование, - 1 — анонимное голосование. Значение по умолчанию: 0, публичное голосование"
+        },
+        {
+          "name": "OPTIONS",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Разрешить переголосование. Возможные значения: - 0 — нет, - 1 — да. Значение по умолчанию: 0, переголосование запрещено"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.integration.im.send.md"
+  },
+  "resultExample": {
+    "result": {
+      "messageId": 23,
+      "voteId": 7
+    },
+    "time": {
+      "start": 1754470016.954889,
+      "finish": 1754470017.043656,
+      "duration": 0.08876705169677734,
+      "processing": 0.07431983947753906,
+      "date_start": "2025-08-06T11:46:56+03:00",
+      "date_finish": "2025-08-06T11:46:57+03:00",
+      "operating_reset_at": 1754470616,
+      "operating": 0.3257129192352295
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о номере сообщения и голосования, стурктура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vote/vote.integration.im.send.html",
+  "executable": false
+}

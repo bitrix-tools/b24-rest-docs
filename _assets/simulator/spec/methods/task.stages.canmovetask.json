@@ -1,0 +1,44 @@
+{
+  "$v": 1,
+  "method": "task.stages.canmovetask",
+  "scope": "task",
+  "kind": "write",
+  "title": "Проверить возможность перемещения задачи task.stages.canmovetask",
+  "permissions": "> - любой пользователь для стадий «Моего плана»",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID объекта"
+    },
+    {
+      "name": "entityType",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта: - U — пользователь - G — группа В случае U («Мой план») — значение true вернется только если в entityId передается идентификатор текущего пользователя"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/stages/task-stages-can-move-task.md"
+  },
+  "resultExample": {
+    "result": true
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает значение true, если текущий пользователь может переместить задачу. Иначе — false"
+    }
+  ],
+  "page": "/api-reference/tasks/stages/task-stages-can-move-task.html",
+  "executable": false
+}

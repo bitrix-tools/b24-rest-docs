@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "rpa.fields.setVisibilitySettings",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Изменить настройки видимости полей rpa.fields.setVisibilitySettings",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "visibility",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор видимости, для которого меняются настройки"
+    },
+    {
+      "name": "stageId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор стадии. По умолчанию имеет значение 0, то есть — общие настройки"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив с полями, для которых необходимо поменять настройку",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/fields/rpa-fields-set-visibility-settings.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/fields/rpa-fields-set-visibility-settings.html",
+  "executable": false
+}

@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "app.option.get",
+  "scope": "базовый",
+  "kind": "read",
+  "title": "Получить привязанные к приложению данные app.option.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "option",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Один из ключей, сохраненных методом app.option.set. Если параметр не передан, метод вернет все сохраненные настройки приложения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/settings/app-option-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "data": "value",
+      "data2": "value2"
+    },
+    "time": {
+      "start": 1722001311.94644,
+      "finish": 1722001311.98622,
+      "duration": 0.0397801399230957,
+      "processing": 0.000041961669921875,
+      "date_start": "2024-07-26T13:41:51+00:00",
+      "date_finish": "2024-07-26T13:41:51+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Зависит от параметра option: - параметр не передан — объект, где ключ это название настройки, а значение это сохраненное значение. Если настроек нет, объект пустой - параметр передан — сохраненное значение ключа - параметр передан, но такого ключа нет — null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/settings/app-option-get.html",
+  "executable": false,
+  "entityFields": [
+    "data",
+    "data2"
+  ]
+}

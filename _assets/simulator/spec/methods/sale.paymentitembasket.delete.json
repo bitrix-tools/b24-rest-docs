@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.paymentitembasket.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить привязку элемента корзины к оплате sale.paymentitembasket.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_payment_item_basket.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки элемента корзины к оплате"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-basket/sale-payment-item-basket-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1713341821.787766,
+      "finish": 1713341822.437787,
+      "duration": 0.6500210762023926,
+      "processing": 0.40876007080078125,
+      "date_start": "2024-04-17T11:17:01+03:00",
+      "date_finish": "2024-04-17T11:17:02+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления привязки элемента корзины к оплате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-basket/sale-payment-item-basket-delete.html",
+  "executable": false
+}

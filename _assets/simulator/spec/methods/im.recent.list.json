@@ -1,0 +1,405 @@
+{
+  "$v": 1,
+  "method": "im.recent.list",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить список чатов im.recent.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "SKIP_OPENLINES",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропускать чаты открытых линий. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "SKIP_DIALOG",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропускать диалоги один-на-один. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "SKIP_CHAT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропускать групповые чаты. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "LAST_MESSAGE_DATE",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата последнего элемента предыдущей выборки в формате ATOM (ISO-8601)"
+    },
+    {
+      "name": "UNREAD_ONLY",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Возвращать только диалоги с непрочитанными сообщениями. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "PARSE_TEXT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Парсить текст последнего сообщения. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "GET_ORIGINAL_TEXT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Вернуть оригинальный текст сообщения без преобразований. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "SKIP_UNDISTRIBUTED_OPENLINES",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Пропускать нераспределенные чаты открытых линий. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "ONLY_COPILOT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Возвращать только чаты BitrixGPT. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "ONLY_CHANNEL",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Возвращать только каналы. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "CAN_MANAGE_MESSAGES",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Возвращать только чаты с правом управления сообщениями. Возможные значения: - Y — да - N — нет"
+    },
+    {
+      "name": "OFFSET",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение для постраничной выборки. По умолчанию: 0"
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество элементов на страницу. По умолчанию: 50. Максимальное значение: 200"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/im-recent-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 547,
+          "chat_id": 1231,
+          "type": "user",
+          "avatar": {
+            "url": "",
+            "color": "#1eb4aa"
+          },
+          "title": "Иван Иванов",
+          "message": {
+            "id": 84415,
+            "text": "ntcn",
+            "file": false,
+            "author_id": 547,
+            "attach": false,
+            "sticker": null,
+            "date": "2026-02-25T12:07:10+03:00",
+            "status": "received",
+            "uuid": "0c3c5ad6-a1b8-4d4d-9234-f137ef862a77"
+          },
+          "counter": 1,
+          "last_id": 82363,
+          "pinned": false,
+          "unread": false,
+          "has_reminder": false,
+          "date_update": "2026-02-25T12:07:10+03:00",
+          "date_last_activity": "2026-02-25T12:07:10+03:00",
+          "user": {
+            "id": 547,
+            "active": true,
+            "name": "Иван Иванов",
+            "first_name": "Иван",
+            "last_name": "Иванов",
+            "work_position": "Тестировщик",
+            "color": "#1eb4aa",
+            "avatar": "",
+            "avatar_hr": "/bitrix/js/im/images/blank.gif",
+            "gender": "M",
+            "birthday": "",
+            "extranet": false,
+            "network": false,
+            "bot": false,
+            "connector": false,
+            "external_auth_id": "socservices",
+            "status": "online",
+            "idle": false,
+            "last_activity_date": "2026-02-25T17:42:27+03:00",
+            "mobile_last_date": false,
+            "desktop_last_date": false,
+            "absent": false,
+            "departments": [
+              1,
+              667
+            ],
+            "phones": false,
+            "bot_data": null,
+            "type": "user",
+            "website": "",
+            "email": "ivan.ivanov@mysite.ru"
+          },
+          "chat": {
+            "text_field_enabled": true,
+            "background_id": null,
+            "mute_list": []
+          },
+          "options": []
+        },
+        {
+          "id": "chat1317",
+          "chat_id": 1317,
+          "type": "chat",
+          "avatar": {
+            "url": "https://cdn-ru.bitrix24.ru/b17053/resize_cache/54309/ff58db95aecdfa09ae61b51b5fd8f63f/im/553/5539ce72ef842ca40efd35b54322d828/7qd8lz4rsqwubjru086fst8tx6uhkxa9",
+            "color": "#4ba984"
+          },
+          "title": "Хочу зеленый чат",
+          "message": {
+            "id": 84413,
+            "text": "ntcn",
+            "file": false,
+            "author_id": 547,
+            "attach": false,
+            "sticker": null,
+            "date": "2026-02-25T12:07:05+03:00",
+            "status": "received",
+            "uuid": "f4721d3d-68c6-473e-a899-3b96b0ee18db"
+          },
+          "counter": 1,
+          "last_id": 82447,
+          "pinned": false,
+          "unread": false,
+          "has_reminder": false,
+          "date_update": "2026-02-25T12:07:05+03:00",
+          "date_last_activity": "2026-02-25T12:07:05+03:00",
+          "chat": {
+            "id": 1317,
+            "parent_chat_id": 0,
+            "parent_message_id": 0,
+            "name": "Хочу зеленый чат",
+            "owner": 547,
+            "extranet": false,
+            "contains_collaber": false,
+            "avatar": "https://cdn-ru.bitrix24.ru/b17053/resize_cache/54309/ff58db95aecdfa09ae61b51b5fd8f63f/im/553/5539ce72ef842ca40efd35b54322d828/7qd8lz4rsqwubjru086fst8tx6uhkxa9",
+            "color": "#4ba984",
+            "type": "chat",
+            "entity_type": "",
+            "entity_id": "",
+            "entity_data_1": "",
+            "entity_data_2": "",
+            "entity_data_3": "",
+            "mute_list": {
+              "503": true
+            },
+            "manager_list": [],
+            "date_create": "2025-08-12T16:14:00+03:00",
+            "message_type": "C",
+            "user_counter": 2,
+            "restrictions": {
+              "avatar": true,
+              "rename": true,
+              "extend": true,
+              "call": true,
+              "mute": true,
+              "leave": true,
+              "leave_owner": true,
+              "send": true,
+              "user_list": true
+            },
+            "role": "MEMBER",
+            "text_field_enabled": true,
+            "background_id": null,
+            "entity_link": {
+              "type": "",
+              "url": "",
+              "id": ""
+            },
+            "permissions": {
+              "manage_users_add": "member",
+              "manage_users_delete": "manager",
+              "manage_ui": "member",
+              "manage_settings": "owner",
+              "manage_messages": "member",
+              "can_post": "member"
+            },
+            "public": ""
+          },
+          "user": {
+            "id": 547,
+            "active": true,
+            "name": "Иван Иванов",
+            "first_name": "Иван",
+            "last_name": "Иванов",
+            "work_position": "Тестировщик",
+            "color": "#1eb4aa",
+            "avatar": "",
+            "avatar_hr": "/bitrix/js/im/images/blank.gif",
+            "gender": "M",
+            "birthday": "",
+            "extranet": false,
+            "network": false,
+            "bot": false,
+            "connector": false,
+            "external_auth_id": "socservices",
+            "status": "online",
+            "idle": false,
+            "last_activity_date": "2026-02-25T17:42:27+03:00",
+            "mobile_last_date": false,
+            "desktop_last_date": false,
+            "absent": false,
+            "departments": [
+              1,
+              667
+            ],
+            "phones": false,
+            "bot_data": null,
+            "type": "user",
+            "website": "",
+            "email": "ivan.ivanov@mysite.ru"
+          },
+          "options": []
+        }
+      ],
+      "hasMorePages": false,
+      "hasMore": false,
+      "copilot": {
+        "chats": null,
+        "messages": null,
+        "roles": {
+          "copilot_assistant": {
+            "code": "copilot_assistant",
+            "name": "BitrixGPT",
+            "desc": "Готов отвечать на все вопросы в общем формате",
+            "avatar": {
+              "small": "https://preview.bitrix24.site/upload/ai/avatars/5f72dd53304450356e0eaf09c0fcda7b_64x64.png",
+              "medium": "https://preview.bitrix24.site/upload/ai/avatars/f62609ab98ede5b3d4bff7675cc9f1f5_128x128.png",
+              "large": "https://preview.bitrix24.site/upload/ai/avatars/0a89c642ed5f1c2a292f7c3a1eab99d3_256x256.png"
+            },
+            "default": true,
+            "prompts": [
+              {
+                "code": "universal_how_to_properly_write_a_business_letter",
+                "promptType": "default",
+                "title": "Как правильно составить деловое письмо?",
+                "text": "Как правильно составить деловое письмо?",
+                "isNew": false
+              },
+              {
+                "code": "universal_effective_methods_to_combat_procrastination_in_the_workplace",
+                "promptType": "default",
+                "title": "Как бороться с прокрастинацией?",
+                "text": "Расскажи про эффективные методы борьбы с прокрастинацией на рабочем месте",
+                "isNew": false
+              },
+              {
+                "code": "universal_ideas_on_how_to_make_meetings_more_concise_and_substantive",
+                "promptType": "default",
+                "title": "Идеи для совещаний",
+                "text": "Есть идеи, как сделать совещания более компактными и содержательными?",
+                "isNew": false
+              },
+              {
+                "code": "universal_ideas_for_short_breaks_for_physical_exercises",
+                "promptType": "default",
+                "title": "Идеи для коротких перерывов",
+                "text": "Предложи идеи для коротких перерывов на физические упражнения в офисе",
+                "isNew": false
+              }
+            ]
+          }
+        },
+        "recommendedRoles": [
+          "copilot_assistant",
+          "smm_manager",
+          "seo_copywriter",
+          "prompt_generator",
+          "marketing_specialist"
+        ]
+      },
+      "messagesAutoDeleteConfigs": []
+    },
+    "total": -1,
+    "time": {
+      "start": 1772089843,
+      "finish": 1772089843.789026,
+      "duration": 0.7890260219573975,
+      "processing": 0,
+      "date_start": "2026-02-26T10:10:43+03:00",
+      "date_finish": "2026-02-26T10:10:43+03:00",
+      "operating_reset_at": 1772090443,
+      "operating": 0.2634410858154297
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой объект результата (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество элементов. В текущей реализации обычно -1"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/im-recent-list.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "chat",
+    "chat_id",
+    "counter",
+    "date_last_activity",
+    "date_update",
+    "has_reminder",
+    "id",
+    "last_id",
+    "message",
+    "options",
+    "pinned",
+    "title",
+    "type",
+    "unread",
+    "user"
+  ]
+}

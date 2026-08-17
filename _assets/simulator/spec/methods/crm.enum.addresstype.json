@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "crm.enum.addresstype",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить типы адресов crm.enum.addresstype",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами адресов (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/crm-enum-address-type.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 11,
+        "NAME": "Адрес доставки",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 1,
+        "NAME": "Фактический адрес",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 6,
+        "NAME": "Юридический адрес",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 4,
+        "NAME": "Адрес регистрации",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 8,
+        "NAME": "Адрес для корреспонденции",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 9,
+        "NAME": "Адрес бенефициара",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750152255.931318,
+      "finish": 1750152255.967967,
+      "duration": 0.03664898872375488,
+      "processing": 0.0003609657287597656,
+      "date_start": "2025-06-17T12:24:15+03:00",
+      "date_finish": "2025-06-17T12:24:15+03:00",
+      "operating_reset_at": 1750152855,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами адресов (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/crm-enum-address-type.html",
+  "executable": false
+}

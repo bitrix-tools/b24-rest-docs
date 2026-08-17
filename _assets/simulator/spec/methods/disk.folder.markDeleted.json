@@ -1,0 +1,175 @@
+{
+  "$v": 1,
+  "method": "disk.folder.markDeleted",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Переместить папку в корзину disk.folder.markDeleted",
+  "permissions": "пользователь с правом «Полный доступ» для нужной папки",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор папки. Идентификатор можно получить с помощью метода disk.folder.getChildren"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/folder/disk-folder-mark-deleted.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "8996",
+      "NAME": "Папка",
+      "CODE": null,
+      "STORAGE_ID": "1357",
+      "TYPE": "folder",
+      "REAL_OBJECT_ID": "8996",
+      "PARENT_ID": "8907",
+      "DELETED_TYPE": 3,
+      "CREATE_TIME": "2026-01-21T13:53:51+03:00",
+      "UPDATE_TIME": "2026-01-21T13:53:51+03:00",
+      "DELETE_TIME": "2026-01-21T13:56:54+03:00",
+      "CREATED_BY": "1269",
+      "UPDATED_BY": "1269",
+      "DELETED_BY": "1269",
+      "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/path/Папка/Папка"
+    },
+    "time": {
+      "start": 1768993014,
+      "finish": 1768993014.106899,
+      "duration": 0.10689902305603027,
+      "processing": 0,
+      "date_start": "2026-01-21T13:56:54+03:00",
+      "date_finish": "2026-01-21T13:56:54+03:00",
+      "operating_reset_at": 1768993614,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с данными о перемещенной в корзину папке"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор папки"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя папки"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код папки"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища, в котором находится папка"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "REAL_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания папки"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления папки"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время переноса папки в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего папку"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, удалившего папку"
+    },
+    {
+      "name": "DETAIL_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для открытия папки в интерфейсе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/folder/disk-folder-mark-deleted.html",
+  "executable": false
+}

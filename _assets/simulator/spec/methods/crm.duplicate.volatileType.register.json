@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.duplicate.volatileType.register",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить поле в поиск дубликатов crm.duplicate.volatileType.register",
+  "permissions": "администратор Битрикс24 или администратор CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта. Возможные значения: - 1 — лид - 3 — контакт - 4 — компания"
+    },
+    {
+      "name": "fieldCode",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код поля, который нужно добавить в поиск дубликатов. Например TITLE, RQ.RU.NAME, UF_CRM_1750854801. Получить список доступных полей можно методом crm.duplicate.volatileType.fields"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-register.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 3355
+    },
+    "time": {
+      "start": 1750934251.736599,
+      "finish": 1750934252.028757,
+      "duration": 0.2921581268310547,
+      "processing": 0.24904417991638184,
+      "date_start": "2025-06-26T13:37:31+03:00",
+      "date_finish": "2025-06-26T13:37:32+03:00",
+      "operating_reset_at": 1750934851,
+      "operating": 0.24902796745300293
+    }
+  },
+  "returns": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор записи для поля, добавленного в поиск дубликатов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-register.html",
+  "executable": false
+}

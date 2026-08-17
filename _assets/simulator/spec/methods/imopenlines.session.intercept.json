@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.intercept",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Забрать диалог у текущего оператора imopenlines.session.intercept",
+  "permissions": "любой пользователь с правами на диалог",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.dialog.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-intercept.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773670317,
+      "finish": 1773670317.598422,
+      "duration": 0.5984220504760742,
+      "processing": 0,
+      "date_start": "2026-03-16T17:11:57+03:00",
+      "date_finish": "2026-03-16T17:11:57+03:00",
+      "operating_reset_at": 1773670917,
+      "operating": 0.1664719581604004
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если диалог успешно переведен на текущего оператора"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-intercept.html",
+  "executable": false
+}

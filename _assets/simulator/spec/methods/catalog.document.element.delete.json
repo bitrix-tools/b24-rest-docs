@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "catalog.document.element.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить товар из документа складского учета catalog.document.element.delete",
+  "permissions": "> - пользователь с правом «Создание и редактирование» на тип документа в запросе",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_document_element.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор записи товара в документе, можно получить методом catalog.document.element.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/document-element/catalog-document-element-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1759482302.413852,
+      "finish": 1759482302.497163,
+      "duration": 0.08331108093261719,
+      "processing": 0.01520085334777832,
+      "date_start": "2025-11-02T12:25:02+03:00",
+      "date_finish": "2025-11-02T12:25:02+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/document-element/catalog-document-element-delete.html",
+  "executable": false
+}

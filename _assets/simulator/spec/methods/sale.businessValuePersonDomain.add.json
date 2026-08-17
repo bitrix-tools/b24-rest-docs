@@ -1,0 +1,88 @@
+{
+  "$v": 1,
+  "method": "sale.businessValuePersonDomain.add",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить соответствие физическому или юридическому лицу sale.businessValuePersonDomain.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания соответствия физическому или юридическому лицу",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "personTypeId",
+          "type": "sale_person_type.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор типа плательщика. Получить идентификаторы типов плательщиков можно с помощью метода sale.persontype.list"
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Значение, которому соответствует тип плательщика: физическое или юридическое лицо. - I — физическое лицо - E — юридическое лицо"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/business-value-person-domain/sale-business-value-person-domain-add.md"
+  },
+  "resultExample": {
+    "businessValuePersonDomain": {
+      "domain": "I",
+      "personTypeId": 3
+    },
+    "time": {
+      "start": 1712325642.686926,
+      "finish": 1712325642.949075,
+      "duration": 0.2621490955352783,
+      "processing": 0.004400968551635742,
+      "date_start": "2024-04-05T16:00:42+02:00",
+      "date_finish": "2024-04-05T16:00:42+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "businessValuePersonDomain",
+      "type": "sale_business_value_person_domain",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленном соответствии типа плательщика физическому или юридическому лицу"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/business-value-person-domain/sale-business-value-person-domain-add.html",
+  "executable": false
+}

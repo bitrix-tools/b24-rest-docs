@@ -1,0 +1,66 @@
+{
+  "$v": 1,
+  "method": "crm.automation.trigger.execute",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Запустить выполнение триггера crm.automation.trigger.execute",
+  "permissions": "администратор с доступом к CRM в контексте приложения",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Внутренний уникальный (в рамках приложения) идентификатор триггера. Должен соответствовать маске [a-z0-9\\.\\-_]"
+    },
+    {
+      "name": "OWNER_TYPE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Тип объекта CRM по справочнику crm.enum.ownertype (Например, 1 — лид) Триггеры есть в лидах, сделках, предложениях, счетах и смарт-процессах"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/automation/triggers/crm-automation-trigger-execute.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718891973.429101,
+      "finish": 1718891986.721889,
+      "duration": 13.292788028717041,
+      "processing": 13.012810945510864,
+      "date_start": "2024-06-20T13:59:33+00:00",
+      "date_finish": "2024-06-20T13:59:46+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true в случае успешного запуска триггера"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/automation/triggers/crm-automation-trigger-execute.html",
+  "executable": false
+}

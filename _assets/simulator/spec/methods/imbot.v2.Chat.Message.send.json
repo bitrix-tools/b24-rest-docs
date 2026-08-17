@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Chat.Message.send",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Отправить сообщение imbot.v2.Chat.Message.send",
+  "permissions": "владелец зарегистрированного бота",
+  "params": [
+    {
+      "name": "botId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID бота"
+    },
+    {
+      "name": "botToken",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+    },
+    {
+      "name": "dialogId",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "ID диалога. Для групповых чатов — chat{chatId}, для личных — {userId}"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Содержимое сообщения. Структура объекта описана ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "message",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Текст сообщения. Максимальная длина — 20 000 символов. При превышении текст обрезается с добавлением (...)"
+        },
+        {
+          "name": "attach",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Вложения. Подробнее: Как использовать вложения"
+        },
+        {
+          "name": "keyboard",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Клавиатура с кнопками. Подробнее: Работа с клавиатурами"
+        },
+        {
+          "name": "system",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Системное сообщение. Допустимые значения: true, false. По умолчанию false"
+        },
+        {
+          "name": "urlPreview",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать превью ссылок. Допустимые значения: true, false. По умолчанию true"
+        },
+        {
+          "name": "replyId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "ID сообщения, на которое отвечает бот"
+        },
+        {
+          "name": "templateId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "UUID шаблона сообщения"
+        },
+        {
+          "name": "forwardIds",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Сообщения для пересылки. Формат: {uuid: messageId}, где uuid — произвольная UUID-строка как ключ, messageId — ID исходного сообщения. В ответе uuidMap вернет {uuid: newMessageId}. Бот может пересылать только сообщения из чатов, в которых он является участником. Максимум 100 сообщений"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-send.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 789,
+      "uuidMap": {}
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-send.html",
+  "executable": false
+}

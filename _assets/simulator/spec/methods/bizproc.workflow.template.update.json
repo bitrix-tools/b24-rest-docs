@@ -1,0 +1,100 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.template.update",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Изменить шаблон бизнес-процесса bizproc.workflow.template.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор шаблона, который нужно обновить"
+    },
+    {
+      "name": "FIELDS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями шаблона бизнес-процесса. Обновить можно поля: NAME, DESCRIPTION, TEMPLATE_DATA, AUTO_EXECUTE. При попытке обновить другие поля шаблона, ошибок не возникнет, но эти поля обновлены не будут",
+      "ref": "#/defs/FIELDSFields"
+    }
+  ],
+  "defs": {
+    "FIELDSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название шаблона"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание шаблона"
+        },
+        {
+          "name": "TEMPLATE_DATA",
+          "type": "file",
+          "base": "any",
+          "required": false,
+          "description": "Контент файла с шаблоном бизнес-процесса в формате .bpt. Подробнее о способах передачи файлов — в статье {#T}"
+        },
+        {
+          "name": "AUTO_EXECUTE",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Настройки автозапуска шаблона. Может иметь значение: - 0 — без автозапуска - 1 — запуск на создание - 2 — запуск на изменение - 3 — запуск на создание и изменение По умолчанию — 0"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/template/bizproc-workflow-template-update.md"
+  },
+  "resultExample": {
+    "result": 525,
+    "time": {
+      "start": 1737534421.172673,
+      "finish": 1737534421.209758,
+      "duration": 0.03708505630493164,
+      "processing": 0.010869026184082031,
+      "date_start": "2025-01-22T11:27:01+03:00",
+      "date_finish": "2025-01-22T11:27:01+03:00",
+      "operating_reset_at": 1737535021,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Идентификатор обновленного шаблона бизнес-процесса"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/template/bizproc-workflow-template-update.html",
+  "executable": false
+}

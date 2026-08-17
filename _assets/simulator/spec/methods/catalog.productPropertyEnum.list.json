@@ -1,0 +1,160 @@
+{
+  "$v": 1,
+  "method": "catalog.productPropertyEnum.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список значений списочных свойств catalog.productPropertyEnum.list",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта catalogproductpropertyenum). Если параметр не передан, будут выбраны все поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных значений в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogproductpropertyenum. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных значений в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogproductpropertyenum. Возможные значения для order: - ASC — в порядке возрастания - DESC — в порядке убывания Если параметр не передан, применяется сортировка id ASC",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы. Если передать значение -1, в ответе не будет поля total"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-property-enum/catalog-product-property-enum-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "productPropertyEnums": [
+        {
+          "def": "N",
+          "id": 433,
+          "propertyId": 431,
+          "sort": 500,
+          "value": "первое",
+          "xmlId": "1"
+        },
+        {
+          "def": "N",
+          "id": 435,
+          "propertyId": 431,
+          "sort": 500,
+          "value": "второе",
+          "xmlId": "2"
+        },
+        {
+          "def": "N",
+          "id": 437,
+          "propertyId": 431,
+          "sort": 500,
+          "value": "третье",
+          "xmlId": "3"
+        },
+        {
+          "def": "N",
+          "id": 439,
+          "propertyId": 431,
+          "sort": 500,
+          "value": "четвертое",
+          "xmlId": "4"
+        },
+        {
+          "def": "N",
+          "id": 441,
+          "propertyId": 431,
+          "sort": 500,
+          "value": "пятое",
+          "xmlId": "5"
+        }
+      ]
+    },
+    "total": 5,
+    "time": {
+      "start": 1774339997,
+      "finish": 1774339997.456867,
+      "duration": 0.456866979598999,
+      "processing": 0,
+      "date_start": "2026-03-24T11:13:17+03:00",
+      "date_finish": "2026-03-24T11:13:17+03:00",
+      "operating_reset_at": 1774340597,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "productPropertyEnums",
+      "type": "catalog_product_property_enum[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных значениях списочных свойств"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для следующей страницы. Поле возвращается, если есть еще записи"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее число записей. Поле не возвращается, если запрос выполнен со start = -1"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-property-enum/catalog-product-property-enum-list.html",
+  "executable": false,
+  "entityFields": [
+    "def",
+    "id",
+    "propertyId",
+    "sort",
+    "value",
+    "xmlId"
+  ]
+}

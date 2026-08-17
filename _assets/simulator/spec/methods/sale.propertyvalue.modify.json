@@ -1,0 +1,169 @@
+{
+  "$v": 1,
+  "method": "sale.propertyvalue.modify",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Изменить значение свойства sale.propertyvalue.modify",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Корневой элемент, в котором передаются параметры запроса в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": true,
+          "description": "Объект, содержащий значения идентификатора заказа и значения свойств заказа в виде структуры:"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-value/sale-property-value-modify.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyValues": [
+        {
+          "code": "DELIVERY_DATE",
+          "id": 13167,
+          "name": "Дата доставки",
+          "orderPropsId": 51,
+          "orderPropsXmlId": null,
+          "value": "17.04.2024"
+        },
+        {
+          "code": "DELEVERY_REQUIRED",
+          "id": 13168,
+          "name": "Необходимость доставки",
+          "orderPropsId": 52,
+          "orderPropsXmlId": null,
+          "value": "Y"
+        },
+        {
+          "code": "DOC",
+          "id": 13170,
+          "name": "Документ подтверждающий наличие права на покупку товара",
+          "orderPropsId": 53,
+          "orderPropsXmlId": null,
+          "value": {
+            "contentType": "image/jpeg",
+            "description": "",
+            "externalId": "89359a6dc806e5dc5404962d1be0ba42",
+            "fileName": "fit.jpeg",
+            "fileSize": "84058",
+            "handlerId": null,
+            "height": "800",
+            "id": "948",
+            "meta": "",
+            "moduleId": "fileman",
+            "originalName": "fit.jpeg",
+            "src": "/upload/medialibrary/5bd/ukgwed4vdxe1qaqv85pqrvdgq5moyhqh/fit.jpeg",
+            "subdir": "medialibrary/5bd/ukgwed4vdxe1qaqv85pqrvdgq5moyhqh",
+            "timestampX": "02.04.2024 09:13:29",
+            "versionOriginalId": null,
+            "width": "600"
+          }
+        },
+        {
+          "code": "MAX_DELIVERY_DAYS",
+          "id": 13171,
+          "name": "Доставить не позднее (дней после заказа)",
+          "orderPropsId": 54,
+          "orderPropsXmlId": null,
+          "value": "10"
+        },
+        {
+          "code": "FIO",
+          "id": 13163,
+          "name": "Имя Фамилия",
+          "orderPropsId": 20,
+          "orderPropsXmlId": null,
+          "value": "John Smith"
+        },
+        {
+          "code": "EMAIL",
+          "id": 13164,
+          "name": "E-Mail",
+          "orderPropsId": 21,
+          "orderPropsXmlId": null,
+          "value": "johnsmith@example.com"
+        },
+        {
+          "code": "PHONE",
+          "id": 13165,
+          "name": "Телефон",
+          "orderPropsId": 22,
+          "orderPropsXmlId": null,
+          "value": "+10907996161"
+        },
+        {
+          "code": "LOCATION",
+          "id": 13166,
+          "name": "Местоположение",
+          "orderPropsId": 25,
+          "orderPropsXmlId": "bx_63e3a3b974932",
+          "value": "0000073738"
+        },
+        {
+          "code": "ADDRESS",
+          "id": 13162,
+          "name": "Адрес доставки",
+          "orderPropsId": 26,
+          "orderPropsXmlId": null,
+          "value": "900 S Holland Ave, Springfield, MO 65806, United States"
+        }
+      ]
+    },
+    "time": {
+      "start": 1712049055.756753,
+      "finish": 1712049056.823234,
+      "duration": 1.066481113433838,
+      "processing": 0.7959079742431641,
+      "date_start": "2024-04-02T12:10:55+03:00",
+      "date_finish": "2024-04-02T12:10:56+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyValues",
+      "type": "sale_order_property_value[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, содержащих информацию о значениях свойств заказов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-value/sale-property-value-modify.html",
+  "executable": false
+}

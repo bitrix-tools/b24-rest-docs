@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "biconnector.dataset.list",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить список датасетов biconnector.dataset.list",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список полей, которые должны быть заполнены у датасетов в выборке. По умолчанию берутся все поля. Не поддерживает поле fields, оно будет проигнорировано",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Фильтр для выборки датасетов. Пример формата: К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Параметры сортировки. Пример формата: где: - field_n — название поля, по которому будет произведена сортировка выборки датасетов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Управление постраничной навигацией. Размер страницы результатов — 50 записей. Для перехода по результатам передавайте номер страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/dataset/biconnector-dataset-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": "9",
+        "name": "sales_data_main",
+        "description": "Monthly sales report"
+      },
+      {
+        "id": "6",
+        "name": "sales_data_first_filial",
+        "description": "Monthly sales report for first filial"
+      },
+      {
+        "id": "5",
+        "name": "sales_data_second_filial",
+        "description": "Monthly sales report for second filial"
+      }
+    ],
+    "time": {
+      "start": 1743061675.963969,
+      "finish": 1743061676.064591,
+      "duration": 0.10062193870544434,
+      "processing": 0.011152029037475586,
+      "date_start": "2025-03-27T07:47:55+00:00",
+      "date_finish": "2025-03-27T07:47:56+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/dataset/biconnector-dataset-list.html",
+  "executable": false,
+  "entityFields": [
+    "description",
+    "externalCode",
+    "externalName",
+    "fields",
+    "id",
+    "name",
+    "sourceId"
+  ]
+}

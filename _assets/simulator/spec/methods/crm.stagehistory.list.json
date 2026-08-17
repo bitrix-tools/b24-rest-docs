@@ -1,0 +1,115 @@
+{
+  "$v": 1,
+  "method": "crm.stagehistory.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить историю движения по стадиям crm.stagehistory.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор типа объекта. Может принимать значения: - 1 — лид, - 2 — сделка, - 5 — счет (старый), - 31 - счет (новый), - числовой идентификатор пользовательского типа, например 130"
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Список для сортировки, где ключ — поле, а значение — ASC или DESC",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Список для фильтрации. Фильтр поддерживает использование точных значений, массивов значений, а также модификаторы: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив - % — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Список получаемых полей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Сдвиг для постраничной навигации. Логика работы с постраничной навигацией стандартная для списочных методов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/crm-stage-history-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "ID": 35,
+          "TYPE_ID": 1,
+          "OWNER_ID": 21,
+          "CREATED_TIME": "2024-04-25T14:59:11+00:00",
+          "CATEGORY_ID": 0,
+          "STAGE_SEMANTIC_ID": "P",
+          "STAGE_ID": "NEW"
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1724106224.858572,
+      "finish": 1724106225.344968,
+      "duration": 0.48639607429504395,
+      "processing": 0.11864185333251953,
+      "date_start": "2024-08-15T22:15:44+00:00",
+      "date_finish": "2024-08-15T22:15:45+00:00",
+      "operating": 0.11855506896972656
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа, содержит массив записей items. Каждый объект — массив с ключами"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/crm-stage-history-list.html",
+  "executable": false,
+  "entityFields": [
+    "CATEGORY_ID",
+    "CREATED_TIME",
+    "ID",
+    "OWNER_ID",
+    "STAGE_ID",
+    "STAGE_SEMANTIC_ID",
+    "TYPE_ID"
+  ]
+}

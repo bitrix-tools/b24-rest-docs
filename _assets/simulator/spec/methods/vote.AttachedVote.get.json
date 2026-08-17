@@ -1,0 +1,157 @@
+{
+  "$v": 1,
+  "method": "vote.AttachedVote.get",
+  "scope": "vote",
+  "kind": "read",
+  "title": "Получить данные прикрепленного голосования vote.AttachedVote.get",
+  "permissions": "пользователь с правами чтения голосования",
+  "params": [
+    {
+      "name": "attachId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор прикрепленного голосования, может быть равен voteId из результатов vote.Integration.Im.send"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.attachedvote.get.md"
+  },
+  "resultExample": {
+    "attach": {
+      "ID": 1,
+      "VOTE_ID": 1,
+      "COUNTER": 1,
+      "QUESTIONS": {
+        "1": {
+          "ID": "1",
+          "ACTIVE": "Y",
+          "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+          "VOTE_ID": "1",
+          "C_SORT": "10",
+          "COUNTER": "1",
+          "QUESTION": "Как дела?",
+          "QUESTION_TYPE": "text",
+          "IMAGE_ID": null,
+          "DIAGRAM": "Y",
+          "DIAGRAM_TYPE": "histogram",
+          "REQUIRED": "N",
+          "FIELD_TYPE": "0",
+          "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+          "IMAGE": null,
+          "ANSWERS": {
+            "1": {
+              "ID": "1",
+              "ACTIVE": "Y",
+              "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+              "QUESTION_ID": "1",
+              "C_SORT": "10",
+              "IMAGE_ID": null,
+              "MESSAGE": "Отлично!",
+              "MESSAGE_TYPE": "text",
+              "COUNTER": "1",
+              "FIELD_TYPE": "0",
+              "FIELD_WIDTH": "0",
+              "FIELD_HEIGHT": "0",
+              "FIELD_PARAM": null,
+              "COLOR": "",
+              "REACTION": "",
+              "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+              "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+              "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][1]",
+              "~PERCENT": 100,
+              "PERCENT": 100
+            },
+            "3": {
+              "ID": "3",
+              "ACTIVE": "Y",
+              "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+              "QUESTION_ID": "1",
+              "C_SORT": "20",
+              "IMAGE_ID": null,
+              "MESSAGE": "Лучше всех!",
+              "MESSAGE_TYPE": "text",
+              "COUNTER": "0",
+              "FIELD_TYPE": "0",
+              "FIELD_WIDTH": "0",
+              "FIELD_HEIGHT": "0",
+              "FIELD_PARAM": null,
+              "COLOR": "",
+              "REACTION": "",
+              "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+              "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+              "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][3]",
+              "~PERCENT": 0,
+              "PERCENT": 0
+            },
+            "5": {
+              "ID": "5",
+              "ACTIVE": "Y",
+              "TIMESTAMP_X": "2025-08-05T09:08:31+03:00",
+              "QUESTION_ID": "1",
+              "C_SORT": "30",
+              "IMAGE_ID": null,
+              "MESSAGE": "Какие дела??",
+              "MESSAGE_TYPE": "text",
+              "COUNTER": "0",
+              "FIELD_TYPE": "0",
+              "FIELD_WIDTH": "0",
+              "FIELD_HEIGHT": "0",
+              "FIELD_PARAM": null,
+              "COLOR": "",
+              "REACTION": "",
+              "~FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+              "FIELD_NAME": "bx_vote_event[1][BALLOT][1]",
+              "MESSAGE_FIELD_NAME": "bx_vote_event[1][MESSAGE][1][5]",
+              "~PERCENT": 0,
+              "PERCENT": 0
+            }
+          }
+        }
+      },
+      "ANONYMITY": 1,
+      "OPTIONS": 1,
+      "userAnswerMap": {
+        "1": {
+          "1": {
+            "EVENT_ID": "1",
+            "EVENT_QUESTION_ID": "1",
+            "ANSWER_ID": "1",
+            "ID": "1",
+            "MESSAGE": ""
+          }
+        }
+      },
+      "canEdit": true,
+      "canVote": false,
+      "canRevote": true,
+      "isVoted": true,
+      "signedAttachId": "1.52280488561bf567f33cf03b5ce353e154a9c3552b51b2ffb67be3bb7f26f986",
+      "resultUrl": "/vote-result/me7hn922bm011mbf",
+      "downloadUrl": "/bitrix/services/main/ajax.php?action=vote.AttachedVote.download&SITE_ID=s1&signedAttachId=1.52280488561bf567f33cf03b5ce353e154a9c3552b51b2ffb67be3bb7f26f986",
+      "entityId": 13,
+      "isFinished": false
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект attach с информацией о прикрепленном голосовании, структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vote/vote.attachedvote.get.html",
+  "executable": false
+}

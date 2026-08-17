@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "biconnector.connector.list",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить список коннекторов biconnector.connector.list",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список полей, которые должны быть заполнены у коннекторов в выборке. По умолчанию берутся все поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Фильтр для выборки коннекторов. Пример формата: К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Параметры сортировки. Пример формата: - field_n — название поля, по которому будет произведена сортировка выборки коннекторов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Управление постраничной навигацией. Размер страницы результатов — 50 записей. Для перехода по результатам передавайте номер страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/connector/biconnector-connector-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": "11",
+        "title": "MyConnector_2",
+        "urlCheck": "https://new_example.com/check",
+        "dateCreate": "2025-03-24 07:25:59"
+      },
+      {
+        "id": "9",
+        "title": "MyConnector",
+        "urlCheck": "https://example.com/check",
+        "dateCreate": "2025-03-21 12:22:32"
+      }
+    ],
+    "time": {
+      "start": 1742804947.923552,
+      "finish": 1742804947.995446,
+      "duration": 0.07189393043518066,
+      "processing": 0.0017020702362060547,
+      "date_start": "2025-03-24T08:29:07+00:00",
+      "date_finish": "2025-03-24T08:29:07+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/connector/biconnector-connector-list.html",
+  "executable": false,
+  "entityFields": [
+    "dateCreate",
+    "description",
+    "id",
+    "logo",
+    "settings",
+    "sort",
+    "title",
+    "urlCheck",
+    "urlData",
+    "urlTableDescription",
+    "urlTableList"
+  ]
+}

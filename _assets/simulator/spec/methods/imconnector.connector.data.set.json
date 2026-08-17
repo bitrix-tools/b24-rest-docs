@@ -1,0 +1,105 @@
+{
+  "$v": 1,
+  "method": "imconnector.connector.data.set",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Установить настройки коннектора imconnector.connector.data.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код коннектора, который задали в параметре ID при вызове imconnector.register"
+    },
+    {
+      "name": "LINE",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
+    },
+    {
+      "name": "DATA",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект настроек канала во внешней системе. Метод не поддерживает отдельную установку или изменение одного поля: настройки записываются и перезаписываются через этот объект целиком. Структура объекта подробно описана ниже",
+      "ref": "#/defs/DATAFields"
+    }
+  ],
+  "defs": {
+    "DATAFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор канала во внешней системе, например channel-123. Идентификатор нужно взять из внешней системы. Если готового нет, используйте уникальный ключ, например, комбинацию ID коннектора и линии: myconnector_line107"
+        },
+        {
+          "name": "URL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Полная ссылка на чат или канал во внешней системе"
+        },
+        {
+          "name": "URL_IM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Полная ссылка на чат в формате для интерфейса оператора. Если отдельной ссылки для оператора нет, используйте значение URL"
+        },
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название канала для отображения в интерфейсе"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-connector-data-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.2,
+      "duration": 0.09,
+      "processing": 0.04,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если данные сохранены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-connector-data-set.html",
+  "executable": false
+}

@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.dealcategory.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить направление сделок crm.dealcategory.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор направления"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/category-old/crm-deal-category-get.md"
+  },
+  "deprecated": {
+    "successor": "crm.category.get"
+  },
+  "page": "/api-reference/crm/outdated/category-old/crm-deal-category-get.html",
+  "executable": false
+}

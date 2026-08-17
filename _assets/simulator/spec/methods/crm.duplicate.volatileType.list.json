@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "crm.duplicate.volatileType.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список нестандартных полей, участвующих в поиске дубликатов crm.duplicate.volatileType.list",
+  "permissions": "администратор Битрикс24 или администратор CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор записи"
+    },
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Тип объекта"
+    },
+    {
+      "name": "fieldCode",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Код поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 3355,
+        "entityTypeId": 1,
+        "fieldCode": "TITLE"
+      }
+    ],
+    "time": {
+      "start": 1750934651.513455,
+      "finish": 1750934651.578262,
+      "duration": 0.06480717658996582,
+      "processing": 0.017321109771728516,
+      "date_start": "2025-06-26T13:44:11+03:00",
+      "date_finish": "2025-06-26T13:44:11+03:00",
+      "operating_reset_at": 1750935251,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор записи"
+    },
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Тип объекта"
+    },
+    {
+      "name": "fieldCode",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Код поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-list.html",
+  "executable": false,
+  "entityFields": [
+    "entityTypeId",
+    "fieldCode",
+    "id"
+  ]
+}

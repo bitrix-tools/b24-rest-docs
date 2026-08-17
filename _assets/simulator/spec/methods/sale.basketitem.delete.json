@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "sale.basketitem.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить элемент (позицию) корзины из заказа sale.basketitem.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_basket_item.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор элемента (позиции) корзины. Можно получить методом sale.basketitem.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-item/sale-basket-item-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1713949410.036288,
+      "finish": 1713949411.632775,
+      "duration": 1.596487045288086,
+      "processing": 0.6458539962768555,
+      "date_start": "2024-04-24T11:03:30+02:00",
+      "date_finish": "2024-04-24T11:03:31+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления элемента корзины"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-item/sale-basket-item-delete.html",
+  "executable": false
+}

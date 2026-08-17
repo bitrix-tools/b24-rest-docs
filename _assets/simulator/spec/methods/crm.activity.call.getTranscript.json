@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "crm.activity.call.getTranscript",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить расшифровку звонка crm.activity.call.getTranscript",
+  "permissions": "пользователь с доступом на чтение объекта CRM",
+  "params": [
+    {
+      "name": "activityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор дела типа Звонок, например 12345. Получить идентификатор можно методом crm.activity.list. Передайте в фильтре идентификатор объекта CRM и тип дела TYPE_ID: 2"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/activity-base/crm-activity-call-get-transcript.md"
+  },
+  "resultExample": {
+    "result": {
+      "transcription": "Текст расшифровки звонка..."
+    },
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Если расшифровки нет, возвращает null (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-call-get-transcript.html",
+  "executable": false
+}

@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "sale.basketproperties.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список свойств корзины sale.basketproperties.list",
+  "permissions": "менеджер магазина",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив, содержащий список полей, которые необходимо выбрать (см. поля объекта sale_basket_item_property). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля свойств элементов (позиций) корзины",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных свойств корзины в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта sale_basket_item_property. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных групп свойств в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта sale_basket_item_property. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный - 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение - 50. Чтобы выбрать третью страницу результатов значение - 100 и т.д. Формула расчета значения параметра start: start = (N-1) 50, где N – номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-properties/sale-basket-properties-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketProperties": [
+        {
+          "basketId": 6806,
+          "code": "PARTNUM",
+          "id": 18,
+          "name": "Номер партии",
+          "value": "Ф45ТК266"
+        },
+        {
+          "basketId": 6806,
+          "code": "ARTICUL",
+          "id": 17,
+          "name": "Артикул",
+          "value": "123-456-789"
+        }
+      ]
+    },
+    "total": 2,
+    "time": {
+      "start": 1714052872.323321,
+      "finish": 1714052872.818371,
+      "duration": 0.49504995346069336,
+      "processing": 0.0272219181060791,
+      "date_start": "2024-04-25T15:47:52+02:00",
+      "date_finish": "2024-04-25T15:47:52+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketProperties",
+      "type": "sale_basket_item_property[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных свойствах элементов (позиций) корзины в заказах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-properties/sale-basket-properties-list.html",
+  "executable": false,
+  "entityFields": [
+    "basketId",
+    "code",
+    "id",
+    "name",
+    "sort",
+    "value",
+    "xmlId"
+  ]
+}

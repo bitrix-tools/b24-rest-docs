@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.template.list",
+  "scope": "documentgenerator",
+  "kind": "read",
+  "title": "Получить список шаблонов documentgenerator.template.list",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив полей, которые нужно вернуть. По умолчанию — [\"*\"]. Для field_N используйте поля из таблицы полей. Чтобы получить коды доступа и провайдеры, добавьте в select поля users и providers",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки шаблонов в формате {\"field_1\":\"value_1\", ... \"field_N\":\"value_N\"}. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Для field_N используйте поля из таблицы полей.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации шаблонов в формате {\"field_1\":\"value_1\", ... \"field_N\":\"value_N\"}. Для field_N используйте поля из таблицы полей. К ключам field_n можно добавить префикс, уточняющий работу фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N — 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/templates/document-generator-template-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество шаблонов в списке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/templates/document-generator-template-list.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "file",
+    "fileId",
+    "name",
+    "numeratorId",
+    "region",
+    "sort",
+    "users",
+    "withStamps"
+  ]
+}

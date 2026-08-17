@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.pay",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить статус оплаты на «Оплачено» crm.item.payment.pay",
+  "permissions": "требуется право на изменение заказа оплаты",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/crm-item-payment-pay.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат проведения операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/crm-item-payment-pay.html",
+  "executable": false
+}

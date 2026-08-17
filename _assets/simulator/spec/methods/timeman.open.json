@@ -1,0 +1,194 @@
+{
+  "$v": 1,
+  "method": "timeman.open",
+  "scope": "timeman",
+  "kind": "write",
+  "title": "Начать новый рабочий день timeman.open",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя. По умолчанию — текущий пользователь"
+    },
+    {
+      "name": "TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Время и дата начала рабочего дня в формате стандарта ATOM (ISO-8601), например, 2025-02-12T15:52:01+00:00. Дата должна совпадать с текущей календарной датой. Параметр TIME можно передать, если рабочий день находится в статусе CLOSED. В остальных случаях вернется ошибка. По умолчанию рабочий день открывается с текущим временем в часовом поясе сотрудника.…"
+    },
+    {
+      "name": "REPORT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Причина изменения рабочего дня. Обязателен при условиях: - указан параметр TIME - у сотрудника не свободный график"
+    },
+    {
+      "name": "LAT",
+      "type": "double",
+      "base": "number",
+      "required": "unknown",
+      "description": "Географическая широта начала рабочего дня"
+    },
+    {
+      "name": "LON",
+      "type": "double",
+      "base": "number",
+      "required": "unknown",
+      "description": "Географическая долгота начала рабочего дня"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/base/timeman-open.md"
+  },
+  "resultExample": {
+    "result": {
+      "STATUS": "OPENED",
+      "TIME_START": "2025-03-27T08:00:01+02:00",
+      "TIME_FINISH": null,
+      "DURATION": "00:00:00",
+      "TIME_LEAKS": "00:00:00",
+      "ACTIVE": false,
+      "IP_OPEN": "",
+      "IP_CLOSE": "",
+      "LAT_OPEN": 53.548841,
+      "LON_OPEN": 9.987274,
+      "LAT_CLOSE": 0,
+      "LON_CLOSE": 0,
+      "TZ_OFFSET": 7200
+    },
+    "time": {
+      "start": 1743056587.655975,
+      "finish": 1743056587.85293,
+      "duration": 0.19695496559143066,
+      "processing": 0.16714906692504883,
+      "date_start": "2025-03-27T09:23:07+03:00",
+      "date_finish": "2025-03-27T09:23:07+03:00",
+      "operating_reset_at": 1743057187,
+      "operating": 0.1671299934387207
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит объект с описанием рабочего дня"
+    },
+    {
+      "name": "STATUS",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Статус текущего рабочего дня. Варианты значений: - OPENED — открыт - CLOSED — закрыт - PAUSED — приостановлен - EXPIRED — истек, то есть открыт до начала текущих календарных суток и не закрыт"
+    },
+    {
+      "name": "TIME_START",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время начала рабочего дня. Часовой пояс соответствует часовому поясу начала рабочего дня"
+    },
+    {
+      "name": "TIME_FINISH",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время завершения рабочего дня. Для незавершенного рабочего дня возвращается null"
+    },
+    {
+      "name": "DURATION",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Длительность рабочего дня в формате HH:MM:SS. Для незавершенного рабочего дня возвращается 00:00:00"
+    },
+    {
+      "name": "TIME_LEAKS",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Суммарная длительность перерыва за день в формате HH:MM:SS"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Подтвержденность рабочего дня. Значение false означает, что изменение рабочего дня ожидает подтверждения руководителем"
+    },
+    {
+      "name": "IP_OPEN",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "IP-адрес, с которого начат рабочий день"
+    },
+    {
+      "name": "IP_CLOSE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "IP-адрес, с которого завершен рабочий день. Для незавершенного рабочего дня возвращается null"
+    },
+    {
+      "name": "LAT_OPEN",
+      "type": "double",
+      "base": "number",
+      "required": "unknown",
+      "description": "Географическая широта точки начала рабочего дня"
+    },
+    {
+      "name": "LON_OPEN",
+      "type": "double",
+      "base": "number",
+      "required": "unknown",
+      "description": "Географическая долгота точки начала рабочего дня"
+    },
+    {
+      "name": "LAT_CLOSE",
+      "type": "double",
+      "base": "number",
+      "required": "unknown",
+      "description": "Географическая широта точки завершения рабочего дня"
+    },
+    {
+      "name": "LON_CLOSE",
+      "type": "double",
+      "base": "number",
+      "required": "unknown",
+      "description": "Географическая долгота точки завершения рабочего дня"
+    },
+    {
+      "name": "TZ_OFFSET",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение часового пояса сотрудника в котором начат рабочий день. Время завершения рабочего дня приводится к часовому поясу начала дня"
+    },
+    {
+      "name": "TIME_FINISH_DEFAULT",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Рекомендуемое значение завершения дня, которое можно выводить пользователю в качестве значения по умолчанию. Выводится только для рабочих дней в статусе истек EXPIRED"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/base/timeman-open.html",
+  "executable": false
+}

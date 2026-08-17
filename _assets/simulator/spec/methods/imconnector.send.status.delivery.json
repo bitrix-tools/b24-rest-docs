@@ -1,0 +1,108 @@
+{
+  "$v": 1,
+  "method": "imconnector.send.status.delivery",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Обновить статус «доставлено» imconnector.send.status.delivery",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код коннектора, который задали в параметре ID при вызове imconnector.register"
+    },
+    {
+      "name": "LINE",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
+    },
+    {
+      "name": "MESSAGES",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив статусов доставки. Каждый элемент массива — объект с блоками im, message, chat. Структура объекта подробно описана ниже",
+      "ref": "#/defs/MESSAGESFields"
+    }
+  ],
+  "defs": {
+    "MESSAGESFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "im",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Внутренние идентификаторы сообщения в Битрикс24 (подробное описание)"
+        },
+        {
+          "name": "message",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Данные сообщения во внешней системе (подробное описание)"
+        },
+        {
+          "name": "chat",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Данные чата во внешней системе (подробное описание)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-send-status-delivery.md"
+  },
+  "resultExample": {
+    "result": {
+      "SUCCESS": true,
+      "DATA": []
+    },
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.21,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "SUCCESS",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если статус доставки успешно принят и обновлен в Битрикс24"
+    },
+    {
+      "name": "DATA",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Пустой массив при успешной обработке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-send-status-delivery.html",
+  "executable": false
+}

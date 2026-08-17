@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "voximplant.line.get",
+  "scope": "telephony",
+  "kind": "read",
+  "title": "Получить список исходящих линий voximplant.line.get",
+  "permissions": "пользователь с правом Управление номерами — изменение",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект вида LINE_ID: LINE_NAME, где: - LINE_ID — идентификатор линии - LINE_NAME — название линии",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/lines/voximplant-line-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "reg150907": "SIP line",
+      "sip7": "Office PBX 1",
+      "reg151083": "Облачная АТС (9)",
+      "sip11": "Офисная АТС (11)",
+      "reg151085": "SIP line 2"
+    },
+    "time": {
+      "start": 1773664148,
+      "finish": 1773664148.538045,
+      "duration": 0.5380449295043945,
+      "processing": 0,
+      "date_start": "2026-03-16T15:29:08+03:00",
+      "date_finish": "2026-03-16T15:29:08+03:00",
+      "operating_reset_at": 1773664748,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект вида LINE_ID: LINE_NAME, где: - LINE_ID — идентификатор линии - LINE_NAME — название линии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/lines/voximplant-line-get.html",
+  "executable": false,
+  "entityFields": [
+    "reg150907",
+    "reg151083",
+    "reg151085",
+    "sip11",
+    "sip7"
+  ]
+}

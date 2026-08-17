@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "voximplant.line.outgoing.get",
+  "scope": "telephony",
+  "kind": "read",
+  "title": "Получить линию для исходящих звонков voximplant.line.outgoing.get",
+  "permissions": "пользователь с правом Управление номерами — изменение",
+  "params": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор текущей исходящей линии. Возможные форматы: - XXX — номер арендованной линии - regXXX — для облачной SIP-линии - sipXXX — для офисной SIP-линии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/lines/voximplant-line-outgoing-get.md"
+  },
+  "resultExample": {
+    "result": "reg150907",
+    "time": {
+      "start": 1773664360,
+      "finish": 1773664360.248223,
+      "duration": 0.24822306632995605,
+      "processing": 0,
+      "date_start": "2026-03-16T15:32:40+03:00",
+      "date_finish": "2026-03-16T15:32:40+03:00",
+      "operating_reset_at": 1773664960,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Идентификатор текущей исходящей линии. Возможные форматы: - XXX — номер арендованной линии - regXXX — для облачной SIP-линии - sipXXX — для офисной SIP-линии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/lines/voximplant-line-outgoing-get.html",
+  "executable": false
+}

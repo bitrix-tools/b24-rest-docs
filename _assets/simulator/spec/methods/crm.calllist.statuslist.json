@@ -1,0 +1,94 @@
+{
+  "$v": 1,
+  "method": "crm.calllist.statuslist",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить список статусов обзвона crm.calllist.statuslist",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив статусов обзвона (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/call-list/crm-calllist-statuslist.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 61,
+        "NAME": "В работе",
+        "SORT": 10,
+        "STATUS_ID": "IN_WORK"
+      },
+      {
+        "ID": 63,
+        "NAME": "Успешно",
+        "SORT": 20,
+        "STATUS_ID": "SUCCESS"
+      },
+      {
+        "ID": 65,
+        "NAME": "Неверный номер",
+        "SORT": 30,
+        "STATUS_ID": "WRONG_NUMBER"
+      },
+      {
+        "ID": 67,
+        "NAME": "Больше не звонить",
+        "SORT": 40,
+        "STATUS_ID": "STOP_CALLING"
+      }
+    ],
+    "time": {
+      "start": 1752560909.614115,
+      "finish": 1752560909.68214,
+      "duration": 0.06802511215209961,
+      "processing": 0.007961034774780273,
+      "date_start": "2025-07-15T09:28:29+03:00",
+      "date_finish": "2025-07-15T09:28:29+03:00",
+      "operating_reset_at": 1752561509,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив статусов обзвона (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/call-list/crm-calllist-statuslist.html",
+  "executable": false
+}

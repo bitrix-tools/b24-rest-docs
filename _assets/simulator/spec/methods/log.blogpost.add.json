@@ -1,0 +1,150 @@
+{
+  "$v": 1,
+  "method": "log.blogpost.add",
+  "scope": "log",
+  "kind": "write",
+  "title": "Добавить сообщение в Ленту новостей log.blogpost.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "POST_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст сообщения"
+    },
+    {
+      "name": "POST_TITLE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Заголовок сообщения"
+    },
+    {
+      "name": "DEST",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список адресатов, которые получат право на просмотр сообщения. Возможные значения: {% include notitle адресаты сообщения %} По умолчанию — UA",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SPERM",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Устаревший аналог DEST",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILES",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив файлов в формате, описанном в работе с файлами. Файлы будут загружены на Диск автора и привязаны к сообщению",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "IMPORTANT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак важного сообщения. Возможные значения: - Y — сообщение важно - N — сообщение не важное По умолчанию — N"
+    },
+    {
+      "name": "IMPORTANT_DATE_END",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время в формате ISO 8601, до которого сообщение будет считаться важным"
+    },
+    {
+      "name": "SITE_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор сайта. По умолчанию — текущий сайт"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, от имени которого публикуется сообщение. Доступно только администраторам. Идентификатор можно получить с помощью метода user.get По умолчанию — текущий пользователь, инициировавший вызов метода"
+    },
+    {
+      "name": "TAGS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Теги сообщения"
+    },
+    {
+      "name": "BACKGROUND_CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код фона сообщения"
+    },
+    {
+      "name": "PARSE_PREVIEW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Автоматическое добавление превью ссылки из текста сообщения. Возможные значения: - Y — попытаться сформировать превью ссылки из POST_MESSAGE - N — не формировать превью По умолчанию — N"
+    },
+    {
+      "name": "UF_\\",
+      "type": "mixed",
+      "base": "any",
+      "required": true,
+      "description": "Пользовательские поля. Поддерживается определенный набор полей, который зависит от настроек портала"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/log-blogpost-add.md"
+  },
+  "resultExample": {
+    "result": 217,
+    "time": {
+      "start": 1773750554,
+      "finish": 1773750555.955794,
+      "duration": 1.955794095993042,
+      "processing": 1,
+      "date_start": "2026-03-17T15:29:14+03:00",
+      "date_finish": "2026-03-17T15:29:15+03:00",
+      "operating_reset_at": 1773751154,
+      "operating": 0.9908020496368408
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного сообщения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/log-blogpost-add.html",
+  "executable": false
+}

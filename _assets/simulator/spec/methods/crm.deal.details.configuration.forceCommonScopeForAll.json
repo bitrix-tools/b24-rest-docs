@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "crm.deal.details.configuration.forceCommonScopeForAll",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить общую карточку для всех пользователей crm.deal.details.configuration.forceCommonScopeForAll",
+  "permissions": "> - установить общую карточку можно при наличии прав на редактирование общего вида",
+  "params": [
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры (подробное описание)",
+      "ref": "#/defs/extrasFields"
+    }
+  ],
+  "defs": {
+    "extrasFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "dealCategoryId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор воронки сделок. Можно получить с помощью crm.category.list Если не указан, используется воронка по умолчанию для сделок"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/custom-form/crm-deal-details-configuration-force-common-scope-for-all.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.forceCommonScopeForAll"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773312463,
+      "finish": 1773312463.299701,
+      "duration": 0.2997009754180908,
+      "processing": 0,
+      "date_start": "2026-03-12T13:47:43+03:00",
+      "date_finish": "2026-03-12T13:47:43+03:00",
+      "operating_reset_at": 1773313063,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/custom-form/crm-deal-details-configuration-force-common-scope-for-all.html",
+  "executable": false
+}

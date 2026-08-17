@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.mode.silent",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Переключить диалог в скрытый режим imopenlines.session.mode.silent",
+  "permissions": "любой пользователь с правами на диалог",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.dialog.get"
+    },
+    {
+      "name": "ACTIVATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Флаг активации режима. Y — включить скрытый режим, любое другое значение выключает. По умолчанию режим выключен"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-silent.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773678966,
+      "finish": 1773678966.767325,
+      "duration": 0.7673249244689941,
+      "processing": 0,
+      "date_start": "2026-03-16T19:36:06+03:00",
+      "date_finish": "2026-03-16T19:36:06+03:00",
+      "operating_reset_at": 1773679566,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если режим применен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-silent.html",
+  "executable": false
+}

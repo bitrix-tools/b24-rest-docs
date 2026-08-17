@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "voximplant.line.outgoing.set",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Установить исходящую линию voximplant.line.outgoing.set",
+  "permissions": "пользователь с правом Управление номерами — изменение",
+  "params": [
+    {
+      "name": "LINE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор линии. Получить доступные идентификаторы можно методом voximplant.line.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/lines/voximplant-line-outgoing-set.md"
+  },
+  "resultExample": {
+    "result": 1,
+    "time": {
+      "start": 1773664560,
+      "finish": 1773664560.138283,
+      "duration": 0.13828301429748535,
+      "processing": 0,
+      "date_start": "2026-03-16T15:36:00+03:00",
+      "date_finish": "2026-03-16T15:36:00+03:00",
+      "operating_reset_at": 1773665160,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Результат выполнения метода. 1 — запрос обработан. Проверьте фактическую линию через voximplant.line.outgoing.get, так как при невалидном LINE_ID метод также возвращает 1"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/lines/voximplant-line-outgoing-set.html",
+  "executable": false
+}

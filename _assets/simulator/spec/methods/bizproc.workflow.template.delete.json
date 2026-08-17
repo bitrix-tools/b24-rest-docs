@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.template.delete",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Удалить шаблон бизнес-процесса bizproc.workflow.template.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона бизнес-процесса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/template/bizproc-workflow-template-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1737536737.124545,
+      "finish": 1737536737.343788,
+      "duration": 0.21924281120300293,
+      "processing": 0.18391799926757812,
+      "date_start": "2025-01-22T12:05:37+03:00",
+      "date_finish": "2025-01-22T12:05:37+03:00",
+      "operating_reset_at": 1737537337,
+      "operating": 0.18389892578125
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Вернет null, если шаблон успешно удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/template/bizproc-workflow-template-delete.html",
+  "executable": false
+}

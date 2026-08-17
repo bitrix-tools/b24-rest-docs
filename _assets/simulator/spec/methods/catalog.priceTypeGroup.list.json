@@ -1,0 +1,123 @@
+{
+  "$v": 1,
+  "method": "catalog.priceTypeGroup.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список привязок типов цен к группам покупателей catalog.priceTypeGroup.list",
+  "permissions": "пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со списком полей catalogpricetypegroup, которые необходимо выбрать. Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля привязки",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных привязок в формате {\"field_1\": \"value_1\", ..., \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogpricetypegroup. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных привязок в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogpricetypegroup. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/price-type-group/catalog-price-type-group-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceTypeGroups": [
+        {
+          "access": "Y",
+          "catalogGroupId": 9,
+          "groupId": 23,
+          "id": 109
+        },
+        {
+          "access": "N",
+          "catalogGroupId": 9,
+          "groupId": 23,
+          "id": 111
+        }
+      ]
+    },
+    "total": 2,
+    "time": {
+      "start": 1774259997,
+      "finish": 1774259997.152525,
+      "duration": 0.1525249481201172,
+      "processing": 0,
+      "date_start": "2026-03-23T12:59:57+03:00",
+      "date_finish": "2026-03-23T12:59:57+03:00",
+      "operating_reset_at": 1774260597,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceTypeGroups",
+      "type": "catalog_price_type_group[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных привязках типов цен к группам покупателей, структура зависит от параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-list.html",
+  "executable": false,
+  "entityFields": [
+    "access",
+    "catalogGroupId",
+    "groupId",
+    "id"
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "$v": 1,
+  "method": "disk.file.getVersions",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Список версий файла disk.file.getVersions",
+  "permissions": "пользователь с правом «Чтение» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла. Идентификатор можно получить с помощью метода disk.storage.getChildren, если файл находится в корне хранилища, и с помощью метода disk.folder.getChildren, если файл находится в папке"
+    },
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив формата: где: - field_n — название поля, по которому будет произведена фильтрация - value_n — значение фильтра К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив - % — LI…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/file/disk-file-get-versions.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "7201",
+        "OBJECT_ID": "9043",
+        "SIZE": "21796",
+        "NAME": "Тест №2.docx",
+        "GLOBAL_CONTENT_VERSION": "5",
+        "CREATE_TIME": "2026-02-17T12:21:22+03:00",
+        "CREATED_BY": "1271",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9NzIwMSZzZXJ2aWNlPXZlcnNpb24mXz0zdHFiVHY5bkNPWm5hVk1rRm92TXlzZUdUSDNTanlVZQ%3D%3D%7CImRvd25sb2FkfGRpc2t8YVdROU56SXdNU1p6WlhKMmFXTmxQWFpsY25OcGIyNG1YejB6ZEhGaVZIWTVia05QV201aFZrMXJSbTkyVFhselpVZFVTRE5UYW5sVlpRPT18MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.dy270nYUZXvxmyBAR1vYnUtn%2Bkn%2FSClb2cIWT8FkOn0%3D"
+      },
+      {
+        "ID": "7199",
+        "OBJECT_ID": "9043",
+        "SIZE": "21756",
+        "NAME": "тест.docx",
+        "GLOBAL_CONTENT_VERSION": "3",
+        "CREATE_TIME": "2026-02-17T12:15:06+03:00",
+        "CREATED_BY": "1269",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9NzE5OSZzZXJ2aWNlPXZlcnNpb24mXz1Uall3RkZRa0NPMTBncklPM2tYYmxNajRmSWQ2ekVLNg%3D%3D%7CImRvd25sb2FkfGRpc2t8YVdROU56RTVPU1p6WlhKMmFXTmxQWFpsY25OcGIyNG1YejFVYWxsM1JrWlJhME5QTVRCbmNrbFBNMnRZWW14TmFqUm1TV1EyZWtWTE5nPT18MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.mtFVuU%2F1h4eGP1VROTj7n4PDUDOSc4suh90NuNPQyyQ%3D"
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1771320110,
+      "finish": 1771320110.716905,
+      "duration": 0.7169051170349121,
+      "processing": 0,
+      "date_start": "2026-02-17T12:21:50+03:00",
+      "date_finish": "2026-02-17T12:21:50+03:00",
+      "operating_reset_at": 1771320710,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список версий файла. Пустой массив означает, что нет версий, удовлетворяющих фильтру"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор версии"
+    },
+    {
+      "name": "OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла, к которому принадлежит версия"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер версии в байтах"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название файла на момент создания версии"
+    },
+    {
+      "name": "GLOBAL_CONTENT_VERSION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Инкрементальный счетчик версии файла"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Время создания версии"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, который создал версию"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка на скачивание версии"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество версий файла"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/file/disk-file-get-versions.html",
+  "executable": false
+}

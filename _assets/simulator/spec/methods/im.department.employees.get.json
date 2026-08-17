@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "im.department.employees.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить список сотрудников подразделений im.department.employees.get",
+  "permissions": "любой интранет-пользователь, кроме ботов",
+  "params": [
+    {
+      "name": "ID",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов подразделений. Можно передать строку с JSON-массивом идентификаторов. Получить идентификатор подразделения можно методом получения списка подразделений или методом поиска подразделений по названию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "USER_DATA",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Возвращать подробные данные пользователей. Возможные значения: - Y — да - N — нет По умолчанию: N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/departments/im-department-employees-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект, где ключ — идентификатор подразделения, значение: - при USER_DATA = 'N' содержит массив идентификаторов сотрудников, - при USER_DATA = 'Y' содержит массив объектов с описанием пользователей (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/departments/im-department-employees-get.html",
+  "executable": false
+}

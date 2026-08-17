@@ -1,0 +1,188 @@
+{
+  "$v": 1,
+  "method": "voximplant.statistic.get",
+  "scope": "telephony",
+  "kind": "read",
+  "title": "Получить список истории звонков voximplant.statistic.get",
+  "permissions": "пользователь с правом Статистика звонков — Просмотр",
+  "params": [
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Смотрите ниже список доступных полей для фильтрации. Поддерживаемые операторы в ключе фильтра: - ! — не равно - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - >< — между (диапазон, включительно) - !>< — не между (вне диапазона) - ? — поиск по строке - = — равно, точное совпадение (использ…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SORT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поле сортировки. Используются те же поля, что и в списке полей для фильтрации, кроме CALL_TYPE. По умолчанию — без сортировки"
+    },
+    {
+      "name": "ORDER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Направление сортировки. Возможные значения: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию По умолчанию — без сортировки"
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы результатов — 50 записей. Чтобы получить вторую страницу, передайте 50; третью — 100 и так далее. Формула: start = (N - 1) * 50, где N — номер страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/voximplant-statistic-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "1",
+        "PORTAL_USER_ID": "1",
+        "PORTAL_NUMBER": "reg133788",
+        "PHONE_NUMBER": "+79638835976",
+        "CALL_ID": "11018129443EB80D.1754478570.11438214",
+        "EXTERNAL_CALL_ID": null,
+        "CALL_CATEGORY": "external",
+        "CALL_LOG": "https://storage-gw-ru-02.voximplant.com/voximplant-logs/2025/08/06/YTdjNmMxYWMyNzNmZDA2NTAwZTlkODYzMWExODN06ODM0MkU1MjY2OEIxMkMuMTc1NDQ3ODUyMC4xMTQzODIxNV8xODUuMTY0LjE0OC4xMzIubG9n?sessionid=3841557776",
+        "CALL_DURATION": "0",
+        "CALL_START_DATE": "2025-08-06T14:08:40+03:00",
+        "CALL_RECORD_URL": "",
+        "CALL_VOTE": null,
+        "COST": "0.0000",
+        "COST_CURRENCY": "RUR",
+        "CALL_FAILED_CODE": "603-S",
+        "CALL_FAILED_REASON": "Decline self",
+        "CRM_ENTITY_TYPE": "CONTACT",
+        "CRM_ENTITY_ID": "275",
+        "CRM_ACTIVITY_ID": "7739",
+        "REST_APP_ID": null,
+        "REST_APP_NAME": null,
+        "TRANSCRIPT_ID": null,
+        "TRANSCRIPT_PENDING": "N",
+        "SESSION_ID": "3841557776",
+        "REDIAL_ATTEMPT": null,
+        "COMMENT": null,
+        "RECORD_DURATION": null,
+        "RECORD_FILE_ID": null,
+        "CALL_TYPE": "1"
+      },
+      {
+        "ID": "7",
+        "PORTAL_USER_ID": "1269",
+        "PORTAL_NUMBER": "3",
+        "PHONE_NUMBER": "79062195047",
+        "CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+        "EXTERNAL_CALL_ID": null,
+        "CALL_CATEGORY": "external",
+        "CALL_LOG": null,
+        "CALL_DURATION": "95",
+        "CALL_START_DATE": "2026-03-10T11:19:38+03:00",
+        "CALL_RECORD_URL": null,
+        "CALL_VOTE": "5",
+        "COST": "0.0000",
+        "COST_CURRENCY": "",
+        "CALL_FAILED_CODE": "200",
+        "CALL_FAILED_REASON": "",
+        "CRM_ENTITY_TYPE": "CONTACT",
+        "CRM_ENTITY_ID": "797",
+        "CRM_ACTIVITY_ID": "7943",
+        "REST_APP_ID": "3",
+        "REST_APP_NAME": "Документация по REST API",
+        "TRANSCRIPT_ID": "1",
+        "TRANSCRIPT_PENDING": "N",
+        "SESSION_ID": null,
+        "REDIAL_ATTEMPT": null,
+        "COMMENT": null,
+        "RECORD_DURATION": null,
+        "RECORD_FILE_ID": 9079,
+        "CALL_TYPE": "2"
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1773141841,
+      "finish": 1773141841.595178,
+      "duration": 0.5951778888702393,
+      "processing": 0,
+      "date_start": "2026-03-10T14:24:01+03:00",
+      "date_finish": "2026-03-10T14:24:01+03:00",
+      "operating_reset_at": 1773142441,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив записей статистики. Состав записей зависит от условий FILTER. Пустой массив означает, что нет записей, соответствующих условиям FILTER"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество записей в выборке"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение следующей страницы (если есть)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/voximplant-statistic-get.html",
+  "executable": false,
+  "entityFields": [
+    "CALL_CATEGORY",
+    "CALL_DURATION",
+    "CALL_FAILED_CODE",
+    "CALL_FAILED_REASON",
+    "CALL_ID",
+    "CALL_LOG",
+    "CALL_RECORD_URL",
+    "CALL_START_DATE",
+    "CALL_TYPE",
+    "CALL_VOTE",
+    "COMMENT",
+    "COST",
+    "COST_CURRENCY",
+    "CRM_ACTIVITY_ID",
+    "CRM_ENTITY_ID",
+    "CRM_ENTITY_TYPE",
+    "EXTERNAL_CALL_ID",
+    "ID",
+    "PHONE_NUMBER",
+    "PORTAL_NUMBER",
+    "PORTAL_USER_ID",
+    "RECORD_DURATION",
+    "RECORD_FILE_ID",
+    "REDIAL_ATTEMPT",
+    "REST_APP_ID",
+    "REST_APP_NAME",
+    "SESSION_ID",
+    "TRANSCRIPT_ID",
+    "TRANSCRIPT_PENDING"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "$v": 1,
+  "method": "crm.calllist.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список обзвонов crm.calllist.list",
+  "permissions": "пользователь с правами на чтение элементов CRM",
+  "params": [
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив полей для выборки. По умолчанию возвращаются все поля. Список полей для выборки: - ID, - DATE_CREATE, - CREATED_BY_ID, - WEBFORM_ID, - ENTITY_TYPE_ID",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n — название поля, по которому будет отфильтрована выборка обзвонов - value_n — значение фильтра Список полей для фильтрации: - ID, - CREATED_BY_ID, - WEBFORM_ID, - ENTITY_TYPE_ID. Полю может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n — название поля, по которому будет произведена сортировка обзвонов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/call-list/crm-calllist-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "13",
+        "CREATED_BY_ID": "29"
+      },
+      {
+        "ID": "9",
+        "CREATED_BY_ID": "1"
+      },
+      {
+        "ID": "3",
+        "CREATED_BY_ID": "131"
+      },
+      {
+        "ID": "1",
+        "CREATED_BY_ID": "131"
+      }
+    ],
+    "time": {
+      "start": 1752475786.965766,
+      "finish": 1752475787.035008,
+      "duration": 0.06924200057983398,
+      "processing": 0.016666889190673828,
+      "date_start": "2025-07-14T09:49:46+03:00",
+      "date_finish": "2025-07-14T09:49:47+03:00",
+      "operating_reset_at": 1752476387,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив из объектов, содержащих информацию об обзвонах. Структура полей зависит от параметра select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/call-list/crm-calllist-list.html",
+  "executable": false,
+  "entityFields": [
+    "CREATED_BY_ID",
+    "ID"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.preset.field.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить настраиваемое поле в шаблон реквизитов crm.requisite.preset.field.add",
+  "permissions": "пользователь с правом на добавление и контактов, и компаний",
+  "params": [
+    {
+      "name": "preset",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий значение идентификатора шаблона, в который добавляется настраиваемое поле (например, {\"ID\": 27}). Идентификаторы шаблонов можно получить с помощью метода crm.requisite.preset.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей — объект вида {\"поле\": \"значение\"[, ...]} для добавления настраиваемого поля шаблона",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "FIELD_NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название поля."
+        },
+        {
+          "name": "FIELD_TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Альтернативное название поля для реквизита. Альтернативное название отображается в различных формах для заполнения реквизитов. В зависимости от конкретной формы альтернативное название может использоваться или нет"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка. Порядок в списке полей шаблона"
+        },
+        {
+          "name": "IN_SHORT_LIST",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Показывать в кратком списке. Устаревшее поле, сейчас не используется. Оставлено для обратной совместимости. Может принимать значения Y или N"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-add.md"
+  },
+  "resultExample": {
+    "result": 3,
+    "time": {
+      "start": 1716811635.108203,
+      "finish": 1716811635.503093,
+      "duration": 0.39489006996154785,
+      "processing": 0.043524980545043945,
+      "date_start": "2024-05-27T14:07:15+02:00",
+      "date_finish": "2024-05-27T14:07:15+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор добавленного поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-add.html",
+  "executable": false
+}

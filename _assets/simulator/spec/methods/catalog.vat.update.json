@@ -1,0 +1,115 @@
+{
+  "$v": 1,
+  "method": "catalog.vat.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Изменить ставку НДС catalog.vat.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_vat.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор ставки НДС"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления ставки НДС (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название ставки НДС"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор активности ставки НДС. Возможные значения: - Y — активен - N — неактивен"
+        },
+        {
+          "name": "rate",
+          "type": "double",
+          "base": "number",
+          "required": true,
+          "description": "Величина ставки НДС"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/vat/catalog-vat-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "vat": {
+        "active": "Y",
+        "id": 6,
+        "name": "Налог 23%",
+        "rate": 23,
+        "sort": 20,
+        "timestampX": "2024-09-16T11:53:04+02:00"
+      }
+    },
+    "time": {
+      "start": 1712327086.69665,
+      "finish": 1712327086.95303,
+      "duration": 0.256376028060913,
+      "processing": 0.0112268924713135,
+      "date_start": "2024-04-05T16:24:46+02:00",
+      "date_finish": "2024-04-05T16:24:46+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "vat",
+      "type": "catalog_vat",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленной ставке НДС"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/vat/catalog-vat-update.html",
+  "executable": false
+}

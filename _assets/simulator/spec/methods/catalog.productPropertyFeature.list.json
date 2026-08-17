@@ -1,0 +1,133 @@
+{
+  "$v": 1,
+  "method": "catalog.productPropertyFeature.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список параметров свойств товаров или вариаций catalog.productPropertyFeature.list",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта catalogproductpropertyfeatures). Если параметр не передан, будут выбраны все поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных параметров в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogproductpropertyfeatures. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных параметров в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogproductpropertyfeatures. Возможные значения для order: - ASC — в порядке возрастания - DESC — в порядке убывания Если параметр не передан, применяется сортировка id ASC",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы. Если передать значение -1, в ответе не будет поля total"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-property-feature/catalog-product-property-feature-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "productPropertyFeatures": [
+        {
+          "featureId": "DETAIL_PAGE_SHOW",
+          "id": 99,
+          "isEnabled": "Y",
+          "moduleId": "iblock",
+          "propertyId": 901
+        },
+        {
+          "featureId": "LIST_PAGE_SHOW",
+          "id": 101,
+          "isEnabled": "Y",
+          "moduleId": "iblock",
+          "propertyId": 901
+        }
+      ]
+    },
+    "total": 2,
+    "time": {
+      "start": 1774254804,
+      "finish": 1774254805.034701,
+      "duration": 1.0347011089324951,
+      "processing": 1,
+      "date_start": "2026-03-23T11:33:24+03:00",
+      "date_finish": "2026-03-23T11:33:25+03:00",
+      "operating_reset_at": 1774255404,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "productPropertyFeatures",
+      "type": "catalog_product_property_features[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных параметрах"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для следующей страницы. Поле возвращается, если есть еще записи"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее число записей. Поле не возвращается, если запрос выполнен со start = -1"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-property-feature/catalog-product-property-feature-list.html",
+  "executable": false,
+  "entityFields": [
+    "featureId",
+    "id",
+    "isEnabled",
+    "moduleId",
+    "propertyId"
+  ]
+}

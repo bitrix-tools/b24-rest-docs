@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.recurring.expose",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новый счет из шаблона crm.invoice.recurring.expose",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор шаблона регулярного счета"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-recurring-expose.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-recurring-expose.html",
+  "executable": false
+}

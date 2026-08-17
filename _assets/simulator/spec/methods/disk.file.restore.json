@@ -1,0 +1,199 @@
+{
+  "$v": 1,
+  "method": "disk.file.restore",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Восстановить файл из корзины disk.file.restore",
+  "permissions": "пользователь с правом «Редактирование» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла, находящегося в корзине. Файлы в корзине недоступны для запроса через стандартные методы. Чтобы получить идентификатор файла для восстановления, сохраните его сразу после вызова метода disk.file.markDeleted"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/file/disk-file-restore.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "9037",
+      "NAME": "picture.png",
+      "CODE": null,
+      "STORAGE_ID": "1357",
+      "TYPE": "file",
+      "PARENT_ID": "8930",
+      "DELETED_TYPE": 0,
+      "GLOBAL_CONTENT_VERSION": "1",
+      "FILE_ID": "32933",
+      "SIZE": "1679",
+      "CREATE_TIME": "2026-02-09T17:35:49+03:00",
+      "UPDATE_TIME": "2026-02-16T14:57:24+03:00",
+      "DELETE_TIME": "2026-02-16T14:43:38+03:00",
+      "CREATED_BY": "1269",
+      "UPDATED_BY": "1269",
+      "DELETED_BY": "1269",
+      "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=845a93690000071b006e2cf2000004f50000076345539a39c27ec694f85bece0eed696&token=disk%7CaWQ9OTAzNyZfPUljQlU8VVAyMldDUG95bW51NlBmUUVVazlPeUd5WUlR%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXpOeVpmUFVsalFsVTFWVkF5TWxkRFVHOTViVzUxTmxCbVVVVlZhemxQZVVkNVdVbFJ8ODQ1YTkzNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc2MzQ1NTM5YTM5YzI3ZWM2OTRmODViZWNlMGVlZDY5NiI%3D.axFboRC%2FEf5h1jXPcqNbho7BDEsZqxfVUEf2yL6aqe0%3D",
+      "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка в папке/picture (1).png"
+    },
+    "time": {
+      "start": 1771261044,
+      "finish": 1771261044.790871,
+      "duration": 0.7908709049224854,
+      "processing": 0,
+      "date_start": "2026-02-16T14:57:24+03:00",
+      "date_finish": "2026-02-16T14:57:24+03:00",
+      "operating_reset_at": 1771261644,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив с полями файла"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код файла"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища, в котором находится файл"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой"
+    },
+    {
+      "name": "GLOBAL_CONTENT_VERSION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Инкрементальный счетчик версии файла"
+    },
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Внутреннее значение идентификатора файла"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер файла в байтах"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания файла"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления файла"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время переноса файла в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего файл"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, удалившего файл"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для скачивания файла"
+    },
+    {
+      "name": "DETAIL_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для открытия файла в интерфейсе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/file/disk-file-restore.html",
+  "executable": false
+}

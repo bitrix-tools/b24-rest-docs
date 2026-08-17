@@ -1,0 +1,80 @@
+{
+  "$v": 1,
+  "method": "task.commentitem.update",
+  "scope": "task",
+  "kind": "write",
+  "title": "Обновить комментарий task.commentitem.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор комментария. Идентификатор комментария можно получить при добавлении нового комментария или методом получения списка комментариев"
+    },
+    {
+      "name": "FIELDS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями комментария",
+      "ref": "#/defs/FIELDSFields"
+    }
+  ],
+  "defs": {
+    "FIELDSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "POST_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Текст сообщения"
+        },
+        {
+          "name": "UF_FORUM_MESSAGE_DOC",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс n, например ['n123', 'n456', ... ]. У автора комментария должен быть доступ к прикрепляемым файлам, иначе метод вернет ошибку. Поле перезаписывается полностью. Чтобы добавить файл к уже загруженным, передайте в массиве идентификаторы всех файлов — как старых, так и новых"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/comment-item/task-comment-item-update.md"
+  },
+  "deprecated": {
+    "successor": "im.message.update"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1753338761.030934,
+      "finish": 1753338761.389114,
+      "duration": 0.35817980766296387,
+      "processing": 0.16595101356506348,
+      "date_start": "2025-07-24T09:32:41+03:00",
+      "date_finish": "2025-07-24T09:32:41+03:00",
+      "operating_reset_at": 1753339361,
+      "operating": 0.16593098640441895
+    }
+  },
+  "page": "/api-reference/tasks/comment-item/task-comment-item-update.html",
+  "executable": false
+}

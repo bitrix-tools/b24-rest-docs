@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "entity.item.property.add",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Добавить свойство элементов хранилища entity.item.property.add",
+  "permissions": "пользователь с уровнем права X (управление) на хранилище данных",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "PROPERTY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код нового свойства. Разрешены символы a-z, A-Z, 0-9, _"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название свойства"
+    },
+    {
+      "name": "TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип свойства: - S — строка - N — число - F — файл"
+    },
+    {
+      "name": "SORT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Индекс сортировки свойства"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/items/properties/entity-item-property-add.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774440592,
+      "finish": 1774440592.563202,
+      "duration": 0.563201904296875,
+      "processing": 0,
+      "date_start": "2026-03-25T15:09:52+03:00",
+      "date_finish": "2026-03-25T15:09:52+03:00",
+      "operating_reset_at": 1774441192,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат добавления свойства (true — успешно)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/items/properties/entity-item-property-add.html",
+  "executable": false
+}

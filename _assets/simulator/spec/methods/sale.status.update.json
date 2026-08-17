@@ -1,0 +1,121 @@
+{
+  "$v": 1,
+  "method": "sale.status.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Обновить статус sale.status.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_status.id",
+      "base": "any",
+      "required": true,
+      "description": "Символьный идентификатор статуса"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления статуса",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "type",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип статуса: - O — статус заказа - D — статус доставки"
+        },
+        {
+          "name": "notify",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Индикатор того, нужно ли отправлять почтовое уведомление пользователю, когда заказ или доставка переходят в этот статус. Возможные значения: - Y — оповещать - N — не оповещать"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "HEX-код цвета статуса (например, #FF0000)"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код статуса. Может использоваться для синхронизации со статусом заказа или доставки по идентификатору во внешней системе"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status/sale-status-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "status": {
+        "color": "#00FF00",
+        "id": "MS",
+        "notify": "N",
+        "sort": 100,
+        "type": "D",
+        "xmlId": "updatedXmlId"
+      }
+    },
+    "time": {
+      "start": 1712142575.655577,
+      "finish": 1712142575.940234,
+      "duration": 0.28465700149536133,
+      "processing": 0.02240896224975586,
+      "date_start": "2024-04-03T14:09:35+03:00",
+      "date_finish": "2024-04-03T14:09:35+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "status",
+      "type": "sale_status",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном статусе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status/sale-status-update.html",
+  "executable": false
+}

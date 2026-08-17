@@ -1,0 +1,59 @@
+{
+  "$v": 1,
+  "method": "crm.activity.configurable.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить конфигурируемое дело crm.activity.configurable.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Целочисленный идентификатор дела, например 999"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Ассоциативный массив значений полей дела в виде структуры:",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "layout",
+      "type": "LayoutDto",
+      "base": "any",
+      "required": true,
+      "description": "Ассоциативный массив особой структуры, описывающий внешний вид дела в таймлайне"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/configurable/crm-activity-configurable-update.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа, содержащий информацию об идентификаторе дела id в случае успеха. В случае неудачи вернет null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/configurable/crm-activity-configurable-update.html",
+  "executable": false
+}

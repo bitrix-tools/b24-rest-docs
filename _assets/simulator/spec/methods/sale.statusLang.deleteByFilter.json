@@ -1,0 +1,84 @@
+{
+  "$v": 1,
+  "method": "sale.statusLang.deleteByFilter",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить локализацию sale.statusLang.deleteByFilter",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей фильтра (подробное описание приведено ниже) для удаления записи локализации в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "statusId",
+          "type": "sale_status.id",
+          "base": "any",
+          "required": true,
+          "description": "Символьный идентификатор статуса"
+        },
+        {
+          "name": "lid",
+          "type": "sale_lang.lid",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор языка. Текущие возможные значения приведены ниже: - ar — арабский - br — португальский - de — немецкий - en — английский - fr — французский - hi — хинди - id — индонезийский - in — английский (Индия) - it — итальянский - ja — японский - la — испанский - ms — малайский - pl — польский - ru — русский - sc — китайский (упрощенный) - tc — китайский (традиционный) - th — тайский - tr — ту…"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Для корректной работы метода передайте любое непустое значение в этот параметр"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status-lang/sale-status-lang-delete-by-filter.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712223882.72792,
+      "finish": 1712223882.978806,
+      "duration": 0.2508859634399414,
+      "processing": 0.022897958755493164,
+      "date_start": "2024-04-04T12:44:42+03:00",
+      "date_finish": "2024-04-04T12:44:42+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления локализации статуса"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status-lang/sale-status-lang-delete-by-filter.html",
+  "executable": false
+}

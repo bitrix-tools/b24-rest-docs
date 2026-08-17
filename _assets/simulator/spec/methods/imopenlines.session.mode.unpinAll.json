@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "imopenlines.session.mode.unpinAll",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Открепить все закрепленные диалоги оператора imopenlines.session.mode.unpinAll",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "integer[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов сессий, которые удалось открепить",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-unpin-all.md"
+  },
+  "resultExample": {
+    "result": [
+      339,
+      337
+    ],
+    "time": {
+      "start": 1773678534,
+      "finish": 1773678534.706514,
+      "duration": 0.7065138816833496,
+      "processing": 0,
+      "date_start": "2026-03-16T19:28:54+03:00",
+      "date_finish": "2026-03-16T19:28:54+03:00",
+      "operating_reset_at": 1773679134,
+      "operating": 0.3442521095275879
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов сессий, которые удалось открепить"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-unpin-all.html",
+  "executable": false
+}

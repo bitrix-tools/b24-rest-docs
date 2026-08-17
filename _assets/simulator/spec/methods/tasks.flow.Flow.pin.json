@@ -1,0 +1,37 @@
+{
+  "$v": 1,
+  "method": "tasks.flow.Flow.pin",
+  "scope": "task",
+  "kind": "write",
+  "title": "Закрепить или открепить поток tasks.flow.Flow.pin",
+  "permissions": "пользователь, который может видеть поток в списке потоков",
+  "params": [
+    {
+      "name": "flowId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор потока, который нужно закрепить или открепить. Получить идентификатор можно методом создания нового потока tasks.flow.Flow.create или методом получения задачи tasks.task.get для задачи из потока"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/flow/tasks-flow-flow-pin.md"
+  },
+  "resultExample": {
+    "result": true
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат выполнения метода. Возможные значения: - true — поток закреплен - false — поток откреплен"
+    }
+  ],
+  "page": "/api-reference/tasks/flow/tasks-flow-flow-pin.html",
+  "executable": false
+}

@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "crm.enum.activitystatus",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить элементы перечисления «Статус» crm.enum.activitystatus",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со статусами активности (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-status.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 0,
+        "NAME": "",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 1,
+        "NAME": "Ожидается",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 2,
+        "NAME": "Завершено",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 3,
+        "NAME": "Завершено автоматически",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750151888.721577,
+      "finish": 1750151888.752062,
+      "duration": 0.030485153198242188,
+      "processing": 0.00038313865661621094,
+      "date_start": "2025-06-17T12:18:08+03:00",
+      "date_finish": "2025-06-17T12:18:08+03:00",
+      "operating_reset_at": 1750152488,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив со статусами активности (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-status.html",
+  "executable": false
+}

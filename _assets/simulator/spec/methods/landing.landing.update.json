@@ -1,0 +1,156 @@
+{
+  "$v": 1,
+  "method": "landing.landing.update",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Изменить страницу landing.landing.update",
+  "permissions": "пользователь с правом «изменение настроек» сайта. Чтобы удалить страницу или изменить дату ее публикации, дополнительно нужны права «удаление» и «публикация» на сайте",
+  "params": [
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы, которую нужно обновить. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей страницы для обновления (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название страницы"
+        },
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код страницы. Код не может содержать символ / и не должен быть в формате <буквы, цифры или _>_<число>_<число>, например code_12_34. Если передать пустую строку и не указать поле FOLDER, метод вернет ошибку. Если поле FOLDER передано с любым значением, ошибки не будет"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Произвольное описание страницы"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор страницы"
+        },
+        {
+          "name": "SITE_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор сайта, к которому нужно привязать страницу. Если параметр не передан, используется текущий сайт страницы. Если одновременно указать новый сайт и папку, папка будет проверяться не в новом, а в текущем сайте страницы. Для такого сценария лучше использовать landing.landing.move"
+        },
+        {
+          "name": "SITEMAP",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг включения страницы в карту сайта. Поддерживаются значения Y и N. Любое другое значение будет сохранено как N"
+        },
+        {
+          "name": "FOLDER",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Признак папки. Поддерживаются значения Y и N. Любое другое значение будет сохранено как N"
+        },
+        {
+          "name": "FOLDER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор папки, в которую нужно поместить страницу. Папка должна находиться в текущем сайте страницы. Если передать 0, страница будет перенесена в корень сайта. Идентификатор папки можно получить методом landing.site.getFolders"
+        },
+        {
+          "name": "TPL_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор шаблона представления страницы. Идентификатор шаблона представления можно получить методом landing.template.getlist"
+        },
+        {
+          "name": "DELETED",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Управляет состоянием страницы в корзине. При передаче этого поля страница становится неактивной. Y — страница помещается в корзину и становится неактивной. N — страница восстанавливается из корзины, но остается неактивной, пока ее не опубликуют отдельно. Для удаления и восстановления страницы лучше использовать методы landing.landing.markDelete и landing.landing.markUnDelete.…"
+        },
+        {
+          "name": "DATE_PUBLIC",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Дата и время публикации страницы. Для изменения этого поля нужно право «публикация» на сайт. Изменение поля не публикует страницу, а только обновляет дату публикации. Для публикации и снятия с публикации используйте методы landing.landing.publication и landing.landing.unpublic"
+        },
+        {
+          "name": "ADDITIONAL_FIELDS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные поля страницы. Доступные коды и значения описаны в статье Дополнительные поля страницы"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773835076,
+      "finish": 1773835076.29,
+      "duration": 0.28999996185302734,
+      "processing": 0,
+      "date_start": "2026-03-18T14:57:56+03:00",
+      "date_finish": "2026-03-18T14:57:56+03:00",
+      "operating_reset_at": 1773835676,
+      "operating": 0.1001579761505127
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления. При успехе возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-update.html",
+  "executable": false
+}

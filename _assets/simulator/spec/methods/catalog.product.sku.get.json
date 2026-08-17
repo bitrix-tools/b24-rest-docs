@@ -1,0 +1,160 @@
+{
+  "$v": 1,
+  "method": "catalog.product.sku.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей головного товара catalog.product.sku.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_sku.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор головного товара. Для получения идентификаторов головных товаров необходимо использовать catalog.product.sku.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/sku/catalog-product-sku-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "sku": {
+        "active": "Y",
+        "available": "N",
+        "bundle": "N",
+        "canBuyZero": "Y",
+        "code": "product_sku",
+        "createdBy": 1,
+        "dateActiveFrom": "2024-05-28T10:00:00+03:00",
+        "dateActiveTo": "2024-05-29T10:00:00+03:00",
+        "dateCreate": "2024-05-27T10:00:00+03:00",
+        "detailPicture": {
+          "id": "6552",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6552&fields%5BproductId%5D=1289",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6552&fields%5BproductId%5D=1289"
+        },
+        "detailText": null,
+        "detailTextType": "text",
+        "height": 100,
+        "iblockId": 23,
+        "iblockSectionId": 47,
+        "id": 1289,
+        "length": 100,
+        "measure": 5,
+        "modifiedBy": 1,
+        "name": "Головной товар",
+        "previewPicture": {
+          "id": "6551",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6551&fields%5BproductId%5D=1289",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6551&fields%5BproductId%5D=1289"
+        },
+        "previewText": null,
+        "previewTextType": "text",
+        "property258": {
+          "value": "test",
+          "valueId": "9877"
+        },
+        "property259": [
+          {
+            "value": "test1",
+            "valueId": "9878"
+          },
+          {
+            "value": "test2",
+            "valueId": "9879"
+          }
+        ],
+        "purchasingCurrency": "RUB",
+        "purchasingPrice": "1000.000000",
+        "quantity": 10,
+        "sort": 100,
+        "subscribe": "Y",
+        "timestampX": "2024-06-17T16:03:20+03:00",
+        "type": 6,
+        "vatId": 1,
+        "vatIncluded": "Y",
+        "weight": 100,
+        "width": 100,
+        "xmlId": "1243"
+      }
+    },
+    "time": {
+      "start": 1718636890.413679,
+      "finish": 1718636891.096817,
+      "duration": 0.6831381320953369,
+      "processing": 0.27536606788635254,
+      "date_start": "2024-06-17T18:08:10+03:00",
+      "date_finish": "2024-06-17T18:08:11+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "sku",
+      "type": "catalog_product_sku",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о головном товаре"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/sku/catalog-product-sku-get.html",
+  "executable": false,
+  "entityFields": [
+    "IblockSection",
+    "active",
+    "available",
+    "bundle",
+    "canBuyZero",
+    "code",
+    "createdBy",
+    "dateActiveFrom",
+    "dateActiveTo",
+    "dateCreate",
+    "detailPicture",
+    "detailText",
+    "detailTextType",
+    "height",
+    "iblockId",
+    "iblockSectionId",
+    "id",
+    "length",
+    "measure",
+    "modifiedBy",
+    "name",
+    "previewPicture",
+    "previewText",
+    "previewTextType",
+    "property258",
+    "property259",
+    "propertyN",
+    "purchasingCurrency",
+    "purchasingPrice",
+    "quantity",
+    "sort",
+    "subscribe",
+    "timestampX",
+    "type",
+    "vatId",
+    "vatIncluded",
+    "weight",
+    "width",
+    "xmlId"
+  ]
+}

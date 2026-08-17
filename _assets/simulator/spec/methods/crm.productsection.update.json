@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "crm.productsection.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить раздел товаров crm.productsection.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор раздела товаров"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Набор полей — массив вида array(\"обновляемое поле\"=>\"значение\"[, ...]), где \"обновляемое поле\" может принимать значения из возвращаемых методом crm.productsection.fields. Чтобы узнать требуемый формат полей, выполните метод crm.productsection.fields и посмотрите формат пришедших значений этих полей.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/product-section/crm-product-section-update.md"
+  },
+  "deprecated": {
+    "successor": "catalog.section.update"
+  },
+  "page": "/api-reference/crm/outdated/product-section/crm-product-section-update.html",
+  "executable": false
+}

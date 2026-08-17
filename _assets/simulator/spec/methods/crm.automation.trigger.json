@@ -1,0 +1,59 @@
+{
+  "$v": 1,
+  "method": "crm.automation.trigger",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Активировать триггер crm.automation.trigger",
+  "permissions": "пользователь с доступом на изменение целевого объекта target",
+  "params": [
+    {
+      "name": "target",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Целевой объект для автоматизации, указывается в виде TYPENAME_ID (например, LEAD_25)"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный символьный код триггера, настроенного в Автоматизации на конкретный статус/стадию документа. Взять параметр code можно из настроек триггера"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/automation/crm-automation-trigger.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718809827.810153,
+      "finish": 1718809828.541046,
+      "duration": 0.7308928966522217,
+      "processing": 0.09834408760070801,
+      "date_start": "2024-06-19T15:10:27+00:00",
+      "date_finish": "2024-06-19T15:10:28+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат активации триггера"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/automation/crm-automation-trigger.html",
+  "executable": false
+}

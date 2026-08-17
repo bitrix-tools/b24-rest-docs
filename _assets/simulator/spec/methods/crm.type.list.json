@@ -1,0 +1,232 @@
+{
+  "$v": 1,
+  "method": "crm.type.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список пользовательских типов crm.type.list",
+  "permissions": "любой пользователь с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: { field_1: value_1, field_2: value_2, ..., field_n: value_n }, где field_n: название поля по которому будет произведена сортировка выборки смарт-процессов value_n: значение типа string, равное: ASC — сортировка по возрастанию DESC — сортировка по убыванию Возможные значения для field соответствуют полям объекта type",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: { field_1: value_1, field_2: value_2, ..., field_n: value_n }, где field_n: название поля по которому будет отфильтрована выборка смарт-процессов value_n: значение фильтра Возможные значения для field соответствуют полям объекта type Фильтр может иметь неограниченную вложенность и количество условий. По умолчанию все условия соединяются друг с другом как AND (логическое И).…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/user-defined-object-types/crm-type-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "types": [
+        {
+          "id": 37,
+          "title": "Смарт-процесс #20",
+          "code": "",
+          "createdBy": 1,
+          "entityTypeId": 1256,
+          "customSectionId": null,
+          "isCategoriesEnabled": "Y",
+          "isStagesEnabled": "N",
+          "isBeginCloseDatesEnabled": "Y",
+          "isClientEnabled": "Y",
+          "isUseInUserfieldEnabled": "Y",
+          "isLinkWithProductsEnabled": "N",
+          "isMycompanyEnabled": "Y",
+          "isDocumentsEnabled": "Y",
+          "isSourceEnabled": "Y",
+          "isObserversEnabled": "Y",
+          "isRecyclebinEnabled": "Y",
+          "isAutomationEnabled": "Y",
+          "isBizProcEnabled": "N",
+          "isSetOpenPermissions": "N",
+          "isPaymentsEnabled": "N",
+          "isCountersEnabled": "N",
+          "createdTime": "2024-07-08T17:24:55+02:00",
+          "updatedTime": "2024-07-08T17:24:55+02:00",
+          "updatedBy": 1
+        },
+        {
+          "id": 32,
+          "title": "Смарт-процесс #15",
+          "code": "",
+          "createdBy": 1,
+          "entityTypeId": 1246,
+          "customSectionId": null,
+          "isCategoriesEnabled": "N",
+          "isStagesEnabled": "Y",
+          "isBeginCloseDatesEnabled": "N",
+          "isClientEnabled": "Y",
+          "isUseInUserfieldEnabled": "Y",
+          "isLinkWithProductsEnabled": "Y",
+          "isMycompanyEnabled": "N",
+          "isDocumentsEnabled": "N",
+          "isSourceEnabled": "N",
+          "isObserversEnabled": "N",
+          "isRecyclebinEnabled": "N",
+          "isAutomationEnabled": "N",
+          "isBizProcEnabled": "Y",
+          "isSetOpenPermissions": "Y",
+          "isPaymentsEnabled": "N",
+          "isCountersEnabled": "N",
+          "createdTime": "2024-07-08T17:24:52+02:00",
+          "updatedTime": "2024-07-08T17:24:52+02:00",
+          "updatedBy": 1
+        },
+        {
+          "id": 27,
+          "title": "Смарт-процесс #10",
+          "code": "",
+          "createdBy": 1,
+          "entityTypeId": 1236,
+          "customSectionId": null,
+          "isCategoriesEnabled": "N",
+          "isStagesEnabled": "Y",
+          "isBeginCloseDatesEnabled": "Y",
+          "isClientEnabled": "Y",
+          "isUseInUserfieldEnabled": "N",
+          "isLinkWithProductsEnabled": "N",
+          "isMycompanyEnabled": "Y",
+          "isDocumentsEnabled": "N",
+          "isSourceEnabled": "Y",
+          "isObserversEnabled": "N",
+          "isRecyclebinEnabled": "N",
+          "isAutomationEnabled": "Y",
+          "isBizProcEnabled": "Y",
+          "isSetOpenPermissions": "Y",
+          "isPaymentsEnabled": "N",
+          "isCountersEnabled": "N",
+          "createdTime": "2024-07-08T17:24:50+02:00",
+          "updatedTime": "2024-07-08T17:24:50+02:00",
+          "updatedBy": 1
+        },
+        {
+          "id": 22,
+          "title": "Смарт-процесс #5",
+          "code": "",
+          "createdBy": 1,
+          "entityTypeId": 1226,
+          "customSectionId": null,
+          "isCategoriesEnabled": "Y",
+          "isStagesEnabled": "N",
+          "isBeginCloseDatesEnabled": "N",
+          "isClientEnabled": "N",
+          "isUseInUserfieldEnabled": "Y",
+          "isLinkWithProductsEnabled": "Y",
+          "isMycompanyEnabled": "N",
+          "isDocumentsEnabled": "N",
+          "isSourceEnabled": "Y",
+          "isObserversEnabled": "Y",
+          "isRecyclebinEnabled": "Y",
+          "isAutomationEnabled": "N",
+          "isBizProcEnabled": "Y",
+          "isSetOpenPermissions": "Y",
+          "isPaymentsEnabled": "N",
+          "isCountersEnabled": "N",
+          "createdTime": "2024-07-08T17:24:48+02:00",
+          "updatedTime": "2024-07-08T17:24:48+02:00",
+          "updatedBy": 1
+        }
+      ]
+    },
+    "time": {
+      "start": 1720516793.835427,
+      "finish": 1720516794.697913,
+      "duration": 0.8624858856201172,
+      "processing": 0.07323503494262695,
+      "date_start": "2024-07-09T11:19:53+02:00",
+      "date_finish": "2024-07-09T11:19:54+02:00",
+      "operating": 0
+    },
+    "total": 4
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит единственный ключ types"
+    },
+    {
+      "name": "types",
+      "type": "type[]",
+      "base": "array",
+      "required": false,
+      "description": "Список смарт-процессов, каждый из которых соответствует структуре объекта type"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    }
+  ],
+  "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "createdBy",
+    "createdTime",
+    "customSectionId",
+    "customSections",
+    "entityTypeId",
+    "id",
+    "isAutomationEnabled",
+    "isBeginCloseDatesEnabled",
+    "isBizProcEnabled",
+    "isCategoriesEnabled",
+    "isClientEnabled",
+    "isCountersEnabled",
+    "isDocumentsEnabled",
+    "isExternal",
+    "isLinkWithProductsEnabled",
+    "isMycompanyEnabled",
+    "isObserversEnabled",
+    "isPaymentsEnabled",
+    "isRecyclebinEnabled",
+    "isSetOpenPermissions",
+    "isSourceEnabled",
+    "isStagesEnabled",
+    "isUseInUserfieldEnabled",
+    "linkedUserFields",
+    "relations",
+    "title",
+    "updatedBy",
+    "updatedTime"
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.template.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить существующий шаблон документа crm.documentgenerator.template.update",
+  "permissions": "пользователь с правом \"изменения\" шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор шаблона"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с полями шаблона для обновления (подробнее)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название шаблона"
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "base": "any",
+          "required": false,
+          "description": "Файл шаблона в формате [\"имя_файла.docx\", \"base64_контент\"]. Можно передать в base64 или в multipart/form-data. Подробнее: Как загружать файлы"
+        },
+        {
+          "name": "numeratorId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор нумератора. Список доступных нумераторов можно получить методом crm.documentgenerator.numerator.list"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Регион шаблона, например ru"
+        },
+        {
+          "name": "entityTypeId",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив идентификаторов CRM-объектов, для которых доступен шаблон. Типичные значения: - 1 — лид - 2 — сделка - 3 — контакт - 4 — компания - 5 — счет (старая версия) - 7 — коммерческое предложение - 31 — счет Для объектов с воронками добавляется суффикс воронки, например: - 2_category_0 — сделка, воронка 0 - 31_1 — счет, воронка 1 Для смарт-процессов указывается entityTypeId типа из crm.type.list ил…"
+        },
+        {
+          "name": "users",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив кодов прав доступа, например [\"UA\"]. Поддерживаются коды доступа: - UA — все пользователи - U<id> — пользователь - G<id> — группа пользователей - D<id> — отдел - DR<id> — отдел с подотделами - IU<id> — пользователь интранета - SG<id>, SG<id>_A, SG<id>_E, SG<id>_K — рабочая группа/проект - SU<id>, SU<id>_M — пользователь соцсети - CHAT<id> — чат - AD, AE, AT, ATD, ATE, ATT (и варианты с иден…"
+        },
+        {
+          "name": "active",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Активность шаблона: Y или N"
+        },
+        {
+          "name": "withStamps",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Подставлять печать и подпись: Y или N"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/templates/crm-document-generator-template-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "template": {
+        "id": "41",
+        "name": "Шаблон из файла (обновлен)",
+        "region": "ru",
+        "code": null,
+        "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=41",
+        "active": "Y",
+        "moduleId": "crm",
+        "numeratorId": "49",
+        "withStamps": "N",
+        "users": {
+          "UA": "UA"
+        },
+        "isDeleted": "N",
+        "sort": "500",
+        "downloadMachine": "https://mysite.ru/rest/crm.documentgenerator.template.download.json?...",
+        "entityTypeId": [
+          "2"
+        ],
+        "createTime": "2026-03-18T15:54:20+03:00",
+        "updateTime": "2026-03-18T17:26:29+03:00"
+      }
+    },
+    "time": {
+      "start": 1773843989,
+      "finish": 1773843989.201709,
+      "duration": 0.20170903205871582,
+      "processing": 0,
+      "date_start": "2026-03-18T17:26:29+03:00",
+      "date_finish": "2026-03-18T17:26:29+03:00",
+      "operating_reset_at": 1773844589,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект template"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/templates/crm-document-generator-template-update.html",
+  "executable": false
+}

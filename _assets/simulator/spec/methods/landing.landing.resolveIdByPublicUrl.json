@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "landing.landing.resolveIdByPublicUrl",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить идентификатор страницы по публичному URL landing.landing.resolveIdByPublicUrl",
+  "permissions": "пользователь с доступом к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "landingUrl",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Относительный публичный URL страницы внутри сайта siteId, например /catalog/sale/. Передавайте путь от корня сайта без домена"
+    },
+    {
+      "name": "siteId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта, в рамках которого нужно найти страницу. Идентификатор сайта можно получить методом landing.site.getList"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-resolve-id-by-public-url.md"
+  },
+  "resultExample": {
+    "result": 2231,
+    "time": {
+      "start": 1773830531,
+      "finish": 1773830531.858353,
+      "duration": 0.8583528995513916,
+      "processing": 0,
+      "date_start": "2026-03-18T13:42:11+03:00",
+      "date_finish": "2026-03-18T13:42:11+03:00",
+      "operating_reset_at": 1773831131,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор найденной страницы. Если страница с таким публичным URL на сайте siteId не найдена, метод возвращает null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-resolve-id-by-public-url.html",
+  "executable": false
+}

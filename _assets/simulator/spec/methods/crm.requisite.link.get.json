@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.link.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить связь реквизита с объектом crm.requisite.link.get",
+  "permissions": "пользователь с правом на чтение объекта CRM, для которого получают связь",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта, к которому относится связь. Могут использоваться следующие типы: - сделка (значение 2) - старый счет (значение 5) - предложение (значение 7) - новый счет (значение 31) - другие динамические объекты (для получения возможных значений смотрите метод crm.type.list). Идентификаторы типов объектов CRM можно получить с помощью метода crm.enum.ownertype"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта, к которому относится связь. Идентификаторы объектов можно получить с помощью следующих методов: crm.deal.list, crm.quote.list, crm.item.list."
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/links/crm-requisite-link-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ENTITY_TYPE_ID": 31,
+      "ENTITY_ID": 315,
+      "REQUISITE_ID": "60",
+      "BANK_DETAIL_ID": "24",
+      "MC_REQUISITE_ID": "2",
+      "MC_BANK_DETAIL_ID": "2"
+    },
+    "time": {
+      "start": 1718378061.651857,
+      "finish": 1718378062.098295,
+      "duration": 0.4464380741119385,
+      "processing": 0.07567882537841797,
+      "date_start": "2024-06-14T17:14:21+02:00",
+      "date_finish": "2024-06-14T17:14:22+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "Object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий значения полей связи реквизита"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/links/crm-requisite-link-get.html",
+  "executable": false,
+  "entityFields": [
+    "BANK_DETAIL_ID",
+    "ENTITY_ID",
+    "ENTITY_TYPE_ID",
+    "MC_BANK_DETAIL_ID",
+    "MC_REQUISITE_ID",
+    "REQUISITE_ID"
+  ]
+}

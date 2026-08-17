@@ -1,0 +1,32 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.status.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новый статус счета crm.invoice.status.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Набор полей — массив вида array(\"поле\"=>\"значение\"[, ...]), содержащий значения полей статуса счета. Чтобы узнать требуемый формат полей, выполните метод crm.invoice.status.fields и посмотрите формат пришедших значений этих полей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice-status-old/crm-invoice-status-add.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice-status-old/crm-invoice-status-add.html",
+  "executable": false
+}

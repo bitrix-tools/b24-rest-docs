@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.getexternallink",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить ссылку на счет crm.invoice.getexternallink",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор счета"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-get-external-link.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-get-external-link.html",
+  "executable": false
+}

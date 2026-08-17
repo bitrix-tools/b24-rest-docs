@@ -1,0 +1,55 @@
+{
+  "$v": 1,
+  "method": "crm.duplicate.volatileType.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список полей для поиска дубликатов crm.duplicate.volatileType.fields",
+  "permissions": "администратор Битрикс24 или администратор CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор типа объекта. Возможные значения: - 1 — лид - 3 — контакт - 4 — компания Если не указан, возвращаются поля для всех типов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-fields.md"
+  },
+  "returns": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "fieldCode",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код поля"
+    },
+    {
+      "name": "fieldTitle",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-fields.html",
+  "executable": false
+}

@@ -1,0 +1,155 @@
+{
+  "$v": 1,
+  "method": "user.userfield.update",
+  "scope": "user.userfield",
+  "kind": "write",
+  "title": "Обновить пользовательское поле user.userfield.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля. Для получения идентификаторов пользовательских полей используйте метод user.userfield.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Значения полей для обновления пользовательского поля",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Порядок сортировки"
+        },
+        {
+          "name": "MANDATORY",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли пользовательское поле обязательным. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SHOW_FILTER",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли поле в фильтре списка. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SHOW_IN_LIST",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли поле в списке. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"} для передачи дополнительных настроек пользовательских полей. Настройки описаны ниже"
+        },
+        {
+          "name": "EDIT_FORM_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подпись в форме редактирования. Можно передать строку или объект с подписями по языкам в формате {\"ru\": \"...\", \"en\": \"...\"}. При передаче строки значение будет выставлено для всех языков"
+        },
+        {
+          "name": "LIST_COLUMN_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Заголовок столбца в списке. Можно передать строку или объект с подписями по языкам в формате {\"ru\": \"...\", \"en\": \"...\"}. При передаче строки значение будет выставлено для всех языков"
+        },
+        {
+          "name": "LIST_FILTER_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Заголовок фильтра в списке. Можно передать строку или объект с подписями по языкам в формате {\"ru\": \"...\", \"en\": \"...\"}. При передаче строки значение будет выставлено для всех языков"
+        },
+        {
+          "name": "ERROR_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Сообщение об ошибке при невалидном вводе. Можно передать строку или объект с текстами по языкам в формате {\"ru\": \"...\", \"en\": \"...\"}. При передаче строки значение будет выставлено для всех языков"
+        },
+        {
+          "name": "HELP_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Текст подсказки к полю. Можно передать строку или объект с текстами по языкам в формате {\"ru\": \"...\", \"en\": \"...\"}. При передаче строки значение будет выставлено для всех языков"
+        },
+        {
+          "name": "LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название пользовательского поля по умолчанию. Значение будет выставлено в поля LIST_FILTER_LABEL, LIST_COLUMN_LABEL, EDIT_FORM_LABEL, ERROR_MESSAGE, HELP_MESSAGE, если в них не передано значение"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user/userfields/user-userfield-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1747311864.008399,
+      "finish": 1747311865.063292,
+      "duration": 1.0548930168151855,
+      "processing": 0.17107510566711426,
+      "date_start": "2025-05-15T14:24:24+02:00",
+      "date_finish": "2025-05-15T14:24:25+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Cодержит true в случае успешного обновления пользовательского поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user/userfields/user-userfield-update.html",
+  "executable": false
+}

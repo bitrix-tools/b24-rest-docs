@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "crm.lead.contact.items.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список связанных контактов crm.lead.contact.items.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор лида. Идентификатор лида можно получить методом получения списка лидов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/management-communication/crm-lead-contact-items-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Результат в виде массива объектов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/management-communication/crm-lead-contact-items-get.html",
+  "executable": false
+}

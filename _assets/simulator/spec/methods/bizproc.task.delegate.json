@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "bizproc.task.delegate",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Делегировать задание бизнес-процесса bizproc.task.delegate",
+  "permissions": "любой пользователь, ответственный за задание бизнес-процесса",
+  "params": [
+    {
+      "name": "TASK_IDS",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Список идентификаторов заданий. Получить идентификаторы можно методом bizproc.task.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FROM_USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, от которого задачи будут делегированы. Получить идентификатор пользователя можно методом user.get"
+    },
+    {
+      "name": "TO_USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, которому задачи будут делегированы. Получить идентификатор пользователя можно методом user.get. Кому можно делегировать, зависит от настроек задания: только подчиненным, всем сотрудникам или никому."
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-task/bizproc-task-delegate.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1748526089.625516,
+      "finish": 1748526089.656787,
+      "duration": 0.03127098083496094,
+      "processing": 0.008746147155761719,
+      "date_start": "2025-05-29T16:41:29+03:00",
+      "date_finish": "2025-05-29T16:41:29+03:00",
+      "operating_reset_at": 1748526689,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если задание делегировано успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-task/bizproc-task-delegate.html",
+  "executable": false
+}

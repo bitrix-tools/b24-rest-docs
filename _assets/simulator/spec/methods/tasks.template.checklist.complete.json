@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "tasks.template.checklist.complete",
+  "scope": "task",
+  "kind": "write",
+  "title": "Завершить пункт чек-листа шаблона задачи tasks.template.checklist.complete",
+  "permissions": "пользователь с правами на изменение шаблона задачи",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона задачи. Идентификатор шаблона задачи можно получить при создании нового шаблона"
+    },
+    {
+      "name": "checkListItemId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта чек-листа шаблона можно получить при создании нового пункта или методом получения списка пунктов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/checklist/tasks-template-checklist-complete.md"
+  },
+  "resultExample": {
+    "result": {
+      "checkListItem": {
+        "id": 27,
+        "copiedId": null,
+        "userId": 503,
+        "createdBy": null,
+        "parentId": 23,
+        "title": "2. Заполнить форму отчета",
+        "sortIndex": 1,
+        "displaySortIndex": "",
+        "isComplete": true,
+        "isImportant": false,
+        "completedCount": 0,
+        "members": [],
+        "attachments": [],
+        "nodeId": null,
+        "templateId": 139
+      }
+    },
+    "time": {
+      "start": 1773239663,
+      "finish": 1773239663.724766,
+      "duration": 0.7247660160064697,
+      "processing": 0,
+      "date_start": "2026-03-11T17:34:23+03:00",
+      "date_finish": "2026-03-11T17:34:23+03:00",
+      "operating_reset_at": 1773240263,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-complete.html",
+  "executable": false
+}

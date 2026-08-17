@@ -1,0 +1,25 @@
+{
+  "$v": 1,
+  "method": "imbot.app.unregister",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Удалить приложение для чата imbot.app.unregister",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "APP_ID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "13"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/outdated/create-app/imbot-app-unregister.md"
+  },
+  "page": "/api-reference/chats/outdated/create-app/imbot-app-unregister.html",
+  "executable": false
+}

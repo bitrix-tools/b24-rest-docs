@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.preset.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля шаблона реквизитов по id crm.requisite.preset.get",
+  "permissions": "пользователь с правом на чтение контактов и компаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона реквизита. Можно получить с помощью метода crm.requisite.preset.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/presets/crm-requisite-preset-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "347",
+      "ENTITY_TYPE_ID": "8",
+      "COUNTRY_ID": "1",
+      "DATE_CREATE": "2024-05-24T15:45:44+02:00",
+      "DATE_MODIFY": "",
+      "CREATED_BY_ID": "1",
+      "MODIFY_BY_ID": null,
+      "NAME": "ИП",
+      "XML_ID": "EXAMPLE_COMPANY__VALUE_1",
+      "ACTIVE": "Y",
+      "SORT": "520"
+    },
+    "time": {
+      "start": 1716558423.336056,
+      "finish": 1716558424.695338,
+      "duration": 1.3592820167541504,
+      "processing": 0.06150317192077637,
+      "date_start": "2024-05-24T15:47:03+02:00",
+      "date_finish": "2024-05-24T15:47:04+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий значения полей шаблона"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/presets/crm-requisite-preset-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "COUNTRY_ID",
+    "CREATED_BY_ID",
+    "DATE_CREATE",
+    "DATE_MODIFY",
+    "ENTITY_TYPE_ID",
+    "ID",
+    "MODIFY_BY_ID",
+    "NAME",
+    "SORT",
+    "XML_ID"
+  ]
+}

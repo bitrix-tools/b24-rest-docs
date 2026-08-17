@@ -1,0 +1,267 @@
+{
+  "$v": 1,
+  "method": "timeman.schedule.get",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить рабочий график timeman.schedule.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор графика. Узнать идентификатор графика можно в списке графиков на странице Сотрудники > Время и отчеты > Рабочие графики"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/schedule/timeman-schedule-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 1,
+      "NAME": "Для всех сотрудников",
+      "SCHEDULE_TYPE": "FIXED",
+      "REPORT_PERIOD": "MONTH",
+      "REPORT_PERIOD_OPTIONS": {
+        "START_WEEK_DAY": 0
+      },
+      "CALENDAR_ID": 1,
+      "ALLOWED_DEVICES": {
+        "browser": true
+      },
+      "DELETED": "0",
+      "IS_FOR_ALL_USERS": true,
+      "WORKTIME_RESTRICTIONS": [
+        "[]"
+      ],
+      "CONTROLLED_ACTIONS": 3,
+      "UPDATED_BY": 503,
+      "DELETED_BY": 0,
+      "DELETED_AT": "",
+      "CREATED_BY": 0,
+      "CREATED_AT": "2019-09-19T21:22:22+03:00",
+      "SHIFTS": [
+        {
+          "ID": 1,
+          "NAME": "",
+          "BREAK_DURATION": 3600,
+          "WORK_TIME_START": 28800,
+          "WORK_TIME_END": 61200,
+          "WORK_DAYS": "12345",
+          "SCHEDULE_ID": 1,
+          "DELETED": false
+        }
+      ],
+      "CALENDAR": {
+        "ID": 1,
+        "NAME": "",
+        "PARENT_CALENDAR_ID": 0,
+        "SYSTEM_CODE": "",
+        "EXCLUSIONS": []
+      },
+      "SCHEDULE_VIOLATION_RULES": {
+        "ID": 1,
+        "SCHEDULE_ID": 1,
+        "ENTITY_CODE": "UA",
+        "MAX_EXACT_START": 28859,
+        "MIN_EXACT_END": 61200,
+        "MAX_OFFSET_START": -1,
+        "MIN_OFFSET_END": -1,
+        "RELATIVE_START_FROM": -1,
+        "RELATIVE_START_TO": -1,
+        "RELATIVE_END_FROM": -1,
+        "RELATIVE_END_TO": -1,
+        "MIN_DAY_DURATION": 28800,
+        "MAX_ALLOWED_TO_EDIT_WORK_TIME": 300,
+        "MAX_WORK_TIME_LACK_FOR_PERIOD": 3600,
+        "PERIOD_TIME_LACK_AGENT_ID": 309429,
+        "MAX_SHIFT_START_DELAY": -1,
+        "MISSED_SHIFT_START": 0,
+        "USERS_TO_NOTIFY": {
+          "FIXED_START_END": [
+            "U503"
+          ],
+          "FIXED_PER_RECORD": [
+            "U503"
+          ],
+          "FIXED_EDIT_WORKTIME": [
+            "U503"
+          ],
+          "FIXED_PERIODIC": [
+            "U503"
+          ],
+          "SHIFT_DELAY": [],
+          "SHIFT_MISSED_START": []
+        }
+      }
+    },
+    "time": {
+      "start": 1744036659.23395,
+      "finish": 1744036659.265575,
+      "duration": 0.03162503242492676,
+      "processing": 0.008758068084716797,
+      "date_start": "2025-04-07T17:37:39+03:00",
+      "date_finish": "2025-04-07T17:37:39+03:00",
+      "operating_reset_at": 1744037259,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит объект с описанием графика работы сотрудников"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор графика работы"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название графика работы"
+    },
+    {
+      "name": "SCHEDULE_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип графика работы. Варианты значений: - FIXED — фиксированный - SHIFT — посменный - FLEXTIME — свободный"
+    },
+    {
+      "name": "REPORT_PERIOD",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Периодичность формирования отчетов по графику. Возможные значения: - MONTH — месяц - WEEK — неделя - TWO_WEEKS — две недели - QUARTER — квартал"
+    },
+    {
+      "name": "REPORT_PERIOD_OPTIONS",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием дополнительных настроек периода формирования отчетов. Только для REPORT_PERIOD со значениями WEEK и TWO_WEEKS"
+    },
+    {
+      "name": "CALENDAR_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор календаря, связанного с графиком работы"
+    },
+    {
+      "name": "ALLOWED_DEVICES",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием разрешенных устройств для учета рабочего времени"
+    },
+    {
+      "name": "DELETED",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Флаг удаления графика работы. Значение \"0\" означает, что график активен. Значение \"1\" указывает на удаленное состояние"
+    },
+    {
+      "name": "IS_FOR_ALL_USERS",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Применимость графика ко всем сотрудникам. Значение true означает, что график применяется ко всем пользователям системы"
+    },
+    {
+      "name": "WORKTIME_RESTRICTIONS",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Ограничения рабочего времени. Содержит массив строк с правилами ограничений"
+    },
+    {
+      "name": "CONTROLLED_ACTIONS",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество контролируемых действий в рамках графика работы"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который последним обновил график работы"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который удалил график работы. Значение 0 указывает, что график не был удален"
+    },
+    {
+      "name": "DELETED_AT",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Дата и время удаления графика работы. Пустая строка означает, что график не был удален"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который создал график работы. Значение 0 указывает на системное создание"
+    },
+    {
+      "name": "CREATED_AT",
+      "type": "datetime",
+      "base": "datetime",
+      "required": "unknown",
+      "description": "Дата и время создания графика работы"
+    },
+    {
+      "name": "SHIFTS",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов смен. Каждый объект содержит описание смены, связанной с графиком работы"
+    },
+    {
+      "name": "CALENDAR",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с информацией о календаре, связанном с графиком работы"
+    },
+    {
+      "name": "SCHEDULE_VIOLATION_RULES",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием правил нарушения графика работы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/schedule/timeman-schedule-get.html",
+  "executable": false,
+  "entityFields": [
+    "START_WEEK_DAY"
+  ]
+}

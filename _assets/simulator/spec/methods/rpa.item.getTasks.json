@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "rpa.item.getTasks",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Получить данные о текущих заданиях элемента rpa.item.getTasks",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор элемента"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/item/rpa-item-get-tasks.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "tasks": [
+      {
+        "id": "93",
+        "title": "asdf",
+        "description": "",
+        "userId": 1,
+        "data": {
+          "participantJoint": "or",
+          "isMine": true,
+          "controls": {
+            "BUTTONS": [
+              {
+                "TYPE": "submit",
+                "TARGET_USER_STATUS": 3,
+                "NAME": "complete",
+                "VALUE": "Y",
+                "TEXT": "Сохранить",
+                "COLOR": "3bc8f5"
+              }
+            ]
+          },
+          "type": "RpaRequestActivity",
+          "url": "/rpa/task/id/93/",
+          "fieldsToShow": null,
+          "fieldsToSet": [
+            "Название"
+          ],
+          "users": [
+            {
+              "id": 1,
+              "status": 0
+            }
+          ]
+        },
+        "itemClassName": "BX.Rpa.Timeline.Task",
+        "users": {
+          "1": {
+            "id": "1",
+            "name": "Anton",
+            "secondName": "",
+            "lastName": "Gorbylev",
+            "title": null,
+            "workPosition": "",
+            "fullName": "Anton Gorbylev",
+            "link": "/company/personal/user/1/"
+          }
+        }
+      }
+    ]
+  },
+  "page": "/api-reference/outdated/rpa/item/rpa-item-get-tasks.html",
+  "executable": false
+}

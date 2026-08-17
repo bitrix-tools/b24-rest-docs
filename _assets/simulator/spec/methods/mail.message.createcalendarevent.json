@@ -1,0 +1,107 @@
+{
+  "$v": 1,
+  "method": "mail.message.createcalendarevent",
+  "scope": "mail",
+  "kind": "write",
+  "title": "Создать событие календаря из письма mail.message.createcalendarevent",
+  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо",
+  "params": [
+    {
+      "name": "messageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор письма. Идентификатор можно получить методом mail.message.list"
+    },
+    {
+      "name": "dateFrom",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Дата и время начала события в формате Y-m-d H:i:s, например 2026-04-15 10:00:00"
+    },
+    {
+      "name": "dateTo",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Дата и время окончания события в формате Y-m-d H:i:s, например 2026-04-15 11:00:00"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название события. Если не передано, используется тема письма"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание события"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/message/mail-message-createcalendarevent.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true,
+      "eventId": 31,
+      "messageId": 15
+    },
+    "time": {
+      "start": 1779819678,
+      "finish": 1779819678.84803,
+      "duration": 0.8480300903320312,
+      "processing": 0,
+      "date_start": "2026-05-26T21:21:18+03:00",
+      "date_finish": "2026-05-26T21:21:18+03:00",
+      "operating_reset_at": 1779820278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом выполнения операции"
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак успешного выполнения операции"
+    },
+    {
+      "name": "eventId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного события"
+    },
+    {
+      "name": "messageId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор исходного письма"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/message/mail-message-createcalendarevent.html",
+  "executable": false
+}

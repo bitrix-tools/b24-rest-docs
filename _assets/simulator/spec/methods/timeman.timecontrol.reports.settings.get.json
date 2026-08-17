@@ -1,0 +1,188 @@
+{
+  "$v": 1,
+  "method": "timeman.timecontrol.reports.settings.get",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить настройки отчетов timeman.timecontrol.reports.settings.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Активен ли модуль контроля времени"
+    },
+    {
+      "name": "user_id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор текущего пользователя"
+    },
+    {
+      "name": "user_admin",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Является ли пользователь администратором"
+    },
+    {
+      "name": "user_head",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Является ли пользователь руководителем"
+    },
+    {
+      "name": "departments",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список объектов с информацией о подразделениях. Содержимое массива зависит от роли пользователя: - Администратор — описание всех подразделений, - Руководитель — описание своего подразделения, - Обычный сотрудник — пустой массив",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "minimum_idle_for_report",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Минимальное время отсутствия в минутах, после которого требуется отчет"
+    },
+    {
+      "name": "report_view_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип просмотра отчетов. Возможные значения: - none — нет доступа к отчетам - head — руководитель - full — полный доступ - simple — упрощенный доступ"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/timecontrol/timeman-timecontrol-reports-settings-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "active": true,
+      "user_id": 547,
+      "user_admin": false,
+      "user_head": true,
+      "departments": [
+        {
+          "id": "9",
+          "name": "Отдел маркетинга и рекламы"
+        }
+      ],
+      "minimum_idle_for_report": 15,
+      "report_view_type": "head"
+    },
+    "time": {
+      "start": 1749211142.210397,
+      "finish": 1749211142.280698,
+      "duration": 0.07030105590820312,
+      "processing": 0.03640604019165039,
+      "date_start": "2025-06-06T14:59:02+03:00",
+      "date_finish": "2025-06-06T14:59:02+03:00",
+      "operating_reset_at": 1749211742,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Активен ли модуль контроля времени"
+    },
+    {
+      "name": "user_id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор текущего пользователя"
+    },
+    {
+      "name": "user_admin",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Является ли пользователь администратором"
+    },
+    {
+      "name": "user_head",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Является ли пользователь руководителем"
+    },
+    {
+      "name": "departments",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список объектов с информацией о подразделениях. Содержимое массива зависит от роли пользователя: - Администратор — описание всех подразделений, - Руководитель — описание своего подразделения, - Обычный сотрудник — пустой массив"
+    },
+    {
+      "name": "minimum_idle_for_report",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Минимальное время отсутствия в минутах, после которого требуется отчет"
+    },
+    {
+      "name": "report_view_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип просмотра отчетов. Возможные значения: - none — нет доступа к отчетам - head — руководитель - full — полный доступ - simple — упрощенный доступ"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-reports-settings-get.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "name"
+  ]
+}

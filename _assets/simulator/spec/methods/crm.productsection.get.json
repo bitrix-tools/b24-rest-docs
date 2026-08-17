@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.productsection.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить раздел товаров по идентификатору crm.productsection.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор раздела товаров"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/product-section/crm-product-section-get.md"
+  },
+  "deprecated": {
+    "successor": "catalog.section.get"
+  },
+  "page": "/api-reference/crm/outdated/product-section/crm-product-section-get.html",
+  "executable": false
+}

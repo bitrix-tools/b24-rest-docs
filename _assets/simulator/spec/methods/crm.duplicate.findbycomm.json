@@ -1,0 +1,91 @@
+{
+  "$v": 1,
+  "method": "crm.duplicate.findbycomm",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить лиды, контакты и компании с совпадающими данными crm.duplicate.findbycomm",
+  "permissions": "пользователь с правом на чтение элементов CRM",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип коммуникации. Возможные значения: - EMAIL — email-адрес - PHONE — телефон"
+    },
+    {
+      "name": "values",
+      "type": "string[]",
+      "base": "array",
+      "required": true,
+      "description": "Массив email или телефонов. Максимальное количество значений — 20",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "entity_type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип объекта. Возможные значения: - LEAD — лид - CONTACT — контакт - COMPANY — компания Если не задан — поиск выполняется по всем трем типам"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/duplicates/crm-duplicate-find-by-comm.md"
+  },
+  "resultExample": {
+    "result": {
+      "CONTACT": [
+        275,
+        2297
+      ]
+    },
+    "time": {
+      "start": 1750684060.672785,
+      "finish": 1750684060.724903,
+      "duration": 0.05211806297302246,
+      "processing": 0.018191099166870117,
+      "date_start": "2025-06-23T16:07:40+03:00",
+      "date_finish": "2025-06-23T16:07:40+03:00",
+      "operating_reset_at": 1750684660,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "LEAD",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов найденных лидов"
+    },
+    {
+      "name": "CONTACT",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов найденных контактов"
+    },
+    {
+      "name": "COMPANY",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов найденных компаний"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/duplicates/crm-duplicate-find-by-comm.html",
+  "executable": false
+}

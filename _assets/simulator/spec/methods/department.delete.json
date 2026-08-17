@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "department.delete",
+  "scope": "department",
+  "kind": "write",
+  "title": "Удалить подразделение department.delete",
+  "permissions": "пользователь с правами на изменение структуры",
+  "params": [
+    {
+      "name": "ID",
+      "type": "int",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/department-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1736929002.119324,
+      "finish": 1736929002.469626,
+      "duration": 0.35030198097229004,
+      "processing": 0.13488411903381348,
+      "date_start": "2025-01-15T08:16:42+00:00",
+      "date_finish": "2025-01-15T08:16:42+00:00",
+      "operating": 0.13484978675842285
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления отдела в структуре компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/department-delete.html",
+  "executable": false
+}

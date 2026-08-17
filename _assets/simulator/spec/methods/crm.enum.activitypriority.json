@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "crm.enum.activitypriority",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить элементы перечисления «Приоритеты дел» crm.enum.activitypriority",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с приоритетами (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-priority.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 0,
+        "NAME": "",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 1,
+        "NAME": "низкая",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 2,
+        "NAME": "средняя",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 3,
+        "NAME": "высокая",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750151772.540903,
+      "finish": 1750151772.60146,
+      "duration": 0.060556888580322266,
+      "processing": 0.00045800209045410156,
+      "date_start": "2025-06-17T12:16:12+03:00",
+      "date_finish": "2025-06-17T12:16:12+03:00",
+      "operating_reset_at": 1750152372,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с приоритетами (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-priority.html",
+  "executable": false
+}

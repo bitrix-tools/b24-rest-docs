@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "imopenlines.bot.session.operator",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Переключить диалог на свободного оператора imopenlines.bot.session.operator",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата, который нужно передать свободному оператору. Идентификатор чата можно получить с помощью методов imopenlines.dialog.get или imopenlines.crm.chat.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-operator.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.456,
+      "finish": 1728626400.539,
+      "duration": 0.083,
+      "processing": 0.031,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Содержит true, если диалог успешно передан свободному оператору"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-operator.html",
+  "executable": false
+}

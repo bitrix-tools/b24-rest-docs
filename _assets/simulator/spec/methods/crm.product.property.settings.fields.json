@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "crm.product.property.settings.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля дополнительных настроек свойств пользовательского типа crm.product.property.settings.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "propertyType",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Тип свойства"
+    },
+    {
+      "name": "userType",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Пользовательский тип свойства"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/products/crm-product-property-settings-fields.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/products/crm-product-property-settings-fields.html",
+  "executable": false
+}

@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.type.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить пользовательский тип crm.type.delete",
+  "permissions": "любой пользователь с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор смарт-процесса. Можно получить с помощью методов: crm.type.list, crm.type.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/user-defined-object-types/crm-type-delete.md"
+  },
+  "resultExample": {
+    "result": [],
+    "time": {
+      "start": 1720441523.621191,
+      "finish": 1720441528.162992,
+      "duration": 4.5418009757995605,
+      "processing": 4.141964912414551,
+      "date_start": "2024-07-08T14:25:23+02:00",
+      "date_finish": "2024-07-08T14:25:28+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. В случае успеха result = []. Если result вернет null, то скорее всего не был передан обязательный параметр id. В таком случае объект не удалится"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-delete.html",
+  "executable": false
+}

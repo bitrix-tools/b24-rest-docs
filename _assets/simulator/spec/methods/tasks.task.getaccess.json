@@ -1,0 +1,59 @@
+{
+  "$v": 1,
+  "method": "tasks.task.getaccess",
+  "scope": "task",
+  "kind": "write",
+  "title": "Проверить доступ к задаче tasks.task.getaccess",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "users",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов пользователей, для которых нужно проверить доступ. По умолчанию используется текущий пользователь. Идентификатор пользователя можно получить методом получения списка пользователей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-get-access.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект c описанием доступных действий для каждого пользователя"
+    },
+    {
+      "name": "allowedActions",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, в котором ключ — ID пользователя, значение — объект с описанием доступных действий над задачей. Если у пользователя, выполняющего метод, нет доступа к задаче, вернется пустой массив \"allowedActions\":[]. Для несушествующих пользователей из параметра users метод вернет ответ со значением false для всех действий"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-get-access.html",
+  "executable": false
+}

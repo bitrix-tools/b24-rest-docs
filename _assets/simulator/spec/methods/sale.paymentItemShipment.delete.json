@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.paymentItemShipment.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить привязку sale.paymentItemShipment.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_payment_item_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки оплаты к отгрузке"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment-item-shipment/sale-payment-item-shipment-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1713169441.44016,
+      "finish": 1713169442.182851,
+      "duration": 0.7426910400390625,
+      "processing": 0.5059871673583984,
+      "date_start": "2024-04-15T11:24:01+03:00",
+      "date_finish": "2024-04-15T11:24:02+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления привязки оплаты к отгрузке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-delete.html",
+  "executable": false
+}

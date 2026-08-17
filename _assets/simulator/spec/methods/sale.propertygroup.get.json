@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "sale.propertygroup.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить значения всех полей группы свойств по id sale.propertygroup.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_group.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор группы свойств"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-group/sale-property-group-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyGroup": {
+        "id": 10,
+        "name": "Служба доставки",
+        "personTypeId": 4,
+        "sort": 100
+      }
+    },
+    "time": {
+      "start": 1711455022.718165,
+      "finish": 1711455022.90226,
+      "duration": 0.18409514427185059,
+      "processing": 0.018402099609375,
+      "date_start": "2024-03-26T15:10:22+03:00",
+      "date_finish": "2024-03-26T15:10:22+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyGroup",
+      "type": "sale_order_property_group",
+      "base": "any",
+      "required": false,
+      "description": "Информация о группе свойств"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-group/sale-property-group-get.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "name",
+    "personTypeId",
+    "sort"
+  ]
+}

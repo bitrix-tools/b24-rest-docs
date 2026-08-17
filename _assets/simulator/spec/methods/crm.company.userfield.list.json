@@ -1,0 +1,320 @@
+{
+  "$v": 1,
+  "method": "crm.company.userfield.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список пользовательских полей компаний crm.company.userfield.list",
+  "permissions": "пользователь с правом чтения компаний",
+  "params": [
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: - field_n — название поля, по которому будет отфильтрована выборка пользовательских полей - value_n — значение фильтра Все условия по отдельным полям соединяются с помощью AND. Смотрите ниже список доступных полей для фильтрации",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: - field_n — название поля, по которому будет произведена сортировка выборки элементов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных полей для сортировки: - ID — идентификатор пользовательского поля - FIELD_NAME — код пользовательского поля - USER_TYPE_ID — тип пользовательского поля - XML_ID — внешний ко…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/userfields/crm-company-userfield-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "5815",
+        "ENTITY_ID": "CRM_COMPANY",
+        "FIELD_NAME": "UF_CRM_1713790573",
+        "USER_TYPE_ID": "crm_status",
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "I",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "ENTITY_TYPE": "INDUSTRY"
+        },
+        "EDIT_FORM_LABEL": "Справочник",
+        "LIST_COLUMN_LABEL": "Справочник",
+        "LIST_FILTER_LABEL": "Справочник",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "6799",
+        "ENTITY_ID": "CRM_COMPANY",
+        "FIELD_NAME": "UF_CRM_1724077760",
+        "USER_TYPE_ID": "enumeration",
+        "XML_ID": null,
+        "SORT": "150",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "DISPLAY": "LIST",
+          "LIST_HEIGHT": 1,
+          "CAPTION_NO_VALUE": "",
+          "SHOW_NO_VALUE": "Y"
+        },
+        "EDIT_FORM_LABEL": "Радио",
+        "LIST_COLUMN_LABEL": "Радио",
+        "LIST_FILTER_LABEL": "Радио",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null,
+        "LIST": [
+          {
+            "ID": "3157",
+            "SORT": "10",
+            "VALUE": "Детское радио",
+            "DEF": "N",
+            "XML_ID": "79b4c576f96e65eb40f390e45c0dc802"
+          },
+          {
+            "ID": "3159",
+            "SORT": "20",
+            "VALUE": "Радио Шансон",
+            "DEF": "N",
+            "XML_ID": "d3ffd89a825f218f5efd79dffd38fbbf"
+          },
+          {
+            "ID": "3161",
+            "SORT": "30",
+            "VALUE": "Love Радио",
+            "DEF": "N",
+            "XML_ID": "dff769fa19d7d7ce8d0677341d221161"
+          },
+          {
+            "ID": "3163",
+            "SORT": "40",
+            "VALUE": "Радио Монте-Карло",
+            "DEF": "N",
+            "XML_ID": "1f22e5c818ce336a42bd0ec94eb69b9e"
+          },
+          {
+            "ID": "3181",
+            "SORT": "130",
+            "VALUE": "DFM Юрьев-Польский",
+            "DEF": "N",
+            "XML_ID": "fc1c5e6b4a9fd20b4749240b8dbac41a"
+          }
+        ]
+      },
+      {
+        "ID": "6791",
+        "ENTITY_ID": "CRM_COMPANY",
+        "FIELD_NAME": "UF_CRM_1722578010",
+        "USER_TYPE_ID": "file",
+        "XML_ID": null,
+        "SORT": "150",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "E",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "SIZE": 20,
+          "LIST_WIDTH": 0,
+          "LIST_HEIGHT": 0,
+          "MAX_SHOW_SIZE": 0,
+          "MAX_ALLOWED_SIZE": 0,
+          "EXTENSIONS": [],
+          "TARGET_BLANK": "Y"
+        },
+        "EDIT_FORM_LABEL": "КП (файлы)",
+        "LIST_COLUMN_LABEL": "КП (файлы)",
+        "LIST_FILTER_LABEL": "КП (файлы)",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "5567",
+        "ENTITY_ID": "CRM_COMPANY",
+        "FIELD_NAME": "UF_CRM_1709565075",
+        "USER_TYPE_ID": "resourcebooking",
+        "XML_ID": null,
+        "SORT": "1",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "Y",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "USE_USERS": "N",
+          "USE_RESOURCES": "Y",
+          "RESOURCES": {
+            "resource": {
+              "XML_ID": "resource",
+              "NAME": "resource",
+              "SECTIONS": [
+                {
+                  "ID": "7",
+                  "CAL_TYPE": "resource",
+                  "NAME": "Зал музея"
+                },
+                {
+                  "ID": "49",
+                  "CAL_TYPE": "resource",
+                  "NAME": "ресурс 1"
+                },
+                {
+                  "ID": "51",
+                  "CAL_TYPE": "resource",
+                  "NAME": "ресурс 2"
+                },
+                {
+                  "ID": "53",
+                  "CAL_TYPE": "resource",
+                  "NAME": "1"
+                },
+                {
+                  "ID": "57",
+                  "CAL_TYPE": "resource",
+                  "NAME": "Ресурс"
+                },
+                {
+                  "ID": "59",
+                  "CAL_TYPE": "resource",
+                  "NAME": "Ресурс 2"
+                }
+              ]
+            }
+          },
+          "SELECTED_RESOURCES": [
+            {
+              "type": "resource",
+              "id": "7",
+              "title": "Зал музея"
+            }
+          ],
+          "SELECTED_USERS": [],
+          "FULL_DAY": "N",
+          "ALLOW_OVERBOOKING": "Y",
+          "USE_SERVICES": "N",
+          "SERVICE_LIST": [
+            {
+              "name": "",
+              "duration": "60"
+            }
+          ],
+          "RESOURCE_LIMIT": -1,
+          "TIMEZONE": "Europe/Kaliningrad",
+          "USE_USER_TIMEZONE": "N"
+        },
+        "EDIT_FORM_LABEL": "БРОНИРОВАНИЕ ПЕРЕГОВОРОК",
+        "LIST_COLUMN_LABEL": "БРОНИРОВАНИЕ ПЕРЕГОВОРОК",
+        "LIST_FILTER_LABEL": "БРОНИРОВАНИЕ ПЕРЕГОВОРОК",
+        "ERROR_MESSAGE": null,
+        "HELP_MESSAGE": null
+      },
+      {
+        "ID": "6997",
+        "ENTITY_ID": "CRM_COMPANY",
+        "FIELD_NAME": "UF_CRM_HELLO_WORLD",
+        "USER_TYPE_ID": "string",
+        "XML_ID": null,
+        "SORT": "2000",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "Y",
+        "EDIT_IN_LIST": "N",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "SIZE": 20,
+          "ROWS": 10,
+          "REGEXP": "",
+          "MIN_LENGTH": 0,
+          "MAX_LENGTH": 0,
+          "DEFAULT_VALUE": "Привет, мир! Значение по умолчанию (изменено)"
+        },
+        "EDIT_FORM_LABEL": "Привет, мир! Редактировать (изменено)",
+        "LIST_COLUMN_LABEL": "Привет, мир! Колонка (изменено)",
+        "LIST_FILTER_LABEL": "Привет, мир! Фильтр (изменено)",
+        "ERROR_MESSAGE": "Привет, мир! Ошибка (изменено)",
+        "HELP_MESSAGE": "Привет, мир! Помощь (изменено)"
+      }
+    ],
+    "total": 5,
+    "time": {
+      "start": 1753793143.219832,
+      "finish": 1753793143.529472,
+      "duration": 0.30964016914367676,
+      "processing": 0.06361007690429688,
+      "date_start": "2025-07-29T15:45:43+03:00",
+      "date_finish": "2025-07-29T15:45:43+03:00",
+      "operating_reset_at": 1753793743,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа, содержит список пользовательских полей. Структура отдельно взятого пользовательского поля зависит от его типа. Поля EDIT_FORM_LABEL, LIST_COLUMN_LABEL, LIST_FILTER_LABEL, ERROR_MESSAGE, HELP_MESSAGE возвращаются в виде string при передаче filter.LANG"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество найденных пользовательских полей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/userfields/crm-company-userfield-list.html",
+  "executable": false,
+  "entityFields": [
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ENTITY_ID",
+    "ERROR_MESSAGE",
+    "FIELD_NAME",
+    "HELP_MESSAGE",
+    "ID",
+    "IS_SEARCHABLE",
+    "LABEL",
+    "LIST",
+    "LIST_COLUMN_LABEL",
+    "LIST_FILTER_LABEL",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "USER_TYPE_ID",
+    "XML_ID"
+  ]
+}

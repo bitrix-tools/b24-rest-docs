@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.contact.details.configuration.reset",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Сбросить параметры карточки crm.contact.details.configuration.reset",
+  "permissions": "> - любой пользователь может сбросить свои личные настройки",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Нужен только при сбросе личных настроек. Если не задан, то берется id текущего пользователя"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/custom-form/crm-contact-details-configuration-reset.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.reset"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724682584.069094,
+      "finish": 1724682584.38436,
+      "duration": 0.31526613235473633,
+      "processing": 0.025727033615112305,
+      "date_start": "2024-08-26T16:29:44+02:00",
+      "date_finish": "2024-08-26T16:29:44+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успешного сброса настроек"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/custom-form/crm-contact-details-configuration-reset.html",
+  "executable": false
+}

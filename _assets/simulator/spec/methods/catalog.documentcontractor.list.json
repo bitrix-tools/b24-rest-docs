@@ -1,0 +1,120 @@
+{
+  "$v": 1,
+  "method": "catalog.documentcontractor.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список привязок поставщиков к документам catalog.documentcontractor.list",
+  "permissions": "пользователь с правами:",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив со списком полей catalogdocumentcontractor, которые необходимо выбрать. Если массив не передан или передан пустой массив, то будут выбраны все доступные поля документа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных привязок в формате {\"field_1\": \"value_1\", ..., \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogdocumentcontractor. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных документов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogdocumentcontractor. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания По умолчанию результаты упорядочены по возрастанию id",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы. Или передавайте значение из ключа next ответа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/documentcontractor/catalog-documentcontractor-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "documentContractor": [
+        {
+          "documentId": 7,
+          "id": 5
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1766146580,
+      "finish": 1766146580.866608,
+      "duration": 0.8666079044342041,
+      "processing": 0,
+      "date_start": "2025-12-19T15:16:20+03:00",
+      "date_finish": "2025-12-19T15:16:20+03:00",
+      "operating_reset_at": 1766147180,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "documentContractor",
+      "type": "catalog_documentContractor[]",
+      "base": "array",
+      "required": false,
+      "description": "Список привязок контрагентов, структура ответа зависит от параметра select"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Указатель смещения для следующей страницы. Передайте значение в параметр start, чтобы получить следующие 50 записей"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество документов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/documentcontractor/catalog-documentcontractor-list.html",
+  "executable": false,
+  "entityFields": [
+    "documentId",
+    "id"
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "$v": 1,
+  "method": "landing.site.update",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Изменить сайт landing.site.update",
+  "permissions": "пользователь с правом «изменение настроек» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить методом landing.site.getList или из результата метода landing.site.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей для обновления сайта (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название сайта, длина до 255 символов"
+        },
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код сайта. При передаче пустой строки код генерируется из TITLE или из строки site. Код не может содержать /, код из одних цифр получает префикс site, максимальная длина кода 253 символа. Если код уже занят в домене, к нему автоматически добавляется числовой суффикс"
+        },
+        {
+          "name": "TYPE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип сайта. Поддерживаются PAGE, STORE, SMN, KNOWLEDGE, GROUP, MAINPAGE. Это внутренний тип лендинга, он связан с внутренним scope (подробное описание)"
+        },
+        {
+          "name": "DOMAIN_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Домен сайта. Обычно передают доменное имя. Для сайтов типов PAGE, STORE, SMN, если параметр не передан или передана пустая строка, значение параметра игнорируется. Для GROUP, KNOWLEDGE и MAINPAGE параметр обычно не передают. Для 1С-Битрикс: Управление сайтом передайте идентификатор существующего домена. Доменное имя в виде строки не поддерживается, метод вернет ошибку"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание сайта, длина до 255 символов"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор сайта"
+        },
+        {
+          "name": "LANDING_ID_INDEX",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор страницы сайта, которая будет главной"
+        },
+        {
+          "name": "LANDING_ID_404",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор страницы ошибки 404"
+        },
+        {
+          "name": "LANDING_ID_503",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор страницы ошибки 503"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/site/landing-site-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773288229,
+      "finish": 1773288229.999823,
+      "duration": 0.9998230934143066,
+      "processing": 0,
+      "date_start": "2026-03-12T07:03:49+03:00",
+      "date_finish": "2026-03-12T07:03:49+03:00",
+      "operating_reset_at": 1773288829,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если сайт успешно обновлен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/site/landing-site-update.html",
+  "executable": false
+}

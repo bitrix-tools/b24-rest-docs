@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "im.dialog.read.all",
+  "scope": "im",
+  "kind": "write",
+  "title": "Установить признак «прочитано» у всех чатов im.dialog.read.all",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "true, если чаты отмечены прочитанными"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/special-operations/im-dialog-read-all.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772518010,
+      "finish": 1772518010.715758,
+      "duration": 0.7157580852508545,
+      "processing": 0,
+      "date_start": "2026-03-03T09:06:50+03:00",
+      "date_finish": "2026-03-03T09:06:50+03:00",
+      "operating_reset_at": 1772518610,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "true, если чаты отмечены прочитанными"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/special-operations/im-dialog-read-all.html",
+  "executable": false
+}

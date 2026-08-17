@@ -1,0 +1,73 @@
+{
+  "$v": 1,
+  "method": "disk.storage.getTypes",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Получить типы хранилищ disk.storage.getTypes",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами хранилищ. - user — хранилище пользователя - common — хранилище общих документов - group — хранилище группы",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/storage/disk-storage-get-types.md"
+  },
+  "resultExample": {
+    "result": [
+      "user",
+      "common",
+      "group"
+    ],
+    "time": {
+      "start": 1769543842,
+      "finish": 1769543842.835557,
+      "duration": 0.8355569839477539,
+      "processing": 0,
+      "date_start": "2026-01-26T15:57:22+03:00",
+      "date_finish": "2026-01-26T15:57:22+03:00",
+      "operating_reset_at": 1769544442,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами хранилищ. - user — хранилище пользователя - common — хранилище общих документов - group — хранилище группы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/storage/disk-storage-get-types.html",
+  "executable": false
+}

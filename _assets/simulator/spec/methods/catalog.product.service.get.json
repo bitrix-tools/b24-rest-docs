@@ -1,0 +1,141 @@
+{
+  "$v": 1,
+  "method": "catalog.product.service.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей услуги catalog.product.service.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_service.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор услуги. Для получения идентификаторов услуг необходимо использовать catalog.product.service.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/service/catalog-product-service-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "service": {
+        "active": "Y",
+        "available": "N",
+        "bundle": "N",
+        "code": "service",
+        "createdBy": 1,
+        "dateActiveFrom": "2024-05-28T10:00:00+03:00",
+        "dateActiveTo": "2024-05-29T10:00:00+03:00",
+        "dateCreate": "2024-05-27T10:00:00+03:00",
+        "detailPicture": {
+          "id": "6497",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6497&fields%5BproductId%5D=1265",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6497&fields%5BproductId%5D=1265"
+        },
+        "detailText": null,
+        "detailTextType": "text",
+        "iblockId": 23,
+        "iblockSectionId": 47,
+        "id": 1265,
+        "modifiedBy": 1,
+        "name": "Услуга",
+        "previewPicture": {
+          "id": "6496",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6496&fields%5BproductId%5D=1265",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6496&fields%5BproductId%5D=1265"
+        },
+        "previewText": null,
+        "previewTextType": "text",
+        "property258": {
+          "value": "test",
+          "valueId": "9809"
+        },
+        "property259": [
+          {
+            "value": "test1",
+            "valueId": "9810"
+          },
+          {
+            "value": "test2",
+            "valueId": "9811"
+          }
+        ],
+        "sort": 100,
+        "timestampX": "2024-06-14T11:59:04+03:00",
+        "type": 7,
+        "vatId": 1,
+        "vatIncluded": "Y",
+        "xmlId": "1265"
+      }
+    },
+    "time": {
+      "start": 1718363239.355821,
+      "finish": 1718363240.027938,
+      "duration": 0.6721169948577881,
+      "processing": 0.2661628723144531,
+      "date_start": "2024-06-14T14:07:19+03:00",
+      "date_finish": "2024-06-14T14:07:20+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "service",
+      "type": "catalog_product_service",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об услуге"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/service/catalog-product-service-get.html",
+  "executable": false,
+  "entityFields": [
+    "IblockSection",
+    "active",
+    "available",
+    "bundle",
+    "code",
+    "createdBy",
+    "dateActiveFrom",
+    "dateActiveTo",
+    "dateCreate",
+    "detailPicture",
+    "detailText",
+    "detailTextType",
+    "iblockId",
+    "iblockSectionId",
+    "id",
+    "measure",
+    "modifiedBy",
+    "name",
+    "previewPicture",
+    "previewText",
+    "previewTextType",
+    "property258",
+    "property259",
+    "propertyN",
+    "sort",
+    "timestampX",
+    "type",
+    "vatId",
+    "vatIncluded",
+    "xmlId"
+  ]
+}

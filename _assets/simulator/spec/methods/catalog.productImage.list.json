@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "catalog.productImage.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список изображений товара catalog.productImage.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "productId",
+      "type": "catalog_product.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор товара, головного товара, вариации или услуги. Чтобы получить существующие идентификаторы, используйте следующие методы: - для товаров — catalog.product.list - для головных товаров — catalog.product.sku.list - для вариаций товара — catalog.product.offer.list - для услуг — catalog.product.service.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив со списком полей, которые необходимо выбрать (смотрите поля объекта catalogproductimage)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-image/catalog-product-image-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "productImages",
+      "type": "catalog_product_image[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных изображениях товара"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-image/catalog-product-image-list.html",
+  "executable": false,
+  "entityFields": [
+    "productId",
+    "type"
+  ]
+}

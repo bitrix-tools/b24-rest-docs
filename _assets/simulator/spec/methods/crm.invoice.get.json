@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить счет по идентификатору crm.invoice.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор счета"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-get.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-get.html",
+  "executable": false
+}

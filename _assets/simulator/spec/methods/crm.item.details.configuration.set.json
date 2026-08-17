@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "crm.item.details.configuration.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить параметры карточки элементов crm.item.details.configuration.set",
+  "permissions": "проверка прав при выполнении метода зависит от переданных данных:",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа объектов CRM"
+    },
+    {
+      "name": "data",
+      "type": "section[]",
+      "base": "array",
+      "required": true,
+      "description": "Список section описывающий конфигурацию разделов полей в карточке элемента. Структура section описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, для которого вы хотите установить конфигурацию. Если параметр не передан, то будет взят userId пользователя, вызывающего этот метод. Нужен только при запросе личных настроек"
+    },
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Допустимые значения: - 'P' — личные настройки - 'C' — общие настройки По умолчанию значение равно 'P'"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры. Возможные значения и их структура описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1720699969.76157,
+      "finish": 1720699970.153406,
+      "duration": 0.39183592796325684,
+      "processing": 0.02178215980529785,
+      "date_start": "2024-07-11T14:12:49+02:00",
+      "date_finish": "2024-07-11T14:12:50+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-set.html",
+  "executable": false
+}

@@ -1,0 +1,173 @@
+{
+  "$v": 1,
+  "method": "task.commentitem.getlist",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список комментариев task.commentitem.getlist",
+  "permissions": "любой пользователь с правом доступа на чтение задачи или выше",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки результата вида {\"поле\": \"значение сортировки\", ... }. Сортировать можно по полям: - ID — идентификатор комментария - AUTHOR_ID — идентификатор автора комментария - AUTHOR_NAME — имя автора - AUTHOR_EMAIL — почтовый адрес автора - POST_DATE — дата публикации комментария Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию По умолчанию р…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации результата вида {\"поле\": \"значение фильтра\", ... }. Значением фильтруемого поля может быть одиночное значение или массив значений. Фильтровать можно по полям: - ID — идентификатор комментария - AUTHOR_ID — идентификатор автора комментария - AUTHOR_NAME — имя автора - POST_DATE — дата публикации комментария Перед названием фильтруемого поля можно указать префикс с типом фильтр…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/comment-item/task-comment-item-get-list.md"
+  },
+  "deprecated": {
+    "successor": "im.dialog.messages.get"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "POST_MESSAGE_HTML": null,
+        "ID": "3157",
+        "AUTHOR_ID": "503",
+        "AUTHOR_NAME": "Иван Иванов",
+        "AUTHOR_EMAIL": "",
+        "POST_DATE": "2025-07-15T14:31:00+03:00",
+        "POST_MESSAGE": "Фотографии во вложении",
+        "ATTACHED_OBJECTS": {
+          "973": {
+            "ATTACHMENT_ID": "973",
+            "NAME": "photo1.png",
+            "SIZE": "1495700",
+            "FILE_ID": "4755",
+            "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=973&auth%5Bauth%5D=3edf7ca92&action=download&ncc=1",
+            "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=973&auth%5Bauth%5D=3edf7ca92&action=show&ncc=1"
+          },
+          "975": {
+            "ATTACHMENT_ID": "975",
+            "NAME": "photo2.png",
+            "SIZE": "1017053",
+            "FILE_ID": "4753",
+            "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=975&auth%5Bauth%5D=3edf7ca92&action=download&ncc=1",
+            "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=975&auth%5Bauth%5D=3edf7ca92&action=show&ncc=1"
+          }
+        }
+      },
+      {
+        "POST_MESSAGE_HTML": null,
+        "ID": "3155",
+        "AUTHOR_ID": "503",
+        "AUTHOR_NAME": "Иван Иванов",
+        "AUTHOR_EMAIL": "",
+        "POST_DATE": "2025-07-15T14:30:00+03:00",
+        "POST_MESSAGE": "Подготовил новые фотографии",
+        "ATTACHED_OBJECTS": {}
+      }
+    ],
+    "time": {
+      "start": 1753270901.224447,
+      "finish": 1753270901.343166,
+      "duration": 0.11871910095214844,
+      "processing": 0.06380701065063477,
+      "date_start": "2025-07-23T14:41:41+03:00",
+      "date_finish": "2025-07-23T14:41:41+03:00",
+      "operating_reset_at": 1753271501,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов. Каждый объект содержит описание комментария"
+    },
+    {
+      "name": "POST_MESSAGE_HTML",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "HTML-код комментария"
+    },
+    {
+      "name": "ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор комментария"
+    },
+    {
+      "name": "AUTHOR_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор автора комментария"
+    },
+    {
+      "name": "AUTHOR_NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя автора комментария"
+    },
+    {
+      "name": "AUTHOR_EMAIL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Email автора комментария"
+    },
+    {
+      "name": "POST_DATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время создания комментария"
+    },
+    {
+      "name": "POST_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст комментария"
+    },
+    {
+      "name": "ATTACHED_OBJECTS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий информацию о вложениях. Ключ объекта — идентификатор вложения, а значение — объект с описанием файла"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/comment-item/task-comment-item-get-list.html",
+  "executable": false
+}

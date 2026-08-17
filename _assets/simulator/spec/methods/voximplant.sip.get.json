@@ -1,0 +1,157 @@
+{
+  "$v": 1,
+  "method": "voximplant.sip.get",
+  "scope": "telephony",
+  "kind": "read",
+  "title": "Получить SIP-линии приложения voximplant.sip.get",
+  "permissions": "пользователь с правом Управление номерами — изменение",
+  "params": [
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Смотрите ниже список доступных полей для фильтрации. Поддерживаемые операторы в ключе фильтра: - ! — не равно - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - >< — между (диапазон, включительно) - !>< — не между (вне диапазона) - ? — поиск по строке - = — равно, точное совпадение (использ…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SORT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поле сортировки. Используются поля из списка полей для фильтрации. По умолчанию — без сортировки"
+    },
+    {
+      "name": "ORDER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Направление сортировки. Возможные значения: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию По умолчанию — без сортировки"
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы результатов — 50 записей. Чтобы получить вторую страницу, передайте 50; третью — 100 и так далее. Формула: start = (N - 1) * 50, где N — номер страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/sip/voximplant-sip-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "TYPE": "cloud",
+        "CONFIG_ID": "3",
+        "REG_ID": "150907",
+        "SERVER": "sipnet.ru",
+        "LOGIN": "0045281811",
+        "PASSWORD": "N7K4mCG9",
+        "AUTH_USER": "",
+        "OUTBOUND_PROXY": "",
+        "DETECT_LINE_NUMBER": "N",
+        "LINE_DETECT_HEADER_ORDER": "diversion;to",
+        "REGISTRATION_STATUS_CODE": "200",
+        "REGISTRATION_ERROR_MESSAGE": "",
+        "TITLE": "SIP line"
+      },
+      {
+        "TYPE": "office",
+        "CONFIG_ID": "7",
+        "SERVER": "office.provider.local",
+        "LOGIN": "office_user",
+        "PASSWORD": "secret",
+        "INCOMING_SERVER": "ip.b24-6068-1537535782.bitrixphone.com",
+        "INCOMING_LOGIN": "sip7",
+        "INCOMING_PASSWORD": "71747523265mb091225eb31996a4a225",
+        "AUTH_USER": null,
+        "OUTBOUND_PROXY": null,
+        "DETECT_LINE_NUMBER": "N",
+        "LINE_DETECT_HEADER_ORDER": "diversion;to",
+        "REGISTRATION_STATUS_CODE": "0",
+        "REGISTRATION_ERROR_MESSAGE": null,
+        "TITLE": "Office PBX 1"
+      },
+      {
+        "TYPE": "cloud",
+        "CONFIG_ID": "9",
+        "REG_ID": "151083",
+        "SERVER": "sip.provider.com",
+        "LOGIN": "sip_user",
+        "PASSWORD": "secret",
+        "AUTH_USER": null,
+        "OUTBOUND_PROXY": null,
+        "DETECT_LINE_NUMBER": "N",
+        "LINE_DETECT_HEADER_ORDER": "diversion;to",
+        "REGISTRATION_STATUS_CODE": "502",
+        "REGISTRATION_ERROR_MESSAGE": "Unable to resolve hostname",
+        "TITLE": ""
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1773662224,
+      "finish": 1773662224.187874,
+      "duration": 0.18787407875061035,
+      "processing": 0,
+      "date_start": "2026-03-16T14:57:04+03:00",
+      "date_finish": "2026-03-16T14:57:04+03:00",
+      "operating_reset_at": 1773662824,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив записей SIP-линий, созданных текущим приложением. Состав записей зависит от условий FILTER. Пустой массив означает, что записи, соответствующие условиям FILTER, отсутствуют"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество записей в выборке"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение следующей страницы (если есть)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-get.html",
+  "executable": false,
+  "entityFields": [
+    "AUTH_USER",
+    "CONFIG_ID",
+    "DETECT_LINE_NUMBER",
+    "LINE_DETECT_HEADER_ORDER",
+    "LOGIN",
+    "OUTBOUND_PROXY",
+    "PASSWORD",
+    "REGISTRATION_ERROR_MESSAGE",
+    "REGISTRATION_STATUS_CODE",
+    "REG_ID",
+    "SERVER",
+    "TITLE",
+    "TYPE"
+  ]
+}

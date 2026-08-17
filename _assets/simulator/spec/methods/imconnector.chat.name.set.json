@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "imconnector.chat.name.set",
+  "scope": "imconnector",
+  "kind": "write",
+  "title": "Установить новое имя чата imconnector.chat.name.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код коннектора, который задали в параметре ID при вызове imconnector.register"
+    },
+    {
+      "name": "LINE",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор открытой линии Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
+    },
+    {
+      "name": "CHAT_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор чата во внешней системе"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Новое имя чата"
+    },
+    {
+      "name": "USER_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор пользователя. Параметр является обязательным только для коннекторов без групповых чатов с внешней стороны. У такого коннектора в методе imconnector.register параметр CHAT_GROUP должен быть равен N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-chat-name-set.md"
+  },
+  "resultExample": {
+    "answer": {
+      "result": {
+        "SUCCESS": true,
+        "DATA": {
+          "RESULT": {}
+        }
+      },
+      "time": {
+        "start": 1732110908.525962,
+        "finish": 1732110908.879113,
+        "duration": 0.3531508445739746,
+        "processing": 0.07694888114929199,
+        "date_start": "2024-11-20T15:55:08+02:00",
+        "date_finish": "2024-11-20T15:55:08+02:00"
+      }
+    },
+    "query": {
+      "method": "imconnector.chat.name.set",
+      "data": {
+        "CONNECTOR": "newcustomconnector",
+        "LINE": "105",
+        "CHAT_ID": "1",
+        "NAME": "name"
+      }
+    },
+    "status": 200
+  },
+  "returns": [
+    {
+      "name": "SUCCESS",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true при успешной установке нового имени чата"
+    },
+    {
+      "name": "DATA",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Содержит объект RESULT c параметрами нового имени чата"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-chat-name-set.html",
+  "executable": false
+}

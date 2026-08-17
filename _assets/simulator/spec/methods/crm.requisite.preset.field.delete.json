@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.preset.field.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить настраиваемое поле из шаблона реквизитов crm.requisite.preset.field.delete",
+  "permissions": "пользователь с правом на удаление и контактов, и компаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настраиваемого поля, которое нужно удалить. Идентификаторы настраиваемых полей шаблона реквизитов можно получить с помощью метода crm.requisite.preset.field.list"
+    },
+    {
+      "name": "preset",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий значение идентификатора шаблона, из которого удаляется настраиваемое поле (например, {\"ID\": 27}). Идентификаторы шаблонов можно получить с помощью метода crm.requisite.preset.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1716819592.314096,
+      "finish": 1716819592.798008,
+      "duration": 0.48391199111938477,
+      "processing": 0.06737184524536133,
+      "date_start": "2024-05-27T16:19:52+02:00",
+      "date_finish": "2024-05-27T16:19:52+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления из настраиваемого поля из шаблона: - true — удалено - false — не удалено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-delete.html",
+  "executable": false
+}

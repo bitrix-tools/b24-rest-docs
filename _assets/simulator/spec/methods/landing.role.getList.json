@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "landing.role.getList",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список ролей landing.role.getList",
+  "permissions": "администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип сайтов, для которого нужно получить роли. Параметр не связан с REST-скоупом landing в названии метода. Значения GROUP, KNOWLEDGE и MAINPAGE соответствуют типам сайтов из статьи Работа с типами сайтов и скоупами.…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/role-model/landing-role-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "3",
+        "TITLE": "Администратор",
+        "XML_ID": "ADMIN"
+      },
+      {
+        "ID": "5",
+        "TITLE": "Менеджер",
+        "XML_ID": "MANAGER"
+      }
+    ],
+    "time": {
+      "start": 1775062049,
+      "finish": 1775062049.634052,
+      "duration": 0.634052038192749,
+      "processing": 0,
+      "date_start": "2026-04-01T19:47:29+03:00",
+      "date_finish": "2026-04-01T19:47:29+03:00",
+      "operating_reset_at": 1775062649,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список ролей выбранного типа сайтов (подробное описание). Если роли не найдены, метод возвращает result: []"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/role-model/landing-role-get-list.html",
+  "executable": false
+}

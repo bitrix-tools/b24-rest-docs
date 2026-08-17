@@ -1,0 +1,139 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.template.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список шаблонов документов crm.documentgenerator.template.list",
+  "permissions": "пользователь с правом \"изменения\" шаблонов генератора документов",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые нужно вернуть у шаблонов. При выборке можно использовать: - '*' — для выборки всех стандартных полей шаблона - явный список полей, например [\"id\",\"name\",\"region\",\"active\"] Дополнительно поддерживаются: - entityTypeId — массив привязок шаблона к CRM-объектам - users — массив кодов прав доступа Основные поля для select: id, name, region, code, active, moduleId, numeratorId, wit…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля для фильтрации - value_n — значение фильтра К ключам field_n можно добавлять префиксы: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в значении передается массив - !@ — NOT IN, в значении передается массив - = — равно (по умолчанию) - != или ! — не равно Особенности: - если isDeleted не передан, применяется филь…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля сортировки - value_n — направление сортировки: ASC или DESC Основные поля для order: id, name, region, code, active, moduleId, numeratorId, withStamps, isDeleted, sort, createTime, updateTime Пример: {\"id\":\"DESC\",\"sort\":\"ASC\"}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы фиксирован: 50 записей. Формула для получения N-й страницы: start = (N - 1) * 50 Подробнее в статье Особенности списочных методов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/templates/crm-document-generator-template-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "templates": {
+        "37": {
+          "id": "37",
+          "name": "Акт о списании товаров (Россия)",
+          "region": "ru",
+          "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=37",
+          "users": [
+            "UA"
+          ],
+          "entityTypeId": [
+            "2_category_37",
+            "bitrix\\crm\\integration\\documentgenerator\\dataprovider\\storedocumentdeduct"
+          ],
+          "downloadMachine": "https://mysite.ru/rest/crm.documentgenerator.template.download.json?auth=***&token=***"
+        },
+        "39": {
+          "id": "39",
+          "name": "Демонстрационная реализация товара",
+          "region": "ru",
+          "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.template.download&SITE_ID=s1&id=39",
+          "users": [
+            "UA"
+          ],
+          "entityTypeId": [
+            "2_category_0",
+            "2_category_32"
+          ],
+          "downloadMachine": "https://mysite.ru/rest/crm.documentgenerator.template.download.json?auth=***&token=***"
+        }
+      }
+    },
+    "total": 20,
+    "time": {
+      "start": 1773845479,
+      "finish": 1773845479.829607,
+      "duration": 0.8296070098876953,
+      "processing": 0,
+      "date_start": "2026-03-18T17:51:19+03:00",
+      "date_finish": "2026-03-18T17:51:19+03:00",
+      "operating_reset_at": 1773846079,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект templates"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество шаблонов, подходящих под фильтр"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/templates/crm-document-generator-template-list.html",
+  "executable": false,
+  "entityFields": [
+    "37",
+    "39",
+    "active",
+    "entityTypeId",
+    "file",
+    "name",
+    "numeratorId",
+    "region",
+    "sort",
+    "users",
+    "withStamps"
+  ]
+}

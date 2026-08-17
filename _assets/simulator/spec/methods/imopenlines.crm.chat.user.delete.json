@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "imopenlines.crm.chat.user.delete",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Удалить пользователя из чата imopenlines.crm.chat.user.delete",
+  "permissions": "любой пользователь с доступом к объекту CRM",
+  "params": [
+    {
+      "name": "CRM_ENTITY_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+    },
+    {
+      "name": "CRM_ENTITY",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM. Получить идентификатор можно универсальным методом получения списка элементов CRM"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя или бота, которого нужно удалить из чата. Получить идентификатор пользователя позволяют методы user.get и user.search"
+    },
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чата. По умолчанию используется последний чат, привязанный к объекту CRM. Получить идентификаторы чатов, привязанных к объекту CRM можно методом imopenlines.crm.chat.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-delete.md"
+  },
+  "resultExample": {
+    "result": 1763,
+    "time": {
+      "start": 1773814361,
+      "finish": 1773814361.128245,
+      "duration": 0.12824511528015137,
+      "processing": 0,
+      "date_start": "2026-03-18T09:12:41+03:00",
+      "date_finish": "2026-03-18T09:12:41+03:00",
+      "operating_reset_at": 1773814961,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чата, из которого удален пользователь. Если CHAT_ID не передан и чат для объекта CRM не найден или не существует, метод вернет \"result\":0"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-delete.html",
+  "executable": false
+}

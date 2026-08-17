@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "crm.dealcategory.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить направление сделок crm.dealcategory.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор направления"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Значения полей для обновления направления сделок. Чтобы узнать требуемый формат полей, выполните метод crm.dealcategory.fields и посмотрите формат пришедших значений этих полей (кроме полей помеченных атрибутами isReadOnly и isImmutable)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/category-old/crm-deal-category-update.md"
+  },
+  "deprecated": {
+    "successor": "crm.category.update"
+  },
+  "page": "/api-reference/crm/outdated/category-old/crm-deal-category-update.html",
+  "executable": false
+}

@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "crm.category.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить воронку по Id crm.category.get",
+  "permissions": "любой пользователь с правом доступа к воронке «Чтение»",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа объекта CRM у которого мы желаем получить воронку"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор воронки. Можно получить методом crm.category.list или при создании воронки методом crm.category.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/category/crm-category-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "category": {
+        "id": 1,
+        "name": "Новая воронка #1",
+        "sort": 200,
+        "entityTypeId": 2,
+        "isDefault": "N",
+        "originId": "",
+        "originatorId": ""
+      }
+    },
+    "time": {
+      "start": 1718291429.253404,
+      "finish": 1718291429.654617,
+      "duration": 0.4012131690979004,
+      "processing": 0.025265216827392578,
+      "date_start": "2024-06-13T17:10:29+02:00",
+      "date_finish": "2024-06-13T17:10:29+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект category"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/category/crm-category-get.html",
+  "executable": false,
+  "entityFields": [
+    "entityTypeId",
+    "id",
+    "isDefault",
+    "name",
+    "originId",
+    "originatorId",
+    "sort"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "tasks.task.file.attach",
+  "scope": "tasks",
+  "kind": "write",
+  "title": "Прикрепить файлы к задаче v 3.0 tasks.task.file.attach",
+  "permissions": "постановщик задачи или пользователь с доступом к редактированию задачи",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи, к которой нужно прикрепить файлы. Идентификатор задачи можно получить при создании новой задачи или старым методом получения списка задач"
+    },
+    {
+      "name": "fileIds",
+      "type": "array<integer>",
+      "base": "any",
+      "required": true,
+      "description": "Массив идентификаторов файлов Диска. Получить идентификаторы файлов можно двумя способами. Использовать один из методов загрузки файла: - disk.storage.uploadfile - disk.folder.uploadfile Использовать один из методов получения списка файлов: - disk.storage.getchildren - disk.folder.getchildren"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-file-attach.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1765357239,
+      "finish": 1765357239.724951,
+      "duration": 0.7249510288238525,
+      "processing": 0,
+      "date_start": "2025-12-10T12:00:39+03:00",
+      "date_finish": "2025-12-10T12:00:39+03:00",
+      "operating_reset_at": 1765357839,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект с ключом result и значением true, если файл прикреплен успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-file-attach.html",
+  "executable": false
+}

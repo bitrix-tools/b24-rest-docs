@@ -1,0 +1,247 @@
+{
+  "$v": 1,
+  "method": "timeman.timecontrol.settings.get",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить настройки контроля времени timeman.timecontrol.settings.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Активность модуля контроля времени"
+    },
+    {
+      "name": "minimum_idle_for_report",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Минимальное время отсутствия в минутах, после которого требуется отчет"
+    },
+    {
+      "name": "register_offline",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Регистрировать офлайн статус"
+    },
+    {
+      "name": "register_idle",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Регистрировать статус Отошел"
+    },
+    {
+      "name": "register_desktop",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Регистрировать статус десктоп приложения"
+    },
+    {
+      "name": "report_request_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип запроса отчетов. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+    },
+    {
+      "name": "report_request_users",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов пользователей, для которых требуется запрос отчетов. Заполнен, если report_request_type имеет значение user",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "report_simple_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип простого отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+    },
+    {
+      "name": "report_simple_users",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов пользователей с доступом к простому отчету. Заполнен, если report_simple_users имеет значение user",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "report_full_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип полного отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+    },
+    {
+      "name": "report_full_users",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов пользователей с доступом к полному отчету. Заполнен, если report_full_type имеет значение user",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "active": true,
+      "minimum_idle_for_report": 15,
+      "register_offline": true,
+      "register_idle": true,
+      "register_desktop": true,
+      "report_request_type": "all",
+      "report_request_users": [],
+      "report_simple_type": "all",
+      "report_simple_users": [],
+      "report_full_type": "all",
+      "report_full_users": []
+    },
+    "time": {
+      "start": 1748526089.625516,
+      "finish": 1748526089.656787,
+      "duration": 0.03127098083496094,
+      "processing": 0.008746147155761719,
+      "date_start": "2025-05-29T16:41:29+03:00",
+      "date_finish": "2025-05-29T16:41:29+03:00",
+      "operating_reset_at": 1748526689,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Активность модуля контроля времени"
+    },
+    {
+      "name": "minimum_idle_for_report",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Минимальное время отсутствия в минутах, после которого требуется отчет"
+    },
+    {
+      "name": "register_offline",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Регистрировать офлайн статус"
+    },
+    {
+      "name": "register_idle",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Регистрировать статус Отошел"
+    },
+    {
+      "name": "register_desktop",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Регистрировать статус десктоп приложения"
+    },
+    {
+      "name": "report_request_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип запроса отчетов. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+    },
+    {
+      "name": "report_request_users",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов пользователей, для которых требуется запрос отчетов. Заполнен, если report_request_type имеет значение user"
+    },
+    {
+      "name": "report_simple_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип простого отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+    },
+    {
+      "name": "report_simple_users",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов пользователей с доступом к простому отчету. Заполнен, если report_simple_users имеет значение user"
+    },
+    {
+      "name": "report_full_type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип полного отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+    },
+    {
+      "name": "report_full_users",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив идентификаторов пользователей с доступом к полному отчету. Заполнен, если report_full_type имеет значение user"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.html",
+  "executable": false
+}

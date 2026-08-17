@@ -1,0 +1,111 @@
+{
+  "$v": 1,
+  "method": "catalog.priceType.add",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Создать тип цены catalog.priceType.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания нового типа цены (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Код типа цены. Чтобы обеспечить стабильную работу внутренних сервисов, код типа цены необходимо указывать только английскими символами"
+        },
+        {
+          "name": "base",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Является ли тип цены базовым. Возможные значения: - Y — да - N — нет По умолчанию N. Одновременно может существовать только один базовый тип цены. При добавлении нового базового типа предыдущий потеряет это свойство и перестанет быть базовым"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка. По умолчанию 100"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код. Можно использовать для синхронизации текущего типа цены с аналогичной позицией во внешней системе"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/catalog-price-type-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceType": {
+        "base": "N",
+        "createdBy": 1,
+        "dateCreate": "2024-10-02T17:49:44+02:00",
+        "id": 2,
+        "modifiedBy": 1,
+        "name": "Wholesale price",
+        "sort": 10,
+        "timestampX": "2024-10-02T17:49:44+02:00",
+        "xmlId": "wholesale"
+      }
+    },
+    "time": {
+      "start": 1716552521.40908,
+      "finish": 1716552521.69852,
+      "duration": 0.289434909820557,
+      "processing": 0.011207103729248,
+      "date_start": "2024-10-02T17:49:44+02:00",
+      "date_finish": "2024-10-02T17:49:44+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceType",
+      "type": "catalog_price_type",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о созданном типе цены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/catalog-price-type-add.html",
+  "executable": false
+}

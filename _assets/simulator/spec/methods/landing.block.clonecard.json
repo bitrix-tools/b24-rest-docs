@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "landing.block.clonecard",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Клонировать карточку блока landing.block.clonecard",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getlist"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор блока в черновике страницы. Идентификатор блока можно получить методом landing.block.getlist с параметром params.edit_mode = 1"
+    },
+    {
+      "name": "selector",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Селектор карточки из ключа cards манифеста блока. После селектора можно указать позицию через @<индекс>. @0 копирует первую найденную карточку, @2 — третью. При указанном индексе метод копирует выбранную карточку и вставляет копию сразу после нее. Для последней карточки копия добавляется в конец контейнера.…"
+    },
+    {
+      "name": "preventHistory",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Не добавлять действие в историю изменений страницы. Возможные значения: true - не сохранять действие в истории false - сохранить действие в истории По умолчанию - false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-clone-card.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774477875,
+      "finish": 1774477875.611452,
+      "duration": 0.6114521026611328,
+      "processing": 0,
+      "date_start": "2026-03-26T01:31:15+03:00",
+      "date_finish": "2026-03-26T01:31:15+03:00",
+      "operating_reset_at": 1774478475,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат клонирования карточки. При успешном выполнении возвращается true. Идентификатор новой карточки в ответ не приходит"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-clone-card.html",
+  "executable": false
+}

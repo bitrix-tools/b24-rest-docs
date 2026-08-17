@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "crm.contact.company.items.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить набор компаний, связанных с указанным контактом crm.contact.company.items.set",
+  "permissions": "любой пользователь с правом «изменения» контактов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор контакта. Идентификатор можно получить с помощью методов crm.contact.list или crm.contact.add"
+    },
+    {
+      "name": "items",
+      "type": "object[]",
+      "base": "array",
+      "required": true,
+      "description": "Набор объектов, которые описывают привязанные компании к контакту. Структура отдельно взятого объекта привязки смотрите ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/company/crm-contact-company-items-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724139480.073569,
+      "finish": 1724139481.016709,
+      "duration": 0.9431400299072266,
+      "processing": 0.4230809211730957,
+      "date_start": "2024-08-20T09:38:00+02:00",
+      "date_finish": "2024-08-20T09:38:01+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/company/crm-contact-company-items-set.html",
+  "executable": false
+}

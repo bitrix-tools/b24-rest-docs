@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "ai.engine.unregister",
+  "scope": "ai_admin",
+  "kind": "write",
+  "title": "Удалить сервис ai.engine.unregister",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код удаляемого сервиса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/ai/ai-engine-unregister.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774078200,
+      "finish": 1774078200.184271,
+      "duration": 0.18427085876464844,
+      "processing": 0.03,
+      "date_start": "2026-03-20T09:50:00+03:00",
+      "date_finish": "2026-03-20T09:50:00+03:00",
+      "operating_reset_at": 1774078800,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления сервиса: - true — сервис удален - false — сервис не найден, не принадлежит текущему приложению или удаление не выполнено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/ai/ai-engine-unregister.html",
+  "executable": false
+}

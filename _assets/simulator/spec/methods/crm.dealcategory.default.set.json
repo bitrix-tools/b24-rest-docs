@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.dealcategory.default.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить настройки общего направления сделок crm.dealcategory.default.set",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название общего направления"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/category-old/crm-deal-category-default-set.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/category-old/crm-deal-category-default-set.html",
+  "executable": false
+}

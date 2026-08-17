@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "im.department.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить информацию о подразделении im.department.get",
+  "permissions": "любой интранет-пользователь, кроме ботов",
+  "params": [
+    {
+      "name": "ID",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов подразделений. Можно передать строку с JSON-массивом идентификаторов. Получить идентификатор подразделения можно методом получения списка подразделений или методом поиска подразделений по названию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "USER_DATA",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Возвращать данные руководителя подразделения. Возможные значения: - Y — да - N — нет По умолчанию: N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/departments/im-department-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список подразделений (подробное описание). При USER_DATA = 'N' содержит краткое описание подразделений, при USER_DATA = 'Y' дополнительно содержит объект с данными о руководителе подразделения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/departments/im-department-get.html",
+  "executable": false
+}

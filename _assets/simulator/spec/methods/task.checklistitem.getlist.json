@@ -1,0 +1,234 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.getlist",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список пунктов чек-листа task.checklistitem.getlist",
+  "permissions": "любой пользователь с правом доступа на чтение задачи или выше",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор можно получить при создании задачи или методом получения списка задач"
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки результата вида {\"поле\": \"значение сортировки\", ... }. Сортировать можно по полям: - ID — идентификатор пункта чек-листа - PARENT_ID — идентификатор родительского пункта - CREATED_BY — идентификатор автора пункта - TITLE — текст пункта чек-листа - SORT_INDEX — индекс сортировки - IS_COMPLETE — статус выполнения пункта - IS_IMPORTANT — отметка важности пункта - TOGGLED_BY — ид…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "477",
+        "TASK_ID": "8017",
+        "PARENT_ID": "431",
+        "CREATED_BY": "503",
+        "TITLE": "Подготовить договор Светлана Иванова",
+        "SORT_INDEX": "2",
+        "IS_COMPLETE": "N",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": "503",
+        "TOGGLED_DATE": "2025-11-10T15:02:30+03:00",
+        "MEMBERS": [
+          {
+            "ID": "103",
+            "TYPE": "A",
+            "NAME": "Светлана Иванова",
+            "PERSONAL_PHOTO": "8644",
+            "PERSONAL_GENDER": "F",
+            "IMAGE": "https://mysite.ru/b17053/resize_cache/8644/c0120a8d7c10d63c83e32398d1ec4d9e/main/45f/45fff10d17d398a5583184c8350cd197/buh.jpg",
+            "IS_COLLABER": false
+          }
+        ],
+        "ATTACHMENTS": {
+          "1113": {
+            "ATTACHMENT_ID": 1113,
+            "NAME": "Инструкция.docx",
+            "SIZE": "115161",
+            "FILE_ID": "5065",
+            "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=1113&action=download&ncc=1",
+            "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=1113&action=show&ncc=1"
+          },
+          "1115": {
+            "ATTACHMENT_ID": 1115,
+            "NAME": "Список документов.xlsx",
+            "SIZE": "14675",
+            "FILE_ID": "5067",
+            "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=1115&action=download&ncc=1",
+            "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=1115&action=show&ncc=1"
+          }
+        }
+      },
+      {
+        "ID": "431",
+        "TASK_ID": "8017",
+        "PARENT_ID": 0,
+        "CREATED_BY": "503",
+        "TITLE": "Чек-лист 1",
+        "SORT_INDEX": "0",
+        "IS_COMPLETE": "N",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": null,
+        "TOGGLED_DATE": "",
+        "MEMBERS": [],
+        "ATTACHMENTS": []
+      },
+      {
+        "ID": "447",
+        "TASK_ID": "8017",
+        "PARENT_ID": "431",
+        "CREATED_BY": "503",
+        "TITLE": "Согласовать с клиентом детали",
+        "SORT_INDEX": "1",
+        "IS_COMPLETE": "N",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": null,
+        "TOGGLED_DATE": "",
+        "MEMBERS": [],
+        "ATTACHMENTS": []
+      },
+      {
+        "ID": "469",
+        "TASK_ID": "8017",
+        "PARENT_ID": "447",
+        "CREATED_BY": "503",
+        "TITLE": "Согласовать с руководителем Андрей Карпов Андрей Сергеев",
+        "SORT_INDEX": "2",
+        "IS_COMPLETE": "N",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": null,
+        "TOGGLED_DATE": "",
+        "MEMBERS": [
+          {
+            "ID": "3",
+            "TYPE": "A",
+            "NAME": "Андрей Карпов",
+            "PERSONAL_PHOTO": "249",
+            "PERSONAL_GENDER": "M",
+            "IMAGE": "https://mysite.ru/b17053/resize_cache/249/c0120a8d7c10d63c83e32398d1ec4d9e/main/cd526b0644e7ff4d794ea41cb36bc423/odmin.png",
+            "IS_COLLABER": false
+          },
+          {
+            "ID": "11",
+            "TYPE": "U",
+            "NAME": "Андрей Сергеев",
+            "PERSONAL_PHOTO": "231",
+            "PERSONAL_GENDER": "",
+            "IMAGE": "https://mysite.ru/b17053/resize_cache/231/c0120a8d7c10d63c83e32398d1ec4d9e/main/026bf59e161a0bd50f401d3796800651/66b.jpg",
+            "IS_COLLABER": false
+          }
+        ],
+        "ATTACHMENTS": []
+      },
+      {
+        "ID": "471",
+        "TASK_ID": "8017",
+        "PARENT_ID": "447",
+        "CREATED_BY": "503",
+        "TITLE": "Подготовить решение",
+        "SORT_INDEX": "1",
+        "IS_COMPLETE": "N",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": null,
+        "TOGGLED_DATE": "",
+        "MEMBERS": [],
+        "ATTACHMENTS": []
+      },
+      {
+        "ID": "491",
+        "TASK_ID": "8017",
+        "PARENT_ID": "431",
+        "CREATED_BY": "503",
+        "TITLE": "Подписать договор",
+        "SORT_INDEX": "3",
+        "IS_COMPLETE": "N",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": null,
+        "TOGGLED_DATE": "",
+        "MEMBERS": [],
+        "ATTACHMENTS": []
+      },
+      {
+        "ID": "433",
+        "TASK_ID": "8017",
+        "PARENT_ID": "431",
+        "CREATED_BY": "503",
+        "TITLE": "Найти все документы по клиенту",
+        "SORT_INDEX": "0",
+        "IS_COMPLETE": "Y",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": "503",
+        "TOGGLED_DATE": "2025-11-10T15:02:30+03:00",
+        "MEMBERS": [],
+        "ATTACHMENTS": []
+      },
+      {
+        "ID": "485",
+        "TASK_ID": "8017",
+        "PARENT_ID": "447",
+        "CREATED_BY": "503",
+        "TITLE": "Договориться о встрече Андрей Сергеев",
+        "SORT_INDEX": "0",
+        "IS_COMPLETE": "Y",
+        "IS_IMPORTANT": "N",
+        "TOGGLED_BY": "503",
+        "TOGGLED_DATE": "2025-11-10T15:02:33+03:00",
+        "MEMBERS": [
+          {
+            "ID": "11",
+            "TYPE": "U",
+            "NAME": "Андрей Сергеев",
+            "PERSONAL_PHOTO": "231",
+            "PERSONAL_GENDER": "",
+            "IMAGE": "https://mysite.ru/b17053/resize_cache/231/c0120a8d7c10d63c83e32398d1ec4d9e/main/026bf59e161a0bd50f401d3796800651/66b.jpg",
+            "IS_COLLABER": false
+          }
+        ],
+        "ATTACHMENTS": []
+      }
+    ],
+    "time": {
+      "start": 1762780903,
+      "finish": 1762780903.978847,
+      "duration": 0.9788470268249512,
+      "processing": 0,
+      "date_start": "2025-11-10T16:21:43+03:00",
+      "date_finish": "2025-11-10T16:21:43+03:00",
+      "operating_reset_at": 1762781503,
+      "operating": 0.3446669578552246
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список объектов с описанием полей пунктов чек-листа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-get-list.html",
+  "executable": false
+}

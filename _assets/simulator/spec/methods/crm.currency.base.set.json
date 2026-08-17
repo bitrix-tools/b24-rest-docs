@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.currency.base.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить валюту в качестве базовой crm.currency.base.set",
+  "permissions": "любой пользователь с доступом к изменению настроек CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "srting",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор валюты, которая станет базовой. Соответствует стандарту ISO 4217. Идентификатор можно получить методом crm.currency.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/currency/crm-currency-base-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718122855.747287,
+      "finish": 1718122856.436222,
+      "duration": 0.6889350414276123,
+      "processing": 0.014606952667236328,
+      "date_start": "2024-06-11T18:20:55+02:00",
+      "date_finish": "2024-06-11T18:20:56+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возращает значение: - true — в случае успеха - false — в случае, когда операцию выполнить не удалось, но ошибки нет, либо ситуация не считается ошибочной. Возможная причина: отсутствует модуль валют"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/currency/crm-currency-base-set.html",
+  "executable": false
+}

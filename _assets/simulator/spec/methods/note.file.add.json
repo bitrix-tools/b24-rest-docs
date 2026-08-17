@@ -1,0 +1,134 @@
+{
+  "$v": 1,
+  "method": "note.file.add",
+  "scope": "note",
+  "kind": "write",
+  "title": "Загрузить файл в документ note.file.add",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Редактирование» для базы знаний документа",
+  "params": [
+    {
+      "name": "documentId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа, к которому нужно привязать файл. Идентификатор можно получить методом note.document.tree.list"
+    },
+    {
+      "name": "fileName",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя файла с расширением. Допустимые расширения: png, jpg, jpeg, gif, webp, svg, pdf, txt, md, csv, doc, docx, xls, xlsx, ppt, pptx, mp4, webm, mov"
+    },
+    {
+      "name": "fileContent",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Бинарное содержимое файла в кодировке Base64. Максимальный размер файла зависит от настройки main.max_file_size в Битрикс24. Если она не задана, используется ограничение 25 МиБ (25 * 1024 * 1024 байт)"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/file/note-file-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 5001,
+        "documentId": 77,
+        "name": "diagram.png",
+        "size": 6321,
+        "mimeType": "image/png",
+        "assetType": "image",
+        "assetMarkdown": "[[image fileId=5001]]"
+      }
+    },
+    "time": {
+      "start": 1780392000,
+      "finish": 1780392000.284521,
+      "duration": 0.28452086448669434,
+      "processing": 0.2413930892944336,
+      "date_start": "2026-06-16T12:20:00+03:00",
+      "date_finish": "2026-06-16T12:20:00+03:00",
+      "operating_reset_at": 1780392600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом загрузки файла"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект загруженного файла"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор загруженного файла"
+    },
+    {
+      "name": "documentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор документа, к которому привязан файл"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла"
+    },
+    {
+      "name": "size",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер файла в байтах"
+    },
+    {
+      "name": "mimeType",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "MIME-тип файла"
+    },
+    {
+      "name": "assetType",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип вложения для Markdown-блока"
+    },
+    {
+      "name": "assetMarkdown",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Готовый Markdown-блок для вставки файла в документ через note.document.update. Перед вставкой изображения или видео блок можно дополнить параметрами масштаба и выравнивания. Подробнее о параметрах читайте в описании поля markdown метода note.document.update"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/file/note-file-add.html",
+  "executable": false
+}

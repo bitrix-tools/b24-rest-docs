@@ -1,0 +1,160 @@
+{
+  "$v": 1,
+  "method": "sale.paysystem.list",
+  "scope": "pay_system",
+  "kind": "read",
+  "title": "Получить список платежных систем sale.paysystem.list",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта sale_paysystem). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля платежных систем",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных платежных систем в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта salepaysystem. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных платежных систем в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта salepaysystem. Возможные значения для order: - ASC — в порядке возрастания - DESC — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/pay-system/sale-pay-system-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "NAME": "Новая оплата картой",
+        "PSA_NAME": "Новая оплата картой",
+        "DESCRIPTION": "Легко оплачивайте покупки картой.",
+        "ACTION_FILE": "resthandlerform",
+        "RESULT_FILE": null,
+        "NEW_WINDOW": "N",
+        "PS_MODE": null,
+        "HAVE_PAYMENT": "N",
+        "HAVE_ACTION": "N",
+        "HAVE_RESULT": "N",
+        "HAVE_PREPAY": "N",
+        "HAVE_PRICE": "N",
+        "HAVE_RESULT_RECEIVE": "Y",
+        "ENCODING": null,
+        "ACTIVE": "Y",
+        "ALLOW_EDIT_PAYMENT": "Y",
+        "IS_CASH": "N",
+        "AUTO_CHANGE_1C": "N",
+        "CAN_PRINT_CHECK": "N",
+        "ENTITY_REGISTRY_TYPE": "ORDER",
+        "XML_ID": "my_ps_id",
+        "ID": 118,
+        "PERSON_TYPE_ID": 3,
+        "SORT": 100,
+        "TARIFF": null
+      },
+      {
+        "NAME": "Оплата картой",
+        "PSA_NAME": "Оплата картой",
+        "DESCRIPTION": "Легко оплачивайте покупки картой.",
+        "ACTION_FILE": "resthandlerform",
+        "RESULT_FILE": null,
+        "NEW_WINDOW": "Y",
+        "PS_MODE": "",
+        "HAVE_PAYMENT": "N",
+        "HAVE_ACTION": "N",
+        "HAVE_RESULT": "N",
+        "HAVE_PREPAY": "N",
+        "HAVE_PRICE": "N",
+        "HAVE_RESULT_RECEIVE": "Y",
+        "ENCODING": "windows-1251",
+        "ACTIVE": "Y",
+        "ALLOW_EDIT_PAYMENT": "Y",
+        "IS_CASH": "N",
+        "AUTO_CHANGE_1C": "N",
+        "CAN_PRINT_CHECK": "N",
+        "ENTITY_REGISTRY_TYPE": "ORDER",
+        "XML_ID": "my_ps_id",
+        "ID": 117,
+        "PERSON_TYPE_ID": 3,
+        "SORT": 100,
+        "TARIFF": null
+      }
+    ],
+    "time": {
+      "start": 1714993577.419989,
+      "finish": 1714993577.621777,
+      "duration": 0.20178794860839844,
+      "processing": 0.027898073196411133,
+      "date_start": "2024-05-06T14:06:17+03:00",
+      "date_finish": "2024-05-06T14:06:17+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_paysystem[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных платежных системах"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/pay-system/sale-pay-system-list.html",
+  "executable": false,
+  "entityFields": [
+    "ACTION_FILE",
+    "ACTIVE",
+    "ALLOW_EDIT_PAYMENT",
+    "AUTO_CHANGE_1C",
+    "CAN_PRINT_CHECK",
+    "DESCRIPTION",
+    "ENCODING",
+    "ENTITY_REGISTRY_TYPE",
+    "HAVE_ACTION",
+    "HAVE_PAYMENT",
+    "HAVE_PREPAY",
+    "HAVE_PRICE",
+    "HAVE_RESULT",
+    "HAVE_RESULT_RECEIVE",
+    "ID",
+    "IS_CASH",
+    "NAME",
+    "NEW_WINDOW",
+    "PERSON_TYPE_ID",
+    "PSA_NAME",
+    "PS_MODE",
+    "RESULT_FILE",
+    "SORT",
+    "TARIFF",
+    "XML_ID"
+  ]
+}

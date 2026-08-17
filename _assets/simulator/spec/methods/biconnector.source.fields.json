@@ -1,0 +1,150 @@
+{
+  "$v": 1,
+  "method": "biconnector.source.fields",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить поля источника biconnector.source.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей источника. Структура элемента массива описана в статье Коннектор: обзор методов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/source/biconnector-source-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": [
+        {
+          "title": "id",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "title",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "type",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "code",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "description",
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "active",
+          "type": "boolean",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "dateCreate",
+          "type": "datetime",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "dateUpdate",
+          "type": "datetime",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "createdById",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "updatedById",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "connectorId",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": true,
+          "isMultiple": false
+        },
+        {
+          "title": "settings",
+          "type": "array",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": true
+        }
+      ]
+    },
+    "time": {
+      "start": 1742896156.448294,
+      "finish": 1742896156.503291,
+      "duration": 0.05499696731567383,
+      "processing": 0.0004570484161376953,
+      "date_start": "2025-03-25T09:49:16+00:00",
+      "date_finish": "2025-03-25T09:49:16+00:00"
+    }
+  },
+  "page": "/api-reference/biconnector/source/biconnector-source-fields.html",
+  "executable": false
+}

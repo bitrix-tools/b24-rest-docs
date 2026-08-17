@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.item.pin",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Закрепить запись в таймлайне crm.timeline.item.pin",
+  "permissions": "пользователь с правом на изменение CRM-элемента",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи таймлайна, например 999. Получить id можно методом crm.timeline.comment.list"
+    },
+    {
+      "name": "ownerTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязана запись, например 2 для сделки"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента CRM, к которому привязана запись, например 10"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/actions/crm-timeline-item-pin.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Результат операции. Всегда возвращает null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/actions/crm-timeline-item-pin.html",
+  "executable": false
+}

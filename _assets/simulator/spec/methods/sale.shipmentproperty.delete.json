@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentproperty.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить свойство отгрузки sale.shipmentproperty.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_shipment_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор свойства отгрузки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-property/sale-shipment-property-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712238625.263063,
+      "finish": 1712238625.700109,
+      "duration": 0.4370460510253906,
+      "processing": 0.029300928115844727,
+      "date_start": "2024-04-04T16:50:25+03:00",
+      "date_finish": "2024-04-04T16:50:25+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-property/sale-shipment-property-delete.html",
+  "executable": false
+}

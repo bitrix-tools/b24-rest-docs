@@ -1,0 +1,281 @@
+{
+  "$v": 1,
+  "method": "catalog.product.service.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Обновить поля услуги catalog.product.service.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_service.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор услуги. Для получения идентификаторов услуг необходимо использовать catalog.product.service.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления услуги",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Наименование услуги"
+        },
+        {
+          "name": "active",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код"
+        },
+        {
+          "name": "createdBy",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Кем создан"
+        },
+        {
+          "name": "modifiedBy",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Кем изменен"
+        },
+        {
+          "name": "dateActiveFrom",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата начала активности"
+        },
+        {
+          "name": "dateActiveTo",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата окончания активности"
+        },
+        {
+          "name": "dateCreate",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата создания"
+        },
+        {
+          "name": "iblockSectionId",
+          "type": "catalog_section.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор основного раздела информационного блока"
+        },
+        {
+          "name": "IblockSection",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив со всеми разделами, к которым привязана услуга"
+        },
+        {
+          "name": "measure",
+          "type": "catalog_measure.id",
+          "base": "any",
+          "required": false,
+          "description": "Единица измерения"
+        },
+        {
+          "name": "previewText",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание для анонса"
+        },
+        {
+          "name": "detailText",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Детальное описание"
+        },
+        {
+          "name": "previewPicture",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Картинка для анонса. Объект в формате {fileData: [value1, value2]}, где value1 — название файла картинки с расширением, value2 — картинка в формате base64. Для удаления картинки используется объект в формате {remove: 'Y'}"
+        },
+        {
+          "name": "detailPicture",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Детальная картинка. Объект в формате {fileData: [value1, value2]}, где value1 — название файла картинки с расширением, value2 — картинка в формате base64. Для удаления картинки используется объект в формате {remove: 'Y'}"
+        },
+        {
+          "name": "previewTextType",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML"
+        },
+        {
+          "name": "detailTextType",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "vatId",
+          "type": "catalog_vat.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор НДС"
+        },
+        {
+          "name": "vatIncluded",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Включен ли НДС в цену. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "propertyN",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Значение свойства услуги, где N — идентификатор свойства. Свойств может быть несколько. Значение указывается в формате {valueId: valueId, value: value} либо в формате [{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}], если свойство множественное. Здесь valueId — идентификатор значения свойства, а value — значение свойства.…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/service/catalog-product-service-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "service": {
+        "active": "Y",
+        "available": "N",
+        "bundle": "N",
+        "code": "service",
+        "createdBy": 1,
+        "dateActiveFrom": "2024-05-28T10:00:00+03:00",
+        "dateActiveTo": "2024-05-29T10:00:00+03:00",
+        "dateCreate": "2024-05-27T10:00:00+03:00",
+        "detailPicture": {
+          "id": "6501",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6501&fields%5BproductId%5D=1265",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6501&fields%5BproductId%5D=1265"
+        },
+        "detailText": null,
+        "detailTextType": "text",
+        "iblockId": 23,
+        "iblockSectionId": 47,
+        "id": 1265,
+        "modifiedBy": 1,
+        "name": "Услуга",
+        "previewPicture": {
+          "id": "6500",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6500&fields%5BproductId%5D=1265",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6500&fields%5BproductId%5D=1265"
+        },
+        "previewText": null,
+        "previewTextType": "text",
+        "property258": {
+          "value": "test",
+          "valueId": "9809"
+        },
+        "property259": [
+          {
+            "value": "test1",
+            "valueId": "9810"
+          },
+          {
+            "value": "test2",
+            "valueId": "9811"
+          }
+        ],
+        "sort": 100,
+        "timestampX": "2024-06-14T12:53:26+03:00",
+        "type": 7,
+        "vatId": 1,
+        "vatIncluded": "Y",
+        "xmlId": "216"
+      }
+    },
+    "time": {
+      "start": 1718366006.003236,
+      "finish": 1718366007.201945,
+      "duration": 1.1987090110778809,
+      "processing": 0.7935080528259277,
+      "date_start": "2024-06-14T14:53:26+03:00",
+      "date_finish": "2024-06-14T14:53:27+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "service",
+      "type": "catalog_product_service",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленной услуге"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/service/catalog-product-service-update.html",
+  "executable": false
+}

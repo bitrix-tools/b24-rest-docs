@@ -1,0 +1,73 @@
+{
+  "$v": 1,
+  "method": "catalog.priceTypeLang.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей перевода названия типа цены catalog.priceTypeLang.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price_type_lang.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор перевода названия типа цены"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceTypeLang": {
+        "catalogGroupId": 1,
+        "id": 2,
+        "lang": "ru",
+        "name": "Розничная цена"
+      }
+    },
+    "time": {
+      "start": 1733837855.07932,
+      "finish": 1733837855.33599,
+      "duration": 0.256666898727417,
+      "processing": 0.00620198249816895,
+      "date_start": "2024-12-10T15:37:35+02:00",
+      "date_finish": "2024-12-10T15:37:35+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceTypeLang",
+      "type": "catalog_price_type_lang",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о переводе названия типа цены с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-get.html",
+  "executable": false,
+  "entityFields": [
+    "catalogGroupId",
+    "id",
+    "lang",
+    "name"
+  ]
+}

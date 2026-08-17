@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "crm.status.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить элемент справочника crm.status.delete",
+  "permissions": "пользователь с правами администратора CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента справочника, который требуется удалить. Получить список идентификаторов можно методом crm.status.list"
+    },
+    {
+      "name": "params",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Доступные флаги: - FORCED — флаг принудительного удаления системных элементов. По умолчанию N. Передавайте значение Y, чтобы удалить элемент, даже если он системный"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1752145688.808395,
+      "finish": 1752145688.842539,
+      "duration": 0.03414416313171387,
+      "processing": 0.010373115539550781,
+      "date_start": "2025-07-10T14:08:08+03:00",
+      "date_finish": "2025-07-10T14:08:08+03:00",
+      "operating_reset_at": 1752146288,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-delete.html",
+  "executable": false
+}

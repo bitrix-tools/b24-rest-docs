@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "lists.get.iblock.type.id",
+  "scope": "lists",
+  "kind": "write",
+  "title": "Получить идентификатор типа инфоблока lists.get.iblock.type.id",
+  "permissions": "пользователь с правом «Чтение» для списков",
+  "params": [
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/lists/lists-get-iblock-type-id.md"
+  },
+  "resultExample": {
+    "result": "lists",
+    "time": {
+      "start": 1764775444,
+      "finish": 1764775444.66342,
+      "duration": 0.6634199619293213,
+      "processing": 0,
+      "date_start": "2025-12-03T18:24:04+03:00",
+      "date_finish": "2025-12-03T18:24:04+03:00",
+      "operating_reset_at": 1764776044,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор типа инфоблока. Возвращает null, если инфоблок не найден или параметры неверны"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/lists/lists-get-iblock-type-id.html",
+  "executable": false
+}

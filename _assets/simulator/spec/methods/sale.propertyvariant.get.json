@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "sale.propertyvariant.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить вариант значения свойства по id sale.propertyvariant.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_variant.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор варианта значения свойства"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-variant/sale-property-variant-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyVariant": {
+        "description": "Описание значения для красного цвета",
+        "id": 6,
+        "name": "Красный",
+        "orderPropsId": 49,
+        "sort": 10,
+        "value": "red"
+      }
+    },
+    "time": {
+      "start": 1711632097.794569,
+      "finish": 1711632098.028609,
+      "duration": 0.2340400218963623,
+      "processing": 0.009068012237548828,
+      "date_start": "2024-03-28T16:21:37+03:00",
+      "date_finish": "2024-03-28T16:21:38+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат удаления варианта значения свойства"
+    },
+    {
+      "name": "propertyVariant",
+      "type": "sale_order_property_variant",
+      "base": "any",
+      "required": false,
+      "description": "Информация о варианте значения свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-variant/sale-property-variant-get.html",
+  "executable": false,
+  "entityFields": [
+    "description",
+    "id",
+    "name",
+    "orderPropsId",
+    "sort",
+    "value"
+  ]
+}

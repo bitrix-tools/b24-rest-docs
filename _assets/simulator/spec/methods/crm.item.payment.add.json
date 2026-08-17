@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить оплату crm.item.payment.add",
+  "permissions": "требуется право на изменение объекта CRM, в который добавляется оплата",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM"
+    },
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/crm-item-payment-add.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор созданной оплаты"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/crm-item-payment-add.html",
+  "executable": false
+}

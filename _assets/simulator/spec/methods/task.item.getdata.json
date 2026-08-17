@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "task.item.getdata",
+  "scope": "task",
+  "kind": "write",
+  "title": "Получить данные о задаче task.item.getdata",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-item-get-data.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.get"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-item-get-data.html",
+  "executable": false
+}

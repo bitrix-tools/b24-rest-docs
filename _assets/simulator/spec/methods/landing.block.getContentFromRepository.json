@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "landing.block.getContentFromRepository",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить контент блока из репозитория landing.block.getContentFromRepository",
+  "permissions": "пользователь с доступом к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код блока, содержимое которого нужно получить. Поддерживаются несколько форматов значения: - короткий код стандартного блока, например 01.big_with_text, - код блока из репозитория приложений в формате repo_<ID>, - код сохраненного блока в формате <code>@<ID>. Код блока можно получить из результата метода landing.block.getRepository.…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-get-content-from-repository.md"
+  },
+  "resultExample": {
+    "result": "<section class=\"g-pos-rel landing-block g-overflow-hidden\" data-slider-autoplay=\"1\" data-slider-autoplay-speed=\"5000\" data-slider-dots=\"0\">\n\t<div class=\"js-carousel g-overflow-hidden g-max-height-100vh\" data-autoplay=\"true\" data-infinite=\"true\" data-fade=\"true\" data-pagi-classes=\"u-carousel-indicators-v1 g-absolute-centered--x g-bottom-20\" data-speed=\"5000\">\n\t\t<div class=\"landing-block-card-img js-slide g-bg-img-hero g-min-height-100vh\" style=\"background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1600x1075/img2.jpg);\"></div>\n\t\t<div class=\"landing-block-card-img js-slide g-bg-img-hero g-min-height-100vh\" style=\"background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1600x1075/img1.jpg);\"></div>\n\t</div>\n\n\t<div class=\"g-absolute-centered g-width-80x--md\">\n\t\t<div class=\"container text-center g-max-width-800\">\n\t\t\t<div class=\"landing-block-node-text-container info-v3-4 g-bg-primary-opacity-0_9 g-pa-20 g-pa-60--md js-animation fadeInLeft\">\n\t\t\t\t<div class=\"g-pos-rel g-z-index-3\">\n\t\t\t\t\t<h3 class=\"landing-block-node-small-title text-uppercase g-letter-spacing-3 g-color-white g-mb-10\">We are Company24</h3>\n\t\t\t\t\t<h2 class=\"landing-block-node-title h1 text-uppercase g-color-white g-letter-spacing-5 g-mb-20\">Business &amp; Corporation</h2>\n\t\t\t\t\t<div class=\"landing-block-node-text g-line-height-1_8 g-letter-spacing-3 g-color-white g-mb-20\" data-auto-font-scale>Sed feugiat porttitor nunc, non dignissim\n\t\t\t\t\t\t<br> ipsum vestibulum in. Donec in blandit dolor.</div>\n\t\t\t\t\t<a href=\"#\" class=\"landing-block-node-button btn g-btn-type-outline g-btn-white g-btn-size-md g-btn-px-m text-uppercase rounded-0\">Learn More</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>",
+    "time": {
+      "start": 1774525475,
+      "finish": 1774525475.811345,
+      "duration": 0.811345100402832,
+      "processing": 0,
+      "date_start": "2026-03-26T14:44:35+03:00",
+      "date_finish": "2026-03-26T14:44:35+03:00",
+      "operating_reset_at": 1774526075,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "HTML-содержимое блока. Для стандартных блоков метод возвращает HTML-шаблон блока с подставленными значениями для текущего языка в Битрикс24. Для блоков repo_<ID> метод возвращает HTML, сохраненный для блока в репозитории приложений. Для блоков <code>@<ID> метод возвращает HTML сохраненного блока или null, если такой блок уже удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-get-content-from-repository.html",
+  "executable": false
+}

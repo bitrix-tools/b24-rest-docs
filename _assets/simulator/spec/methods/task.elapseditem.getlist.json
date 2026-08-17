@@ -1,0 +1,200 @@
+{
+  "$v": 1,
+  "method": "task.elapseditem.getlist",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список записей о затраченном времени task.elapseditem.getlist",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки результата (подробное описание приведено ниже)",
+      "ref": "#/defs/ORDERFields"
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации результата (подробное описание приведено ниже)",
+      "ref": "#/defs/FILTERFields"
+    },
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение \"*\", то будут возвращены все доступные поля. По умолчанию будут возвращены все поля основной таблицы запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "PARAMS",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для опций вызова. Элементом является объект NAV_PARAMS вида {'опция вызова': 'значение' [, ...]} (подробное описание приведено ниже) в виде структуры",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {
+    "ORDERFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Идентификатор записи о затраченном времени. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "USER_ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Идентификатор пользователя, от имени которого была сделана запись о затраченном времени. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "MINUTES",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Затраченное время, минуты. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "SECONDS",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Затраченное время, секунды. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "CREATED_DATE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дата создания записи. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "DATE_START",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дата начала. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "DATE_STOP",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дата конца. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        }
+      ]
+    },
+    "FILTERFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор записи о затраченном времени"
+        },
+        {
+          "name": "USER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор пользователя, от имени которого была сделана запись о затраченном времени"
+        },
+        {
+          "name": "CREATED_DATE",
+          "type": "datetime",
+          "base": "datetime",
+          "required": "unknown",
+          "description": "Дата создания записи"
+        }
+      ]
+    }
+  },
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/elapsed-item/task-elapsed-item-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "1",
+        "TASK_ID": "691",
+        "USER_ID": "1",
+        "COMMENT_TEXT": "1",
+        "SECONDS": "3600",
+        "MINUTES": "60",
+        "SOURCE": "2",
+        "CREATED_DATE": "2024-05-16T10:33:00+02:00",
+        "DATE_START": "2024-05-16T10:33:15+02:00",
+        "DATE_STOP": "2024-05-16T10:33:15+02:00"
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о записях о затраченном времени по задаче"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-get-list.html",
+  "executable": false
+}

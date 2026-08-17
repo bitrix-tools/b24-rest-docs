@@ -1,0 +1,85 @@
+{
+  "$v": 1,
+  "method": "biconnector.source.get",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить источник по id biconnector.source.get",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор источника, можно получить методами biconnector.source.list и biconnector.source.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/source/biconnector-source-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "connection": {
+          "id": 6,
+          "type": "rest",
+          "code": "rest_1",
+          "title": "Rest source SQL",
+          "description": "Подключение для работы с mySql",
+          "active": true,
+          "dateCreate": "2025-03-20 14:50:06",
+          "dateUpdate": "2025-03-20 14:50:06",
+          "createdById": 1,
+          "updatedById": 1
+        },
+        "connectorId": 1,
+        "settings": [
+          {
+            "code": "token",
+            "name": "Токен",
+            "type": "STRING",
+            "value": "beliberda",
+            "id": 8
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1742929480.368097,
+      "finish": 1742929480.449558,
+      "duration": 0.08146095275878906,
+      "processing": 0.006555080413818359,
+      "date_start": "2025-03-25T19:04:40+00:00",
+      "date_finish": "2025-03-25T19:04:40+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "item",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях источника. Описание полей в статье Источники: обзор методов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/source/biconnector-source-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "connection",
+    "connectorId",
+    "description",
+    "settings",
+    "title"
+  ]
+}

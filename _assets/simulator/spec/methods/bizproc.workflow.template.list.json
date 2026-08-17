@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.template.list",
+  "scope": "bizproc",
+  "kind": "read",
+  "title": "Получить список шаблонов bizproc.workflow.template.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "SELECT",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержит список полей, которые необходимо выбрать. Можно указать только те поля, которые необходимы. Значение по умолчанию — ['ID']",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации списка шаблонов бизнес-процессов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле шаблона для фильтра - value_N — значение поля Перед названием фильтруемого поля можно указать тип фильтрации: - ! — не равно - < — меньше - <= — меньше либо равно - > — больше - >= — больше либо равно",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка запущенных бизнес-процессов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле шаблона для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Можно указать несколько полей для сортировки, например, {NAME: 'ASC', ID: 'DESC'}.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/template/bizproc-workflow-template-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о шаблонах бизнес-процессов. Каждый объект содержит поля шаблона, указанные в параметре SELECT"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/template/bizproc-workflow-template-list.html",
+  "executable": false
+}

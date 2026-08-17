@@ -1,0 +1,110 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.task.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить поля задачи Скрама по id tasks.api.scrum.task.get",
+  "permissions": "любой пользователь, имеющий доступ к Скраму",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "entityId": 2,
+      "storyPoints": "2",
+      "epicId": 4,
+      "sort": 1,
+      "createdBy": 1,
+      "modifiedBy": 1
+    },
+    "time": {
+      "start": 1721402687.900315,
+      "finish": 1721402694.313811,
+      "duration": 6.413496017456055,
+      "processing": 6.387248992919922,
+      "date_start": "2024-07-19T15:24:47+00:00",
+      "date_finish": "2024-07-19T15:24:54+00:00",
+      "operating": 6.387217998504639
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными задачи"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор бэклога или спринта"
+    },
+    {
+      "name": "storyPoints",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Количество стори поинтов. Тип данных — строка, так как стори поинтом необязательно будет число"
+    },
+    {
+      "name": "epicId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор эпика"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Сортировка"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего задачу"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, который последним изменял задачу"
+    },
+    {
+      "name": "time",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get.html",
+  "executable": false,
+  "entityFields": [
+    "createdBy",
+    "entityId",
+    "epicId",
+    "modifiedBy",
+    "sort",
+    "storyPoints"
+  ]
+}

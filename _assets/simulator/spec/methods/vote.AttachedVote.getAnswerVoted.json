@@ -1,0 +1,96 @@
+{
+  "$v": 1,
+  "method": "vote.AttachedVote.getAnswerVoted",
+  "scope": "vote",
+  "kind": "write",
+  "title": "Получить список проголосовавших за ответ vote.AttachedVote.getAnswerVoted",
+  "permissions": "пользователь с правами чтения голосования",
+  "params": [
+    {
+      "name": "attachId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор прикрепленного голосования, получить можно методами vote.AttachedVote.get или vote.AttachedVote.getMany"
+    },
+    {
+      "name": "answerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор ответа, получить можно методами vote.AttachedVote.get или vote.AttachedVote.getMany"
+    },
+    {
+      "name": "pageNavigation",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры постраничной навигации, например { size: 10, page: 1 }",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "userForMobileFormat",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Формат данных пользователей для мобильных устройств. Значение по умолчанию: false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.attachedvote.getAnswerVoted.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "ID": 1,
+          "NAME": "Саша",
+          "IMAGE": "https://your-domain.bitrix24.ru/b13743910/resize_cache/2267/cec8d72046af30148f6f5b573a3a0aa8/main/c7b/c7bd44b1babaa54438ce1b/d5fb56b94dc2c3c2c595a4895.jpg",
+          "WORK_POSITION": ""
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1755076703.233388,
+      "finish": 1755076703.264925,
+      "duration": 0.03153705596923828,
+      "processing": 0.029319047927856445,
+      "date_start": "2025-08-13T12:18:23+03:00",
+      "date_finish": "2025-08-13T12:18:23+03:00",
+      "operating_reset_at": 1755077303,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив данных о проголосовавших пользователях, структура описана ниже"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество проголосовавших за данный ответ"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vote/vote.attachedvote.getAnswerVoted.html",
+  "executable": false
+}

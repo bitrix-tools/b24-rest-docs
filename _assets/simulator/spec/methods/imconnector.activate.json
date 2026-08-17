@@ -1,0 +1,66 @@
+{
+  "$v": 1,
+  "method": "imconnector.activate",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Активировать коннектор imconnector.activate",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код коннектора, который задали в параметре ID при вызове imconnector.register"
+    },
+    {
+      "name": "LINE",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Признак активации. Любое непустое значение включает коннектор, пустое значение или 0 отключает коннектор. Рекомендуется использовать 1 и 0 (или Y и N), а не произвольные строки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-activate.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.19,
+      "duration": 0.08,
+      "processing": 0.03,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если действие выполнено успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-activate.html",
+  "executable": false
+}

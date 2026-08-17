@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "user.userfield.delete",
+  "scope": "user.userfield",
+  "kind": "write",
+  "title": "Удалить пользовательское поле user.userfield.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля. Для получения идентификаторов пользовательских полей используйте метод user.userfield.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/user/userfields/user-userfield-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1747310916.827703,
+      "finish": 1747310918.05313,
+      "duration": 1.2254269123077393,
+      "processing": 0.2228090763092041,
+      "date_start": "2025-05-15T14:08:36+02:00",
+      "date_finish": "2025-05-15T14:08:38+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления пользовательского поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/user/userfields/user-userfield-delete.html",
+  "executable": false
+}

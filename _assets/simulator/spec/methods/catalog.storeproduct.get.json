@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "catalog.storeproduct.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить остатки товара на складе по идентификатору catalog.storeproduct.get",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_storeproduct.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор записи остатков, можно получить методом catalog.storeproduct.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/store-product/catalog-store-product-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "storeProduct": {
+        "amount": 14,
+        "id": 13,
+        "productId": 6973,
+        "quantityReserved": null,
+        "storeId": 11
+      }
+    },
+    "time": {
+      "start": 1758089295.545724,
+      "finish": 1758089295.586371,
+      "duration": 0.040647029876708984,
+      "processing": 0.0036160945892333984,
+      "date_start": "2025-09-17T09:08:15+03:00",
+      "date_finish": "2025-09-17T09:08:15+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "storeProduct",
+      "type": "catalog_storeproduct",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об остатках товара по складам с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/store-product/catalog-store-product-get.html",
+  "executable": false,
+  "entityFields": [
+    "amount",
+    "id",
+    "productId",
+    "quantityReserved",
+    "storeId"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "imopenlines.message.session.start",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Начать новый диалог на основании сообщения imopenlines.message.session.start",
+  "permissions": "любой пользователь с правами на диалог",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.dialog.get"
+    },
+    {
+      "name": "MESSAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения внутри чата. Идентификатор можно получить методом imopenlines.session.history.get в ключах объекта message"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-message-session-start.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773682918,
+      "finish": 1773682919.022549,
+      "duration": 1.0225489139556885,
+      "processing": 1,
+      "date_start": "2026-03-16T20:41:58+03:00",
+      "date_finish": "2026-03-16T20:41:59+03:00",
+      "operating_reset_at": 1773683518,
+      "operating": 0.14626193046569824
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если новая сессия запущена на основании сообщения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-message-session-start.html",
+  "executable": false
+}

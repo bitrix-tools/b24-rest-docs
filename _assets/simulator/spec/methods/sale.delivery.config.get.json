@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.config.get",
+  "scope": "delivery",
+  "kind": "read",
+  "title": "Получить настройки службы доставки sale.delivery.config.get",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_delivery_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор службы доставки."
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/delivery/sale-delivery-config-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "CODE": "SETTING_1",
+        "VALUE": "New SETTING_1 string value"
+      },
+      {
+        "CODE": "SETTING_2",
+        "VALUE": "N"
+      },
+      {
+        "CODE": "SETTING_3",
+        "VALUE": "999.99"
+      },
+      {
+        "CODE": "SETTING_4",
+        "VALUE": "Option2Code"
+      },
+      {
+        "CODE": "SETTING_5",
+        "VALUE": "25.03.2023"
+      },
+      {
+        "CODE": "SETTING_6",
+        "VALUE": "0000144962"
+      }
+    ],
+    "time": {
+      "start": 1714137257.450324,
+      "finish": 1714137257.672526,
+      "duration": 0.22220182418823242,
+      "processing": 0.029755115509033203,
+      "date_start": "2024-04-26T16:14:17+03:00",
+      "date_finish": "2024-04-26T16:14:17+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Значения настроек службы доставки. Сама структура настроек (код, название, тип данных) задается при создании или обновлении обработчика службы доставки методами: - sale.delivery.handler.add - sale.delivery.handler.update"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/delivery/sale-delivery-config-get.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "VALUE"
+  ]
+}

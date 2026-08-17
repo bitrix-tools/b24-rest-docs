@@ -1,0 +1,374 @@
+{
+  "$v": 1,
+  "method": "crm.item.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить элемент crm.item.update",
+  "permissions": "любой пользователь с правом «изменения» элементов объекта CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа, чей элемент мы хотим изменить. Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счёт — 31 и др.) приведены в справочнике типов объектов CRM. Идентификатор смарт-процесса можно узнать методом crm.type.list"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента, который мы хотим изменить. Можно получить методом crm.item.list или crm.item.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект формата где - field_n — название поля - value_n — новое значение поля У каждого типа сущности CRM свой набор полей. Это значит, что набор полей для изменения Лида не обязан подходить набору полей для изменения Контакта или Смарт-процесса. Список доступных полей относительно каждого типа сущности описан ниже. Некорректное поле в fields будет проигнорировано.…",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "useOriginalUfNames",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Параметр для управления форматом имен пользовательских полей в запросе и ответе. Возможные значения: - Y — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830 - N — имена пользовательских полей в camelCase, например ufCrm2_1639669411830 По умолчанию — N"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название элемента"
+        },
+        {
+          "name": "honorific",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор обращения лида (например 'HNR_RU_1' = 'г-н'). Список доступных обращений можно узнать с помощью [crm.status.list][2] применив фильтр { ENTITY_ID: \"HONOFIRIC\" }"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Имя"
+        },
+        {
+          "name": "secondName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Отчество"
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Фамилия"
+        },
+        {
+          "name": "birthdate",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата рождения"
+        },
+        {
+          "name": "companyTitle",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название компании"
+        },
+        {
+          "name": "sourceId",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор источника. Например 'CALL' = 'Звонок'. Список доступных источников можно узнать с помощью [crm.status.list][2] применив фильтр { ENTITY_ID: \"SOURCE\" }"
+        },
+        {
+          "name": "sourceDescription",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительно об источнике"
+        },
+        {
+          "name": "stageId",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор стадии элемента. Например 'NEW' = 'Не обработан'. Список доступных стадий можно узнать с помощью [crm.status.list][2] применив фильтр { ENTITY_ID: \"STATUS\" }"
+        },
+        {
+          "name": "statusDescription",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительно о стадии"
+        },
+        {
+          "name": "post",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Должность"
+        },
+        {
+          "name": "currencyId",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор валюты элемента"
+        },
+        {
+          "name": "isManualOpportunity",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Режим расчета суммы. Возможные значения: - Y — ручной - N — автоматический"
+        },
+        {
+          "name": "opportunity",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма"
+        },
+        {
+          "name": "opened",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли элемент доступным для всех. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "comments",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий"
+        },
+        {
+          "name": "assignedById",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор ответственного за элемент"
+        },
+        {
+          "name": "companyId",
+          "type": "crm_company",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании привязанный к элементу. Список компании можно получить с помощью метода crm.item.list по entityTypeId = 4"
+        },
+        {
+          "name": "contactId",
+          "type": "crm_contact",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор контакта привязанный к элементу. Список контактов можно получить с помощью метода crm.item.list по entityTypeId = 3"
+        },
+        {
+          "name": "contactIds",
+          "type": "crm_contact[]",
+          "base": "array",
+          "required": false,
+          "description": "Список идентификаторов контакта привязанных к элементу. Список контактов можно получить с помощью метода crm.item.list по entityTypeId = 3"
+        },
+        {
+          "name": "originatorId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний источник"
+        },
+        {
+          "name": "originId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента во внешнем источнике"
+        },
+        {
+          "name": "webformId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор CRM Формы"
+        },
+        {
+          "name": "observers",
+          "type": "user[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив идентификаторов пользователей, которые будут являться Наблюдателями в элементе"
+        },
+        {
+          "name": "utmSource",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Рекламная система. Например: Yandex-Direct, Google-Adwords и другие"
+        },
+        {
+          "name": "utmMedium",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+        },
+        {
+          "name": "utmCampaign",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обозначение рекламной кампании"
+        },
+        {
+          "name": "utmContent",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержание кампании. Например, для контекстных объявлений"
+        },
+        {
+          "name": "utmTerm",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы"
+        },
+        {
+          "name": "ufCrm...",
+          "type": "crm_userfield",
+          "base": "object",
+          "required": false,
+          "description": "Пользовательское поле. О пользовательских полях читайте раздел {#T} Значения множественных полей передаются в виде массива. Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла."
+        },
+        {
+          "name": "parentId...",
+          "type": "crm_entity",
+          "base": "integer",
+          "required": false,
+          "description": "Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу. Каждое такое поле имеет код parentId + {parentEntityTypeId}"
+        },
+        {
+          "name": "fm",
+          "type": "multifield[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив мультиполей. Подробнее о мультиполях можно почитать в разделе {#T} Структура мультиполя: - id — Уникальный идентификатор мультиполя. Если не существует мультиполя с данным id, то будет создано новое мультиполе - typeId — Тип мультиполя - valueType — Тип значения - value — Значение Пример: По умолчанию — null"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/crm-item-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 351,
+        "createdTime": "2024-07-23T19:10:26+02:00",
+        "dateCreateShort": null,
+        "updatedTime": "2024-07-23T18:19:21+02:00",
+        "dateModifyShort": null,
+        "createdBy": 1,
+        "updatedBy": 1,
+        "assignedById": 6,
+        "opened": "N",
+        "leadId": null,
+        "companyId": 0,
+        "contactId": 0,
+        "quoteId": null,
+        "title": "REST Сделка #1",
+        "productId": null,
+        "categoryId": 9,
+        "stageId": "C9:UC_NYL06U",
+        "stageSemanticId": "P",
+        "isNew": "N",
+        "isRecurring": "N",
+        "isReturnCustomer": "N",
+        "isRepeatedApproach": "N",
+        "closed": "N",
+        "typeId": "SERVICE",
+        "opportunity": 10000,
+        "isManualOpportunity": "N",
+        "taxValue": 0,
+        "currencyId": "USD",
+        "probability": null,
+        "comments": "",
+        "begindate": "2024-07-23T02:00:00+02:00",
+        "begindateShort": null,
+        "closedate": "2024-07-31T02:00:00+02:00",
+        "closedateShort": null,
+        "eventDate": null,
+        "eventDateShort": null,
+        "eventId": null,
+        "eventDescription": null,
+        "locationId": null,
+        "webformId": 0,
+        "sourceId": "",
+        "sourceDescription": "",
+        "originatorId": null,
+        "originId": null,
+        "additionalInfo": "Изменение сделки через REST",
+        "searchContent": "351 Сделка #351 10200.00 Российский рубль Не Придумал Придумал Продажа Название2134234233 23.07.2024 31.07.2024",
+        "orderStage": null,
+        "movedBy": 1,
+        "movedTime": "2024-07-23T18:19:21+02:00",
+        "lastActivityBy": 1,
+        "lastActivityTime": "2024-07-23T18:10:26+02:00",
+        "isWork": null,
+        "isWon": null,
+        "isLose": null,
+        "receivedAmount": null,
+        "lostAmount": null,
+        "hasProducts": null,
+        "ufCrm_1721244707107": 200.05,
+        "parentId1220": 2,
+        "utmSource": "google",
+        "utmMedium": null,
+        "utmCampaign": null,
+        "utmContent": null,
+        "utmTerm": null,
+        "observers": [
+          1,
+          2,
+          3
+        ],
+        "contactIds": [],
+        "entityTypeId": 2
+      }
+    },
+    "time": {
+      "start": 1721751560.824475,
+      "finish": 1721751564.481578,
+      "duration": 3.6571030616760254,
+      "processing": 3.1893951892852783,
+      "date_start": "2024-07-23T18:19:20+02:00",
+      "date_finish": "2024-07-23T18:19:24+02:00",
+      "operating": 3.1893470287323
+    }
+  },
+  "page": "/api-reference/crm/universal/crm-item-update.html",
+  "executable": false
+}

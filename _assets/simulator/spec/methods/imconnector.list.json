@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "imconnector.list",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить список коннекторов imconnector.list",
+  "permissions": "пользователь с правом изменения коннекторов открытых линий",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект вида connector_id: connector_name для доступных коннекторов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/imconnector/imconnector-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "livechat": "Онлайн-чат",
+      "telegrambot": "Telegram",
+      "network": "Битрикс24.Network",
+      "myconnector": "Мой коннектор"
+    },
+    "time": {
+      "start": 1738065600.11,
+      "finish": 1738065600.17,
+      "duration": 0.06,
+      "processing": 0.03,
+      "date_start": "2025-01-28T12:00:00+00:00",
+      "date_finish": "2025-01-28T12:00:00+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект вида connector_id: connector_name для доступных коннекторов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/imconnector/imconnector-list.html",
+  "executable": false,
+  "entityFields": [
+    "livechat",
+    "myconnector",
+    "network",
+    "telegrambot"
+  ]
+}

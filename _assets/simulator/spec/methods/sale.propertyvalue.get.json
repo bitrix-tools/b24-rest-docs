@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "sale.propertyvalue.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить значение свойства sale.propertyvalue.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_value.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор значения свойства заказа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-value/sale-property-value-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyValue": {
+        "code": "FIO",
+        "id": 13176,
+        "name": "Имя Фамилия",
+        "orderPropsId": 20,
+        "value": "John Smith"
+      }
+    },
+    "time": {
+      "start": 1712056406.00744,
+      "finish": 1712056406.370423,
+      "duration": 0.36298298835754395,
+      "processing": 0.0960841178894043,
+      "date_start": "2024-04-02T14:13:26+03:00",
+      "date_finish": "2024-04-02T14:13:26+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyValue",
+      "type": "sale_order_property_value",
+      "base": "any",
+      "required": false,
+      "description": "Информация о значении свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-value/sale-property-value-get.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "id",
+    "name",
+    "orderPropsId",
+    "value"
+  ]
+}

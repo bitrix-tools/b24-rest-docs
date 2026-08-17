@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.activity.badge.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить бейдж по коду crm.activity.badge.delete",
+  "permissions": "пользователи с административным доступом к разделу crm",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код бейджа, например missedCall"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/configurable/badges/crm-activity-badge-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит: - true — в случае успеха - null — в случае неудачи (произошла ошибка)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/configurable/badges/crm-activity-badge-delete.html",
+  "executable": false
+}

@@ -1,0 +1,67 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.logo.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить логотип crm.timeline.logo.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код логотипа (например, info)"
+    },
+    {
+      "name": "fileContent",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Закодированное base64 содержимое файла логотипа. Требования к файлу: - Тип — png - Размер — 60x60 пикселей - Фон — прозрачный"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "logo": {
+        "code": "info",
+        "isSystem": false,
+        "fileUri": "/upload/crm/286/a1k092hygdrzpiz6a01enuymqoo5qzym/ou0akdwnbxalzk9hgfme39nbvtozblew"
+      }
+    },
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Поле result содержит объект logo"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-add.html",
+  "executable": false
+}

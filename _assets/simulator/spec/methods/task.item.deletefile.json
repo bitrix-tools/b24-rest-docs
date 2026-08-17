@@ -1,0 +1,42 @@
+{
+  "$v": 1,
+  "method": "task.item.deletefile",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить привязку файла к задаче task.item.deletefile",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "auth",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Токен авторизации"
+    },
+    {
+      "name": "TASK_ID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "ATTACHMENT_ID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор прикрепленного файла"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-item-delete-file.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.update"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-item-delete-file.html",
+  "executable": false
+}

@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "crm.multifield.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить описание множественных полей crm.multifield.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/multifield/crm-multifield-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "int",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID"
+      },
+      "TYPE_ID": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип поля"
+      },
+      "VALUE": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Значение"
+      },
+      "VALUE_TYPE": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип значения"
+      }
+    },
+    "time": {
+      "start": 1750684622.069806,
+      "finish": 1750684622.120529,
+      "duration": 0.05072283744812012,
+      "processing": 0.00037217140197753906,
+      "date_start": "2025-06-23T16:17:02+03:00",
+      "date_finish": "2025-06-23T16:17:02+03:00",
+      "operating_reset_at": 1750685222,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/multifield/crm-multifield-fields.html",
+  "executable": false
+}

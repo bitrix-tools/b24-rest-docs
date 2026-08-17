@@ -1,0 +1,276 @@
+{
+  "$v": 1,
+  "method": "disk.storage.getChildren",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Получить список файлов и папок в корне хранилища disk.storage.getChildren",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор хранилища. Идентификатор можно получить с помощью метода disk.storage.getList"
+    },
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив формата: где: - field_n — название поля, по которому будет произведена фильтрация - value_n — значение фильтра К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив - % — LI…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив формата: где: - field_n — название поля, по которому будет произведена сортировка - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных для сортировки полей можно узнать с помощью метода disk.folder.getFields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/storage/disk-storage-get-children.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "8960",
+        "NAME": "Папка в папке",
+        "CODE": null,
+        "STORAGE_ID": "1357",
+        "TYPE": "folder",
+        "REAL_OBJECT_ID": "8960",
+        "PARENT_ID": "8875",
+        "DELETED_TYPE": "0",
+        "CREATE_TIME": "2026-01-14T15:01:14+03:00",
+        "UPDATE_TIME": "2026-01-14T15:01:14+03:00",
+        "DELETE_TIME": null,
+        "CREATED_BY": "1269",
+        "UPDATED_BY": "1269",
+        "DELETED_BY": "0",
+        "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/path/Папка в папке"
+      },
+      {
+        "ID": "8907",
+        "NAME": "Папка",
+        "CODE": null,
+        "STORAGE_ID": "1357",
+        "TYPE": "folder",
+        "REAL_OBJECT_ID": "8907",
+        "PARENT_ID": "8875",
+        "DELETED_TYPE": "0",
+        "CREATE_TIME": "2025-12-30T14:16:49+03:00",
+        "UPDATE_TIME": "2026-01-21T13:53:51+03:00",
+        "DELETE_TIME": null,
+        "CREATED_BY": "1269",
+        "UPDATED_BY": "1269",
+        "DELETED_BY": "0",
+        "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/path/Папка"
+      },
+      {
+        "ID": "9023",
+        "NAME": "Новая папка",
+        "CODE": null,
+        "STORAGE_ID": "1357",
+        "TYPE": "folder",
+        "REAL_OBJECT_ID": "9023",
+        "PARENT_ID": "8875",
+        "DELETED_TYPE": "0",
+        "CREATE_TIME": "2026-01-26T13:30:15+03:00",
+        "UPDATE_TIME": "2026-01-26T13:30:15+03:00",
+        "DELETE_TIME": null,
+        "CREATED_BY": "1269",
+        "UPDATED_BY": "1269",
+        "DELETED_BY": null,
+        "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/path/Новая папка"
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1769539624,
+      "finish": 1769539624.498846,
+      "duration": 0.49884605407714844,
+      "processing": 0,
+      "date_start": "2026-01-26T14:47:04+03:00",
+      "date_finish": "2026-01-26T14:47:04+03:00",
+      "operating_reset_at": 1769540224,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список файлов и папок с описанием полей. Пустой массив означает, что у пользователя нет прав на просмотр файлов и папок, находящихся в корне хранилища"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор файла/папки"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Имя файла/папки"
+    },
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Символьный код файла/папки"
+    },
+    {
+      "name": "STORAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор хранилища, в котором находится файл/папка"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Тип объекта"
+    },
+    {
+      "name": "REAL_OBJECT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор объекта"
+    },
+    {
+      "name": "PARENT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительской папки"
+    },
+    {
+      "name": "DELETED_TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой"
+    },
+    {
+      "name": "GLOBAL_CONTENT_VERSION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Инкрементальный счетчик версии файла"
+    },
+    {
+      "name": "FILE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Внутреннее значение идентификатора файла"
+    },
+    {
+      "name": "SIZE",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер файла в байтах"
+    },
+    {
+      "name": "CREATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания файла/папки"
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления файла/папки"
+    },
+    {
+      "name": "DELETE_TIME",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время переноса файла/папки в корзину"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего файл/папку"
+    },
+    {
+      "name": "UPDATED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, внесшего последнее изменение"
+    },
+    {
+      "name": "DELETED_BY",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, удалившего файл/папку"
+    },
+    {
+      "name": "DOWNLOAD_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для скачивания файла"
+    },
+    {
+      "name": "DETAIL_URL",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ссылка для открытия файла/папки в интерфейсе"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество файлов и папок"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/storage/disk-storage-get-children.html",
+  "executable": false
+}

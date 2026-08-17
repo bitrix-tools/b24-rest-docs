@@ -1,0 +1,121 @@
+{
+  "$v": 1,
+  "method": "event.offline.list",
+  "scope": null,
+  "kind": "read",
+  "title": "Получить список офлайн-событий event.offline.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Фильтр записей. По умолчанию отдаются все записи, без фильтрации. Поддерживается фильтрация по полям: ID, TIMESTAMP_X, EVENT_NAME, MESSAGE_ID. PROCESS_ID, ERROR со стандартными операциями типа =, >, <, <= и так далее",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Сортировка записей. Поддерживается сортировка по тем же полям, что и в фильтре, на вход принимается массив вида [поле=>ASC\\|DESC]. По умолчанию — [ID:ASC]",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    },
+    {
+      "name": "auth_connector",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Ключ источника. Очередь офлайн-событий разделена по источникам. Передайте то же значение auth_connector, что и при подписке методом event.bind, иначе метод вернет только события без источника. Параметр доступен на тарифе Профессиональный и выше"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/events/event-offline-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "2",
+        "TIMESTAMP_X": "2024-07-18T12:32:31+02:00",
+        "EVENT_NAME": "ONCRMCOMPANYADD",
+        "EVENT_DATA": false,
+        "EVENT_ADDITIONAL": false,
+        "MESSAGE_ID": "2",
+        "PROCESS_ID": "",
+        "ERROR": "0"
+      },
+      {
+        "ID": "1",
+        "TIMESTAMP_X": "2024-07-18T12:32:31+02:00",
+        "EVENT_NAME": "ONCRMLEADADD",
+        "EVENT_DATA": false,
+        "EVENT_ADDITIONAL": false,
+        "MESSAGE_ID": "1",
+        "PROCESS_ID": "",
+        "ERROR": "0"
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1721299537.90267,
+      "finish": 1721299538.02201,
+      "duration": 0.11934018135070801,
+      "processing": 0.0029511451721191406,
+      "date_start": "2024-07-18T12:45:37+02:00",
+      "date_finish": "2024-07-18T12:45:38+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/events/event-offline-list.html",
+  "executable": false,
+  "entityFields": [
+    "ERROR",
+    "EVENT_ADDITIONAL",
+    "EVENT_DATA",
+    "EVENT_NAME",
+    "ID",
+    "MESSAGE_ID",
+    "PROCESS_ID",
+    "TIMESTAMP_X"
+  ]
+}

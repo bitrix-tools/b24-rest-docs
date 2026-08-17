@@ -8,3 +8,4 @@ CLAUDE.md
 .claude
 agents.md
 .scripts
+node_modules

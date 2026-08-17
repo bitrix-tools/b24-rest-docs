@@ -1,0 +1,158 @@
+{
+  "$v": 1,
+  "method": "biconnector.dataset.fields",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить поля датасета biconnector.dataset.fields",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей датасета. Структура элемента массива описана в статье Коннектор: обзор методов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/dataset/biconnector-dataset-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": [
+        {
+          "title": "id",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "sourceId",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": true,
+          "isMultiple": false
+        },
+        {
+          "title": "name",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": true,
+          "isMultiple": false
+        },
+        {
+          "title": "type",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "description",
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "externalName",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": true,
+          "isMultiple": false
+        },
+        {
+          "title": "externalCode",
+          "type": "string",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": true,
+          "isMultiple": false
+        },
+        {
+          "title": "externalId",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "dateCreate",
+          "type": "datetime",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "dateUpdate",
+          "type": "datetime",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "createdById",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "updatedById",
+          "type": "integer",
+          "isRequired": true,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "fields",
+          "type": "array",
+          "isRequired": true,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": true
+        }
+      ]
+    },
+    "time": {
+      "start": 1740757652.264398,
+      "finish": 1740757652.343882,
+      "duration": 0.0794839859008789,
+      "processing": 0.00002002716064453125,
+      "date_start": "2025-02-28T15:47:32+00:00",
+      "date_finish": "2025-02-28T15:47:32+00:00"
+    }
+  },
+  "page": "/api-reference/biconnector/dataset/biconnector-dataset-fields.html",
+  "executable": false
+}

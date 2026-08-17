@@ -1,0 +1,36 @@
+{
+  "$v": 1,
+  "method": "crm.measure.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить значения полей единицы измерения crm.measure.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "unknown",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор единицы измерения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/measure/crm-measure-get.md"
+  },
+  "deprecated": {
+    "successor": "catalog.measure.get"
+  },
+  "page": "/api-reference/crm/outdated/measure/crm-measure-get.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "IS_DEFAULT",
+    "MEASURE_TITLE",
+    "SYMBOL_INTL",
+    "SYMBOL_LETTER_INTL",
+    "SYMBOL_RUS"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "$v": 1,
+  "method": "sale.tradePlatform.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список источников заказов sale.tradePlatform.list",
+  "permissions": "любой пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта saleordertradeplatform)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Список полей для фильтрации. При указании нескольких полей используется логика AND. Поля соответствуют соответствуют полям объекта saleordertradeplatform. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - = — равно (работает и с массивами) - % — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Параметры сортировки. Формат: {поле: направление (ASC, DESC)}. Поля соответствуют соответствуют полям объекта saleordertradeplatform.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "int",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/trade-platform/sale-trade-platform-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "tradePlatforms": [
+        {
+          "code": "smart_invoice",
+          "id": 2
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1712135957.057659,
+      "finish": 1712135957.407821,
+      "duration": 0.3501620292663574,
+      "processing": 0.011919021606445312,
+      "date_start": "2024-04-03T11:19:17+02:00",
+      "date_finish": "2024-04-03T11:19:17+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "tradePlatforms",
+      "type": "sale_order_trade_platform[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией об источниках заказов"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/trade-platform/sale-trade-platform-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "id"
+  ]
+}

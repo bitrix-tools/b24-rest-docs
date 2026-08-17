@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "catalog.product.download",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Скачать файлы товара catalog.product.download",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для скачивания файлов товара",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "fileId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор зарегистрированного файла. Для получения идентификаторов файлов товара необходимо использовать catalog.product.get, либо catalog.product.list"
+        },
+        {
+          "name": "productId",
+          "type": "catalog_product.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор товара. Для получения идентификаторов товаров необходимо использовать catalog.product.list"
+        },
+        {
+          "name": "fieldName",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Имя поля (свойства или поля элемента информационного блока) в котором хранится файл. - DETAIL_PICTURE — детальная картинка, поле доступно в старой карточке товара - PREVIEW_PICTURE — картинка для анонса, поле доступно в старой карточке товара - PROPERTY_N — свойство, где N — идентификатор свойства, либо код свойства Для получения существующих идентификаторов, либо кодов свойств товаров, необходимо…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/catalog-product-download.md"
+  },
+  "resultExample": {
+    "error": 0,
+    "error_description": "Required fields: fileId"
+  },
+  "returns": [],
+  "page": "/api-reference/catalog/product/catalog-product-download.html",
+  "executable": false
+}

@@ -1,0 +1,69 @@
+{
+  "$v": 1,
+  "method": "entity.rights",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Получить или изменить права доступа entity.rights",
+  "permissions": "> - получить текущие права может любой пользователь",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "ACCESS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Новый набор прав в формате {\"код_доступа\":\"уровень_права\"}. Примеры кодов доступа: - U<id> — пользователь, например U1 - G<id> — группа пользователей, например G2 - AU — все авторизованные пользователи Метод принимает стандартные коды доступа Битрикс24. Проверить название кода можно методом access.name.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/entities/entity-rights.md"
+  },
+  "resultExample": {
+    "result": {
+      "U1": "W",
+      "AU": "R",
+      "U577": "X"
+    },
+    "time": {
+      "start": 1774267885,
+      "finish": 1774267885.803565,
+      "duration": 0.8035650253295898,
+      "processing": 0,
+      "date_start": "2026-03-23T15:11:25+03:00",
+      "date_finish": "2026-03-23T15:11:25+03:00",
+      "operating_reset_at": 1774268485,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "result",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит актуальный набор прав доступа к хранилищу"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/entities/entity-rights.html",
+  "executable": false
+}

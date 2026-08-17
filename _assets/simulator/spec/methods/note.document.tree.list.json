@@ -1,0 +1,146 @@
+{
+  "$v": 1,
+  "method": "note.document.tree.list",
+  "scope": "note",
+  "kind": "read",
+  "title": "Получить дерево документов note.document.tree.list",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Просмотр» для базы знаний документа",
+  "params": [
+    {
+      "name": "collectionId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор базы знаний. Идентификатор можно получить методом note.collection.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/document/note-document-tree-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 10,
+          "collectionId": 123,
+          "parentId": null,
+          "title": "Введение",
+          "position": 1,
+          "children": [
+            {
+              "id": 11,
+              "collectionId": 123,
+              "parentId": 10,
+              "title": "Глава 1",
+              "position": 1,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "truncated": false
+    },
+    "time": {
+      "start": 1780639500,
+      "finish": 1780639500.268512,
+      "duration": 0.2685120105743408,
+      "processing": 0.22631406784057617,
+      "date_start": "2026-06-19T10:05:00+03:00",
+      "date_finish": "2026-06-19T10:05:00+03:00",
+      "operating_reset_at": 1780640100,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с деревом документов"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Корневые узлы дерева документов"
+    },
+    {
+      "name": "items[]",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект документа дерева"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор документа"
+    },
+    {
+      "name": "collectionId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор базы знаний"
+    },
+    {
+      "name": "parentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительского документа или null для корневой страницы"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Заголовок документа"
+    },
+    {
+      "name": "position",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Позиция документа среди соседних страниц"
+    },
+    {
+      "name": "children",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Дочерние страницы документа"
+    },
+    {
+      "name": "truncated",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Значение true, если дерево превышало внутренний лимит TREE_MAX_NODES = 5000 и было обрезано по корневым узлам. Исключение — первый корневой документ. Если он один превышает внутренний лимит TREE_MAX_NODES, метод вернет его начальную часть в порядке обхода в ширину, чтобы ответ не оказался пустым"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/document/note-document-tree-list.html",
+  "executable": false,
+  "entityFields": [
+    "children",
+    "collectionId",
+    "id",
+    "parentId",
+    "position",
+    "title"
+  ]
+}

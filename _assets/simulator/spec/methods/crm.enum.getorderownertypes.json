@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "crm.enum.getorderownertypes",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить типы объектов для привязки заказа crm.enum.getorderownertypes",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами объектов (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/crm-enum-get-order-owner-types.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "attribute": "DYN",
+        "code": "DEAL",
+        "id": 2,
+        "name": "Сделка"
+      }
+    ],
+    "time": {
+      "start": 1750152924.723585,
+      "finish": 1750152924.781251,
+      "duration": 0.05766606330871582,
+      "processing": 0.020370960235595703,
+      "date_start": "2025-06-17T12:35:24+03:00",
+      "date_finish": "2025-06-17T12:35:24+03:00",
+      "operating_reset_at": 1750153524,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами объектов (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/crm-enum-get-order-owner-types.html",
+  "executable": false
+}

@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "telephony.externalLine.update",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Изменить внешнюю линию telephony.externalLine.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Номер внешней линии. Номер можно получить методом telephony.externalLine.get"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое название внешней линии"
+    },
+    {
+      "name": "CRM_AUTO_CREATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Автосоздание объекта CRM при исходящих звонках. Возможные значения: Y — включено N — выключено"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-external-line-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "7"
+    },
+    "time": {
+      "start": 1772806119,
+      "finish": 1772806120.006578,
+      "duration": 1.006577968597412,
+      "processing": 1,
+      "date_start": "2026-03-06T17:08:39+03:00",
+      "date_finish": "2026-03-06T17:08:40+03:00",
+      "operating_reset_at": 1772806719,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор обновленной внешней линии"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-external-line-update.html",
+  "executable": false
+}

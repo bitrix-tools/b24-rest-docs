@@ -1,0 +1,253 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.bankdetail.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить банковский реквизит crm.requisite.bankdetail.update",
+  "permissions": "пользователь с правом на изменение контакта или компании — владельца реквизита",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор банковского реквизита. Идентификаторы банковских реквизитов можно получить с помощью метода crm.requisite.bankdetail.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор полей банковского реквизита — объект вида {\"поле\": \"значение\"[, ...]}, значения которых нужно изменить",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название банковского реквизита"
+        },
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код реквизита"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний ключ. Используется для операций обмена. Идентификатор объекта внешней информационной базы. Назначение поля может меняться конечным разработчиком. Каждое приложение обеспечивает уникальность значений в этом поле. Рекомендуется использовать уникальный префикс для избежания коллизий с другими приложениями"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Признак активности. Используются значения Y или N. Сейчас поле фактически ни на что не влияет"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "RQ_BANK_NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Наименование банка"
+        },
+        {
+          "name": "RQ_BANK_ADDR",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Адрес банка"
+        },
+        {
+          "name": "RQ_BANK_CODE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Código do banco (для страны BR)"
+        },
+        {
+          "name": "RQ_BANK_ROUTE_NUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Bank Routing Number"
+        },
+        {
+          "name": "RQ_BIK",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "БИК"
+        },
+        {
+          "name": "RQ_CODEB",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Code Banque (для страны FR)"
+        },
+        {
+          "name": "RQ_CODEG",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Code Guichet (для страны FR)"
+        },
+        {
+          "name": "RQ_RIB",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Clé RIB (для страны FR)"
+        },
+        {
+          "name": "RQ_MFO",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "МФО"
+        },
+        {
+          "name": "RQ_ACC_NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Bank Account Holder Name"
+        },
+        {
+          "name": "RQ_ACC_NUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Bank Account Number"
+        },
+        {
+          "name": "RQ_ACC_TYPE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Tipo da conta (для страны BR)"
+        },
+        {
+          "name": "RQ_AGENCY_NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Agência (для страны BR)"
+        },
+        {
+          "name": "RQ_IIK",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "ИИК"
+        },
+        {
+          "name": "RQ_ACC_CURRENCY",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Валюта счета"
+        },
+        {
+          "name": "RQ_COR_ACC_NUM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Корреспондентский счет"
+        },
+        {
+          "name": "RQ_IBAN",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "IBAN"
+        },
+        {
+          "name": "RQ_SWIFT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "SWIFT"
+        },
+        {
+          "name": "RQ_BIC",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "BIC"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий"
+        },
+        {
+          "name": "ORIGINATOR_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор внешней информационной базы. Назначение поля может меняться конечным разработчиком"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1717509116.239588,
+      "finish": 1717509116.78087,
+      "duration": 0.5412819385528564,
+      "processing": 0.173170804977417,
+      "date_start": "2024-06-04T15:51:56+02:00",
+      "date_finish": "2024-06-04T15:51:56+02:00",
+      "operating": 0.17314410209655762
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат изменения банковского реквизита: - true — изменен - false — не изменен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-update.html",
+  "executable": false
+}

@@ -1,0 +1,101 @@
+{
+  "$v": 1,
+  "method": "sale.businessValuePersonDomain.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить поля соответствия физическому или юридическому лицу sale.businessValuePersonDomain.getFields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "businessValuePersonDomain",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта sale_business_value_person_domain , а value — объект типа rest_field_description",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/business-value-person-domain/sale-business-value-person-domain-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "businessValuePersonDomain": {
+        "domain": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "char"
+        },
+        "personTypeId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        }
+      }
+    },
+    "time": {
+      "start": 1712659666.45481,
+      "finish": 1712659667.10563,
+      "duration": 0.650818109512329,
+      "processing": 0.0113089084625244,
+      "date_start": "2024-04-09T12:47:46+02:00",
+      "date_finish": "2024-04-09T12:47:47+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "businessValuePersonDomain",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта sale_business_value_person_domain , а value — объект типа rest_field_description"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/business-value-person-domain/sale-business-value-person-domain-get-fields.html",
+  "executable": false
+}

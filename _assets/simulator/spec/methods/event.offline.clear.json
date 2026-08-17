@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "event.offline.clear",
+  "scope": null,
+  "kind": "write",
+  "title": "Очистить записи в очереди офлайн-событий event.offline.clear",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "process_id",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор зарезервированного пакета событий. Его возвращает метод event.offline.get при вызове с параметром clear=0. Метод event.offline.list process_id не возвращает"
+    },
+    {
+      "name": "id",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов записей, которые нужно вычистить. По умолчанию будут вычищены все записи, помеченные переданным process_id",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "message_id",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив значений поля MESSAGE_ID записей, которые нужно вычистить. Игнорируется, если указан параметр id. По умолчанию будут вычищены все записи, помеченные переданным process_id",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/events/event-offline-clear.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1721300421.210707,
+      "finish": 1721300421.331026,
+      "duration": 0.12031912803649902,
+      "processing": 0.0022459030151367188,
+      "date_start": "2024-07-18T13:00:21+02:00",
+      "date_finish": "2024-07-18T13:00:21+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Успешность выполнения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/events/event-offline-clear.html",
+  "executable": false
+}

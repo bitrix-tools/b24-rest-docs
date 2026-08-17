@@ -1,0 +1,38 @@
+{
+  "$v": 1,
+  "method": "catalog.documentcontractor.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить привязку поставщика к документу catalog.documentcontractor.delete",
+  "permissions": "пользователь с правами:",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_documentcontractor.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки поставщика к документу. Получить можно методом catalog.documentcontractor.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1761908531,
+      "finish": 1761908531.935914,
+      "duration": 0.9359140396118164,
+      "processing": 0,
+      "date_start": "2025-10-31T14:02:11+03:00",
+      "date_finish": "2025-10-31T14:02:11+03:00",
+      "operating_reset_at": 1761909131,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.html",
+  "executable": false
+}

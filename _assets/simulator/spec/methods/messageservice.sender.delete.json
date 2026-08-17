@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "messageservice.sender.delete",
+  "scope": "messageservice",
+  "kind": "write",
+  "title": "Удалить СМС-провайдер или провайдер сообщений messageservice.sender.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код провайдера. Код провайдера можно получить методом messageservice.sender.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/messageservice/messageservice-sender-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1742895600,
+      "finish": 1742895600.845505,
+      "duration": 0.845505952835083,
+      "processing": 0,
+      "date_start": "2025-03-25T10:00:00+03:00",
+      "date_finish": "2025-03-25T10:00:00+03:00",
+      "operating_reset_at": 1742896200,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если провайдер удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/messageservice/messageservice-sender-delete.html",
+  "executable": false
+}

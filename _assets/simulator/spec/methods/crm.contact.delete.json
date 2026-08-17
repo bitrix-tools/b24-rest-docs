@@ -1,0 +1,55 @@
+{
+  "$v": 1,
+  "method": "crm.contact.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить контакт crm.contact.delete",
+  "permissions": "любой пользователь с правом «удаления» контакта",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор контакта. Идентификатор можно получить с помощью методов crm.contact.list или crm.contact.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/crm-contact-delete.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1723727109.430573,
+      "finish": 1723727210.611973,
+      "duration": 101.18140006065369,
+      "processing": 100.78639197349548,
+      "date_start": "2024-08-15T15:05:09+02:00",
+      "date_finish": "2024-08-15T15:06:50+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/crm-contact-delete.html",
+  "executable": false
+}

@@ -1,0 +1,75 @@
+{
+  "$v": 1,
+  "method": "imopenlines.operator.transfer",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Передать диалог другому оператору или в другую линию imopenlines.operator.transfer",
+  "permissions": "любой пользователь с правами на диалог",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.dialog.get"
+    },
+    {
+      "name": "TRANSFER_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Универсальный параметр для передачи диалога. Допустимые форматы: USER_ID сотрудника или строка queue<QUEUE_ID>. Идентификатор пользователя можно получить методами user.get и user.search, идентификатор очереди — методом imopenlines.config.list.get"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор оператора, которому нужно передать диалог. Идентификатор пользователя можно получить методами user.get и user.search"
+    },
+    {
+      "name": "QUEUE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор линии, в очередь которой нужно передать диалог. QUEUE_ID можно получить методом imopenlines.config.list.get из поля ID"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/operators/imopenlines-operator-transfer.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773663032,
+      "finish": 1773663032.493037,
+      "duration": 0.49303698539733887,
+      "processing": 0,
+      "date_start": "2026-03-16T15:10:32+03:00",
+      "date_finish": "2026-03-16T15:10:32+03:00",
+      "operating_reset_at": 1773663632,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если диалог успешно передан"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/operators/imopenlines-operator-transfer.html",
+  "executable": false
+}

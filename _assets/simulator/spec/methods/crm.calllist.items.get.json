@@ -1,0 +1,86 @@
+{
+  "$v": 1,
+  "method": "crm.calllist.items.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список участников обзвона crm.calllist.items.get",
+  "permissions": "пользователь с правами на чтение элементов CRM",
+  "params": [
+    {
+      "name": "LIST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор обзвона, можно получить методами crm.calllist.add и crm.calllist.list"
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Фильтр по статусу обзвона элемента: { STATUS: \"код_статуса\" }. Получить значения кодов статусов можно методом crm.calllist.statuslist",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/call-list/crm-calllist-items-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 9,
+        "STATUS": "IN_WORK",
+        "ENTITY_TYPE": 3
+      },
+      {
+        "ID": 17,
+        "STATUS": "IN_WORK",
+        "ENTITY_TYPE": 3
+      },
+      {
+        "ID": 19,
+        "STATUS": "IN_WORK",
+        "ENTITY_TYPE": 3
+      }
+    ],
+    "time": {
+      "start": 1752475017.529502,
+      "finish": 1752475017.588903,
+      "duration": 0.05940103530883789,
+      "processing": 0.010075092315673828,
+      "date_start": "2025-07-14T09:36:57+03:00",
+      "date_finish": "2025-07-14T09:36:57+03:00",
+      "operating_reset_at": 1752475617,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив элементов со статусами обзвона и типом объекта"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/call-list/crm-calllist-items-get.html",
+  "executable": false,
+  "entityFields": [
+    "ENTITY_TYPE",
+    "ID",
+    "STATUS"
+  ]
+}

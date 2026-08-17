@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "crm.vat.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список ставок НДС по фильтру crm.vat.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n — название поля, по которому будет произведена сортировка выборки ставок - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных полей для сортировки можно узнать с помощью метода crm.vat.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: - field_n — название поля, по которому будет отфильтрована выборка элементов - value_n — значение фильтра Список доступных полей для фильтрации можно узнать с помощью метода crm.vat.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив возвращаемых полей. Если не указан, возвращаются все поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/vat/crm-vat-list.md"
+  },
+  "deprecated": {
+    "successor": "catalog.vat.list"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "1",
+        "NAME": "Без НДС",
+        "RATE": null
+      },
+      {
+        "ID": "3",
+        "NAME": "НДС 20%",
+        "RATE": "20.00"
+      },
+      {
+        "ID": "7",
+        "NAME": "12",
+        "RATE": "12.00"
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1752044697.589623,
+      "finish": 1752044697.66439,
+      "duration": 0.0747671127319336,
+      "processing": 0.00588679313659668,
+      "date_start": "2025-07-09T10:04:57+03:00",
+      "date_finish": "2025-07-09T10:04:57+03:00",
+      "operating_reset_at": 1752045297,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив из объектов, содержащих информацию о полях ставок НДС. Структура полей может быть изменена из-за параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных элементов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/outdated/vat/crm-vat-list.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "C_SORT",
+    "ID",
+    "NAME",
+    "RATE"
+  ]
+}

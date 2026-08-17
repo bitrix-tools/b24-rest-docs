@@ -1,0 +1,195 @@
+{
+  "$v": 1,
+  "method": "sale.shipment.add",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить отгрузку sale.shipment.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания отгрузки",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "sale_order.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор заказа"
+        },
+        {
+          "name": "allowDelivery",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Признак разрешения доставки Возможные значения: - Y – да (доставка разрешена) - N – нет (доставка не разрешена)"
+        },
+        {
+          "name": "deducted",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Признак того, является ли отгрузка отгруженной Возможные значения: - Y – да (отгружена) - N – нет (не отгружена)"
+        },
+        {
+          "name": "deliveryId",
+          "type": "sale_delivery_service.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор службы доставки"
+        },
+        {
+          "name": "statusId",
+          "type": "sale_status",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор статуса доставки Если не передан, то используется статус DN (см. таблицу статусов по умолчанию из документации по sale.status.*)"
+        },
+        {
+          "name": "deliveryDocDate",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата документа отгрузки"
+        },
+        {
+          "name": "deliveryDocNum",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Номер документа отгрузки"
+        },
+        {
+          "name": "trackingNumber",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор отправления"
+        },
+        {
+          "name": "basePriceDelivery",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Базовая стоимость доставки (без скидок / наценок). Если передана, то значение будет использовано и в качестве стоимости доставки (поле отгрузки priceDelivery). Если не передана, то и базовая стоимость доставки, и стоимость доставки будут рассчитаны автоматически на основе выбранной службы доставки"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий менеджера"
+        },
+        {
+          "name": "companyId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании из модуля «Интернет-магазин». В настоящий момент не используется"
+        },
+        {
+          "name": "responsibleId",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, ответственного за отгрузку"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор отгрузки. Можно использовать для синхронизации отгрузки с внешней системой"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment/sale-shipment-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "shipment": {
+        "accountNumber": "2068/19",
+        "allowDelivery": "Y",
+        "basePriceDelivery": 999.99,
+        "canceled": "N",
+        "comments": "My comment for manager",
+        "currency": "RUB",
+        "customPriceDelivery": "N",
+        "dateAllowDelivery": "2024-04-11T14:17:52+03:00",
+        "dateDeducted": "2024-04-11T14:17:52+03:00",
+        "dateInsert": "2024-04-11T14:17:52+03:00",
+        "dateResponsibleId": "2024-04-11T14:17:52+03:00",
+        "deducted": "Y",
+        "deliveryDocDate": "2024-02-13T13:05:48+03:00",
+        "deliveryDocNum": "DocumentNumber123456",
+        "deliveryId": 2,
+        "deliveryName": "Доставка курьером",
+        "deliveryXmlId": "",
+        "empAllowDeliveryId": 1,
+        "empDeductedId": 1,
+        "empResponsibleId": 1,
+        "id": 2452,
+        "marked": "N",
+        "orderId": 2068,
+        "priceDelivery": 999.99,
+        "responsibleId": 25,
+        "shipmentItems": [],
+        "statusId": "DN",
+        "statusXmlId": "FFdddd",
+        "system": "N",
+        "trackingNumber": "trackingNumber",
+        "xmlId": "myXmlId"
+      }
+    },
+    "time": {
+      "start": 1712837872.459187,
+      "finish": 1712837873.462857,
+      "duration": 1.0036699771881104,
+      "processing": 0.8182649612426758,
+      "date_start": "2024-04-11T15:17:52+03:00",
+      "date_finish": "2024-04-11T15:17:53+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "shipment",
+      "type": "sale_order_shipment",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленной отгрузке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment/sale-shipment-add.html",
+  "executable": false
+}

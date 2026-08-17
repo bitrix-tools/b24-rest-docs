@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "crm.enum.settings.mode",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить описание режимов работы CRM crm.enum.settings.mode",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с режимами работы CRM (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/crm-enum-settings-mode.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 1,
+        "NAME": "Классическая CRM",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 2,
+        "NAME": "Простая CRM",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750153429.516902,
+      "finish": 1750153429.650327,
+      "duration": 0.13342499732971191,
+      "processing": 0.0002980232238769531,
+      "date_start": "2025-06-17T12:43:49+03:00",
+      "date_finish": "2025-06-17T12:43:49+03:00",
+      "operating_reset_at": 1750154029,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с режимами работы CRM (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/crm-enum-settings-mode.html",
+  "executable": false
+}

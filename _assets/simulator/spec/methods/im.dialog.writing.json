@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "im.dialog.writing",
+  "scope": "im",
+  "kind": "write",
+  "title": "Отправить признак «Пользователь пишет» im.dialog.writing",
+  "permissions": "участник чата",
+  "params": [
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор чата в формате: - chatXXX — чат - sgXXX — чат группы или проекта - XXX — идентификатор пользователя личного чата Идентификатор чата можно получить с помощью метода im.chat.get. Идентификатор пользователя — с помощью методов user.get и user.search"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/messages/im-dialog-writing.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772548455,
+      "finish": 1772548455.702725,
+      "duration": 0.7027249336242676,
+      "processing": 0,
+      "date_start": "2026-03-03T14:34:15+03:00",
+      "date_finish": "2026-03-03T14:34:15+03:00",
+      "operating_reset_at": 1772549055,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если команда отправки индикатора принята"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/messages/im-dialog-writing.html",
+  "executable": false
+}
