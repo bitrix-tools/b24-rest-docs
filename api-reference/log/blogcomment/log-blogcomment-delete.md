@@ -1,4 +1,4 @@
-# Удалить комментарий из сообщению log.blogcomment.delete
+# Удалить комментарий к сообщению log.blogcomment.delete
 
 {% note tip "" %}
 
