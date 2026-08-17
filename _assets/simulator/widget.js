@@ -263,13 +263,15 @@
         function addRow(fieldName) {
             var row = el('div', 'b24sim__field-row');
 
+            // В подписи только имя поля: вместе с типом она не влезает в select
+            // и обрезается. Тип уходит в подсказку внутри поля значения.
             var nameSelect = gSelect();
             def.fields.forEach(function (field) {
-                var option = el('option', null, field.name + '  ·  ' + typeLabel(field));
+                var option = el('option', null, field.name);
                 option.value = field.name;
                 nameSelect.control.appendChild(option);
             });
-            var custom = el('option', null, '— другое поле (UF_…) —');
+            var custom = el('option', null, 'другое поле (UF_…)');
             custom.value = '__custom__';
             nameSelect.control.appendChild(custom);
 
@@ -289,6 +291,10 @@
                 valueHolder.innerHTML = '';
                 var field = findField(def, nameSelect.control.value) || { base: 'string', type: 'string' };
                 var control = createValueControl(field, undefined);
+                if (control.control && control.control.tagName === 'INPUT' && !control.control.placeholder) {
+                    control.control.placeholder = typeLabel(field);
+                }
+                nameSelect.control.title = field.name ? field.name + ' · ' + typeLabel(field) : '';
                 valueHolder.appendChild(control);
                 row.read = function () {
                     var name = nameSelect.control.value === '__custom__' ? customName.control.value.trim() : nameSelect.control.value;
@@ -301,7 +307,9 @@
             }
 
             nameSelect.control.addEventListener('change', function () {
-                customName.style.display = nameSelect.control.value === '__custom__' ? '' : 'none';
+                var isCustom = nameSelect.control.value === '__custom__';
+                customName.style.display = isCustom ? '' : 'none';
+                row.classList.toggle('b24sim__field-row_custom', isCustom);
                 renderValue();
             });
 
@@ -517,47 +525,38 @@
         var form = el('form', 'b24sim__form');
         var controls = {};
 
-        var table = el('table');
-        var tbody = el('tbody');
-
+        // Подпись сверху, поле под ней на всю ширину. Двухколоночная таблица здесь
+        // не годится: колонка статьи узкая, и вложенный редактор полей в половине
+        // её ширины сжимается до нечитаемого.
         spec.params.forEach(function (param) {
-            var row = el('tr');
+            var block = el('div', 'b24sim__param');
 
-            var nameCell = el('td', 'b24sim__param-cell');
-            var namePara = el('p');
-            namePara.appendChild(el('strong', null, param.name));
-            namePara.appendChild(el('br'));
-            namePara.appendChild(el('code', null, typeLabel(param)));
-            nameCell.appendChild(namePara);
-
-            // Описание параметра целиком есть на странице выше — в форме оно только
-            // в подсказке, иначе виджет вырастает на несколько экранов.
-            if (param.description) {
-                nameCell.title = param.description;
-            }
+            var label = el('div', 'b24sim__label');
+            label.appendChild(el('strong', null, param.name));
+            label.appendChild(el('code', 'b24sim__type', typeLabel(param)));
 
             if (param.required === true) {
-                nameCell.appendChild(gLabel('обязательный', 'danger'));
+                label.appendChild(gLabel('обязательный', 'danger'));
             } else if (param.required === 'unknown') {
                 // Не ошибка и не угроза — просто документация не размечает обязательность.
                 var unknown = gLabel('обязательность неизвестна', 'unknown');
                 unknown.title = 'На странице метода не проставлена звёздочка обязательности, поэтому симулятор не может её проверить';
-                nameCell.appendChild(unknown);
+                label.appendChild(unknown);
             }
 
+            // Описание параметра целиком есть на странице выше — здесь только подсказка.
+            if (param.description) {
+                label.title = param.description;
+            }
 
-            var controlCell = el('td');
+            block.appendChild(label);
+
             var control = createParamControl(spec, param);
             controls[param.name] = control;
-            controlCell.appendChild(control);
+            block.appendChild(control);
 
-            row.appendChild(nameCell);
-            row.appendChild(controlCell);
-            tbody.appendChild(row);
+            form.appendChild(block);
         });
-
-        table.appendChild(tbody);
-        form.appendChild(table);
 
         var actions = el('div', 'b24sim__actions');
         var run = gButton('Выполнить', 'action');
@@ -702,11 +701,7 @@
         var method = findMethodForPage();
 
         if (!method) {
-            var stale = document.querySelector('.b24sim');
-            if (stale && stale.parentNode) {
-                stale.parentNode.removeChild(stale);
-            }
-            state.mounted = null;
+            removeWidget();
             return;
         }
 
@@ -734,55 +729,28 @@
             });
     }
 
-    // Документация работает как SPA, поэтому за сменой страницы следим наблюдателем.
-    // Другие скрипты страницы правят DOM непрерывно (например, b24addons.js
-    // навешивает иконки копирования), поэтому здесь троттлинг с гарантированным
-    // запуском, а не debounce: сбрасываемый таймер под потоком мутаций
-    // не срабатывал бы никогда и виджет не смонтировался бы вовсе.
-    var MIN_INTERVAL = 400;
-
-    function observePageChanges() {
-        var lastRun = 0;
-        var pending = null;
-
-        function fire() {
-            pending = null;
-            lastRun = Date.now();
-            ensureForCurrentPage();
+    function removeWidget() {
+        var existing = document.querySelector('.b24sim');
+        if (existing && existing.parentNode) {
+            existing.parentNode.removeChild(existing);
         }
+        state.mounted = null;
+    }
 
-        new MutationObserver(function (records) {
-            // Собственные изменения виджета не считаем поводом для пересборки.
-            var external = records.some(function (record) {
-                var target = record.target;
-                return !(target && target.closest && target.closest('.b24sim'));
-            });
-            if (!external || pending) {
+    // Сменой страницы управляет boot.js: он один следит за адресом и вызывает эти
+    // методы. Своего наблюдателя за DOM здесь нет — на странице документации
+    // мутации идут потоком, и подписка на них обходилась дороже самой работы.
+    window.B24SimWidget = {
+        mount: function () {
+            if (!window.B24Sim) {
                 return;
             }
+            ensureForCurrentPage();
+        },
+        unmount: removeWidget,
+    };
 
-            var elapsed = Date.now() - lastRun;
-            if (elapsed >= MIN_INTERVAL) {
-                fire();
-            } else {
-                pending = setTimeout(fire, MIN_INTERVAL - elapsed);
-            }
-        }).observe(document.body, { childList: true, subtree: true });
-    }
-
-    function boot() {
-        if (!window.B24Sim) {
-            console.warn('Симулятор: ядро B24Sim не загружено');
-            return;
-        }
-
+    if (window.B24Sim) {
         ensureForCurrentPage();
-        observePageChanges();
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-    } else {
-        boot();
     }
 })();
