@@ -90,9 +90,9 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
--  [Встроить виджет в лид в виде пользовательского поля](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page)
+-  [Встроить виджет в лид в виде пользовательского поля](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md)
 
--  [Механизм встраивания виджетов](../../../widgets/index)
+-  [Механизм встраивания виджетов](../../../widgets/index.md)
 
 {% endnote %}
 

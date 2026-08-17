@@ -25,7 +25,7 @@
 
    -  примет и подготовит данные,
 
-   -  создаст лид методом [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add),
+   -  создаст лид методом [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md),
 
    -  проверит режим CRM,
 
@@ -235,7 +235,7 @@
 
 {% endlist %}
 
-Телефон и email система хранит как массив объектов [crm_multifield](../../../api-reference/crm/data-types#crm_multifield), поэтому их нужно привести к формату массива.
+Телефон и email система хранит как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield), поэтому их нужно привести к формату массива.
 
 1. Если значение есть, добавляем его первым элементом `VALUE` в массив, а вторым значением указываем тип  `VALUE_TYPE`, например:
 

@@ -27,7 +27,7 @@
 
 ## Обзор методов {#all-methods}
 
-> Scope: [`booking`](../../../scopes/permissions)
+> Scope: [`booking`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: любой пользователь
 

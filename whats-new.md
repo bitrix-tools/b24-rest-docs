@@ -83,7 +83,7 @@
 
 ### 29 июня, 2026
 
-- Обновили туториал [Как получить воронки сделок со стадиями и семантикой](./tutorials/crm/how-to-get-lists\how-to-get-deal-funnels.md)
+- Обновили туториал [Как получить воронки сделок со стадиями и семантикой](./tutorials/crm/how-to-get-lists/how-to-get-deal-funnels.md)
 
 ### 25 июня, 2026
 
