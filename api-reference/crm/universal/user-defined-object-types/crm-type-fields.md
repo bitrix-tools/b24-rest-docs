@@ -468,11 +468,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа. Содержит объект с единственным ключом `fields` ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект с единственным ключом `fields` ||
 || **fields**
-[`object`][1] | Объект в формате: `{ field_1: value_1, field_2: value_2, ... , field_n: value_n }`, где `field_n` — поля настроек смарт-процесса, а `value_n` — объект типа [`crm_rest_field_description`](../../data-types.md#crm_rest_field_description) ||
+[`object`](../../../data-types.md) | Объект в формате: `{ field_1: value_1, field_2: value_2, ... , field_n: value_n }`, где `field_n` — поля настроек смарт-процесса, а `value_n` — объект типа [`crm_rest_field_description`](../../data-types.md#crm_rest_field_description) ||
 || **time**
-[`time`][1] | Объект, содержащий в себе информацию о времени выполнения запроса  ||
+[`time`](../../../data-types.md) | Объект, содержащий в себе информацию о времени выполнения запроса  ||
 |#
 
 ## Обработка ошибок
@@ -507,5 +507,3 @@ HTTP-статус: **400**, **403**
 - [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
-
-[1]: ../../../data-types.md

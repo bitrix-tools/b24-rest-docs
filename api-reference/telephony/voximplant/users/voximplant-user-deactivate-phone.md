@@ -28,7 +28,9 @@
 
 {% endif %}
 
-{% include notitle [Скоуп telephony admin](../../_includes/scope-telephony-admin.md) %}
+> Scope: [`telephony`](../../../scopes/permissions.md)
+>
+> Кто может выполнять метод: администратор
 
 Метод `voximplant.user.deactivatePhone` отключает сотруднику признак наличия sip-aппарата. Метод проверяет наличие права на модификацию пользователя.
 

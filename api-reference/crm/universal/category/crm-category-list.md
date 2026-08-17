@@ -29,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) сущностей CRM, для которого нужно получить список воронок ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) сущностей CRM, для которого нужно получить список воронок ||
 |#
 
 ## Примеры кода
@@ -353,7 +353,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный элемент с ключом `categories`, который представляет собой массив воронок. Структура отдельно взятой воронки соответсвует объекту [`category`](./crm-category-add.md#category) ||
 || **total**
-[`integer`][1] | Общее количество воронок, принадлежащих определенному `entityTypeId` ||
+[`integer`](../../../data-types.md) | Общее количество воронок, принадлежащих определенному `entityTypeId` ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -391,5 +391,3 @@ HTTP-статус: **400**
 - [{#T}](../../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
 - [{#T}](../../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
-
-[1]: ../../../data-types.md

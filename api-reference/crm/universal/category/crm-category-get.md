@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объекта CRM у которого мы желаем получить воронку ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объекта CRM у которого мы желаем получить воронку ||
 || **id***
-[`integer`][1] | Идентификатор воронки. Можно получить методом [`crm.category.list`](./crm-category-list.md) или при создании воронки методом [`crm.category.add`](./crm-category-add.md) ||
+[`integer`](../../../data-types.md) | Идентификатор воронки. Можно получить методом [`crm.category.list`](./crm-category-list.md) или при создании воронки методом [`crm.category.add`](./crm-category-add.md) ||
 |#
 
 ## Примеры кода
@@ -311,9 +311,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа. Содержит объект [`category`](./crm-category-add.md#category) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`category`](./crm-category-add.md#category) ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -348,5 +348,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-category-list.md)
 - [{#T}](./crm-category-delete.md)
 - [{#T}](./crm-category-fields.md)
-
-[1]: ../../../data-types.md

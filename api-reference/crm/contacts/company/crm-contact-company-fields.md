@@ -278,7 +278,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Объект в формате:
+[`object`](../../../data-types.md) | Объект в формате:
 ```
 {
     field_1: value_1,
@@ -292,7 +292,7 @@ HTTP-статус: **200**
 - `field_n` — поле элемента
 - `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -308,5 +308,3 @@ HTTP-статус: **200**
 - [{#T}](./crm-contact-company-items-get.md)
 - [{#T}](./crm-contact-company-items-set.md)
 - [{#T}](./crm-contact-company-items-delete.md)
-
-[1]: ../../../data-types.md
