@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`pay_system `](../scopes/permissions.md)
+> Scope: [`pay_system`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
@@ -40,11 +40,15 @@
 [`object`](../data-types.md) | Список значений настроек обработчика в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — название настройки, а `value` — объект, содержащий ключи [TYPE](#vozmozhnye-znacheniya-klyucha-type) и [VALUE](#vozmozhnye-znacheniya-klyucha-value) (описание смотрите ниже). 
 
 Структура настроек задается при добавлении обработчика платежной системы в методе [sale.paysystem.handler.add](./sale-pay-system-handler-add.md) в ключе `CODES` параметра `SETTINGS`  ||
-|| **ENTITY_REGISTRY_TYPE***
+|| **ENTITY_REGISTRY_TYPE**
 [`string`](../data-types.md) | Привязка платежной системы:
 - `ORDER` — значение для заказов магазина, сделок, смарт-процессов
 - `CRM_INVOICE` — значение для счетов CRM
 - `CRM_QUOTE` — значение для коммерческих предложений CRM
+
+Если не передано, то по умолчанию `CRM_INVOICE`.
+
+Тип плательщика `PERSON_TYPE_ID` должен относиться к тому же типу привязки
 ||
 || **LOGOTYPE**
 [`string`](../data-types.md) | Логотип платежной системы (картинка в формате Base64) ||

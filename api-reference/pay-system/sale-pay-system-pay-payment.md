@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`pay_system `](../scopes/permissions.md)
+> Scope: [`pay_system`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на создание и редактирование заказов в CRM
 
