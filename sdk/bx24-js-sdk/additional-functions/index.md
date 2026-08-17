@@ -19,12 +19,24 @@
 2. Если нужно открыть раздел Битрикс24, чат или звонок из интерфейса приложения, используйте [BX24.openPath](./bx24-open-path.md), [Messenger.openChat](./messenger-open-chat.md), [Messenger.startVideoCall](./messenger-start-video-call.md) или [Messenger.startPhoneCall](./messenger-start-phone-call.md)
 3. Если нужно дождаться, пока DOM-структура страницы будет готова, или привязать обработчик события, используйте [BX24.ready](./bx24-ready.md), [BX24.isReady](./bx24-is-ready.md), [BX24.bind](./bx24-bind.md), [BX24.unbind](./bx24-unbind.md), [BX24.proxy](./bx24-proxy.md) и [BX24.proxyContext](./bx24-proxy-context.md)
 4. Если нужно получить данные о среде выполнения, проверьте [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md) и [BX24.getScrollSize](./bx24-get-scroll-size.md)
+5. Если нужно подключить внешний javascript-файл на странице приложения, используйте [BX24.loadScript](./bx24-load-script.md)
+
+## Что важно учитывать
+
+- Методы работают только внутри фрейма приложения и вызываются после [BX24.init](../system-functions/bx24-init.md). Исключение — [BX24.ready](./bx24-ready.md) и [BX24.loadScript](./bx24-load-script.md): они привязаны к готовности страницы, а не библиотеки
+- Большинство методов не возвращают данные. Они отправляют команду в интерфейс Битрикс24, а результат приходит в функцию обратного вызова
+- Данные о среде — [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md), [BX24.getScrollSize](./bx24-get-scroll-size.md), [BX24.isReady](./bx24-is-ready.md), [BX24.proxy](./bx24-proxy.md), [BX24.proxyContext](./bx24-proxy-context.md) — возвращаются сразу, без обратного вызова
+- Методы `Messenger.*` возвращают `Promise`. Это актуальный способ работать с мессенджером и телефонией из приложения
+- [BX24.openPath](./bx24-open-path.md) не работает в мобильном приложении. Об этом и о недоступном пути метод сообщает кодами `METHOD_NOT_SUPPORTED_ON_DEVICE` и `PATH_NOT_AVAILABLE` в обратном вызове. Других кодов ошибок методы раздела не возвращают
+- Собственный scope методам не нужен: они управляют интерфейсом, а не обращаются к REST API
 
 ## Связь с другими объектами
 
-**Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) использует встроенный слайдер Битрикс24 для открытия страниц и объектов. Методы [Messenger.openChat](./messenger-open-chat.md), [Messenger.startVideoCall](./messenger-start-video-call.md) и [Messenger.startPhoneCall](./messenger-start-phone-call.md) запускают системные элементы интерфейса мессенджера и телефонии Битрикс24.
+**Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) открывает страницы и карточки объектов во встроенном слайдере Битрикс24. Путь передается относительным, от корня Битрикс24: например, `/crm/deal/details/5/` для сделки. Методы [Messenger.openChat](./messenger-open-chat.md), [Messenger.startVideoCall](./messenger-start-video-call.md) и [Messenger.startPhoneCall](./messenger-start-phone-call.md) запускают чат, видеозвонок и звонок на номер в интерфейсе мессенджера и телефонии.
 
 **Места встраивания.** Для сценариев со встройками зарегистрируйте обработчик через [placement.bind](../../../api-reference/widgets/placement-bind.md) и выберите подходящее место встраивания из [списка мест встраивания](../../../api-reference/widgets/placements.md). Это особенно важно для методов [BX24.reloadWindow](./bx24-reload-window.md) и [BX24.scrollParentWindow](./bx24-scroll-parent-window.md), которые зависят от контекста размещения приложения.
+
+**Инициализация и настройки приложения.** Данные о среде появляются после инициализации библиотеки — ее описывает раздел [Инициализация и авторизация](../system-functions/index.md). Вызывать методы Битрикс24 из клиентской части помогает раздел [Вызов методов REST](../how-to-call-rest-methods/index.md), а хранить выбор пользователя между запусками — раздел [Настройки приложения](../options/index.md).
 
 ## Обзор методов {#all-methods}
 
@@ -34,11 +46,11 @@
 || **Метод** | **Описание** ||
 || [BX24.resizeWindow](./bx24-resize-window.md) | Изменяет размер фрейма с приложением ||
 || [BX24.fitWindow](./bx24-fit-window.md) | Устанавливает размер фрейма с приложением в соответствии с размерами содержимого фрейма ||
-|| [BX24.reloadWindow](./bx24-reload-window.md) | Перезагружает страницу с приложением (всю страницу, не только фрейм) ||
+|| [BX24.reloadWindow](./bx24-reload-window.md) | Перезагружает всю страницу с приложением, а не только фрейм ||
 || [BX24.setTitle](./bx24-set-title.md) | Устанавливает заголовок страницы ||
-|| [BX24.openApplication](./bx24-open-application.md) | Открывает приложение ||
-|| [BX24.closeApplication](./bx24-close-application.md) | Закрывает открытое модальное окно с приложением ||
-|| [BX24.scrollParentWindow](./bx24-scroll-parent-window.md) | Прокручивает родительское окно ||
+|| [BX24.openApplication](./bx24-open-application.md) | Открывает всплывающее окно с фреймом приложения ||
+|| [BX24.closeApplication](./bx24-close-application.md) | Закрывает всплывающее окно с приложением ||
+|| [BX24.scrollParentWindow](./bx24-scroll-parent-window.md) | Прокручивает родительское окно до указанной вертикальной позиции ||
 |#
 
 ### События страницы и контекст вызова
@@ -47,20 +59,20 @@
 || **Метод** | **Описание** ||
 || [BX24.ready](./bx24-ready.md) | Устанавливает обработчик события «DOM-структура документа готова к работе» ||
 || [BX24.isReady](./bx24-is-ready.md) | Показывает, готова ли DOM-структура документа к работе ||
-|| [BX24.proxy](./bx24-proxy.md) | Возвращает прокси-функцию и повторно использует ее при вызове с теми же параметрами ||
-|| [BX24.proxyContext](./bx24-proxy-context.md) | При вызове изнутри прокси-функции выдаст ссылку на оригинальный контекст выполнения прокси-функции ||
-|| [BX24.bind](./bx24-bind.md) | Устанавливает функцию *func* в качестве обработчика события *eventName* объекта *element* ||
-|| [BX24.unbind](./bx24-unbind.md) | Убирает функцию *func* в качестве обработчика события *eventName* объекта *element* ||
+|| [BX24.proxy](./bx24-proxy.md) | Создает прокси-функцию для вызова функции в нужном контексте ||
+|| [BX24.proxyContext](./bx24-proxy-context.md) | Возвращает исходный контекст вызова внутри прокси-функции ||
+|| [BX24.bind](./bx24-bind.md) | Устанавливает обработчик события для элемента страницы ||
+|| [BX24.unbind](./bx24-unbind.md) | Удаляет обработчик события у элемента страницы ||
 |#
 
 ### Данные о среде и загрузка ресурсов
 
 #|
 || **Метод** | **Описание** ||
-|| [BX24.isAdmin](./bx24-is-admin.md) | Определяет, имеет ли текущий пользователь права на управление приложениями ||
+|| [BX24.isAdmin](./bx24-is-admin.md) | Определяет, есть ли у текущего пользователя права администратора Битрикс24 ||
 || [BX24.getLang](./bx24-get-lang.md) | Возвращает идентификатор языка в текущем Битрикс24 ||
-|| [BX24.getDomain](./bx24-get-domain.md) | Возвращает значение `PARAMS.DOMAIN`, сохраненное при инициализации библиотеки SDK ||
-|| [BX24.getScrollSize](./bx24-get-scroll-size.md) | Возвращает внутренние размеры фрейма приложения ||
+|| [BX24.getDomain](./bx24-get-domain.md) | Возвращает адрес Битрикс24, в котором открыто приложение ||
+|| [BX24.getScrollSize](./bx24-get-scroll-size.md) | Возвращает размеры содержимого фрейма приложения ||
 || [BX24.loadScript](./bx24-load-script.md) | Загружает и выполняет клиентский javascript-файл ||
 |#
 

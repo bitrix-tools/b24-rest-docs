@@ -30,8 +30,12 @@ Promise Messenger.startVideoCall([String dialogId[, Boolean withVideo]])
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
+Объект `Messenger` доступен после загрузки расширения `im.public.iframe`:
+
 ```js
-BX.Messenger.Public.startVideoCall('chat123', true);
+BX.Runtime.loadExtension('im.public.iframe').then(function (exports) {
+    exports.Messenger.startVideoCall('chat123', true);
+});
 ```
 
 ## Обработка ответа
@@ -50,4 +54,4 @@ BX.Messenger.Public.startVideoCall('chat123', true);
 ## Продолжите изучение
 
 - [{#T}](./messenger-start-phone-call.md)
-- [{#T}](./outdated/bx24-im-call-to.md)
+- [{#T}](./messenger-open-chat.md)
