@@ -31,7 +31,10 @@
 
 Возможные значения:
 
-{% include notitle [адресаты сообщения](./_includes/log-recepients.md) %}
+- `SG<X>` — рабочие группы и проекты с идентификатором `X`. Идентификатор можно получить методом [sonet_group.get](../sonet-group/sonet-group-get.md)
+- `U<X>` — пользователи с идентификатором `X`. Идентификатор можно получить методом [user.get](../user/user-get.md)
+- `UA` — все авторизованные пользователи
+- `DR<X>` — подразделения компании с идентификатором `X`. Идентификатор можно получить методом [department.get](../departments/department-get.md)
 ||
 || **LOG_DATE_FROM**
 [`string`](../data-types.md) | Нижняя граница периода публикации сообщения в формате ISO 8601. Если указаны `LOG_DATE_FROM` и `LOG_DATE_TO`, значение `LOG_DATE_FROM` не должно быть позже `LOG_DATE_TO` ||
