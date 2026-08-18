@@ -13,7 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `task.checklistitem.renew` отмечает выполненный пункт чек-листа как активный.
+Метод `task.checklistitem.renew` отмечает выполненный пункт чек-листа как невыполненный.
+
+Система устанавливает в поле `IS_COMPLETE` значение `N` и заполняет поля `TOGGLED_BY` и `TOGGLED_DATE` — кто и когда сменил статус пункта. Эти два поля обновляются, только когда статус пункта меняется. Повторный вызов для уже невыполненного пункта не меняет данные и возвращает `true`.
+
+Отметить пункт как выполненный можно методом [task.checklistitem.complete](./task-checklist-item-complete.md). Проверить права на изменение пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
 
 ## Параметры метода
 
@@ -31,12 +35,14 @@
 || **TASKID***
 [`integer`](../../data-types.md) | Идентификатор задачи.
 
-Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md)  ||
+Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
 || **ITEMID***
 [`integer`](../../data-types.md) | Идентификатор пункта чек-листа.
 
 Идентификатор пункта можно получить при [добавлении нового пункта](./task-checklist-item-add.md) или методом [получения списка пунктов чек-листа](./task-checklist-item-get-list.md) ||
 |#
+
+Значения `TASKID` и `ITEMID` должны быть больше нуля. Метод находит пункт по `ITEMID` и не проверяет, относится ли пункт к задаче `TASKID`.
 
 ## Примеры кода
 
@@ -246,9 +252,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Возвращает `true`, если пункт чек-листа успешно отмечен как невыполненный.
+[`boolean`](../../data-types.md) | Возвращает `true`, если пункт чек-листа отмечен как невыполненный. Повторный вызов для уже невыполненного пункта тоже возвращает `true`.
 
-Возвращает `false`, если указанный `ITEMID` не существует или параметры переданы в неверном порядке ||
+Возвращает `false`, если пункта с идентификатором `ITEMID` не существует. Тот же результат вернется, если нарушить порядок параметров: метод примет значение `ITEMID` за идентификатор задачи ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -270,8 +276,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID` или `ITEMID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::renew() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID` или `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::renew() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID`. Для `ITEMID` в сообщении указан `Param #1 (itemId)` ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
