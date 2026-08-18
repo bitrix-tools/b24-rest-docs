@@ -37,15 +37,15 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **NAME**
+|| **NAME***
 [`string`](../data-types.md) | Название виджета ||
-|| **PREVIEW**
+|| **PREVIEW***
 [`string`](../data-types.md) | URL картинки-обложки виджета для слайдера выбора виджетов ||
 || **DESCRIPTION**
 [`string`](../data-types.md) | Описание виджета ||
-|| **CONTENT**
+|| **CONTENT***
 [`string`](../data-types.md) | Верстка виджета с использованием конструкций Vue ||
-|| **SECTIONS**
+|| **SECTIONS***
 [`string`](../data-types.md) | Код раздела, в который будет добавлен виджет. Список доступных разделов:
 
 - `widgets_company_life` — Жизнь компании
@@ -62,8 +62,8 @@
 - `widgets_text` — Текст
 - `widgets_image` — Картинки
 - `widgets_video` — Видео ||
-|| **WIDGET_PARAMS**
-[`object`](../data-types.md) | [Параметры](#anchor-widget-params) для vue-шаблонизатора. Если их нет, то блок останется обычным html-кодом с `{{}}` ||
+|| **WIDGET_PARAMS***
+[`object`](../data-types.md) | [Параметры](#anchor-widget-params) для vue-шаблонизатора. Без них метод вернет ошибку `REQUIRED_FIELD_NO_EXISTS` ||
 || **ACTIVE**
 [`char`](../data-types.md) | Активность виджета. Принимает значения: 
 
@@ -505,6 +505,25 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"REQUIRED_FIELD_NO_EXISTS",
+    "error_description":"Отсутствует обязательное поле CONTENT"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** ||
+|| `REQUIRED_FIELD_NO_EXISTS` | В параметре `fields` не передано обязательное поле: `NAME`, `PREVIEW`, `CONTENT`, `SECTIONS` или `WIDGET_PARAMS`. Имя поля подставляется в текст ошибки ||
+|| `REQUIRED_PARAM_NO_EXISTS` | В параметре `WIDGET_PARAMS` не передан обязательный параметр: `rootNode`, `handler` или `demoData`. Имя параметра подставляется в текст ошибки ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
