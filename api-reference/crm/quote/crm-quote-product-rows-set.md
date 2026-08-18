@@ -31,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../data-types.md) | Идентификатор коммерческого предложения.
+[`integer`](../../data-types.md) | Идентификатор коммерческого предложения.
 
 Идентификатор можно получить с помощью методов [crm.quote.list](./crm-quote-list.md) или [crm.quote.add](./crm-quote-add.md) ||
 || **rows**
@@ -59,39 +59,39 @@
 || **Название**
 `тип` | **Описание** ||
 || **PRODUCT_ID**
-[`integer`](../data-types.md) | Идентификатор товара в каталоге.
+[`integer`](../../data-types.md) | Идентификатор товара в каталоге.
 
 Список товаров можно получить методом [catalog.product.list](../../catalog/product/catalog-product-list.md).
 
 Если `PRODUCT_ID = 0`, позиция создается как «произвольная» ||
 || **PRODUCT_NAME**
-[`string`](../data-types.md) | Наименование товарной позиции ||
+[`string`](../../data-types.md) | Наименование товарной позиции ||
 || **PRODUCT_DESCRIPTION**
-[`string`](../data-types.md) | Описание товарной позиции ||
+[`string`](../../data-types.md) | Описание товарной позиции ||
 || **PRICE**
-[`double`](../data-types.md) | Итоговая стоимость товара за единицу ||
+[`double`](../../data-types.md) | Итоговая стоимость товара за единицу ||
 || **QUANTITY**
-[`double`](../data-types.md) | Количество единиц товара ||
+[`double`](../../data-types.md) | Количество единиц товара ||
 || **DISCOUNT_TYPE_ID**
-[`integer`](../data-types.md) | Тип скидки:
+[`integer`](../../data-types.md) | Тип скидки:
 - `1` — абсолютная
 - `2` — процентная ||
 || **DISCOUNT_RATE**
-[`double`](../data-types.md) | Значение скидки в процентах ||
+[`double`](../../data-types.md) | Значение скидки в процентах ||
 || **DISCOUNT_SUM**
-[`double`](../data-types.md) | Абсолютное значение скидки ||
+[`double`](../../data-types.md) | Абсолютное значение скидки ||
 || **TAX_RATE**
-[`double`](../data-types.md) | Ставка налога в процентах ||
+[`double`](../../data-types.md) | Ставка налога в процентах ||
 || **TAX_INCLUDED**
-[`char`](../data-types.md) | Включен ли налог в стоимость:
+[`char`](../../data-types.md) | Включен ли налог в стоимость:
 - `Y` — да
 - `N` — нет ||
 || **MEASURE_CODE**
 [`catalog_measure.code`](../../catalog/data-types.md#catalog_measure) | Код единицы измерения ||
 || **MEASURE_NAME**
-[`string`](../data-types.md) | Текстовое представление единицы измерения ||
+[`string`](../../data-types.md) | Текстовое представление единицы измерения ||
 || **SORT**
-[`integer`](../data-types.md) | Сортировка ||
+[`integer`](../../data-types.md) | Сортировка ||
 |#
 
 Полный список полей товарной позиции и типов можно получить методом [crm.productrow.fields](../outdated/productrow-old/crm-productrow-fields.md).
@@ -454,11 +454,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Корневой элемент ответа. Содержит:
+[`boolean`](../../data-types.md) | Корневой элемент ответа. Содержит:
 - `true` — товарные позиции успешно сохранены
 - `false` — товарные позиции не сохранены ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

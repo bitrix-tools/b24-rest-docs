@@ -1,4 +1,4 @@
-# Переместить блок на страницу `landing.landing.moveblock`
+# Переместить блок на страницу landing.landing.moveblock
 
 {% note tip "" %}
 

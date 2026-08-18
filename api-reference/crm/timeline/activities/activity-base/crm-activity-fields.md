@@ -664,13 +664,13 @@ HTTP-статус: **200**
 #|
 || **Поле** `тип` | **Описание** | **Примечание** ||
 || **ID***
-[`integer`](../../../data-types.md) | Идентификатор дела | Только для чтения ||
+[`integer`](../../../../data-types.md) | Идентификатор дела | Только для чтения ||
 || **OWNER_ID***
-[`integer`](../../../data-types.md) | Идентификатор элемента CRM | Можно изменить методом [crm.activity.binding.move](../binding/crm-activity-binding-move.md)  ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM | Можно изменить методом [crm.activity.binding.move](../binding/crm-activity-binding-move.md)  ||
 || **OWNER_TYPE_ID***
-[`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) | Неизменяемое ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) | Неизменяемое ||
 || **TYPE_ID***
-[`crm_enum_activitytype`](../../../data-types.md) | Тип дела | Обязательный, неизменяемый ||
+[`crm_enum_activitytype`](../../../data-types.md#activity-enums) | Тип дела | Обязательный, неизменяемый ||
 || **ASSOCIATED_ENTITY_ID**
 [`integer`](../../../../data-types.md) | Целочисленный идентификатор связанной с делом сущности | Только для чтения ||
 || **AUTHOR_ID***
@@ -682,77 +682,77 @@ HTTP-статус: **200**
 || **COMMUNICATIONS***
 [`crm_activity_communication`](../../../data-types.md) | [Описание коммуникации](./crm-activity-communication-fields.md) | Множественное, обязательное ||
 || **COMPLETED***
-[`char`](../../../data-types.md) | Флаг, говорящий завершено дело или нет (`Y`|`N`) | ||
+[`char`](../../../../data-types.md) | Флаг, говорящий завершено дело или нет (`Y`|`N`) | ||
 || **CREATED***
-[`datetime`](../../../data-types.md) | Дата и время создания дела | ||
+[`datetime`](../../../../data-types.md) | Дата и время создания дела | ||
 || **DEADLINE**
-[`datetime`](../../../data-types.md) | Дата и время срока исполнения дела | Поле напрямую не устанавливается, значение берётся из START_TIME для звонка и встречи и из END_TIME для задачи ||
+[`datetime`](../../../../data-types.md) | Дата и время срока исполнения дела | Поле напрямую не устанавливается, значение берётся из START_TIME для звонка и встречи и из END_TIME для задачи ||
 || **DESCRIPTION**
-[`string`](../../../data-types.md) | Текстовое описание дела | ||
+[`string`](../../../../data-types.md) | Текстовое описание дела | ||
 || **DESCRIPTION_TYPE**
-[`crm.enum.contenttype`](../../../data-types.md) | Тип описания | ||
+[`crm_enum_contenttype`](../../../data-types.md#activity-enums) | Тип описания | ||
 || **DIRECTION**
-[`crm.enum.activitydirection`](../../../data-types.md) | Направление дела: входящее/исходящее. | Актуально для звонков и писем, для встреч не используется ||
+[`crm_enum_activitydirection`](../../../data-types.md#activity-enums) | Направление дела: входящее/исходящее. | Актуально для звонков и писем, для встреч не используется ||
 || **EDITOR_ID**
-[`user`](../../../data-types.md) | Целочисленный идентификатор пользователя, изменявшего дело | Только для чтения ||
+[`user`](../../../../data-types.md) | Целочисленный идентификатор пользователя, изменявшего дело | Только для чтения ||
 || **END_TIME**
-[`datetime`](../../../data-types.md) | Время завершения дела | ||
+[`datetime`](../../../../data-types.md) | Время завершения дела | ||
 || **FILES**
 [`diskfile`](../../../data-types.md) | Добавленные в дело файлы | Множественное ||
 || **LAST_UPDATED**
-[`datetime`](../../../data-types.md) | Дата последнего обновления | Только для чтения ||
+[`datetime`](../../../../data-types.md) | Дата последнего обновления | Только для чтения ||
 || **LOCATION**
-[`string`](../../../data-types.md) | Местоположение | ||
+[`string`](../../../../data-types.md) | Местоположение | ||
 || **NOTIFY_TYPE**
-[`crm.enum.activitynotifytype`](../../../data-types.md) | Тип уведомления | ||
+[`crm_enum_activitynotifytype`](../../../data-types.md#activity-enums) | Тип уведомления | ||
 || **NOTIFY_VALUE**
-[`integer`](../../../data-types.md) | Значение уведомления | Только для чтения ||
+[`integer`](../../../../data-types.md) | Значение уведомления | Только для чтения ||
 || **ORIGINATOR_ID**
-[`string`](../../../data-types.md) | Идентификатор источника данных | Используется только для привязки к внешнему источнику ||
+[`string`](../../../../data-types.md) | Идентификатор источника данных | Используется только для привязки к внешнему источнику ||
 || **ORIGIN_ID**
-[`string`](../../../data-types.md) | Идентификатор элемента в источнике данных | Используется только для привязки к внешнему источнику ||
+[`string`](../../../../data-types.md) | Идентификатор элемента в источнике данных | Используется только для привязки к внешнему источнику ||
 || **ORIGIN_VERSION**
-[`string`](../../../data-types.md) | Оригинальная версия | Используется для защиты данных от случайного перетирания внешней системой. Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных ||
+[`string`](../../../../data-types.md) | Оригинальная версия | Используется для защиты данных от случайного перетирания внешней системой. Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных ||
 || **PRIORITY**
-[`crm.enum.activitypriority`](../../../data-types.md) | Приоритет | ||
+[`crm_enum_activitypriority`](../../../data-types.md#activity-enums) | Приоритет | ||
 || **PROVIDER_DATA**
-[`string`](../../../data-types.md) | Дополнительные данные провайдера | ||
+[`string`](../../../../data-types.md) | Дополнительные данные провайдера | ||
 || **PROVIDER_GROUP_ID**
-[`string`](../../../data-types.md) | Идентификатор группы провайдера | ||
+[`string`](../../../../data-types.md) | Идентификатор группы провайдера | ||
 || **PROVIDER_ID**
-[`string`](../../../data-types.md) | Идентификатор провайдера | Только для чтения ||
+[`string`](../../../../data-types.md) | Идентификатор провайдера | Только для чтения ||
 || **PROVIDER_TYPE_ID**
-[`string`](../../../data-types.md) | Идентификатор типа провайдера | Статус из справочника ||
+[`string`](../../../../data-types.md) | Идентификатор типа провайдера | Статус из справочника ||
 || **PROVIDER_PARAMS**
-[`object`](../../../data-types.md) | Дополнительные параметры провайдера | ||
+[`object`](../../../../data-types.md) | Дополнительные параметры провайдера | ||
 || **RESPONSIBLE_ID***
-[`user`](../../../data-types.md) | Целочисленный идентификатор пользователя, ответственного за дело | Обязательное ||
+[`user`](../../../../data-types.md) | Целочисленный идентификатор пользователя, ответственного за дело | Обязательное ||
 || **RESULT_CURRENCY_ID**
-[`string`](../../../data-types.md) | | ||
+[`string`](../../../../data-types.md) | | ||
 || **RESULT_MARK**
-[`integer`](../../../data-types.md) | | ||
+[`integer`](../../../../data-types.md) | | ||
 || **RESULT_SOURCE_ID**
-[`string`](../../../data-types.md) | | ||
+[`string`](../../../../data-types.md) | | ||
 || **RESULT_STATUS**
-[`integer`](../../../data-types.md) | | ||
+[`integer`](../../../../data-types.md) | | ||
 || **RESULT_STREAM**
-[`integer`](../../../data-types.md) | Статистика отчётов | ||
+[`integer`](../../../../data-types.md) | Статистика отчётов | ||
 || **RESULT_SUM**
-[`double`](../../../data-types.md) | | ||
+[`double`](../../../../data-types.md) | | ||
 || **RESULT_VALUE**
-[`double`](../../../data-types.md) | | ||
+[`double`](../../../../data-types.md) | | ||
 || **SETTINGS**
-[`object`](../../../data-types.md) | Доболнительные настройки | ||
+[`object`](../../../../data-types.md) | Доболнительные настройки | ||
 || **START_TIME**
-[`datetime`](../../../data-types.md) | Время начала выполнения дела | ||
+[`datetime`](../../../../data-types.md) | Время начала выполнения дела | ||
 || **STATUS**
-[`crm_enum_activitystatus`](../../../data-types.md) | Статус дела | ||
+[`crm_enum_activitystatus`](../../../data-types.md#activity-enums) | Статус дела | ||
 || **SUBJECT**
-[`string`](../../../data-types.md) | Дополнительное описание дела | Обязательное ||
+[`string`](../../../../data-types.md) | Дополнительное описание дела | Обязательное ||
 || **WEBDAV_ELEMENTS**
 [`diskfile`](../../../data-types.md) | Добавленные файлы | Множественное. Устарел, сохраняется для совместимости ||
 || **IS_INCOMING_CHANNEL**
-[`char`](../../../data-types.md) | Флаг, говорящий дело создано из входящего канала или нет (`Y`/`N`) |  ||
+[`char`](../../../../data-types.md) | Флаг, говорящий дело создано из входящего канала или нет (`Y`/`N`) |  ||
 |#
 
 ## Обработка ошибок

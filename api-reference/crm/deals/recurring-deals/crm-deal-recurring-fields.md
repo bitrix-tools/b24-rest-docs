@@ -488,7 +488,7 @@ HTTP-статус: **200**
 || **LIMIT_DATE**
 [`date`](../../../data-types.md) | Дата окончания генерации сделок | Используется при `IS_LIMIT = D` ||
 || **PARAMS**
-[`recurring_params`](../../../data-types.md) | Параметры для расчета даты следующего выполнения | Структура полей — [ниже](#params-fields) ||
+[`recurring_params`](../../data-types.md) | Параметры для расчета даты следующего выполнения | Структура полей — [ниже](#params-fields) ||
 |#
 
 #### Поля объекта PARAMS {#params-fields}

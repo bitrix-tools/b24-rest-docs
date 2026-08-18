@@ -23,13 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**^*^
-[`integer`](../../data-types.md) | Идентификатор шаблона ||
+[`integer`](../../../data-types.md) | Идентификатор шаблона ||
 || **entityTypeId**^*^
-[`integer`](../../data-types.md) | Идентификатор типа CRM-элемента. Нужен для выбора провайдера данных ||
+[`integer`](../../../data-types.md) | Идентификатор типа CRM-элемента. Нужен для выбора провайдера данных ||
 || **entityId**
-[`integer`](../../data-types.md) | Идентификатор CRM-элемента, данные которого будут использованы для вычисления значений полей ||
+[`integer`](../../../data-types.md) | Идентификатор CRM-элемента, данные которого будут использованы для вычисления значений полей ||
 || **values**
-[`object`](../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -60,65 +60,65 @@
 || **Название**
 `тип` | **Описание** ||
 || **MyCompanyRequisiteRqCompanyName**
-[`string`](../../data-types.md) | Сокращенное наименование организации ||
+[`string`](../../../data-types.md) | Сокращенное наименование организации ||
 || **MyCompanyRequisiteRegisteredAddressText**
-[`string`](../../data-types.md) | Полный адрес ||
+[`string`](../../../data-types.md) | Полный адрес ||
 || **MyCompanyPhone**
-[`string`](../../data-types.md) | Телефон ||
+[`string`](../../../data-types.md) | Телефон ||
 || **MyCompanyEmail**
-[`string`](../../data-types.md) | E-mail ||
+[`string`](../../../data-types.md) | E-mail ||
 || **MyCompanyWeb**
-[`string`](../../data-types.md) | Сайт ||
+[`string`](../../../data-types.md) | Сайт ||
 || **MyCompanyUfLogo**
-[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Логотип ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Логотип ||
 || **RequisiteRqCompanyName**
-[`string`](../../data-types.md) | Сокращенное наименование организации ||
+[`string`](../../../data-types.md) | Сокращенное наименование организации ||
 || **RequisiteRegisteredAddressText**
-[`string`](../../data-types.md) | Полный адрес ||
+[`string`](../../../data-types.md) | Полный адрес ||
 || **ClientPhone**
-[`string`](../../data-types.md) | Телефон ||
+[`string`](../../../data-types.md) | Телефон ||
 || **ClientEmail**
-[`string`](../../data-types.md) | Email ||
+[`string`](../../../data-types.md) | Email ||
 || **ClientWeb**
-[`string`](../../data-types.md) | Сайт ||
+[`string`](../../../data-types.md) | Сайт ||
 || **DocumentNumber**
-[`string`](../../data-types.md) | Номер ||
+[`string`](../../../data-types.md) | Номер ||
 || **DocumentCreateTime**
-[`string`](../../data-types.md) | Дата генерации ||
+[`string`](../../../data-types.md) | Дата генерации ||
 || **ProductsIndex**
-[`string`](../../data-types.md) | Текущий номер ||
+[`string`](../../../data-types.md) | Текущий номер ||
 || **ProductsProductName**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Название ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Название ||
 || **ProductsProductQuantity**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Количество ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Количество ||
 || **ProductsProductMeasureName**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Единицы измерения ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Единицы измерения ||
 || **ProductsProductPriceRaw**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Исходная цена ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Исходная цена ||
 || **ProductsProductPriceRawSum**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Сумма исходной цены ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Сумма исходной цены ||
 || **TotalRaw**
-[`string`](../../data-types.md) | Сумма исходных цен ||
+[`string`](../../../data-types.md) | Сумма исходных цен ||
 || **TaxesTaxTitle**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Заголовок ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Заголовок ||
 || **TaxesTaxRate**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Ставка ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Ставка ||
 || **TaxesTaxValue**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Сумма ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Сумма ||
 || **TotalSum**
-[`string`](../../data-types.md) | Общая сумма ||
+[`string`](../../../data-types.md) | Общая сумма ||
 || **MyCompanyAssignedName**
-[`string`](../../data-types.md) | Имя ||
+[`string`](../../../data-types.md) | Имя ||
 || **MyCompanyAssignedLastName**
-[`string`](../../data-types.md) | Фамилия ||
+[`string`](../../../data-types.md) | Фамилия ||
 || **MyCompanyAssignedPersonalPhone**
-[`string`](../../data-types.md) | Телефон ||
+[`string`](../../../data-types.md) | Телефон ||
 || **MyCompanyAssignedEmail**
-[`string`](../../data-types.md) | E-Mail ||
+[`string`](../../../data-types.md) | E-Mail ||
 || **DocumentTitle**
-[`string`](../../data-types.md) | Название документа ||
+[`string`](../../../data-types.md) | Название документа ||
 || **MY_COMPANY**
-[`array`](../../data-types.md) | Моя компания ||
+[`array`](../../../data-types.md) | Моя компания ||
 |#
 
 ## Примеры кода
@@ -451,9 +451,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит объект [`templateFields`](#templatefields) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`templateFields`](#templatefields) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип result {#result}
@@ -462,7 +462,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **templateFields**
-[`object`](../../data-types.md) | Объект полей шаблона, где ключом является код поля, а значением — структура [`templateField`](#templatefield) ||
+[`object`](../../../data-types.md) | Объект полей шаблона, где ключом является код поля, а значением — структура [`templateField`](#templatefield) ||
 |#
 
 #### Тип templateField {#templatefield}
@@ -471,19 +471,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **title**
-[`string`](../../data-types.md) | Название поля ||
+[`string`](../../../data-types.md) | Название поля ||
 || **value**
-[`string`](../../data-types.md) \| [`array`](../../data-types.md) | Текущее значение поля ||
+[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) | Текущее значение поля ||
 || **default**
-[`string`](../../data-types.md) | Значение поля по умолчанию ||
+[`string`](../../../data-types.md) | Значение поля по умолчанию ||
 || **required**
-[`char`](../../data-types.md) | Признак обязательности поля: `Y` или `N` ||
+[`char`](../../../data-types.md) | Признак обязательности поля: `Y` или `N` ||
 || **type**
-[`string`](../../data-types.md) | Тип поля, например `IMAGE` ||
+[`string`](../../../data-types.md) | Тип поля, например `IMAGE` ||
 || **group**
-[`array`](../../data-types.md) | Группы, к которым относится поле ||
+[`array`](../../../data-types.md) | Группы, к которым относится поле ||
 || **chain**
-[`string`](../../data-types.md) | Путь поля в провайдере данных, например `this.SOURCE.MY_COMPANY.UF_LOGO` ||
+[`string`](../../../data-types.md) | Путь поля в провайдере данных, например `this.SOURCE.MY_COMPANY.UF_LOGO` ||
 |#
 
 ## Обработка ошибок

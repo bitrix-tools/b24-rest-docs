@@ -73,9 +73,9 @@
 || **basketId**
 [`sale_basket_item.id`](#sale_basket_item) | Идентификатор корзины ||
 || **quantity**
-[`float`](../data-types.md) | Количество товара ||
+[`double`](../data-types.md) | Количество товара ||
 || **reservedQuantity**
-[`float`](../data-types.md) | Зарезервированное количество товара ||
+[`double`](../data-types.md) | Зарезервированное количество товара ||
 || **xmlId**
 [`string`](../data-types.md) | Внешний идентификатор.
 

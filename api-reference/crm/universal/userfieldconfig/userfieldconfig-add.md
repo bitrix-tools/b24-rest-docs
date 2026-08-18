@@ -56,9 +56,9 @@
 || **settings**
 [`object`](../../../data-types.md) | Дополнительные настройки поля. Набор ключей зависит от `userTypeId` [(подробное описание)](#settings) ||
 || **editFormLabel**
-[`string`](../../../data-types.md)\|[`lang_map`](../../../data-types.md#lang_map) | Подпись в форме редактирования. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подпись по языкам ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись в форме редактирования. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подпись по языкам ||
 || **helpMessage**
-[`string`](../../../data-types.md)\|[`lang_map`](../../../data-types.md#lang_map) | Текст подсказки. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подсказку по языкам ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Текст подсказки. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подсказку по языкам ||
 || **enum**
 [`uf_enum_element[]`](#uf_enum_element) | Варианты значений для поля типа `enumeration` ||
 |#
@@ -782,15 +782,15 @@ HTTP-статус: **200**
 || **languageId**
 [`object`](../../../data-types.md) | Языки, для которых заданы подписи поля ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования ||
 || **listColumnLabel**
-[`lang_map`](../../../data-types.md) | Подписи колонки в списке ||
+[`lang_map`](../../data-types.md) | Подписи колонки в списке ||
 || **listFilterLabel**
-[`lang_map`](../../../data-types.md) | Подписи в фильтре ||
+[`lang_map`](../../data-types.md) | Подписи в фильтре ||
 || **errorMessage**
-[`lang_map`](../../../data-types.md) | Текст сообщения об ошибке ||
+[`lang_map`](../../data-types.md) | Текст сообщения об ошибке ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Подсказка по полю ||
+[`lang_map`](../../data-types.md) | Подсказка по полю ||
 || **enum**
 [`object[]`](../../../data-types.md) | Варианты значений.
 

@@ -1,4 +1,4 @@
-# Скрыть блок на странице `landing.landing.hideblock`
+# Скрыть блок на странице landing.landing.hideblock
 
 {% note tip "" %}
 

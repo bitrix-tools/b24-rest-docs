@@ -167,7 +167,7 @@
 || **CREATED_BY**
 [`integer`](../../../data-types.md) | Создано пользователем | Только для чтения ||
 || **CURRENCY**
-[`crm_currency`](../../../data-types.md) | Идентификатор валюты | Только для чтения ||
+[`crm_currency`](../../data-types.md) | Идентификатор валюты | Только для чтения ||
 || **DATE_BILL**
 [`date`](../../../data-types.md) | Дата выставления | ||
 || **DATE_INSERT**
@@ -223,7 +223,7 @@
 || **RESPONSIBLE_WORK_POSITION**
 [`string`](../../../data-types.md) | Должность ответственного | Только для чтения ||
 || **STATUS_ID**
-[`crm_status`](../../../data-types.md) | Идентификатор статуса | Идентификатор справочника "INVOICE_STATUS" ||
+[`crm_status`](../../data-types.md) | Идентификатор статуса | Идентификатор справочника "INVOICE_STATUS" ||
 || **TAX_VALUE**
 [`double`](../../../data-types.md) | Сумма налога | Только для чтения ||
 || **UF_COMPANY_ID**

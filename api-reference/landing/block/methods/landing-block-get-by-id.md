@@ -1,4 +1,4 @@
-# Получить блок по идентификатору `landing.block.getbyid`
+# Получить блок по идентификатору landing.block.getbyid
 
 {% note tip "" %}
 

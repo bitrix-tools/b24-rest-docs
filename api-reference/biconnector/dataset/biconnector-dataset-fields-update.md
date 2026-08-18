@@ -51,7 +51,7 @@
 - `id` — Идентификатор поля, можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md)
 - `visible` — видимость поля||
 || **delete**
-[`int[]`](../../data-types.md) | Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md) ||
+[`integer[]`](../../data-types.md) | Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md) ||
 |#
 
 ## Примеры кода

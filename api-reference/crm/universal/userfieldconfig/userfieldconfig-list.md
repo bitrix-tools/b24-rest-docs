@@ -117,7 +117,7 @@
 || **settings**
 [`string`](../../../data-types.md) | Дополнительные настройки поля ||
 || **languageId**
-[`string`](../../../data-types.md) | [Языковой идентификатор](../../../data-types.md#lang-ids). При передаче этого параметра возвращается набор языковых полей на выбранном языке:
+[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). При передаче этого параметра возвращается набор языковых полей на выбранном языке:
 - `editFormLabel` - подпись в форме редактирования
 - `listColumnLabel` - заголовок в списке
 - `listFilterLabel` - подпись фильтра в списке
@@ -548,15 +548,15 @@ HTTP-статус: **200**
 || **languageId**
 [`object`](../../../data-types.md) | Языковые идентификаторы, для которых заданы подписи ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования ||
 || **listColumnLabel**
-[`lang_map`](../../../data-types.md) | Заголовок в списке ||
+[`lang_map`](../../data-types.md) | Заголовок в списке ||
 || **listFilterLabel**
-[`lang_map`](../../../data-types.md) | Подпись фильтра в списке ||
+[`lang_map`](../../data-types.md) | Подпись фильтра в списке ||
 || **errorMessage**
-[`lang_map`](../../../data-types.md) | Сообщение об ошибке ||
+[`lang_map`](../../data-types.md) | Сообщение об ошибке ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Подсказка ||
+[`lang_map`](../../data-types.md) | Подсказка ||
 || **enum**
 [`object[]`](../../../data-types.md) | Элементы списка для `userTypeId = enumeration`.
 

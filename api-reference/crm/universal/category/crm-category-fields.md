@@ -354,9 +354,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект со списком доступных полей в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field_N` – идентификатор [поля объекта](#fields), а `value` — объект типа [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+[`object`](../../../data-types.md) | Объект со списком доступных полей в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field_N` – идентификатор [поля объекта](#fields), а `value` — объект типа [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Описание полей fields {#fields}

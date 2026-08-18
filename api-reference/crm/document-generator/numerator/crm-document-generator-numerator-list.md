@@ -21,7 +21,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **start**
-[`integer`](../../data-types.md) | Смещение для постраничной навигации. Подробнее в статье [Особенности списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
+[`integer`](../../../data-types.md) | Смещение для постраничной навигации. Подробнее в статье [Особенности списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 ## Примеры кода
@@ -381,11 +381,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит массив объектов [`numerators`](#numerators) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит массив объектов [`numerators`](#numerators) ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество нумераторов ||
+[`integer`](../../../data-types.md) | Общее количество нумераторов ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Массив numerators {#numerators}
@@ -394,13 +394,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../../data-types.md) | Идентификатор нумератора ||
+[`string`](../../../data-types.md) | Идентификатор нумератора ||
 || **name**
-[`string`](../../data-types.md) | Название нумератора ||
+[`string`](../../../data-types.md) | Название нумератора ||
 || **template**
-[`string`](../../data-types.md) | Шаблон номера ||
+[`string`](../../../data-types.md) | Шаблон номера ||
 || **settings**
-[`object`](../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
+[`object`](../../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
 |#
 
 #### Тип settings {#settings}
@@ -409,19 +409,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **start**
-[`integer`](../../data-types.md) | Начальное значение счетчика ||
+[`integer`](../../../data-types.md) | Начальное значение счетчика ||
 || **step**
-[`integer`](../../data-types.md) | Шаг увеличения счетчика ||
+[`integer`](../../../data-types.md) | Шаг увеличения счетчика ||
 || **length**
-[`integer`](../../data-types.md) | Минимальная длина номера ||
+[`integer`](../../../data-types.md) | Минимальная длина номера ||
 || **padString**
-[`string`](../../data-types.md) | Символ добивки слева ||
+[`string`](../../../data-types.md) | Символ добивки слева ||
 || **periodicBy**
-[`string`](../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+[`string`](../../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
 || **timezone**
-[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+[`string`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
 || **isDirectNumeration**
-[`boolean`](../../data-types.md) | Признак прямой нумерации ||
+[`boolean`](../../../data-types.md) | Признак прямой нумерации ||
 |#
 
 ## Обработка ошибок

@@ -342,7 +342,7 @@ HTTP-статус: **200**
 || **COMMENT**
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
-[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-upload-files.md) ||
+[`attached_diskfile`](../../data-types.md#attached_diskfile) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-upload-files.md) ||
 |#
 
 ## Обработка ошибок

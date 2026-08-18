@@ -57,19 +57,19 @@
 || **status**
 [`string`](../../data-types.md) | Статус: `online`, `dnd` ||
 || **idle**
-[`string\|false`](../../data-types.md) | Время начала бездействия в формате ISO 8601, или `false` ||
+[`string \| boolean`](../../data-types.md#compound-types) | Время начала бездействия в формате ISO 8601, или `false` ||
 || **lastActivityDate**
-[`string\|false`](../../data-types.md) | Дата последней активности в формате ISO 8601, или `false` ||
+[`string \| boolean`](../../data-types.md#compound-types) | Дата последней активности в формате ISO 8601, или `false` ||
 || **mobileLastDate**
-[`string\|false`](../../data-types.md) | Дата последнего входа с мобильного в формате ISO 8601, или `false` ||
+[`string \| boolean`](../../data-types.md#compound-types) | Дата последнего входа с мобильного в формате ISO 8601, или `false` ||
 || **desktopLastDate**
-[`string\|false`](../../data-types.md) | Дата последнего входа с десктопа в формате ISO 8601, или `false` ||
+[`string \| boolean`](../../data-types.md#compound-types) | Дата последнего входа с десктопа в формате ISO 8601, или `false` ||
 || **absent**
-[`string\|false`](../../data-types.md) | Дата начала отсутствия в формате ISO 8601, или `false` ||
+[`string \| boolean`](../../data-types.md#compound-types) | Дата начала отсутствия в формате ISO 8601, или `false` ||
 || **departments**
 [`integer[]`](../../data-types.md) | Массив ID отделов ||
 || **phones**
-[`object\|false`](../../data-types.md) | Объект с телефонами (`personalPhone`, `workPhone` и др.) или `false` ||
+[`object \| boolean`](../../data-types.md#compound-types) | Объект с телефонами (`personalPhone`, `workPhone` и др.) или `false` ||
 || **type**
 [`string`](../../data-types.md) | Тип: `employee`, `extranet`, `email`, `collaber`, `bot` ||
 || **website**
@@ -374,7 +374,7 @@
 || **size**
 [`integer`](../../data-types.md) | Размер файла в байтах ||
 || **image**
-[`object\|false`](../../data-types.md) | Размеры превью для изображений: `{"height": 600, "width": 800}`, или `false` ||
+[`object \| boolean`](../../data-types.md#compound-types) | Размеры превью для изображений: `{"height": 600, "width": 800}`, или `false` ||
 || **authorId**
 [`integer`](../../data-types.md) | ID пользователя, загрузившего файл ||
 || **authorName**

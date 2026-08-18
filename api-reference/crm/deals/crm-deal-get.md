@@ -490,7 +490,7 @@ HTTP-статус: **200**
 || **ADDITIONAL_INFO**
 [`string`](../../data-types.md) | Дополнительная информация ||
 || **LOCATION_ID**
-[`location`](../../data-types.md) | Местоположение. Служебное поле ||
+[`location`](../data-types.md) | Местоположение. Служебное поле ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Внешний источник ||
 || **ORIGIN_ID**

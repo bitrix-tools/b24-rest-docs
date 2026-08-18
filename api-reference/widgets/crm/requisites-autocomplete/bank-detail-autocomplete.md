@@ -112,7 +112,7 @@ Array
 
 #|
 || **Поле**
-[`тип`](../../../data-types.md) | **Описание** ||
+`тип` | **Описание** ||
 || **data**
 [`array`](../../../data-types.md) | Список найденных вариантов ||
 || **data[].id**
@@ -151,7 +151,7 @@ BX24.placement.call(
 
 #|
 || **Поле**
-[`тип`](../../../data-types.md) | **Описание** ||
+`тип` | **Описание** ||
 || **appSid**
 [`string`](../../../data-types.md) | Идентификатор сессии приложения, в которой был найден выбранный вариант ||
 || **data**
@@ -188,7 +188,7 @@ BX24.placement.bindEvent('onCrmEntityIsNeedToCreate', function (eventData) {
 
 #|
 || **Поле**
-[`тип`](../../../data-types.md) | **Описание** ||
+`тип` | **Описание** ||
 || **entityType**
 [`string`](../../../data-types.md) | Тип созданного варианта на стороне приложения ||
 || **id**
@@ -203,7 +203,7 @@ BX24.placement.bindEvent('onCrmEntityIsNeedToCreate', function (eventData) {
 
 #|
 || **Поле**
-[`тип`](../../../data-types.md) | **Описание** ||
+`тип` | **Описание** ||
 || **NAME**
 [`string`](../../../data-types.md) | Название банка ||
 || **RQ_BANK_NAME**

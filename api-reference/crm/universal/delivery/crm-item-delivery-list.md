@@ -25,7 +25,7 @@
 || **entityId***
 [`integer`](../../../data-types.md) | Идентификатор объекта crm ||
 || **entityTypeId***
-[`integer`](../../../data-types.md) | Идентификатор [`типа объекта crm`](../../data-types.md#тип-объекта-crm)  ||
+[`integer`](../../../data-types.md) | Идентификатор [`типа объекта crm`](../../data-types.md#object_type)  ||
 || **filter**
 [`object`](../../../data-types.md) | Дополнительный фильтр для случаев, когда нужно получить не все доставки объекта crm, а по какому-то более специфичному фильтру. 
 Формат параметра `filter` соответствует описанному в методе [`sale.shipment.list`](../../../sale/shipment/sale-shipment-list.md) ||

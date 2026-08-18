@@ -840,7 +840,7 @@ HTTP-статус: **200**
 ||**ADDRESS_COUNTRY_CODE**
 [`string`](../../data-types.md) | Код страны ||
 ||**ADDRESS_LOC_ADDR_ID**
-[`location`](../../data-types.md) | Идентификатор адреса местоположения ||
+[`location`](../data-types.md) | Идентификатор адреса местоположения ||
 |#
 
 ## Обработка ошибок

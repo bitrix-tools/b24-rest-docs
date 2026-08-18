@@ -1,4 +1,4 @@
-# Добавить блок на страницу `landing.landing.addblock`
+# Добавить блок на страницу landing.landing.addblock
 
 {% note tip "" %}
 

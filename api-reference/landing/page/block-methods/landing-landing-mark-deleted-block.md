@@ -1,4 +1,4 @@
-# Отметить блок как удаленный `landing.landing.markdeletedblock`
+# Отметить блок как удаленный landing.landing.markdeletedblock
 
 {% note tip "" %}
 

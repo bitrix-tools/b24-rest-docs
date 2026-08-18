@@ -33,7 +33,7 @@ https://mydomain.bitrix24.com/rest/1/not_var{{PASSWORD}}/crm.automation.trigger/
 || **Название**
 `тип` | **Описание** ||
 || **target***
-[`string`](../../data-types.md) | Целевой объект для автоматизации, указывается в виде [`TYPENAME_ID`](../../data-types.md#object_type) (например, `LEAD_25`)
+[`string`](../../data-types.md) | Целевой объект для автоматизации, указывается в виде [`TYPENAME_ID`](../data-types.md#object_type) (например, `LEAD_25`)
 ||
 || **code**
 [`string`](../../data-types.md) | Уникальный символьный код триггера, настроенного в Автоматизации на конкретный статус/стадию документа. Взять параметр `code` можно из настроек триггера ||

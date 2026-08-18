@@ -95,7 +95,7 @@
   || **honorific**
   [`crm_status`](../data-types.md) | Строковый идентификатор обращения лида (например `'HNR_RU_1' = 'г-н'`).
 
-  Список доступных обращений можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "HONOFIRIC" }` ||
+  Список доступных обращений можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "HONOFIRIC" }` ||
   || **name**
   [`string`](../../data-types.md) | Имя ||
   || **secondName**
@@ -111,7 +111,7 @@
   
   Например `'CALL' = 'Звонок'`.
   
-  Список доступных источников можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "SOURCE" }`  ||
+  Список доступных источников можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "SOURCE" }`  ||
   || **sourceDescription**
   [`text`](../../data-types.md) | Дополнительно об источнике ||
   || **stageId**
@@ -119,7 +119,7 @@
   
   Например `'NEW' = 'Не обработан'`.
 
-  Список доступных стадий можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "STATUS" }` ||
+  Список доступных стадий можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "STATUS" }` ||
   || **statusDescription**
   [`text`](../../data-types.md) | Дополнительно о стадии ||
   || **post**
@@ -192,7 +192,7 @@
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}` 
   ||
   || **fm**
-  [`multifield[]`](../data-types.md) | Массив мультиполей.
+  [`crm_multifield[]`](../data-types.md#crm_multifield) | Массив мультиполей.
 
   Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
 
@@ -238,7 +238,7 @@
 
   Например для сделки: `'SALE' = 'Продажа'`
 
-  Список доступных типов объекта можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "DEAL_TYPE" }` ||
+  Список доступных типов объекта можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "DEAL_TYPE" }` ||
   || **categoryId**
   [`integer`](../../data-types.md) | Идентификатор [направления](./category/index.md) (воронки) сделки ||
   || **stageId**
@@ -246,7 +246,7 @@
   
   Например `'NEW' = 'Не обработан'`.
 
-  Список доступных стадий можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр:
+  Список доступных стадий можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр:
     - Если сделка находится в общей воронке (направления)  — `{ ENTITY_ID: "DEAL_STAGE" }`
     - Если сделка находится не в общей воронке (направления) — `{ ENTITY_ID: "DEAL_STAGE_{categoryId}" }`, где
       `categoryId` это идентификатор воронки ([направления](./category/index.md)) сделки
@@ -304,7 +304,7 @@
   
   Например `'CALL' = 'Звонок'`.
   
-  Список доступных источников можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "SOURCE" }` ||
+  Список доступных источников можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "SOURCE" }` ||
   || **sourceDescription**
   [`text`](../../data-types.md) | Дополнительно об источнике ||
   || **leadId**
@@ -318,7 +318,7 @@
   || **observers**
   [`user[]`](../../data-types.md) | Массив идентификаторов пользователей, которые будут являться Наблюдателями в элементе ||
   || **locationId**
-  [`location`](../../data-types.md) | Идентификатор местоположения. Служебное поле  ||
+  [`location`](../data-types.md) | Идентификатор местоположения. Служебное поле  ||
   || **utmSource**
   [`string`](../../data-types.md) | Рекламная система. Yandex-Direct, Google-Adwords и другие ||
   || **utmMedium**
@@ -358,7 +358,7 @@
   
   Например `'HNR_RU_1' = 'г-н'`.
 
-  Список доступных обращений можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "HONOFIRIC" }` ||
+  Список доступных обращений можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "HONOFIRIC" }` ||
   || **name**
   [`string`](../../data-types.md) | Имя ||
   || **secondName**
@@ -374,13 +374,13 @@
   
   Например для сделки: `'SALE' = 'Продажа'`.
   
-  Список доступных типов объекта можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "CONTACT_TYPE" }`  ||
+  Список доступных типов объекта можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "CONTACT_TYPE" }`  ||
   || **sourceId**
   [`crm_status`](../data-types.md) | Строковый идентификатор источника.
   
   Например `'CALL' = 'Звонок'`.
   
-  Список доступных источников можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "SOURCE" }`  ||
+  Список доступных источников можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "SOURCE" }`  ||
   || **sourceDescription**
   [`text`](../../data-types.md) | Дополнительно об источнике ||
   || **post**
@@ -439,7 +439,7 @@
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
   || **fm**
-  [`multifield[]`](../data-types.md) | Массив мультиполей (телефоны, e-mail, мессенджеры).
+  [`crm_multifield[]`](../data-types.md#crm_multifield) | Массив мультиполей (телефоны, e-mail, мессенджеры).
 
   Структура каждого элемента:
   - `typeId` — тип мультиполя: `PHONE`, `EMAIL`, `WEB`, `IM`
@@ -494,7 +494,7 @@
   
   Например для сделки: `'SALE' = 'Продажа'`.
   
-  Список доступных типов объекта можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "COMPANY_TYPE" }` ||
+  Список доступных типов объекта можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "COMPANY_TYPE" }` ||
   || **logo**
   [`file`](../../data-types.md) | Логотип ||
   || **bankingDetails**
@@ -504,13 +504,13 @@
   
   Например `'IT' = 'Информационные технологии'`.
   
-  Список доступных типов индустрий можно узнать с помощью метода [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "INDUSTRY"}` ||
+  Список доступных типов индустрий можно узнать с помощью метода [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "INDUSTRY"}` ||
   || **employees**
   [`crm_status`](../data-types.md) | Строковый идентификатор типа количества сотрудников.
   
   Значение берется из списка доступных, например `'EMPLOYEES_1' = 'менее 50'`.
 
-  Список доступных типов количеств сотрудников можно узнать с помощью метода [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "EMPLOYEES" }` ||
+  Список доступных типов количеств сотрудников можно узнать с помощью метода [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "EMPLOYEES" }` ||
   || **currencyId**
   [`crm_currency`](../data-types.md) | Идентификатор валюты элемента ||
   || **revenue**
@@ -532,7 +532,7 @@
 
   Список контактов можно получить с помощью метода [`crm.item.list`](crm-item-list.md) по `entityTypeId = 3`.||
   || **leadId**
-  [`crm_lead`](../../data-types.md) | Идентификатор лида, на основании, которого создается элемент.||
+  [`crm_lead`](../data-types.md) | Идентификатор лида, на основании, которого создается элемент.||
   || **originatorId**
   [`string`](../../data-types.md) | Внешний источник ||
   || **originId**
@@ -566,7 +566,7 @@
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
   || **fm**
-  [`multifield[]`](../data-types.md) | Массив мультиполей (телефоны, e-mail, мессенджеры).
+  [`crm_multifield[]`](../data-types.md#crm_multifield) | Массив мультиполей (телефоны, e-mail, мессенджеры).
 
   Структура каждого элемента:
   - `typeId` — тип мультиполя: `PHONE`, `EMAIL`, `WEB`, `IM`
@@ -657,7 +657,7 @@
 
   Список контактов можно получить с помощью метода [`crm.item.list`](crm-item-list.md) по `entityTypeId = 3` ||
   || **locationId**
-  [`location`](../../data-types.md) | Идентификатор местоположения. Служебное поле ||
+  [`location`](../data-types.md) | Идентификатор местоположения. Служебное поле ||
   || **currencyId**
   [`crm_currency`](../data-types.md) | Идентификатор валюты элемента ||
   || **isManualOpportunity**
@@ -675,7 +675,7 @@
   
   Например `'DRAFT' = 'Новое'`.
 
-  Список доступных стадий можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "QUOTE_STATUS" }` ||
+  Список доступных стадий можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "QUOTE_STATUS" }` ||
   || **begindate**
   [`date`](../../data-types.md) | Дата начала элемента ||
   || **closedate**
@@ -757,14 +757,14 @@
   
   Например `'DT31_13:N' = 'Новый'`.
 
-  Список доступных стадий можно узнать с помощью [`crm.status.list`](../data-types.md), применив фильтр: `{ ENTITY_ID: "SMART_INVOICE_STAGE_{categoryId}" }`, где
+  Список доступных стадий можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md), применив фильтр: `{ ENTITY_ID: "SMART_INVOICE_STAGE_{categoryId}" }`, где
   `categoryId` — идентификатор воронки счетов по умолчанию. Его можно узнать с помощью [`crm.category.list`](category/crm-category-list.md) по `entityTypeId = 31` ||
   || **sourceId**
   [`crm_status`](../data-types.md) | Строковый идентификатор источника.
   
   Например `'CALL' = 'Звонок'`.
   
-  Список доступных источников можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "SOURCE" }` ||
+  Список доступных источников можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "SOURCE" }` ||
   || **sourceDescription**
   [`text`](../../data-types.md) | Дополнительно об источнике ||
   || **currencyId**
@@ -784,7 +784,7 @@
   || **comments**
   [`text`](../../data-types.md) | Комментарий ||
   || **locationId**
-  [`location`](../../data-types.md) | Идентификатор местоположения. Служебное поле ||
+  [`location`](../data-types.md) | Идентификатор местоположения. Служебное поле ||
   || **ufCrm...**
   [`crm_userfield`](../data-types.md) | Пользовательское поле. Смотрите раздел [{#T}](./user-defined-fields/index.md).
 
@@ -863,7 +863,7 @@
   
   Например `'DT1220_30:NEW' = 'Начало'`.
 
-  Список доступных стадий можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "DYNAMIC_{entityTypeId}_STAGE_{categoryId}" }`, где
+  Список доступных стадий можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "DYNAMIC_{entityTypeId}_STAGE_{categoryId}" }`, где
   - `entityTypeId` — идентификатор типа смарт-процесса
   - `categoryId` — идентификатор воронки (направления) элемента смарт-процесса
 
@@ -873,7 +873,7 @@
   || **sourceId**
   [`crm_status`](../data-types.md) | Строковый идентификатор источника. (например `'CALL' = 'Звонок'`).
   
-  Список доступных источников можно узнать с помощью [`crm.status.list`](../data-types.md) применив фильтр `{ ENTITY_ID: "SOURCE" }`.
+  Список доступных источников можно узнать с помощью [`crm.status.list`](../status/crm-status-list.md) применив фильтр `{ ENTITY_ID: "SOURCE" }`.
 
   Доступно лишь при включенной настройке `isSourceEnabled` у соответствующего смарт-процесса  ||
   || **sourceDescription**

@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у документов в выборке.
+[`string[]`](../../../data-types.md) | Список полей, которые должны быть заполнены у документов в выборке.
 
 При выборке можно использовать:
 - `'*'` — для выборки всех стандартных полей документа
@@ -33,7 +33,7 @@
 
 По умолчанию используется `['*']` ||
 || **filter**
-[`object`](../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -60,7 +60,7 @@
 
 Список доступных полей для фильтрации смотрите в разделе [Тип document](#document). ||
 || **order**
-[`object`](../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -79,7 +79,7 @@
 
 Пример: `{"id":"DESC","createTime":"ASC"}` ||
 || **start**
-[`integer`](../../data-types.md) | Параметр постраничной навигации.
+[`integer`](../../../data-types.md) | Параметр постраничной навигации.
 
 Размер страницы фиксирован: `50` записей.
 
@@ -534,13 +534,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой объект ответа. Содержит структуру [`result`](#result) ||
+[`object`](../../../data-types.md) | Корневой объект ответа. Содержит структуру [`result`](#result) ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество документов, подходящих под фильтр ||
+[`integer`](../../../data-types.md) | Общее количество документов, подходящих под фильтр ||
 || **next**
-[`integer`](../../data-types.md) | Смещение для следующей страницы. Возвращается, если есть следующая страница ||
+[`integer`](../../../data-types.md) | Смещение для следующей страницы. Возвращается, если есть следующая страница ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип result {#result}
@@ -549,7 +549,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **documents**
-[`object[]`](../../data-types.md) | Массив документов. Структура элемента описана в типе [`document`](#document) ||
+[`object[]`](../../../data-types.md) | Массив документов. Структура элемента описана в типе [`document`](#document) ||
 |#
 
 #### Тип document {#document}
@@ -560,47 +560,47 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../../data-types.md) | Идентификатор документа ||
+[`string`](../../../data-types.md) | Идентификатор документа ||
 || **title**
-[`string`](../../data-types.md) | Название документа ||
+[`string`](../../../data-types.md) | Название документа ||
 || **number**
-[`string`](../../data-types.md) | Номер документа ||
+[`string`](../../../data-types.md) | Номер документа ||
 || **templateId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор шаблона документа ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор шаблона документа ||
 || **entityTypeId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор типа CRM-объекта ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор CRM-объекта ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор CRM-объекта ||
 || **fileId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор DOCX-файла документа ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор DOCX-файла документа ||
 || **imageId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор изображения документа ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор изображения документа ||
 || **pdfId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор PDF-файла документа ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор PDF-файла документа ||
 || **createTime**
-[`datetime`](../../data-types.md) | Дата создания документа ||
+[`datetime`](../../../data-types.md) | Дата создания документа ||
 || **updateTime**
-[`datetime`](../../data-types.md) | Дата обновления документа ||
+[`datetime`](../../../data-types.md) | Дата обновления документа ||
 || **createdBy**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) \| [`null`](../../data-types.md) | Идентификатор пользователя, создавшего документ ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) \| [`null`](../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
 || **values**
-[`object`](../../data-types.md) \| [`null`](../../data-types.md) | Значения полей документа ||
+[`object`](../../../data-types.md) \| [`null`](../../../data-types.md) | Значения полей документа ||
 || **downloadUrl**
-[`string`](../../data-types.md) | Ссылка на скачивание документа ||
+[`string`](../../../data-types.md) | Ссылка на скачивание документа ||
 || **imageUrl**
-[`string`](../../data-types.md) | Ссылка на изображение документа ||
+[`string`](../../../data-types.md) | Ссылка на изображение документа ||
 || **pdfUrl**
-[`string`](../../data-types.md) | Ссылка на PDF-документ ||
+[`string`](../../../data-types.md) | Ссылка на PDF-документ ||
 || **downloadUrlMachine**
-[`string`](../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
+[`string`](../../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
 || **pdfUrlMachine**
-[`string`](../../data-types.md) | Ссылка на PDF-документ для машинного доступа ||
+[`string`](../../../data-types.md) | Ссылка на PDF-документ для машинного доступа ||
 || **imageUrlMachine**
-[`string`](../../data-types.md) | Ссылка на изображение документа для машинного доступа ||
+[`string`](../../../data-types.md) | Ссылка на изображение документа для машинного доступа ||
 || **stampsEnabled**
-[`boolean`](../../data-types.md) | Признак подстановки печати и подписи ||
+[`boolean`](../../../data-types.md) | Признак подстановки печати и подписи ||
 |#
 
 ## Обработка ошибок

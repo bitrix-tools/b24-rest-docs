@@ -306,9 +306,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с описанием характеристик [(подробное описание)](#result) ||
+[`object`](../../../data-types.md) | Объект с описанием характеристик [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Поля объекта result {#result}
@@ -317,43 +317,43 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../data-types.md) | Идентификатор ||
+[`integer`](../../../data-types.md) | Идентификатор ||
 || **ENTITY_ID**
-[`string`](../../data-types.md) | Объект пользовательского поля ||
+[`string`](../../../data-types.md) | Объект пользовательского поля ||
 || **FIELD_NAME**
-[`string`](../../data-types.md) | Код поля ||
+[`string`](../../../data-types.md) | Код поля ||
 || **USER_TYPE_ID**
-[`string`](../../data-types.md) | Тип данных пользовательского поля ||
+[`string`](../../../data-types.md) | Тип данных пользовательского поля ||
 || **XML_ID**
-[`string`](../../data-types.md) | Внешний Ид (XML ID) ||
+[`string`](../../../data-types.md) | Внешний Ид (XML ID) ||
 || **SORT**
-[`integer`](../../data-types.md) | Порядок сортировки ||
+[`integer`](../../../data-types.md) | Порядок сортировки ||
 || **MULTIPLE**
-[`char`](../../data-types.md) | Признак множественности ||
+[`char`](../../../data-types.md) | Признак множественности ||
 || **MANDATORY**
-[`char`](../../data-types.md) | Признак обязательности ||
+[`char`](../../../data-types.md) | Признак обязательности ||
 || **SHOW_FILTER**
-[`char`](../../data-types.md) | Признак отображения в фильтре списка ||
+[`char`](../../../data-types.md) | Признак отображения в фильтре списка ||
 || **SHOW_IN_LIST**
-[`char`](../../data-types.md) | Признак отображения в списке ||
+[`char`](../../../data-types.md) | Признак отображения в списке ||
 || **EDIT_IN_LIST**
-[`char`](../../data-types.md) | Разрешать редактирование пользователем ||
+[`char`](../../../data-types.md) | Разрешать редактирование пользователем ||
 || **IS_SEARCHABLE**
-[`char`](../../data-types.md) | Значения поля участвуют в поиске ||
+[`char`](../../../data-types.md) | Значения поля участвуют в поиске ||
 || **EDIT_FORM_LABEL**
-[`string`](../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись в форме редактирования ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись в форме редактирования ||
 || **LIST_COLUMN_LABEL**
-[`string`](../../data-types.md)\|[`lang_map`](../../data-types.md) | Заголовок в списке ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Заголовок в списке ||
 || **LIST_FILTER_LABEL**
-[`string`](../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись фильтра в списке ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись фильтра в списке ||
 || **ERROR_MESSAGE**
-[`string`](../../data-types.md)\|[`lang_map`](../../data-types.md) | Сообщение об ошибке ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Сообщение об ошибке ||
 || **HELP_MESSAGE**
-[`string`](../../data-types.md)\|[`lang_map`](../../data-types.md) | Помощь ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Помощь ||
 || **LIST**
 [`uf_enum_element`](./crm-userfield-enumeration-fields.md) | Элементы списка для поля типа `enumeration` ||
 || **SETTINGS**
-[`object`](../../data-types.md) | Дополнительные настройки в зависимости от типа поля ||
+[`object`](../../../data-types.md) | Дополнительные настройки в зависимости от типа поля ||
 |#
 
 ## Обработка ошибок

@@ -25,7 +25,7 @@
 || **CALL_ID***
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md). ||
 || **USER_ID**
-[`integer/array`](../data-types.md) | Идентификатор пользователя или массив идентификаторов пользователей.
+[`integer \| integer[]`](../data-types.md#compound-types) | Идентификатор пользователя или массив идентификаторов пользователей.
 
 Используйте идентификаторы, указанные в методе [telephony.externalCall.show](./telephony-external-call-show.md)  ||
 |#

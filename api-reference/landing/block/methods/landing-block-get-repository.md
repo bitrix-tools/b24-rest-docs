@@ -1,4 +1,4 @@
-# Получить список блоков из репозитория `landing.block.getrepository`
+# Получить список блоков из репозитория landing.block.getrepository
 
 {% note tip "" %}
 

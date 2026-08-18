@@ -1,4 +1,4 @@
-# Удалить из сохраненного списка блоков `landing.landing.unFavoriteBlock`
+# Удалить из сохраненного списка блоков landing.landing.unFavoriteBlock
 
 {% note tip "" %}
 

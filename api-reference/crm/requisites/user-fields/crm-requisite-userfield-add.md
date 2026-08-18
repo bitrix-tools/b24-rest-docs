@@ -50,7 +50,7 @@
 
 Назначение поля может меняться конечным разработчиком ||
 || **SORT**
-[`int`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Сортировка ||
 || **MULTIPLE**
 [`char`](../../../data-types.md) | Признак множественности. Возможные значения:
 - `Y` — да
@@ -106,7 +106,7 @@
 || **HELP_MESSAGE**
 [`string`](../../../data-types.md) | Помощь ||
 || **LIST**
-[`uf_enum_element`](../../../data-types.md) | Элементы списка. Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-enumeration-fields.md) ||
+[`uf_enum_element`](../../../data-types.md#uf_enum_element) | Элементы списка. Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-enumeration-fields.md) ||
 || **SETTINGS**
 [`object`](../../../data-types.md) | Дополнительные настройки (зависят от типа). Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-settings-fields.md) ||
 |#

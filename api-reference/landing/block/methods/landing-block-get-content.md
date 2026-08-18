@@ -1,4 +1,4 @@
-# Получить контент блока `landing.block.getcontent`
+# Получить контент блока landing.block.getcontent
 
 {% note tip "" %}
 

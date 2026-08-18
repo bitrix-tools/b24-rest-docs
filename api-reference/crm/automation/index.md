@@ -36,7 +36,7 @@
 
 **Автоматизация CRM.** В обоих сценариях триггер нужно заранее привязать к стадии или статусу в настройках автоматизации Битрикс24.
 
-**Объекты CRM.** Триггер запускают для конкретного объекта CRM. В webhook-сценарии в параметре `target` передают строковый идентификатор объекта в формате [`TYPENAME_ID`](../../data-types.md), например `DEAL_25`, где `DEAL` — тип объекта CRM, `25` — его числовой идентификатор из [crm.item.list](../universal/crm-item-list.md). В сценарии приложения тип объекта `OWNER_TYPE_ID` получают методом [crm.enum.ownertype](../auxiliary/enum/crm-enum-owner-type.md), идентификатор объекта `OWNER_ID` — методом [crm.item.list](../universal/crm-item-list.md).
+**Объекты CRM.** Триггер запускают для конкретного объекта CRM. В webhook-сценарии в параметре `target` передают строковый идентификатор объекта в формате [`TYPENAME_ID`](../data-types.md#object_type), например `DEAL_25`, где `DEAL` — тип объекта CRM, `25` — его числовой идентификатор из [crm.item.list](../universal/crm-item-list.md). В сценарии приложения тип объекта `OWNER_TYPE_ID` получают методом [crm.enum.ownertype](../auxiliary/enum/crm-enum-owner-type.md), идентификатор объекта `OWNER_ID` — методом [crm.item.list](../universal/crm-item-list.md).
 
 ## Обзор методов {#all-methods}
 

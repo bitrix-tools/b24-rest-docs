@@ -1,4 +1,4 @@
-# Удалить блок со страницы `landing.landing.deleteblock`
+# Удалить блок со страницы landing.landing.deleteblock
 
 {% note tip "" %}
 

@@ -351,7 +351,7 @@ HTTP-статус: **200**
 || **HELP_MESSAGE**
 [`string`](../../data-types.md) | Подсказка ||
 || **LIST**
-[`uf_enum_element`](../../data-types.md) | Элементы списка. Множественное ||
+[`uf_enum_element`](../../data-types.md#uf_enum_element) | Элементы списка. Множественное ||
 || **SETTINGS**
 [`object`](../../data-types.md) | Дополнительные настройки ||
 |#

@@ -1,4 +1,4 @@
-# Переместить блок ниже `landing.landing.downblock`
+# Переместить блок ниже landing.landing.downblock
 
 {% note tip "" %}
 

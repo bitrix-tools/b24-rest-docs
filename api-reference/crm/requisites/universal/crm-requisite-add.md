@@ -111,7 +111,7 @@
 || **RQ_FAX**
 [`string`](../../../data-types.md) | Факс ||
 || **RQ_IDENT_TYPE**
-[`crm_status`](../../../data-types.md) | Способ идентификации ||
+[`crm_status`](../../data-types.md) | Способ идентификации ||
 || **RQ_IDENT_DOC**
 [`string`](../../../data-types.md) | Вид документа ||
 || **RQ_IDENT_DOC_SER**

@@ -1,4 +1,4 @@
-# Показать блок на странице `landing.landing.showblock`
+# Показать блок на странице landing.landing.showblock
 
 {% note tip "" %}
 

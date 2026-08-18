@@ -25,7 +25,7 @@ BX24.userOption.set(string name, mixed value): void;
 || **name***
 [`string`](../../../api-reference/data-types.md) | Код параметра ||
 || **value***
-[`mixed`](../../../api-reference/data-types.md) | Значение параметра ||
+[`any`](../../../api-reference/data-types.md) | Значение параметра ||
 |#
 
 ## Пример кода

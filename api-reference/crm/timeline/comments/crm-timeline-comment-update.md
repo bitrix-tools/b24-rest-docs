@@ -52,7 +52,7 @@ fields:
 
 ||
 || **ownerTypeId**
-[`integer`](../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../data-types.md#object_type), к которому привязан комментарий (например, `2` для сделки) ||
+[`integer`](../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../data-types.md#object_type), к которому привязан комментарий (например, `2` для сделки) ||
 || **ownerId**
 [`integer`](../../../data-types.md) | Целочисленный идентификатор элемента CRM, к которому привязан комментарий (например, `1`). Получить список идентификаторов можно методом [`crm.timeline.bindings.list`](../bindings/crm-timeline-bindings-list.md) (поле `ENTITY_ID`) ||
 |#
@@ -66,7 +66,7 @@ fields:
 || **COMMENT**
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
-[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-update-files.md) ||
+[`attached_diskfile`](../../data-types.md#attached_diskfile) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-update-files.md) ||
 |#
 
 ## Примеры кода

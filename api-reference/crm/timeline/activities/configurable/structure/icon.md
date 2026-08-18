@@ -18,7 +18,7 @@
 #|
 || **Поле** | **Описание** | **Дополнительно** ||
 || **code^*^**
-[`string`](../../../../data-types.md) | Код иконки | Список доступных кодов можно получить методом [crm.timeline.icon.list](../../../logmessage/icons/crm-timeline-icon-list.md) ||
+[`string`](../../../../../data-types.md) | Код иконки | Список доступных кодов можно получить методом [crm.timeline.icon.list](../../../logmessage/icons/crm-timeline-icon-list.md) ||
 |#
 
 ## Пример объекта

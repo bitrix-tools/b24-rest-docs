@@ -1,4 +1,4 @@
-# Получить список блоков страницы `landing.block.getlist`
+# Получить список блоков страницы landing.block.getlist
 
 {% note tip "" %}
 

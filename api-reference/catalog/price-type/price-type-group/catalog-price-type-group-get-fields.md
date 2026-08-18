@@ -252,7 +252,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
+[`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **priceTypeGroup**
 [`object`](../../data-types.md#catalog_price_type_group) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price_type_group](../../data-types.md#catalog_price_type_group), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description) ||
 || **time**

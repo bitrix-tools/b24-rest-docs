@@ -1,4 +1,4 @@
-# Получить манифест блока `landing.block.getmanifest`
+# Получить манифест блока landing.block.getmanifest
 
 {% note tip "" %}
 

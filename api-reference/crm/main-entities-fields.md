@@ -25,7 +25,7 @@
 || **TYPE_ID**
 [`crm_status`](./data-types.md) | Тип сделки. Используется только для привязки к внешнему источнику. | Да | Да ||
 || **CATEGORY_ID**
-[`crm_category`](../data-types.md) | Идентификатор направления. Неизменяемое. Если не передавать это поле при создании сделки, то сделка создастся в общем направлении. | Да | Да ||
+[`crm_category`](./data-types.md) | Идентификатор направления. Неизменяемое. Если не передавать это поле при создании сделки, то сделка создастся в общем направлении. | Да | Да ||
 || **STAGE_ID**
 [`crm_status`](./data-types.md) | Идентификатор стадии. Возможные значения:
 - `NEW` — новая сделка
@@ -108,7 +108,7 @@
 || **LEAD_ID**
 [`crm_lead`](./data-types.md) | Идентификатор привязанного лида | Да | Нет ||
 || **LOCATION_ID**
-[`location`](../data-types.md) | Местоположение клиента. Служебное поле, не рекомендуется к использованию | Да | Да ||
+[`location`](./data-types.md) | Местоположение клиента. Служебное поле, не рекомендуется к использованию | Да | Да ||
 || **ORIGINATOR_ID**
 [`string`](../data-types.md) | Идентификатор источника данных. Используется только для привязки к внешнему источнику | Да | Да ||
 || **ORIGIN_ID**
@@ -461,7 +461,7 @@
 ||**ADDRESS_COUNTRY_CODE**
 [`string`](../data-types.md) | Код страны (устаревшее) | Да | Да ||
 ||**ADDRESS_LOC_ADDR_ID**
-[`location`](../data-types.md) | Идентификатор адреса местоположения (устаревшее) | Да | Да ||
+[`location`](./data-types.md) | Идентификатор адреса местоположения (устаревшее) | Да | Да ||
 ||**COMMENTS**
 [`string`](../data-types.md) | Комментарий. Поддерживает bb-коды | Да | Да ||
 ||**OPENED**
@@ -957,9 +957,9 @@
 || **OWNER_ID**
 [`integer`](../data-types.md) | Идентификатор владельца, неизменяемое | Да | Да ||
 || **OWNER_TYPE_ID**
-[`crm.enum.ownertype`](./data-types.md) | Тип владельца, неизменяемое | Да | Да ||
+[`crm_enum_ownertype`](./data-types.md#activity-enums) | Тип владельца, неизменяемое | Да | Да ||
 || **TYPE_ID**
-[`crm_enum_activitytype`](./data-types.md) | Тип, неизменяемый | Да | Да ||
+[`crm_enum_activitytype`](./data-types.md#activity-enums) | Тип, неизменяемый | Да | Да ||
 || **PROVIDER_ID**
 [`string`](../data-types.md) | Идентификатор провайдера | Да | Да ||
 || **PROVIDER_TYPE_ID**
@@ -979,21 +979,21 @@
 || **COMPLETED**
 [`char`](../data-types.md) | Выполнено | Да | Да ||
 || **STATUS**
-[`crm_enum_activitystatus`](./data-types.md) | Статус | Да | Да ||
+[`crm_enum_activitystatus`](./data-types.md#activity-enums) | Статус | Да | Да ||
 || **RESPONSIBLE_ID**
 [`user`](../data-types.md) | Ответственный | Да | Да ||
 || **PRIORITY**
-[`crm.enum.activitypriority`](./data-types.md) | Важность | Да | Да ||
+[`crm_enum_activitypriority`](./data-types.md#activity-enums) | Важность | Да | Да ||
 || **NOTIFY_TYPE**
-[`crm.enum.activitynotifytype`](./data-types.md) | Тип уведомлений | Да | Да ||
+[`crm_enum_activitynotifytype`](./data-types.md#activity-enums) | Тип уведомлений | Да | Да ||
 || **NOTIFY_VALUE**
 [`integer`](../data-types.md) | Параметр уведомления | Да | Да ||
 || **DESCRIPTION**
 [`string`](../data-types.md) | Описание | Да | Да ||
 || **DESCRIPTION_TYPE**
-[`crm.enum.contenttype`](./data-types.md) | Тип описания | Да | Да ||
+[`crm_enum_contenttype`](./data-types.md#activity-enums) | Тип описания | Да | Да ||
 || **DIRECTION**
-[`crm.enum.activitydirection`](./data-types.md) | Направление дела: входящее/исходящее. Актуально для звонков и писем, для встреч не используется | Да | Да ||
+[`crm_enum_activitydirection`](./data-types.md#activity-enums) | Направление дела: входящее/исходящее. Актуально для звонков и писем, для встреч не используется | Да | Да ||
 || **LOCATION**
 [`string`](../data-types.md) | Местоположение | Да | Да ||
 || **CREATED**
@@ -1031,13 +1031,13 @@
 || **AUTOCOMPLETE_RULE**
 [`integer`](../data-types.md) | Автозаполнение | Да | Да ||
 || **BINDINGS**
-[`crm_activity_binding`](./data-types.md) | Привязки | Да | Нет ||
+[`crm_activity_binding`](./data-types.md#crm_activity_binding) | Привязки | Да | Нет ||
 || **COMMUNICATIONS**
 [`crm_activity_communication`](./data-types.md) | Канал коммуникации. Множественное, обязательное | Да | Да ||
 || **FILES**
-[`diskfile`](../data-types.md) | Добавленные файлы. Множественное | Да | Да ||
+[`diskfile`](./data-types.md#diskfile) | Добавленные файлы. Множественное | Да | Да ||
 || **WEBDAV_ELEMENTS**
-[`diskfile`](../data-types.md) | Добавленные файлы. Множественное. Устарел, сохраняется для совместимости | Да | Да ||
+[`diskfile`](./data-types.md#diskfile) | Добавленные файлы. Множественное. Устарел, сохраняется для совместимости | Да | Да ||
 || **IS_INCOMING_CHANNEL**
 [`char`](../data-types.md) | Является ли дело входящим, то есть созданным по результатам входящего обращения клиента в канал коммуникаций | Да | Нет ||
 |#

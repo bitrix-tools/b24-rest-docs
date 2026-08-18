@@ -256,7 +256,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`object`](../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
 ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||

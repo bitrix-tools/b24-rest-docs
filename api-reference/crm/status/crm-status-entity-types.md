@@ -403,7 +403,7 @@ HTTP-статус: **200**
 || **NAME**
 [`string`](../../data-types.md) | Название ||
 || **ENTITY_TYPE_ID**
-[`integer`](../../data-types.md) | [Тип объекта CRM](../data-types.md#object_type#), к которому относится статус ||
+[`integer`](../../data-types.md) | [Тип объекта CRM](../data-types.md#object_type), к которому относится статус ||
 || **SEMANTIC_INFO**
 [`object`](../../data-types.md) | Информация о семантике статусов-стадий ||
 || **PREFIX**

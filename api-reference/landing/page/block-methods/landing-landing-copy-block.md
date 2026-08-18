@@ -1,4 +1,4 @@
-# Копировать блок на страницу `landing.landing.copyblock`
+# Копировать блок на страницу landing.landing.copyblock
 
 {% note tip "" %}
 

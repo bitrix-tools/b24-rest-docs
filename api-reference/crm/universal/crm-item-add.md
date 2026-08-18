@@ -253,7 +253,7 @@
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
   || **fm**
-  [`multifield[]`](../data-types.md) | Массив мультиполей.
+  [`crm_multifield[]`](../data-types.md#crm_multifield) | Массив мультиполей.
 
   Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
 
@@ -427,7 +427,7 @@
 
   По умолчанию — `null` ||
   || **locationId**
-  [`location`](../../data-types.md) | Идентификатор местоположения. Служебное поле.
+  [`location`](../data-types.md) | Идентификатор местоположения. Служебное поле.
 
   По умолчанию — `null` ||
   || **utmSource**
@@ -609,7 +609,7 @@
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
   || **fm**
-  [`multifield[]`](../data-types.md) | Массив мультиполей.
+  [`crm_multifield[]`](../data-types.md#crm_multifield) | Массив мультиполей.
 
   Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
 
@@ -775,7 +775,7 @@
   Каждое такое поле имеет код `parentId + {parentEntityTypeId}`
   ||
   || **fm**
-  [`multifield[]`](../data-types.md) | Массив мультиполей.
+  [`crm_multifield[]`](../data-types.md#crm_multifield) | Массив мультиполей.
 
   Подробнее о мультиполях можно почитать в разделе [{#T}](../data-types.md#crm_multifield)
 
@@ -890,7 +890,7 @@
 
   По умолчанию — `null` ||
   || **locationId**
-  [`location`](../../data-types.md) | Идентификатор местоположения. Служебное поле.
+  [`location`](../data-types.md) | Идентификатор местоположения. Служебное поле.
 
   По умолчанию — `null` ||
   || **currencyId**
@@ -1089,7 +1089,7 @@
 
   По умолчанию — `null` ||
   || **locationId**
-  [`location`](../../data-types.md) | Идентификатор местоположения. Служебное поле.
+  [`location`](../data-types.md) | Идентификатор местоположения. Служебное поле.
 
   По умолчанию — `null` ||
   || **ufCrm...**

@@ -673,7 +673,7 @@ HTTP-статус: **200**
 || **CREATED_BY_ID**  
 [`integer`](../../data-types.md) | Идентификатор пользователя, создавшего предложение. Только для чтения ||
 || **CURRENCY_ID**  
-[`crm_currency`](../../data-types.md) | Валюта предложения ||
+[`crm_currency`](../data-types.md) | Валюта предложения ||
 || **DATE_CREATE**  
 [`datetime`](../../data-types.md) | Дата создания предложения. Только для чтения ||
 || **DATE_MODIFY**  
@@ -699,7 +699,7 @@ HTTP-статус: **200**
 || **QUOTE_NUMBER**  
 [`string`](../../data-types.md) | Номер предложения. Только для чтения ||
 || **STATUS_ID**  
-[`crm_status`](../../data-types.md) | Стадия предложения. Получить значения справочника можно с помощью метода [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=QUOTE_STATUS` ||
+[`crm_status`](../data-types.md) | Стадия предложения. Получить значения справочника можно с помощью метода [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=QUOTE_STATUS` ||
 || **TAX_VALUE**  
 [`double`](../../data-types.md) | Ставка налога ||
 || **TERMS**  

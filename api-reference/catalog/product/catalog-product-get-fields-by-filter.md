@@ -574,7 +574,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **product**
-[`object`](../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_product`](../data-types.md#catalog_product), а `value` — объект типа [`rest_field_description`](../data-types.md). ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_product`](../data-types.md#catalog_product), а `value` — объект типа [`rest_field_description`](../data-types.md). ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#

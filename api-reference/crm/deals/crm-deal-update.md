@@ -143,7 +143,7 @@
 || **ADDITIONAL_INFO**
 [`string`](../../data-types.md) | Дополнительная информация ||
 || **LOCATION_ID**
-[`location`](../../data-types.md) | Местоположение клиента. Служебное поле ||
+[`location`](../data-types.md) | Местоположение клиента. Служебное поле ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных.
 

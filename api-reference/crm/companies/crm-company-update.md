@@ -88,7 +88,7 @@
 || **ASSIGNED_BY_ID**
 [`user`](../../data-types.md) | Ответственный ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Контакт. Множественное ||
+[`crm_contact`](../data-types.md) | Контакт. Множественное ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных. Используется только для привязки к внешнему источнику ||
 || **ORIGIN_ID**

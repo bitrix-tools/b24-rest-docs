@@ -1,4 +1,4 @@
-# Снять отметку удаления с блока `landing.landing.markundeletedblock`
+# Снять отметку удаления с блока landing.landing.markundeletedblock
 
 {% note tip "" %}
 

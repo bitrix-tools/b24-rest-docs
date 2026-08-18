@@ -46,13 +46,13 @@
 || **title^*^**
 [`textWithTranslation`](./field-types.md#textwithtranslation) | Текст тега ||
 || **type^*^**
-[`string`](../../../../data-types.md) | Тип тега, например `warning`. Определяет его внешний вид ||
+[`string`](../../../../../data-types.md) | Тип тега, например `warning`. Определяет его внешний вид ||
 || **action**
 [`ActionDto`](./action.md) | Действие по нажатию на тег ||
 || **scope**
-[`string`](../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
+[`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 || **hideIfReadonly**
-[`boolean`](../../../../data-types.md) | Флаг. Скрывает тег, если у пользователя нет доступа на редактирование (по умолчанию `false`) ||
+[`boolean`](../../../../../data-types.md) | Флаг. Скрывает тег, если у пользователя нет доступа на редактирование (по умолчанию `false`) ||
 |#
 
 Возможные значения поля **type**:

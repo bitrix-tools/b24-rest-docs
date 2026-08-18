@@ -182,7 +182,7 @@
 || **LIMIT_DATE**
 [`date`](../../../data-types.md) | Дата, до достижения которой можно создавать счета из этого шаблона | Учитывается, если `IS_LIMIT` равно `D` ||
 || **PARAMS**
-[`unknown`](../../../data-types.md)
+[`recurring_params`](../../data-types.md)
 | Набор параметров для расчета - recurring_params: 
 - **PERIOD** - период повторения:
     - day - день
