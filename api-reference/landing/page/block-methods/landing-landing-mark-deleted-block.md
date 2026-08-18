@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «редактирование» сайта
 
-Метод `landing.landing.markdeletedblock` помечает блок страницы как удаленный, но не удаляет его из базы данных. Помеченный блок можно восстановить методом [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md).
+Метод `landing.landing.markdeletedblock` помечает блок страницы как удаленный, но не удаляет его из базы данных. Помеченный блок можно восстановить методом [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md). Чтобы удалить блок сразу и без возможности восстановления, используйте метод [landing.landing.deleteblock](./landing-landing-delete-block.md).
+
+Метод работает только с блоками той страницы, которая передана в параметре `lid`.
 
 Если страница уже опубликована, для посетителей изменения станут видны после команды «Опубликовать изменения» в интерфейсе или после вызова метода [landing.landing.publication](../methods/landing-landing-publication.md).
 

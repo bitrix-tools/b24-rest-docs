@@ -15,6 +15,8 @@
 
 Метод `landing.landing.markDelete` помечает страницу как удаленную, переносит ее в корзину и снимает с публикации.
 
+Страница остается в базе данных. Восстановить ее можно методом [landing.landing.markUnDelete](./landing-landing-mark-undelete.md). По умолчанию страницы хранятся в корзине 30 дней, затем удаляются автоматически. Чтобы удалить страницу сразу и без возможности восстановления, используйте метод [landing.landing.delete](./landing-landing-delete.md).
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -22,10 +24,18 @@
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **scope**
+[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+
+Значение `scope` должно соответствовать типу сайта [(подробное описание)](../../types.md) ||
 || **lid***
 [`integer`](../../../data-types.md) | Идентификатор страницы.
 
 Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md), а также из результата методов [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) и [landing.landing.copy](./landing-landing-copy.md) ||
+|| **mark**
+[`boolean`](../../../data-types.md) | Признак пометки страницы как удаленной. По умолчанию `true`.
+
+Если передать `false`, метод восстановит страницу из корзины. Для такого сценария обычно используют [landing.landing.markUnDelete](./landing-landing-mark-undelete.md) ||
 |#
 
 ## Примеры кода

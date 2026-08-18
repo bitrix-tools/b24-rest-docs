@@ -21,7 +21,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Реализовать простую кассу на REST API](../../../tutorials/sale/cashbox-add-example.md)
+- [Как подключить кассу к Битрикс24](../../../tutorials/sale/cashbox-add-example.md)
 
 {% endnote %}
 
