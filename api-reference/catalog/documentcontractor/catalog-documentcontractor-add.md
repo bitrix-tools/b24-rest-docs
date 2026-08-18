@@ -307,7 +307,7 @@ HTTP-код: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **documentContractor**
-[`catalog_documentContractor`](../data-types.md#catalog_documentContractor) | Объект с данными созданной привязки поставщика к документу складского учета ||  
+[`catalog_documentContractor`](../data-types.md#catalog_documentcontractor) | Объект с данными созданной привязки поставщика к документу складского учета ||  
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

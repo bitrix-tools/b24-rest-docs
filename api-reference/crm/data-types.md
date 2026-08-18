@@ -118,7 +118,7 @@
 || **ownerId**
 [`integer`](../data-types.md) | Идентификатор объекта CRM ||
 || **ownerType**
-[`string`](../data-types.md) | Идентификатор [`типа объекта CRM`](#tip-obuekta-crm) ||
+[`string`](../data-types.md) | Идентификатор [`типа объекта CRM`](#object_type) ||
 || **productId**
 `catalog_product.id` | Идентификатор товара из каталога ||
 || **productName**

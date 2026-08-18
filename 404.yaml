@@ -19,7 +19,7 @@ blocks:
       text: 'Информация ниже может помочь:'
     items:
       - links:
-        - url: 'https://apidocs.bitrix24.ru/api-reference/index.html#instrument-bitriks24'
+        - url: 'https://apidocs.bitrix24.ru/api-reference/index.html#all-methods'
           text: 'Найти метод REST API'
           theme: 'normal'
           arrow: true

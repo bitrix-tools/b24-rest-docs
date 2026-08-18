@@ -29,7 +29,7 @@
 || **id^*^**
 [`integer`](../../data-types.md) | Идентификатор сделки. Можно получить с помощью метода получения списка сделок: [`crm.deal.list`](./crm-deal-list.md) или при создании сделки: [`crm.deal.add`](./crm-deal-add.md) ||
 || **rows**
-[`object[]`](#productrows) | Товарные позиции
+[`object[]`](#parameter-rows) | Товарные позиции
 
 Массив объектов, вида: 
 ```

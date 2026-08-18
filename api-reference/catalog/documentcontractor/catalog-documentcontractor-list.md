@@ -352,7 +352,7 @@ HTTP-код: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **documentContractor**
-[`catalog_documentContractor[]`](../data-types.md#catalog_documentContractor) | Список привязок контрагентов, структура ответа зависит от параметра `select` || 
+[`catalog_documentContractor[]`](../data-types.md#catalog_documentcontractor) | Список привязок контрагентов, структура ответа зависит от параметра `select` || 
 || **next**
 [`integer`](../../data-types.md) | Указатель смещения для следующей страницы. Передайте значение в параметр `start`, чтобы получить следующие 50 записей ||
 || **total**

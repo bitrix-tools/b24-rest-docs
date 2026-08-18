@@ -451,7 +451,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`templateFields`](#templatefields) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`templateFields`](#templatefield) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

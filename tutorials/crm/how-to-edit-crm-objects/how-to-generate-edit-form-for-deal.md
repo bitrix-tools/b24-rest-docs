@@ -52,7 +52,7 @@
 
 ## 1. Подготовим окружение
 
-Создайте [входящий вебхук](../../../local-integrations/local-webhooks.md#входящий-вебхук) с правами `crm` и `user_brief`.
+Создайте [входящий вебхук](../../../local-integrations/local-webhooks.md#incoming-webhook) с правами `crm` и `user_brief`.
 
 {% note warning "Храните вебхук в секрете" %}
 

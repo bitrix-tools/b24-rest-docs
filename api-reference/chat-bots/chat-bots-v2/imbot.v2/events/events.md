@@ -15,7 +15,7 @@
 
 ## Автоматическое управление подписками
 
-Подписка бота на события `ONIMBOTV2*` создается автоматически при [imbot.v2.Bot.register](../bots/bot-register.md) с `eventMode: "webhook"`, обновляется при [imbot.v2.Bot.update](../bots/bot-update.md) (при смене `webhookUrl` или `eventMode`) и удаляется при [imbot.v2.Bot.unregister](../bots/bot-unregister.md) или переходе в режим `fetch`. Ручной вызов [event.bind](https://apidocs.bitrix24.ru/api-reference/events/event-bind.html) / [event.unbind](https://apidocs.bitrix24.ru/api-reference/events/event-unbind.html) не требуется и может привести к расхождению с внутренним учетом.
+Подписка бота на события `ONIMBOTV2*` создается автоматически при [imbot.v2.Bot.register](../bots/bot-register.md) с `eventMode: "webhook"`, обновляется при [imbot.v2.Bot.update](../bots/bot-update.md) (при смене `webhookUrl` или `eventMode`) и удаляется при [imbot.v2.Bot.unregister](../bots/bot-unregister.md) или переходе в режим `fetch`. Ручной вызов [event.bind](../../../../events/event-bind.md) / [event.unbind](../../../../events/event-unbind.md) не требуется и может привести к расхождению с внутренним учетом.
 
 ## Какие события обрабатывать в первую очередь
 

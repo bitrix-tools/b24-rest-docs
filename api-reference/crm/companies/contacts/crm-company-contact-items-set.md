@@ -43,7 +43,7 @@
 
 Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 3` ||
 || **IS_PRIMARY**
-[`char`](../../../data-types.md#char) | Является ли привязка первичной. Возможные значения:
+[`char`](../../../data-types.md#standart-types) | Является ли привязка первичной. Возможные значения:
 - `Y` — да
 - `N` — нет
 

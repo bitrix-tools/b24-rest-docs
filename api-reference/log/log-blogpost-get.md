@@ -655,7 +655,7 @@ HTTP-статус: **200**
 || **DETAIL_TEXT**
 [`string`](../data-types.md) | Текст сообщения ||
 || **DATE_PUBLISH**
-[`datetime`](../data-types.md#datetime) | Дата и время публикации ||
+[`datetime`](../data-types.md#standart-types) | Дата и время публикации ||
 || **CATEGORY_ID**
 [`string`](../data-types.md) | Идентификаторы тегов (категорий) через запятую ||
 || **HAS_SOCNET_ALL**

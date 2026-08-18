@@ -103,7 +103,7 @@
 
 Заполняется автоматически при `IMPORTANT = 'Y'` ||
 || **UF_IMPRTANT_DATE_END**
-[`datetime`](../data-types.md#datetime) | Срок действия важного сообщения.
+[`datetime`](../data-types.md#standart-types) | Срок действия важного сообщения.
 
 Заполняется автоматически при переданном `IMPORTANT_DATE_END` ||
 || **UF_BLOG_POST_URL_PRV**

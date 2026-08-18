@@ -34,14 +34,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **resourceIds**
-[`array`](../../data-types.md#array) | Массив идентификаторов ресурсов. 
+[`array`](../../data-types.md#standart-types) | Массив идентификаторов ресурсов. 
 ID ресурсов можно получить методом [booking.v1.resource.list](../resource/booking-v1-resource-list.md) ||
 || **name**
 [`string`](../../data-types.md) | Название бронирования ||
 || **description**
 [`string`](../../data-types.md) | Описание бронирования ||
 || **datePeriod**
-[`object`](../../data-types.md#object) | Объект, содержащий время брони [(подробное описание)](#datePeriod) ||
+[`object`](../../data-types.md#standart-types) | Объект, содержащий время брони [(подробное описание)](#datePeriod) ||
 |#
 
 ### Параметр datePeriod {#datePeriod}
@@ -50,9 +50,9 @@ ID ресурсов можно получить методом [booking.v1.resou
 || **Название**
 `тип` | **Описание** ||
 || **from***
-[`object`](../../data-types.md#object) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
+[`object`](../../data-types.md#standart-types) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
 || **to***
-[`object`](../../data-types.md#object) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
+[`object`](../../data-types.md#standart-types) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
 |#
 
 ## Примеры кода

@@ -257,8 +257,8 @@ HTTP-код: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **documentContractor**
-[`object`](../data-types.md#catalog_documentContractor) | Объект с описанием полей привязки поставщика к документу складского учета.
-Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_documentContractor`](../data-types.md#catalog_documentContractor), а `value` — объект типа [`rest_field_description`](../data-types.md) ||  
+[`object`](../data-types.md#catalog_documentcontractor) | Объект с описанием полей привязки поставщика к документу складского учета.
+Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_documentContractor`](../data-types.md#catalog_documentcontractor), а `value` — объект типа [`rest_field_description`](../data-types.md) ||  
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

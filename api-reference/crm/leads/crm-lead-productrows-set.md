@@ -33,7 +33,7 @@
 || **id^*^**
 [`integer`](../../data-types.md) | Идентификатор лида. Можно получить с помощью метода получения списка лидов: [`crm.lead.list`](./crm-lead-list.md) или при создании лида: [`crm.lead.add`](./crm-lead-add.md) ||
 || **rows**
-[`object[]`](#productrows) | Товарные позиции
+[`object[]`](#parameter-rows) | Товарные позиции
 
 Массив объектов, вида:
 ```

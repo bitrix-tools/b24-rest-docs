@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Приложения делятся на два типа: [JS-команда](../chat-apps.md#js-команда) и [IFRAME-приложение](../chat-apps.md#iframe-приложение).
+Приложения делятся на два типа: [JS-команда](../chat-apps.md#js-command) и [IFRAME-приложение](../chat-apps.md#iframe-app).
 
 В главе описаны API-методы работы с ними.
 

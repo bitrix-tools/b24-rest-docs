@@ -475,7 +475,7 @@ HTTP-статус: **200**
 || **id**
 [`integer`](../data-types.md) | Идентификатор записи журнала ||
 || **timestampX**
-[`datetime`](../data-types.md#datetime) | Дата и время события ||
+[`datetime`](../data-types.md#standart-types) | Дата и время события ||
 || **severity**
 [`string`](../data-types.md) | Уровень важности события ||
 || **auditTypeId**
