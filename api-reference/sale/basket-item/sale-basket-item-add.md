@@ -87,7 +87,7 @@
 - `Y` — да
 - `N` — нет ||
 || **vatRate****
-[`double`](../../data-types.md) | Величина налога в процентах. Для указания ставки «Без НДС» нужно передать пустую строку ||
+[`double`](../../data-types.md) | Ставка налога долей от единицы: `0.1` — это 10 %. Для указания ставки «Без НДС» нужно передать пустую строку ||
 || **vatIncluded****
 [`string`](../../data-types.md) | Флаг того, включен ли НДС или налог в цену товара. Возможные значения:
 - `Y` — да
@@ -361,8 +361,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [{#T}](../../../tutorials/sale/example-position-with-custom-price.md)
-- [{#T}](../../../tutorials/sale/example-position-that-is-not-on-the-site.md)
+- [{#T}](../../../tutorials/sale/add-basket-item-to-order.md)
 
 {% endnote %}
 
@@ -376,7 +375,7 @@ HTTP-статус: **200**
         "basketItem": {
             "basePrice": 1000,
             "canBuy": "Y",
-            "catalogXmlId": "FUTURE-1C-CATALOG",
+            "catalogXmlId": "FUTURE-ERP-CATALOG",
             "currency": "RUB",
             "customPrice": "N",
             "dateInsert": "2024-04-23T15:59:37+02:00",

@@ -140,7 +140,7 @@
           "type": "double",
           "base": "number",
           "required": true,
-          "description": "Величина налога в процентах. Для указания ставки «Без НДС» нужно передать пустую строку"
+          "description": "Ставка налога долей от единицы: 0.1 — это 10 %. Для указания ставки «Без НДС» нужно передать пустую строку"
         },
         {
           "name": "vatIncluded",
@@ -176,7 +176,7 @@
       "basketItem": {
         "basePrice": 1000,
         "canBuy": "Y",
-        "catalogXmlId": "FUTURE-1C-CATALOG",
+        "catalogXmlId": "FUTURE-ERP-CATALOG",
         "currency": "RUB",
         "customPrice": "N",
         "dateInsert": "2024-04-23T15:59:37+02:00",

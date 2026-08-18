@@ -273,7 +273,7 @@ HTTP-статус: **200**
         "basketItem": {
             "basePrice": 1000,
             "canBuy": "Y",
-            "catalogXmlId": "FUTURE-1C-CATALOG",
+            "catalogXmlId": "FUTURE-ERP-CATALOG",
             "currency": "RUB",
             "customPrice": "N",
             "dateInsert": "2024-04-23T15:59:37+02:00",

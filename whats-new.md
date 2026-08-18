@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 18 августа, 2026
+
+- Добавили туториал [Как добавить позицию в заказ с произвольной ценой](./tutorials/sale/add-basket-item-to-order.md)
+
 ### 14 августа, 2026
 
 - Добавили события [onCrmTypeUserField*](./api-reference/crm/universal/userfieldconfig/events/index.md) для пользовательских полей смарт-процессов, счетов и документов на подпись
