@@ -2,7 +2,11 @@
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом на изменение элемента CRM
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «административный доступ к разделу CRM»
+>
+> - [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — пользователь с административным доступом к разделу CRM
+> - [crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md) — любой пользователь
+> - [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) — любой пользователь с правом на чтение элементов объекта CRM
 
 {% note tip "" %}
 
@@ -14,31 +18,48 @@
 {% endnote %}
 
 Ключевой параметр для добавления комментария в элемент CRM — [идентификатор типа объекта](../../../api-reference/crm/data-types.md#object_type). Идентификатор показывает, в какой тип объекта комментарий будет добавлен: в сделку, в лид, в определенный смарт-процесс.
-Идентификатор используется в параметрах `OWNER_TYPE`,  `OWNER_TYPE_ID` и `ENTITY_TYPE`, `ENTITY_TYPE_ID`  групп методов [crm.item.*](../../../api-reference/crm/universal/index.md), [crm.timeline.*](../../../api-reference/crm/timeline/index.md), [crm.activity.*](../../../api-reference/crm/timeline/activities/index.md). 
 
-В CRM есть два типа идентификаторов объектов:  
-* **Предустановленные** — это идентификаторы [лидов](../../../api-reference/crm/leads/index.md), [сделок](../../../api-reference/crm/deals/index.md), [компаний](../../../api-reference/crm/companies/index.md), [контактов](../../../api-reference/crm/contacts/index.md), [счетов](../../../api-reference/crm/universal/invoice.md), [предложений](../../../api-reference/crm/quote/index.md). Идентификаторы предустановленных объектов есть в [документации](../../../api-reference/crm/data-types.md#object_type)
-* **Динамические** — это идентификаторы смарт-процессов. Идентификатор смарт-процесса генерируется в момент создания, он не зависит от названия смарт-процесса
+Идентификатор используется в параметрах `OWNER_TYPE`, `OWNER_TYPE_ID` и `ENTITY_TYPE`, `ENTITY_TYPE_ID` групп методов [crm.item.*](../../../api-reference/crm/universal/index.md), [crm.timeline.*](../../../api-reference/crm/timeline/index.md), [crm.activity.*](../../../api-reference/crm/timeline/activities/index.md).
+
+В CRM есть два типа идентификаторов объектов:
+
+- **Предустановленные** — это идентификаторы [лидов](../../../api-reference/crm/leads/index.md), [сделок](../../../api-reference/crm/deals/index.md), [компаний](../../../api-reference/crm/companies/index.md), [контактов](../../../api-reference/crm/contacts/index.md), [счетов](../../../api-reference/crm/universal/invoice.md), [предложений](../../../api-reference/crm/quote/index.md). Идентификаторы предустановленных объектов есть в [документации](../../../api-reference/crm/data-types.md#object_type)
+
+- **Динамические** — это идентификаторы смарт-процессов. Идентификатор смарт-процесса генерируется в момент создания, он не зависит от названия смарт-процесса
 
 Получить идентификатор смарт-процесса можно двумя методами:
-* [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) — метод без параметров, возвращает перечисление типов объектов CRM, как предустановленных, так и динамических
-* [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — метод с фильтром, возвращает только динамические объекты CRM
 
-Для создания комментария в элементе смарт-процесса последовательно выполним два метода: 
-1.	[crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — получаем смарт-процесс по фильтру
-2.	[crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md) — создаем комментарий
+- [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) — метод без параметров, возвращает перечисление типов объектов CRM, как предустановленных, так и динамических
+
+- [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — метод с фильтром, возвращает только динамические объекты CRM
+
+В результате сценария в таймлайне элемента смарт-процесса появится комментарий, а метод вернет идентификатор записи таймлайна.
+
+Сценарий состоит из двух шагов.
+
+1. Получить `entityTypeId` смарт-процесса методом [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
+2. Создать комментарий методом [crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md), собрав из `entityTypeId` значение параметра `ENTITY_TYPE`
+
+## Что нужно до начала
+
+- смарт-процесс уже создан в Битрикс24, и вы знаете его название. Смарт-процессы доступны не на всех тарифах: если создать их нельзя, метод [crm.type.add](../../../api-reference/crm/universal/user-defined-object-types/crm-type-add.md) вернет ошибку `CREATE_DYNAMIC_TYPE_RESTRICTED`
+
+- в смарт-процессе есть элемент, в таймлайн которого нужно добавить комментарий. Идентификатор элемента возвращает метод [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) с параметром `entityTypeId` из шага 1
+
+- вебхук создан от имени пользователя с административным доступом к разделу CRM — это требование метода [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
 
 ## 1. Получаем идентификатор типа смарт-процесса
 
 Для получения идентификатора типа используем метод [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) с фильтром:
-* `title`  —   укажем название смарт-процесса
+
+- `title` — укажем название смарт-процесса. Замените `Закупка оборудования` на название своего смарт-процесса
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
+
     ```javascript
     import { B24Hook } from '@bitrix24/b24jssdk'
 
@@ -98,6 +119,7 @@
 - Go
 
     ```go
+    // core, ctx и spaTitle объявлены в полном примере ниже
     res, err := core.Call(ctx, "crm.type.list", b24.Params{
     	"filter": b24.Params{"title": spaTitle},
     }, b24.WithIdempotent())
@@ -130,9 +152,11 @@
 {% endlist %}
 
 В результате получили два значения ID:
-* `id`: `7` — порядковый номер смарт-процесса в Битрикс
-* `entityTypeId`: `177` — идентификатор типа смарт-процесса. Параметр, необходимый для следующего запроса
-  
+
+- `id`: `7` — порядковый номер смарт-процесса в Битрикс24
+
+- `entityTypeId`: `177` — идентификатор типа смарт-процесса. Параметр, необходимый для следующего запроса
+
 ```json
 {
     "result": {
@@ -168,12 +192,18 @@
     }
 }
 ```
-## 2.  Добавляем комментарий к элементу смарт-процесса
+
+Сохраните `entityTypeId` — на следующем шаге из него собирается значение `ENTITY_TYPE`. Значение `id` для этого сценария не нужно.
+
+## 2. Добавляем комментарий к элементу смарт-процесса
 
 Для добавления комментария используем метод [crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md) с параметрами:
-* `ENTITY_ID`  —   ID элемента. Для получения значения ID используйте метод [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md), где `entityTypeId` фильтра равно значению `entityTypeId` из [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
-* `ENTITY_TYPE`  — укажем `DYNAMIC_177`. Значение состоит из `entityTypeId`  из результата предыдущего метода и префикса динамического объекта `DYNAMIC_`
-* `COMMENT` — текстовое значение комментария
+
+- `ENTITY_ID` — ID элемента. Для получения значения ID используйте метод [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md), где `entityTypeId` фильтра равно значению `entityTypeId` из [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md). В примере укажем `19`
+
+- `ENTITY_TYPE` — укажем `DYNAMIC_177`. Значение состоит из префикса динамического объекта `DYNAMIC_` и `entityTypeId` из результата предыдущего метода. Подставляйте именно `entityTypeId`: `id` смарт-процесса здесь не подойдет
+
+- `COMMENT` — текстовое значение комментария. Пустую строку метод не принимает
 
 {% list tabs %}
 
@@ -221,6 +251,7 @@
 - Go
 
     ```go
+    // core, ctx, entityTypeID и itemID объявлены в полном примере ниже.
     // ENTITY_TYPE для смарт-процесса — это строка "DYNAMIC_" + entityTypeId.
     // Поля таймлайна пишутся В ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.* принимает
     // camelCase: одна сущность, два соглашения в одном сценарии.
@@ -252,6 +283,112 @@
     "result": 55771
 }
 ```
+
+## Проверим результат
+
+Откройте элемент смарт-процесса в Битрикс24. Комментарий отображается в таймлайне элемента, в ленте под карточкой.
+
+Через REST комментарии элемента возвращает метод [crm.timeline.comment.list](../../../api-reference/crm/timeline/comments/crm-timeline-comment-list.md) с теми же значениями `ENTITY_ID` и `ENTITY_TYPE`, что и на шаге 2.
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    const checkResponse = await $b24.actions.v2.call.make({
+        method: 'crm.timeline.comment.list',
+        params: {
+            filter: {
+                "ENTITY_ID": 19,
+                "ENTITY_TYPE": "DYNAMIC_177"
+            },
+            order: { ID: 'DESC' }
+        },
+        requestId: 'comment-list'
+    });
+
+    console.dir(checkResponse.getData().result);
+    ```
+
+- PHP
+
+    ```php
+    // у crm.timeline.comment.list нет обёртки в SDK — вызываем метод напрямую
+    $comments = $sb->core->call(
+        'crm.timeline.comment.list',
+        [
+            'filter' => [
+                'ENTITY_ID' => 19,
+                'ENTITY_TYPE' => 'DYNAMIC_177',
+            ],
+            'order' => ['ID' => 'DESC'],
+        ]
+    )->getResponseData()->getResult();
+    ```
+
+- Python
+
+    ```python
+    comments = client.crm.timeline.comment.list(
+        filter={
+            "ENTITY_ID": 19,
+            "ENTITY_TYPE": "DYNAMIC_177",
+        },
+        order={"ID": "DESC"},
+    ).response.result
+    ```
+
+{% endlist %}
+
+Сценарий выполнен, если в ответе есть объект с `ID` из шага 2, а его поле `COMMENT` совпадает с отправленным текстом.
+
+```json
+{
+    "result": [
+        {
+            "ID": "55771",
+            "ENTITY_ID": 19,
+            "ENTITY_TYPE": "dynamic_177",
+            "CREATED": "2024-11-12T15:32:39+03:00",
+            "COMMENT": "Подтвердить закупку по почте!",
+            "AUTHOR_ID": "1"
+        }
+    ],
+    "total": 1
+}
+```
+
+В запросе `ENTITY_TYPE` можно передавать в любом регистре, а в ответе метод возвращает его в нижнем — `dynamic_177`. Это не признак ошибки.
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `ACCESS_DENIED` | У пользователя нет административного доступа к разделу CRM, который требует [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md). Проверьте, от имени какого пользователя создан вебхук ||
+|| `allowed_only_intranet_user` | Метод [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) разрешен только интранет-пользователям. Экстранет-пользователь и внешний пользователь сценарий не пройдут ||
+|| `INVALID_ARG_VALUE` | В [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) передано несуществующее поле фильтра. Фильтруйте по полям объекта [type](../../../api-reference/crm/data-types.md#type), для поиска по названию — по полю `title` ||
+|| `OWNER_NOT_FOUND` | В `ENTITY_TYPE` передан тип, которого в Битрикс24 нет. Соберите значение заново: префикс `DYNAMIC_` и `entityTypeId` из шага 1, а не `id` ||
+|| `INVALID_ARG_VALUE` `Empty comment message` | В `COMMENT` передана пустая строка. Метод не создает пустые комментарии ||
+|| `100` | Не переданы обязательные поля. В `fields` метода [crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md) нужны все три значения: `ENTITY_ID`, `ENTITY_TYPE` и `COMMENT` ||
+|#
+
+Метод [crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md) может вернуть идентификатор записи, а комментарий в таймлайне не появится. Метод не проверяет, существует ли элемент с переданным `ENTITY_ID`: если элемента нет, комментарий создается, но привязать его не к чему.
+
+- проверьте `ENTITY_ID` методом [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) с `entityTypeId` из шага 1. Если элемента с таким идентификатором нет, возьмите существующий
+
+- убедитесь, что `ENTITY_ID` — это идентификатор элемента, а не `id` или `entityTypeId` смарт-процесса
+
+Повторяйте сценарий с того шага, который вернул ошибку. Шаг 1 ничего не создает, его можно выполнять сколько угодно раз. Если ошибку вернул шаг 2, комментарий не создан: исправьте `fields` и повторите только его.
+
+## Что важно учитывать
+
+- поля таймлайна пишутся в верхнем регистре — `ENTITY_ID`, `ENTITY_TYPE`, `COMMENT`. Методы [crm.item.*](../../../api-reference/crm/universal/index.md) для того же объекта принимают camelCase, например `entityTypeId`. Одна сущность, два соглашения в одном сценарии
+
+- фильтр `title` в [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) не гарантирует единственный результат: двум смарт-процессам не запрещено называться одинаково. Метод всегда возвращает список, поэтому проверяйте, что в нем ровно один элемент, а не берите первый вслепую
+
+- повторный запуск примера добавляет в таймлайн еще один комментарий, дубликаты не отсеиваются
 
 ## Пример кода
 
@@ -320,7 +457,6 @@
     // Вызов функции для поиска смарт-процесса и добавления комментария
     findSPA();
     ```
-
 
 - PHP
 
@@ -612,3 +748,13 @@
     ```
 
 {% endlist %}
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md)
+- [{#T}](../../../api-reference/crm/timeline/comments/crm-timeline-comment-list.md)
+- [{#T}](../../../api-reference/crm/timeline/comments/crm-timeline-comment-update.md)
+- [{#T}](../../../api-reference/crm/timeline/comments/crm-timeline-comment-delete.md)
+- [{#T}](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
+- [{#T}](../../../api-reference/crm/universal/crm-item-list.md)
+- [{#T}](../../../api-reference/crm/data-types.md)
