@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 19 августа, 2026
+
+- Обновили документацию по методам [landing.role.getRights](./api-reference/landing/rights/role-model/landing-role-get-rights.md), [landing.role.setRights](./api-reference/landing/rights/role-model/landing-role-set-rights.md), [landing.role.setAccessCodes](./api-reference/landing/rights/role-model/landing-role-set-access-codes.md), [landing.role.enable](./api-reference/landing/rights/landing-role-enable.md): описали параметр `scope` и ошибку `ROLE_SCOPE_MISMATCH`
+- Обновили документацию по методам [bizproc.workflow.instances](./api-reference/bizproc/bizproc-workflow-instances.md), [bizproc.workflow.template.list](./api-reference/bizproc/template/bizproc-workflow-template-list.md), [bizproc.task.list](./api-reference/bizproc/bizproc-task/bizproc-task-list.md): описали типы фильтрации `=` и `!=`
+
 ### 18 августа, 2026
 
 - Добавили туториал [Как добавить позицию в заказ с произвольной ценой](./tutorials/sale/add-basket-item-to-order.md)
