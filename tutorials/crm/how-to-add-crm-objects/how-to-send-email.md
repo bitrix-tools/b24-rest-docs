@@ -1,8 +1,12 @@
 # Как отправить письмо клиенту от имени сотрудника
 
-> Scope: [`crm`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`, `user_basic`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом на изменение элемента CRM
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «изменение контакта»
+>
+> - [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) — пользователь с правом на чтение контактов
+> - [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md) — пользователь с правом на изменение элемента CRM, для которого добавляется дело
+> - [user.get](../../../api-reference/user/user-get.md) — любой пользователь
 
 {% note tip "" %}
 
@@ -13,19 +17,37 @@
 
 {% endnote %}
 
-Письмо клиенту можно отправить автоматически через CRM. В поле «От кого» будут указаны имя и адрес электронной почты сотрудника. В карточке контакта добавится событие для исходящего письма.
+Письмо клиенту можно отправить автоматически через CRM. В поле «От кого» будут указаны имя и адрес электронной почты сотрудника. В карточке контакта добавится дело типа «письмо».
 
-Чтобы отправить письмо, последовательно выполним три метода:
+Отправить письмо через REST можно и методом [mail.message.send](../../../api-reference/mail/message/mail-message-send.md), но он работает с почтовым ящиком, а не с CRM: письмо уйдет, а в карточке клиента о нем ничего не останется. Здесь задача обратная — письмо должно попасть в таймлайн контакта, и такую запись создает только [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md).
 
-1. [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) — получим данные клиента
+Отправка идет как побочный эффект создания дела. Битрикс24 отправит письмо, только если в одном запросе сойдутся три условия — `TYPE_ID` со значением `4`, `DIRECTION` со значением `2` и `COMPLETED` со значением `Y`. Если хотя бы одного не хватит, дело в карточке появится, но письмо не отправится.
 
-2. [user.get](../../../api-reference/user/user-get.md)— получим данные сотрудника
+Метод создания дела не принимает данные участников сам: адрес клиента для `COMMUNICATIONS` и подпись отправителя для `SETTINGS` нужно сначала получить из карточки контакта и профиля сотрудника. Поэтому сценарий состоит из трех шагов.
 
-3. [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md) — создадим дело типа «Письмо»
+1. Получить адрес клиента и его ответственного методом [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md)
 
-## 1\. Получим данные клиента
+2. Получить имя и адрес ответственного методом [user.get](../../../api-reference/user/user-get.md)
 
-Используем метод [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) с идентификатором клиента. Значение идентификатора можно предварительно сохранить в переменной `contactID`. Например, получим данные контакта с идентификатором `1`.
+3. Создать дело методом [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md), собрав из полученных значений `COMMUNICATIONS` и `SETTINGS`
+
+В результате метод вернет идентификатор дела, дело появится в таймлайне контакта, а письмо уйдет на адрес клиента.
+
+## Что нужно до начала
+
+- контакт уже создан в Битрикс24, и вы знаете его идентификатор. Идентификатор возвращают методы [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) и [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md)
+
+- у контакта заполнен адрес электронной почты. Без адреса в `COMMUNICATIONS` письму некуда уходить, и метод вернет ошибку `Email send error. "To" is not found`
+
+- у контакта заполнено поле «Ответственный», а у самого сотрудника — адрес электронной почты. Из них соберется поле «От кого»
+
+- вебхуку или приложению доступен скоуп `user_basic` или `user`. Скоуп `user_brief` не подойдет: он отдает данные пользователей без контактных, и `EMAIL` в ответе [user.get](../../../api-reference/user/user-get.md) не придет
+
+- вебхук создан от имени пользователя, который может изменять этот контакт. Метод проверяет права не на дело, а на объект CRM, к которому дело привязывается
+
+## 1. Получим данные клиента
+
+Используем метод [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) с идентификатором клиента. Сохраним идентификатор в переменной `contactID` — он понадобится еще раз на шаге 3. Замените `1` на идентификатор своего контакта.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -51,6 +73,16 @@
 - PHP
 
     ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
     $contactID = 1;
     $resultContact = $sb->getCRMScope()->contact()->get($contactID)->contact();
     ```
@@ -75,7 +107,13 @@
 
 {% endlist %}
 
-В результате получим данные клиента, включая адрес электронной почты `EMAIL` и идентификатор ответственного сотрудника `ASSIGNED_BY_ID`.
+В результате получим данные клиента. Для следующих шагов сохраните два значения:
+
+- `EMAIL[0].VALUE` — адрес электронной почты. Это мультиполе: метод возвращает список объектов, даже если адрес один, и не возвращает ключ `EMAIL` вовсе, если адресов у контакта нет
+
+- `ASSIGNED_BY_ID` — идентификатор ответственного сотрудника, по нему пойдет шаг 2
+
+Ответ сокращен до полей, которые нужны сценарию.
 
 ```json
 {
@@ -93,13 +131,13 @@
                 "TYPE_ID": "EMAIL"
             }
         ]
-    } 
+    }
 }
 ```
 
-## 2\. Получим данные сотрудника
+## 2. Получим данные сотрудника
 
-Чтобы получить данные ответственного сотрудника, используем метод [user.get](../../../api-reference/user/user-get.md) с фильтром по идентификатору сотрудника. Идентификатор должен принимать значение из поля `ASSIGNED_BY_ID` объекта `resultContact`.
+Чтобы получить данные ответственного сотрудника, используем метод [user.get](../../../api-reference/user/user-get.md) с фильтром по идентификатору. В фильтр `ID` передаем значение `ASSIGNED_BY_ID` из ответа шага 1.
 
 {% list tabs %}
 
@@ -139,45 +177,45 @@
 
 {% endlist %}
 
-Получим данные сотрудника, включая адрес электронной почты `EMAIL`.
+Метод возвращает список, даже когда фильтр отбирает одного пользователя. Из первого элемента понадобятся три поля — `NAME`, `LAST_NAME` и `EMAIL`: из них соберется поле «От кого». Поле `EMAIL` у пользователя — обычная строка, а не мультиполе, как у контакта.
 
 ```json
 {
     "result": [
         {
-        "ID": "61",
-        "ACTIVE": true,
-        "NAME": "Иван",
-        "LAST_NAME": "Петров",
-        "EMAIL": "ivanpetrov@example.ru"
+            "ID": "61",
+            "ACTIVE": true,
+            "NAME": "Иван",
+            "LAST_NAME": "Петров",
+            "EMAIL": "ivanpetrov@example.ru"
         }
     ]
 }
 ```
 
-## 3\. Создадим дело типа «Письмо»
+## 3. Создадим дело типа «Письмо»
 
 Подготовим переменные:
 
-- `contactEmail` — первый элемент из контакта `resultContact`,
+- `contactEmail` — первый элемент мультиполя `EMAIL` из ответа шага 1
 
-- `staff` — первый элемент из объекта `resultUser`.
+- `staff` — первый элемент списка из ответа шага 2
 
 {% list tabs %}
 
 - JS
 
     ```js
-        let contactEmail = resultContact.EMAIL[0];
-        let staff = resultUser[0];
+    let contactEmail = resultContact.EMAIL[0];
+    let staff = resultUser[0];
     ```
 
 - PHP
 
     ```php
-        $emails = $resultContact->EMAIL;
-        $contactEmail = reset($emails);
-        $staff = reset($resultUser);
+    $emails = $resultContact->EMAIL;
+    $contactEmail = reset($emails);
+    $staff = reset($resultUser);
     ```
 
 - Python
@@ -189,39 +227,47 @@
 
 {% endlist %}
 
-Чтобы добавить событие и отправить письмо, используем метод [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md). В него нужно передать данные клиента, сотрудника и параметры дела.
+Чтобы добавить дело и отправить письмо, используем метод [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md) с параметрами:
 
-- `SUBJECT` — тема письма. Укажем `subject email now`.
+- `SUBJECT` — тема письма. Укажем `subject email now`. Пустую строку метод не принимает
 
-- `DESCRIPTION` — текст письма. Например, `body email now`.
+- `DESCRIPTION` — текст письма. Например, `body email now`
 
-- `DESCRIPTION_TYPE` — тип текста. Возможные значения: `1`— обычный текст, `2`— HTML-разметка, `3`— BB-код. Зададим значение `3`.
+- `DESCRIPTION_TYPE` — формат текста: `1` — обычный текст, `2` — HTML-разметка, `3` — BB-код. Зададим значение `3`
 
-- `COMPLETED` — флаг показывает, завершено ли событие. Укажем `Y`.
+- `COMPLETED` — признак завершенного дела. Укажем `Y`. Это одно из трех условий отправки: с `N` дело останется запланированным письмом, и Битрикс24 его не отправит
 
-- `DIRECTION` — направление активности. Передаем `2` — исходящее письмо. Полный список направлений активности можно получить с помощью метода [crm.enum.activitydirection](../../../api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-direction.md).
+- `DIRECTION` — направление дела: `1` — входящее, `2` — исходящее. Передаем `2` — второе условие отправки
 
-- `OWNER_ID` — идентификатор контакта. Передаем переменную `contactID`.
+- `OWNER_ID` — идентификатор объекта CRM, в карточке которого появится дело. Передаем переменную `contactID`
 
-- `OWNER_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `3`— контакт. Полный список типов объектов можно получить с помощью метода [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md).
+- `OWNER_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `3` — контакт. Полный список типов объектов возвращает метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
 
-- `TYPE_ID` — тип активности. Укажем `4` — письмо. Список типов активности можно получить с помощью метода [crm.enum.activitytype](../../../api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-type.md).
+- `TYPE_ID` — тип дела. Укажем `4` — письмо, это третье условие отправки. Метод принимает только `1` — встреча, `2` — звонок, `4` — письмо и `6` — дело внешнего провайдера
 
-- `COMMUNICATIONS` — контактные данные клиента:
+- `COMMUNICATIONS` — контактные данные клиента, отсюда берется адрес получателя:
 
-    - `VALUE` — адрес электронной почты, берем значение `VALUE` из массива `contactEmail`,
+    - `VALUE` — адрес электронной почты, берем `contactEmail.VALUE`
 
-    - `ENTITY_ID` — идентификатор клиента, передаем `contactID`,
+    - `ENTITY_ID` — идентификатор клиента, передаем `contactID`
 
-    - `ENTITY_TYPE_ID` — [идентификатор типа объекта](../../../api-reference/crm/data-types.md#object_type), передаем `3` — контакт.
+    - `ENTITY_TYPE_ID` — [идентификатор типа объекта](../../../api-reference/crm/data-types.md#object_type), передаем `3` — контакт
 
-- `START_TIME` и `END_TIME` — дата и время начала и окончания активности. Укажем длительность 1 час.
+- `START_TIME` и `END_TIME` — дата и время начала и окончания дела. Укажем длительность один час
 
-- `RESPONSIBLE_ID` — идентификатор ответственного, передаем `staff.ID`.
+- `RESPONSIBLE_ID` — идентификатор ответственного, передаем `staff.ID`
 
 - `SETTINGS` — дополнительные настройки:
 
-    - `MESSAGE_FROM` — отправитель письма, передаем имя `staff.NAME`, фамилию `staff.LAST_NAME` и адрес электронной почты `staff.EMAIL` сотрудника.
+    - `MESSAGE_FROM` — поле «От кого». Собираем строку из имени `staff.NAME`, фамилии `staff.LAST_NAME` и адреса `staff.EMAIL` в формате `Имя Фамилия <адрес>`. Адрес обязателен: Битрикс24 берет его из угловых скобок и проверяет как почтовый
+
+Ключ `TYPE` в `COMMUNICATIONS` не передаем: для письма Битрикс24 подставит `EMAIL` сам. Если передать его вручную с другим значением, коммуникация будет отброшена и письму некуда будет уходить.
+
+{% note warning "" %}
+
+Следующий запрос отправляет письмо на реальный адрес из `COMMUNICATIONS`. Отменить отправку нельзя: удаление дела письмо не отзывает. Отлаживайте сценарий на тестовом контакте со своим адресом.
+
+{% endnote %}
 
 {% list tabs %}
 
@@ -259,7 +305,7 @@
     });
     ```
 
--  PHP
+- PHP
 
     ```php
     $resultActivity = $sb->getCRMScope()->activity()->add(
@@ -297,8 +343,6 @@
     ```python
     from datetime import datetime, timedelta
 
-    contact_email = result_contact["EMAIL"][0]
-    staff = result_user[0]
     now = datetime.now()
 
     result_activity = client.crm.activity.add(
@@ -330,17 +374,143 @@
 
 {% endlist %}
 
-Если событие создано успешно, метод вернет его идентификатор. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md).
+Мы создали дело и в ответ получили его идентификатор `3165`. Обертки в ответе нет: `result` — это сразу число. Идентификатор можно использовать в методах [изменения](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-update.md) и [удаления](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-delete.md) дела.
 
 ```json
 {
-    "result": 3165,
+    "result": 3165
 }
 ```
 
-## Полный пример кода
+Успешный ответ подтверждает, что дело создано, но не что письмо доставлено. Ошибки отправки метод возвращает отдельными кодами — они собраны в разделе «Ошибки и диагностика».
 
-Код в примере объединяет все шаги: получает данные клиента и сотрудника, добавляет дело «Письмо» и отправляет письмо клиенту.
+## Проверим результат
+
+Откройте карточку контакта в Битрикс24. Письмо отображается в таймлайне карточки, в поле «От кого» — имя и адрес сотрудника из `MESSAGE_FROM`. Проверьте почтовый ящик клиента: письмо приходит с темой из `SUBJECT` и текстом из `DESCRIPTION`.
+
+Через REST дела контакта возвращает метод [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) с теми же значениями `OWNER_TYPE_ID` и `OWNER_ID`, что и на шаге 3. Поле `COMMUNICATIONS` возвращается только тогда, когда оно указано в `select`.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const checkResponse = await $b24.actions.v2.call.make({
+        method: 'crm.activity.list',
+        params: {
+            filter: {
+                "OWNER_TYPE_ID": 3,
+                "OWNER_ID": contactID
+            },
+            select: ['*', 'COMMUNICATIONS'],
+            order: { ID: 'DESC' }
+        },
+        requestId: 'activity-list'
+    });
+
+    console.dir(checkResponse.getData().result);
+    ```
+
+- PHP
+
+    ```php
+    // у crm.activity.list нет обертки в SDK — вызываем метод напрямую
+    $activities = $sb->core->call(
+        'crm.activity.list',
+        [
+            'filter' => [
+                'OWNER_TYPE_ID' => 3,
+                'OWNER_ID' => $contactID,
+            ],
+            'select' => ['*', 'COMMUNICATIONS'],
+            'order' => ['ID' => 'DESC'],
+        ]
+    )->getResponseData()->getResult();
+    ```
+
+- Python
+
+    ```python
+    activities = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 3,
+            "OWNER_ID": contact_id,
+        },
+        select=["*", "COMMUNICATIONS"],
+        order={"ID": "DESC"},
+    ).response.result
+    ```
+
+{% endlist %}
+
+Сценарий выполнен, если в ответе есть объект с `ID` из шага 3, у него `TYPE_ID` равен `4`, `DIRECTION` — `2`, `COMPLETED` — `Y`, а в `COMMUNICATIONS` лежит адрес клиента с типом `EMAIL`.
+
+```json
+{
+    "result": [
+        {
+            "ID": "3165",
+            "OWNER_ID": "1",
+            "OWNER_TYPE_ID": "3",
+            "TYPE_ID": "4",
+            "SUBJECT": "subject email now",
+            "COMPLETED": "Y",
+            "DIRECTION": "2",
+            "RESPONSIBLE_ID": "61",
+            "DESCRIPTION": "body email now",
+            "DESCRIPTION_TYPE": "3",
+            "COMMUNICATIONS": [
+                {
+                    "ID": "4488",
+                    "TYPE": "EMAIL",
+                    "VALUE": "vronsky@example.ru",
+                    "ENTITY_ID": "1",
+                    "ENTITY_TYPE_ID": "3"
+                }
+            ]
+        }
+    ],
+    "total": 1
+}
+```
+
+В ответе числовые поля приходят строками — `"TYPE_ID": "4"`, хотя в запросе передавалось число. Это не признак ошибки.
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `Access denied.` | У пользователя нет права на изменение контакта из `OWNER_ID`. Проверьте, от имени какого пользователя создан вебхук ||
+|| `Could not find 'CONTACT' with ID: 1` | Контакта с таким `OWNER_ID` в Битрикс24 нет. Возьмите существующий идентификатор методом [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) ||
+|| `The field SUBJECT is not defined or empty` | В `SUBJECT` передана пустая строка или поле пропущено ||
+|| `The field COMMUNICATIONS is not defined or invalid` | Коммуникация не передана или отброшена. Так бывает, когда у контакта нет адреса и в `VALUE` попало пустое значение, либо когда в `TYPE` передано значение, отличное от `EMAIL`. Проверьте `EMAIL` в ответе шага 1 ||
+|| `Email send error. "To" is not found` | Дело создано, письмо не отправлено: среди коммуникаций нет ни одного корректного адреса получателя. Проверьте, что в `VALUE` лежит адрес, а не пустая строка ||
+|| `Email send error. "From" is not found` | Дело создано, письмо не отправлено: отправитель не определен. В `SETTINGS.MESSAGE_FROM` пусто, а почтового ящика, подключенного к CRM, у сотрудника нет. Проверьте `EMAIL` в ответе шага 2 ||
+|| `Email send error. Invalid email is specified` | Адрес отправителя или получателя не прошел проверку формата. Соберите `MESSAGE_FROM` как `Имя Фамилия <адрес>` и проверьте адрес клиента ||
+|| `Email send error. Failed to load module "subscribe"` | В Битрикс24 не установлен модуль рассылок, через который уходит письмо. Дело создано, письмо не отправлено ||
+|#
+
+Повторяйте сценарий с того шага, который вернул ошибку. Шаги 1 и 2 ничего не создают, их можно выполнять сколько угодно раз. Ошибки с префиксом `Email send error` означают, что дело уже создано, а письмо не ушло: перед повтором удалите созданное дело методом [crm.activity.delete](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-delete.md), иначе в карточке контакта останется письмо, которого клиент не получал.
+
+Отдельный случай — метод вернул идентификатор без ошибок, дело в карточке есть, а письмо не пришло. Проверьте, что в запросе одновременно были `TYPE_ID` со значением `4`, `DIRECTION` со значением `2` и `COMPLETED` со значением `Y`. Без любого из трех Битрикс24 создает дело молча и отправку не запускает.
+
+## Что важно учитывать
+
+- копия письма уходит на адрес из `MESSAGE_FROM`. Чтобы ее отключить, передайте в `SETTINGS` ключ `DISABLE_SENDING_MESSAGE_COPY` со значением `Y`
+
+- если `MESSAGE_FROM` не передать, Битрикс24 подставит отправителя сам: сначала почтовый ящик сотрудника, подключенный к CRM, затем общий ящик CRM. Когда нет ни одного, метод вернет `Email send error. "From" is not found`
+
+- повторный запуск примера создает еще одно дело и отправляет клиенту еще одно письмо, дубликаты не отсеиваются
+
+- у метода [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md) остановлено развитие, но для этого сценария замены нет: только он одним вызовом и отправляет письмо, и записывает его в карточку клиента. Метод [crm.activity.todo.add](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-add.md) создает запланированное дело и писем не отправляет
+
+- если запись в CRM не нужна, берите [mail.message.send](../../../api-reference/mail/message/mail-message-send.md) из раздела почты: он отправляет письмо из подключенного ящика, поддерживает копию и скрытую копию и учитывает лимиты отправки. Собрать из него цепочку «отправить и привязать к контакту» нельзя — метод не возвращает идентификатор письма, а [mail.message.createCrmActivity](../../../api-reference/mail/message/mail-message-createcrmactivity.md) требует его на входе
+
+## Пример кода
+
+Пример объединяет все три шага: получает данные клиента и сотрудника, добавляет дело «Письмо» и отправляет письмо клиенту. Замените `contactID` на идентификатор своего контакта, а `SUBJECT` и `DESCRIPTION` — на свой текст.
 
 {% list tabs %}
 
@@ -566,3 +736,13 @@
     ```
 
 {% endlist %}
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-delete.md)
+- [{#T}](../../../api-reference/crm/contacts/crm-contact-get.md)
+- [{#T}](../../../api-reference/user/user-get.md)
+- [{#T}](../../../api-reference/crm/data-types.md)
+- [{#T}](how-to-add-activity-to-contact.md)
