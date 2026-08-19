@@ -41,7 +41,7 @@
 
 По умолчанию используется последний чат, привязанный к объекту CRM.
 
-Получить идентификаторы чатов, привязанных к объекту CRM можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
+Получить идентификаторы чатов, привязанных к объекту CRM, можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
 |#
 
 ## Примеры кода
@@ -257,7 +257,7 @@ HTTP-статус: **200**
 }
 ```
 
-### Возвращаемые данные
+## Возвращаемые данные
 
 #|
 || **Название**
@@ -281,7 +281,7 @@ HTTP-статус: **400**, **403**
 }
 ```
 
-{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+{% include notitle [Обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -289,16 +289,18 @@ HTTP-статус: **400**, **403**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! You don't have access to join user to chat | У пользователя, который выполняет метод, нет прав добавлять пользователей в чат объекта CRM ||
 || `403` | `ACCESS_DENIED` | Access denied! This user does not have access to the chat because he does not have access to this CRM entity | У пользователя `USER_ID` нет доступа к объекту CRM ||
-|| `400` | `ERROR_ARGUMENT` | Argument CRM_ENTITY_TYPE is null or empty | Не передан обязательный параметр `CRM_ENTITY_TYPE` ||
-|| `400` | `ERROR_ARGUMENT` | Argument CRM_ENTITY is null or empty | Не передан обязательный параметр `CRM_ENTITY` ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument `CRM_ENTITY` has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
-|| `400` | `ERROR_ARGUMENT` | Argument Empty USER_ID is null or empty | Не передан обязательный параметр `USER_ID` ||
-|| `400` | `IM_NOT_INSTALLED` | Module im is not installed | Модуль `im` не установлен ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY_TYPE' is null or empty | Не передан обязательный параметр `CRM_ENTITY_TYPE` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY' is null or empty | Не передан обязательный параметр `CRM_ENTITY` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'Empty USER_ID' is null or empty | Не передан обязательный параметр `USER_ID` ||
+|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
 || `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Чат `CHAT_ID` не связан с объектом CRM ||
-|| `400` | `CRM_CHAT_USER_NOT_ACTIVE` | Current user has no access to users list outside open line | У текущего пользователя нет доступа к списку пользователей вне линии ||
+|| `400` | `CRM_CHAT_USER_NOT_ACTIVE` | User not active | Пользователь `USER_ID` не активен или не существует ||
+|| `403` | `ACCESS_DENIED` | Access denied! This user does not have access to the chat because he does not have access to this view chat history | Пользователь `USER_ID` не имеет доступа к истории чата ||
+|| `400` | `WRONG_REQUEST` | You don't have access or user already member in chat | Пользователь уже состоит в чате или недоступен для добавления ||
 |#
 
-{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+{% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

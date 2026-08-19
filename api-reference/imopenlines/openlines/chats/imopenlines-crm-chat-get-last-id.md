@@ -1,4 +1,4 @@
-# Получить Id последнего чата imopenlines.crm.chat.getLastId
+# Получить идентификатор последнего чата imopenlines.crm.chat.getLastId
 
 {% note tip "" %}
 

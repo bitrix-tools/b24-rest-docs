@@ -14,8 +14,10 @@
 Например, Базу знаний отдела можно привязать к группе, чтобы сотрудники читали инструкции и регламенты в рабочем пространстве группы. Если База знаний нужна всем сотрудникам, ее можно вывести в определенное меню.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как добавить базу знаний в группу](https://helpdesk.bitrix24.ru/open/10607334/)
 
-## Как управлять встройкой Базы знаний
+## Как управлять встраиванием Базы знаний
 
 Базу знаний можно встроить в интерфейс Битрикс24 и управлять этой привязкой. Есть два основных варианта: добавить Базу знаний в меню или связать ее с группой.
 
@@ -23,10 +25,10 @@
 
 Чтобы настроить привязку:
 
-1. Получите идентификатор сайта Базы знаний методом [landing.site.getList](../../site/landing-site-get-list.md). 
-2. Определите `menuCode` — код места в интерфейсе, куда нужно добавить Базу знаний. Как узнать код — описано в параметрах метода [landing.site.bindingToMenu](./landing-site-binding-to-menu.md). 
-3. Выполните привязку методом [landing.site.bindingToMenu](./landing-site-binding-to-menu.md). 
-4. Проверьте результат методом [landing.site.getMenuBindings](./landing-site-get-menu-bindings.md). Если метод вернул `false`, проверьте привязки — возможно, База знаний уже привязана к меню. 
+1. Получите идентификатор сайта Базы знаний методом [landing.site.getList](../../site/landing-site-get-list.md).
+2. Определите `menuCode` — код места в интерфейсе, куда нужно добавить Базу знаний. Как узнать код — описано в параметрах метода [landing.site.bindingToMenu](./landing-site-binding-to-menu.md).
+3. Выполните привязку методом [landing.site.bindingToMenu](./landing-site-binding-to-menu.md).
+4. Проверьте результат методом [landing.site.getMenuBindings](./landing-site-get-menu-bindings.md). Если метод вернул `false`, проверьте привязки — возможно, База знаний уже привязана к меню.
 5. Если привязка больше не нужна, ее можно удалить методом [landing.site.unbindingFromMenu](./landing-site-unbinding-from-menu.md).
 
 **Привязка к группе.** Этот вариант подойдет, если База знаний нужна только участникам конкретной группы. Его можно использовать для отделов, у которых есть свои инструкции, шаблоны и регламенты.
@@ -35,10 +37,10 @@
 
 Чтобы настроить привязку:
 
-1. Получите идентификатор сайта Базы знаний методом [landing.site.getList](../../site/landing-site-get-list.md). 
-2. Получите `groupId` группы из интерфейса группы или методами [socialnetwork.api.workgroup.list](../../../sonet-group/socialnetwork-api-workgroup-list.md) или [sonet_group.get](../../../sonet-group/sonet-group-get.md). 
-3. Выполните привязку методом [landing.site.bindingToGroup](./landing-site-binding-to-group.md). 
-4. Проверьте результат методом [landing.site.getGroupBindings](./landing-site-get-group-bindings.md). Если метод вернул `false`, проверьте привязки: к одной группе можно привязать только одну Базу знаний. 
+1. Получите идентификатор сайта Базы знаний методом [landing.site.getList](../../site/landing-site-get-list.md).
+2. Получите `groupId` группы из интерфейса группы или методами [socialnetwork.api.workgroup.list](../../../sonet-group/socialnetwork-api-workgroup-list.md) или [sonet_group.get](../../../sonet-group/sonet-group-get.md).
+3. Выполните привязку методом [landing.site.bindingToGroup](./landing-site-binding-to-group.md).
+4. Проверьте результат методом [landing.site.getGroupBindings](./landing-site-get-group-bindings.md). Если метод вернул `false`, проверьте привязки: к одной группе можно привязать только одну Базу знаний.
 5. Если привязка больше не нужна, ее можно удалить методом [landing.site.unbindingFromGroup](./landing-site-unbinding-from-group.md).
 
 ## Связь с другими объектами
@@ -53,7 +55,7 @@
 
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: зависит от метода
+> Кто может выполнять методы: зависит от метода
 
 ### Привязка к меню
 
@@ -64,7 +66,7 @@
 || [landing.site.unbindingFromMenu](./landing-site-unbinding-from-menu.md) | Отвязывает Базу знаний от меню ||
 |#
 
-### Привязка к группе 
+### Привязка к группе
 
 #|
 || **Метод** | **Описание** ||

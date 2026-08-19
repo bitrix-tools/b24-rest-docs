@@ -11,11 +11,11 @@
 
 Страница всегда связана с сайтом. Ее можно создать в корне сайта или внутри папки. Методы `landing.landing.*` нужны, чтобы:
 
-- создавать, копировать и перемещать страницы,
-- получать список страниц и служебные данные,
-- менять параметры страницы,
-- публиковать страницу и снимать ее с публикации,
-- восстанавливать и удалять страницы.
+- создавать, копировать и перемещать страницы
+- получать список страниц и служебные данные
+- менять параметры страницы
+- публиковать страницу и снимать ее с публикации
+- восстанавливать и удалять страницы
 
 Например, можно создать страницу акции внутри сайта магазина, опубликовать ее, а когда акция закончится — перенести в другую папку или снять с публикации.
 
@@ -23,11 +23,11 @@
 
 ## Как создать страницу сайта
 
-1. Получите идентификатор сайта методами [landing.site.getList](../../site/landing-site-get-list.md) или [landing.site.add](../../site/landing-site-add.md).
-2. Если страница должна лежать в папке, получите идентификатор папки методом [landing.site.getFolders](../../site/landing-site-get-folders.md). 
+1. Получите идентификатор сайта методами [landing.site.getList](../../site/landing-site-get-list.md) или [landing.site.add](../../site/landing-site-add.md)
+2. Если страница должна лежать в папке, получите идентификатор папки методом [landing.site.getFolders](../../site/landing-site-get-folders.md)
 3. Создайте страницу методом [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) или [landing.landing.copy](./landing-landing-copy.md)
-4. Для поиска страницы и проверки ее параметров используйте [landing.landing.getList](./landing-landing-get-list.md), [landing.landing.getadditionalfields](./landing-landing-get-additional-fields.md), [landing.landing.getpreview](./landing-landing-get-preview.md) и [landing.landing.getpublicurl](./landing-landing-get-public-url.md).
-5. После настройки опубликуйте страницу методом [landing.landing.publication](./landing-landing-publication.md). Если нужно скрыть страницу, используйте [landing.landing.unpublic](./landing-landing-unpublic.md).
+4. Для поиска страницы и проверки ее параметров используйте [landing.landing.getList](./landing-landing-get-list.md), [landing.landing.getadditionalfields](./landing-landing-get-additional-fields.md), [landing.landing.getpreview](./landing-landing-get-preview.md) и [landing.landing.getpublicurl](./landing-landing-get-public-url.md)
+5. После настройки опубликуйте страницу методом [landing.landing.publication](./landing-landing-publication.md). Если нужно скрыть страницу, используйте [landing.landing.unpublic](./landing-landing-unpublic.md)
 
 ## Связь с другими объектами
 
@@ -37,9 +37,9 @@
 
 **Папка.** Страницу можно создать внутри папки. Для этого передают `FOLDER_ID`. Позже страницу можно перенести в другую папку или в другой сайт методом [landing.landing.move](./landing-landing-move.md). Список папок сайта возвращает метод [landing.site.getFolders](../../site/landing-site-get-folders.md).
 
-**Шаблон представления.** При создании или обновлении страницы можно передать `TPL_ID`, чтобы сразу связать ее с шаблоном представления. Это помогает задать нужную структуру и оформление. Список шаблонов возвращает [landing.template.getlist](../../template/landing-template-get-list.md). а сами шаблоны описаны в разделе [Шаблон представления](../../template/index.md).
+**Шаблон представления.** При создании или обновлении страницы можно передать `TPL_ID`, чтобы сразу связать ее с шаблоном представления. Это помогает задать нужную структуру и оформление. Список шаблонов возвращает [landing.template.getlist](../../template/landing-template-get-list.md), а сами шаблоны описаны в разделе [Шаблон представления](../../template/index.md).
 
-**Блоки.** Методы этого раздела управляют страницей, но не редактируют структуру и содержимое блоков. Для работы с блоками используйте [Блоки страницы](../block-methods/index.md). 
+**Блоки.** Методы этого раздела управляют страницей, но не редактируют структуру и содержимое блоков. Для работы с блоками используйте [Блоки страницы](../block-methods/index.md).
 
 **Специальные страницы.** Обычную страницу можно назначить специальной страницей сайта, например главной, корзиной или страницей оформления заказа. Для этого используйте методы [Специальные страницы](../special-pages/index.md).
 

@@ -255,7 +255,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "LINE_NOT_FOUND",
+    "error": "NOT_FOUND",
     "error_description": "Line not found"
 }
 ```
@@ -268,7 +268,7 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `CODE` | You entered an invalid code | Некорректный код в параметре `CODE`, ожидается строка из 32 символов ||
 || `400` | `IMBOT_ERROR` | Module IMBOT is not installed | Не установлен модуль imbot ||
-|| `400` | `LINE_NOT_FOUND` | Line not found | Открытая линия не найдена ||
+|| `400` | `NOT_FOUND` | Line not found | Открытая линия не найдена ||
 || `400` | `INACTIVE` | Openline is inactive | Открытая линия в данный момент недоступна ||
 |#
 

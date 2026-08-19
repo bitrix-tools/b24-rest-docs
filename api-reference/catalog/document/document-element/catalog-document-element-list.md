@@ -401,8 +401,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **documentElement**
-[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Объект с информацией о товарах документа, структура ответа зависит от параметра `select` ||
+|| **documentElements**
+[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Массив объектов с информацией о товарах документа, структура ответа зависит от параметра `select` ||
+|| **next**
+[`integer`](../../../data-types.md) | Значение для получения следующей страницы ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество записей ||
 || **time**

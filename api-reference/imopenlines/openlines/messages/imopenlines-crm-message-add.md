@@ -253,7 +253,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -271,7 +271,7 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемый результат
+## Возвращаемые данные
 
 #|
 || **Название**
@@ -279,12 +279,12 @@ HTTP-код: **200**
 || **result**
 [`integer`](../../../data-types.md) | Идентификатор созданного сообщения в чате ||
 || **time**
-[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса  ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-код: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -295,17 +295,22 @@ HTTP-код: **400**
 
 {% include notitle [Обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `CHAT_NOT_IN_CRM`| Chat does not belong to the CRM entity being checked | Чат не связан с CRM ||
-|| `CANCELED`| Вы не можете отправлять сообщения в указанный чат | У пользователя нет доступа к чату ||
-|| `ACCESS_DENIED`| Access denied! User dont have access to this entity | У пользователя нет доступа к объекту CRM ||
-|| `ERROR_ARGUMENT` | Argument `CRM_ENTITY_TYPE` is null or empty | Неверно указан обязательный параметр `CRM_ENTITY_TYPE` ||
-|| `ERROR_ARGUMENT` | Argument `CRM_ENTITY` is null or empty | Неверно указан обязательный параметр `CRM_ENTITY` ||
-|| `ERROR_ARGUMENT` | Argument `USER_ID` is null or empty | Неверно указан обязательный параметр `USER_ID` ||
-|| `ERROR_ARGUMENT` | Argument `MESSAGE` is null or empty | Неверно указан обязательный параметр `MESSAGE` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Чат не связан с объектом CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | У текущего пользователя нет доступа к объекту CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! User dont have access to this entity | Пользователь `USER_ID` не имеет доступа к объекту CRM ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY_TYPE' is null or empty | Не передан обязательный параметр `CRM_ENTITY_TYPE` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY' is null or empty | Не передан обязательный параметр `CRM_ENTITY` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'USER_ID' is null or empty | Не передан обязательный параметр `USER_ID` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'USER_ID' has an invalid type | Параметр `USER_ID` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CHAT_ID' is null or empty | Не передан обязательный параметр `CHAT_ID` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CHAT_ID' has an invalid type | Параметр `CHAT_ID` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'MESSAGE' is null or empty | Не передан обязательный параметр `MESSAGE` ||
+|| `400` | `MESSAGE_ADD_ERROR` | Message isn't added | Сообщение не отправлено ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}

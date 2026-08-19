@@ -27,7 +27,7 @@
 
 Идентификатор можно получить методом [imopenlines.session.open](./imopenlines-session-open.md) или [imopenlines.session.history.get](./imopenlines-session-history-get.md) ||
 || **DIALOG_ID**
-[`string`](../../../data-types.md) | Идентификатор диалога в формате `chat<ID>`, где `<ID>` — индентификатор чата открытой линии ||
+[`string`](../../../data-types.md) | Идентификатор диалога в формате `chat<ID>`, где `<ID>` — идентификатор чата открытой линии ||
 || **SESSION_ID**
 [`integer`](../../../data-types.md) | Идентификатор сессии. 
 
@@ -587,6 +587,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
 || `400` | `ACCESS_ERROR` | You do not have access to the specified dialog | Диалог не найден или нет доступа к нему ||
 |#
 

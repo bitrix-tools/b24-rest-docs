@@ -9,24 +9,25 @@
 
 {% endnote %}
 
-Складской учет – это инструмент, с помощью которого можно отследить  доступное и зарезервированное количество товара на складах.
+Складской учет — это инструмент, с помощью которого можно отследить доступное и зарезервированное количество товара на складах.
 
 Чтобы добавить, переместить или удалить товары со склада, используйте документы складского учета.
 
 > Быстрый переход: [все методы](#all-methods)
-> 
-> Пользовательская документация: 
+>
+> Пользовательская документация:
 > - [Складской учет в Битрикс24](https://helpdesk.bitrix24.ru/open/17792018)
 > - [Как начать работу со складским учетом](https://helpdesk.bitrix24.ru/open/17792114/)
 
 ## Документы складского учета
 
 В складском учете доступны следующие типы документов:
-- `A` – приход товара на склад,
-- `S` – оприходование товара,
-- `M` – перемещение товара между складами,
-- `R` – возврат товара,
-- `D` – списание товара.
+
+- `A` — приход товара на склад
+- `S` — оприходование товара
+- `M` — перемещение товара между складами
+- `R` — возврат товара
+- `D` — списание товара
 
 Настройте права доступа для каждого типа документов. Если у вас не настроены права доступа, то при попытке открыть документы складского учета сотрудник увидит ошибку и не сможет с ними работать.
 
@@ -41,13 +42,27 @@
 
 {% endnote %}
 
+## Актуальная версия API
+
+Для новой разработки используйте методы `catalog.document.*` и `catalog.document.element.*`. Устаревшие методы [catalog.document.confirm](./outdated/catalog-document-confirm.md), [catalog.document.unconfirm](./outdated/catalog-document-unconfirm.md), [catalog.document.fields](./outdated/catalog-document-fields.md) и [catalog.document.element.fields](./outdated/catalog-document-element-fields.md) оставлены только для поддержки старых интеграций.
+
+Актуальные замены:
+
+#|
+|| **Если в старой интеграции используется** | **Используйте сейчас** ||
+|| `catalog.document.confirm` | [catalog.document.conduct](./catalog-document-conduct.md) ||
+|| `catalog.document.unconfirm` | [catalog.document.cancel](./catalog-document-cancel.md) ||
+|| `catalog.document.fields` | [catalog.document.getFields](./catalog-document-get-fields.md) ||
+|| `catalog.document.element.fields` | [catalog.document.element.getFields](./document-element/catalog-document-element-get-fields.md) ||
+|#
+
 ## Связь документов складского учета с другими объектами
 
 **Товары документа складского учета.** Укажите товары для документа складского учета с помощью методов [catalog.document.element.*](./document-element/index.md).
 
 **Склады.** Укажите склад, для которого создаете документ складского учета. Используйте методы [catalog.store.*](../store/index.md).
 
-**Пользовательские поля документов складского учета.** Для документов складского учета можно создать дополнительные поля с помощью метода [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md), где `moduleId` — catalog, а `entityId` — CAT_STORE_DOCUMENT_ИдентификаторТипаДокумента. Чтобы просмотреть дополнительные поля или изменить их значения, используйте методы [catalog.userfield.document.*](../userfield-document/index.md).
+**Пользовательские поля документов складского учета.** Для документов складского учета можно создать дополнительные поля методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md). Передайте `moduleId = catalog`, а в `entityId` укажите тип документа в формате `CAT_STORE_DOCUMENT_<DOC_TYPE>`, например `CAT_STORE_DOCUMENT_A`. Просмотреть дополнительные поля и изменить их значения можно методами [catalog.userfield.document.*](../userfield-document/index.md).
 
 ## Обзор методов {#all-methods}
 
@@ -59,16 +74,16 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.document.mode.status](./catalog-document-mode-status.md) | Проверяет, включен ли складской учет ||
 || [catalog.document.add](./catalog-document-add.md) | Добавляет документ складского учета ||
-|| [catalog.document.conduct](./catalog-document-conduct.md) | Проводит документ складского учета ||
-|| [catalog.document.conductList](./catalog-document-conduct-list.md) | Проводит группу документов складского учета ||
-|| [catalog.document.cancel](./catalog-document-cancel.md) | Отменяет проведение документа складского учета по его идентификатору ||
-|| [catalog.document.cancelList](./catalog-document-cancel-list.md) | Отменяет проведение группы документов складского учета ||
 || [catalog.document.update](./catalog-document-update.md) | Изменяет документ складского учета ||
 || [catalog.document.list](./catalog-document-list.md) | Возвращает список документов складского учета ||
 || [catalog.document.delete](./catalog-document-delete.md) | Удаляет документ складского учета ||
 || [catalog.document.deleteList](./catalog-document-delete-list.md) | Удаляет группу документов складского учета ||
+|| [catalog.document.conduct](./catalog-document-conduct.md) | Проводит документ складского учета ||
+|| [catalog.document.conductList](./catalog-document-conduct-list.md) | Проводит группу документов складского учета ||
+|| [catalog.document.cancel](./catalog-document-cancel.md) | Отменяет проведение документа складского учета ||
+|| [catalog.document.cancelList](./catalog-document-cancel-list.md) | Отменяет проведение группы документов складского учета ||
+|| [catalog.document.mode.status](./catalog-document-mode-status.md) | Проверяет, включен ли складской учет ||
 || [catalog.document.getFields](./catalog-document-get-fields.md) | Возвращает доступные поля документа складского учета ||
 |#
 
