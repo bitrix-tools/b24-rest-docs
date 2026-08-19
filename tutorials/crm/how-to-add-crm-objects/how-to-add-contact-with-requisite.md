@@ -2,7 +2,12 @@
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом создания контактов в CRM
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «добавления|импорта» контакта
+>
+> - [crm.address.fields](../../../api-reference/crm/requisites/addresses/crm-address-fields.md) — любой пользователь
+> - [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) — пользователь с правом на чтение контактов и компаний
+> - [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md) — пользователь с правом «добавления|импорта» контакта
+> - [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md) и [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) — пользователь с правом на добавление контакта, который владеет реквизитом
 
 {% note tip "" %}
 
@@ -13,146 +18,323 @@
 
 {% endnote %}
 
-На сайте можно разместить форму для сбора данных и реквизитов клиентов. Когда клиент заполнит форму, его данные попадут в CRM, и вы сможете обработать заявку.
+На сайте можно разместить форму для сбора данных и реквизитов клиентов. Когда клиент заполняет форму, данные попадают в обработчик. Скрипт-обработчик создает объекты в CRM через REST API.
 
-Настройка формы состоит из двух шагов.
+В результате сценария в CRM появятся три связанных объекта: контакт, его реквизит и адрес реквизита.
 
-1. Разместим форму на PHP-странице. В коде страницы получим список шаблонов реквизитов и поля адреса для формы. Данные формы отправим в обработчик.
+Настройка состоит из двух этапов.
 
-2. Создадим файл для обработки данных. Обработчик примет и подготовит данные, а затем создаст контакт с реквизитами.
+1. Подготавливаем поля и размещаем веб-форму на странице. Состав полей формы берем из методов [crm.address.fields](../../../api-reference/crm/requisites/addresses/crm-address-fields.md) и [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md)
+
+2. Создаем файл-обработчик, который вызывает последовательно методы [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md), [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md) и [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md)
+
+Порядок вызовов задан связями объектов: реквизит создается для уже существующего контакта, а адрес — для уже существующего реквизита.
+
+## Что нужно до начала
+
+- в Битрикс24 настроен хотя бы один шаблон реквизитов. Если шаблонов нет, метод [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) вернет пустой список и форму собрать не из чего
+
+- вебхук создан от имени пользователя, у которого есть право «добавления|импорта» контакта
+
+- есть сервер, который отдает страницу с формой и принимает данные формы методом `POST`. В примерах это Express для JS, PHP-скрипт, Flask для Python и `net/http` для Go
+
+- путь вебхука хранится в окружении, а не в коде страницы. Страница с формой публичная, и попадать в нее секрет не должен
 
 ## 1\. Создаем веб-форму
 
-Для формирования полей формы используем данные из Битрикс24. Чтобы получить информацию о настройках реквизитов, выполним последовательно два метода:
+Для формирования полей используем два метода:
 
-1. [crm.address.fields](../../../api-reference/crm/requisites/addresses/crm-address-fields.md) — получаем список полей адреса. Результат сохраняем в `arAddressFields`,
+-  [crm.address.fields](../../../api-reference/crm/requisites/addresses/crm-address-fields.md) — получаем список полей адреса. Результат сохраняем в массив `$arAddressFields`
 
-   {% list tabs %}
-
-   - JS
-
-       ```javascript
-       const arAddressFields = await $b24.actions.v2.call.make({
-           method: 'crm.address.fields', params: {}, requestId: 'address-fields'
-       })
-       ```
-
-   - PHP
-
-       ```php
-       $arAddressFields = $sb->getCRMScope()->address()->fields()->getFieldsDescription();
-       ```
-
-   - Python
-
-       ```python
-       ar_address_fields = client.crm.address.fields().result
-       ```
-
-   - Go
-
-       ```go
-       res, err := core.Call(ctx, "crm.address.fields", nil, b24.WithIdempotent())
-       if err != nil {
-       	return fmt.Errorf("crm.address.fields: %w", err)
-       }
-
-       // Ответ — не список, а объект «имя поля -> описание», поэтому карта.
-       var addressFields map[string]struct {
-       	Type       string `json:"type"`
-       	Title      string `json:"title"`
-       	IsReadOnly bool   `json:"isReadOnly"`
-       }
-       if err := json.Unmarshal(res.Result, &addressFields); err != nil {
-       	return fmt.Errorf("разбор полей адреса: %w", err)
-       }
-
-       // В форму берём только строковые и доступные на запись поля: TYPE_ID,
-       // ENTITY_ID и ENTITY_TYPE_ID тоже придут в этом ответе, но их обработчик
-       // подставляет сам. Ключи карты в Go неупорядочены — сортируем, иначе поля
-       // формы будут прыгать от запуска к запуску.
-       var addressNames []string
-       for name, f := range addressFields {
-       	if f.Type == "string" && !f.IsReadOnly {
-       		addressNames = append(addressNames, name)
-       	}
-       }
-       sort.Strings(addressNames)
-       ```
-
-   {% endlist %}
-
-2. [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) — запрашиваем список шаблонов реквизитов. С помощью параметра `select` выбираем поля `ID` и `NAME` для каждого шаблона. Результат сохраняем в `arRequisiteType`.
-
-   {% list tabs %}
-
-   - JS
-
-       ```javascript
-       const arRequisiteType = await $b24.actions.v2.call.make({
-           method: 'crm.requisite.preset.list',
-           params: { select: ['ID', 'NAME'] },
-           requestId: 'preset-list'
-       })
-       ```
-
-   - PHP
-
-       ```php
-       $arRequisiteType = $sb->getCRMScope()->requisitePreset()->list(
-           order: [], filter: [], select: ['ID', 'NAME']
-       )->getRequisitePresets();
-       ```
-
-   - Python
-
-       ```python
-       ar_requisite_type = client.crm.requisite.preset.list(select=["ID", "NAME"]).result
-       ```
-
-   - Go
-
-       ```go
-       res, err = core.Call(ctx, "crm.requisite.preset.list", b24.Params{
-       	"select": []string{"ID", "NAME"},
-       }, b24.WithIdempotent())
-       if err != nil {
-       	return fmt.Errorf("crm.requisite.preset.list: %w", err)
-       }
-
-       // Идентификатор здесь приходит СТРОКОЙ ("1"), тогда как crm.enum.* отдаёт
-       // числа. b24.ID разбирает оба написания.
-       var presets []struct {
-       	ID   b24.ID `json:"ID"`
-       	Name string `json:"NAME"`
-       }
-       if err := json.Unmarshal(res.Result, &presets); err != nil {
-       	return fmt.Errorf("разбор шаблонов реквизитов: %w", err)
-       }
-       if len(presets) == 0 {
-       	return fmt.Errorf("на портале нет шаблонов реквизитов")
-       }
-       ```
-
-   {% endlist %}
-
-Добавим на страницу сайта веб-форму с полями:
-
--  `REQ_TYPE` — выпадающий список с типом реквизитов из массива `arRequisiteType`, обязательное,
-
--  `NAME` — имя контакта, обязательное,
-
--  `LAST_NAME` — фамилия,
-
--  `PHONE` — телефон,
-
--  `${addressFieldsInputs}` — поля адреса, которые создаются динамически из массива `arAddressFields`.
-
-Форма отправляет данные методом `POST` в обработчик.
-
-### Полный пример кода страницы с формой
+-  [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) — получаем список шаблонов реквизитов по полям `ID` и `NAME`. Результат сохраняем в массив `$arPresets`
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    const arAddressFields = (await $b24.actions.v2.call.make({
+        method: 'crm.address.fields', params: {}, requestId: 'address-fields'
+    })).getData().result
+    const arPresets = (await $b24.actions.v2.call.make({
+        method: 'crm.requisite.preset.list', params: { select: ['ID', 'NAME'] }, requestId: 'preset-list'
+    })).getData().result
+    ```
+
+- PHP
+
+    ```php
+    $arAddressFields = $sb->getCRMScope()->address()->fields()->getFieldsDescription();
+    $arPresets = $sb->getCRMScope()->requisitePreset()->list(
+        order: [], filter: [], select: ["ID", "NAME"]
+    )->getRequisitePresets();
+    ```
+
+- Python
+
+    ```python
+    ar_address_fields = client.crm.address.fields().result
+    ar_presets = client.crm.requisite.preset.list(select=["ID", "NAME"]).result
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.address.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.address.fields: %w", err)
+    }
+
+    // Ответ — не список, а объект «имя поля -> описание», поэтому карта.
+    var addressFields map[string]struct {
+    	Type       string `json:"type"`
+    	Title      string `json:"title"`
+    	IsReadOnly bool   `json:"isReadOnly"`
+    }
+    if err := json.Unmarshal(res.Result, &addressFields); err != nil {
+    	return fmt.Errorf("разбор полей адреса: %w", err)
+    }
+
+    res, err = core.Call(ctx, "crm.requisite.preset.list", b24.Params{
+    	"select": []string{"ID", "NAME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.list: %w", err)
+    }
+
+    // Идентификатор здесь приходит СТРОКОЙ ("1"), тогда как crm.enum.* отдает
+    // числа. b24.ID разбирает оба написания.
+    var presets []struct {
+    	ID   b24.ID `json:"ID"`
+    	Name string `json:"NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &presets); err != nil {
+    	return fmt.Errorf("разбор шаблонов реквизитов: %w", err)
+    }
+    if len(presets) == 0 {
+    	return fmt.Errorf("на портале нет шаблонов реквизитов")
+    }
+    ```
+
+{% endlist %}
+
+Метод [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md) возвращает массив объектов, а не пары «идентификатор — название». Для выпадающего списка перебирайте этот массив и берите из каждого объекта `ID` и `NAME`.
+
+```json
+{
+    "result": [
+        { "ID": "1", "NAME": "Организация" },
+        { "ID": "3", "NAME": "ИП" },
+        { "ID": "5", "NAME": "Физ. лицо" }
+    ]
+}
+```
+
+Метод [crm.address.fields](../../../api-reference/crm/requisites/addresses/crm-address-fields.md) возвращает объект, где ключ — код поля, а значение — его описание с признаком обязательности `isRequired` и названием `title`.
+
+```json
+{
+    "result": {
+        "TYPE_ID": {
+            "type": "integer",
+            "isRequired": true,
+            "isReadOnly": false,
+            "isImmutable": true,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "TYPE_ID"
+        },
+        "ADDRESS_1": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Улица, дом, корпус, строение"
+        },
+        "CITY": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Город"
+        }
+    }
+}
+```
+
+Из массива `$arAddressFields` удаляем ненужные поля адреса, чтобы они не отображались в форме. Три из них — `TYPE_ID`, `ENTITY_TYPE_ID` и `ENTITY_ID` — обязательные системные, клиент их не заполняет, обработчик подставит их сам.
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    for (const f of ['TYPE_ID', 'ENTITY_TYPE_ID', 'ENTITY_ID', 'COUNTRY_CODE', 'ANCHOR_TYPE_ID', 'ANCHOR_ID']) {
+        delete arAddressFields[f]
+    }
+    ```
+
+- PHP
+
+    ```php
+    foreach (['TYPE_ID', 'ENTITY_TYPE_ID', 'ENTITY_ID', 'COUNTRY_CODE', 'ANCHOR_TYPE_ID', 'ANCHOR_ID'] as $field) {
+        unset($arAddressFields[$field]);
+    }
+    ```
+
+- Python
+
+    ```python
+    for f in ("TYPE_ID", "ENTITY_TYPE_ID", "ENTITY_ID", "COUNTRY_CODE", "ANCHOR_TYPE_ID", "ANCHOR_ID"):
+        ar_address_fields.pop(f, None)
+    ```
+
+- Go
+
+    ```go
+    // В форму берем только строковые и доступные на запись поля: TYPE_ID,
+    // ENTITY_ID и ENTITY_TYPE_ID тоже придут в этом ответе, но их обработчик
+    // подставляет сам. Ключи карты в Go неупорядочены — сортируем, иначе поля
+    // формы будут прыгать от запуска к запуску.
+    var addressNames []string
+    for name, f := range addressFields {
+    	if f.Type == "string" && !f.IsReadOnly {
+    		addressNames = append(addressNames, name)
+    	}
+    }
+    sort.Strings(addressNames)
+    ```
+
+{% endlist %}
+
+Создаем HTML-форму с полями:
+
+-  `REQ_TYPE` — выпадающий список с шаблонами реквизитов из массива `$arPresets`. Обязательное поле
+
+-  `NAME` — имя контакта. Обязательное поле
+
+-  `LAST_NAME` — фамилия контакта
+
+-  `PHONE` — номер телефона
+
+-  `ADDRESS` — поля для адреса создаются динамически из `$arAddressFields`. Если поле обязательное, добавляется атрибут `required`
+
+Форма собирает данные и отправляет их методом `POST` в обработчик. Разметка формы — ниже, выпадающий список реквизитов и поля адреса подставляются из полученных данных.
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    // строку с формой собираем из полученных данных и вставляем в ответ сервера
+    const options = arPresets.map(p => `<option value="${p.ID}">${p.NAME}</option>`).join('')
+    const addressInputs = Object.entries(arAddressFields).map(([key, field]) =>
+        `<input type="text" name="ADDRESS[${key}]" placeholder="${field.title}" ${field.isRequired ? 'required' : ''}>`
+    ).join('')
+
+    const formHtml = `
+        <form id="form_to_crm">
+            <select name="REQ_TYPE" required>
+                <option value="" disabled selected>Выберите тип реквизитов</option>
+                ${options}
+            </select>
+            <input type="text" name="NAME" placeholder="Имя" required>
+            <input type="text" name="LAST_NAME" placeholder="Фамилия">
+            <input type="text" name="PHONE" placeholder="Телефон">
+            ${addressInputs}
+            <input type="submit" value="Отправить">
+        </form>`
+    ```
+
+- PHP
+
+    ```html
+    <form id="form_to_crm">
+        <select name="REQ_TYPE" required>
+            <option value="" disabled selected>Выберите тип реквизитов</option>
+            <?php foreach($arPresets as $preset):?>
+                <option value="<?=$preset->ID?>"><?=$preset->NAME?></option>
+            <?php endforeach;?>
+        </select>
+        <input type="text" name="NAME" placeholder="Имя" required>
+        <input type="text" name="LAST_NAME" placeholder="Фамилия">
+        <input type="text" name="PHONE" placeholder="Телефон">
+        <?php if(is_array($arAddressFields)):?>
+            <?php foreach($arAddressFields as $key=>$arField):?>
+                <input type="text" name="ADDRESS[<?=$key?>]" placeholder="<?=$arField['title']?>" <?=($arField['isRequired'])?'required':'';?>>
+            <?php endforeach;?>
+        <?php endif;?>
+        <input type="submit" value="Отправить">
+    </form>
+    ```
+
+- Python
+
+    ```python
+    # строку с формой собираем из полученных данных и вставляем в ответ сервера
+    from markupsafe import escape
+
+    options = "".join(
+        f'<option value="{escape(preset["ID"])}">{escape(preset["NAME"])}</option>'
+        for preset in ar_presets
+    )
+    address_inputs = "".join(
+        f'<input type="text" name="ADDRESS[{escape(key)}]" '
+        f'placeholder="{escape(field["title"])}" '
+        f'{"required" if field["isRequired"] else ""}>'
+        for key, field in ar_address_fields.items()
+    )
+
+    form_html = f"""
+        <form id="form_to_crm">
+            <select name="REQ_TYPE" required>
+                <option value="" disabled selected>Выберите тип реквизитов</option>
+                {options}
+            </select>
+            <input type="text" name="NAME" placeholder="Имя" required>
+            <input type="text" name="LAST_NAME" placeholder="Фамилия">
+            <input type="text" name="PHONE" placeholder="Телефон">
+            {address_inputs}
+            <input type="submit" value="Отправить">
+        </form>"""
+    ```
+
+- Go
+
+    ```go
+    var form strings.Builder
+    form.WriteString(`<!doctype html>
+    <meta charset="utf-8">
+    <title>Заявка</title>
+    <form method="post" action="/form">
+    <p><label>Тип реквизитов*<br><select name="REQ_TYPE" required>`)
+    for _, p := range presets {
+    	fmt.Fprintf(&form, `<option value="%d">%s</option>`, p.ID, html.EscapeString(p.Name))
+    }
+    form.WriteString(`</select></label></p>
+    <p><label>Имя*<br><input name="NAME" required></label></p>
+    <p><label>Фамилия<br><input name="LAST_NAME"></label></p>
+    <p><label>Телефон<br><input name="PHONE" type="tel"></label></p>`)
+    // Поля адреса создаются динамически: их набор задает портал, а не код.
+    // Имена вида ADDRESS[CITY] — обработчик разбирает их обратно.
+    for _, name := range addressNames {
+    	fmt.Fprintf(&form, "<p><label>%s<br><input name=\"ADDRESS[%s]\"></label></p>\n",
+    		html.EscapeString(addressFields[name].Title), name)
+    }
+    form.WriteString(`<p><button type="submit">Отправить</button></p>
+    </form>`)
+    page := form.String()
+    ```
+
+{% endlist %}
+
+### Полный пример кода страницы с формой
 
 {% list tabs %}
 
@@ -169,15 +351,14 @@
 
     // Страница с формой: получаем данные из Битрикс24 и рендерим HTML
     app.get('/', async (req, res) => {
-        // Получаем список полей адреса и шаблонов реквизитов
         const arAddressFields = (await $b24.actions.v2.call.make({
             method: 'crm.address.fields', params: {}, requestId: 'address-fields'
         })).getData().result
-        const presets = (await $b24.actions.v2.call.make({
+        const arPresets = (await $b24.actions.v2.call.make({
             method: 'crm.requisite.preset.list', params: { select: ['ID', 'NAME'] }, requestId: 'preset-list'
         })).getData().result
 
-        if (!presets.length) {
+        if (!arPresets.length) {
             res.send('<p>Нет доступных типов реквизитов.</p>')
             return
         }
@@ -188,7 +369,7 @@
         }
 
         // Собираем выпадающий список реквизитов и поля адреса
-        const options = presets.map(p => `<option value="${p.ID}">${p.NAME}</option>`).join('')
+        const options = arPresets.map(p => `<option value="${p.ID}">${p.NAME}</option>`).join('')
         const addressInputs = Object.entries(arAddressFields).map(([key, field]) =>
             `<input type="text" name="ADDRESS[${key}]" placeholder="${field.title}" ${field.isRequired ? 'required' : ''}>`
         ).join('')
@@ -235,7 +416,8 @@
     use Psr\Log\NullLogger;
 
     $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
     // Получаем список полей адреса и шаблонов реквизитов
     $arAddressFields = $sb->getCRMScope()->address()->fields()->getFieldsDescription();
@@ -244,11 +426,6 @@
     )->getRequisitePresets();
 
     if (!empty($arPresets)):
-        $arRequisiteType = [];
-        foreach ($arPresets as $preset) {
-            $arRequisiteType[$preset->ID] = $preset->NAME;
-        }
-
         // Удаляем системные и неиспользуемые поля адреса
         $excludeFields = ['TYPE_ID', 'ENTITY_TYPE_ID', 'ENTITY_ID', 'COUNTRY_CODE', 'ANCHOR_TYPE_ID', 'ANCHOR_ID'];
         foreach ($excludeFields as $field) {
@@ -258,16 +435,16 @@
         <form id="form_to_crm">
             <select name="REQ_TYPE" required>
                 <option value="" disabled selected>Выберите тип реквизитов</option>
-                <?php foreach ($arRequisiteType as $id => $name): ?>
-                    <option value="<?=$id?>"><?=$name?></option>
+                <?php foreach ($arPresets as $preset): ?>
+                    <option value="<?=$preset->ID?>"><?=$preset->NAME?></option>
                 <?php endforeach; ?>
             </select>
             <input type="text" name="NAME" placeholder="Имя" required>
             <input type="text" name="LAST_NAME" placeholder="Фамилия">
             <input type="text" name="PHONE" placeholder="Телефон">
             <?php foreach ($arAddressFields as $key => $arField): ?>
-                <input type="text" name="ADDRESS[<?=$key?>]" 
-                       placeholder="<?=$arField['title']?>" 
+                <input type="text" name="ADDRESS[<?=$key?>]"
+                       placeholder="<?=$arField['title']?>"
                        <?=$arField['isRequired'] ? 'required' : ''?>>
             <?php endforeach; ?>
             <input type="submit" value="Отправить">
@@ -276,7 +453,7 @@
         <p>Нет доступных типов реквизитов.</p>
     <?php endif; ?>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
     $(document).ready(function() {
         $('#form_to_crm').on('submit', function(el) {
@@ -284,7 +461,7 @@
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
-                url: 'form.php',
+                url: 'form.php', // файл-обработчик из шага 2
                 data: $(this).serialize(),
                 success: function(data) {
                     alert(data.message);
@@ -299,6 +476,8 @@
 
     ```python
     # pip install b24pysdk flask
+    import os
+
     from flask import Flask
     from markupsafe import escape
     from b24pysdk import BitrixWebhook, Client
@@ -306,8 +485,8 @@
     app = Flask(__name__)
 
     client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
+        domain=os.environ["B24_DOMAIN"],  # your-domain.bitrix24.ru
+        webhook_token=os.environ["B24_TOKEN"],  # только user_id/token, без https://
     ))
 
     # Шаблон страницы: %(options)s и %(address_inputs)s подставляем из Python
@@ -344,27 +523,26 @@
     @app.route("/")
     def form_page():
         # Получаем список полей адреса и шаблонов реквизитов
-        address_fields = client.crm.address.fields().result
-        presets = client.crm.requisite.preset.list(select=["ID", "NAME"]).result
+        ar_address_fields = client.crm.address.fields().result
+        ar_presets = client.crm.requisite.preset.list(select=["ID", "NAME"]).result
 
-        requisite_types = {p["ID"]: p["NAME"] for p in presets}
-        if not requisite_types:
+        if not ar_presets:
             return EMPTY_PAGE
 
         # Удаляем системные и неиспользуемые поля адреса
         for f in ("TYPE_ID", "ENTITY_TYPE_ID", "ENTITY_ID", "COUNTRY_CODE", "ANCHOR_TYPE_ID", "ANCHOR_ID"):
-            address_fields.pop(f, None)
+            ar_address_fields.pop(f, None)
 
         # Собираем выпадающий список реквизитов и поля адреса
         options = "".join(
-            f'<option value="{escape(preset_id)}">{escape(name)}</option>'
-            for preset_id, name in requisite_types.items()
+            f'<option value="{escape(preset["ID"])}">{escape(preset["NAME"])}</option>'
+            for preset in ar_presets
         )
         address_inputs = "".join(
             f'<input type="text" name="ADDRESS[{escape(key)}]" '
             f'placeholder="{escape(field["title"])}" '
             f'{"required" if field["isRequired"] else ""}>'
-            for key, field in address_fields.items()
+            for key, field in ar_address_fields.items()
         )
 
         return PAGE % {"options": options, "address_inputs": address_inputs}
@@ -373,43 +551,34 @@
 - Go
 
     ```go
-    	var form strings.Builder
-    	form.WriteString(`<!doctype html>
-    <meta charset="utf-8">
-    <title>Заявка</title>
-    <form method="post" action="/form">
-    <p><label>Тип реквизитов*<br><select name="REQ_TYPE" required>`)
-    	for _, p := range presets {
-    		fmt.Fprintf(&form, `<option value="%d">%s</option>`, p.ID, html.EscapeString(p.Name))
+    // Полный код страницы и обработчика — в примере ниже, в шаге 2: страницу
+    // собирает и отдает та же программа, отдельного файла для формы нет.
+    mux := http.NewServeMux()
+    mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    	fmt.Fprint(w, page)
+    })
+    mux.HandleFunc("/form", func(w http.ResponseWriter, r *http.Request) {
+    	if r.Method != http.MethodPost {
+    		reply(w, http.StatusMethodNotAllowed, "Нужен POST", 0)
+    		return
     	}
-    	form.WriteString(`</select></label></p>
-    <p><label>Имя*<br><input name="NAME" required></label></p>
-    <p><label>Фамилия<br><input name="LAST_NAME"></label></p>
-    <p><label>Телефон<br><input name="PHONE" type="tel"></label></p>`)
-    	// Поля адреса создаются динамически: их набор задаёт портал, а не код.
-    	// Имена вида ADDRESS[CITY] — обработчик разбирает их обратно.
-    	for _, name := range addressNames {
-    		fmt.Fprintf(&form, "<p><label>%s<br><input name=\"ADDRESS[%s]\"></label></p>\n",
-    			html.EscapeString(addressFields[name].Title), name)
-    	}
-    	form.WriteString(`<p><button type="submit">Отправить</button></p>
-    </form>`)
-    	page := form.String()
+    	handleForm(w, r, core)
+    })
+
+    log.Println("форма и обработчик: http://localhost:3000/")
+    return http.ListenAndServe(":3000", mux)
     ```
 
 {% endlist %}
 
 ## 2\. Создаем обработчик формы
 
-Чтобы обработать значения из полей формы и добавить контакт в CRM, создадим обработчик `form.php`.
+Создаем файл, который принимает данные формы и сохраняет их в CRM. В примерах на PHP это `form.php`, в остальных — обработчик маршрута `/form`.
 
-### Подготавливаем данные
+### Получаем данные
 
-Получаем и очищаем данные из формы:
-
--  `REQ_TYPE` приводим к числу,
-
--  `NAME`, `LAST_NAME`, `PHONE` очищаем от HTML-тегов.
+Получаем и обрабатываем данные из формы.
 
 {% list tabs %}
 
@@ -420,15 +589,23 @@
     const sName = String(req.body.NAME ?? '')
     const sLastName = String(req.body.LAST_NAME ?? '')
     const sPhone = String(req.body.PHONE ?? '')
+    const arAddress = {}
+    for (const [key, val] of Object.entries(req.body.ADDRESS ?? {})) {
+        arAddress[key] = String(val)
+    }
     ```
 
 - PHP
 
     ```php
-    $iRequisitePresetID = intVal($_POST["REQ_TYPE"]);
-    $sName = htmlspecialchars($_POST["NAME"]);
-    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
+    $iRequisitePresetID = intval($_POST["REQ_TYPE"] ?? 0);
+    $sName = htmlspecialchars($_POST["NAME"] ?? '');
+    $sLastName = htmlspecialchars($_POST["LAST_NAME"] ?? '');
+    $sPhone = htmlspecialchars($_POST["PHONE"] ?? '');
+    $arAddress = [];
+    foreach (($_POST["ADDRESS"] ?? []) as $key => $val) {
+        $arAddress[$key] = htmlspecialchars($val);
+    }
     ```
 
 - Python
@@ -438,6 +615,8 @@
     s_name = request.form.get("NAME", "")
     s_last_name = request.form.get("LAST_NAME", "")
     s_phone = request.form.get("PHONE", "")
+    ar_address = {k[len("ADDRESS["):-1]: v for k, v in request.form.to_dict().items()
+                  if k.startswith("ADDRESS[")}
     ```
 
 - Go
@@ -445,7 +624,7 @@
     ```go
     // Тип реквизитов приводим к числу, остальное чистим от HTML-тегов.
     // Именно ВЫРЕЗАЕМ теги, а не экранируем: экранирование нужно при выводе на
-    // страницу, а в CRM из-за него вместо «Иванов & сын» попадёт
+    // страницу, а в CRM из-за него вместо «Иванов & сын» попадет
     // «Иванов &amp; сын».
     presetID, _ := strconv.Atoi(r.PostFormValue("REQ_TYPE"))
     name := stripTags(r.PostFormValue("NAME"))
@@ -456,54 +635,7 @@
     	reply(w, http.StatusBadRequest, "Заполните тип реквизитов и имя", 0)
     	return
     }
-    ```
 
-{% endlist %}
-
-Подготавливаем поля адреса и собираем их в массив `$arAddress`.
-
--  Значения полей из формы очищаем от HTML-тегов.
-
--  Добавляем тип адреса `TYPE_ID`. Получить типы адресов можно методом [crm.enum.addresstype](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md). Укажем значение — `1`, то есть фактический адрес.
-
--  Добавляем идентификатор [типа объекта](../../../api-reference/crm/data-types.md#object_type) `ENTITY_TYPE_ID`. Получить идентификаторы можно методом [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). Укажем значение — `8`, то есть реквизит.
-
-{% list tabs %}
-
-- JS
-
-    ```javascript
-    const arAddress = {}
-    for (const [key, val] of Object.entries(req.body.ADDRESS ?? {})) {
-        arAddress[key] = String(val)
-    }
-    arAddress.TYPE_ID = 1
-    arAddress.ENTITY_TYPE_ID = 8
-    ```
-
-- PHP
-
-    ```php
-    $arAddress = [];
-    foreach($_POST["ADDRESS"] as $key => $val) {
-        $arAddress[$key] = htmlspecialchars($val);
-    }
-    $arAddress['TYPE_ID'] = 1;
-    $arAddress['ENTITY_TYPE_ID'] = 8;
-    ```
-
-- Python
-
-    ```python
-    ar_address = {k[len("ADDRESS["):-1]: v for k, v in request.form.to_dict().items()
-                  if k.startswith("ADDRESS[")}
-    ar_address["TYPE_ID"] = 1
-    ar_address["ENTITY_TYPE_ID"] = 8
-    ```
-
-- Go
-
-    ```go
     // Поля адреса пришли именами вида ADDRESS[CITY] — разбираем их обратно.
     address := b24.Params{}
     for key, values := range r.PostForm {
@@ -511,6 +643,52 @@
     		address[inner] = stripTags(values[0])
     	}
     }
+    ```
+
+{% endlist %}
+
+-  `$iRequisitePresetID` — преобразуем идентификатор шаблона реквизитов `REQ_TYPE` в целое число
+
+-  `$sName`, `$sLastName`, `$sPhone` — безопасно обрабатываем данные из `NAME`, `LAST_NAME`, `PHONE`, чтобы избежать XSS-атак
+
+-  `$arAddress` — сохраняем данные из массива с адресными полями `ADDRESS`
+
+### Подготавливаем данные
+
+Добавляем в массив `$arAddress` два обязательных системных поля.
+
+-  `TYPE_ID` — тип адреса. Укажем `1` — фактический адрес. Список типов адресов можно получить с помощью метода [crm.enum.addresstype](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md)
+
+-  `ENTITY_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `8` — реквизиты. Полный список типов объектов можно получить с помощью метода [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+
+Третье обязательное поле `ENTITY_ID` подставим позже: это идентификатор реквизита, а его еще нет.
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    arAddress.TYPE_ID = 1
+    arAddress.ENTITY_TYPE_ID = 8
+    ```
+
+- PHP
+
+    ```php
+    $arAddress['TYPE_ID'] = 1;
+    $arAddress['ENTITY_TYPE_ID'] = 8;
+    ```
+
+- Python
+
+    ```python
+    ar_address["TYPE_ID"] = 1
+    ar_address["ENTITY_TYPE_ID"] = 8
+    ```
+
+- Go
+
+    ```go
     // Тип адреса и тип владельца обработчик подставляет сам: в форме их нет.
     address["TYPE_ID"] = addressTypeActual
     address["ENTITY_TYPE_ID"] = typeRequisite
@@ -518,11 +696,13 @@
 
 {% endlist %}
 
-Система хранит телефон как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield), поэтому его нужно привести к формату массива.
+Система хранит телефон как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield), поэтому значение `$sPhone` нужно привести к формату массива:
 
-1. Добавляем телефон первым элементом `VALUE` в массив, а вторым значением указываем тип `VALUE_TYPE`, например, `WORK`.
+-  в первый элемент `VALUE` записываем `$sPhone`
 
-2. Для пустого значения передаем пустой массив.
+-  во второй элемент `VALUE_TYPE` передаем, например, `WORK`
+
+Если в переменной `$sPhone` нет значения, то указываем пустой массив.
 
 {% list tabs %}
 
@@ -548,7 +728,7 @@
 
     ```go
     // Телефон хранится мультиполем — списком объектов, даже когда номер один.
-    // Строка БЕЗ ID добавляет значение; MultifieldAdd собирает её за вас.
+    // Строка БЕЗ ID добавляет значение; MultifieldAdd собирает ее за вас.
     phones := []map[string]any{}
     if phone != "" {
     	phones = append(phones, b24.MultifieldAdd(phone, "WORK"))
@@ -559,13 +739,13 @@
 
 ### Добавляем контакт
 
-Для создания контакта выполним метод [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md). В объекте `fields` передаем поля:
+Чтобы добавить контакт, используем метод [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md). В него нужно передать следующие данные:
 
--  `NAME` — имя контакта,
+-  `NAME` — имя контакта. Передаем `$sName`, который получили из формы
 
--  `LAST_NAME` — фамилия,
+-  `LAST_NAME` — фамилия контакта. Передаем `$sLastName`, который получили из формы
 
--  `PHONE` — телефон.
+-  `PHONE` — массив с телефоном `$arPhone`, который получили из формы
 
 {% note warning "" %}
 
@@ -578,28 +758,28 @@
 - JS
 
     ```javascript
-    const result = await $b24.actions.v2.call.make({
+    const contactResponse = await $b24.actions.v2.call.make({
         method: 'crm.contact.add',
         params: { fields: { NAME: sName, LAST_NAME: sLastName, PHONE: arPhone } },
         requestId: 'contact-add'
     })
-    const contactId = result.getData()?.result
+    const iContactID = contactResponse.getData()?.result
     ```
 
 - PHP
 
     ```php
-    $contactId = $sb->getCRMScope()->contact()->add([
+    $iContactID = $sb->getCRMScope()->contact()->add([
         'NAME' => $sName,
         'LAST_NAME' => $sLastName,
-        'PHONE' => $arPhone
+        'PHONE' => $arPhone,
     ])->getId();
     ```
 
 - Python
 
     ```python
-    contact_id = client.crm.contact.add(fields={
+    i_contact_id = client.crm.contact.add(fields={
         "NAME": s_name,
         "LAST_NAME": s_last_name,
         "PHONE": ar_phone,
@@ -623,7 +803,7 @@
     	return
     }
 
-    // Обёртки нет: result — сразу идентификатор нового контакта.
+    // Обертки нет: result — сразу идентификатор нового контакта.
     var contactID b24.ID
     if err := json.Unmarshal(res.Result, &contactID); err != nil {
     	log.Println("разбор идентификатора контакта:", err)
@@ -634,70 +814,71 @@
 
 {% endlist %}
 
-В результате получим идентификатор нового контакта, например, `23`.
+Если контакт успешно создан, метод вернет его идентификатор в `$iContactID`. Сохраните значение: оно понадобится реквизиту.
 
 ```json
 {
-	"result": 23
+    "result": 23
 }
 ```
 
 ### Добавляем реквизиты в контакт
 
-Для добавления реквизитов в контакт выполним метод [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md). В объекте `fields` передаем поля:
+Чтобы добавить реквизиты, используем метод [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md). В него нужно передать следующие данные:
 
--  `ENTITY_TYPE_ID` — идентификатор [типа объекта](../../../api-reference/crm/data-types.md#object_type). Получить идентификаторы можно методом [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). В примере укажем значение `3`, то есть контакт,
+-  `ENTITY_TYPE_ID` — [идентификатор типа объекта CRM](../../../api-reference/crm/data-types.md#object_type). Передаем `3` — контакт
 
--  `ENTITY_ID` — идентификатор контакта, который получили в предыдущем запросе,
+-  `ENTITY_ID` — идентификатор контакта. Передаем `$iContactID`, который получили при создании контакта
 
--  `PRESET_ID` — идентификатор шаблона реквизитов, который получили из формы,
+-  `PRESET_ID` — идентификатор шаблона реквизитов. Указываем `$iRequisitePresetID`, который получили из формы
 
--  `ACTIVE` — активность реквизита `Y`,
+-  `NAME` — название реквизита. Соберем его из имени и фамилии контакта
 
--  `NAME` — название реквизита, например, объединим имя и фамилию контакта,
+-  `ACTIVE` — флаг активности, укажем `Y`
 
 {% list tabs %}
 
 - JS
 
     ```javascript
-    await $b24.actions.v2.call.make({
+    const requisiteResponse = await $b24.actions.v2.call.make({
         method: 'crm.requisite.add',
         params: {
             fields: {
                 ENTITY_TYPE_ID: 3,
-                ENTITY_ID: contactId,
+                ENTITY_ID: iContactID,
                 PRESET_ID: iRequisitePresetID,
                 ACTIVE: 'Y',
-                NAME: [sName, sLastName].join(' '),
+                NAME: [sName, sLastName].join(' ').trim(),
             }
         },
         requestId: 'requisite-add'
     })
+    const iRequisiteID = requisiteResponse.getData()?.result
     ```
 
 - PHP
 
     ```php
-    $sb->getCRMScope()->requisite()->add(
-        entityId: $contactId,
+    $iRequisiteID = $sb->getCRMScope()->requisite()->add(
+        entityId: $iContactID,
         entityTypeId: 3,
         requisitePresetId: $iRequisitePresetID,
-        requisiteName: implode(' ', [$sName, $sLastName]),
+        requisiteName: trim(implode(' ', [$sName, $sLastName])),
         fields: ['ACTIVE' => 'Y']
-    );
+    )->getId();
     ```
 
 - Python
 
     ```python
-    client.crm.requisite.add(fields={
+    i_requisite_id = client.crm.requisite.add(fields={
         "ENTITY_TYPE_ID": 3,
-        "ENTITY_ID": contact_id,
+        "ENTITY_ID": i_contact_id,
         "PRESET_ID": i_requisite_preset_id,
         "ACTIVE": "Y",
-        "NAME": " ".join([s_name, s_last_name]),
-    })
+        "NAME": " ".join([s_name, s_last_name]).strip(),
+    }).result
     ```
 
 - Go
@@ -714,7 +895,7 @@
     })
     if err != nil {
     	// Контакт уже создан, поэтому это не повод отвечать «ничего не вышло»:
-    	// сообщаем, что реквизиты не добавились, и отдаём идентификатор.
+    	// сообщаем, что реквизиты не добавились, и отдаем идентификатор.
     	log.Println("crm.requisite.add:", err)
     	reply(w, http.StatusOK, "Контакт создан, реквизиты добавить не удалось", contactID)
     	return
@@ -729,66 +910,101 @@
 
 {% endlist %}
 
-В результате получим идентификатор реквизитов.
+Если реквизиты успешно добавлены, метод вернет идентификатор записи в `$iRequisiteID`.
 
-```php
+```json
 {
     "result": 34
 }
 ```
 
+{% note warning "" %}
+
+Метод не проверяет, существует ли шаблон с переданным `PRESET_ID`. С несуществующим идентификатором реквизит создастся, но останется без полей шаблона. Берите `PRESET_ID` из ответа [crm.requisite.preset.list](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md), а не подставляйте произвольное число.
+
+{% endnote %}
+
 ### Добавляем адрес для реквизита
 
-Добавим адрес для реквизита методом [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md), если реквизит создался успешно. В `$arAddress` добавляем `ENTITY_ID` с `ID` реквизита из ответа предыдущего запроса. В объекте `fields` передаем массив `$arAddress` с полями адреса.
+1. Добавляем в массив `$arAddress` поле `ENTITY_ID` — идентификатор реквизита. Передаем `$iRequisiteID`, который получили при создании реквизита
 
-{% list tabs %}
+   {% list tabs %}
 
-- JS
+   - JS
 
-    ```javascript
-    if (requisiteId) {
-        arAddress.ENTITY_ID = requisiteId
-        await $b24.actions.v2.call.make({
-            method: 'crm.address.add',
-            params: { fields: arAddress },
-            requestId: 'address-add'
-        })
-    }
-    ```
+       ```javascript
+       arAddress.ENTITY_ID = iRequisiteID
+       ```
 
-- PHP
+   - PHP
 
-    ```php
-    if (!empty($requisiteId)) {
-        $arAddress['ENTITY_ID'] = $requisiteId;
-        $sb->getCRMScope()->address()->add($arAddress);
-    }
-    ```
+       ```php
+       $arAddress['ENTITY_ID'] = $iRequisiteID;
+       ```
 
-- Python
+   - Python
 
-    ```python
-    if requisite_id:
-        ar_address["ENTITY_ID"] = requisite_id
-        client.crm.address.add(fields=ar_address)
-    ```
+       ```python
+       ar_address["ENTITY_ID"] = i_requisite_id
+       ```
 
-- Go
+   - Go
 
-    ```go
-    // Адрес привязывается к РЕКВИЗИТУ, а не к контакту, поэтому ENTITY_ID
-    // заполняется только сейчас — идентификатора реквизита раньше не было.
-    if requisiteID != 0 {
-    	address["ENTITY_ID"] = requisiteID
-    	if _, err := core.Call(ctx, "crm.address.add", b24.Params{"fields": address}); err != nil {
-    		log.Println("crm.address.add:", err)
-    		reply(w, http.StatusOK, "Контакт и реквизиты созданы, адрес добавить не удалось", contactID)
-    		return
-    	}
-    }
-    ```
+       ```go
+       address["ENTITY_ID"] = requisiteID
+       ```
 
-{% endlist %}
+   {% endlist %}
+
+2. Используем метод [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md). В него нужно передать массив `$arAddress`
+
+   {% list tabs %}
+
+   - JS
+
+       ```javascript
+       const bAddressAdded = (await $b24.actions.v2.call.make({
+           method: 'crm.address.add', params: { fields: arAddress }, requestId: 'address-add'
+       })).getData().result
+       ```
+
+   - PHP
+
+       ```php
+       $bAddressAdded = $sb->getCRMScope()->address()->add($arAddress)->isSuccess();
+       ```
+
+   - Python
+
+       ```python
+       b_address_added = client.crm.address.add(fields=ar_address).result
+       ```
+
+   - Go
+
+       ```go
+       // Адрес привязывается к РЕКВИЗИТУ, а не к контакту, поэтому ENTITY_ID
+       // заполняется только сейчас — идентификатора реквизита раньше не было.
+       if _, err := core.Call(ctx, "crm.address.add", b24.Params{"fields": address}); err != nil {
+       	log.Println("crm.address.add:", err)
+       	reply(w, http.StatusOK, "Контакт и реквизиты созданы, адрес добавить не удалось", contactID)
+       	return
+       }
+       ```
+
+   {% endlist %}
+
+Метод возвращает в переменной `$bAddressAdded` одно из значений:
+
+-  `true` — адрес добавлен
+
+-  `false` — адрес не добавлен
+
+```json
+{
+    "result": true
+}
+```
 
 ### Полный пример кода обработчика
 
@@ -803,63 +1019,64 @@
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
     export async function handler(req, res) {
-        // Получаем и очищаем данные формы
         const iRequisitePresetID = parseInt(req.body.REQ_TYPE, 10)
         const sName = String(req.body.NAME ?? '')
         const sLastName = String(req.body.LAST_NAME ?? '')
         const sPhone = String(req.body.PHONE ?? '')
 
-        // Подготавливаем адрес
         const arAddress = {}
         for (const [key, val] of Object.entries(req.body.ADDRESS ?? {})) {
             arAddress[key] = String(val)
         }
-        arAddress.TYPE_ID = 1 // Фактический адрес
-        arAddress.ENTITY_TYPE_ID = 8 // Тип объекта — реквизит
+        arAddress.TYPE_ID = 1 // 1 — фактический адрес (crm.enum.addresstype)
+        arAddress.ENTITY_TYPE_ID = 8 // 8 — реквизит (crm.enum.ownertype)
 
-        // Форматируем телефон для Битрикс24
         const arPhone = sPhone ? [{ VALUE: sPhone, VALUE_TYPE: 'WORK' }] : []
 
-        // Создаем контакт
-        const result = await $b24.actions.v2.call.make({
-            method: 'crm.contact.add',
-            params: { fields: { NAME: sName, LAST_NAME: sLastName, PHONE: arPhone } },
-            requestId: 'contact-add'
-        })
+        try {
+            const contactResponse = await $b24.actions.v2.call.make({
+                method: 'crm.contact.add',
+                params: { fields: { NAME: sName, LAST_NAME: sLastName, PHONE: arPhone } },
+                requestId: 'contact-add'
+            })
+            const iContactID = contactResponse.getData()?.result
+            if (!iContactID) {
+                res.json({ message: 'Ошибка: ' + contactResponse.getErrorMessages().join('; ') })
+                return
+            }
 
-        const contactId = result.getData()?.result
-        if (contactId) {
-            // Добавляем реквизиты для нового контакта
-            const resultRequisite = await $b24.actions.v2.call.make({
+            const requisiteResponse = await $b24.actions.v2.call.make({
                 method: 'crm.requisite.add',
                 params: {
                     fields: {
-                        ENTITY_TYPE_ID: 3, // Тип объекта — контакт
-                        ENTITY_ID: contactId,
+                        ENTITY_TYPE_ID: 3, // 3 — контакт (crm.enum.ownertype)
+                        ENTITY_ID: iContactID,
                         PRESET_ID: iRequisitePresetID,
                         ACTIVE: 'Y',
-                        NAME: [sName, sLastName].join(' '),
+                        NAME: [sName, sLastName].join(' ').trim(),
                     }
                 },
                 requestId: 'requisite-add'
             })
+            const iRequisiteID = requisiteResponse.getData()?.result
 
-            // Добавляем адрес, если реквизиты созданы успешно
-            const requisiteId = resultRequisite.getData()?.result
-            if (requisiteId) {
-                arAddress.ENTITY_ID = requisiteId
+            if (iRequisiteID) {
+                arAddress.ENTITY_ID = iRequisiteID
                 await $b24.actions.v2.call.make({
-                    method: 'crm.address.add',
-                    params: { fields: arAddress },
-                    requestId: 'address-add'
+                    method: 'crm.address.add', params: { fields: arAddress }, requestId: 'address-add'
                 })
             }
 
             res.json({ message: 'Контакт успешно добавлен' })
-        } else {
-            res.json({ message: 'Ошибка: ' + result.getErrorMessages().join('; ') })
+        } catch (e) {
+            res.json({ message: 'Ошибка: ' + e.message })
         }
     }
+
+    // Подключаем обработчик к серверу из шага 1. Без express.json()
+    // тело запроса не разберется и req.body будет пустым
+    // app.use(express.json())
+    // app.post('/form', handler)
     ```
 
 - PHP
@@ -874,46 +1091,45 @@
     use Psr\Log\NullLogger;
 
     $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+    $crm = $sb->getCRMScope();
 
     // Получаем и очищаем данные формы
-    $iRequisitePresetID = intVal($_POST["REQ_TYPE"]);
-    $sName = htmlspecialchars($_POST["NAME"]);
-    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
+    $iRequisitePresetID = intval($_POST["REQ_TYPE"] ?? 0);
+    $sName = htmlspecialchars($_POST["NAME"] ?? '');
+    $sLastName = htmlspecialchars($_POST["LAST_NAME"] ?? '');
+    $sPhone = htmlspecialchars($_POST["PHONE"] ?? '');
 
     // Подготавливаем адрес
     $arAddress = [];
-    foreach ($_POST["ADDRESS"] as $key => $val) {
+    foreach (($_POST["ADDRESS"] ?? []) as $key => $val) {
         $arAddress[$key] = htmlspecialchars($val);
     }
-    $arAddress['TYPE_ID'] = 1; // Фактический адрес
-    $arAddress['ENTITY_TYPE_ID'] = 8; // Тип объекта — реквизит
+    $arAddress['TYPE_ID'] = 1; // 1 — фактический адрес (crm.enum.addresstype)
+    $arAddress['ENTITY_TYPE_ID'] = 8; // 8 — реквизит (crm.enum.ownertype)
 
-    // Форматируем телефон для Битрикс24
+    // Форматируем телефон в формат crm_multifield
     $arPhone = !empty($sPhone) ? [['VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK']] : [];
 
-    // Создаем контакт
     try {
-        $contactId = $sb->getCRMScope()->contact()->add([
+        $iContactID = $crm->contact()->add([
             'NAME' => $sName,
             'LAST_NAME' => $sLastName,
-            'PHONE' => $arPhone
+            'PHONE' => $arPhone,
         ])->getId();
 
-        // Добавляем реквизиты для нового контакта
-        $requisiteId = $sb->getCRMScope()->requisite()->add(
-            entityId: $contactId,
-            entityTypeId: 3, // Тип объекта — контакт
+        $iRequisiteID = $crm->requisite()->add(
+            entityId: $iContactID,
+            entityTypeId: 3, // 3 — контакт (crm.enum.ownertype)
             requisitePresetId: $iRequisitePresetID,
-            requisiteName: implode(' ', [$sName, $sLastName]),
+            requisiteName: trim(implode(' ', [$sName, $sLastName])),
             fields: ['ACTIVE' => 'Y']
         )->getId();
 
-        // Добавляем адрес, если реквизиты созданы успешно
-        if (!empty($requisiteId)) {
-            $arAddress['ENTITY_ID'] = $requisiteId;
-            $sb->getCRMScope()->address()->add($arAddress);
+        if (!empty($iRequisiteID)) {
+            $arAddress['ENTITY_ID'] = $iRequisiteID;
+            $crm->address()->add($arAddress);
         }
 
         echo json_encode(['message' => 'Контакт успешно добавлен']);
@@ -925,19 +1141,21 @@
 - Python
 
     ```python
-    # pip install b24pysdk
+    # pip install b24pysdk flask
+    import os
+
     from flask import Flask, request, jsonify
     from b24pysdk import BitrixWebhook, Client
 
     app = Flask(__name__)
 
     client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
+        domain=os.environ["B24_DOMAIN"],  # your-domain.bitrix24.ru
+        webhook_token=os.environ["B24_TOKEN"],  # только user_id/token, без https://
     ))
 
 
-    @app.route("/form.php", methods=["POST"])
+    @app.route("/form", methods=["POST"])
     def handle_form():
         # Получаем и очищаем данные формы
         i_requisite_preset_id = int(request.form.get("REQ_TYPE", 0))
@@ -946,35 +1164,31 @@
         s_phone = request.form.get("PHONE", "")
 
         # Подготавливаем адрес
-        ar_address = {key: val for key, val in request.form.to_dict().items()
-                      if key.startswith("ADDRESS[")}
-        ar_address = {k[len("ADDRESS["):-1]: v for k, v in ar_address.items()}
-        ar_address["TYPE_ID"] = 1  # Фактический адрес
-        ar_address["ENTITY_TYPE_ID"] = 8  # Тип объекта — реквизит
+        ar_address = {k[len("ADDRESS["):-1]: v for k, v in request.form.to_dict().items()
+                      if k.startswith("ADDRESS[")}
+        ar_address["TYPE_ID"] = 1  # 1 — фактический адрес (crm.enum.addresstype)
+        ar_address["ENTITY_TYPE_ID"] = 8  # 8 — реквизит (crm.enum.ownertype)
 
-        # Форматируем телефон для Битрикс24
+        # Форматируем телефон в формат crm_multifield
         ar_phone = [{"VALUE": s_phone, "VALUE_TYPE": "WORK"}] if s_phone else []
 
-        # Создаем контакт
         try:
-            contact_id = client.crm.contact.add(fields={
+            i_contact_id = client.crm.contact.add(fields={
                 "NAME": s_name,
                 "LAST_NAME": s_last_name,
                 "PHONE": ar_phone,
             }).result
 
-            # Добавляем реквизиты для нового контакта
-            requisite_id = client.crm.requisite.add(fields={
-                "ENTITY_TYPE_ID": 3,  # Тип объекта — контакт
-                "ENTITY_ID": contact_id,
+            i_requisite_id = client.crm.requisite.add(fields={
+                "ENTITY_TYPE_ID": 3,  # 3 — контакт (crm.enum.ownertype)
+                "ENTITY_ID": i_contact_id,
                 "PRESET_ID": i_requisite_preset_id,
                 "ACTIVE": "Y",
-                "NAME": " ".join([s_name, s_last_name]),
+                "NAME": " ".join([s_name, s_last_name]).strip(),
             }).result
 
-            # Добавляем адрес, если реквизиты созданы успешно
-            if requisite_id:
-                ar_address["ENTITY_ID"] = requisite_id
+            if i_requisite_id:
+                ar_address["ENTITY_ID"] = i_requisite_id
                 client.crm.address.add(fields=ar_address)
 
             return jsonify({"message": "Контакт успешно добавлен"})
@@ -993,8 +1207,8 @@
     //
     //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
     //
-    // Отдельный файл с формой не нужен: страницу собирает и отдаёт та же
-    // программа — поля адреса и список шаблонов реквизитов она берёт с портала.
+    // Отдельный файл с формой не нужен: страницу собирает и отдает та же
+    // программа — поля адреса и список шаблонов реквизитов она берет с портала.
     // Открывайте http://localhost:3000/
     package main
 
@@ -1020,7 +1234,7 @@
     	typeRequisite = 8
     )
 
-    // addressTypeActual — фактический адрес; полный список типов отдаёт
+    // addressTypeActual — фактический адрес; полный список типов отдает
     // crm.enum.addresstype.
     const addressTypeActual = 1
 
@@ -1033,7 +1247,7 @@
     func run(ctx context.Context) error {
     	// Путь вебхука — это секрет: он приходит из окружения, а не из кода, и на
     	// публичную страницу с формой не попадает никогда. Клиент строится ОДИН раз
-    	// на портал: http.Server зовёт обработчик из многих горутин.
+    	// на портал: http.Server зовет обработчик из многих горутин.
     	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
 
     	// --- собираем форму из настроек портала
@@ -1052,7 +1266,7 @@
     		return fmt.Errorf("разбор полей адреса: %w", err)
     	}
 
-    	// В форму берём только строковые и доступные на запись поля: TYPE_ID,
+    	// В форму берем только строковые и доступные на запись поля: TYPE_ID,
     	// ENTITY_ID и ENTITY_TYPE_ID тоже придут в этом ответе, но их обработчик
     	// подставляет сам. Ключи карты в Go неупорядочены — сортируем, иначе поля
     	// формы будут прыгать от запуска к запуску.
@@ -1070,7 +1284,7 @@
     		return fmt.Errorf("crm.requisite.preset.list: %w", err)
     	}
 
-    	// Идентификатор здесь приходит СТРОКОЙ ("1"), тогда как crm.enum.* отдаёт
+    	// Идентификатор здесь приходит СТРОКОЙ ("1"), тогда как crm.enum.* отдает
     	// числа. b24.ID разбирает оба написания.
     	var presets []struct {
     		ID   b24.ID `json:"ID"`
@@ -1096,7 +1310,7 @@
     <p><label>Имя*<br><input name="NAME" required></label></p>
     <p><label>Фамилия<br><input name="LAST_NAME"></label></p>
     <p><label>Телефон<br><input name="PHONE" type="tel"></label></p>`)
-    	// Поля адреса создаются динамически: их набор задаёт портал, а не код.
+    	// Поля адреса создаются динамически: их набор задает портал, а не код.
     	// Имена вида ADDRESS[CITY] — обработчик разбирает их обратно.
     	for _, name := range addressNames {
     		fmt.Fprintf(&form, "<p><label>%s<br><input name=\"ADDRESS[%s]\"></label></p>\n",
@@ -1130,7 +1344,7 @@
     	}
     	// Тип реквизитов приводим к числу, остальное чистим от HTML-тегов.
     	// Именно ВЫРЕЗАЕМ теги, а не экранируем: экранирование нужно при выводе на
-    	// страницу, а в CRM из-за него вместо «Иванов & сын» попадёт
+    	// страницу, а в CRM из-за него вместо «Иванов & сын» попадет
     	// «Иванов &amp; сын».
     	presetID, _ := strconv.Atoi(r.PostFormValue("REQ_TYPE"))
     	name := stripTags(r.PostFormValue("NAME"))
@@ -1152,7 +1366,7 @@
     	address["TYPE_ID"] = addressTypeActual
     	address["ENTITY_TYPE_ID"] = typeRequisite
     	// Телефон хранится мультиполем — списком объектов, даже когда номер один.
-    	// Строка БЕЗ ID добавляет значение; MultifieldAdd собирает её за вас.
+    	// Строка БЕЗ ID добавляет значение; MultifieldAdd собирает ее за вас.
     	phones := []map[string]any{}
     	if phone != "" {
     		phones = append(phones, b24.MultifieldAdd(phone, "WORK"))
@@ -1171,7 +1385,7 @@
     		return
     	}
 
-    	// Обёртки нет: result — сразу идентификатор нового контакта.
+    	// Обертки нет: result — сразу идентификатор нового контакта.
     	var contactID b24.ID
     	if err := json.Unmarshal(res.Result, &contactID); err != nil {
     		log.Println("разбор идентификатора контакта:", err)
@@ -1189,7 +1403,7 @@
     	})
     	if err != nil {
     		// Контакт уже создан, поэтому это не повод отвечать «ничего не вышло»:
-    		// сообщаем, что реквизиты не добавились, и отдаём идентификатор.
+    		// сообщаем, что реквизиты не добавились, и отдаем идентификатор.
     		log.Println("crm.requisite.add:", err)
     		reply(w, http.StatusOK, "Контакт создан, реквизиты добавить не удалось", contactID)
     		return
@@ -1221,7 +1435,7 @@
     	return strings.TrimSpace(tagPattern.ReplaceAllString(s, ""))
     }
 
-    // addressKey достаёт CITY из имени поля ADDRESS[CITY].
+    // addressKey достает CITY из имени поля ADDRESS[CITY].
     func addressKey(key string) (string, bool) {
     	if strings.HasPrefix(key, "ADDRESS[") && strings.HasSuffix(key, "]") {
     		return key[len("ADDRESS[") : len(key)-1], true
@@ -1242,3 +1456,169 @@
     ```
 
 {% endlist %}
+
+## Проверим результат
+
+Откройте созданный контакт в Битрикс24. На вкладке «Реквизиты» отображается реквизит с адресом из формы.
+
+Через REST результат проверяют два метода:
+
+-  [crm.requisite.list](../../../api-reference/crm/requisites/universal/crm-requisite-list.md) с фильтром по `ENTITY_TYPE_ID`: `3` и `ENTITY_ID` — идентификатором созданного контакта
+
+-  [crm.address.list](../../../api-reference/crm/requisites/addresses/crm-address-list.md) с фильтром по `ENTITY_TYPE_ID`: `8` и `ENTITY_ID` — идентификатором созданного реквизита
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    const requisites = (await $b24.actions.v2.call.make({
+        method: 'crm.requisite.list',
+        params: {
+            filter: { ENTITY_TYPE_ID: 3, ENTITY_ID: iContactID },
+            select: ['ID', 'ENTITY_TYPE_ID', 'ENTITY_ID', 'NAME']
+        },
+        requestId: 'requisite-list'
+    })).getData().result
+
+    const addresses = (await $b24.actions.v2.call.make({
+        method: 'crm.address.list',
+        params: { filter: { ENTITY_TYPE_ID: 8, ENTITY_ID: iRequisiteID } },
+        requestId: 'address-list'
+    })).getData().result
+
+    console.dir({ requisites, addresses })
+    ```
+
+- PHP
+
+    ```php
+    $requisites = $sb->getCRMScope()->requisite()->list(
+        [],
+        ['ENTITY_TYPE_ID' => 3, 'ENTITY_ID' => $iContactID],
+        ['ID', 'ENTITY_TYPE_ID', 'ENTITY_ID', 'NAME']
+    )->getRequisites();
+
+    $addresses = $sb->getCRMScope()->address()->list(
+        [],
+        ['ENTITY_TYPE_ID' => 8, 'ENTITY_ID' => $iRequisiteID],
+        []
+    )->getAddresses();
+
+    print_r($requisites);
+    print_r($addresses);
+    ```
+
+- Python
+
+    ```python
+    requisites = client.crm.requisite.list(
+        filter={"ENTITY_TYPE_ID": 3, "ENTITY_ID": i_contact_id},
+        select=["ID", "ENTITY_TYPE_ID", "ENTITY_ID", "NAME"],
+    ).result
+
+    addresses = client.crm.address.list(
+        filter={"ENTITY_TYPE_ID": 8, "ENTITY_ID": i_requisite_id},
+    ).result
+
+    print(requisites)
+    print(addresses)
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.requisite.list", b24.Params{
+    	"filter": b24.Params{"ENTITY_TYPE_ID": 3, "ENTITY_ID": contactID},
+    	"select": []string{"ID", "ENTITY_TYPE_ID", "ENTITY_ID", "NAME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.list: %w", err)
+    }
+    log.Println("реквизиты контакта:", string(res.Result))
+
+    res, err = core.Call(ctx, "crm.address.list", b24.Params{
+    	"filter": b24.Params{"ENTITY_TYPE_ID": 8, "ENTITY_ID": requisiteID},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.address.list: %w", err)
+    }
+    log.Println("адреса реквизита:", string(res.Result))
+    ```
+
+{% endlist %}
+
+Сценарий выполнен, если [crm.requisite.list](../../../api-reference/crm/requisites/universal/crm-requisite-list.md) вернул реквизит с `ID` из шага «Добавляем реквизиты в контакт», а [crm.address.list](../../../api-reference/crm/requisites/addresses/crm-address-list.md) — адрес с этим же `ENTITY_ID`.
+
+```json
+{
+    "result": [
+        {
+            "ENTITY_TYPE_ID": "3",
+            "ENTITY_ID": "23",
+            "ID": "34",
+            "NAME": "Иван Иванов"
+        }
+    ],
+    "total": 1
+}
+```
+
+```json
+{
+    "result": [
+        {
+            "TYPE_ID": "1",
+            "ENTITY_TYPE_ID": "8",
+            "ENTITY_ID": "34",
+            "ADDRESS_1": "Ленина 2",
+            "CITY": "Тюмень",
+            "POSTAL_CODE": "625003"
+        }
+    ],
+    "total": 1
+}
+```
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса. Методы реквизитов и адресов возвращают ошибки с пустым кодом, поэтому ориентируйтесь на текст в `error_description`.
+
+#|
+|| **Текст ошибки** | **Причина и действие** ||
+|| `Entity not found.` | В [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md) передан `ENTITY_ID` несуществующего контакта. Возьмите идентификатор из ответа [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md) ||
+|| `ENTITY_TYPE_ID is not defined or invalid.` | Не передан или неверен тип владельца. Для реквизита контакта нужно `3`, для адреса реквизита — `8` ||
+|| `ENTITY_ID is not defined or invalid.` | Не передан идентификатор владельца. В [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) это идентификатор реквизита, а не контакта ||
+|| `TYPE_ID is not defined or invalid.` | В [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) не передан тип адреса. Список значений возвращает метод [crm.enum.addresstype](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md) ||
+|| `TypeAddress exists.` | У реквизита уже есть адрес такого типа. Один реквизит хранит по одному адресу каждого типа — измените существующий методом [crm.address.update](../../../api-reference/crm/requisites/addresses/crm-address-update.md) или передайте другой `TYPE_ID` ||
+|| `Access denied.` | У пользователя нет права на добавление или импорт контактов. Проверьте, от имени какого пользователя создан вебхук ||
+|#
+
+Сценарий создает три объекта подряд, и ошибка на любом шаге оставляет предыдущие объекты в CRM. Повторяйте не весь обработчик, а тот шаг, который упал:
+
+- ошибка в [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md) — в CRM ничего не создано, можно повторить обработчик целиком
+
+- ошибка в [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md) — контакт уже создан. Повторный запуск обработчика создаст его дубль, поэтому передайте существующий `ENTITY_ID`
+
+- ошибка в [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) — контакт и реквизит уже созданы. Добавьте адрес отдельным вызовом с `ENTITY_ID` существующего реквизита
+
+## Что важно учитывать
+
+- отдельного идентификатора у адреса нет: он опознается парой `ENTITY_TYPE_ID` и `ENTITY_ID` плюс `TYPE_ID`
+
+- набор полей реквизита зависит от шаблона. Для контакта обычно выбирают шаблон физического лица, и полей организации в нем нет. Состав полей шаблона возвращает метод [crm.requisite.preset.field.list](../../../api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-list.md). Значение поля не из шаблона сохранится и вернется в [crm.requisite.get](../../../api-reference/crm/requisites/universal/crm-requisite-get.md), но в карточке реквизита не отобразится
+
+- повторная отправка формы с теми же данными создает новый контакт и новый реквизит. Дубликаты не отсеиваются
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/contacts/crm-contact-add.md)
+- [{#T}](../../../api-reference/crm/requisites/universal/crm-requisite-add.md)
+- [{#T}](../../../api-reference/crm/requisites/addresses/crm-address-add.md)
+- [{#T}](../../../api-reference/crm/requisites/addresses/crm-address-fields.md)
+- [{#T}](../../../api-reference/crm/requisites/presets/crm-requisite-preset-list.md)
+- [{#T}](../../../api-reference/crm/requisites/universal/crm-requisite-list.md)
+- [{#T}](../../../api-reference/crm/requisites/addresses/crm-address-list.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-address-type.md)
+- [{#T}](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+- [{#T}](how-to-add-company-with-requisite.md)
