@@ -67,7 +67,7 @@
 || `[user=userId]...[/user]` | Упоминание пользователя | `[user=123]Иван[/user]` ||
 || `[user=all]...[/user]` | Упоминание всех участников чата | `[user=all]Все[/user]` ||
 || `[chat=chatId]...[/chat]` | Упоминание чата | `[chat=456]Группа[/chat]` ||
-|| `[chat=imol\|ID]...[/chat]` | Упоминание открытой линии | `[chat=imol\|789]Линия[/chat]` ||
+|| ```[chat=imol|ID]...[/chat]``` | Упоминание открытой линии | ```[chat=imol|789]Линия[/chat]``` ||
 || `[context=dialog/message]...[/context]` | Ссылка на сообщение в диалоге | `[context=chat123/456]ссылка[/context]` ||
 |#
 

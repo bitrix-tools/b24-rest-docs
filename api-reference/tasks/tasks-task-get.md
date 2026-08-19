@@ -408,7 +408,7 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
+|| **Код** | **Описание** | **Значение** ||
 || `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
 || `100` | CTaskItem All parameters in the constructor must have real class type (internal error) | Не передан обязательный параметр `taskId` ||
 || `100` | Invalid value {} to match with parameter {select}. Should be value of type array. (internal error) | Параметр `select` передан пустым или в нем указаны неверные значения ||

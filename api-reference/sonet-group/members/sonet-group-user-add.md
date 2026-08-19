@@ -27,7 +27,7 @@
 
 Идентификатор можно получить методом [sonet_group.get](../sonet-group-get.md) ||
 || **USER_ID***
-[`integer \| integer[]`](../../data-types.md#compound-types) | Идентификатор пользователя.
+[```integer | integer[]```](../../data-types.md#compound-types) | Идентификатор пользователя.
 
 Идентификатор можно получить с помощью метода [user.get](../../user/user-get.md).
 

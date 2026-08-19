@@ -129,7 +129,7 @@ Webhook-события доставляются через систему соб
 || **Тип** | **Значение в FETCH** | **Значение в Webhook** ||
 || `integer` | `789` | `"789"` ||
 || `boolean` | `true` / `false` | `"1"` / `"0"` ||
-|| `string\|false` | `false` | `"0"` ||
+|| ```string|false``` | `false` | `"0"` ||
 || `null` | `null` | `""` ||
 |#
 

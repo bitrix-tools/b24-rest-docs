@@ -480,7 +480,7 @@
 || **title**
 [`string`](../data-types.md)  | Название поля ||
 || **upperName**
-[`string`](../data-types.md)  | Название поля в верхнем регистре |
+[`string`](../data-types.md)  | Название поля в верхнем регистре ||
 |#
 
 ### Описание пользовательского поля типа адресс {#crm_user_field_address}

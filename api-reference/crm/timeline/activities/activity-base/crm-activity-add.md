@@ -81,7 +81,7 @@ fields:
 || **DIRECTION**
 [`crm_enum_activitydirection`](../../../data-types.md#activity-enums) | Направление дела: входящее/исходящее. Актуально для звонков и писем, для встреч не используется ||
 || **END_TIME**
-[`datetime`](../../../../data-types.md) | Время завершения дела | ||
+[`datetime`](../../../../data-types.md) | Время завершения дела ||
 || **FILES**
 [`diskfile`](../../../data-types.md) | Добавленные в дело файлы ||
 || **LOCATION**

@@ -682,7 +682,7 @@ HTTP-статус: **200**
 || **COMMUNICATIONS***
 [`crm_activity_communication`](../../../data-types.md) | [Описание коммуникации](./crm-activity-communication-fields.md) | Множественное, обязательное ||
 || **COMPLETED***
-[`char`](../../../../data-types.md) | Флаг, говорящий завершено дело или нет (`Y`|`N`) | ||
+[`char`](../../../../data-types.md) | Флаг, говорящий завершено дело или нет (`Y`\|`N`) | ||
 || **CREATED***
 [`datetime`](../../../../data-types.md) | Дата и время создания дела | ||
 || **DEADLINE**

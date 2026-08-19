@@ -57,19 +57,19 @@
 || **status**
 [`string`](../../data-types.md) | Статус: `online`, `dnd` ||
 || **idle**
-[`string \| boolean`](../../data-types.md#compound-types) | Время начала бездействия в формате ISO 8601, или `false` ||
+[```string | boolean```](../../data-types.md#compound-types) | Время начала бездействия в формате ISO 8601, или `false` ||
 || **lastActivityDate**
-[`string \| boolean`](../../data-types.md#compound-types) | Дата последней активности в формате ISO 8601, или `false` ||
+[```string | boolean```](../../data-types.md#compound-types) | Дата последней активности в формате ISO 8601, или `false` ||
 || **mobileLastDate**
-[`string \| boolean`](../../data-types.md#compound-types) | Дата последнего входа с мобильного в формате ISO 8601, или `false` ||
+[```string | boolean```](../../data-types.md#compound-types) | Дата последнего входа с мобильного в формате ISO 8601, или `false` ||
 || **desktopLastDate**
-[`string \| boolean`](../../data-types.md#compound-types) | Дата последнего входа с десктопа в формате ISO 8601, или `false` ||
+[```string | boolean```](../../data-types.md#compound-types) | Дата последнего входа с десктопа в формате ISO 8601, или `false` ||
 || **absent**
-[`string \| boolean`](../../data-types.md#compound-types) | Дата начала отсутствия в формате ISO 8601, или `false` ||
+[```string | boolean```](../../data-types.md#compound-types) | Дата начала отсутствия в формате ISO 8601, или `false` ||
 || **departments**
 [`integer[]`](../../data-types.md) | Массив ID отделов ||
 || **phones**
-[`object \| boolean`](../../data-types.md#compound-types) | Объект с телефонами (`personalPhone`, `workPhone` и др.) или `false` ||
+[```object | boolean```](../../data-types.md#compound-types) | Объект с телефонами (`personalPhone`, `workPhone` и др.) или `false` ||
 || **type**
 [`string`](../../data-types.md) | Тип: `employee`, `extranet`, `email`, `collaber`, `bot` ||
 || **website**
@@ -132,7 +132,7 @@
 || **isReactionsEnabled**
 [`boolean`](../../data-types.md) | Включены ли реакции на сообщения бота ||
 || **backgroundId**
-[`string\|null`](../../data-types.md) | ID фона чата бота или `null` ||
+[```string|null```](../../data-types.md) | ID фона чата бота или `null` ||
 || **language**
 [`string`](../../data-types.md) | Язык бота по умолчанию, например `en`, `ru` ||
 |#
@@ -197,7 +197,7 @@
 || **owner**
 [`integer`](../../data-types.md) | ID владельца чата ||
 || **color**
-[`string\|null`](../../data-types.md) | Цвет чата в формате HEX ||
+[```string|null```](../../data-types.md) | Цвет чата в формате HEX ||
 || **avatar**
 [`string`](../../data-types.md) | URL аватара чата. Пустая строка, если не установлен ||
 || **description**
@@ -223,19 +223,19 @@
 || **entityLink**
 [`object`](../../data-types.md) | Данные ссылки на внешний объект ||
 || **diskFolderId**
-[`integer\|null`](../../data-types.md) | ID папки на Диске для файлов чата ||
+[```integer|null```](../../data-types.md) | ID папки на Диске для файлов чата ||
 || **permissions**
 [`object`](../../data-types.md) | Права доступа для текущего пользователя ||
 || **parentChatId**
-[`integer\|null`](../../data-types.md) | ID родительского чата для тредов ||
+[```integer|null```](../../data-types.md) | ID родительского чата для тредов ||
 || **parentMessageId**
-[`integer\|null`](../../data-types.md) | ID родительского сообщения для тредов ||
+[```integer|null```](../../data-types.md) | ID родительского сообщения для тредов ||
 || **isNew**
 [`boolean`](../../data-types.md) | Является ли чат только что созданным ||
 || **textFieldEnabled**
 [`string`](../../data-types.md) | Включено ли поле ввода текста: `Y` или `N` ||
 || **backgroundId**
-[`string\|null`](../../data-types.md) | ID фона чата или `null` ||
+[```string|null```](../../data-types.md) | ID фона чата или `null` ||
 |#
 
 ### Дополнительные поля (только в ответах методов)
@@ -246,11 +246,11 @@
 || **Поле**
 `Тип` | **Описание** ||
 || **dateCreate**
-[`string\|null`](../../data-types.md) | Дата создания чата в формате ISO 8601 ||
+[```string|null```](../../data-types.md) | Дата создания чата в формате ISO 8601 ||
 || **lastMessageId**
-[`integer\|null`](../../data-types.md) | ID последнего сообщения ||
+[```integer|null```](../../data-types.md) | ID последнего сообщения ||
 || **lastId**
-[`integer\|null`](../../data-types.md) | ID последнего прочитанного сообщения ||
+[```integer|null```](../../data-types.md) | ID последнего прочитанного сообщения ||
 || **managerList**
 [`array`](../../data-types.md) | Массив ID менеджеров чата ||
 || **messageCount**
@@ -258,13 +258,13 @@
 || **userCounter**
 [`integer`](../../data-types.md) | Количество участников чата ||
 || **unreadId**
-[`integer\|null`](../../data-types.md) | ID первого непрочитанного сообщения ||
+[```integer|null```](../../data-types.md) | ID первого непрочитанного сообщения ||
 || **lastMessageViews**
 [`string`](../../data-types.md) | JSON-строка с данными просмотров последнего сообщения ||
 || **markedId**
-[`integer\|null`](../../data-types.md) | ID отмеченного сообщения ||
+[```integer|null```](../../data-types.md) | ID отмеченного сообщения ||
 || **public**
-[`object\|string`](../../data-types.md) | Настройки публичного доступа ||
+[```object|string```](../../data-types.md) | Настройки публичного доступа ||
 |#
 
 ### Пример объекта Chat
@@ -309,7 +309,7 @@
 || **authorId**
 [`integer`](../../data-types.md) | ID автора. `0` для системных сообщений ||
 || **date**
-[`string\|null`](../../data-types.md) | Дата создания в формате ISO 8601 ||
+[```string|null```](../../data-types.md) | Дата создания в формате ISO 8601 ||
 || **text**
 [`string`](../../data-types.md) | Текст сообщения. Максимальная длина — 20 000 символов. Более длинные сообщения обрезаются с добавлением суффикса ` (...)` ||
 || **isSystem**
@@ -317,7 +317,7 @@
 || **uuid**
 [`string`](../../data-types.md) | UUID для дедупликации ||
 || **forward**
-[`object\|null`](../../data-types.md) | Информация о пересылке: `{id, userId, chatId, date}` или `null` ||
+[```object|null```](../../data-types.md) | Информация о пересылке: `{id, userId, chatId, date}` или `null` ||
 || **params**
 [`object`](../../data-types.md) | Дополнительные параметры: attach, keyboard, файлы и другие ||
 || **viewedByOthers**
@@ -364,7 +364,7 @@
 || **chatId**
 [`integer`](../../data-types.md) | ID чата ||
 || **date**
-[`string\|null`](../../data-types.md) | Дата загрузки в формате ISO 8601 ||
+[```string|null```](../../data-types.md) | Дата загрузки в формате ISO 8601 ||
 || **type**
 [`string`](../../data-types.md) | Тип контента: `file`, `image`, `video`, `audio` ||
 || **name**
@@ -374,7 +374,7 @@
 || **size**
 [`integer`](../../data-types.md) | Размер файла в байтах ||
 || **image**
-[`object \| boolean`](../../data-types.md#compound-types) | Размеры превью для изображений: `{"height": 600, "width": 800}`, или `false` ||
+[```object | boolean```](../../data-types.md#compound-types) | Размеры превью для изображений: `{"height": 600, "width": 800}`, или `false` ||
 || **authorId**
 [`integer`](../../data-types.md) | ID пользователя, загрузившего файл ||
 || **authorName**

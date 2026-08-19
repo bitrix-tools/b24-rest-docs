@@ -29,7 +29,7 @@
 
 Идентификатор можно получить методом [sonet_group.get](../sonet-group-get.md) ||
 || **USER_ID***
-[`integer \| integer[]`](../../data-types.md#compound-types) | Идентификатор участника.
+[```integer | integer[]```](../../data-types.md#compound-types) | Идентификатор участника.
 
 Идентификатор можно получить с помощью метода [sonet_group.user.get](./sonet-group-user-get.md) ||
 || **ROLE***

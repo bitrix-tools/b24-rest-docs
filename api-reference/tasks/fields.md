@@ -212,15 +212,15 @@
 - `C_XX` — контакт
 - `CO_XX` — компания
 - `SI_XX` — счет
-- `TXX_XX` — смарт-процесс | ||
+- `TXX_XX` — смарт-процесс ||
 || **ufTaskWebdavFiles**
-[`array`](../data-types.md) | Список файлов с Диска | ||
+[`array`](../data-types.md) | Список файлов с Диска ||
 || **ufMailMessage**
-[`string`](../data-types.md) | Письмо email | ||
+[`string`](../data-types.md) | Письмо email ||
 || **UF_\***
 [`any`](../data-types.md) | Пользовательские поля. 
 
-Подробнее в статье [{#T}](./user-field/index.md) | ||
+Подробнее в статье [{#T}](./user-field/index.md) ||
 |#
 
 {% note info "" %}
