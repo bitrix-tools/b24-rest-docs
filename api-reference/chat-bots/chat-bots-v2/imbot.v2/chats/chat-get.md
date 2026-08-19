@@ -261,15 +261,15 @@ HTTP-статус: **200**
 || **owner**
 [`integer`](../../../../data-types.md) | ID владельца чата ||
 || **color**
-[`string\|null`](../../../../data-types.md) | Цвет чата в формате HEX ||
+[```string|null```](../../../../data-types.md) | Цвет чата в формате HEX ||
 || **avatar**
 [`string`](../../../../data-types.md) | URL аватара чата. Пустая строка, если не установлен ||
 || **role**
 [`string`](../../../../data-types.md) | Роль текущего пользователя: `owner`, `manager`, `member`, `guest`, `none` ||
 || **dateCreate**
-[`string\|null`](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
+[```string|null```](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
 || **lastMessageId**
-[`integer\|null`](../../../../data-types.md) | ID последнего сообщения ||
+[```integer|null```](../../../../data-types.md) | ID последнего сообщения ||
 || **muteList**
 [`array`](../../../../data-types.md) | Список ID пользователей, отключивших уведомления ||
 || **managerList**

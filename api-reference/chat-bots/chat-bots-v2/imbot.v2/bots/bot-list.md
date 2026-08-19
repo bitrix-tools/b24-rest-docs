@@ -253,7 +253,7 @@ HTTP-статус: **200**
 || **isReactionsEnabled**
 [`boolean`](../../../../data-types.md) | Для сообщений бота включены реакции ||
 || **backgroundId**
-[`string|null`](../../../../data-types.md) | ID фона чата или `null` ||
+[```string|null```](../../../../data-types.md) | ID фона чата или `null` ||
 || **language**
 [`string`](../../../../data-types.md) | Язык бота ||
 || **moduleId**
