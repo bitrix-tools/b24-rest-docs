@@ -6,7 +6,7 @@
 >
 > - [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) и [crm.category.add](../../../api-reference/crm/universal/category/crm-category-add.md) — пользователь с административным доступом к разделу CRM
 > - [crm.status.update](../../../api-reference/crm/status/crm-status-update.md) и [crm.status.add](../../../api-reference/crm/status/crm-status-add.md) — пользователь с правом «Разрешить изменять настройки» в CRM
-> - [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) — любой пользователь
+> - [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) — пользователь с правом на чтение хотя бы одного объекта CRM
 
 {% note tip "" %}
 

@@ -34,6 +34,7 @@
 || Удалить предложение | [crm.item.delete](../universal/crm-item-delete.md) ||
 || Получить описание полей предложения | [crm.item.fields](../universal/crm-item-fields.md) ||
 || Управлять товарными позициями предложения | [crm.item.productrow.*](../universal/product-rows/index.md) с `ownerType = Q` ||
+|| Заменить весь набор контактов предложения | [crm.item.update](../universal/crm-item-update.md) с полем `contactIds` ||
 |#
 
 В универсальных методах имена полей записываются в `camelCase`: `TITLE` превращается в `title`, `ASSIGNED_BY_ID` — в `assignedById`. Правила преобразования пользовательских полей описаны в разделе [Универсальные методы CRM](../universal/index.md).
@@ -50,7 +51,7 @@
 
 ## Связь предложений с другими объектами CRM
 
-**Клиент.** Компания и контакты, которым адресовано предложение. Компания в предложении одна, ее идентификатор передается в поле `COMPANY_ID`. Контактов может быть несколько, их идентификаторы передаются массивом в множественном поле `CONTACT_IDS`. Найти нужные идентификаторы можно методами [crm.company.list](../companies/crm-company-list.md) и [crm.contact.list](../contacts/crm-contact-list.md).
+**Клиент.** Компания и контакты, которым адресовано предложение. Компания в предложении одна, ее идентификатор передается в поле `COMPANY_ID`. Контактов может быть несколько, их идентификаторы передаются массивом в множественном поле `CONTACT_IDS`. Найти нужные идентификаторы можно методами [crm.company.list](../companies/crm-company-list.md) и [crm.contact.list](../contacts/crm-contact-list.md). Читать и менять контакты уже созданного предложения по одному удобнее группой методов [crm.quote.contact.*](./contacts/index.md): поле `CONTACT_IDS` в выдаче [crm.quote.get](./crm-quote-get.md) и [crm.quote.list](./crm-quote-list.md) не возвращается.
 
 **Сделка.** Предложение может быть создано на основании сделки и наоборот. Идентификатор сделки хранится в поле предложения `DEAL_ID`, его можно передать в методы [crm.quote.add](./crm-quote-add.md) и [crm.quote.update](./crm-quote-update.md).
 
@@ -134,6 +135,18 @@
     |#
 
 {% endlist %}
+
+### Контакты
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.quote.contact.add](./contacts/crm-quote-contact-add.md) | Связывает один контакт с предложением ||
+|| [crm.quote.contact.delete](./contacts/crm-quote-contact-delete.md) | Убирает один контакт из предложения ||
+|| [crm.quote.contact.items.get](./contacts/crm-quote-contact-items-get.md) | Возвращает набор контактов, связанных с предложением ||
+|| [crm.quote.contact.items.set](./contacts/crm-quote-contact-items-set.md) | Заменяет набор контактов предложения на переданный ||
+|| [crm.quote.contact.items.delete](./contacts/crm-quote-contact-items-delete.md) | Убирает из предложения все контакты ||
+|| [crm.quote.contact.fields](./contacts/crm-quote-contact-fields.md) | Возвращает описание полей связи предложения с контактом ||
+|#
 
 ### Пользовательские поля
 
