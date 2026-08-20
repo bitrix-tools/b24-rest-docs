@@ -50,13 +50,13 @@
 
 ## Изменяйте телефоны и email
 
-Телефоны и адреса электронной почты хранятся в полях типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield) — это массив объектов с полями `ID`, `TYPE_ID`, `VALUE` и `VALUE_TYPE`.
+Телефоны и адреса электронной почты хранятся в мультиполе `fm` — наборе записей типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). У каждой записи есть свой `id`, который выдает Битрикс24 при создании.
 
-Отдельное значение множественного поля нельзя изменить точечным запросом. Сначала получают текущий массив методом чтения объекта, затем передают измененный массив в метод обновления. Чтобы изменить существующее значение, сохраняют его `ID`. Чтобы удалить значение, передают `ID` с пустым `VALUE` или с параметром `DELETE: 'Y'`.
+Найти запись по тексту значения нельзя, поэтому объект сначала читают и узнают идентификаторы, а потом отправляют изменения. В методе обновления операцию задает ключ элемента в объекте `fm`: числовой `id` меняет запись, тот же `id` с пустым `value` ее удаляет, а ключи `n0`, `n1` добавляют новые.
 
 #|
 || **Сценарий** | **Основные методы** | **Результат** ||
-|| [Как изменить или удалить номера телефонов и email](./how-to-change-email-or-phone.md) | [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md), [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md), [crm.contact.update](../../../api-reference/crm/contacts/crm-contact-update.md) | Обновленный или очищенный список телефонов и email в карточке контакта ||
+|| [Как изменить или удалить номера телефонов и email](./how-to-change-email-or-phone.md) | [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Обновленный или очищенный список телефонов и email в карточке контакта ||
 |#
 
 ## Переносите дела и меняйте сроки
@@ -80,11 +80,11 @@
 
 Дата платежа хранится в документе оплаты, а не в сделке. Ее переносят в пользовательское поле сделки, когда дата нужна внешней системе, отчету BI-конструктора, роботу или бизнес-процессу.
 
-Пользовательское поле создают заранее в настройках CRM. В запросах его адресуют по коду вида `UF_CRM_*` — метод [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) возвращает этот код в поле `FIELD_NAME`.
+Пользовательское поле создают заранее в настройках CRM. Его идентификатор в каждом Битрикс24 свой, поэтому поле находят по названию: метод [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) возвращает состав полей сделки, где ключ — идентификатор вида `ufCrm_*`, а `title` — название поля в карточке.
 
 #|
 || **Сценарий** | **Основные методы** | **Результат** ||
-|| [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) | [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) | Дата оплаты в пользовательском поле сделки ||
+|| [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Дата оплаты в пользовательском поле сделки ||
 |#
 
 ## Продолжите изучение
