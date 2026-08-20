@@ -143,7 +143,7 @@
     declare const $b24: B24Frame
 
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<{ result: boolean; error?: string; error_description?: string }>({
         method: 'imconnector.register',
         params: {
           ID: 'myconnector',
@@ -175,7 +175,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Connector registered:', result)
+        console.info('Connector registered:', result.result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -228,7 +228,7 @@
           }
 
           const result = response.getData().result
-          console.info('Connector registered:', result)
+          console.info('Connector registered:', result.result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -380,15 +380,15 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-    "result": true
+        "result": true
     },
     "time": {
-    "start": 1738065600.11,
-    "finish": 1738065600.38,
-    "duration": 0.27,
-    "processing": 0.10,
-    "date_start": "2025-01-28T12:00:00+00:00",
-    "date_finish": "2025-01-28T12:00:00+00:00"
+        "start": 1738065600.11,
+        "finish": 1738065600.38,
+        "duration": 0.27,
+        "processing": 0.10,
+        "date_start": "2025-01-28T12:00:00+00:00",
+        "date_finish": "2025-01-28T12:00:00+00:00"
     }
 }
 ```
@@ -399,9 +399,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если коннектор успешно зарегистрирован ||
+[`object`](../../data-types.md) | Результат регистрации коннектора [(подробное описание)](#result) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | `true`, если коннектор успешно зарегистрирован. Если регистрация не выполнена, возвращает `false`, а в объекте появляются поля `error` и `error_description` ||
+|| **error**
+[`string`](../../data-types.md) | Код ошибки. Возвращается при `result = false` ||
+|| **error_description**
+[`string`](../../data-types.md) | Описание ошибки. Возвращается при `result = false` ||
 |#
 
 ## Обработка ошибок

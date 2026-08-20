@@ -268,7 +268,7 @@ HTTP-статус: **200**
 }
 ```
 
-### Возвращаемые данные
+## Возвращаемые данные
 
 #|
 || **Название**
@@ -281,7 +281,7 @@ HTTP-статус: **200**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Объект result {#result-item}
+### Объект result {#result-item}
 
 #|
 || **Название**
@@ -301,23 +301,23 @@ HTTP-статус: **400**, **403**
 ```json
 {
     "error": "ERROR_ARGUMENT",
-    "error_description": "Argument CRM_ENTITY is null or empty"
+    "error_description": "Argument 'CRM_ENTITY' is null or empty"
 }
 ```
 
-{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+{% include notitle [Обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | У пользователя нет доступа к объекту CRM ||
-|| `400` | `ERROR_ARGUMENT` | Argument CRM_ENTITY_TYPE is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY_TYPE` ||
-|| `400` | `ERROR_ARGUMENT` | Argument CRM_ENTITY is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY` ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument CRM_ENTITY has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY_TYPE' is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY_TYPE` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY' is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
 |#
 
-{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+{% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

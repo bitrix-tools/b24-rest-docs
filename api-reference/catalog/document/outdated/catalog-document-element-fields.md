@@ -72,7 +72,7 @@
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type DocumentElementFieldsResult = Record<string, FieldInfo>
+    type DocumentElementFieldsResult = Record<string, FieldInfo>[]
 
     try {
       const response = await $b24.actions.v2.call.make<DocumentElementFieldsResult>({
@@ -204,7 +204,71 @@
 
 {% endlist %}
 
-## Продолжите изучение 
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": [
+        {
+            "id": {
+                "type": "integer",
+                "isRequired": false,
+                "isReadOnly": true,
+                "isImmutable": false,
+                "isMultiple": false,
+                "isDynamic": false,
+                "title": "ID"
+            }
+        }
+    ],
+    "time": {
+        "start": 1759482402.511337,
+        "finish": 1759482402.642843,
+        "duration": 0.13150620460510254,
+        "processing": 0.02694106101989746,
+        "date_start": "2025-11-02T12:26:42+03:00",
+        "date_finish": "2025-11-02T12:26:42+03:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object[]`](../../../data-types.md) | Массив с описанием полей товара документа складского учета ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_DOCUMENT_RIGHTS",
+    "error_description": "Access denied"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_DOCUMENT_RIGHTS` | Access denied | Недостаточно прав для чтения документов складского учета ||
+|#
+
+{% include [Системные ошибки](../../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
 
 - [{#T}](./catalog-document-confirm.md)
 - [{#T}](./catalog-document-unconfirm.md)

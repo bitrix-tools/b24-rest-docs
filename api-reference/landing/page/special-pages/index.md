@@ -23,9 +23,9 @@
 
 1. Получите идентификатор сайта методами [landing.site.getList](../../site/landing-site-get-list.md) или [landing.site.add](../../site/landing-site-add.md)
 2. Получите идентификатор страницы методами [landing.landing.getList](../methods/landing-landing-get-list.md), [landing.landing.add](../methods/landing-landing-add.md), [landing.landing.addByTemplate](../methods/landing-landing-add-by-template.md) или [landing.landing.copy](../methods/landing-landing-copy.md)
-3. Назначьте страницу специальной методом [landing.syspage.set](./landing-syspage-set.md). Для этого укажите тип специальной страницы в параметре `type` и идентификатор страницы, которую нужно привязать.
+3. Назначьте страницу специальной методом [landing.syspage.set](./landing-syspage-set.md). Для этого укажите тип специальной страницы в параметре `type` и идентификатор страницы, которую нужно привязать
 4. Проверьте текущие привязки методом [landing.syspage.get](./landing-syspage-get.md) или получите URL одной специальной страницы методом [landing.syspage.getSpecialPage](./landing-syspage-get-special-page.md)
-5. Если нужно снять привязки, используйте [landing.syspage.deleteForLanding](./landing-syspage-delete-for-landing.md) или [landing.syspage.deleteForSite](./landing-syspage-delete-for-site.md). Первый метод снимает все привязки для определенной страницы, второй — очищает все специальные страницы сайта.
+5. Если нужно снять привязки, используйте [landing.syspage.deleteForLanding](./landing-syspage-delete-for-landing.md) или [landing.syspage.deleteForSite](./landing-syspage-delete-for-site.md). Первый метод снимает все привязки для определенной страницы, второй — очищает все специальные страницы сайта
 
 ## Коды специальных страниц
 
