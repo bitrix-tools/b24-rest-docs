@@ -7,6 +7,8 @@ items:
     href: sign-b2e-document-send.md
   - name: Получить документ
     href: sign-b2e-document-get.md
+  - name: Получить подписанный документ HCM Link
+    href: sign-b2e-hcmlink-document-get.md
   - name: Получить список провайдеров компании
     href: sign-b2e-company-provider-list.md
   - name: Список подписанных документов пользователя

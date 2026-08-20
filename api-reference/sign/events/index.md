@@ -37,4 +37,5 @@
 || **Событие** | **Вызывается** ||
 || [OnSignB2eDocumentStatusChanged](./on-sign-b2e-document-status-changed.md) | При изменении статуса документа ||
 || [OnSignB2eMemberStatusChanged](./on-sign-b2e-member-status-changed.md) | При изменении статуса участника подписания ||
+|| [OnSignHcmLinkB2eDocumentSigned](./on-sign-hcm-link-b2e-document-signed.md) | При подписании документа, связанного с HCM Link ||
 |#

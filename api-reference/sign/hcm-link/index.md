@@ -52,6 +52,8 @@
 
 **Запрос значений для документов.** При отправке документа КЭДО Битрикс24 запрашивает значения полей системы кадрового учета событием `OnHumanResourcesHcmLinkFieldValueRequested`. В событии приходит `jobId`, код компании, список сотрудников и список полей. Приложение передает значения методом [humanresources.hcmlink.field.value.set](./humanresources-hcmlink-field-value-set.md), затем обновляет задание методом [humanresources.hcmlink.job.update](./humanresources-hcmlink-job-update.md).
 
+**Получение подписанного документа.** После подписания документа, связанного с HCM Link, приложение получает событие [OnSignHcmLinkB2eDocumentSigned](../events/on-sign-hcm-link-b2e-document-signed.md). В событии приходит идентификатор участника подписания `data.id`. По этому идентификатору можно получить данные подписанного файла методом [sign.b2e.hcmlink.document.get](../sign-b2e-hcmlink-document-get.md).
+
 ## Идентификаторы сотрудников
 
 В обмене используются два идентификатора сотрудника из системы кадрового учета:

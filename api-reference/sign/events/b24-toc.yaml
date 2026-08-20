@@ -7,3 +7,5 @@ items:
     href: on-sign-b2e-document-status-changed.md
   - name: При изменении статуса участника
     href: on-sign-b2e-member-status-changed.md
+  - name: При подписании документа HCM Link
+    href: on-sign-hcm-link-b2e-document-signed.md

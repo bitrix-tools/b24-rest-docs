@@ -1,4 +1,4 @@
-# Событие при изменении статуса участника OnSignB2eMemberStatusChanged
+# Событие при подписании документа HCM Link OnSignHcmLinkB2eDocumentSigned
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: пользователь с доступом к КЭДО
 
-Событие `ONSIGNB2EMEMBERSTATUSCHANGED` срабатывает при изменении статуса участника подписания.
+Событие `ONSIGNHCMLINKB2EDOCUMENTSIGNED` срабатывает после подписания документа КЭДО, который связан с HCM Link.
 
 {% note info "" %}
 
@@ -27,15 +27,13 @@
 
 ```json
 {
-    "event": "ONSIGNB2EMEMBERSTATUSCHANGED",
-    "event_handler_id": "1211",
+    "event": "ONSIGNHCMLINKB2EDOCUMENTSIGNED",
+    "event_handler_id": "1215",
     "data": {
-        "memberUid": "2ditmm6vjoolzbygaeua2jltkjb9hgks",
-        "documentUid": "R-LK-50JI-3AAK-WS1A",
-        "statusCode": "done",
-        "statusName": "Signed"
+        "id": 3942,
+        "company": "acme-hr"
     },
-    "ts": "1770374945",
+    "ts": "1786086930",
     "auth": {
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
@@ -57,21 +55,15 @@
 || **event**
 [`string`](../../data-types.md) | Символьный код события.
 
-В данном случае — `ONSIGNB2EMEMBERSTATUSCHANGED` ||
+В данном случае — `ONSIGNHCMLINKB2EDOCUMENTSIGNED` ||
 || **event_handler_id**
 [`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../data-types.md) | Объект, содержащий информацию об участнике ||
-|| **data.memberUid**
-[`string`](../../data-types.md) | Уникальный идентификатор участника ||
-|| **data.documentUid**
-[`string`](../../data-types.md) | Уникальный идентификатор документа ||
-|| **data.companyUid**
-[`string`](../../data-types.md) | Уникальный идентификатор компании. Возвращается в событии, если документ подписывается с компанией, для которой создана интеграция ||
-|| **data.statusCode**
-[`string`](../../data-types.md) | Код статуса участника ||
-|| **data.statusName**
-[`string`](../../data-types.md) | Название статуса участника ||
+[`object`](../../data-types.md) | Объект, содержащий данные о подписанном документе HCM Link ||
+|| **data.id**
+[`integer`](../../data-types.md) | Идентификатор участника подписания. Передайте его в параметр `id` метода [sign.b2e.hcmlink.document.get](../sign-b2e-hcmlink-document-get.md), чтобы получить данные подписанного документа ||
+|| **data.company**
+[`string`](../../data-types.md) | Код компании HCM Link ||
 || **ts**
 [`timestamp`](../../data-types.md) | Дата и время отправки события из [очереди событий](../../events/index.md) ||
 || **auth**
@@ -88,5 +80,6 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](../sign-b2e-hcmlink-document-get.md)
 - [{#T}](./on-sign-b2e-document-status-changed.md)
-- [{#T}](./on-sign-hcm-link-b2e-document-signed.md)
+- [{#T}](./on-sign-b2e-member-status-changed.md)

@@ -40,9 +40,9 @@
 
 **HCM Link.** Интеграция с системами кадрового учета передает компании, сотрудников и значения полей для документов КЭДО. Если документ отправляется по данным HCM Link, методы `sign.b2e.*` связываются с методами [humanresources.hcmlink.*](./hcm-link/index.md).
 
-**Файл документа.** Метод `sign.b2e.document.send` принимает PDF-файл в параметре `files[].fileContent`, закодированный в Base64. После подписания файл можно получить из списков подписанных документов пользователя или сейфа компании.
+**Файл документа.** Метод `sign.b2e.document.send` принимает PDF-файл в параметре `files[].fileContent`, закодированный в Base64. После подписания файл можно получить из списков подписанных документов пользователя или сейфа компании. Если документ связан с HCM Link, данные подписанного файла можно получить методом [sign.b2e.hcmlink.document.get](./sign-b2e-hcmlink-document-get.md) по идентификатору участника подписания.
 
-**Статусы подписания.** События `OnSignB2eDocumentStatusChanged` и `OnSignB2eMemberStatusChanged` сообщают об изменениях статусов документа и участников. Детали документа можно получить методом [sign.b2e.document.get](./sign-b2e-document-get.md) по `uid`.
+**Статусы подписания.** События `OnSignB2eDocumentStatusChanged` и `OnSignB2eMemberStatusChanged` сообщают об изменениях статусов документа и участников. Событие `OnSignHcmLinkB2eDocumentSigned` сообщает о подписании документа, связанного с HCM Link. Детали документа можно получить методом [sign.b2e.document.get](./sign-b2e-document-get.md) по `uid`.
 
 ## Особенности scope
 
@@ -74,6 +74,7 @@
     || **Метод** | **Описание** ||
     || [sign.b2e.document.send](./sign-b2e-document-send.md) | Отправляет документ на подписание ||
     || [sign.b2e.document.get](./sign-b2e-document-get.md) | Получает информацию о документе и участниках подписания ||
+    || [sign.b2e.hcmlink.document.get](./sign-b2e-hcmlink-document-get.md) | Получает данные подписанного документа, связанного с HCM Link ||
     || [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md) | Возвращает список провайдеров подписи компании ||
     || [sign.b2e.personal.tail](./sign-b2e-personal-tail.md) | Возвращает список подписанных документов пользователя ||
     || [sign.b2e.mysafe.tail](./sign-b2e-mysafe-tail.md) | Возвращает список подписанных документов в сейфе компании ||
@@ -85,6 +86,7 @@
     || **Событие** | **Вызывается** ||
     || [OnSignB2eDocumentStatusChanged](./events/on-sign-b2e-document-status-changed.md) | При изменении статуса документа ||
     || [OnSignB2eMemberStatusChanged](./events/on-sign-b2e-member-status-changed.md) | При изменении статуса участника подписания ||
+    || [OnSignHcmLinkB2eDocumentSigned](./events/on-sign-hcm-link-b2e-document-signed.md) | При подписании документа, связанного с HCM Link ||
     |#
 
 {% endlist %}

@@ -4,7 +4,9 @@
 
 ### 20 августа, 2026
 
+- Обновили страницу [Входящие и исходящие вебхуки](./local-integrations/local-webhooks.md): добавили сценарии создания вебхуков, примеры GET-запросов для быстрой проверки методов и ограничения для рабочих интеграций
 - Добавили методы [crm.quote.contact.*](./api-reference/crm/quote/contacts/index.md) для связи контактов с коммерческим предложением
+- Добавили метод [sign.b2e.hcmlink.document.get](./api-reference/sign/sign-b2e-hcmlink-document-get.md) и событие [OnSignHcmLinkB2eDocumentSigned](./api-reference/sign/events/on-sign-hcm-link-b2e-document-signed.md) для получения подписанных документов HCM Link
 
 ### 19 августа, 2026
 

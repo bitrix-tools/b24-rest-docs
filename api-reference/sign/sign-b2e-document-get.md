@@ -382,5 +382,7 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./sign-b2e-document-send.md)
+- [{#T}](./sign-b2e-hcmlink-document-get.md)
 - [{#T}](./sign-b2e-company-provider-list.md)
+- [{#T}](./events/on-sign-hcm-link-b2e-document-signed.md)
 - [{#T}](./index.md)
