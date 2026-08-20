@@ -73,7 +73,7 @@
 
 	```php
 	try {
-		$templateId = 123; // Replace with the actual template ID you want to delete
+		$templateId = 123; // Идентификатор шаблона, который нужно удалить
 		$result = $serviceBuilder
 			->getBizProcScope()
 			->template()
@@ -179,7 +179,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ERROR_TEMPLATE_NOT_FOUND",
-    "error_description": "Workflow template not found.",
+    "error_description": "Workflow template not found."
 }
 ```
 

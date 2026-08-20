@@ -506,7 +506,31 @@ HTTP-статус: **200**
             "ENTITY": "BizprocDocument",
             "DOCUMENT_ID": "2237",
             "ID": "1471",
-            ...
+            "WORKFLOW_ID": "67a2fda6732f98.84769464",
+            "DOCUMENT_NAME": "Партнерская конференция",
+            "DESCRIPTION": "",
+            "NAME": "Утвердить подрядчика",
+            "MODIFIED": "2025-02-05T08:58:14+03:00",
+            "WORKFLOW_STARTED": "2025-02-05T08:58:14+03:00",
+            "WORKFLOW_STARTED_BY": "1",
+            "OVERDUE_DATE": null,
+            "WORKFLOW_TEMPLATE_ID": "565",
+            "WORKFLOW_TEMPLATE_NAME": "Организация мероприятия",
+            "WORKFLOW_STATE": "Ожидание утверждения",
+            "STATUS": "0",
+            "USER_ID": "1",
+            "USER_STATUS": "0",
+            "MODULE_ID": "lists",
+            "ACTIVITY": "ApproveActivity",
+            "ACTIVITY_NAME": "A3651_68033_56029_16414",
+            "PARAMETERS": {
+                "CommentLabel": "Комментарий",
+                "CommentRequired": "N",
+                "ShowComment": "Y",
+                "StatusYesLabel": "Утвердить",
+                "StatusNoLabel": "Отклонить"
+            },
+            "DOCUMENT_URL": "/bizproc/processes/?livefeed=y&list_id=171&element_id=2237"
         }
     ],
     "total": 2,
@@ -529,7 +553,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. 
+[`array`](../../data-types.md) | Корневой элемент ответа.
 
 Содержит массив объектов с информацией о заданиях бизнес-процессов.
 
@@ -548,7 +572,7 @@ HTTP-статус: **200**
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор задания ||
 || **WORKFLOW_ID**
-[`integer`](../../data-types.md) | Идентификатор бизнес-процесса ||
+[`string`](../../data-types.md) | Идентификатор бизнес-процесса ||
 || **DOCUMENT_NAME**
 [`string`](../../data-types.md) | Название документа ||
 || **DESCRIPTION**
@@ -607,7 +631,7 @@ HTTP-статус: **200**
 || **PARAMETERS**
 [`object`](../../data-types.md) | Объект с описанием [параметров задания](#parameters) ||
 || **DOCUMENT_URL**
-[`object`](../../data-types.md) | Ссылка на документ ||
+[`string`](../../data-types.md) | Ссылка на документ ||
 |#
 
 #### Объект PARAMETERS {#parameters}
@@ -680,7 +704,7 @@ HTTP-статус: **200**
 "Options": {
     "1": "Первый вариант",
     "2": "Второй вариант",
-    "3": "Третий вариант",
+    "3": "Третий вариант"
 },
 ```
 - для типа Привязка к CRM `'E:ECrm'` это доступные типы объектов
@@ -720,6 +744,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
 || `ACCESS_DENIED` | Access denied! | Метод запустил не администратор или вы не можете просматривать задания указанного сотрудника ||
+|| `ERROR_SELECT_VALIDATION_FAILURE` | Invalid data in SELECT parameter | В параметре `SELECT` переданы некорректные данные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

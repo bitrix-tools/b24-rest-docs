@@ -95,7 +95,7 @@ CRM
 Диск
 - `Bitrix\Disk\BizProcDocument` ||
 || **DOCUMENT_TYPE**
-[`integer`](../../data-types.md) | Тип документа. Возможные значения:
+[`string`](../../data-types.md) | Тип документа. Возможные значения:
 crm:
 - `LEAD` — лиды
 - `CONTACT` — контакты
@@ -355,9 +355,10 @@ HTTP-статус: **200**
         },
         {
            "ID": "379",
-           ... 
+           "NAME": "App template",
+           "USER_ID": "503",
+           "SYSTEM_CODE": "rest_app_5"
         }
-        ...
     ],
     "total": 34,
     "time": {
@@ -379,9 +380,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. 
+[`array`](../../data-types.md) | Корневой элемент ответа.
 
-Cодержит массив объектов с информацией о шаблонах бизнес-процессов.
+Содержит массив объектов с информацией о шаблонах бизнес-процессов.
 
 Каждый объект содержит [поля](#fields) шаблона, указанные в параметре `SELECT` ||
 || **total**
@@ -397,7 +398,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied!",
+    "error_description": "Access denied!"
 }
 ```
 

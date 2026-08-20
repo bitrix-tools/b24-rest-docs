@@ -1,8 +1,13 @@
 # Как создать задачу с прикрепленным файлом
 
-> Scope: [`disk`, `tasks`](../../api-reference/scopes/permissions.md)
+> Scope: [`disk`, `task`](../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с доступом к разделам диск и задачи
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужны права на добавление файла в папку Диска и создание задачи
+>
+> - [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md) — пользователь с правом «Добавление» для папки Диска
+> - [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) — любой пользователь
+> - [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) — пользователь с доступом к задаче
+> - [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md) — пользователь с правом «Чтение» для файла
 
 {% note tip "" %}
 
@@ -13,25 +18,44 @@
 
 {% endnote %}
 
-В Битрикс24 есть два типа файловых полей: 
+В Битрикс24 есть два типа файловых полей:
 
-* **Файл.** Поле не связано с диском, в него файлы загружаются напрямую, через [строку формата Base64](../../api-reference/files/how-to-upload-files.md)
-* **Файл (диск).** Поле связано с диском, в поле хранится ID объекта диска. Формат Bаse64 в поле не обрабатывается, поэтому сначала файл необходимо загрузить на диск Битрикс24
+- **Файл.** Поле не связано с Диском, в него файлы загружаются напрямую, через [строку формата Base64](../../api-reference/files/how-to-upload-files.md)
+- **Файл (диск).** Поле связано с Диском, в поле хранится ID объекта Диска. Формат Base64 в поле не обрабатывается, поэтому сначала файл необходимо загрузить на Диск Битрикс24
 
-Чтобы создать задачу с  файлом, последовательно выполним два метода:
+Чтобы создать задачу с файлом, последовательно выполним два метода:
 
-1. [disk.folder.uploadfile](../../api-reference/disk/folder/disk-folder-upload-file.md) — метод загружает файл на диск
+1. [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md) — метод загружает файл на Диск
 2. [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) — метод создает задачу
-   
-## 1. Загружаем файл на диск Битрикс24
 
-Для загрузки файла на диск используем метод [disk.folder.uploadfile](../../api-reference/disk/folder/disk-folder-upload-file.md) с параметрами:
+## Перед началом
 
-* `id` — укажем значение `1739` — идентификатор папки диска, в которую загружаем файл
-* `data` — укажем имя файла `NAME`, с этим именем файл сохранится на диске Битрикс24
-* `fileContent` — передаем файл в формате ['имя_файла.расширение', 'файл в виде строки, закодированной в Base64']
+Для выполнения примера нужны:
 
-Загрузка файла на диск — необходимый шаг, так как поле `UF_TASK_WEBDAV_FILES` в задачах принимает только ID файлов диска.
+- входящий вебхук со scope `disk` и `task`
+- идентификатор папки Диска `folderId`, в которую нужно загрузить файл. Получить папку можно методами [disk.storage.getchildren](../../api-reference/disk/storage/disk-storage-get-children.md) или [disk.folder.getchildren](../../api-reference/disk/folder/disk-folder-get-children.md)
+- идентификатор исполнителя задачи `RESPONSIBLE_ID`
+- файл, который нужно прикрепить к задаче
+- имя файла с расширением, например `ava555.jpg`
+- содержимое файла в формате Base64 без префикса `data:*/*;base64,`
+
+Вебхук выполняет запросы с правами пользователя, который его создал. Не публикуйте секретный код вебхука в клиентском коде и репозиториях — храните его в переменных окружения.
+
+Для серверных JS-примеров с `B24Hook` нужен Node.js 18, 20, 22 или новее, для новых проектов — 22 или новее. B24JsSDK — ES module: сохраните код в файле `.mjs` или добавьте `"type": "module"` в `package.json`.
+
+Для примеров с b24pysdk нужен Python 3.9 или новее.
+
+В Go-примерах предполагается, что заранее созданы `ctx` и `core`, прочитан файл в переменную `content`, известны `folderID` и `userID`, а также импортированы `base64`, `encoding/json`, `fmt`, `strconv` и `github.com/bitrix24/b24gosdk`.
+
+## 1. Загружаем файл на Диск Битрикс24
+
+Для загрузки файла на Диск используем метод [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md) с параметрами:
+
+- `id` — укажем значение `1739` — идентификатор папки Диска, в которую загружаем файл
+- `data` — укажем имя файла `NAME`, с этим именем файл сохранится на Диске Битрикс24
+- `fileContent` — передаем файл в формате ['имя_файла.расширение', 'файл в виде строки, закодированной в Base64']
+
+Загрузка файла на Диск — необходимый шаг, так как поле `UF_TASK_WEBDAV_FILES` в задачах принимает только ID файлов Диска.
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
@@ -42,10 +66,11 @@
     ```javascript
     import { B24Hook } from '@bitrix24/b24jssdk'
 
-    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
 
     const response = await $b24.actions.v2.call.make({
-        method: 'disk.folder.uploadfile',
+        method: 'disk.folder.uploadFile',
         params: {
             id: 1739,
             data: {
@@ -96,12 +121,11 @@
     ```python
     from b24pysdk import BitrixWebhook, Client
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
     )
+    client = Client(token)
 
     result = client.disk.folder.uploadfile(
         bitrix_id=1739,
@@ -120,74 +144,63 @@
     ```go
     // fileContent — это транспорт файлов в Битрикс24: массив из двух элементов,
     // [имя файла, содержимое в base64]. Тело запроса и так JSON, поэтому обычный
-    // []string сериализуется ровно так, как ждёт метод: ни multipart, ни ручного
+    // []string сериализуется ровно так, как ждет метод: ни multipart, ни ручного
     // url-кодирования не нужно. Base64 раздувает данные примерно на треть —
     // этот путь для небольших файлов.
-    res, err := core.Call(ctx, "disk.folder.uploadfile", b24.Params{
-    	"id":          folderID,
-    	"data":        b24.Params{"NAME": "отчёт.txt"},
-    	"fileContent": []string{"отчёт.txt", base64.StdEncoding.EncodeToString(content)},
-    	// Повторный запуск примера не должен падать из-за совпадения имён.
-    	"generateUniqueName": true,
+    res, err := core.Call(ctx, "disk.folder.uploadFile", b24.Params{
+        "id":          folderID,
+        "data":        b24.Params{"NAME": "отчет.txt"},
+        "fileContent": []string{"отчет.txt", base64.StdEncoding.EncodeToString(content)},
+        // Повторный запуск примера не должен падать из-за совпадения имен.
+        "generateUniqueName": true,
     })
     if err != nil {
-    	return fmt.Errorf("disk.folder.uploadfile: %w", err)
+        return fmt.Errorf("disk.folder.uploadFile: %w", err)
     }
 
     var file struct {
-    	// ID — идентификатор ОБЪЕКТА ДИСКА, именно его принимают поля типа
-    	// «файл (диск)».
-    	ID b24.ID `json:"ID"`
-    	// FILE_ID — внутренний идентификатор файла. Если подставить в поле
-    	// задачи его, файл либо не прикрепится, либо прикрепится чужой.
-    	FileID b24.ID `json:"FILE_ID"`
-    	Name   string `json:"NAME"`
+        // ID — идентификатор объекта Диска, именно его принимают поля типа
+        // «файл (диск)».
+        ID b24.ID `json:"ID"`
+        // FILE_ID — внутренний идентификатор файла. Если подставить в поле
+        // задачи его, файл либо не прикрепится, либо прикрепится чужой.
+        FileID b24.ID `json:"FILE_ID"`
+        Name   string `json:"NAME"`
     }
     if err := json.Unmarshal(res.Result, &file); err != nil {
-    	return fmt.Errorf("разбор загруженного файла: %w", err)
+        return fmt.Errorf("разбор загруженного файла: %w", err)
     }
     ```
 
 {% endlist %}
 
-В результате загрузки файла на диск получили два разных значения ID файла:
+В результате загрузки файла на Диск получили два разных значения ID файла:
 
-* `FILE_ID`: `28073` —  внутреннее значение ID файла
-* `ID`: `6687` —  ID объекта диска, это значение используем в методах для работы с полями типа «файл (диск)»
-Если в запросе для изменения поля «файл (диск)» передать значение `FILE_ID`, файл либо не прикрепится к задаче, поскольку нет объекта диска с таким ID, либо прикрепится не тот файл
+- `FILE_ID`: `28073` — внутреннее значение ID файла
+- `ID`: `6687` — ID объекта Диска, это значение используем в методах для работы с полями типа «файл (диск)»
+
+Если в запросе для изменения поля «файл (диск)» передать значение `FILE_ID`, файл либо не прикрепится к задаче, поскольку нет объекта Диска с таким ID, либо прикрепится не тот файл
 
 ```json
 {
     "result": {
         "ID": 6687,
         "NAME": "ava555.jpg",
-        "CODE": null,
-        "STORAGE_ID": "1",
         "TYPE": "file",
         "PARENT_ID": "1739",
-        "DELETED_TYPE": 0,
-        "GLOBAL_CONTENT_VERSION": 1,
         "FILE_ID": 28073,
-        "SIZE": "405559",
-        "CREATE_TIME": "2024-11-01T17:00:55+03:00",
-        "UPDATE_TIME": "2024-11-01T17:00:55+03:00",
-        "DELETE_TIME": null,
-        "CREATED_BY": "1",
-        "UPDATED_BY": "1",
-        "DELETED_BY": null,
-        "DOWNLOAD_URL": "https://your-domain.bitrix24.com/rest/download.json?sessid=9dd90ed5a58ccc41af81f5f0043739db&token=disk%7CaWQ9NjY4NyZfPTJ5ZXdvN2Fsb09SMGw1b0FHTkRMSGR5MFJkN1pLTjNS%7CImRvd25sb2FkfGRpc2t8YVdROU5qWTROeVpmUFRKNVpYZHZOMkZzYjA5U01HdzFiMEZIVGtSTVNHUjVNRkprTjFwTFRqTlN8OWRkOTBlZDVhNThjY2M0MWFmODFmNWYwMDQzNzM5ZGIi.Lup1vDbibL6twiCPfCMFnLSoDLleNX0cfMHGv5PFaJw%3D",
-        "DETAIL_URL": "https://your-domain.bitrix24.com/company/personal/user/1/disk/file/Созданные файлы/Новая папка для теста процесса/ava555.jpg"
+        "SIZE": "405559"
     }
 }
 ```
-## 2.  Создаем задачу с файлом
+
+## 2. Создаем задачу с файлом
 
 Для создания задачи используем метод [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) с параметрами:
 
-* `UF_TASK_WEBDAV_FILES` — укажем значение `n6687`. Это ID файла из результата предыдущего метода, к которому добавляем префикс `n` для загрузки файла в поле
-* `TITLE`  — название задачи, обязательное поле. Без названия задача не будет создана
-* `CREATED_BY`  —  ID постановщика задачи, поле не может быть пустым. Если его не заполнить, постановщиком автоматически станет тот, кто отправляет запрос
-* `RESPONSIBLE_ID`  —  ID исполнителя задачи, обязательное поле. Без исполнителя задача не будет создана
+- `UF_TASK_WEBDAV_FILES` — укажем значение `n6687`. Это ID файла из результата предыдущего метода, к которому добавляем префикс `n` для загрузки файла в поле
+- `TITLE` — название задачи, обязательное поле. Без названия задача не будет создана
+- `RESPONSIBLE_ID` — ID исполнителя задачи, обязательное поле. Без исполнителя задача не будет создана
 
 {% list tabs %}
 
@@ -257,593 +270,230 @@
     // этот уже существующий объект». Голое число метод не примет. Поле всегда
     // массив, даже когда файл один.
     res, err = core.Call(ctx, "tasks.task.add", b24.Params{
-    	"fields": b24.Params{
-    		"TITLE":                "Задача с файлом (b24gosdk)",
-    		"CREATED_BY":           userID,
-    		"RESPONSIBLE_ID":       userID,
-    		"UF_TASK_WEBDAV_FILES": []string{"n" + strconv.FormatInt(int64(file.ID), 10)},
-    	},
+        "fields": b24.Params{
+            "TITLE":                "Задача с файлом (b24gosdk)",
+            "RESPONSIBLE_ID":       userID,
+            "UF_TASK_WEBDAV_FILES": []string{"n" + strconv.FormatInt(int64(file.ID), 10)},
+        },
     })
     if err != nil {
-    	return fmt.Errorf("tasks.task.add: %w", err)
+        return fmt.Errorf("tasks.task.add: %w", err)
     }
 
     // tasks.* заворачивает ответ в объект с ключом task — в отличие от crm.*.add,
     // который отвечает голым идентификатором. И идентификатор здесь приходит
     // СТРОКОЙ ("3711"): b24.ID разбирает оба написания, обычный int — нет.
     var out struct {
-    	Task struct {
-    		ID    b24.ID `json:"id"`
-    		Title string `json:"title"`
-    	} `json:"task"`
+        Task struct {
+            ID    b24.ID `json:"id"`
+            Title string `json:"title"`
+        } `json:"task"`
     }
     if err := json.Unmarshal(res.Result, &out); err != nil {
-    	return fmt.Errorf("разбор созданной задачи: %w", err)
+        return fmt.Errorf("разбор созданной задачи: %w", err)
     }
     ```
 
 {% endlist %}
 
-Мы создали задачу с ID `3711`. 
+Мы создали задачу с ID `3711`.
 
 ```json
 {
     "result": {
         "task": {
             "id": "3711",
-            "parentId": null,
             "title": "task for test",
-            "description": "",
-            "mark": null,
-            "priority": "1",
-            "multitask": "N",
-            "notViewed": "N",
-            "replicate": "N",
-            "stageId": "0",
-            "createdBy": "1",
-            "createdDate": "2024-11-02T10:06:08+02:00",
-            "responsibleId": "1",
-            "changedBy": "1",
-            "changedDate": "2024-11-02T10:06:08+02:00",
-            "statusChangedBy": null,
-            "closedBy": null,
-            "closedDate": null,
-            "activityDate": "2024-11-02T10:06:08+02:00",
-            "dateStart": null,
-            "deadline": null,
-            "startDatePlan": null,
-            "endDatePlan": null,
-            "guid": "{c2794da9-c7fe-404d-a709-ddab4578717a}",
-            "xmlId": null,
-            "commentsCount": null,
-            "serviceCommentsCount": null,
-            "allowChangeDeadline": "N",
-            "allowTimeTracking": "N",
-            "taskControl": "N",
-            "addInReport": "N",
-            "forkedByTemplateId": null,
-            "timeEstimate": "0",
-            "timeSpentInLogs": null,
-            "matchWorkTime": "N",
-            "forumTopicId": null,
-            "forumId": null,
-            "siteId": "s1",
-            "subordinate": "Y",
-            "exchangeModified": null,
-            "exchangeId": null,
-            "outlookVersion": "1",
-            "viewedDate": null,
-            "sorting": null,
-            "durationFact": null,
-            "isMuted": "N",
-            "isPinned": "N",
-            "isPinnedInGroup": "N",
-            "flowId": null,
-            "descriptionInBbcode": "Y",
-            "status": "2",
-            "statusChangedDate": "2024-11-02T10:06:08+02:00",
-            "durationPlan": null,
-            "durationType": "days",
-            "favorite": "N",
-            "groupId": "0",
-            "auditors": [],
-            "accomplices": [],
-            "checklist": [],
-            "group": [],
-            "creator": {
-                "id": "1",
-                "name": "Viola",
-                "link": "/company/personal/user/1/",
-                "icon": "https://your-domain.bitrix24.com/b13743910/resize_cache/2267/c0120a8d7c10d63c83e32398d1ec4d9e/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
-                "workPosition": ""
-            },
-            "responsible": {
-                "id": "1",
-                "name": "Viola",
-                "link": "/company/personal/user/1/",
-                "icon": "https://your-domain.bitrix24.com/b13743910/resize_cache/2267/c0120a8d7c10d63c83e32398d1ec4d9e/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/d5fb56b94dc2c3cd8c006a2c595a4895.jpg",
-                "workPosition": ""
-            },
-            "accomplicesData": [],
-            "auditorsData": [],
-            "newCommentsCount": 0,
-            "action": {
-                "accept": false,
-                "decline": false,
-                "complete": true,
-                "approve": false,
-                "disapprove": false,
-                "start": true,
-                "pause": false,
-                "delegate": true,
-                "remove": true,
-                "edit": true,
-                "defer": true,
-                "renew": false,
-                "create": true,
-                "changeDeadline": true,
-                "checklistAddItems": true,
-                "addFavorite": true,
-                "deleteFavorite": false,
-                "rate": true,
-                "edit.originator": false,
-                "checklist.reorder": true,
-                "elapsedtime.add": true,
-                "dayplan.timer.toggle": false,
-                "edit.plan": true,
-                "checklist.add": true,
-                "favorite.add": true,
-                "favorite.delete": false
-            },
-            "checkListTree": {
-                "nodeId": 0,
-                "fields": {
-                    "id": null,
-                    "copiedId": null,
-                    "entityId": null,
-                    "userId": 1,
-                    "createdBy": null,
-                    "parentId": null,
-                    "title": "",
-                    "sortIndex": null,
-                    "displaySortIndex": "",
-                    "isComplete": false,
-                    "isImportant": false,
-                    "completedCount": 0,
-                    "members": [],
-                    "attachments": []
-                },
-                "action": [],
-                "descendants": []
-            },
-            "checkListCanAdd": true
+            "responsibleId": "1"
         }
     }
 }
 ```
-В полученном результате нет информации о файлах задачи. Чтобы проверить, успешно ли прикрепился файл к задаче, выполним метод  [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) с указанием поля  `UF_TASK_WEBDAV_FILES` в `SELECT`.
+В полученном результате нет информации о файлах задачи. Чтобы проверить, успешно ли прикрепился файл к задаче, выполним метод [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) с указанием поля `UF_TASK_WEBDAV_FILES` в `SELECT`.
 
-В результате [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) получим ID записи о прикреплении файла диска к задаче —  это ID связи, которая соединяет задачу и файл диска. Для получения информации о файле по ID связи используем метод [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md). 
+В результате [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) получим ID записи о прикреплении файла Диска к задаче — это ID связи, которая соединяет задачу и файл Диска. Для получения информации о файле по ID связи используем метод [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md).
 
-## Пример кода
+## Проверим результат
+
+Получим задачу методом [tasks.task.get](../../api-reference/tasks/tasks-task-get.md). В `select` нужно указать поле `UF_TASK_WEBDAV_FILES`, потому что по умолчанию системные пользовательские поля задачи не возвращаются.
 
 {% list tabs %}
 
 - JS
 
     ```javascript
-    import { B24Hook } from '@bitrix24/b24jssdk'
+    const taskCheckResponse = await $b24.actions.v2.call.make({
+        method: 'tasks.task.get',
+        params: {
+            taskId: 3711,
+            select: ['ID', 'TITLE', 'UF_TASK_WEBDAV_FILES']
+        },
+        requestId: 'task-get-files'
+    })
 
-    const $b24 = B24Hook.fromWebhookUrl('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/')
-
-    // Функция для загрузки файла
-    async function uploadFileToDisk() {
-        // ID папки, в которую вы хотите загрузить файл
-        const folderId = 'ваш_ID_папки';
-        // Имя файла и его содержимое в формате Base64
-        const fileName = 'ваше_имя_файла';
-        const fileContentBase64 = 'ваше_содержимое_файла_Base64';
-
-        // Вызываем метод disk.folder.uploadfile
-        const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.uploadfile',
-            params: {
-                id: folderId,
-                data: {
-                    NAME: fileName
-                },
-                fileContent: [
-                    fileName,
-                    fileContentBase64
-                ]
-            },
-            requestId: 'disk-uploadfile'
-        });
-
-        if (!response.isSuccess) {
-            console.error('Ошибка при загрузке файла:', response.getErrorMessages().join('; '));
-            return;
-        }
-
-        console.log('Файл успешно загружен!', response.getData().result);
-        const fileId = response.getData().result.ID; // Используем ID из результата
-        await createTaskWithFile(fileId);
+    if (!taskCheckResponse.isSuccess) {
+        throw new Error(taskCheckResponse.getErrorMessages().join('; '))
     }
 
-    // Функция для создания задачи с прикрепленным файлом
-    async function createTaskWithFile(fileId) {
-        // Параметры задачи
-        const taskTitle = 'ваше_название_задачи';
-        const taskDescription = 'ваше_описание_задачи';
-        const responsibleId = 'ваш_ID_ответственного';
+    const task = taskCheckResponse.getData().result.task
+    const attachmentId = task.ufTaskWebdavFiles[0]
 
-        // Вызываем метод tasks.task.add
-        const response = await $b24.actions.v2.call.make({
-            method: 'tasks.task.add',
-            params: {
-                fields: {
-                    TITLE: taskTitle,
-                    DESCRIPTION: taskDescription,
-                    RESPONSIBLE_ID: responsibleId,
-                    UF_TASK_WEBDAV_FILES: ['n' + fileId] // Добавляем префикс 'n' к ID файла
-                }
-            },
-            requestId: 'task-add'
-        });
+    const fileCheckResponse = await $b24.actions.v2.call.make({
+        method: 'disk.attachedObject.get',
+        params: {
+            id: attachmentId
+        },
+        requestId: 'disk-attached-object-get'
+    })
 
-        if (!response.isSuccess) {
-            console.error('Ошибка при создании задачи:', response.getErrorMessages().join('; '));
-            return;
-        }
-
-        console.log('Задача успешно создана!', response.getData().result);
+    if (!fileCheckResponse.isSuccess) {
+        throw new Error(fileCheckResponse.getErrorMessages().join('; '))
     }
 
-    // Вызов функции для загрузки файла и создания задачи
-    await uploadFileToDisk();
-
-    $b24.destroy();
+    console.log(fileCheckResponse.getData().result)
     ```
 
 - PHP
 
     ```php
-    require_once 'vendor/autoload.php';
+    $task = $serviceBuilder->core->call(
+        'tasks.task.get',
+        [
+            'taskId' => 3711,
+            'select' => ['ID', 'TITLE', 'UF_TASK_WEBDAV_FILES']
+        ]
+    )->getResponseData()->getResult()['task'];
 
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Bitrix24\SDK\Core\Exceptions\BaseException;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
+    $attachmentId = $task['ufTaskWebdavFiles'][0];
 
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
+    $file = $serviceBuilder->core->call(
+        'disk.attachedObject.get',
+        [
+            'id' => $attachmentId
+        ]
+    )->getResponseData()->getResult();
 
-    // Функция для загрузки файла
-    function uploadFileToDisk($serviceBuilder) {
-        // ID папки, в которую вы хотите загрузить файл
-        $folderId = 'ваш_ID_папки';
-        // Имя файла, который вы хотите загрузить
-        $fileName = 'ваше_имя_файла';
-        // Путь к файлу на вашей файловой системе
-        $filePath = '/путь/к/вашему/файлу';
-
-        // Чтение содержимого файла и его кодирование в Base64
-        $fileContentBase64 = base64_encode(file_get_contents($filePath));
-
-        // Вызываем метод disk.folder.uploadfile
-        try {
-            $result = $serviceBuilder->getDiskScope()->folder()->uploadFile(
-                (int)$folderId,
-                ['NAME' => $fileName],
-                [
-                    $fileName,
-                    $fileContentBase64
-                ]
-            );
-        } catch (BaseException $e) {
-            echo 'Ошибка при загрузке файла: ' . $e->getMessage();
-            return;
-        }
-
-        echo 'Файл успешно загружен!';
-        $fileId = $result->getId(); // Используем ID из результата
-        createTaskWithFile($serviceBuilder, $fileId);
-    }
-
-    // Функция для создания задачи с прикрепленным файлом
-    function createTaskWithFile($serviceBuilder, $fileId) {
-        // Параметры задачи
-        $taskTitle = 'ваше_название_задачи';
-        $taskDescription = 'ваше_описание_задачи';
-        $responsibleId = 'ваш_ID_ответственного';
-
-        // Вызываем метод tasks.task.add
-        try {
-            $serviceBuilder->core->call(
-                'tasks.task.add',
-                [
-                    'fields' => [
-                        'TITLE' => $taskTitle,
-                        'DESCRIPTION' => $taskDescription,
-                        'RESPONSIBLE_ID' => $responsibleId,
-                        'UF_TASK_WEBDAV_FILES' => ['n' . $fileId] // Добавляем префикс 'n' к ID файла
-                    ]
-                ]
-            );
-        } catch (BaseException $e) {
-            echo 'Ошибка при создании задачи: ' . $e->getMessage();
-            return;
-        }
-
-        echo 'Задача успешно создана!';
-    }
-
-    // Вызов функции для загрузки файла и создания задачи
-    uploadFileToDisk($serviceBuilder);
+    print_r($file);
     ```
 
 - Python
 
     ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
+    task = client.tasks.task.get(
+        bitrix_id=3711,
+        select=["ID", "TITLE", "UF_TASK_WEBDAV_FILES"],
+    ).response.result["task"]
 
+    attachment_id = task["ufTaskWebdavFiles"][0]
 
-    def upload_file_to_drive(client):
-        folder_id = "ваш_ID_папки"
-        file_name = "ваше_имя_файла"
-        file_content_base64 = "ваше_содержимое_файла_Base64"
+    file = token.call_method(
+        "disk.attachedObject.get",
+        {
+            "id": attachment_id,
+        },
+    )["result"]
 
-        try:
-            result = client.disk.folder.uploadfile(
-                bitrix_id=folder_id,
-                data={"NAME": file_name},
-                file_content=[file_name, file_content_base64],
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка загрузки файла: {error}")
-        else:
-            print("Файл успешно загружен!")
-            file_id = result["ID"]
-            create_task_with_file(client, file_id)
-
-
-    def create_task_with_file(client, file_id):
-        task_title = "ваше_название_задачи"
-        task_description = "ваше_описание_задачи"
-        responsible_id = "ваш_ID_ответственного"
-
-        try:
-            client.tasks.task.add(
-                fields={
-                    "TITLE": task_title,
-                    "DESCRIPTION": task_description,
-                    "RESPONSIBLE_ID": responsible_id,
-                    "UF_TASK_WEBDAV_FILES": [f"n{file_id}"],
-                },
-            ).response
-        except BitrixAPIError as error:
-            print(f"Ошибка создания задачи: {error}")
-        else:
-            print("Задача успешно создана!")
-
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    upload_file_to_drive(client)
+    print(file)
     ```
 
 - Go
 
     ```go
-    // Подготовка в пустом каталоге — go get без go mod init не сработает:
-    //
-    //	go mod init example && go get github.com/bitrix24/b24gosdk
-    //
-    // Запуск:
-    //
-    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
-    //
-    // Пример самодостаточный: он сам находит папку на Диске, загружает туда файл,
-    // создаёт задачу с этим файлом, проверяет вложение и убирает за собой.
-    // Запускается на любом портале, ничего править не нужно.
-    package main
-
-    import (
-    	"context"
-    	"encoding/base64"
-    	"encoding/json"
-    	"fmt"
-    	"log"
-    	"os"
-    	"strconv"
-
-    	b24 "github.com/bitrix24/b24gosdk"
-    )
-
-    func main() {
-    	if err := run(context.Background()); err != nil {
-    		log.Fatal(err)
-    	}
+    res, err = core.Call(ctx, "tasks.task.get", b24.Params{
+        "taskId": out.Task.ID,
+        "select": []string{"ID", "TITLE", "UF_TASK_WEBDAV_FILES"},
+    })
+    if err != nil {
+        return fmt.Errorf("tasks.task.get: %w", err)
     }
 
-    func run(ctx context.Context) error {
-    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
-    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
-
-    	// --- подготовка: чей диск и какая папка
-
-    	userID, err := currentUser(ctx, core)
-    	if err != nil {
-    		return err
-    	}
-    	folderID, err := rootFolder(ctx, core, userID)
-    	if err != nil {
-    		return err
-    	}
-
-    	// --- шаг 1: загружаем файл на Диск
-
-    	content := []byte("Отчёт за квартал.\nСоздан примером b24gosdk.\n")
-    	// fileContent — это транспорт файлов в Битрикс24: массив из двух элементов,
-    	// [имя файла, содержимое в base64]. Тело запроса и так JSON, поэтому обычный
-    	// []string сериализуется ровно так, как ждёт метод: ни multipart, ни ручного
-    	// url-кодирования не нужно. Base64 раздувает данные примерно на треть —
-    	// этот путь для небольших файлов.
-    	res, err := core.Call(ctx, "disk.folder.uploadfile", b24.Params{
-    		"id":          folderID,
-    		"data":        b24.Params{"NAME": "отчёт.txt"},
-    		"fileContent": []string{"отчёт.txt", base64.StdEncoding.EncodeToString(content)},
-    		// Повторный запуск примера не должен падать из-за совпадения имён.
-    		"generateUniqueName": true,
-    	})
-    	if err != nil {
-    		return fmt.Errorf("disk.folder.uploadfile: %w", err)
-    	}
-
-    	var file struct {
-    		// ID — идентификатор ОБЪЕКТА ДИСКА, именно его принимают поля типа
-    		// «файл (диск)».
-    		ID b24.ID `json:"ID"`
-    		// FILE_ID — внутренний идентификатор файла. Если подставить в поле
-    		// задачи его, файл либо не прикрепится, либо прикрепится чужой.
-    		FileID b24.ID `json:"FILE_ID"`
-    		Name   string `json:"NAME"`
-    	}
-    	if err := json.Unmarshal(res.Result, &file); err != nil {
-    		return fmt.Errorf("разбор загруженного файла: %w", err)
-    	}
-    	defer del(ctx, core, "disk.file.delete", b24.Params{"id": file.ID})
-    	fmt.Printf("файл %q загружен: ID=%d, FILE_ID=%d\n", file.Name, file.ID, file.FileID)
-
-    	// --- шаг 2: создаём задачу с этим файлом
-    	// Префикс "n" перед идентификатором объекта диска означает «прикрепить вот
-    	// этот уже существующий объект». Голое число метод не примет. Поле всегда
-    	// массив, даже когда файл один.
-    	res, err = core.Call(ctx, "tasks.task.add", b24.Params{
-    		"fields": b24.Params{
-    			"TITLE":                "Задача с файлом (b24gosdk)",
-    			"CREATED_BY":           userID,
-    			"RESPONSIBLE_ID":       userID,
-    			"UF_TASK_WEBDAV_FILES": []string{"n" + strconv.FormatInt(int64(file.ID), 10)},
-    		},
-    	})
-    	if err != nil {
-    		return fmt.Errorf("tasks.task.add: %w", err)
-    	}
-
-    	// tasks.* заворачивает ответ в объект с ключом task — в отличие от crm.*.add,
-    	// который отвечает голым идентификатором. И идентификатор здесь приходит
-    	// СТРОКОЙ ("3711"): b24.ID разбирает оба написания, обычный int — нет.
-    	var out struct {
-    		Task struct {
-    			ID    b24.ID `json:"id"`
-    			Title string `json:"title"`
-    		} `json:"task"`
-    	}
-    	if err := json.Unmarshal(res.Result, &out); err != nil {
-    		return fmt.Errorf("разбор созданной задачи: %w", err)
-    	}
-    	defer del(ctx, core, "tasks.task.delete", b24.Params{"taskId": out.Task.ID})
-    	fmt.Printf("задача %d %q создана\n", out.Task.ID, out.Task.Title)
-
-    	// --- проверка: файл действительно прикреплён
-
-    	return checkAttachment(ctx, core, out.Task.ID)
+    var taskCheck struct {
+        Task struct {
+            ID                 b24.ID   `json:"id"`
+            Title              string   `json:"title"`
+            UfTaskWebdavFiles  []b24.ID `json:"ufTaskWebdavFiles"`
+        } `json:"task"`
+    }
+    if err := json.Unmarshal(res.Result, &taskCheck); err != nil {
+        return fmt.Errorf("разбор задачи: %w", err)
+    }
+    if len(taskCheck.Task.UfTaskWebdavFiles) == 0 {
+        return fmt.Errorf("у задачи нет прикрепленных файлов")
     }
 
-    // --- вспомогательное: подготовка данных, проверка и уборка
-
-    func currentUser(ctx context.Context, core *b24.Core) (b24.ID, error) {
-    	res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
-    	if err != nil {
-    		return 0, fmt.Errorf("user.current: %w", err)
-    	}
-    	var u struct {
-    		ID b24.ID `json:"ID"`
-    	}
-    	if err := json.Unmarshal(res.Result, &u); err != nil {
-    		return 0, err
-    	}
-    	return u.ID, nil
+    res, err = core.Call(ctx, "disk.attachedObject.get", b24.Params{
+        "id": taskCheck.Task.UfTaskWebdavFiles[0],
+    })
+    if err != nil {
+        return fmt.Errorf("disk.attachedObject.get: %w", err)
     }
 
-    // rootFolder возвращает корневую папку личного хранилища пользователя, а если
-    // его нет — общего хранилища портала. Страница подставляет сюда готовый номер
-    // папки; на чужом портале такого номера не существует, поэтому пример его ищет.
-    func rootFolder(ctx context.Context, core *b24.Core, userID b24.ID) (b24.ID, error) {
-    	for _, filter := range []b24.Params{
-    		{"ENTITY_TYPE": "user", "ENTITY_ID": userID},
-    		{"ENTITY_TYPE": "common"},
-    	} {
-    		res, err := core.Call(ctx, "disk.storage.getlist",
-    			b24.Params{"filter": filter}, b24.WithIdempotent())
-    		if err != nil {
-    			return 0, fmt.Errorf("disk.storage.getlist: %w", err)
-    		}
-    		var storages []struct {
-    			Name         string `json:"NAME"`
-    			RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
-    		}
-    		if err := json.Unmarshal(res.Result, &storages); err != nil {
-    			return 0, err
-    		}
-    		for _, s := range storages {
-    			if s.RootObjectID != 0 {
-    				fmt.Printf("хранилище %q, корневая папка %d\n", s.Name, s.RootObjectID)
-    				return s.RootObjectID, nil
-    			}
-    		}
-    	}
-    	return 0, fmt.Errorf("вебхуку не видно ни одного хранилища на Диске")
+    var attachment struct {
+        ID         b24.ID `json:"ID"`
+        ObjectID   b24.ID `json:"OBJECT_ID"`
+        EntityType string `json:"ENTITY_TYPE"`
+        EntityID   b24.ID `json:"ENTITY_ID"`
+        Name       string `json:"NAME"`
     }
-
-    // checkAttachment показывает то, о чём говорит страница: в ответе tasks.task.add
-    // сведений о файлах нет, их нужно спрашивать отдельно.
-    func checkAttachment(ctx context.Context, core *b24.Core, taskID b24.ID) error {
-    	res, err := core.Call(ctx, "tasks.task.get", b24.Params{
-    		"taskId": taskID,
-    		"select": []string{"ID", "TITLE", "UF_TASK_WEBDAV_FILES"},
-    	}, b24.WithIdempotent())
-    	if err != nil {
-    		return fmt.Errorf("tasks.task.get: %w", err)
-    	}
-
-    	// Портал отвечает не тем именем, которое просили: UF_TASK_WEBDAV_FILES
-    	// приходит как ufTaskWebdavFiles. UnwrapFold сравнивает имена без учёта
-    	// регистра и подчёркиваний, поэтому переименование её не сбивает.
-    	raw, ok := b24.UnwrapFold(res.Result, "task", "UF_TASK_WEBDAV_FILES")
-    	if !ok || b24.IsEmpty(raw) {
-    		return fmt.Errorf("файл не прикрепился к задаче %d", taskID)
-    	}
-
-    	// Значение — список идентификаторов СВЯЗИ задачи с файлом диска, а не
-    	// идентификаторов самих файлов.
-    	var attachIDs []b24.ID
-    	if err := json.Unmarshal(raw, &attachIDs); err != nil {
-    		return fmt.Errorf("разбор вложений: %w", err)
-    	}
-    	fmt.Printf("к задаче прикреплено вложений: %d (идентификаторы связей %v)\n",
-    		len(attachIDs), attachIDs)
-    	return nil
-    }
-
-    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
-    // должна подменить собой настоящую ошибку сценария.
-    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
-    	if _, err := core.Call(ctx, method, params); err != nil {
-    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
-    	}
+    if err := json.Unmarshal(res.Result, &attachment); err != nil {
+        return fmt.Errorf("разбор прикрепленного файла: %w", err)
     }
     ```
 
 {% endlist %}
 
-## Продолжить изучение
+В ответе поле `ufTaskWebdavFiles` содержит идентификаторы связей задачи с файлами Диска. Это не `ID` файла, а `ID` прикрепления.
 
-* [Как загрузить файл в задачу](./how-to-upload-file-to-task.md)
+```json
+{
+    "result": {
+        "task": {
+            "id": "3711",
+            "title": "task for test",
+            "ufTaskWebdavFiles": [
+                423
+            ]
+        }
+    }
+}
+```
+
+Чтобы получить данные прикрепленного файла, передайте значение `423` в параметр `id` метода [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md). Успешность сценария подтверждают поля ответа:
+
+- `ID` — идентификатор прикрепления файла к задаче
+- `OBJECT_ID` — идентификатор файла на Диске
+- `ENTITY_TYPE` — тип объекта, к которому прикреплен файл. Для задачи значение будет `tasks_task`
+- `ENTITY_ID` — идентификатор задачи
+- `NAME` — имя прикрепленного файла
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Ошибка** | **Причина и решение** ||
+|| `ERROR_NOT_FOUND` в [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md) | Папка с указанным `id` не найдена ||
+|| `DISK_BASE_SERVICE_22001` | В `data.NAME` не передано имя файла ||
+|| `ERROR_COULD_NOT_SAVE_FILE` | Файл не удалось сохранить. Проверьте свободное место на Диске и корректность Base64 ||
+|| `ACCESS_DENIED` | Пользователь вебхука не имеет прав на добавление файла в папку ||
+|| `ERROR_CORE` в [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) | Проверьте `TITLE`, `RESPONSIBLE_ID` и обязательные пользовательские поля задачи ||
+|| Пустое `UF_TASK_WEBDAV_FILES` при проверке | В поле передан `FILE_ID` вместо `ID` объекта Диска или не добавлен префикс `n` ||
+|#
+
+Повторяйте сценарий с того шага, который вернул ошибку. Если файл уже загружен на Диск, не загружайте его повторно: исправьте параметры задачи и повторите только вызов [tasks.task.add](../../api-reference/tasks/tasks-task-add.md).
+
+## Что важно учитывать
+
+- В поле `UF_TASK_WEBDAV_FILES` передавайте `ID` объекта Диска из ответа [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md), а не `FILE_ID`
+- При создании задачи добавляйте к `ID` объекта Диска префикс `n`, например `n6687`
+- Поле `UF_TASK_WEBDAV_FILES` всегда передается массивом, даже если файл один
+- Повторный запуск примера создает новую задачу и может загрузить новый файл с тем же именем, если в запросе загрузки включено создание уникального имени
+
+## Продолжите изучение
+
+- [Как загрузить файл в задачу](./how-to-upload-file-to-task.md)
+- [Загрузить файл в папку Диска disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md)
+- [Получить содержимое папки disk.folder.getchildren](../../api-reference/disk/folder/disk-folder-get-children.md)
+- [Создать задачу tasks.task.add](../../api-reference/tasks/tasks-task-add.md)
+- [Получить прикрепленный объект disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md)
 

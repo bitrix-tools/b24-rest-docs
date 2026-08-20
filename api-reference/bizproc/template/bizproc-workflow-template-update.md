@@ -56,7 +56,7 @@
 По умолчанию — `0` ||
 |#
 
-## Примеры  кода
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -230,7 +230,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Идентификатор обновленного шаблона бизнес-процесса ||
+[`integer`](../../data-types.md) | Идентификатор обновленного шаблона бизнес-процесса ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -242,7 +242,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ERROR_TEMPLATE_NOT_OWNER",
-    "error_description": "You can update ONLY templates created by current application",
+    "error_description": "You can update ONLY templates created by current application"
 }
 ```
 

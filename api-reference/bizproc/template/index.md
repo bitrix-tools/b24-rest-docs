@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Шаблон бизнес-процесса — это логическая схема. Она реализует бизнес-логику с помощью действий и операций в дизайнере бизнес-процессов.
+Шаблоны бизнес-процессов задают логику автоматизации через действия и операции в дизайнере бизнес-процессов. Методы позволяют добавить шаблон из файла `.bpt`, обновить его параметры, получить список шаблонов и удалить шаблон, созданный приложением.
 
 {% note info "" %}
 
@@ -23,9 +23,16 @@
 > - [Как создать шаблон последовательного бизнес-процесса](https://helpdesk.bitrix24.ru/open/21918154/)
 > - [Как настроить параметры шаблона](https://helpdesk.bitrix24.ru/open/22478438/)
 
-## Добавить шаблон бизнес-процесса
+## Как начать работу
 
-Метод [bizproc.workflow.template.add](./bizproc-workflow-template-add.md) добавляет шаблон в Битрикс24 из файла с расширением `.bpt`. Чтобы получить файл, настройте шаблон бизнес-процесса и экспортируйте его.
+1. Добавьте шаблон методом [bizproc.workflow.template.add](./bizproc-workflow-template-add.md)
+2. Получите список шаблонов методом [bizproc.workflow.template.list](./bizproc-workflow-template-list.md)
+3. Обновите шаблон методом [bizproc.workflow.template.update](./bizproc-workflow-template-update.md)
+4. Удалите неактуальный шаблон методом [bizproc.workflow.template.delete](./bizproc-workflow-template-delete.md)
+
+## Как подготовить файл шаблона
+
+Метод [bizproc.workflow.template.add](./bizproc-workflow-template-add.md) добавляет шаблон из файла с расширением `.bpt`. Чтобы получить файл, настройте шаблон бизнес-процесса в дизайнере и экспортируйте его.
 
 ![Экспорт шаблона](./_images/export-bp-template.png)
 
@@ -38,79 +45,61 @@
 
 {% endnote %}
 
-## Связь шаблона с документом
+## Идентификатор типа документа
 
-Каждый шаблон связан с базовым объектом, данными которого он управляет. Например, шаблон может быть связан с CRM-сделками. В этом случае базовым объектом будет конкретная сделка, для которой запускается бизнес-процесс.
+`DOCUMENT_TYPE` указывается в параметрах метода [bizproc.workflow.template.add](./bizproc-workflow-template-add.md), когда приложение добавляет шаблон из файла. В методе [bizproc.workflow.template.list](./bizproc-workflow-template-list.md) значения `MODULE_ID`, `ENTITY` и `DOCUMENT_TYPE` возвращаются в полях шаблона и могут использоваться для фильтрации.
 
-Связь с базовым объектом определяет контекст запуска: нельзя запустить процесс для лида, используя шаблон для сделки.
+`DOCUMENT_TYPE` — массив из трех строк. Он связывает шаблон с типом документа, для которого будет запускаться бизнес-процесс:
 
-Шаблон связан с документом через параметр `DOCUMENT_TYPE`, который представляет собой массив из трех элементов:
+- идентификатор модуля, например `crm`
+- идентификатор объекта, например `CCrmDocumentDeal`
+- тип документа, например `DEAL`
 
-- идентификатор модуля
-- тип объекта
-- тип документа
-
-Например, `['crm', 'CCrmDocumentLead', 'LEAD']`.
-
-Значения в массиве взаимосвязаны. Если первый элемент — `'crm'`, остальные должны соответствовать CRM. Важно следить за правильностью значений.
+Значения в массиве взаимосвязаны: если первый элемент относится к CRM, остальные элементы тоже должны описывать CRM-объект.
 
 ### Возможные значения
 
-**Идентификатор модуля.** Указывает область применения шаблона бизнес-процесса.
+#|
+|| **Модуль** | **Идентификатор объекта** | **Тип документа** | **Описание** ||
+|| `crm` | `CCrmDocumentLead` | `LEAD` | Лиды ||
+|| `crm` | `CCrmDocumentContact` | `CONTACT` | Контакты ||
+|| `crm` | `CCrmDocumentCompany` | `COMPANY` | Компании ||
+|| `crm` | `CCrmDocumentDeal` | `DEAL` | Сделки ||
+|| `crm` | `Bitrix\Crm\Integration\BizProc\Document\Quote` | `QUOTE` | Коммерческие предложения ||
+|| `crm` | `Bitrix\Crm\Integration\BizProc\Document\SmartInvoice` | `SMART_INVOICE` | Счета ||
+|| `crm` | `Bitrix\Crm\Integration\BizProc\Document\Dynamic` | `DYNAMIC_XXX` | Смарт-процессы, где XXX — идентификатор смарт-процесса ||
+|| `lists` | `BizprocDocument` | `iblock_XXX` | Процессы в ленте новостей, где XXX — идентификатор информационного блока ||
+|| `lists` | `Bitrix\Lists\BizprocDocumentLists` | `iblock_XXX` | Списки в группах, где XXX — идентификатор информационного блока ||
+|| `disk` | `Bitrix\Disk\BizProcDocument` | `STORAGE_XXX` | Хранилище диска, где XXX — идентификатор хранилища ||
+|#
 
-- `crm` — CRM
-- `lists` — Универсальные списки
-- `disk` — Битрикс24 Диск
+## Что важно учитывать
 
-**Идентификатор объекта.** Объект в рамках указанного модуля. Например, для CRM объектом может быть лид или сделка.
+- Методы [bizproc.workflow.template.add](./bizproc-workflow-template-add.md), [bizproc.workflow.template.update](./bizproc-workflow-template-update.md) и [bizproc.workflow.template.delete](./bizproc-workflow-template-delete.md) работают только в контексте установленного приложения
+- Обновить или удалить можно только шаблон, который был создан этим же приложением
+- Тип документа задается параметром `DOCUMENT_TYPE` и определяет, для каких объектов можно запускать бизнес-процесс
+- Чтобы получить шаблоны приложения, передайте в фильтр метода [bizproc.workflow.template.list](./bizproc-workflow-template-list.md) поле `SYSTEM_CODE`, например `"SYSTEM_CODE": "rest_app_5"`
 
-CRM
-- `CCrmDocumentLead` — лиды
-- `CCrmDocumentContact` — контакты
-- `CCrmDocumentCompany` — компании
-- `CCrmDocumentDeal` — сделки
-- `Bitrix\Crm\Integration\BizProc\Document\Quote` — коммерческие предложения
-- `Bitrix\Crm\Integration\BizProc\Document\SmartInvoice` — счета
-- `Bitrix\Crm\Integration\BizProc\Document\Dynamic` — смарт-процессы
+## Связь с другими объектами
 
-Списки
-- `BizprocDocument` — процессы в ленте новостей
-- `Bitrix\Lists\BizprocDocumentLists` — списки в группах
+**CRM.** Шаблон можно связать с лидами, контактами, компаниями, сделками, коммерческими предложениями, счетами и смарт-процессами. Связь задается через `DOCUMENT_TYPE`, например `['crm', 'CCrmDocumentDeal', 'DEAL']`.
 
-Диск
-- `Bitrix\Disk\BizProcDocument`
+Связь с базовым объектом определяет контекст запуска: нельзя запустить процесс для лида, используя шаблон для сделки.
 
-**Тип документа.** Привязка к конкретному документу указанного объекта.
+**Универсальные списки.** Шаблон можно связать с процессами в ленте новостей или списками в группах. В `DOCUMENT_TYPE` укажите модуль `lists`, тип объекта и идентификатор информационного блока в формате `iblock_XXX`.
 
-CRM
-- `LEAD` — лиды
-- `CONTACT` — контакты
-- `COMPANY` — компании
-- `DEAL` — сделки
-- `QUOTE` — коммерческие предложения
-- `SMART_INVOICE` — счета
-- `DYNAMIC_XXX` — смарт-процессы, где XXX — идентификатор смарт-процесса
-
-Универсальные списки
-- `iblock_XXX` — информационный блок, где XXX — идентификатор информационного блока
-
-Диск
-- `STORAGE_XXX` — хранилище диска, где XXX — идентификатор хранилища
-
-## Получить список шаблонов
-
-Для получения списка всех шаблонов портала используется метод [bizproc.workflow.template.list](./bizproc-workflow-template-list.md). Чтобы получить список шаблонов приложения, укажите в параметре `FILTER` поле `SYSTEM_CODE` и символьный код приложения, например, `"SYSTEM_CODE": "rest_app_5"`.
+**Диск.** Шаблон можно связать с хранилищем Диска. В `DOCUMENT_TYPE` укажите модуль `disk`, объект `Bitrix\Disk\BizProcDocument` и идентификатор хранилища в формате `STORAGE_XXX`.
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`bizproc`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: в зависимости от метода
+> Кто может выполнять метод: зависит от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [bizproc.workflow.template.add](./bizproc-workflow-template-add.md) | Добавить шаблон бизнес-процесса из файла ||
-|| [bizproc.workflow.template.update](./bizproc-workflow-template-update.md) | Обновить шаблон ||
-|| [bizproc.workflow.template.list](./bizproc-workflow-template-list.md) | Получить список шаблонов ||
-|| [bizproc.workflow.template.delete](./bizproc-workflow-template-delete.md) | Удалить шаблон ||
+|| [bizproc.workflow.template.add](./bizproc-workflow-template-add.md) | Добавляет шаблон бизнес-процесса из файла ||
+|| [bizproc.workflow.template.update](./bizproc-workflow-template-update.md) | Обновляет шаблон ||
+|| [bizproc.workflow.template.list](./bizproc-workflow-template-list.md) | Получает список шаблонов ||
+|| [bizproc.workflow.template.delete](./bizproc-workflow-template-delete.md) | Удаляет шаблон ||
 |#

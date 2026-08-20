@@ -247,7 +247,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Идентификатор добавленного шаблона бизнес-процесса ||
+[`integer`](../../data-types.md) | Идентификатор добавленного шаблона бизнес-процесса ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -259,7 +259,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ERROR_TEMPLATE_VALIDATION_FAILURE",
-    "error_description": "Incorrect field DOCUMENT_TYPE!",
+    "error_description": "Incorrect field DOCUMENT_TYPE!"
 }
 ```
 
@@ -273,7 +273,7 @@ HTTP-статус: **400**
 || `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
 || `ERROR_TEMPLATE_VALIDATION_FAILURE` | Incorrect field DOCUMENT_TYPE! | Указан неверный тип документа ||
 || `ERROR_TEMPLATE_VALIDATION_FAILURE` | Empty template name! | Не указано название шаблона ||
-|| `ERROR_TEMPLATE_VALIDATION_FAILUR` | Incorrect field AUTO_EXECUTE! | Указан неверный код автозапуска ||
+|| `ERROR_TEMPLATE_VALIDATION_FAILURE` | Incorrect field AUTO_EXECUTE! | Указан неверный код автозапуска ||
 || `ERROR_TEMPLATE_VALIDATION_FAILURE` | Incorrect field TEMPLATE_DATA! | Указаны неверные данные шаблона ||
 |#
 

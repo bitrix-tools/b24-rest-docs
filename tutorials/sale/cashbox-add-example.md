@@ -1,6 +1,6 @@
 # Как подключить кассу к Битрикс24
 
-> Scope: [`sale`](../../api-reference/scopes/permissions.md), [`cashbox`](../../api-reference/scopes/permissions.md)
+> Scope: [`cashbox`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: администратор
 
@@ -13,15 +13,29 @@
 
 {% endnote %}
 
-В Битрикс24 можно подключить внешнюю кассу и автоматически печатать чеки. Когда клиент оплатит заказ, портал отправит данные чека на заданный URL. Внешний сервис сформирует и зарегистрирует фискальный чек.
+В Битрикс24 можно подключить внешнюю кассу и автоматически печатать чеки. Когда клиент оплатит заказ, Битрикс24 отправит данные чека на заданный URL. Внешний сервис сформирует и зарегистрирует фискальный чек.
 
-Чтобы подключить кассу, последовательно выполним методы:
+В результате сценария в Центре продаж появится REST-касса, а внешний сервис сможет принимать запросы на печать чека и возвращать статус печати.
 
-1. [sale.cashbox.handler.add](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md) — добавим обработчик кассы,
+Сценарий состоит из трех шагов.
 
-2. [sale.cashbox.add](../../api-reference/sale/cashbox/sale-cashbox-add.md) — создадим кассу и привяжем к обработчику.
+1. Добавим обработчик кассы методом [sale.cashbox.handler.add](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md)
+2. Создадим кассу и привяжем ее к обработчику методом [sale.cashbox.add](../../api-reference/sale/cashbox/sale-cashbox-add.md)
+3. Передадим результат печати чека методом [sale.cashbox.check.apply](../../api-reference/sale/cashbox/sale-cashbox-check-apply.md), если статус нужно сохранить вручную
 
-## 1\. Добавим обработчик кассы
+## Перед началом
+
+Подготовьте значения, которые понадобятся в примерах.
+
+- Входящий вебхук или OAuth-токен пользователя с правами администратора
+- Публичный HTTPS-адрес страницы печати чека `PRINT_URL`
+- Публичный HTTPS-адрес страницы проверки статуса чека `CHECK_URL`
+- Уникальный код обработчика кассы, например `my_rest_cashbox`
+- Данные авторизации внешней кассы, которые администратор укажет в настройках кассы
+
+Не размещайте логин, пароль и токены доступа в публичном коде. Передавайте секреты через переменные окружения или защищенное хранилище приложения.
+
+## 1. Добавим обработчик кассы
 
 Зарегистрируем обработчик с помощью [sale.cashbox.handler.add](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md). В метод передадим настройки обработчика и адреса, на которые портал отправляет запросы для печати и проверки статуса чека.
 
@@ -33,9 +47,9 @@
 
 - `SETTINGS` — объект c настройками обработчика.
 
-    - `PRINT_URL` — адрес, на который портал отправляет данные для печати чека. Укажем `http://example.ru/rest_print.php`.
+    - `PRINT_URL` — адрес, на который Битрикс24 отправляет данные для печати чека. Укажем `https://example.ru/rest_print.php`.
 
-    - `CHECK_URL` — адрес, по которому происходит проверка статуса чека. Передадим `http://example.ru/rest_check.php`.
+    - `CHECK_URL` — адрес, по которому происходит проверка статуса чека. Передадим `https://example.ru/rest_check.php`.
 
     - `CONFIG` — поля, которые нужно создать для обработчика. Администратор заполняет эти поля при настройке кассы. Создадим три блока: `AUTH` — авторизация по логину и паролю, `COMPANY` — данные об организации, `INTERACTION` — режим работы кассы.
 
@@ -58,8 +72,8 @@
            NAME: 'Моя REST-касса',
            SORT: 100,
            SETTINGS: {
-               PRINT_URL: 'http://example.ru/rest_print.php',
-               CHECK_URL: 'http://example.ru/rest_check.php',
+               PRINT_URL: 'https://example.ru/rest_print.php',
+               CHECK_URL: 'https://example.ru/rest_check.php',
                CONFIG: {
                    AUTH: {
                        LABEL: 'Авторизация',
@@ -91,6 +105,7 @@
                        ITEMS: {
                            MODE: {
                                TYPE: 'ENUM',
+                               REQUIRED: 'N',
                                LABEL: 'Режим работы с кассой',
                                OPTIONS: {
                                    ACTIVE: 'боевой',
@@ -134,8 +149,8 @@
        'my_rest_cashbox',
        'Моя REST-касса',
        [
-           'PRINT_URL' => 'http://example.ru/rest_print.php',
-           'CHECK_URL' => 'http://example.ru/rest_check.php',
+           'PRINT_URL' => 'https://example.ru/rest_print.php',
+           'CHECK_URL' => 'https://example.ru/rest_check.php',
            'CONFIG' => [
                'AUTH' => [
                    'LABEL' => 'Авторизация',
@@ -167,6 +182,7 @@
                    'ITEMS' => [
                        'MODE' => [
                            'TYPE' => 'ENUM',
+                           'REQUIRED' => 'N',
                            'LABEL' => 'Режим работы с кассой',
                            'OPTIONS' => [
                                'ACTIVE' => 'боевой',
@@ -192,62 +208,62 @@
    from b24pysdk.errors import BitrixAPIError
 
 
-   client = Client(
-       BitrixWebhook(
-           domain="your-domain.bitrix24.com",
-           webhook_token="user_id/webhook_key",
-       )
+   token = BitrixWebhook(
+       domain="your-domain.bitrix24.com",
+       webhook_token="user_id/webhook_key",
    )
+   client = Client(token)
 
    try:
        response = client.sale.cashbox.handler.add(
-       code="my_rest_cashbox",
-       name="Моя REST-касса",
-       sort=100,
-       settings={
-           "PRINT_URL": "http://example.ru/rest_print.php",
-           "CHECK_URL": "http://example.ru/rest_check.php",
-           "CONFIG": {
-               "AUTH": {
-                   "LABEL": "Авторизация",
-                   "ITEMS": {
-                       "LOGIN": {
-                           "TYPE": "STRING",
-                           "REQUIRED": "Y",
-                           "LABEL": "Логин",
-                       },
-                       "PASSWORD": {
-                           "TYPE": "STRING",
-                           "REQUIRED": "Y",
-                           "LABEL": "Пароль",
-                       },
-                   },
-               },
-               "COMPANY": {
-                   "LABEL": "Данные об организации",
-                   "ITEMS": {
-                       "INN": {
-                           "TYPE": "STRING",
-                           "REQUIRED": "Y",
-                           "LABEL": "ИНН организации",
-                       }
-                   },
-               },
-               "INTERACTION": {
-                   "LABEL": "Настройки взаимодействия с кассой",
-                   "ITEMS": {
-                       "MODE": {
-                           "TYPE": "ENUM",
-                           "LABEL": "Режим работы с кассой",
-                           "OPTIONS": {
-                               "ACTIVE": "боевой",
-                               "TEST": "тестовый",
+           code="my_rest_cashbox",
+           name="Моя REST-касса",
+           sort=100,
+           settings={
+               "PRINT_URL": "https://example.ru/rest_print.php",
+               "CHECK_URL": "https://example.ru/rest_check.php",
+               "CONFIG": {
+                   "AUTH": {
+                       "LABEL": "Авторизация",
+                       "ITEMS": {
+                           "LOGIN": {
+                               "TYPE": "STRING",
+                               "REQUIRED": "Y",
+                               "LABEL": "Логин",
                            },
-                       }
+                           "PASSWORD": {
+                               "TYPE": "STRING",
+                               "REQUIRED": "Y",
+                               "LABEL": "Пароль",
+                           },
+                       },
+                   },
+                   "COMPANY": {
+                       "LABEL": "Данные об организации",
+                       "ITEMS": {
+                           "INN": {
+                               "TYPE": "STRING",
+                               "REQUIRED": "Y",
+                               "LABEL": "ИНН организации",
+                           }
+                       },
+                   },
+                   "INTERACTION": {
+                       "LABEL": "Настройки взаимодействия с кассой",
+                       "ITEMS": {
+                           "MODE": {
+                               "TYPE": "ENUM",
+                               "REQUIRED": "N",
+                               "LABEL": "Режим работы с кассой",
+                               "OPTIONS": {
+                                   "ACTIVE": "боевой",
+                                   "TEST": "тестовый",
+                               },
+                           }
+                       },
                    },
                },
            },
-       },
        ).response
        print(response.result)
    except BitrixAPIError as error:
@@ -256,21 +272,11 @@
 
 {% endlist %}
 
-Если обработчик успешно добавлен, метод вернет его идентификатор. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.cashbox.handler.add](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md).
+Если обработчик успешно добавлен, метод вернет его идентификатор. Сохраните значение `result`: оно пригодится для поиска обработчика в списке.
 
 ```json
 {
-    "result": 1,
-    "time": {
-        "start":1761744611,
-        "finish":1761744611.243273,
-        "duration":0.24327301979064941,
-        "processing":0,
-        "date_start":"2025-10-29T16:30:11+03:00",
-        "date_finish":"2025-10-29T16:30:11+03:00",
-        "operating_reset_at":1761745211,
-        "operating":0
-    }
+    "result": 1
 }
 ```
 
@@ -278,7 +284,7 @@
 
 ![Обработчик](_images/crm_cash_handler.png)
 
-## 2\. Настроим кассу
+## 2. Настроим кассу
 
 Добавим кассу с помощью [sale.cashbox.add](../../api-reference/sale/cashbox/sale-cashbox-add.md). В метод передадим настройки кассы и значения параметра `CONFIG` из предыдущего шага.
 
@@ -377,25 +383,25 @@
    ```python
    try:
        response = client.sale.cashbox.add(
-       rest_code="my_rest_cashbox",
-       name="REST касса",
-       email="owner@example.ru",
-       number_kkm="1",
-       ofd="bx_firstofd",
-       use_offline=True,
-       active=True,
-       settings={
-           "AUTH": {
-               "LOGIN": "rest_login",
-               "PASSWORD": "rest_password",
+           rest_code="my_rest_cashbox",
+           name="REST касса",
+           email="owner@example.ru",
+           number_kkm="1",
+           ofd="bx_firstofd",
+           use_offline=True,
+           active=True,
+           settings={
+               "AUTH": {
+                   "LOGIN": "rest_login",
+                   "PASSWORD": "rest_password",
+               },
+               "COMPANY": {
+                   "INN": "1234567890",
+               },
+               "INTERACTION": {
+                   "MODE": "ACTIVE",
+               },
            },
-           "COMPANY": {
-               "INN": "1234567890",
-           },
-           "INTERACTION": {
-               "MODE": "ACTIVE",
-           },
-       },
        ).response
        print(response.result)
    except BitrixAPIError as error:
@@ -404,21 +410,11 @@
 
 {% endlist %}
 
-Если касса успешно добавлена, метод вернет ее идентификатор. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.cashbox.add](../../api-reference/sale/cashbox/sale-cashbox-add.md).
+Если касса успешно добавлена, метод вернет ее идентификатор. Сохраните значение `result`: оно понадобится для проверки кассы в списке.
 
 ```json
 {
-    "result": 1,
-    "time": {
-        "start":1761771262,
-        "finish":1761771262.111383,
-        "duration":0.11138296127319336,
-        "processing":0,
-        "date_start":"2025-10-29T16:54:22+03:00",
-        "date_finish":"2025-10-29T16:54:22+03:00",
-        "operating_reset_at":1761771862,
-        "operating":0
-    }
+    "result": 1
 }
 ```
 
@@ -432,9 +428,55 @@
 
 ### Страница PRINT_URL
 
-Страница `PRINT_URL` — адрес, на который портал отправляет данные для печати чека. Структуру запроса смотрите в разделе [Страница PRINT_URL](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md#print_url) метода `sale.cashbox.handler.add`.
+Страница `PRINT_URL` — адрес, на который Битрикс24 отправляет данные для печати чека. Структуру запроса смотрите в разделе [Страница PRINT_URL](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md#print_url) метода `sale.cashbox.handler.add`.
 
 По адресу `PRINT_URL` происходит обработка входных данных, формирование документа и возвращение результата печати.
+
+Минимальная логика страницы `PRINT_URL`:
+
+1. Принять данные чека от Битрикс24
+2. Проверить, что в запросе есть данные для печати
+3. Передать чек во внешнюю кассу
+4. Вернуть `UUID`, если чек принят в печать, или массив `ERRORS`, если печать невозможна
+5. Сохранить связь `UUID` с заказом или чеком во внешней системе, чтобы страница `CHECK_URL` могла вернуть статус
+
+Пример обработчика `PRINT_URL` на Node.js:
+
+```js
+import express from 'express'
+import { randomUUID } from 'crypto'
+
+const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+const checks = new Map()
+
+app.post('/rest_print.php', async (req, res) => {
+    const payload = req.body
+
+    if (!payload || Object.keys(payload).length === 0) {
+        res.json({
+            ERRORS: ['Данные чека не переданы']
+        })
+        return
+    }
+
+    const uuid = randomUUID()
+
+    checks.set(uuid, {
+        status: 'WAIT',
+        createdAt: Date.now(),
+        payload
+    })
+
+    res.json({
+        UUID: uuid
+    })
+})
+```
+
+В рабочем сервисе храните `UUID`, статус и данные чека в базе данных, а не в памяти процесса.
 
 - Если печать не удалась, массив JSON имеет вид:
 
@@ -463,6 +505,59 @@
 Запрос по адресу `CHECK_URL` выполняется по обращению менеджера или запускается автоматически спустя время после успешной печати чека. Структуру запроса смотрите в разделе [Страница CHECK_URL](../../api-reference/sale/cashbox/sale-cashbox-handler-add.md#check_url) метода `sale.cashbox.handler.add`.
 
 Запрос по адресу `CHECK_URL` возвращает данные о чеке, данные об ошибке при печати чека, либо статус «в ожидании печати».
+
+Минимальная логика страницы `CHECK_URL`:
+
+1. Принять `UUID` чека
+2. Найти чек во внешней системе
+3. Если чек еще печатается, вернуть `STATUS: WAIT`
+4. Если печать завершилась ошибкой, вернуть `STATUS: ERROR` и текст ошибки
+5. Если чек напечатан, вернуть `STATUS: DONE` и фискальные реквизиты
+
+Пример обработчика `CHECK_URL` на Node.js:
+
+```js
+app.post('/rest_check.php', async (req, res) => {
+    const uuid = req.body.UUID
+
+    if (!uuid || !checks.has(uuid)) {
+        res.json({
+            STATUS: 'ERROR',
+            ERROR: 'Чек с таким UUID не найден'
+        })
+        return
+    }
+
+    const check = checks.get(uuid)
+
+    if (check.status === 'WAIT') {
+        res.json({
+            STATUS: 'WAIT'
+        })
+        return
+    }
+
+    if (check.status === 'ERROR') {
+        res.json({
+            STATUS: 'ERROR',
+            ERROR: check.error
+        })
+        return
+    }
+
+    res.json({
+        STATUS: 'DONE',
+        UUID: uuid,
+        REG_NUMBER_KKT: '000111222333',
+        FISCAL_DOC_ATTR: '33445500',
+        FISCAL_DOC_NUMBER: 123,
+        FISCAL_RECEIPT_NUMBER: 10,
+        FN_NUMBER: '0011223344556677',
+        SHIFT_NUMBER: 12,
+        PRINT_END_TIME: Math.floor(Date.now() / 1000)
+    })
+})
+```
 
 - Формат данных при ошибке печати чека:
 
@@ -499,11 +594,11 @@
 
 Полный список полей совпадает с параметрами метода [sale.cashbox.check.apply](../../api-reference/sale/cashbox/sale-cashbox-check-apply.md).
 
-Данные от `CHECK_URL` сохраняются на портале и используются для генерации ссылки на чек.
+Данные от `CHECK_URL` сохраняются в Битрикс24 и используются для генерации ссылки на чек.
 
 ### Передадим результат печати вручную
 
-Данные о чеке можно передать в любое время с помощью метода [sale.cashbox.check.apply](../../api-reference/sale/cashbox/sale-cashbox-check-apply.md).
+Данные о чеке можно передать с помощью метода [sale.cashbox.check.apply](../../api-reference/sale/cashbox/sale-cashbox-check-apply.md), когда `PRINT_URL` вернул `UUID` и чек сохранен в Битрикс24.
 
 Подготовьте поля для `sale.cashbox.check.apply`.
 
@@ -574,14 +669,14 @@
     ```python
     try:
         response = client.sale.cashbox.check.apply(
-        uuid="00112233-4455-6677-8899-aabbccddeeff",
-        print_end_time="1609459200",
-        reg_number_kkt="000111222333",
-        fiscal_doc_attr="33445500",
-        fiscal_doc_number="123",
-        fiscal_receipt_number="10",
-        fn_number="0011223344556677",
-        shift_number="12",
+            uuid="00112233-4455-6677-8899-aabbccddeeff",
+            print_end_time="1609459200",
+            reg_number_kkt="000111222333",
+            fiscal_doc_attr="33445500",
+            fiscal_doc_number="123",
+            fiscal_receipt_number="10",
+            fn_number="0011223344556677",
+            shift_number="12",
         ).response
         print(response.result)
     except BitrixAPIError as error:
@@ -590,20 +685,105 @@
 
 {% endlist %}
 
-Если чек успешно сохранен, метод вернет `true`. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.cashbox.check.apply](../../api-reference/sale/cashbox/sale-cashbox-check-apply.md).
+Если чек успешно сохранен, метод вернет `true`.
 
 ```json
 {
-    "result": true,
-    "time": {
-        "start": 1712165362.026851,
-        "finish": 1712165362.111383,
-        "duration": 0.3808310031890869,
-        "processing": 0.0336611270904541,
-        "date_start": "2025-10-03T11:08:55+02:00",
-        "date_finish": "2025-10-03T11:08:55+02:00",
-        "operating_reset_at": 1705765533,
-        "operating": 3.3076241016387939
-    }
+    "result": true
 }
 ```
+
+## Проверим результат
+
+После настройки кассы откройте Центр продаж и проверьте, что REST-касса доступна в списке касс. После тестовой оплаты проверьте, что внешний сервис получил запрос на `PRINT_URL`, вернул `UUID`, а Битрикс24 получил статус через `CHECK_URL` или через метод `sale.cashbox.check.apply`.
+
+Через REST проверьте обработчик и кассу методами [sale.cashbox.handler.list](../../api-reference/sale/cashbox/sale-cashbox-handler-list.md) и [sale.cashbox.list](../../api-reference/sale/cashbox/sale-cashbox-list.md).
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const handlerResponse = await $b24.actions.v2.call.make({
+        method: 'sale.cashbox.handler.list',
+        params: {},
+        requestId: 'cashbox-handler-list',
+    })
+
+    const cashboxResponse = await $b24.actions.v2.call.make({
+        method: 'sale.cashbox.list',
+        params: {
+            SELECT: ['ID', 'NAME', 'ACTIVE', 'EMAIL'],
+            FILTER: { '=NAME': 'REST касса' },
+        },
+        requestId: 'cashbox-list',
+    })
+
+    console.log(handlerResponse.getData().result)
+    console.log(cashboxResponse.getData().result)
+    ```
+
+- PHP
+
+    ```php
+    $handlerResponse = $sb->core->call('sale.cashbox.handler.list', []);
+
+    $cashboxResponse = $sb->core->call('sale.cashbox.list', [
+        'SELECT' => ['ID', 'NAME', 'ACTIVE', 'EMAIL'],
+        'FILTER' => ['=NAME' => 'REST касса'],
+    ]);
+
+    print_r($handlerResponse->getResponseData()->getResult());
+    print_r($cashboxResponse->getResponseData()->getResult());
+    ```
+
+- Python
+
+    ```python
+    handlers = token.call_method("sale.cashbox.handler.list", {})
+    cashboxes = token.call_method(
+        "sale.cashbox.list",
+        {
+            "SELECT": ["ID", "NAME", "ACTIVE", "EMAIL"],
+            "FILTER": {"=NAME": "REST касса"},
+        },
+    )
+
+    print(handlers)
+    print(cashboxes)
+    ```
+
+{% endlist %}
+
+Успешное выполнение сценария подтверждают три результата:
+
+- метод `sale.cashbox.handler.add` вернул идентификатор обработчика
+- метод `sale.cashbox.add` вернул идентификатор кассы
+- метод `sale.cashbox.check.apply` вернул `true`, если результат печати передавался вручную
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса и состояние внешнего сервиса.
+
+#|
+|| **Код или текст ошибки** | **Причина и действие** ||
+|| `ACCESS_DENIED` | Метод вызвал пользователь без прав администратора CRM на изменение настроек ||
+|| `ERROR_CHECK_FAILURE` | Не передано обязательное поле или значение поля не прошло проверку. Проверьте `CODE`, `NAME`, `SETTINGS`, `REST_CODE`, `EMAIL` и `UUID` ||
+|| `ERROR_HANDLER_ALREADY_EXIST` | Обработчик с таким `CODE` уже есть. Укажите другой код или используйте существующий обработчик ||
+|| `ERROR_CHECK_NOT_FOUND` | Чек с указанным `UUID` не найден. Проверьте, что `UUID` совпадает со значением, которое вернула страница `PRINT_URL` ||
+|| `ERROR_HANDLER_ADD`, `ERROR_CASHBOX_ADD`, `ERROR_CHECK_APPLY` | Ошибка при добавлении обработчика, создании кассы или сохранении результата печати. Подробности смотрите в `error_description` ||
+|| Ошибка печати на `PRINT_URL` | Верните массив `ERRORS` и сохраните текст ошибки в логах внешнего сервиса ||
+|| Статус `WAIT` на `CHECK_URL` | Чек еще не напечатан. Повторите проверку статуса после обработки чека внешней кассой ||
+|#
+
+## Что важно учитывать
+
+- Повторный запуск примера с тем же `CODE` может вернуть ошибку, потому что код обработчика должен быть уникальным
+- Адреса `PRINT_URL` и `CHECK_URL` должны быть доступны из интернета по HTTPS
+- Данные из настроек кассы, например логин и пароль, храните на стороне приложения и не выводите в интерфейс без маскирования
+
+## Продолжите изучение
+
+- [Обработчики касс](../../api-reference/sale/cashbox/sale-cashbox-handler-list.md)
+- [Кассы](../../api-reference/sale/cashbox/sale-cashbox-list.md)
+- [Сохранение результата печати чека](../../api-reference/sale/cashbox/sale-cashbox-check-apply.md)

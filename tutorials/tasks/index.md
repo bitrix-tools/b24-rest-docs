@@ -19,8 +19,8 @@
 
 Сценарии строятся вокруг задачи и связанных с ней объектов: файлов Диска, комментариев и CRM. Создание и получение задач выполняет группа методов [tasks.task.*](../../api-reference/tasks/index.md#all-methods).
 
-- **Файлы Диска.** Чтобы прикрепить файл к задаче, сначала загрузите файл на Диск методом [disk.folder.uploadfile](../../api-reference/disk/folder/disk-folder-upload-file.md). Метод вернет `ID` файла Диска. При создании задачи передайте этот идентификатор в поле `UF_TASK_WEBDAV_FILES` метода [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) с префиксом `n`, например `n6687`. Если задача уже создана, прикрепите файл методом [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md): в параметр `fileId` передайте `ID` файла без префикса, например `6687`
-- **Комментарии.** Сценарий [Как создать комментарий в задаче и прикрепить к нему файл](./how-to-create-comment-with-file.md) использует метод [task.commentitem.add](../../api-reference/tasks/comment-item/task-comment-item-add.md). Метод продолжает добавлять комментарий, но его развитие остановлено с версии модуля `tasks 25.700.0`. Для новых интеграций с чатом задачи используйте [tasks.task.chat.message.send](../../api-reference/tasks/tasks-task-chat-message-send.md), а файлы отправляйте методом [im.disk.file.commit](../../api-reference/chats/files/im-disk-file-commit.md)
+- **Файлы Диска.** Чтобы прикрепить файл к задаче, сначала загрузите файл на Диск методом [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md). Метод вернет `ID` файла Диска. При создании задачи передайте этот идентификатор в поле `UF_TASK_WEBDAV_FILES` метода [tasks.task.add](../../api-reference/tasks/tasks-task-add.md) с префиксом `n`, например `n6687`. Если задача уже создана, прикрепите файл методом [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md): в параметр `fileId` передайте `ID` файла без префикса, например `6687`
+- **Комментарии.** Комментарии задачи хранятся в чате задачи. Чтобы добавить комментарий с файлом, получите `chatId` задачи методом [tasks.task.get](../../api-reference/tasks/tasks-task-get.md) и отправьте файл с текстом сообщения методом [im.v2.File.upload](../../api-reference/chat-bots/chat-bots-v2/im.v2/files/file-upload.md). Метод [task.commentitem.add](../../api-reference/tasks/comment-item/task-comment-item-add.md) продолжает добавлять комментарий, но его развитие остановлено с версии модуля `tasks 25.700.0`
 
 - **CRM и смарт-процессы.** Задача связывается с объектами CRM через системное поле `UF_CRM_TASK` метода [tasks.task.add](../../api-reference/tasks/tasks-task-add.md). Поле хранит массив идентификаторов связанных объектов CRM: лидов, сделок, контактов, компаний или элементов смарт-процессов.
 
@@ -44,7 +44,7 @@
 || **Если нужно** | **Откройте** ||
 || Создать задачу и сразу прикрепить к ней файл с Диска | [Как создать задачу с прикрепленным файлом](./how-to-create-task-with-file.md) ||
 || Загрузить файл на Диск и прикрепить его к существующей задаче | [Как загрузить файл в задачу](./how-to-upload-file-to-task.md) ||
-|| Добавить в задачу комментарий методом [task.commentitem.add](../../api-reference/tasks/comment-item/task-comment-item-add.md) и прикрепить к нему файл | [Как создать комментарий в задаче и прикрепить к нему файл](./how-to-create-comment-with-file.md) ||
+|| Добавить в задачу комментарий с файлом через чат задачи | [Как создать комментарий в задаче и прикрепить к нему файл](./how-to-create-comment-with-file.md) ||
 || Создать задачу с привязкой к элементу смарт-процесса | [Как прикрепить задачу к смарт-процессу](./how-to-connect-task-to-spa.md) ||
 || Посмотреть полный справочник методов задач | [Задачи: обзор методов](../../api-reference/tasks/index.md) ||
 |#
