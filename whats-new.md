@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 20 августа, 2026
+
+- Добавили методы [crm.quote.contact.*](./api-reference/crm/quote/contacts/index.md) для связи контактов с коммерческим предложением
+
 ### 19 августа, 2026
 
 - Обновили документацию по методам [landing.role.getRights](./api-reference/landing/rights/role-model/landing-role-get-rights.md), [landing.role.setRights](./api-reference/landing/rights/role-model/landing-role-set-rights.md), [landing.role.setAccessCodes](./api-reference/landing/rights/role-model/landing-role-set-access-codes.md), [landing.role.enable](./api-reference/landing/rights/landing-role-enable.md): описали параметр `scope` и ошибку `ROLE_SCOPE_MISMATCH`
