@@ -44,3 +44,4 @@ BX24.init(function () {
 
 - [{#T}](./bx24-im-open-messenger.md)
 - [{#T}](./bx24-im-call-to.md)
+- [{#T}](./bx24-open-path.md)
