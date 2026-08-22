@@ -16,7 +16,7 @@
 ## Как выбрать нужный метод
 
 1. Если нужно управлять окном или фреймом приложения, начните с [BX24.resizeWindow](./bx24-resize-window.md), [BX24.fitWindow](./bx24-fit-window.md), [BX24.setTitle](./bx24-set-title.md), [BX24.openApplication](./bx24-open-application.md) и [BX24.closeApplication](./bx24-close-application.md)
-2. Если нужно открыть раздел Битрикс24, чат или звонок из интерфейса приложения, используйте [BX24.openPath](./bx24-open-path.md), [Messenger.openChat](./messenger-open-chat.md), [Messenger.startVideoCall](./messenger-start-video-call.md) или [Messenger.startPhoneCall](./messenger-start-phone-call.md)
+2. Если нужно открыть раздел Битрикс24, чат или звонок из интерфейса приложения, используйте [BX24.openPath](./bx24-open-path.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md), [BX24.im.openHistory](./bx24-im-open-history.md), [BX24.im.callTo](./bx24-im-call-to.md) или [BX24.im.phoneTo](./bx24-im-phone-to.md)
 3. Если нужно дождаться, пока DOM-структура страницы будет готова, или привязать обработчик события, используйте [BX24.ready](./bx24-ready.md), [BX24.isReady](./bx24-is-ready.md), [BX24.bind](./bx24-bind.md), [BX24.unbind](./bx24-unbind.md), [BX24.proxy](./bx24-proxy.md) и [BX24.proxyContext](./bx24-proxy-context.md)
 4. Если нужно получить данные о среде выполнения, проверьте [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md) и [BX24.getScrollSize](./bx24-get-scroll-size.md)
 5. Если нужно подключить внешний javascript-файл на странице приложения, используйте [BX24.loadScript](./bx24-load-script.md)
@@ -26,13 +26,13 @@
 - Методы работают только внутри фрейма приложения и вызываются после [BX24.init](../system-functions/bx24-init.md). Исключение — [BX24.ready](./bx24-ready.md) и [BX24.loadScript](./bx24-load-script.md): они привязаны к готовности страницы, а не библиотеки
 - Большинство методов не возвращают данные. Они отправляют команду в интерфейс Битрикс24, а результат приходит в функцию обратного вызова
 - Данные о среде — [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md), [BX24.getScrollSize](./bx24-get-scroll-size.md), [BX24.isReady](./bx24-is-ready.md), [BX24.proxy](./bx24-proxy.md), [BX24.proxyContext](./bx24-proxy-context.md) — возвращаются сразу, без обратного вызова
-- Методы `Messenger.*` возвращают `Promise`. Это актуальный способ работать с мессенджером и телефонией из приложения
+- Методы `BX24.im.*` не возвращают данные и не сообщают о результате выполнения. Идентификатор диалога передается строкой в форматах `userId`, `chatXXX` для чата или ```imol|XXXX``` для открытой линии — точный список форматов смотрите на странице метода
 - [BX24.openPath](./bx24-open-path.md) не работает в мобильном приложении. Об этом и о недоступном пути метод сообщает кодами `METHOD_NOT_SUPPORTED_ON_DEVICE` и `PATH_NOT_AVAILABLE` в обратном вызове. Других кодов ошибок методы раздела не возвращают
 - Собственный scope методам не нужен: они управляют интерфейсом, а не обращаются к REST API
 
 ## Связь с другими объектами
 
-**Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) открывает страницы и карточки объектов во встроенном слайдере Битрикс24. Путь передается относительным, от корня Битрикс24: например, `/crm/deal/details/5/` для сделки. Методы [Messenger.openChat](./messenger-open-chat.md), [Messenger.startVideoCall](./messenger-start-video-call.md) и [Messenger.startPhoneCall](./messenger-start-phone-call.md) запускают чат, видеозвонок и звонок на номер в интерфейсе мессенджера и телефонии.
+**Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) открывает страницы и карточки объектов во встроенном слайдере Битрикс24. Путь передается относительным, от корня Битрикс24: например, `/crm/deal/details/5/` для сделки. Методы [BX24.im.openMessenger](./bx24-im-open-messenger.md), [BX24.im.openHistory](./bx24-im-open-history.md), [BX24.im.callTo](./bx24-im-call-to.md) и [BX24.im.phoneTo](./bx24-im-phone-to.md) открывают окно мессенджера и историю диалога, запускают звонок по внутренней связи и звонок на телефонный номер.
 
 **Места встраивания.** Для сценариев со встройками зарегистрируйте обработчик через [placement.bind](../../../api-reference/widgets/placement-bind.md) и выберите подходящее место встраивания из [списка мест встраивания](../../../api-reference/widgets/placements.md). Это особенно важно для методов [BX24.reloadWindow](./bx24-reload-window.md) и [BX24.scrollParentWindow](./bx24-scroll-parent-window.md), которые зависят от контекста размещения приложения.
 
@@ -81,7 +81,8 @@
 #|
 || **Метод** | **Описание** ||
 || [BX24.openPath](./bx24-open-path.md) | Открывает путь внутри Битрикс24 в слайдере ||
-|| [Messenger.startVideoCall](./messenger-start-video-call.md) | Запускает видеозвонок из интерфейса Битрикс24 ||
-|| [Messenger.startPhoneCall](./messenger-start-phone-call.md) | Запускает звонок на телефонный номер из интерфейса Битрикс24 ||
-|| [Messenger.openChat](./messenger-open-chat.md) | Открывает чат, историю сообщений или список чатов ||
+|| [BX24.im.callTo](./bx24-im-call-to.md) | Отправляет команду на звонок пользователю Битрикс24 по внутренней связи ||
+|| [BX24.im.phoneTo](./bx24-im-phone-to.md) | Отправляет команду на звонок по телефонному номеру ||
+|| [BX24.im.openMessenger](./bx24-im-open-messenger.md) | Отправляет команду на открытие окна мессенджера ||
+|| [BX24.im.openHistory](./bx24-im-open-history.md) | Отправляет команду на открытие окна истории диалога ||
 |#

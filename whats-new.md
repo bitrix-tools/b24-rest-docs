@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 22 августа, 2026
+
+- Вернули в раздел [Интерфейс, навигация и контекст](./sdk/bx24-js-sdk/additional-functions/index.md) методы [BX24.im.callTo](./sdk/bx24-js-sdk/additional-functions/bx24-im-call-to.md), [BX24.im.phoneTo](./sdk/bx24-js-sdk/additional-functions/bx24-im-phone-to.md), [BX24.im.openMessenger](./sdk/bx24-js-sdk/additional-functions/bx24-im-open-messenger.md) и [BX24.im.openHistory](./sdk/bx24-js-sdk/additional-functions/bx24-im-open-history.md) и сняли с них статус DEPRECATED. Страницы `Messenger.startVideoCall`, `Messenger.startPhoneCall` и `Messenger.openChat` удалены как ошибочные
+
 ### 20 августа, 2026
 
 - Обновили страницу [Входящие и исходящие вебхуки](./local-integrations/local-webhooks.md): добавили сценарии создания вебхуков, примеры GET-запросов для быстрой проверки методов и ограничения для рабочих интеграций

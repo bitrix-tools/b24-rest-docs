@@ -1,4 +1,4 @@
-# Запустить звонок на телефонный номер Messenger.startPhoneCall
+# Открыть окно истории BX24.im.openHistory
 
 {% note tip "" %}
 
@@ -9,10 +9,10 @@
 
 {% endnote %}
 
-Метод `Messenger.startPhoneCall` запускает звонок на телефонный номер в Битрикс24. Метод рекомендуется использовать вместо `BX24.im.phoneTo`.
+Метод `BX24.im.openHistory` отправляет команду на открытие окна истории диалога.
 
 ```js
-Promise Messenger.startPhoneCall(String number[, Object params])
+void BX24.im.openHistory(String dialogId)
 ```
 
 ## Параметры
@@ -22,38 +22,25 @@ Promise Messenger.startPhoneCall(String number[, Object params])
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **number***
-`string` | Телефонный номер для звонка ||
-|| **params**
-`object` | Дополнительные параметры звонка. Объект параметров передается дальше в phone manager ||
+|| **dialogId***
+`string` | Идентификатор диалога. Поддерживаются форматы: `userId` или `chatXXX` для чата, ```imol|XXXX``` для открытой линии ||
 |#
 
 ## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-Объект `Messenger` доступен после загрузки расширения `im.public.iframe`:
-
 ```js
-BX.Runtime.loadExtension('im.public.iframe').then(function (exports) {
-    exports.Messenger.startPhoneCall('88000000000');
+BX24.init(function () {
+    BX24.im.openHistory('chat123');
 });
 ```
 
 ## Обработка ответа
 
-Метод возвращает `Promise`.
-
-### Возвращаемые данные
-
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **result**
-`Promise` | Promise выполнения операции запуска звонка ||
-|#
+Метод не возвращает данные (`void`).
 
 ## Продолжите изучение
 
-- [{#T}](./messenger-start-video-call.md)
-- [{#T}](./messenger-open-chat.md)
+- [{#T}](./bx24-im-open-messenger.md)
+- [{#T}](./bx24-im-call-to.md)
