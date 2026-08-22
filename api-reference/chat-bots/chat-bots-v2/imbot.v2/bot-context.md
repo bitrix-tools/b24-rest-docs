@@ -93,9 +93,9 @@ bx://v2/portal.bitrix24.ru/botContext/dialogId/1459503/context/%7B%22pairCode%22
 
 ## JS API
 
-Если чат открывается программно из кода, размещенного на домене Битрикс24, используйте JS API. Из фрейма приложения объект `Messenger` недоступен.
+{% include notitle [Только для кода на домене Битрикс24](../../../../_includes/messenger-same-origin.md) %}
 
-{% include [Только для кода на домене Битрикс24](../../../../_includes/messenger-same-origin.md) %}
+Если чат открывается программно из кода, размещенного на домене Битрикс24, используйте JS API:
 
 ```js
 import { Messenger } from 'im.public';

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-{% include [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
+{% include notitle [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
 
 Метод `BX24.im.callTo` отправляет команду на звонок пользователю Битрикс24 по внутренней связи.
 

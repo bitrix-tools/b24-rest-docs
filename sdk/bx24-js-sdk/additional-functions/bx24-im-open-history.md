@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-{% include [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
+{% include notitle [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
 
 Метод `BX24.im.openHistory` отправляет команду на открытие окна истории диалога.
 
