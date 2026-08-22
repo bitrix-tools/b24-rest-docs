@@ -9,6 +9,8 @@
 
 {% endnote %}
 
+{% include [Границы контекста Messenger](../../../_includes/messenger-origin-boundary.md) %}
+
 Метод `BX24.im.openHistory` отправляет команду на открытие окна истории диалога.
 
 ```js

@@ -9,6 +9,8 @@
 
 {% endnote %}
 
+{% include [Границы контекста Messenger](../../../_includes/messenger-origin-boundary.md) %}
+
 Метод `BX24.im.phoneTo` отправляет команду на звонок по телефонному номеру.
 
 ```js
