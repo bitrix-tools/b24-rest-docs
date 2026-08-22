@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-{% include [Границы контекста Messenger](../../../_includes/messenger-origin-boundary.md) %}
+{% include [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
 
 Метод `BX24.im.callTo` отправляет команду на звонок пользователю Битрикс24 по внутренней связи.
 
@@ -27,7 +27,7 @@ void BX24.im.callTo(Integer userId[, Boolean video])
 || **userId***
 `integer` | Идентификатор пользователя Битрикс24, которому выполняется звонок ||
 || **video**
-`boolean` | Тип звонка: `true` - видеозвонок, `false` - аудиозвонок ||
+`boolean` | Тип звонка: `true` — видеозвонок, `false` — аудиозвонок ||
 |#
 
 ## Пример кода

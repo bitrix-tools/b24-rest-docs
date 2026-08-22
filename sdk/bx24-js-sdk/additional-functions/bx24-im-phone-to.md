@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-{% include [Границы контекста Messenger](../../../_includes/messenger-origin-boundary.md) %}
+{% include [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
 
 Метод `BX24.im.phoneTo` отправляет команду на звонок по телефонному номеру.
 

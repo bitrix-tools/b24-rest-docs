@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-{% include [Границы контекста Messenger](../../../_includes/messenger-origin-boundary.md) %}
+{% include [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
 
 Дополнительные методы управляют интерфейсом встроенного приложения в Битрикс24. С их помощью можно менять размер фрейма, открывать слайдеры и окна, работать с событиями страницы и вызывать методы мессенджера.
 
@@ -18,7 +18,7 @@
 ## Как выбрать нужный метод
 
 1. Если нужно управлять окном или фреймом приложения, начните с [BX24.resizeWindow](./bx24-resize-window.md), [BX24.fitWindow](./bx24-fit-window.md), [BX24.setTitle](./bx24-set-title.md), [BX24.openApplication](./bx24-open-application.md) и [BX24.closeApplication](./bx24-close-application.md)
-2. Если нужно открыть раздел Битрикс24, чат или звонок из интерфейса приложения, используйте [BX24.openPath](./bx24-open-path.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md), [BX24.im.openHistory](./bx24-im-open-history.md), [BX24.im.callTo](./bx24-im-call-to.md) или [BX24.im.phoneTo](./bx24-im-phone-to.md)
+2. Если нужно открыть раздел Битрикс24, чат или звонок из интерфейса приложения, используйте [BX24.openPath](./bx24-open-path.md), [BX24.im.callTo](./bx24-im-call-to.md), [BX24.im.phoneTo](./bx24-im-phone-to.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md) или [BX24.im.openHistory](./bx24-im-open-history.md)
 3. Если нужно дождаться, пока DOM-структура страницы будет готова, или привязать обработчик события, используйте [BX24.ready](./bx24-ready.md), [BX24.isReady](./bx24-is-ready.md), [BX24.bind](./bx24-bind.md), [BX24.unbind](./bx24-unbind.md), [BX24.proxy](./bx24-proxy.md) и [BX24.proxyContext](./bx24-proxy-context.md)
 4. Если нужно получить данные о среде выполнения, проверьте [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md) и [BX24.getScrollSize](./bx24-get-scroll-size.md)
 5. Если нужно подключить внешний javascript-файл на странице приложения, используйте [BX24.loadScript](./bx24-load-script.md)
@@ -34,7 +34,7 @@
 
 ## Связь с другими объектами
 
-**Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) открывает страницы и карточки объектов во встроенном слайдере Битрикс24. Путь передается относительным, от корня Битрикс24: например, `/crm/deal/details/5/` для сделки. Методы [BX24.im.openMessenger](./bx24-im-open-messenger.md), [BX24.im.openHistory](./bx24-im-open-history.md), [BX24.im.callTo](./bx24-im-call-to.md) и [BX24.im.phoneTo](./bx24-im-phone-to.md) открывают окно мессенджера и историю диалога, запускают звонок по внутренней связи и звонок на телефонный номер.
+**Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) открывает страницы и карточки объектов во встроенном слайдере Битрикс24. Путь передается относительным, от корня Битрикс24: например, `/crm/deal/details/5/` для сделки. Методы [BX24.im.callTo](./bx24-im-call-to.md), [BX24.im.phoneTo](./bx24-im-phone-to.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md) и [BX24.im.openHistory](./bx24-im-open-history.md) запускают звонок по внутренней связи и звонок на телефонный номер, открывают окно мессенджера и историю диалога.
 
 **Места встраивания.** Для сценариев со встройками зарегистрируйте обработчик через [placement.bind](../../../api-reference/widgets/placement-bind.md) и выберите подходящее место встраивания из [списка мест встраивания](../../../api-reference/widgets/placements.md). Это особенно важно для методов [BX24.reloadWindow](./bx24-reload-window.md) и [BX24.scrollParentWindow](./bx24-scroll-parent-window.md), которые зависят от контекста размещения приложения.
 

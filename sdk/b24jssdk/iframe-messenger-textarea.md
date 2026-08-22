@@ -9,8 +9,6 @@
 
 {% endnote %}
 
-{% include [Границы контекста Messenger](../../_includes/messenger-origin-boundary.md) %}
-
 Для работы с текстом в поле ввода чата используйте методы `$b24.parent.message.send`.
 Это удобно, когда нужно:
 

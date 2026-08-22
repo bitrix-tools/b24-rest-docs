@@ -7,7 +7,8 @@
 - Разделили контексты исполнения в разделе [Интерфейс, навигация и контекст](./sdk/bx24-js-sdk/additional-functions/index.md). Объект `Messenger` доступен только коду на домене Битрикс24. Приложение работает в своем фрейме, на другом origin, — рантайма Битрикс24 в нем нет, поэтому `Messenger.*` и `BX.Runtime.loadExtension` из приложения не вызываются
 - Вернули методы [BX24.im.callTo](./sdk/bx24-js-sdk/additional-functions/bx24-im-call-to.md), [BX24.im.phoneTo](./sdk/bx24-js-sdk/additional-functions/bx24-im-phone-to.md), [BX24.im.openMessenger](./sdk/bx24-js-sdk/additional-functions/bx24-im-open-messenger.md) и [BX24.im.openHistory](./sdk/bx24-js-sdk/additional-functions/bx24-im-open-history.md) и сняли с них статус DEPRECATED: для приложения во фрейме это единственный способ поднять звонок или открыть чат, замены у них нет
 - Удалили страницы `Messenger.startVideoCall`, `Messenger.startPhoneCall` и `Messenger.openChat` из раздела BX24 JS SDK. Они описывали API, недоступный приложению во фрейме, и предлагали его как замену методам `BX24.im.*` — код по этим примерам в приложении не работал
-- Добавили плашку о границе контекстов на страницы методов `BX24.im.*`, в статью [Передача контекста боту при открытии чата](./api-reference/chat-bots/chat-bots-v2/imbot.v2/bot-context.md) и в [Взаимодействие встройки с полем ввода мессенджера](./sdk/b24jssdk/iframe-messenger-textarea.md)
+- Добавили плашки о границе контекстов: на страницы методов `BX24.im.*` и в обзор раздела — о работе приложения во фрейме, в статью [Передача контекста боту при открытии чата](./api-reference/chat-bots/chat-bots-v2/imbot.v2/bot-context.md) — о доступности объекта `Messenger` только коду на домене Битрикс24
+- Описали deprecation-нотис, который портал печатает в консоли при вызове `BX24.im.*`: он рекомендует перейти на `Messenger.*` и для приложения во фрейме неверен — эти методы принадлежат верхнему окну и из фрейма недостижимы
 
 ### 20 августа, 2026
 
