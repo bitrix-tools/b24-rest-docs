@@ -1,4 +1,4 @@
-# Отметить блок как удаленный `landing.landing.markdeletedblock`
+# Отметить блок как удаленный landing.landing.markdeletedblock
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «редактирование» сайта
 
-Метод `landing.landing.markdeletedblock` помечает блок страницы как удаленный, но не удаляет его из базы данных. Помеченный блок можно восстановить методом [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md).
+Метод `landing.landing.markdeletedblock` помечает блок страницы как удаленный, но не удаляет его из базы данных. Помеченный блок можно восстановить методом [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md). Чтобы удалить блок сразу и без возможности восстановления, используйте метод [landing.landing.deleteblock](./landing-landing-delete-block.md).
+
+Метод работает только с блоками той страницы, которая передана в параметре `lid`.
 
 Если страница уже опубликована, для посетителей изменения станут видны после команды «Опубликовать изменения» в интерфейсе или после вызова метода [landing.landing.publication](../methods/landing-landing-publication.md).
 
@@ -240,6 +242,25 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.markdeletedblock", b24.Params{
+    	"lid":   351,
+    	"block": 6428,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.markdeletedblock: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

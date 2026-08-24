@@ -202,6 +202,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.userfield.enumeration.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.userfield.enumeration.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -252,9 +268,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с описанием полей [(подробное описание)](#result) ||
+[`object`](../../../data-types.md) | Объект с описанием полей [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Поля объекта result {#result}
@@ -263,15 +279,15 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../data-types.md) | Идентификатор значения списка ||
+[`integer`](../../../data-types.md) | Идентификатор значения списка ||
 || **SORT**
-[`integer`](../../data-types.md) | Порядок сортировки ||
+[`integer`](../../../data-types.md) | Порядок сортировки ||
 || **VALUE**
-[`string`](../../data-types.md) | Значение элемента списка ||
+[`string`](../../../data-types.md) | Значение элемента списка ||
 || **DEF**
-[`string`](../../data-types.md) | Признак значения по умолчанию ||
+[`string`](../../../data-types.md) | Признак значения по умолчанию ||
 || **DEL**
-[`string`](../../data-types.md) | Флаг удаления элемента ||
+[`string`](../../../data-types.md) | Флаг удаления элемента ||
 |#
 
 ## Обработка ошибок

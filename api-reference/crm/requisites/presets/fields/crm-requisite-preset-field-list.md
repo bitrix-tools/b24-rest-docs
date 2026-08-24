@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение контактов и компаний
 
 Метод возвращает список всех настраиваемых полей для определенного шаблона реквизитов.
 
@@ -296,6 +296,40 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.field.list", b24.Params{
+    	"preset": b24.Params{
+    		"ID": 27,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.field.list: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	FieldName   string `json:"FIELD_NAME"`
+    	FieldTitle  string `json:"FIELD_TITLE"`
+    	InShortList string `json:"IN_SHORT_LIST"`
+    	Sort        int    `json:"SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.FieldName)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

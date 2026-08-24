@@ -34,15 +34,15 @@
 - `ASC` — по возрастанию
 - `DESC` — по убыванию ||
 || **ID**
-[`int`](../data-types.md) | Фильтр по идентификатору подразделения ||
+[`integer`](../data-types.md) | Фильтр по идентификатору подразделения ||
 || **NAME**
 [`string`](../data-types.md) | Фильтр по имени подразделения. Указывается полное название подразделения ||
 || **SORT**
-[`int`](../data-types.md) | Фильтр по полю сортировки ||
+[`integer`](../data-types.md) | Фильтр по полю сортировки ||
 || **PARENT**
-[`int`](../data-types.md) | Фильтр по идентификатору родительского подразделения ||
+[`integer`](../data-types.md) | Фильтр по идентификатору родительского подразделения ||
 || **UF_HEAD**
-[`int`](../data-types.md) | Фильтр по идентификатору руководителя подразделения ||
+[`integer`](../data-types.md) | Фильтр по идентификатору руководителя подразделения ||
 || **START**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -266,6 +266,34 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "department.get", b24.Params{
+    	"sort":   "NAME",
+    	"order":  "DESC",
+    	"PARENT": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("department.get: %w", err)
+    }
+
+    var items []struct {
+    	ID     b24.ID `json:"ID"`
+    	Name   string `json:"NAME"`
+    	Sort   int    `json:"SORT"`
+    	Parent string `json:"PARENT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -347,13 +375,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`int`](../data-types.md) | Иидентификатор подразделения ||
+[`integer`](../data-types.md) | Иидентификатор подразделения ||
 || **NAME**
 [`string`](../data-types.md) | Название подразделения ||
 || **SORT**
-[`int`](../data-types.md) | Поле сортировки подразделения ||
+[`integer`](../data-types.md) | Поле сортировки подразделения ||
 || **PARENT**
-[`int`](../data-types.md) | Идентификатор родительского подразделения ||
+[`integer`](../data-types.md) | Идентификатор родительского подразделения ||
 |#
 
 ## Обработка ошибок

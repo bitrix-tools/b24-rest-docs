@@ -1,0 +1,217 @@
+{
+  "$v": 1,
+  "method": "catalog.product.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список товаров по фильтру catalog.product.list",
+  "permissions": "пользователь с правом на просмотр каталога товаров и правом на чтение инфоблока торгового каталога",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта catalogproduct). Обязательные поля: id, iblockId",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных товаров в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogproduct. Обязательные поля:iblockId. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных товаров в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogproduct. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение — 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/catalog-product-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "products": [
+        {
+          "active": "Y",
+          "available": "Y",
+          "barcodeMulti": "Y",
+          "bundle": "N",
+          "canBuyZero": "Y",
+          "code": "Tovar",
+          "createdBy": 1,
+          "dateActiveFrom": "2024-05-28T10:00:00+03:00",
+          "dateActiveTo": "2024-05-29T10:00:00+03:00",
+          "dateCreate": "2024-05-27T10:00:00+03:00",
+          "detailPicture": {
+            "id": "6439",
+            "url": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6439&fields%5BproductId%5D=1243",
+            "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6439&fields%5BproductId%5D=1243"
+          },
+          "detailText": null,
+          "detailTextType": "text",
+          "height": 100,
+          "iblockId": 23,
+          "iblockSectionId": 47,
+          "id": 1243,
+          "length": 100,
+          "measure": 5,
+          "modifiedBy": 1,
+          "name": "Товар",
+          "previewPicture": {
+            "id": "6438",
+            "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6438&fields%5BproductId%5D=1243",
+            "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6438&fields%5BproductId%5D=1243"
+          },
+          "previewText": null,
+          "previewTextType": "text",
+          "property258": {
+            "value": "test",
+            "valueId": "9735"
+          },
+          "property259": [
+            {
+              "value": "test1",
+              "valueId": "9736"
+            },
+            {
+              "value": "test2",
+              "valueId": "9737"
+            }
+          ],
+          "purchasingCurrency": "RUB",
+          "purchasingPrice": 1000,
+          "quantity": 10,
+          "quantityReserved": 1,
+          "quantityTrace": "Y",
+          "recurSchemeLength": 1,
+          "recurSchemeType": "D",
+          "sort": 100,
+          "subscribe": "Y",
+          "timestampX": "2024-06-05T10:05:06+03:00",
+          "trialPriceId": 175,
+          "type": 1,
+          "vatId": 1,
+          "vatIncluded": "Y",
+          "weight": 100,
+          "width": 100,
+          "withoutOrder": "Y",
+          "xmlId": "1243"
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1717661048.302644,
+      "finish": 1717661049.079089,
+      "duration": 0.7764449119567871,
+      "processing": 0.3525362014770508,
+      "date_start": "2024-06-06T11:04:08+03:00",
+      "date_finish": "2024-06-06T11:04:09+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "products",
+      "type": "catalog_product[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных товарах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/catalog-product-list.html",
+  "executable": false,
+  "entityFields": [
+    "IblockSection",
+    "active",
+    "available",
+    "barcodeMulti",
+    "bundle",
+    "canBuyZero",
+    "code",
+    "createdBy",
+    "dateActiveFrom",
+    "dateActiveTo",
+    "dateCreate",
+    "detailPicture",
+    "detailText",
+    "detailTextType",
+    "height",
+    "iblockId",
+    "iblockSectionId",
+    "id",
+    "length",
+    "measure",
+    "modifiedBy",
+    "name",
+    "previewPicture",
+    "previewText",
+    "previewTextType",
+    "property258",
+    "property259",
+    "propertyN",
+    "purchasingCurrency",
+    "purchasingPrice",
+    "quantity",
+    "quantityReserved",
+    "quantityTrace",
+    "recurSchemeLength",
+    "recurSchemeType",
+    "sort",
+    "subscribe",
+    "timestampX",
+    "trialPriceId",
+    "type",
+    "vatId",
+    "vatIncluded",
+    "weight",
+    "width",
+    "withoutOrder",
+    "xmlId"
+  ]
+}

@@ -1,8 +1,10 @@
 title: Виджеты в CRM
 href: index.md
 items: 
-  - name: Пункт контекстного меню в списке элементов 
+  - name: Обзор точек встраивания
     href: index.md
+  - name: Пункт контекстного меню в списке элементов
+    href: list-menu.md
   - name: Пункт выпадающего меню над списком элементов
     href: list-toolbar.md
   - name: Вкладка в детальной карточке элемента 
@@ -17,14 +19,18 @@ items:
     href: activity-timeline-menu.md
   - name: Пункт выпадающего меню генератора документов
     href: document-generator-button.md
-  - name: Пункт выпадающего меню верхней кнопки дизайнера роботов
+  - name: Поиск клиента в карточке
+    href: detail-search.md
+  - name: Кнопка в дизайнере роботов
     href: robot-designer-toolbar.md
-  - name: Пункт выпадающего меню в туннелях продаж
+  - name: Кнопка в воронках и туннелях продаж
     href: funnels-toolbar.md
   - name: Пункт левого меню CRM-аналитики
     href: analytics-menu.md
-  - name: Пункт выпадающего меню верхней кнопки CRM-аналитики
+  - name: Кнопка в шапке CRM-аналитики
     href: analytics-toolbar.md
+  - name: Пункт в меню BI-аналитики
+    href: bi-analytics-menu.md
   - name: Автозаполнение реквизитов в карточке CRM
     include:
       path: requisites-autocomplete/b24-toc.yaml

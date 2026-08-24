@@ -41,7 +41,7 @@
 
 Структура объекта подробно описана [ниже](#icon) ||
 || **PLACEMENT_HANDLER***
-[`string`](../../data-types.md) | URL обработчика встраивания для настроек коннектора. По этому адресу Битрикс24 открывает интерфейс настройки в слайдере для пользователя. Подробнее о встраивании интерфейсов читайте в статье [Механизм встройки виджетов](../../widgets/index.md) ||
+[`string`](../../data-types.md) | URL обработчика встраивания для настроек коннектора. По этому адресу Битрикс24 открывает интерфейс настройки в слайдере для пользователя. Подробнее о встраивании интерфейсов читайте в статье [Механизм встраивания виджетов](../../widgets/index.md) ||
 || **ICON_DISABLED**
 [`object`](../../data-types.md) | Параметры иконки неактивного состояния. 
 
@@ -143,7 +143,7 @@
     declare const $b24: B24Frame
 
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<{ result: boolean; error?: string; error_description?: string }>({
         method: 'imconnector.register',
         params: {
           ID: 'myconnector',
@@ -175,7 +175,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Connector registered:', result)
+        console.info('Connector registered:', result.result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -228,7 +228,7 @@
           }
 
           const result = response.getData().result
-          console.info('Connector registered:', result)
+          console.info('Connector registered:', result.result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -374,6 +374,46 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.register", b24.Params{
+    	"ID":   "myconnector",
+    	"NAME": "Мой коннектор",
+    	"ICON": b24.Params{
+    		"DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+    		"COLOR":      "#69acc0",
+    		"SIZE":       "90%",
+    		"POSITION":   "center",
+    	},
+    	"PLACEMENT_HANDLER": "https://example.com/connector/settings",
+    	"ICON_DISABLED": b24.Params{
+    		"DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+    		"COLOR":      "#99adb3",
+    	},
+    	"DEL_EXTERNAL_MESSAGES":  true,
+    	"EDIT_INTERNAL_MESSAGES": true,
+    	"DEL_INTERNAL_MESSAGES":  true,
+    	"NEWSLETTER":             true,
+    	"NEED_SYSTEM_MESSAGES":   true,
+    	"NEED_SIGNATURE":         true,
+    	"CHAT_GROUP":             false,
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.register: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -383,15 +423,15 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-    "result": true
+        "result": true
     },
     "time": {
-    "start": 1738065600.11,
-    "finish": 1738065600.38,
-    "duration": 0.27,
-    "processing": 0.10,
-    "date_start": "2025-01-28T12:00:00+00:00",
-    "date_finish": "2025-01-28T12:00:00+00:00"
+        "start": 1738065600.11,
+        "finish": 1738065600.38,
+        "duration": 0.27,
+        "processing": 0.10,
+        "date_start": "2025-01-28T12:00:00+00:00",
+        "date_finish": "2025-01-28T12:00:00+00:00"
     }
 }
 ```
@@ -402,9 +442,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если коннектор успешно зарегистрирован ||
+[`object`](../../data-types.md) | Результат регистрации коннектора [(подробное описание)](#result) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | `true`, если коннектор успешно зарегистрирован. Если регистрация не выполнена, возвращает `false`, а в объекте появляются поля `error` и `error_description` ||
+|| **error**
+[`string`](../../data-types.md) | Код ошибки. Возвращается при `result = false` ||
+|| **error_description**
+[`string`](../../data-types.md) | Описание ошибки. Возвращается при `result = false` ||
 |#
 
 ## Обработка ошибок

@@ -15,7 +15,7 @@
 > - любой пользователь для стадий «Моего плана»
 > - любой пользователь с доступом к группе для стадий канбана
 
-Метод обновляет стадии канбана или «Моего плана».
+Метод `task.stages.update` обновляет стадии канбана или «Моего плана».
 
 Метод также применяется для перемещения стадии с одной позиции на другую. Для этого достаточно передать нужный `AFTER_ID`.
 
@@ -279,6 +279,29 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.stages.update", b24.Params{
+    	"id": 5,
+    	"fields": b24.Params{
+    		"TITLE": "Новая стадия",
+    		"SORT":  200,
+    		"COLOR": "FF5733",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.stages.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

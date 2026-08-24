@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -231,6 +231,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.items.get", b24.Params{
+    	"LIST_ID": 13,
+    	"FILTER": b24.Params{
+    		"STATUS": "IN_WORK",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.items.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Status     string `json:"STATUS"`
+    	EntityType int    `json:"ENTITY_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Status)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -286,8 +313,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Incorrect list id",
-    "error_description": "Передан некорректный идентификатор списка."
+    "error": "LIST_ID_ERROR",
+    "error_description": "List id should be positive"
 }
 ```
 
@@ -296,10 +323,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `Incorrect list id` | Некорректный идентификатор обзвона ||
-|| `400` | `Incorrect status` | Некорректный статус обзвона ||
-|| `403` | `Access denied` | Нет доступа к элементам списка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | `LIST_ID is not found` | Не передан обязательный параметр `LIST_ID` ||
+|| `400` | `LIST_ID_ERROR` | `List id should be positive`, `Call list is not found` | Идентификатор обзвона меньше единицы или обзвона с таким идентификатором нет ||
+|| `400` | `STATUS_ERROR` | `Incorrect status` | В фильтре `STATUS` передано значение не из списка статусов ||
+|| `403` | `ACCESS_ERROR` | `You do not have access to the participants of this call list` | У пользователя нет доступа ни к одному участнику обзвона ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

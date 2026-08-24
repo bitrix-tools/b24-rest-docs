@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: участник чата, который отправил файл
 
+{% note info "" %}
+
+Метод относится к группе `im.disk.*` предыдущего поколения API мессенджера. Замены в `im.v2` у него пока нет — используйте этот метод.
+
+{% endnote %}
+
 Метод `im.disk.file.delete` удаляет файл из папки чата. Удалить файл может только пользователь — участник чата, который отправил файл. Другие участники чата не могут удалить файл.
 
 После удаления в чате вместо файла отображается текст *Сообщение удалено*.
@@ -218,6 +224,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.disk.file.delete", b24.Params{
+    	"CHAT_ID": 1489,
+    	"FILE_ID": 5163,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.disk.file.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -285,3 +310,4 @@ HTTP-статус: **400**
 - [{#T}](./im-disk-file-commit.md)
 - [{#T}](./im-disk-file-save.md)
 - [{#T}](./im-disk-folder-get.md)
+- [{#T}](./index.md)

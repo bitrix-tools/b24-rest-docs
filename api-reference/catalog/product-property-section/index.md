@@ -9,13 +9,13 @@
 
 {% endnote %}
 
-Раздел содержит методы для чтения и изменения секционных настроек свойств товаров и вариаций. Настройки определяют поведение свойства в умном фильтре: показывать ли свойство, как его отображать и какую подсказку выводить.
+Секционные настройки определяют, как свойства товаров и вариаций работают в разделах торгового каталога. Настройки управляют отображением свойства в умном фильтре: показывать ли свойство, как его отображать и какую подсказку выводить.
 
 > Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Свойства товаров в каталоге Битрикс24](https://helpdesk.bitrix24.ru/open/28160394/)
 
-## Связь с другими объектами
+## Связь секционных настроек с другими объектами
 
 **Свойство товара или вариации.** Секционные настройки задаются для свойства по `propertyId`. Идентификатор свойства можно получить методами [catalog.productProperty.list](../product-property/catalog-product-property-list.md) и [catalog.productProperty.get](../product-property/catalog-product-property-get.md).
 
@@ -23,17 +23,17 @@
 
 **Умный фильтр.** Поля секционных настроек определяют, как свойство отображается в фильтре каталога:
 
-- `smartFilter` — показывать ли свойство в фильтре,
-- `displayType` — в каком виде показывать свойство: флажки, радиокнопки или выпадающий список,
-- `displayExpanded` — раскрывать ли блок свойства в фильтре,
-- `filterHint` — какую подсказку показывать пользователю.
+- `smartFilter` — показывать ли свойство в фильтре
+- `displayType` — в каком виде показывать свойство: флажки, радиокнопки или выпадающий список
+- `displayExpanded` — раскрывать ли блок свойства в фильтре
+- `filterHint` — какую подсказку показывать пользователю
 
 ## Порядок работы с секционными настройками
 
-1. Получите `propertyId` нужного свойства.
-2. Получите текущие настройки через [catalog.productPropertySection.get](./catalog-product-property-section-get.md) или [catalog.productPropertySection.list](./catalog-product-property-section-list.md).
-3. Установите новые значения методом [catalog.productPropertySection.set](./catalog-product-property-section-set.md).
-4. Повторно проверьте результат методом [catalog.productPropertySection.get](./catalog-product-property-section-get.md).
+1. Получите `propertyId` нужного свойства
+2. Получите текущие настройки через [catalog.productPropertySection.get](./catalog-product-property-section-get.md) или [catalog.productPropertySection.list](./catalog-product-property-section-list.md)
+3. Установите новые значения методом [catalog.productPropertySection.set](./catalog-product-property-section-set.md)
+4. Повторно проверьте результат методом [catalog.productPropertySection.get](./catalog-product-property-section-get.md)
 
 ## Обзор методов {#all-methods}
 

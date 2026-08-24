@@ -30,12 +30,20 @@ Promise Messenger.openChat([String dialogId[, Integer messageId]])
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-```js
-BX.Messenger.Public.openChat('chat123');
-```
+Объект `Messenger` доступен после загрузки расширения `im.public.iframe`:
 
 ```js
-BX.Messenger.Public.openChat('chat123', 12345);
+BX.Runtime.loadExtension('im.public.iframe').then(function (exports) {
+    exports.Messenger.openChat('chat123');
+});
+```
+
+Чтобы открыть чат на конкретном сообщении, передайте второй параметр:
+
+```js
+BX.Runtime.loadExtension('im.public.iframe').then(function (exports) {
+    exports.Messenger.openChat('chat123', 12345);
+});
 ```
 
 ## Обработка ответа
@@ -53,5 +61,6 @@ BX.Messenger.Public.openChat('chat123', 12345);
 
 ## Продолжите изучение
 
-- [{#T}](./outdated/bx24-im-open-messenger.md)
-- [{#T}](./outdated/bx24-im-open-history.md)
+- [{#T}](./messenger-start-video-call.md)
+- [{#T}](./messenger-start-phone-call.md)
+- [{#T}](./bx24-open-path.md)

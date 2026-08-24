@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -256,6 +256,28 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Bot.update", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"fields": b24.Params{
+    		"properties": b24.Params{
+    			"name": "Updated Bot",
+    		},
+    		"isHidden": true,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Bot.update: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -335,7 +357,7 @@ HTTP-статус: **200**
 || **isReactionsEnabled**
 [`boolean`](../../../../data-types.md) | Для сообщений бота включены реакции ||
 || **backgroundId**
-[`string|null`](../../../../data-types.md) | ID фона чата или `null` ||
+[```string|null```](../../../../data-types.md) | ID фона чата или `null` ||
 || **language**
 [`string`](../../../../data-types.md) | Язык бота ||
 || **moduleId**

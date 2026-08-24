@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -430,6 +430,51 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "main.eventlog.list", b24.Params{
+    	"select": []string{"id", "timestampX", "severity", "auditTypeId", "moduleId", "itemId", "userId", "description"},
+    	"filter": []any{
+    		[]string{"timestampX", ">=", "2026-01-30T00:00:00+03:00"},
+    		[]string{"timestampX", "<", "2026-01-31T00:00:00+03:00"},
+    	},
+    	"order": b24.Params{
+    		"id": "ASC",
+    	},
+    	"pagination": b24.Params{
+    		"page":   1,
+    		"limit":  20,
+    		"offset": 0,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("main.eventlog.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"id"`
+    	TimestampX  string `json:"timestampX"`
+    	Severity    string `json:"severity"`
+    	AuditTypeID string `json:"auditTypeId"`
+    	ModuleID    string `json:"moduleId"`
+    	ItemID      b24.ID `json:"itemId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -490,7 +535,7 @@ HTTP-статус: **200**
 || **id**
 [`integer`](../data-types.md) | Идентификатор записи журнала ||
 || **timestampX**
-[`datetime`](../data-types.md#datetime) | Дата и время события ||
+[`datetime`](../data-types.md#standart-types) | Дата и время события ||
 || **severity**
 [`string`](../data-types.md) | Уровень важности события ||
 || **auditTypeId**

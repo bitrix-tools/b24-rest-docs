@@ -135,6 +135,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.invoice.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.invoice.fields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Возвращаемые данные
@@ -153,7 +167,7 @@
 || **CREATED_BY**
 [`integer`](../../../data-types.md) | Создано пользователем | Только для чтения ||
 || **CURRENCY**
-[`crm_currency`](../../../data-types.md) | Идентификатор валюты | Только для чтения ||
+[`crm_currency`](../../data-types.md) | Идентификатор валюты | Только для чтения ||
 || **DATE_BILL**
 [`date`](../../../data-types.md) | Дата выставления | ||
 || **DATE_INSERT**
@@ -209,7 +223,7 @@
 || **RESPONSIBLE_WORK_POSITION**
 [`string`](../../../data-types.md) | Должность ответственного | Только для чтения ||
 || **STATUS_ID**
-[`crm_status`](../../../data-types.md) | Идентификатор статуса | Идентификатор справочника "INVOICE_STATUS" ||
+[`crm_status`](../../data-types.md) | Идентификатор статуса | Идентификатор справочника "INVOICE_STATUS" ||
 || **TAX_VALUE**
 [`double`](../../../data-types.md) | Сумма налога | Только для чтения ||
 || **UF_COMPANY_ID**

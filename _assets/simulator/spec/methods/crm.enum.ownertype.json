@@ -1,0 +1,142 @@
+{
+  "$v": 1,
+  "method": "crm.enum.ownertype",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить типы объектов CRM crm.enum.ownertype",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами владельцев (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/crm-enum-owner-type.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 1,
+        "NAME": "Лид",
+        "SYMBOL_CODE": "LEAD",
+        "SYMBOL_CODE_SHORT": "L"
+      },
+      {
+        "ID": 2,
+        "NAME": "Сделка",
+        "SYMBOL_CODE": "DEAL",
+        "SYMBOL_CODE_SHORT": "D"
+      },
+      {
+        "ID": 3,
+        "NAME": "Контакт",
+        "SYMBOL_CODE": "CONTACT",
+        "SYMBOL_CODE_SHORT": "C"
+      },
+      {
+        "ID": 4,
+        "NAME": "Компания",
+        "SYMBOL_CODE": "COMPANY",
+        "SYMBOL_CODE_SHORT": "CO"
+      },
+      {
+        "ID": 5,
+        "NAME": "Счёт (старая версия)",
+        "SYMBOL_CODE": "INVOICE",
+        "SYMBOL_CODE_SHORT": "I"
+      },
+      {
+        "ID": 31,
+        "NAME": "Счёт",
+        "SYMBOL_CODE": "SMART_INVOICE",
+        "SYMBOL_CODE_SHORT": "SI"
+      },
+      {
+        "ID": 7,
+        "NAME": "Предложение",
+        "SYMBOL_CODE": "QUOTE",
+        "SYMBOL_CODE_SHORT": "Q"
+      },
+      {
+        "ID": 8,
+        "NAME": "Реквизиты",
+        "SYMBOL_CODE": "REQUISITE",
+        "SYMBOL_CODE_SHORT": "RQ"
+      },
+      {
+        "ID": 36,
+        "NAME": "Документ",
+        "SYMBOL_CODE": "SMART_DOCUMENT",
+        "SYMBOL_CODE_SHORT": "DO"
+      },
+      {
+        "ID": 39,
+        "NAME": "Документ компании",
+        "SYMBOL_CODE": "SMART_B2E_DOC",
+        "SYMBOL_CODE_SHORT": "SBD"
+      },
+      {
+        "ID": 177,
+        "NAME": "Закупка оборудования",
+        "SYMBOL_CODE": "DYNAMIC_177",
+        "SYMBOL_CODE_SHORT": "Tb1"
+      },
+      {
+        "ID": 156,
+        "NAME": "Закупка",
+        "SYMBOL_CODE": "DYNAMIC_156",
+        "SYMBOL_CODE_SHORT": "T9c"
+      }
+    ],
+    "time": {
+      "start": 1750153184.228934,
+      "finish": 1750153184.262921,
+      "duration": 0.03398704528808594,
+      "processing": 0.0008471012115478516,
+      "date_start": "2025-06-17T12:39:44+03:00",
+      "date_finish": "2025-06-17T12:39:44+03:00",
+      "operating_reset_at": 1750153784,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами владельцев (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/crm-enum-owner-type.html",
+  "executable": false
+}

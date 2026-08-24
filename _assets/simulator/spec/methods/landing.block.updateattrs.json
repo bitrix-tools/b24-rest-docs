@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "landing.block.updateattrs",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Изменить атрибуты элементов блока landing.block.updateattrs",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор блока в версии страницы для редактирования. Идентификатор блока можно получить методом landing.block.getlist с параметром params.edit_mode = 1. Если передать идентификатор блока из опубликованной версии страницы, метод может вернуть ошибку"
+    },
+    {
+      "name": "data",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор атрибутов для обновления (подробное описание)",
+      "ref": "#/defs/dataFields"
+    }
+  ],
+  "defs": {
+    "dataFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "<селектор>",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Ключ должен совпадать с CSS-селектором из манифеста блока. Значение должно быть объектом вида { '<атрибут>': <значение> }. Метод находит элементы по селектору и записывает им новые значения атрибутов. Если селектор встречается несколько раз, можно указать позицию через @, например .landing-block-node-text@1. Позиции нумеруются с 0.…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-update-attrs.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774442460,
+      "finish": 1774442460.28751,
+      "duration": 0.2875099182128906,
+      "processing": 0,
+      "date_start": "2026-03-25T11:01:00+03:00",
+      "date_finish": "2026-03-25T11:01:00+03:00",
+      "operating_reset_at": 1774443060,
+      "operating": 0.09410285949707031
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления атрибутов. При успешном выполнении метод возвращает true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-update-attrs.html",
+  "executable": false
+}

@@ -1,0 +1,194 @@
+{
+  "$v": 1,
+  "method": "entity.section.get",
+  "scope": "entity",
+  "kind": "read",
+  "title": "Получить список разделов хранилища entity.section.get",
+  "permissions": "любой пользователь при авторизации приложения",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "SORT",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — поле сортировки - value_n — направление сортировки: ASC или DESC Список доступных полей для сортировки смотрите в разделе Тип section. По умолчанию используется {\"ID\":\"ASC\"}. Пример: {\"NAME\":\"ASC\",\"ID\":\"DESC\"}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — поле фильтрации - value_n — значение фильтра Список доступных полей для фильтрации смотрите в разделе Тип section. К ключам field_n можно добавлять префиксы: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - = — равно (по умолчанию) - != или ! — не равно - >< — диапазон - !>< — не в диапазоне - % — LIKE - !% — NOT LIKE - ? — проверка на…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы фиксирован: 50 записей. Формула для получения N-й страницы: start = (N - 1) * 50 Подробнее в статье Особенности списочных методов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/sections/entity-section-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "671",
+        "CODE": null,
+        "TIMESTAMP_X": "2026-03-23T17:15:51+03:00",
+        "DATE_CREATE": "2026-03-23T17:15:51+03:00",
+        "CREATED_BY": "577",
+        "MODIFIED_BY": "577",
+        "ACTIVE": "Y",
+        "SORT": "500",
+        "NAME": "Родительский раздел",
+        "PICTURE": null,
+        "DETAIL_PICTURE": null,
+        "DESCRIPTION": null,
+        "LEFT_MARGIN": "1",
+        "RIGHT_MARGIN": "6",
+        "DEPTH_LEVEL": "1",
+        "ENTITY": "dish",
+        "SECTION": null
+      },
+      {
+        "ID": "669",
+        "CODE": null,
+        "TIMESTAMP_X": "2026-03-23T17:14:22+03:00",
+        "DATE_CREATE": "2026-03-23T17:14:22+03:00",
+        "CREATED_BY": "577",
+        "MODIFIED_BY": "577",
+        "ACTIVE": "Y",
+        "SORT": "500",
+        "NAME": "Тестовый раздел",
+        "PICTURE": null,
+        "DETAIL_PICTURE": null,
+        "DESCRIPTION": null,
+        "LEFT_MARGIN": "7",
+        "RIGHT_MARGIN": "8",
+        "DEPTH_LEVEL": "1",
+        "ENTITY": "dish",
+        "SECTION": null
+      },
+      {
+        "ID": "673",
+        "CODE": null,
+        "TIMESTAMP_X": "2026-03-23T17:16:37+03:00",
+        "DATE_CREATE": "2026-03-23T17:16:37+03:00",
+        "CREATED_BY": "577",
+        "MODIFIED_BY": "577",
+        "ACTIVE": "Y",
+        "SORT": "500",
+        "NAME": "Тестовый раздел",
+        "PICTURE": null,
+        "DETAIL_PICTURE": null,
+        "DESCRIPTION": null,
+        "LEFT_MARGIN": "4",
+        "RIGHT_MARGIN": "5",
+        "DEPTH_LEVEL": "2",
+        "ENTITY": "dish",
+        "SECTION": "671"
+      },
+      {
+        "ID": "675",
+        "CODE": "testovyy-razdel",
+        "TIMESTAMP_X": "2026-03-23T17:42:32+03:00",
+        "DATE_CREATE": "2026-03-23T17:42:32+03:00",
+        "CREATED_BY": "577",
+        "MODIFIED_BY": "577",
+        "ACTIVE": "Y",
+        "SORT": "500",
+        "NAME": "Тестовый раздел",
+        "PICTURE": null,
+        "DETAIL_PICTURE": null,
+        "DESCRIPTION": "Описание тестового раздела",
+        "LEFT_MARGIN": "2",
+        "RIGHT_MARGIN": "3",
+        "DEPTH_LEVEL": "2",
+        "ENTITY": "dish",
+        "SECTION": "671"
+      }
+    ],
+    "total": 4,
+    "time": {
+      "start": 1774338416,
+      "finish": 1774338416.415466,
+      "duration": 0.4154660701751709,
+      "processing": 0,
+      "date_start": "2026-03-24T10:46:56+03:00",
+      "date_finish": "2026-03-24T10:46:56+03:00",
+      "operating_reset_at": 1774339016,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "section[]",
+      "base": "array",
+      "required": false,
+      "description": "Список разделов хранилища"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество разделов в выборке"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для получения следующей страницы (если есть)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/sections/entity-section-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "CODE",
+    "CREATED_BY",
+    "DATE_CREATE",
+    "DEPTH_LEVEL",
+    "DESCRIPTION",
+    "DETAIL_PICTURE",
+    "ENTITY",
+    "ID",
+    "LEFT_MARGIN",
+    "MODIFIED_BY",
+    "NAME",
+    "PICTURE",
+    "RIGHT_MARGIN",
+    "SECTION",
+    "SORT",
+    "TIMESTAMP_X"
+  ]
+}

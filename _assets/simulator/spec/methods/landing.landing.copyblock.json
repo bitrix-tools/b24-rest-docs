@@ -1,0 +1,100 @@
+{
+  "$v": 1,
+  "method": "landing.landing.copyblock",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Копировать блок на страницу landing.landing.copyblock",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы, на которую нужно скопировать блок. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор исходного блока. Идентификатор блока можно получить методом landing.block.getList. Блок может находиться как на другой странице, так и на той же странице lid. Можно копировать только существующий блок, который не помечен как удаленный. Если блок удален, метод вернет ошибку"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры копирования (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "AFTER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор блока на странице lid, после которого нужно вставить копию Если передать идентификатор существующего блока на странице lid, копия будет вставлена сразу после него. Если параметр не передавать, передать 0 или указать идентификатор блока, которого нет на странице lid, копия будет добавлена в конец страницы"
+        },
+        {
+          "name": "RETURN_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Если передать Y, метод вернет объект с признаком успеха и данными созданной копии блока (подробное описание). При любом другом значении метод вернет только идентификатор созданной копии блока"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/block-methods/landing-landing-copy-block.md"
+  },
+  "resultExample": {
+    "result": 28607,
+    "time": {
+      "start": 1773932480,
+      "finish": 1773932480.485875,
+      "duration": 0.48587489128112793,
+      "processing": 0,
+      "date_start": "2026-03-19T18:01:20+03:00",
+      "date_finish": "2026-03-19T18:01:20+03:00",
+      "operating_reset_at": 1773933080,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной копии блока. Если передан params.RETURN_CONTENT = 'Y', метод вернет объект с признаком успеха и данными блока (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/block-methods/landing-landing-copy-block.html",
+  "executable": false
+}

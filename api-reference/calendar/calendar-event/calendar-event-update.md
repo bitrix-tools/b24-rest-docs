@@ -49,7 +49,7 @@
 [`integer`](../../data-types.md) | Дата и время в формате timestamp. Можно использовать вместо параметра `to` ||
 || **section**
 [`integer`](../../data-types.md) | Идентификатор календаря ||
-|| **name***
+|| **name**
 [`string`](../../data-types.md) | Название события ||
 || **skip_time**
 [`string`](../../data-types.md) | Передать значение даты без времени в параметрах `from` и `to`. Возможные значения:
@@ -74,11 +74,11 @@
 || **color**
 [`string`](../../data-types.md) | Цвет фона события.
 
-Cимвол `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
 || **text_color**
 [`string`](../../data-types.md) | Цвет текста события.
 
-Cимвол `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
 || **accessibility**
 [`string`](../../data-types.md) | Доступность на время события: 
 - `busy` — занят 
@@ -96,8 +96,8 @@ Cимвол `#` в цвете необходимо передавать в фо�
 - `N` — не частное ||
 || **recurrence_mode**
  [`string`](../../data-types.md) | Параметр частичного редактирования повторяемого события. Возможные значения:
- - `this` — изменения применяются только к текущему событию событию. Обязательно указать `current_date_from` 
- - `next` — изменения применяются к текущему и ко всем следующим событиями. Обязательно указать `current_date_from` 
+ - `this` — изменения применяются только к текущему событию. Обязательно указать `current_date_from`
+ - `next` — изменения применяются к текущему и ко всем следующим событиям. Обязательно указать `current_date_from`
  - `all` — изменения применяются ко всем событиям в цепочке повторений ||
 || **current_date_from**
 [`date`](../../data-types.md) | Дата текущего события для частичного редактирования повторяемого события.
@@ -111,15 +111,23 @@ Cимвол `#` в цвете необходимо передавать в фо�
 - `Y` — встреча с участниками
 - `N` — встреча без участников
 
-Для встречи с участниками обязательно укажите список участников `attendees` и организатора события `host`. Без заполнения этих полей событие создано не будет ||
+Для встречи с участниками передайте список участников `attendees` ||
 || **location**
 [`string`](../../data-types.md) | Место проведения ||
 || **remind**
 [`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии. Структура описана [ниже](#remind) ||
-|| **attendees***
-[`array`](../../data-types.md) | Список идентификаторов участников события. Поле обязательное, если `is_meeting` = `Y` ||
-|| **host***
-[`string`](../../data-types.md) | Идентиификатор организатора события. Поле обязательное, если `is_meeting` = `Y` ||
+|| **attendees**
+[`array`](../../data-types.md) | Список идентификаторов участников события.
+
+Если передать `is_meeting = Y` и не передать `attendees`, список участников будет очищен. Если не передавать `is_meeting`, текущий список участников сохранится ||
+|| **host**
+[`integer`](../../data-types.md) | Идентификатор организатора события.
+
+Передавайте параметр только если встречу обновляет не организатор. В этом случае укажите идентификатор текущего организатора. Если не передать параметр или передать идентификатор другого пользователя, метод вернет ошибку `Доступ запрещен`.
+
+Идентификатор текущего организатора можно узнать в ответе методов [calendar.event.getbyid](./calendar-event-get-by-id.md) и [calendar.event.get](./calendar-event-get.md) в поле `MEETING_HOST`.
+
+Параметр нельзя использовать для смены организатора существующего события. Чтобы сменить организатора, удалите событие методом [calendar.event.delete](./calendar-event-delete.md) и создайте новое методом [calendar.event.add](./calendar-event-add.md) от имени нужного организатора ||
 || **meeting**
 [`object`](../../data-types.md) | Объект с параметрами встречи. Структура описана [ниже](#meeting) ||
 || **crm_fields**
@@ -233,7 +241,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
+    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.update
     ```
 
@@ -243,7 +251,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
+    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.update
     ```
 
@@ -297,7 +305,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
           ],
           location: 'London',
           attendees: [1, 2, 3],
-          host: 2,
           meeting: {
             notify: true,
             reinvite: false,
@@ -367,7 +374,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
               ],
               location: 'London',
               attendees: [1, 2, 3],
-              host: 2,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -510,7 +516,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
                     ],
                     'location'        => 'London',
                     'attendees'       => [1, 2, 3],
-                    'host'            => 2,
                     'meeting'         => [
                         'notify'      => true,
                         'reinvite'    => false,
@@ -572,7 +577,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
             ],
             location: 'London',
             attendees: [1, 2, 3],
-            host: 2,
             meeting: {
                 notify: true,
                 reinvite: false,
@@ -623,7 +627,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
             ],
             'location' => 'London',
             'attendees' => [1, 2, 3],
-            'host' => 2,
             'meeting' => [
                 'notify' => true,
                 'reinvite' => false,
@@ -643,6 +646,61 @@ Cимвол `#` в цвете необходимо передавать в фо�
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.event.update", b24.Params{
+    	"id":                699,
+    	"type":              "user",
+    	"ownerId":           2,
+    	"name":              "Changed Event Name",
+    	"description":       "New description for event",
+    	"from":              "2024-06-17",
+    	"to":                "2024-06-17",
+    	"skip_time":         "Y",
+    	"section":           5,
+    	"color":             "#9cbe1c",
+    	"text_color":        "#283033",
+    	"accessibility":     "free",
+    	"importance":        "normal",
+    	"is_meeting":        "Y",
+    	"private_event":     "Y",
+    	"recurrence_mode":   "next",
+    	"current_date_from": "2024-12-04",
+    	"remind": []b24.Params{
+    		{
+    			"type":  "min",
+    			"count": 10,
+    		},
+    	},
+    	"location":  "London",
+    	"attendees": []int{1, 2, 3},
+    	"meeting": b24.Params{
+    		"notify":       true,
+    		"reinvite":     false,
+    		"allow_invite": false,
+    		"hide_guests":  false,
+    	},
+    	"rrule": b24.Params{
+    		"FREQ":     "WEEKLY",
+    		"BYDAY":    []string{"MO", "WE"},
+    		"COUNT":    10,
+    		"INTERVAL": 1,
+    	},
+    	"crm_fields": []string{"C_5", "L_11"},
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.event.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}
@@ -734,7 +792,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "ownerId" для метода "calendar.event.update""
+    "error_description": "Не задан обязательный параметр \"ownerId\" для метода \"calendar.event.update\""
 }
 ```
 
@@ -743,17 +801,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "id" для метода "calendar.event.update" | Не передан обязательный параметр `id` ||
-|| Пустая строка | Не задан обязательный параметр "ownerId" для метода "calendar.event.update" | Не передан обязательный параметр `ownerId` ||
-|| Пустая строка | Не задан обязательный параметр "type" для метода "calendar.event.update" | Не передан обязательный параметр `type` ||
-|| Пустая строка | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name`||
-|| Пустая строка | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
-|| Пустая строка | Доступ запрещен | Запрещено создание событий в указанном календаре ||
-|| Пустая строка | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
-|| Пустая строка | Указан несуществующий тип редактирования повторяемого события | Передан неверное значение поля `recurrence_mode` ||
-|| Пустая строка | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
-|| Пустая строка | При изменении события произошла ошибка | Другая ошибка ||
+|| **Код** | **Сообщение об ошибке** | **Описание** ||
+|| Пустое значение | Не задан обязательный параметр "id" для метода "calendar.event.update" | Не передан обязательный параметр `id` ||
+|| Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.event.update" | Не передан обязательный параметр `ownerId` ||
+|| Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.update" | Не передан обязательный параметр `type` ||
+|| Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
+|| Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
+|| Пустое значение | Доступ запрещен | Запрещено изменение событий в указанном календаре ||
+|| Пустое значение | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
+|| Пустое значение | Указан несуществующий тип редактирования повторяемого события | Передано неверное значение поля `recurrence_mode` ||
+|| Пустое значение | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
+|| Пустое значение | При изменении события произошла ошибка | Другая ошибка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

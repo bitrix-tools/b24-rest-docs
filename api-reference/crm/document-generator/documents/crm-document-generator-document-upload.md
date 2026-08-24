@@ -17,24 +17,24 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **fields**^*^
-[`object`](../../data-types.md) | Объект с параметрами загрузки документа [(подробнее)](#fields) ||
+[`object`](../../../data-types.md) | Объект с параметрами загрузки документа [(подробнее)](#fields) ||
 |#
 
 ### Параметр fields {#fields}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId**^*^
-[`integer`](../../data-types.md) | Идентификатор типа CRM-объекта.
+[`integer`](../../../data-types.md) | Идентификатор типа CRM-объекта.
 
 Типичные значения:
 - `1` — лид
@@ -45,23 +45,23 @@
 
 Для смарт-процессов передается их `entityTypeId`, например `177` ||
 || **entityId**^*^
-[`integer`](../../data-types.md) | Идентификатор CRM-объекта, к которому прикрепляется документ ||
+[`integer`](../../../data-types.md) | Идентификатор CRM-объекта, к которому прикрепляется документ ||
 || **fileContent**^*^
-[`string`](../../data-types.md) | Содержимое DOCX-файла в формате base64.
+[`string`](../../../data-types.md) | Содержимое DOCX-файла в формате base64.
 
 Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 || **region**^*^
-[`string`](../../data-types.md) | Код региона шаблона, например `ru` ||
+[`string`](../../../data-types.md) | Код региона шаблона, например `ru` ||
 || **title**^*^
-[`string`](../../data-types.md) | Название документа ||
+[`string`](../../../data-types.md) | Название документа ||
 || **number**^*^
-[`string`](../../data-types.md) | Номер документа ||
+[`string`](../../../data-types.md) | Номер документа ||
 || **pdfContent**
-[`string`](../../data-types.md) | Содержимое PDF-файла в формате base64.
+[`string`](../../../data-types.md) | Содержимое PDF-файла в формате base64.
 
 Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 || **imageContent**
-[`string`](../../data-types.md) | Содержимое изображения в формате base64.
+[`string`](../../../data-types.md) | Содержимое изображения в формате base64.
 
 Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 |#
@@ -347,6 +347,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.document.upload", b24.Params{
+    	"fields": b24.Params{
+    		"entityTypeId": 2,
+    		"entityId":     101,
+    		"fileContent":  "**base64_docx_content**",
+    		"region":       "ru",
+    		"title":        "Демонстрационная реализация товара",
+    		"number":       "2026-001",
+    		"pdfContent":   "**base64_pdf_content**",
+    		"imageContent": "**base64_image_content**",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.document.upload: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	ChangeStampsEnabled        bool   `json:"changeStampsEnabled"`
+    	ChangeStampsDisabledReason string `json:"changeStampsDisabledReason"`
+    	ChangeQrCodeEnabled        bool   `json:"changeQrCodeEnabled"`
+    	QrCodeEnabled              bool   `json:"qrCodeEnabled"`
+    	ChangeQrCodeDisabledReason string `json:"changeQrCodeDisabledReason"`
+    	DownloadUrl                string `json:"downloadUrl"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChangeStampsEnabled, item.ChangeStampsDisabledReason)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -409,9 +449,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой объект ответа. Содержит структуру [`result`](#result) ||
+[`object`](../../../data-types.md) | Корневой объект ответа. Содержит структуру [`result`](#result) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип result {#result}
@@ -420,7 +460,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **document**
-[`object`](../../data-types.md) | Данные загруженного документа. Структура описана в типе [`document`](#document) ||
+[`object`](../../../data-types.md) | Данные загруженного документа. Структура описана в типе [`document`](#document) ||
 |#
 
 #### Тип document {#document}
@@ -429,65 +469,65 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор документа ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор документа ||
 || **title**
-[`string`](../../data-types.md) | Название документа ||
+[`string`](../../../data-types.md) | Название документа ||
 || **number**
-[`string`](../../data-types.md) | Номер документа ||
+[`string`](../../../data-types.md) | Номер документа ||
 || **createTime**
-[`datetime`](../../data-types.md) | Дата создания ||
+[`datetime`](../../../data-types.md) | Дата создания ||
 || **updateTime**
-[`datetime`](../../data-types.md) | Дата обновления ||
+[`datetime`](../../../data-types.md) | Дата обновления ||
 || **createdBy**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор пользователя, создавшего документ ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) \| [`null`](../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
 || **changeStampsEnabled**
-[`boolean`](../../data-types.md) | Можно ли изменить признак подстановки печати и подписи ||
+[`boolean`](../../../data-types.md) | Можно ли изменить признак подстановки печати и подписи ||
 || **changeStampsDisabledReason**
-[`string`](../../data-types.md) | Причина, почему нельзя изменить признак подстановки печати и подписи ||
+[`string`](../../../data-types.md) | Причина, почему нельзя изменить признак подстановки печати и подписи ||
 || **changeQrCodeEnabled**
-[`boolean`](../../data-types.md) | Можно ли включить или выключить QR-код ||
+[`boolean`](../../../data-types.md) | Можно ли включить или выключить QR-код ||
 || **qrCodeEnabled**
-[`boolean`](../../data-types.md) | Текущее состояние QR-кода ||
+[`boolean`](../../../data-types.md) | Текущее состояние QR-кода ||
 || **changeQrCodeDisabledReason**
-[`string`](../../data-types.md) | Причина, почему нельзя изменить QR-код ||
+[`string`](../../../data-types.md) | Причина, почему нельзя изменить QR-код ||
 || **products**
-[`object`](../../data-types.md) | Сводная информация по товарам документа (`currencyId`, `totalSum`, `totalRows`) ||
+[`object`](../../../data-types.md) | Сводная информация по товарам документа (`currencyId`, `totalSum`, `totalRows`) ||
 || **stampsEnabled**
-[`boolean`](../../data-types.md) | Признак подстановки печати и подписи ||
+[`boolean`](../../../data-types.md) | Признак подстановки печати и подписи ||
 || **downloadUrl**
-[`string`](../../data-types.md) | Ссылка на скачивание документа ||
+[`string`](../../../data-types.md) | Ссылка на скачивание документа ||
 || **downloadUrlMachine**
-[`string`](../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
+[`string`](../../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
 || **publicUrl**
-[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Публичная ссылка на документ ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ ||
 || **isTransformationError**
-[`boolean`](../../data-types.md) | Признак ошибки конвертации документа ||
+[`boolean`](../../../data-types.md) | Признак ошибки конвертации документа ||
 || **transformationErrorMessage**
-[`string`](../../data-types.md) | Текст ошибки конвертации, если `isTransformationError = true` ||
+[`string`](../../../data-types.md) | Текст ошибки конвертации, если `isTransformationError = true` ||
 || **transformationErrorCode**
-[`string`](../../data-types.md) | Код ошибки конвертации, если `isTransformationError = true` ||
+[`string`](../../../data-types.md) | Код ошибки конвертации, если `isTransformationError = true` ||
 || **templateId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор шаблона ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор шаблона ||
 || **pullTag**
-[`string`](../../data-types.md) | Тег события трансформации документа ||
+[`string`](../../../data-types.md) | Тег события трансформации документа ||
 || **emailDiskFile**
-[`integer`](../../data-types.md) | Идентификатор файла в Диске для отправки по email ||
+[`integer`](../../../data-types.md) | Идентификатор файла в Диске для отправки по email ||
 || **entityTypeId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор типа CRM-объекта ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор CRM-объекта ||
+[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор CRM-объекта ||
 || **values**
-[`object`](../../data-types.md) \| [`null`](../../data-types.md) | Значения полей документа ||
+[`object`](../../../data-types.md) \| [`null`](../../../data-types.md) | Значения полей документа ||
 || **imageUrl**
-[`string`](../../data-types.md) | Ссылка на изображение документа, если уже создано ||
+[`string`](../../../data-types.md) | Ссылка на изображение документа, если уже создано ||
 || **pdfUrl**
-[`string`](../../data-types.md) | Ссылка на PDF-файл документа, если уже создан ||
+[`string`](../../../data-types.md) | Ссылка на PDF-файл документа, если уже создан ||
 || **imageUrlMachine**
-[`string`](../../data-types.md) | Ссылка на изображение документа для машинного доступа ||
+[`string`](../../../data-types.md) | Ссылка на изображение документа для машинного доступа ||
 || **pdfUrlMachine**
-[`string`](../../data-types.md) | Ссылка на PDF-документ для машинного доступа ||
+[`string`](../../../data-types.md) | Ссылка на PDF-документ для машинного доступа ||
 |#
 
 ## Обработка ошибок

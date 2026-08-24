@@ -394,6 +394,50 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productProperty.add", b24.Params{
+    	"fields": b24.Params{
+    		"iblockId":     19,
+    		"name":         "Рубрика",
+    		"code":         "CATEGORY",
+    		"propertyType": "S",
+    		"userType":     "directory",
+    		"multiple":     "N",
+    		"isRequired":   "N",
+    		"active":       "Y",
+    		"sort":         100,
+    		"userTypeSettings": b24.Params{
+    			"tableName": "b_hlbd_categories",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.productProperty.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productProperty".
+    raw, ok := b24.Unwrap(res.Result, "productProperty")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productProperty")
+    }
+
+    var item struct {
+    	Active    string `json:"active"`
+    	Code      string `json:"code"`
+    	ColCount  int    `json:"colCount"`
+    	Filtrable string `json:"filtrable"`
+    	IblockID  b24.ID `json:"iblockId"`
+    	ID        b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

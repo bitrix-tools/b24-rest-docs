@@ -346,6 +346,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.ratio.list", b24.Params{
+    	"select": []string{"id", "productId", "ratio", "isDefault"},
+    	"filter": b24.Params{
+    		"@productId": []int{1, 2},
+    		">ratio":     0.5,
+    		"isDefault":  "Y",
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.ratio.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

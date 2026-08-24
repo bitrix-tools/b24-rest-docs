@@ -24,7 +24,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -54,7 +54,9 @@
 || **DETAIL_PICTURE**
 [`file`](../../data-types.md) | Детальная картинка раздела. Формат файла — в статье [Как загрузить файлы](../../files/how-to-upload-files.md) ||
 || **UF_**
-[`object`](../../data-types.md) | Пользовательские поля раздела `UF_*` в формате `{"UF_КОД": значение}` ||
+[`any`](../../data-types.md) | Пользовательские поля раздела `UF_*`.
+
+Передаются отдельными параметрами в формате `"UF_КОД": значение`, например: `"UF_COLOR": "#ff6600"` ||
 |#
 
 ## Примеры кода
@@ -296,6 +298,34 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.section.update", b24.Params{
+    	"ENTITY":         "dish",
+    	"ID":             673,
+    	"NAME":           "Тестовый раздел (обновлен)",
+    	"SECTION":        671,
+    	"ACTIVE":         "Y",
+    	"SORT":           550,
+    	"CODE":           "testovyy-razdel-updated",
+    	"DESCRIPTION":    "Обновленное описание",
+    	"PICTURE":        []string{"section.jpg", "**base64_section_image**"},
+    	"DETAIL_PICTURE": []string{"section-detail.jpg", "**base64_section_detail_image**"},
+    	"UF_COLOR":       "#ff6600",
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.section.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

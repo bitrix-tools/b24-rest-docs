@@ -3,7 +3,7 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Приглаcить участников в чат
+  - name: Пригласить участников в чат
     href: im-chat-user-add.md
   - name: Получить идентификаторы участников чата
     href: im-chat-user-list.md

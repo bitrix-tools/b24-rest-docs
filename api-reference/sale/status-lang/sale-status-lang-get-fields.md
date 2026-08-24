@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает доступные поля локализаций статусов заказа или доставки.
+Метод `sale.statusLang.getFields` получает доступные поля локализаций статусов заказа или доставки.
+
+## Параметры метода
 
 Без параметров.
 
@@ -30,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statuslang.getfields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statusLang.getFields
     ```
 
 - cURL (OAuth)
@@ -40,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.statuslang.getfields
+    https://**put_your_bitrix24_address**/rest/sale.statusLang.getFields
     ```
 
 - JS (TS)
@@ -67,7 +69,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<GetFieldsResult>({
-        method: 'sale.statuslang.getfields',
+        method: 'sale.statusLang.getFields',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -97,7 +99,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'sale.statuslang.getfields',
+            method: 'sale.statusLang.getFields',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -150,7 +152,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'sale.statuslang.getfields',
+                'sale.statusLang.getFields',
                 []
             );
     
@@ -174,7 +176,7 @@
 
     ```js
     BX24.callMethod(
-        "sale.statuslang.getfields",
+        "sale.statusLang.getFields",
         {},
         function(result) {
             if (result.error()) {
@@ -192,13 +194,31 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'sale.statuslang.getfields',
+        'sale.statusLang.getFields',
         []
     );
 
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.statusLang.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+        return fmt.Errorf("sale.statusLang.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "statusLang".
+    raw, ok := b24.Unwrap(res.Result, "statusLang")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа statusLang")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}
@@ -284,7 +304,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-status-lang-get-list-langs.md)

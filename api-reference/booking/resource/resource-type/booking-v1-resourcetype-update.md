@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -106,7 +106,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":10,"fields":{"name":"Новое название","code":"Обновлённый код","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
+    -d '{"id":10,"fields":{"name":"Новое название","code":"Обновленный код","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resourceType.update
     ```
 
@@ -116,7 +116,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":10,"fields":{"name":"Новое название","code":"Обновлённый код","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
+    -d '{"id":10,"fields":{"name":"Новое название","code":"Обновленный код","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resourceType.update
     ```
 
@@ -293,7 +293,7 @@
                     'id' => 10,
                     'fields' => [
                         'name' => 'Новое название',
-                        'code' => 'Обновлённый код',
+                        'code' => 'Обновленный код',
                         'isInfoNotificationOn' => 'Y',
                         'templateTypeInfo' => 'inanimate',
                         'isConfirmationNotificationOn' => 'Y',
@@ -339,7 +339,7 @@
             id: 10,
             fields: {
                 name: "Новое название",
-                code: "Обновлённый код",
+                code: "Обновленный код",
                 isInfoNotificationOn: "Y",
                 templateTypeInfo: "inanimate",
                 isConfirmationNotificationOn: "Y",
@@ -380,7 +380,7 @@
             'id' => 10,
             'fields' => [
                 'name' => 'Новое название',
-                'code' => 'Обновлённый код',
+                'code' => 'Обновленный код',
                 'isInfoNotificationOn' => 'Y',
                 'templateTypeInfo' => 'inanimate',
                 'isConfirmationNotificationOn' => 'Y',
@@ -406,6 +406,46 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.resourceType.update", b24.Params{
+    	"id": 10,
+    	"fields": b24.Params{
+    		"name":                            "Новое название",
+    		"code":                            "Обновленный код",
+    		"isInfoNotificationOn":            "Y",
+    		"templateTypeInfo":                "inanimate",
+    		"isConfirmationNotificationOn":    "Y",
+    		"templateTypeConfirmation":        "animate",
+    		"isReminderNotificationOn":        "Y",
+    		"templateTypeReminder":            "base",
+    		"isFeedbackNotificationOn":        "N",
+    		"templateTypeFeedback":            "animate",
+    		"isDelayedNotificationOn":         "N",
+    		"templateTypeDelayed":             "animate",
+    		"infoDelay":                       300,
+    		"reminderDelay":                   -1,
+    		"delayedDelay":                    300,
+    		"delayedCounterDelay":             7200,
+    		"confirmationDelay":               86400,
+    		"confirmationRepetitions":         0,
+    		"confirmationRepetitionsInterval": 0,
+    		"confirmationCounterDelay":        7200,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.resourceType.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

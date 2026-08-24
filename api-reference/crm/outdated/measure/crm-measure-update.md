@@ -30,7 +30,7 @@
 `тип` | **Описание** ||
 || **id*** | Идентификатор единицы измерения ||
 || **fields**
-[`array`](../../data-types.md) | [Набор полей](./crm-measure-add.md) — массив вида `array("обновляемое поле"=>"значение"[, ...])`, где обновляемое поле может принимать значения из возвращаемых методом [crm.measure.fields](./crm-measure-fields.md). 
+[`array`](../../../data-types.md) | [Набор полей](./crm-measure-add.md) — массив вида `array("обновляемое поле"=>"значение"[, ...])`, где обновляемое поле может принимать значения из возвращаемых методом [crm.measure.fields](./crm-measure-fields.md). 
 
 Чтобы узнать требуемый формат полей, выполните метод [crm.measure.fields](./crm-measure-fields.md) и посмотрите формат пришедших значений этих полей 
 ||
@@ -173,6 +173,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.measure.update", b24.Params{
+    	"id": "**put_id_here**",
+    	"fields": b24.Params{
+    		"MEASURE_TITLE": "**put_new_title_here**",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.measure.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

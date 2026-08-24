@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "booking.v1.waitlist.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить список записей из листа ожидания booking.v1.waitlist.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации записей листа ожидания. Передавайте внутри фильтра объект createdWithin для фильтрации по дате создания, (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/waitlist/booking-v1-waitlist-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "waitList": [
+        {
+          "id": 15,
+          "note": "заметка"
+        },
+        {
+          "id": 16,
+          "note": "заметка"
+        }
+      ]
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив записей в листе ожидания. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/waitlist/booking-v1-waitlist-list.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "note"
+  ]
+}

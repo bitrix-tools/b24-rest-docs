@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод обновляет службу доставки. 
+Метод `sale.delivery.update` обновляет службу доставки.
 
 ## Параметры метода
 

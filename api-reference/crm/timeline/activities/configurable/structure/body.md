@@ -13,7 +13,7 @@
 
 ## Параметры объекта `BodyDto`
 
-{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../../_includes/required.md) %}
 
 #|
 || **Поле** | **Описание** ||
@@ -37,12 +37,12 @@
 
 ### Параметры объекта `LogoDto`
 
-{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../../_includes/required.md) %}
 
 #|
 || **Поле** | **Описание** ||
 || **code^*^**
-[`string`](../../../../data-types.md) | Код логотипа, например `call`. Список доступных кодов можно получить с помощью метода [crm.timeline.logo.list](../../../logmessage/logo/crm-timeline-logo-list.md) ||
+[`string`](../../../../../data-types.md) | Код логотипа, например `call`. Список доступных кодов можно получить с помощью метода [crm.timeline.logo.list](../../../logmessage/logo/crm-timeline-logo-list.md) ||
 || **action**
 [`ActionDto`](./action.md) | Действие по нажатию на логотип ||
 |#

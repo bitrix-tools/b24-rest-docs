@@ -19,15 +19,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](./../../index.md) или [пользовательского типа](./../user-defined-object-types/index.md) объектов CRM ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](./../../index.md) или [пользовательского типа](./../user-defined-object-types/index.md) объектов CRM ||
 || **extras**
-[`object`][1] | Дополнительные параметры. Возможные значения и их структура описана [ниже](#extras) ||
+[`object`](../../../data-types.md) | Дополнительные параметры. Возможные значения и их структура описана [ниже](#extras) ||
 |#
 
 ### extras
@@ -260,6 +260,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.details.configuration.forceCommonScopeForAll", b24.Params{
+    	"entityTypeId": 2,
+    	"extras": b24.Params{
+    		"dealCategoryId": 9,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.details.configuration.forceCommonScopeForAll: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -287,9 +308,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа. Возвращает `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Возвращает `true` в случае успеха ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -322,5 +343,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-item-details-configuration-get.md)
 - [{#T}](./crm-item-details-configuration-set.md)
 - [{#T}](./crm-item-details-configuration-reset.md)
-
-[1]: ../../../data-types.md

@@ -19,7 +19,7 @@
 
 ## Параметры метода
 
-Метод не принимает параметров.
+Без параметров.
 
 ## Примеры кода
 
@@ -131,6 +131,22 @@
     } else {
         echo 'Subscribed';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.v2.Event.subscribe", nil)
+    if err != nil {
+    	return fmt.Errorf("im.v2.Event.subscribe: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

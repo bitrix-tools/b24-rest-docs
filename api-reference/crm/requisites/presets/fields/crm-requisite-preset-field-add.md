@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на добавление и контактов, и компаний
 
 Метод добавляет настраиваемое поле в шаблон реквизитов. С помощью метода [crm.requisite.preset.field.availabletoadd](./crm-requisite-preset-field-available-to-add.md) можно получить поля, доступные для добавления в шаблон. 
 
@@ -280,6 +280,32 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.field.add", b24.Params{
+    	"preset": b24.Params{
+    		"ID": 27,
+    	},
+    	"fields": b24.Params{
+    		"FIELD_NAME":    "RQ_NAME",
+    		"FIELD_TITLE":   "TEST",
+    		"IN_SHORT_LIST": "N",
+    		"SORT":          580,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.field.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

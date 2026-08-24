@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет свойство для элемента (позиции) корзины в заказе.
+Метод `sale.basketproperties.add` добавляет свойство для элемента корзины в заказе.
 
 ## Параметры метода
 
@@ -294,6 +294,42 @@ fields: {
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketproperties.add", b24.Params{
+    	"fields": b24.Params{
+    		"basketId": 6806,
+    		"name":     "Артикул",
+    		"value":    "4653-4877",
+    		"code":     "ARTICUL",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.basketproperties.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketProperty".
+    raw, ok := b24.Unwrap(res.Result, "basketProperty")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketProperty")
+    }
+
+    var item struct {
+    	BasketID b24.ID `json:"basketId"`
+    	Code     string `json:"code"`
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Value    string `json:"value"`
+    	XmlID    string `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.BasketID, item.Code)
     ```
 
 {% endlist %}

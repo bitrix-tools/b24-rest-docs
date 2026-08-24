@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает значения всех полей оплаты по `Id`.
+Метод `sale.payment.get` получает значения всех полей оплаты по идентификатору.
 
 ## Параметры метода
 
@@ -259,6 +259,37 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.payment.get", b24.Params{
+    	"id": 6,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.payment.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "payment".
+    raw, ok := b24.Unwrap(res.Result, "payment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа payment")
+    }
+
+    var item struct {
+    	AccountNumber     string `json:"accountNumber"`
+    	Comments          string `json:"comments"`
+    	Currency          string `json:"currency"`
+    	DateBill          string `json:"dateBill"`
+    	DateResponsibleID string `json:"dateResponsibleId"`
+    	EmpResponsibleID  b24.ID `json:"empResponsibleId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.AccountNumber, item.Comments)
     ```
 
 {% endlist %}

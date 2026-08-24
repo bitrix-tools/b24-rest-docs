@@ -343,6 +343,38 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.fullExport", b24.Params{
+    	"id": 326,
+    	"params": b24.Params{
+    		"edit_mode":   "Y",
+    		"code":        "myfirstsite2026",
+    		"name":        "Сайт автомастерской",
+    		"description": "Сайт для автосервиса",
+    		"preview_url": "https://example.com/previews/myfirstsite2026",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.fullExport: %w", err)
+    }
+
+    var item struct {
+    	Charset     string `json:"charset"`
+    	Code        string `json:"code"`
+    	SiteCode    string `json:"site_code"`
+    	Name        string `json:"name"`
+    	Description string `json:"description"`
+    	Preview     string `json:"preview"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Charset, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -668,6 +700,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `MISSING_PARAMS` | Не передан обязательный параметр `id` ||
 || `ACCESS_DENIED` | Недостаточно прав для доступа к сайтам ||
+|| `AI_SITE_EXPORT_NOT_ALLOWED` | Экспорт AI-сайтов не поддерживается ||
 || `TYPE_ERROR` | Передан параметр неверного типа ||
 || `SYSTEM_ERROR` | Внутренняя ошибка выполнения, например `params.code` содержит символы, отличные от латинских букв и цифр ||
 |#

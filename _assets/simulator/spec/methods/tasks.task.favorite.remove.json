@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "tasks.task.favorite.remove",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить задачу из Избранного tasks.task.favorite.remove",
+  "permissions": "любой пользователь с доступом к задаче на чтение",
+  "params": [
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/user-actions/tasks-task-favorite-remove.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1758016240.072458,
+      "finish": 1758016240.111299,
+      "duration": 0.03884100914001465,
+      "processing": 0.012820005416870117,
+      "date_start": "2025-09-16T12:50:40+03:00",
+      "date_finish": "2025-09-16T12:50:40+03:00",
+      "operating_reset_at": 1758016840,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если задача успешно удалена из избранного"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/user-actions/tasks-task-favorite-remove.html",
+  "executable": false
+}

@@ -1,5 +1,11 @@
 # Настройки поиска дубликатов по любым полям: обзор методов
 
+По умолчанию Битрикс24 ищет дубликаты по фиксированному набору полей: Ф.И.О., название компании, телефон, адрес электронной почты и реквизиты. Методы `crm.duplicate.volatileType.*` расширяют этот набор — в поиск можно добавить любое стандартное или пользовательское поле лида, контакта или компании.
+
+Добавленное поле появляется в настройках поиска дубликатов в интерфейсе Битрикс24 у всех сотрудников. На поиск методом [crm.duplicate.findbycomm](../crm-duplicate-find-by-comm.md) эти настройки не влияют: он работает только по телефону и адресу электронной почты. Как устроена работа с дубликатами целиком, описано в разделе [Поиск и обработка дубликатов в CRM](../index.md).
+
+Например, можно добавить в поиск ИНН компании — тогда две компании с одинаковым ИНН Битрикс24 покажет как дубликаты.
+
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
@@ -9,19 +15,20 @@
 
 {% endnote %}
 
-Когда в CRM много лидов, контактов и компаний, дубликаты появляются из-за неполных или по-разному заполненных  данных.
-
-Методы `crm.duplicate.volatileType.*` расширяют стандартную проверку дубликатов и позволяют настроить дополнительные поля.
-
-Для поиска дубликатов только по телефону и email используйте [crm.duplicate.findbycomm](../crm-duplicate-find-by-comm.md).
-
 > Быстрый переход: [все методы](#all-methods)
 >
-> Пользовательская документация: [поиск и обработка дубликатов в Битрикс24](https://helpdesk.bitrix24.ru/open/10649014/) 
+> Пользовательская документация: [Поиск и обработка дубликатов в Битрикс24](https://helpdesk.bitrix24.ru/open/10649014/)
 
-## Связь настроек поиска дубликатов с объектами CRM
+## Как настроить поиск по дополнительным полям
 
-Параметр `entityTypeId` задает тип объекта CRM и определяет, для каких объектов методы работают с дополнительными полями поиска.
+1. Получите список доступных полей методом [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) — в ответе придут пары `entityTypeId` и `fieldCode`
+2. Проверьте, какие поля уже подключены, методом [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
+3. Подключите нужное поле методом [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md), передав `entityTypeId` и `fieldCode` из первого шага
+4. Отключите поле методом [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md), передав `id` записи из [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
+
+## Идентификаторы и коды полей
+
+**entityTypeId.** Задает тип объекта CRM. Дубликаты ищутся только по трем объектам:
 
 #|
 || **Тип объекта CRM** | **entityTypeId** ||
@@ -30,24 +37,21 @@
 || Компания | `4` ||
 |#
 
-## Что важно учесть
+**fieldCode.** Символьный код поля: `TITLE` для названия, `ADDRESS` для адреса, `UF_CRM_1750854801` для пользовательского поля. У полей реквизитов код записывают через точку, например `RQ.RU.NAME`. Коды не конструируют вручную — их берут из ответа [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) для нужного `entityTypeId`. Если передать код, которого нет в списке доступных, [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md) вернет ошибку `FIELD_NOT_FOUND`.
 
-- Можно зарегистрировать не более 7 нестандартных полей суммарно для всех типов объектов
-- Для удаления поля нужен `id` записи, его возвращает [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
+**id.** Идентификатор записи о подключенном поле. Его возвращают [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md) и [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md), и только он подходит для отключения поля.
 
-## Как настроить поиск по дополнительным полям
+## Что важно учитывать
 
-1. Получите доступные поля с помощью метода [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md).
-2. Проверьте текущие подключения через [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md).
-3. Добавьте нужное поле с помощью метода [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md).
-4. Повторно вызовите [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md) и проверьте результат.
-5. Удалите поле методом [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md), если оно больше не нужно.
+- Подключить можно не более семи полей суммарно для лидов, контактов и компаний. При попытке подключить восьмое [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md) вернет ошибку `MAX_TYPES_COUNT_EXCEEDED`
+- Повторный вызов [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md) для уже подключенного поля не создает новую запись — метод вернет `id` существующей
+- После подключения поля индекс дубликатов пересчитывается фоновым агентом, поэтому новые совпадения появятся в интерфейсе не сразу
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы: администратор Битрикс24 или администратор CRM
 
 #|
 || **Метод** | **Описание** ||

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`im`](../../scopes/permissions.md)
+> Scope: [`placement, im`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в панели над полем ввода сообщения.
 
@@ -17,14 +17,14 @@
 
 {% note info "" %}
 
-Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `IM_TEXTAREA` | Пункт в панели над полем ввода ||
 |#
 
@@ -32,9 +32,11 @@
 
 Откройте чат и перейдите к нижней части окна, где находится поле ввода сообщения. В правом нижнем углу поля ввода откройте панель приложений. Пункт приложения с `PLACEMENT=IM_TEXTAREA` находится в этой панели.
 
+![Пункт в панели над полем ввода](./_images/IM_TEXTAREA.png "Пункт в панели над полем ввода")
+
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
 ```php
 Array
@@ -46,11 +48,23 @@ Array
     [AUTH_ID] => 6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1
     [AUTH_EXPIRES] => 3600
     [REFRESH_ID] => 50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => im,placement
     [member_id] => da45a03b265ed12127f8a258d793cc5d
-    [status] => F
+    [status] => L
     [PLACEMENT] => IM_TEXTAREA
-    [PLACEMENT_OPTIONS] => {"dialogId":"chat1489"}
+    [PLACEMENT_OPTIONS] => {"dialogId":"chat1","URI":"\/online\/"}
 )
+```
+
+Строка `PLACEMENT_OPTIONS` из этого примера после разбора выглядит так:
+
+```json
+{
+    "dialogId": "chat1",
+    "URI": "/online/"
+}
 ```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -61,9 +75,14 @@ Array
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
-Для `IM_TEXTAREA` в контекст передается ключ:
-
-- `dialogId` — идентификатор текущего чата
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **dialogId***
+[`string`](../../data-types.md) | Идентификатор чата, из поля ввода которого открыт виджет: `chatNNN` для группового чата, идентификатор пользователя для личной переписки. Получить чат по нему можно методом [im.dialog.get](../../chats/im-dialog-get.md). Для личной переписки данные собеседника вернет метод [user.get](../../user/user-get.md) ||
+|| **URI***
+[`string`](../../data-types.md) | Адрес страницы, с которой открыт виджет. Для мессенджера это `/online/` ||
+|#
 
 ## OPTIONS при регистрации через placement.bind
 
@@ -75,7 +94,7 @@ Array
 || **Параметр**
 `тип` | **Описание** ||
 || **iconName***
-[`string`](../../data-types.md) | Подпись пункта в интерфейсе. До 50 символов, допускаются латинские буквы, пробел и `-` ||
+[`string`](../../data-types.md) | Имя иконки Font Awesome 4, например `fa-paperclip`. Класс набора `fa` Битрикс24 подставляет сам. До 50 символов, значение должно содержать латинские буквы, пробел или `-` ||
 || **extranet**
 [`string`](../../data-types.md) | Доступ в экстранете, по умолчанию `N`.
 
@@ -130,7 +149,7 @@ Array
 [`integer`](../../data-types.md) | Высота блока в процентах, по умолчанию `100`, значение должно быть больше или равно `0` ||
 |#
 
-### Примеры кода
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -155,7 +174,7 @@ Array
           }
         },
         "OPTIONS": {
-          "iconName": "chat-compose",
+          "iconName": "fa-paperclip",
           "context": "ALL",
           "role": "USER",
           "extranet": "N",
@@ -194,7 +213,7 @@ Array
             },
           },
           OPTIONS: {
-            iconName: 'chat-compose',
+            iconName: 'fa-paperclip',
             context: 'ALL',
             role: 'USER',
             extranet: 'N',
@@ -245,7 +264,7 @@ Array
                 },
               },
               OPTIONS: {
-                iconName: 'chat-compose',
+                iconName: 'fa-paperclip',
                 context: 'ALL',
                 role: 'USER',
                 extranet: 'N',
@@ -338,7 +357,7 @@ Array
                         ],
                     ],
                     'OPTIONS' => [
-                        'iconName' => 'chat-compose',
+                        'iconName' => 'fa-paperclip',
                         'context' => 'ALL',
                         'role' => 'USER',
                         'extranet' => 'N',
@@ -375,7 +394,7 @@ Array
                 en: { TITLE: 'My toolbar item' }
             },
             OPTIONS: {
-                iconName: 'chat-compose',
+                iconName: 'fa-paperclip',
                 context: 'ALL',
                 role: 'USER',
                 extranet: 'N',
@@ -414,7 +433,7 @@ Array
                 ],
             ],
             'OPTIONS' => [
-                'iconName' => 'chat-compose',
+                'iconName' => 'fa-paperclip',
                 'context' => 'ALL',
                 'role' => 'USER',
                 'extranet' => 'N',
@@ -430,11 +449,62 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "IM_TEXTAREA",
+    	"HANDLER":   "https://your-domain.com/widgets/im-textarea-handler.php",
+    	"TITLE":     "Мой пункт панели",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Мой пункт панели",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My toolbar item",
+    		},
+    	},
+    	"OPTIONS": b24.Params{
+    		"iconName": "fa-paperclip",
+    		"context":  "ALL",
+    		"role":     "USER",
+    		"extranet": "N",
+    		"color":    "LIGHT_BLUE",
+    		"width":    100,
+    		"height":   100,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа из раздела «Обработка ответа» страницы placement.bind.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| `placement.bind` возвращает `ERROR_ARGUMENT` | Не передан обязательный параметр `OPTIONS[iconName]`. Код незаполненного поля приходит в `argument` ||
+|| Пункт не появился в панели над полем ввода | Завершите установку приложения и заново откройте чат ||
+|| Регистрация не проходит из-за значения `context` | Используйте только допустимые значения: `ALL`, `USER`, `CHAT`, `LINES`, `CRM` ||
+|| Пункт виден не в тех чатах, для которых задан `context` | Вместе с другими значениями передан `ALL`, и остальные значения не учитываются. Передавайте либо `ALL`, либо список конкретных контекстов через `;` ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./sidebar.md)
+- [{#T}](./context-menu.md)
+- [{#T}](./navigation.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../bx24-widget-methods.md)

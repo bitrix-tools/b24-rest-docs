@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -244,6 +244,26 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.counters.get", b24.Params{
+    	"userId":  547,
+    	"groupId": 0,
+    	"type":    "view_all",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.counters.get: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
     ```
 
 {% endlist %}

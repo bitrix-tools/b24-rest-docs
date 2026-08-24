@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`pay_system `](../../scopes/permissions.md)
+> Scope: [`pay_system`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами на создание и редактирование счетов CRM (старая версия)
 
@@ -207,6 +207,29 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paysystem.settings.invoice.get", b24.Params{
+    	"INVOICE_ID":    10,
+    	"PAY_SYSTEM_ID": 11,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paysystem.settings.invoice.get: %w", err)
+    }
+
+    var item struct {
+    	RestServiceIDIframe  string `json:"REST_SERVICE_ID_IFRAME"`
+    	RestServiceKeyIframe string `json:"REST_SERVICE_KEY_IFRAME"`
+    	PsWorkModeIframe     string `json:"PS_WORK_MODE_IFRAME"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.RestServiceIDIframe, item.RestServiceKeyIframe)
     ```
 
 {% endlist %}

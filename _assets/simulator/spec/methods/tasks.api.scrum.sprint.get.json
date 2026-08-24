@@ -1,0 +1,139 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.sprint.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить поля спринта по его идентификатору tasks.api.scrum.sprint.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "sprintId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор спринта. Идентификатор можно получить методом tasks.api.scrum.sprint.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 2,
+      "groupId": 143,
+      "entityType": "sprint",
+      "name": "Спринт 1",
+      "goal": "",
+      "sort": 1,
+      "createdBy": 1,
+      "modifiedBy": 1,
+      "dateStart": "2024-07-19T15:03:01+00:00",
+      "dateEnd": "2024-08-02T15:03:01+00:00",
+      "status": "planned"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий данные о спринте"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор спринта"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы (Скрама), к которой относится спринт"
+    },
+    {
+      "name": "entityType",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип сущности (в данном случае sprint)"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название спринта"
+    },
+    {
+      "name": "goal",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цель спринта. Устанавливается только в интерфейсе при запуске спринта"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Сортировка"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, создавшего спринт"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, изменившего спринт"
+    },
+    {
+      "name": "dateStart",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата начала спринта в формате ISO 8601"
+    },
+    {
+      "name": "dateEnd",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата окончания спринта в формате ISO 8601"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Статус спринта"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get.html",
+  "executable": false,
+  "entityFields": [
+    "createdBy",
+    "dateEnd",
+    "dateStart",
+    "entityType",
+    "goal",
+    "groupId",
+    "id",
+    "modifiedBy",
+    "name",
+    "sort",
+    "status"
+  ]
+}

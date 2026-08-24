@@ -15,6 +15,8 @@
 
 Метод `tasks.api.scrum.epic.getFields` возвращает доступные поля эпика.
 
+## Параметры метода
+
 Без параметров.
 
 ## Примеры кода
@@ -192,6 +194,20 @@
     else {
         print_r($result['result']);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.epic.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.epic.getFields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

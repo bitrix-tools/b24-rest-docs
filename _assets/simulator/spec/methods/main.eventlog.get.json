@@ -1,0 +1,194 @@
+{
+  "$v": 1,
+  "method": "main.eventlog.get",
+  "scope": "main",
+  "kind": "read",
+  "title": "Получить запись журнала main.eventlog.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи журнала"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые нужно вернуть в ответе. Доступные поля: - id — идентификатор записи журнала - timestampX — дата и время события - severity — уровень важности события - auditTypeId — тип события - moduleId — идентификатор модуля - itemId — идентификатор объекта - remoteAddr — IP-адрес - userAgent — User-Agent запроса - requestUri — URI запроса - siteId — идентификатор сайта - userId — идентиф…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/event-log/main-eventlog-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 115955,
+        "timestampX": "2026-01-30T16:00:39+03:00",
+        "severity": "SECURITY",
+        "auditTypeId": "USER_AUTHORIZE",
+        "moduleId": "main",
+        "itemId": "1",
+        "remoteAddr": "92.50.195.50",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+        "requestUri": "/",
+        "siteId": "s1",
+        "userId": 1,
+        "guestId": 0,
+        "description": "{\"userId\":1,\"storedAuthId\":1310,\"requestId\":\"ea604c292209f5c562c653ba025b801e-1\",\"method\":\"cookie\"}"
+      }
+    },
+    "time": {
+      "start": 1769779221,
+      "finish": 1769779222.060889,
+      "duration": 1.0608890056610107,
+      "processing": 0,
+      "date_start": "2026-01-30T16:20:21+03:00",
+      "date_finish": "2026-01-30T16:20:22+03:00",
+      "operating_reset_at": 1769779822,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект записи журнала"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор записи журнала"
+    },
+    {
+      "name": "timestampX",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время события"
+    },
+    {
+      "name": "severity",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уровень важности события"
+    },
+    {
+      "name": "auditTypeId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип события"
+    },
+    {
+      "name": "moduleId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор модуля"
+    },
+    {
+      "name": "itemId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор объекта"
+    },
+    {
+      "name": "remoteAddr",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "IP-адрес"
+    },
+    {
+      "name": "userAgent",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "User-Agent запроса"
+    },
+    {
+      "name": "requestUri",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URI запроса"
+    },
+    {
+      "name": "siteId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор сайта"
+    },
+    {
+      "name": "userId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя"
+    },
+    {
+      "name": "guestId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор гостя"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание события"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/event-log/main-eventlog-get.html",
+  "executable": false,
+  "entityFields": [
+    "auditTypeId",
+    "description",
+    "guestId",
+    "id",
+    "itemId",
+    "moduleId",
+    "remoteAddr",
+    "requestUri",
+    "severity",
+    "siteId",
+    "timestampX",
+    "userAgent",
+    "userId"
+  ]
+}

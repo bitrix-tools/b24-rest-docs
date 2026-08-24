@@ -17,33 +17,33 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор контакта.
+[`integer`](../../../data-types.md) | Идентификатор контакта.
 
 Идентификатор можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md)
 ||
 || **items***
-[`object[]`][1] | Набор объектов, которые описывают привязанные компании к контакту. Структура отдельно взятого объекта привязки смотрите [ниже](#contact_company_binding) ||
+[`object[]`](../../../data-types.md) | Набор объектов, которые описывают привязанные компании к контакту. Структура отдельно взятого объекта привязки смотрите [ниже](#contact_company_binding) ||
 |#
 
 ### Структура объекта привязки {#contact_company_binding}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **COMPANY_ID***
-[`crm_entity`][2] | Идентификатор компании, который будет привязан к контакту.
+[`crm_entity`](../../data-types.md) | Идентификатор компании, который будет привязан к контакту.
 
 Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
 || **IS_PRIMARY**
-[`boolean`][1] | Является ли привязка первичной. Возможные значения:
+[`boolean`](../../../data-types.md) | Является ли привязка первичной. Возможные значения:
 - `Y` — да
 - `N` — нет
 
@@ -52,7 +52,7 @@
 Если передано несколько привязок с `IS_PRIMARY = Y`, то первичной будет считаться первая привязка с `IS_PRIMARY = Y`
 ||
 || **SORT**
-[`integer`][1] | Индекс сортировки.
+[`integer`](../../../data-types.md) | Индекс сортировки.
 
 По умолчанию `i + 10`, где `i` — максимальный индекс сортировки у существующих и переданных привязок для текущего контакта или `0` в случае, если `SORT` не передан ни у одной из привязок и если у контакта отсутствуют привязки.
 
@@ -341,6 +341,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.company.items.set", b24.Params{
+    	"id": 82,
+    	"items": []b24.Params{
+    		{
+    			"COMPANY_ID": 8,
+    			"IS_PRIMARY": "Y",
+    			"SORT":       100,
+    		},
+    		{
+    			"COMPANY_ID": 9,
+    			"SORT":       200,
+    		},
+    		{
+    			"COMPANY_ID": 10,
+    			"SORT":       400,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.company.items.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -368,9 +401,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа. Содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -390,10 +423,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
-|| `-`     | `The parameter items must be array` | В `items` передан не массив ||
+|| Пустое значение | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
+|| Пустое значение | `The parameter items must be array` | В `items` передан не массив ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменения контактов ||
-|| `-`     | `Not found` | Контакт с переданным `id` не найден ||
+|| Пустое значение | `Not found` | Контакт с переданным `id` не найден ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -405,6 +438,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-company-fields.md)
 - [{#T}](./crm-contact-company-items-get.md)
 - [{#T}](./crm-contact-company-items-delete.md)
-
-[1]: ../../../data-types.md
-[2]: ../../data-types.md

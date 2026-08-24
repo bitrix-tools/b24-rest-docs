@@ -14,10 +14,12 @@
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../events/index.md).
 
 > Быстрый переход: [все события](#all-events)
+>
+> Пользовательская документация: [Битрикс24 КЭДО: сервис для подписания кадровых документов](https://helpdesk.bitrix24.ru/open/19740668/)
 
 ## Как получать события
 
-Подписаться на события раздела можно через [приложение](../../../settings/app-installation/index.md) и метод [event.bind](../../events/event-bind.md)
+Подписаться на события раздела можно через [приложение](../../../settings/app-installation/index.md) и метод [event.bind](../../events/event-bind.md).
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../events/test-handler.md).
 
@@ -35,4 +37,5 @@
 || **Событие** | **Вызывается** ||
 || [OnSignB2eDocumentStatusChanged](./on-sign-b2e-document-status-changed.md) | При изменении статуса документа ||
 || [OnSignB2eMemberStatusChanged](./on-sign-b2e-member-status-changed.md) | При изменении статуса участника подписания ||
+|| [OnSignHcmLinkB2eDocumentSigned](./on-sign-hcm-link-b2e-document-signed.md) | При подписании документа, связанного с HCM Link ||
 |#

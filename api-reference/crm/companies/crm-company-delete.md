@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -191,6 +191,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.delete", b24.Params{
+    	"id": 50,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -241,8 +259,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Access denied` | У пользователя нет права на «Удаление» компаний ||
-|| `-` | `Company is not found` | Компания не найдена ||
+|| Пустое значение | `Access denied` | У пользователя нет права на «Удаление» компаний ||
+|| Пустое значение | `Company is not found` | Компания не найдена ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

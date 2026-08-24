@@ -30,7 +30,7 @@
 1. Подготовьте обработчик — страницу приложения с URL, доступным из внешней сети
 2. Выберите сценарий и точку встраивания в таблице [Как выбрать сценарий и точку встраивания](#all-placements)
 
-**Если приложение добавляет пункт в меню дела.** Зарегистрируйте обработчик методом [placement.bind](../../../../widgets/placement-bind.md) и передайте нужный код места встраивания в `PLACEMENT`. Пример запроса смотрите в блоке [Примеры кода](../../../../widgets/placement-bind.md#примеры-кода) метода [placement.bind](../../../../widgets/placement-bind.md). После регистрации проверьте, что пункт меню появился в списке дел CRM или в таймлайне карточки CRM.
+**Если приложение добавляет пункт в меню дела.** Зарегистрируйте обработчик методом [placement.bind](../../../../widgets/placement-bind.md) и передайте нужный код места встраивания в `PLACEMENT`. Пример запроса смотрите в блоке [Примеры кода](../../../../widgets/placement-bind.md#primery-koda) метода [placement.bind](../../../../widgets/placement-bind.md). После регистрации проверьте, что пункт меню появился в списке дел CRM или в таймлайне карточки CRM.
 
 **Если приложение создает свое дело в CRM.** Используйте метод [crm.activity.add](../activity-base/crm-activity-add.md) в установленном приложении и передайте в `fields` значение `PROVIDER_ID=REST_APP`. Так Битрикс24 поймет, что дело принадлежит приложению, и при открытии покажет страницу приложения в слайдере.
 
@@ -53,7 +53,7 @@
 
 #|
 || **Если нужно** | **Используйте** | **Что получит обработчик** ||
-|| Добавить пункт к делу в списке дел CRM | [`CRM_ACTIVITY_LIST_MENU`](../../../../widgets/crm/index.md) | [`PLACEMENT_OPTIONS`](../../../../widgets/crm/index.md#placement_options) с идентификатором дела `ID` ||
+|| Добавить пункт к делу в списке дел CRM | [`CRM_ACTIVITY_LIST_MENU`](../../../../widgets/crm/list-menu.md) | [`PLACEMENT_OPTIONS`](../../../../widgets/crm/list-menu.md#placement_options) с идентификатором дела `ID` ||
 || Добавить пункт к делу в таймлайне карточки CRM | [`CRM_XXX_ACTIVITY_TIMELINE_MENU`](../../../../widgets/crm/activity-timeline-menu.md) | [`PLACEMENT_OPTIONS`](../../../../widgets/crm/activity-timeline-menu.md#placement_options) с идентификатором карточки CRM `ENTITY_ID` и идентификатором дела `ASSOCIATED_ENTITY_ID` ||
 || Создать дело, которое открывает приложение | [Как создать дело из приложения](./activity-app.md) | [`PLACEMENT_OPTIONS`](./activity-app.md) с идентификатором дела `activity_id` ||
 |#

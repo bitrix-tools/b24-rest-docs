@@ -19,13 +19,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **ID***
-[`array`](../../data-types.md) 
+[`array`](../../data-types.md)
 [`string`](../../data-types.md) | Массив идентификаторов пользователей или JSON-строка с массивом.
 
 Получить идентификаторы пользователей можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.chat.user.list](../chat-users/im-chat-user-list.md) ||
@@ -261,11 +261,41 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.user.list.get", b24.Params{
+    	"ID":          []int{4, 5},
+    	"AVATAR_HR":   "Y",
+    	"RESULT_TYPE": "array",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.user.list.get: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	Active       bool   `json:"active"`
+    	Name         string `json:"name"`
+    	FirstName    string `json:"first_name"`
+    	LastName     string `json:"last_name"`
+    	WorkPosition string `json:"work_position"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -352,13 +382,13 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`array`](../../data-types.md) | Данные пользователей. По умолчанию возвращается объект с ключами-идентификаторами, при `RESULT_TYPE = 'array'` возвращается массив.
 
 Структура объекта пользователя подробно описана [ниже](#user-object) ||
@@ -366,7 +396,7 @@ HTTP-код: **200**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект пользователя {#user-object}
+#### Объект user {#user-object}
 
 #|
 || **Название**
@@ -434,6 +464,8 @@ HTTP-код: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **work_phone**
+[`string`](../../data-types.md) | Рабочий телефон ||
 || **personal_mobile**
 [`string`](../../data-types.md) | Мобильный телефон ||
 || **inner_phone**
@@ -451,7 +483,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

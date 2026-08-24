@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает доступные поля привязок элементов корзины к оплатам.
+Метод `sale.paymentitembasket.getfields` получает доступные поля привязок элементов корзины к оплатам.
+
+## Параметры метода
 
 Без параметров.
 
@@ -198,6 +200,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paymentitembasket.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paymentitembasket.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "paymentItemBasket".
+    raw, ok := b24.Unwrap(res.Result, "paymentItemBasket")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа paymentItemBasket")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}

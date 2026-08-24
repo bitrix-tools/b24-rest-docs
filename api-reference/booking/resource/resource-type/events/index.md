@@ -17,7 +17,7 @@
 
 ## Как получать события
 
-Подписаться на события раздела можно через:
+Подписаться на события типов ресурсов можно через:
 
 - [исходящий вебхук](../../../../../local-integrations/local-webhooks.md)
 - [приложение](../../../../../settings/app-installation/index.md) и метод [event.bind](../../../../events/event-bind.md)
@@ -36,7 +36,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onBookingResourceTypeAdd](./on-booking-resource-type-add.md) | При создании типа ресурса вручную или методом [booking.v1.resourcetype.add](../booking-v1-resourcetype-add.md) ||
-|| [onBookingResourceTypeUpdate](./on-booking-resource-type-update.md) | При обновлении типа ресурса методом [booking.v1.resourcetype.update](../booking-v1-resourcetype-update.md) ||
-|| [onBookingResourceTypeDelete](./on-booking-resource-type-delete.md) | При удалении типа ресурса методом [booking.v1.resourcetype.delete](../booking-v1-resourcetype-delete.md) ||
+|| [onBookingResourceTypeAdd](./on-booking-resource-type-add.md) | При создании типа ресурса вручную или методом [booking.v1.resourceType.add](../booking-v1-resourcetype-add.md) ||
+|| [onBookingResourceTypeUpdate](./on-booking-resource-type-update.md) | При обновлении типа ресурса методом [booking.v1.resourceType.update](../booking-v1-resourcetype-update.md) ||
+|| [onBookingResourceTypeDelete](./on-booking-resource-type-delete.md) | При удалении типа ресурса методом [booking.v1.resourceType.delete](../booking-v1-resourcetype-delete.md) ||
 |#

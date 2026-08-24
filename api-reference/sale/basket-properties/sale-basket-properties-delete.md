@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: администратор магазина
 
-Метод удаляет свойство для элемента (позиции) корзины в заказе.
+Метод `sale.basketproperties.delete` удаляет свойство для элемента корзины в заказе.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -218,6 +220,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketproperties.delete", b24.Params{
+    	"id": 17,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.basketproperties.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

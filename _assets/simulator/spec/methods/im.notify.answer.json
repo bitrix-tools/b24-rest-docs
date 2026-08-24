@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "im.notify.answer",
+  "scope": "im",
+  "kind": "write",
+  "title": "Ответить на уведомление с быстрым ответом im.notify.answer",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "NOTIFY_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор уведомления, которое поддерживает быстрый ответ. Получить идентификатор уведомления можно методом im.notify.get"
+    },
+    {
+      "name": "ANSWER_TEXT",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст быстрого ответа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/notifications/im-notify-answer.md"
+  },
+  "resultExample": {
+    "result": {
+      "result_message": [
+        "Ваш ответ успешно отправлен."
+      ]
+    },
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.1,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2026-03-02T09:30:00+03:00",
+      "date_finish": "2026-03-02T09:30:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом отправки ответа. Структура объекта подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/notifications/im-notify-answer.html",
+  "executable": false
+}

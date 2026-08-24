@@ -17,13 +17,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Список полей, которые нужно вернуть у шаблонов.
+[`array`](../../../data-types.md) | Список полей, которые нужно вернуть у шаблонов.
 
 При выборке можно использовать:
 - `'*'` — для выборки всех стандартных полей шаблона
@@ -37,7 +37,7 @@
 
 Список полей шаблона смотрите в разделе [`Тип template`](#template). По умолчанию используется `["*"]` ||
 || **filter**
-[`object`](../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -69,7 +69,7 @@
 
 Основные поля для `filter`: `id`, `name`, `region`, `code`, `active`, `moduleId`, `numeratorId`, `withStamps`, `isDeleted`, `sort`, `createTime`, `updateTime`, `entityTypeId` ||
 || **order**
-[`object`](../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -88,7 +88,7 @@
 
 Пример: `{"id":"DESC","sort":"ASC"}` ||
 || **start**
-[`integer`](../../data-types.md) | Параметр постраничной навигации.
+[`integer`](../../../data-types.md) | Параметр постраничной навигации.
 
 Размер страницы фиксирован: `50` записей.
 
@@ -421,6 +421,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.template.list", b24.Params{
+    	"select": []string{"id", "name", "region", "entityTypeId", "users"},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    	"filter": b24.Params{
+    		"region": "ru",
+    		"active": "Y",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.template.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "templates".
+    raw, ok := b24.Unwrap(res.Result, "templates")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа templates")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -481,16 +509,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит объект [`templates`](#templates) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`templates`](#templates) ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество шаблонов, подходящих под фильтр ||
+[`integer`](../../../data-types.md) | Общее количество шаблонов, подходящих под фильтр ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Объект templates {#templates}
 
-[`object`](../../data-types.md), где ключ — строковый идентификатор шаблона, а значение — объект [`template`](#template)
+[`object`](../../../data-types.md), где ключ — строковый идентификатор шаблона, а значение — объект [`template`](#template)
 
 #### Тип template {#template}
 
@@ -498,37 +526,37 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../../data-types.md) | Идентификатор шаблона ||
+[`string`](../../../data-types.md) | Идентификатор шаблона ||
 || **name**
-[`string`](../../data-types.md) | Название шаблона ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **region**
-[`string`](../../data-types.md) | Регион шаблона ||
+[`string`](../../../data-types.md) | Регион шаблона ||
 || **download**
-[`string`](../../data-types.md) | Ссылка для скачивания шаблона ||
+[`string`](../../../data-types.md) | Ссылка для скачивания шаблона ||
 || **users**
-[`array`](../../data-types.md) | Массив кодов пользователей или групп доступа ||
+[`array`](../../../data-types.md) | Массив кодов пользователей или групп доступа ||
 || **entityTypeId**
-[`array`](../../data-types.md) | Массив привязок к типам объектов ||
+[`array`](../../../data-types.md) | Массив привязок к типам объектов ||
 || **downloadMachine**
-[`string`](../../data-types.md) | Ссылка для машинного скачивания шаблона ||
+[`string`](../../../data-types.md) | Ссылка для машинного скачивания шаблона ||
 || **code**
-[`string`](../../data-types.md) | Символьный код шаблона. Может быть `null` ||
+[`string`](../../../data-types.md) | Символьный код шаблона. Может быть `null` ||
 || **active**
-[`char`](../../data-types.md) | Признак активности (`Y`/`N`) ||
+[`char`](../../../data-types.md) | Признак активности (`Y`/`N`) ||
 || **moduleId**
-[`string`](../../data-types.md) | Идентификатор модуля владельца шаблона ||
+[`string`](../../../data-types.md) | Идентификатор модуля владельца шаблона ||
 || **numeratorId**
-[`integer`](../../data-types.md) | Идентификатор нумератора ||
+[`integer`](../../../data-types.md) | Идентификатор нумератора ||
 || **withStamps**
-[`char`](../../data-types.md) | Признак использования печатей (`Y`/`N`) ||
+[`char`](../../../data-types.md) | Признак использования печатей (`Y`/`N`) ||
 || **isDeleted**
-[`char`](../../data-types.md) | Признак удаления (`Y`/`N`) ||
+[`char`](../../../data-types.md) | Признак удаления (`Y`/`N`) ||
 || **sort**
-[`integer`](../../data-types.md) | Индекс сортировки ||
+[`integer`](../../../data-types.md) | Индекс сортировки ||
 || **createTime**
-[`datetime`](../../data-types.md) | Время создания шаблона ||
+[`datetime`](../../../data-types.md) | Время создания шаблона ||
 || **updateTime**
-[`datetime`](../../data-types.md) | Время последнего обновления шаблона ||
+[`datetime`](../../../data-types.md) | Время последнего обновления шаблона ||
 |#
 
 ## Обработка ошибок

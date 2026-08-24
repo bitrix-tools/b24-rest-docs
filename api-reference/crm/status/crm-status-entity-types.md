@@ -214,6 +214,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.status.entity.types", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.status.entity.types: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -386,7 +400,7 @@ HTTP-статус: **200**
 || **NAME**
 [`string`](../../data-types.md) | Название ||
 || **ENTITY_TYPE_ID**
-[`integer`](../../data-types.md) | [Тип объекта CRM](../data-types.md#object_type#), к которому относится статус ||
+[`integer`](../../data-types.md) | [Тип объекта CRM](../data-types.md#object_type), к которому относится статус ||
 || **SEMANTIC_INFO**
 [`object`](../../data-types.md) | Информация о семантике статусов-стадий ||
 || **PREFIX**

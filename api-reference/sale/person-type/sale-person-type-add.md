@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет новый тип плательщика.
+Метод `sale.persontype.add` добавляет новый тип плательщика.
 
 ## Параметры метода
 
@@ -295,6 +295,43 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.persontype.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":   "Физическое лицо",
+    		"sort":   "100",
+    		"active": "Y",
+    		"code":   "MY_CRM_COMPANY",
+    		"xmlId":  "myXmlId",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.persontype.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "personType".
+    raw, ok := b24.Unwrap(res.Result, "personType")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа personType")
+    }
+
+    var item struct {
+    	Active string `json:"active"`
+    	Code   string `json:"code"`
+    	ID     b24.ID `json:"id"`
+    	Name   string `json:"name"`
+    	Sort   string `json:"sort"`
+    	XmlID  string `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -355,12 +392,20 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200750000005` | Недостаточно прав для выполнения метода ||
+|| `200750000005` | Тип плательщика с таким символьным кодом уже существует ||
 || `200750000001`
-`200750000006 ` | Не удалось создать новый тип плательщика ||
+`200750000006` | Не удалось создать новый тип плательщика ||
 || `200040300020` | Нет доступа к редактированию ||
 || `100` | Не передан обязательный параметр `fields` ||
 || `0` | Не установлены обязательные поля ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [sale.persontype.update](./sale-person-type-update.md)
+- [sale.persontype.get](./sale-person-type-get.md)
+- [sale.persontype.list](./sale-person-type-list.md)
+- [sale.persontype.delete](./sale-person-type-delete.md)
+- [sale.persontype.getFields](./sale-person-type-get-fields.md)

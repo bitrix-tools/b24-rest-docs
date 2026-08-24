@@ -9,34 +9,31 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../scopes/permissions.md)
+> Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — доступ к точке встраивания карточки звонка
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять команду: любой пользователь
 
-Метод `getStatus` возвращает текущие данные карточки звонка.
+Команда `getStatus` возвращает текущие данные карточки звонка.
 
 {% note info "" %}
 
-Метод работает в контексте приложения в плейсменте `CALL_CARD`.
+Команда работает в контексте приложения, открытого в точке встраивания `CALL_CARD`. Это команда js-интерфейса, а не метод REST: вызвать ее запросом к `/rest/` нельзя.
 
 {% endnote %}
 
-## Параметры метода
+## Как вызвать команду
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+Команду вызывают из виджета методом [BX24.placement.call](../bx24-placement-call.md). Третий аргумент — функция обратного вызова, в нее приходит результат команды.
 
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **PLACEMENT***
-[`string`](../../../data-types.md) | Имя команды интерфейса.
+```js
+BX24.placement.call('getStatus', {}, function (result) {
+    console.log(result);
+});
+```
 
-Для данного метода — `getStatus` ||
-|| **PARAMS***
-[`object`](../../../data-types.md) | Объект параметров команды.
+## Параметры команды
 
-Для данного метода передается пустой объект: `{}` ||
-|#
+Команда не принимает параметров. Вторым аргументом передайте пустой объект `{}`.
 
 ## Примеры кода
 
@@ -44,102 +41,59 @@
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"getStatus","PARAMS":{}}' \
-    "https://**put_your_bitrix24_address**/rest/placement.call?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.call('getStatus', {}, function (result) {
+                console.log(result);
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    // Shape of the payload returned in result (match the "response handling" section of the page)
-    type GetStatusResult = {
+    // форма результата описана ниже на этой странице
+    type CallStatus = {
       CALL_ID: string
-      PHONE_NUMBER: string
+      PHONE_NUMBER?: string
       LINE_NUMBER: string
       LINE_NAME: string
       CRM_ENTITY_TYPE: string
       CRM_ENTITY_ID: number
-      CRM_ACTIVITY_ID: string
-      CRM_BINDINGS: Array<{
-        ENTITY_TYPE: string
-        ENTITY_ID: number
-      }>
+      CRM_ACTIVITY_ID?: number | string
+      CRM_BINDINGS: Array<{ ENTITY_TYPE: string; ENTITY_ID: number }>
       CALL_DIRECTION: string
       CALL_STATE: string
       CALL_LIST_MODE: boolean
     }
 
-    try {
-      const response = await $b24.actions.v2.call.make<GetStatusResult>({
-        method: 'placement.call',
-        params: {
-          PLACEMENT: 'getStatus',
-          PARAMS: {},
-        },
-        requestId: Text.getUuidRfc4122()
-      })
+    const status = await $b24.placement.call('getStatus') as CallStatus
 
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info(result.CALL_ID, result.CALL_STATE, result.PHONE_NUMBER)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    console.log(status.CALL_ID, status.CALL_STATE)
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function getCallStatus() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.call',
-            params: {
-              PLACEMENT: 'getStatus',
-              PARAMS: {},
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
+        const result = await $b24.placement.call('getStatus')
 
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info(result.CALL_ID, result.CALL_STATE, result.PHONE_NUMBER)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', getCallStatus)
+        console.log(result)
+      })
     </script>
     ```
 
@@ -237,7 +191,7 @@
 
 {% endlist %}
 
-## Обработка ответа
+## Результат команды
 
 ```json
 {
@@ -247,7 +201,7 @@
     "LINE_NAME": "",
     "CRM_ENTITY_TYPE": "CONTACT",
     "CRM_ENTITY_ID": 797,
-    "CRM_ACTIVITY_ID": "",
+    "CRM_ACTIVITY_ID": 12043,
     "CRM_BINDINGS": [
         {
         "ENTITY_TYPE": "DEAL",
@@ -272,17 +226,31 @@
 || **CALL_ID**
 [`string`](../../../data-types.md) | Идентификатор звонка ||
 || **PHONE_NUMBER**
-[`string`](../../../data-types.md) | Номер клиента ||
+[`string`](../../../data-types.md) | Номер клиента.
+
+Возможные состояния:
+
+- номер клиента — обычный случай
+- `hidden` — клиент скрыл свой номер
+- ключ не приходит вовсе — номер не определен ||
 || **LINE_NUMBER**
 [`string`](../../../data-types.md) | Номер линии ||
 || **LINE_NAME**
-[`string`](../../../data-types.md) | Название линии ||
+[`string`](../../../data-types.md) | Название телефонной линии компании.
+
+Может быть пустой строкой, если название линии не задано ||
 || **CRM_ENTITY_TYPE**
-[`string`](../../../data-types.md) | Тип текущего объекта CRM ||
+[`string`](../../../data-types.md) | Символьный код типа элемента CRM, к которому привязан звонок: `LEAD`, `DEAL`, `CONTACT` или `COMPANY`.
+
+Пустая строка, если звонок не привязан к CRM ||
 || **CRM_ENTITY_ID**
-[`integer`](../../../data-types.md) | Идентификатор текущего объекта CRM ||
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязан звонок.
+
+`0`, если звонок не привязан к CRM. Полный список связанных элементов приходит в `CRM_BINDINGS` ||
 || **CRM_ACTIVITY_ID**
-[`integer`](../../../data-types.md) | Идентификатор CRM-дела ||
+[`integer`](../../../data-types.md) | Идентификатор дела CRM, созданного для звонка.
+
+Если дела нет, ключ не приходит вовсе или приходит пустой строкой ||
 || **CRM_BINDINGS**
 [`object[]`](../../../data-types.md) | Привязки звонка к объектам CRM [(подробное описание)](#crm_bindings) ||
 || **CALL_DIRECTION**
@@ -311,30 +279,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **ENTITY_TYPE**
-[`string`](../../../data-types.md) | Тип объекта CRM ||
+[`string`](../../../data-types.md) | Тип объекта CRM: `LEAD`, `DEAL`, `CONTACT` или `COMPANY` ||
 || **ENTITY_ID**
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
 |#
 
-## Обработка ошибок
+## Ошибки
 
-```json
-{
-    "error": "WRONG_AUTH_TYPE",
-    "error_description": "Application context required"
-}
-```
+Собственных кодов ошибок у команды `getStatus` нет: она либо выполняется, либо не вызывается вовсе.
 
-{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Application context required | Метод вызван вне контекста приложения в плейсменте `CALL_CARD` ||
-|#
-
-{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+- Если виджет открыт не в точке встраивания `CALL_CARD`, интерфейс точки встраивания игнорирует незнакомую команду и функция обратного вызова не срабатывает
+- Имя команды сверяйте с учетом регистра: список команд, доступных в текущей точке встраивания, возвращает [BX24.placement.getInterface](../bx24-placement-get-interface.md)
 
 ## Продолжите изучение
 
@@ -343,3 +298,5 @@
 - [{#T}](./call-card-entity-changed.md)
 - [{#T}](./call-card-before-close.md)
 - [{#T}](./call-card-call-state-changed.md)
+- [{#T}](./index.md)
+- [{#T}](../../telephony/call-card.md)

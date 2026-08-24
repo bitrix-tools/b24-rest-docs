@@ -9,185 +9,64 @@
 
 {% endnote %}
 
-> Scope: [`intranet`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт в выпадающее меню генератора документов объектов CRM: [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
+Виджет добавляет свой пункт в выпадающее меню генератора документов объекта CRM. Точка подходит приложениям, которые формируют документ по объекту своими средствами: печатную форму, договор или акт.
 
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
-|| `CRM_LEAD_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [лидов](../../crm/leads/index.md) ||
-|| `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [контактов](../../crm/contacts/index.md) ||
-|| `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [компаний](../../crm/companies/index.md) ||
-|| `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [сделок](../../crm/deals/index.md) ||
-|| `CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [счетов](../../crm/universal/invoice.md) ||
-|| `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов [коммерческих предложений](../../crm/quote/index.md) ||
-|| `CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON` | Пункт в выпадающем меню генератора документов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON` ||
+|| **Код точки встраивания** | **Место** ||
+|| `CRM_LEAD_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов [лида](../../crm/leads/index.md) ||
+|| `CRM_CONTACT_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов [контакта](../../crm/contacts/index.md) ||
+|| `CRM_COMPANY_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов [компании](../../crm/companies/index.md) ||
+|| `CRM_DEAL_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов [сделки](../../crm/deals/index.md) ||
+|| `CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов [нового счета](../../crm/universal/invoice.md) ||
+|| `CRM_QUOTE_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов [коммерческого предложения](../../crm/quote/index.md) ||
+|| `CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON` | Пункт выпадающего меню генератора документов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON` ||
 |#
+
+### Где находится в интерфейсе
+
+Откройте карточку объекта CRM, нажмите кнопку *Документ* в верхней части карточки и наведите курсор на пункт *Расширения*. Пункт приложения выводится в этом подменю, рядом с базами знаний и Маркетплейсом.
+
+![Пункт приложения в выпадающем меню генератора документов сделки](./_images/CRM_DEAL_DOCUMENTGENERATOR_BUTTON.png "Пункт приложения в выпадающем меню генератора документов сделки")
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
-{% list tabs %}
+Пример показан для точки `CRM_DEAL_DOCUMENTGENERATOR_BUTTON`. У остальных кодов состав данных такой же: меняются значение `PLACEMENT` и идентификатор объекта в `PLACEMENT_OPTIONS`.
 
-- CRM_LEAD_DOCUMENTGENERATOR_BUTTON
+```php
 
-    ```php
+Array
+(
+    [DOMAIN] => xxx.bitrix24.com
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => 23ab3058338edf7c4c30a52e4d0b3f94
+    [AUTH_ID] => 83fd7166007e9c94001e30ba00000001f0f107a52e6ad7ef9a1b8c3d5e2f4061
+    [AUTH_EXPIRES] => 3600
+    [REFRESH_ID] => 737c9966007e9c94001e30ba00000001f0f1072b8d4e6f01a3c57d9e8b2f4160
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => crm,documentgenerator,placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
+    [status] => L
+    [PLACEMENT] => CRM_DEAL_DOCUMENTGENERATOR_BUTTON
+    [PLACEMENT_OPTIONS] => {"ENTITY_ID":"8061","URI":"\/crm\/deal\/details\/8061\/?any=details%2F8061%2F"}
+)
 
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 459ca665c9cab4ddfe9ea5ae2a0840f1
-        [AUTH_ID] => d54bba6600631fcd00005a4b00000001f0f10778a1773b649abec1feea11861a78c85a
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => c5cae16600631fcd00005a4b00000001f0f1070bb92bc9d139bcccf13fd5061e168c97
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_LEAD_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"6591"}
-    )
-
-    ```
-
-- CRM_DEAL_DOCUMENTGENERATOR_BUTTON
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 23ab3058338edf7c4c30a52e4d0b3f94
-        [AUTH_ID] => 024cba6600631fcd00005a4b00000001f0f10776117251d4c2d883c3b981273ddc1d2f
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => f2cae16600631fcd00005a4b00000001f0f1071ccf5fc07f1f6e09595a46e2689ad63b
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DEAL_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"3473"}
-    )
-
-    ```
-
-- CRM_CONTACT_DOCUMENTGENERATOR_BUTTON
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 8610c737a7b6d9e8707e897310c92a5c
-        [AUTH_ID] => 234cba6600631fcd00005a4b00000001f0f107e5d9a6b11c75b358354b7909a3cbb1d5
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 13cbe16600631fcd00005a4b00000001f0f1072808b892db51d0797e9f6ef1f47ac479
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_CONTACT_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"13037"}
-    )
-
-    ```
-
-- CRM_COMPANY_DOCUMENTGENERATOR_BUTTON
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 6c69387b1893adfbce7b0e9dd09a4334
-        [AUTH_ID] => 474cba6600631fcd00005a4b00000001f0f1075e5c6675d9cc38d0226e8d64a137f0d4
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 37cbe16600631fcd00005a4b00000001f0f107ad057bdb52baf3c9f25ebd88c351e5cb
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_COMPANY_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"2946"}
-    )
-        
-    ```
-
-- CRM_QUOTE_DOCUMENTGENERATOR_BUTTON
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 92520ef005add4cddf34ce7d56417cd6
-        [AUTH_ID] => 734cba6600631fcd00005a4b00000001f0f10783d784554c5d20e60a70194e7fae0928
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 63cbe16600631fcd00005a4b00000001f0f107f7e3fca578b3e3b68e5be0cf70b35ccc
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_QUOTE_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"5"}
-    )
-    
-    ```
-
-- CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => adada92053b22a4de3895402a01693cf
-        [AUTH_ID] => 69c7ca670076a4b8006f518000000001201c0720c9c9d78077b5f2c5530f64b061c8a1
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 5946f2670076a4b8006f518000000001201c07709da4b12d3c7e82e120a20e547b638f
-        [member_id] => e8857f161a1a8288f312b6cc6ad67995
-        [status] => L
-        [PLACEMENT] => CRM_SMART_INVOICE_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"32"}
-    )
-    
-    ```
-
-- CRM_DYNAMIC_ХХХ_DOCUMENTGENERATOR_BUTTON
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => e704d5033456989068deea36a324b888
-        [AUTH_ID] => 904cba6600631fcd00005a4b00000001f0f1072f641be14b9ac7606506e5e3ed850130
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 80cbe16600631fcd00005a4b00000001f0f107151fd45dc66ee22283e42cdf941e8436
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"3"}
-    )
-    
-    ```
-
-{% endlist %}
+```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -195,7 +74,7 @@
 
 ### PLACEMENT_OPTIONS
 
-Значением `PLACEMENT_OPTIONS` является JSON-строка, содержащая массив из одного и более ключей.
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова. Кроме универсального ключа `URI` в контекст попадает собственный ключ точки.
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -206,23 +85,271 @@
 
 Может быть использован для получения дополнительной информации с помощью соответствующих методов:
 
-- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [т.д.](../../crm/data-types.md#object_type)
+- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [так далее](../../crm/data-types.md#object_type)
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
 - компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
 
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше — `183`
+Идентификатор типа объекта отдельным ключом не приходит. Для пользовательского типа объектов его можно взять из значения параметра `PLACEMENT`: например, у кода `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON` идентификатор типа равен `183`
 
 ||
 |#
 
+## OPTIONS при регистрации через placement.bind
+
+Параметры `OPTIONS` точка не поддерживает. Переданные значения не сохраняются: метод [placement.get](../placement-get.md) возвращает для такой регистрации пустой массив.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "CRM_DEAL_DOCUMENTGENERATOR_BUTTON",
+        "HANDLER": "https://your-domain.com/widgets/crm-document-handler.php",
+        "TITLE": "Договор поставки",
+        "LANG_ALL": {
+          "ru": {
+            "TITLE": "Договор поставки"
+          },
+          "en": {
+            "TITLE": "Supply contract"
+          }
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'CRM_DEAL_DOCUMENTGENERATOR_BUTTON',
+          HANDLER: 'https://your-domain.com/widgets/crm-document-handler.php',
+          TITLE: 'Supply contract',
+          LANG_ALL: {
+            ru: {
+              TITLE: 'Договор поставки',
+            },
+            en: {
+              TITLE: 'Supply contract',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Placement bound successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindCrmDocumentGeneratorButton() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'CRM_DEAL_DOCUMENTGENERATOR_BUTTON',
+              HANDLER: 'https://your-domain.com/widgets/crm-document-handler.php',
+              TITLE: 'Supply contract',
+              LANG_ALL: {
+                ru: {
+                  TITLE: 'Договор поставки',
+                },
+                en: {
+                  TITLE: 'Supply contract',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Placement bound successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindCrmDocumentGeneratorButton)
+    </script>
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'CRM_DEAL_DOCUMENTGENERATOR_BUTTON',
+                    'HANDLER' => 'https://your-domain.com/widgets/crm-document-handler.php',
+                    'TITLE' => 'Договор поставки',
+                    'LANG_ALL' => [
+                        'ru' => [
+                            'TITLE' => 'Договор поставки',
+                        ],
+                        'en' => [
+                            'TITLE' => 'Supply contract',
+                        ],
+                    ],
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult();
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT: 'CRM_DEAL_DOCUMENTGENERATOR_BUTTON',
+            HANDLER: 'https://your-domain.com/widgets/crm-document-handler.php',
+            TITLE: 'Договор поставки',
+            LANG_ALL: {
+                ru: { TITLE: 'Договор поставки' },
+                en: { TITLE: 'Supply contract' }
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'CRM_DEAL_DOCUMENTGENERATOR_BUTTON',
+            'HANDLER' => 'https://your-domain.com/widgets/crm-document-handler.php',
+            'TITLE' => 'Договор поставки',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Договор поставки',
+                ],
+                'en' => [
+                    'TITLE' => 'Supply contract',
+                ],
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "CRM_DEAL_DOCUMENTGENERATOR_BUTTON",
+    	"HANDLER":   "https://your-domain.com/widgets/crm-document-handler.php",
+    	"TITLE":     "Договор поставки",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Договор поставки",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "Supply contract",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
+{% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Код собран для типа объекта, который эта точка не поддерживает, или приложению не выдан скоуп `crm`. Сверьте код с таблицей в начале страницы ||
+|| Виджет зарегистрирован, но в интерфейсе не появляется | Завершите [установку приложения](../../../settings/app-installation/installation-finish.md) и перезагрузите страницу ||
+|| Пункт не виден в меню кнопки *Документ* | Наведите курсор на пункт *Расширения*: пункт приложения выводится в этом подменю ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
+
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./detail-toolbar.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
-- [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../bx24-widget-methods.md)
-
-
+- [{#T}](../../../settings/interactivity/index.md)

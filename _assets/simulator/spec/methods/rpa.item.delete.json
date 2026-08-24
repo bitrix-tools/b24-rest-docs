@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "rpa.item.delete",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Удалить элемент rpa.item.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/item/rpa-item-delete.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/item/rpa-item-delete.html",
+  "executable": false
+}

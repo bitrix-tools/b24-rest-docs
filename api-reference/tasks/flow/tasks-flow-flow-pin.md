@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь, который может видеть поток в списке потоков
 
-Метод закрепляет или открепляет поток в списке потоков по его идентификатору.
+Метод `tasks.flow.Flow.pin` закрепляет или открепляет поток в списке потоков по его идентификатору.
 
 ## Параметры метода
 
@@ -222,6 +222,24 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.flow.Flow.pin", b24.Params{
+    	"flowId": 517,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.flow.Flow.pin: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

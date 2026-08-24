@@ -1,0 +1,174 @@
+{
+  "$v": 1,
+  "method": "catalog.product.offer.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей вариации товара catalog.product.offer.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_product_offer.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор вариации товара. Для получения идентификаторов вариаций товара необходимо использовать catalog.product.offer.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/offer/catalog-product-offer-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "offer": {
+        "active": "Y",
+        "available": "Y",
+        "bundle": "N",
+        "canBuyZero": "Y",
+        "code": "Tovar",
+        "createdBy": 1,
+        "dateActiveFrom": "2024-05-28T10:00:00+03:00",
+        "dateActiveTo": "2024-05-29T10:00:00+03:00",
+        "dateCreate": "2024-05-27T10:00:00+03:00",
+        "detailPicture": {
+          "id": "6538",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6538&fields%5BproductId%5D=1286",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6538&fields%5BproductId%5D=1286"
+        },
+        "detailText": null,
+        "detailTextType": "text",
+        "height": 100,
+        "iblockId": 24,
+        "iblockSectionId": null,
+        "id": 1286,
+        "length": 100,
+        "measure": 5,
+        "modifiedBy": 1,
+        "name": "Вариация товара",
+        "parentId": {
+          "value": "1275",
+          "valueId": "9867"
+        },
+        "previewPicture": {
+          "id": "6537",
+          "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6537&fields%5BproductId%5D=1286",
+          "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=6537&fields%5BproductId%5D=1286"
+        },
+        "previewText": null,
+        "previewTextType": "text",
+        "property261": {
+          "value": "test",
+          "valueId": "9868"
+        },
+        "property262": [
+          {
+            "value": "test1",
+            "valueId": "9869"
+          },
+          {
+            "value": "test2",
+            "valueId": "9870"
+          }
+        ],
+        "purchasingCurrency": "RUB",
+        "purchasingPrice": "1000.000000",
+        "quantity": 10,
+        "quantityReserved": 1,
+        "quantityTrace": "Y",
+        "sort": 100,
+        "subscribe": "Y",
+        "timestampX": "2024-06-17T12:29:59+03:00",
+        "type": 4,
+        "vatId": 1,
+        "vatIncluded": "Y",
+        "weight": 100,
+        "width": 100,
+        "xmlId": "1286"
+      }
+    },
+    "time": {
+      "start": 1718623874.271071,
+      "finish": 1718623874.871713,
+      "duration": 0.6006419658660889,
+      "processing": 0.1868131160736084,
+      "date_start": "2024-06-17T14:31:14+03:00",
+      "date_finish": "2024-06-17T14:31:14+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "offer",
+      "type": "catalog_product_offer",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о вариации товара"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/offer/catalog-product-offer-get.html",
+  "executable": false,
+  "entityFields": [
+    "IblockSection",
+    "active",
+    "available",
+    "barcodeMulti",
+    "bundle",
+    "canBuyZero",
+    "code",
+    "createdBy",
+    "dateActiveFrom",
+    "dateActiveTo",
+    "dateCreate",
+    "detailPicture",
+    "detailText",
+    "detailTextType",
+    "height",
+    "iblockId",
+    "iblockSectionId",
+    "id",
+    "length",
+    "measure",
+    "modifiedBy",
+    "name",
+    "parentId",
+    "previewPicture",
+    "previewText",
+    "previewTextType",
+    "property261",
+    "property262",
+    "propertyN",
+    "purchasingCurrency",
+    "purchasingPrice",
+    "quantity",
+    "quantityReserved",
+    "quantityTrace",
+    "recurSchemeLength",
+    "recurSchemeType",
+    "sort",
+    "subscribe",
+    "timestampX",
+    "trialPriceId",
+    "type",
+    "vatId",
+    "vatIncluded",
+    "weight",
+    "width",
+    "withoutOrder",
+    "xmlId"
+  ]
+}

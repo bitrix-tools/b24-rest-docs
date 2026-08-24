@@ -1,4 +1,4 @@
-# Получить публичную ссылку на папку disk.folder.getexternallink
+# Получить публичную ссылку на папку disk.folder.getExternalLink
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для нужной папки
 
-Метод `disk.folder.getexternallink` возвращает публичную ссылку на папку.
+Метод `disk.folder.getExternalLink` возвращает публичную ссылку на папку.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 |#
 
 ## Примеры кода
@@ -41,7 +41,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8930}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.getexternallink
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.getExternalLink
     ```
 
 - cURL (OAuth)
@@ -51,7 +51,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8930,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.getexternallink
+    https://**put_your_bitrix24_address**/rest/disk.folder.getExternalLink
     ```
 
 - JS (TS)
@@ -66,7 +66,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<string>({
-        method: 'disk.folder.getexternallink',
+        method: 'disk.folder.getExternalLink',
         params: {
           id: 8930,
         },
@@ -98,7 +98,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.getexternallink',
+            method: 'disk.folder.getExternalLink',
             params: {
               id: 8930,
             },
@@ -154,7 +154,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.getexternallink',
+                'disk.folder.getExternalLink',
                 [
                     'id' => 8930
                 ]
@@ -177,7 +177,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.getexternallink",
+        "disk.folder.getExternalLink",
         {
             id: 8930
         },
@@ -196,7 +196,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.getexternallink',
+        'disk.folder.getExternalLink',
         [
             'id' => 8930
         ]
@@ -205,6 +205,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.getExternalLink", b24.Params{
+    	"id": 8930,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.getExternalLink: %w", err)
+    }
+
+    var value string
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

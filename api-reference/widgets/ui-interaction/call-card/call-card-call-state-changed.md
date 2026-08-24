@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../scopes/permissions.md)
+> Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — доступ к точке встраивания карточки звонка
 >
 > Кто может подписаться: любой пользователь
 
@@ -17,13 +17,13 @@
 
 {% note info "" %}
 
-Событие работает в контексте приложения в плейсменте `CALL_CARD`.
+Событие работает в контексте приложения, открытого в точке встраивания `CALL_CARD`. Это событие js-интерфейса, а не событие REST: подписаться на него запросом к `/rest/` нельзя.
 
 {% endnote %}
 
 ## Что получает обработчик
 
-Данные передаются в callback `BX24.placement.bindEvent` {.b24-info}
+Данные передаются в функцию обратного вызова метода `BX24.placement.bindEvent` {.b24-info}
 
 ```js
 callback(
@@ -50,7 +50,9 @@ callback(
 - `connecting` — выполняется установка соединения
 - `connected` — соединение установлено ||
 || **additionalParams**
-[`object`](../../../data-types.md) | Дополнительные данные [(подробное описание)](#additional_params) ||
+[`object`](../../../data-types.md) | Дополнительные данные [(подробное описание)](#additional_params).
+
+Аргумент приходит всегда: если дополнительных данных нет, это пустой объект. Звездочкой отмечены обязательные параметры подписки, а не аргументы обработчика ||
 |#
 
 ### Параметр additionalParams{#additional_params}
@@ -59,22 +61,26 @@ callback(
 || **Параметр**
 `тип` | **Описание** ||
 || **failedCode**
-[`string`](../../../data-types.md) | Код завершения звонка. Передается только при неуспешном завершении, когда `callState = idle` ||
+[`string`](../../../data-types.md) | Код завершения звонка. Передается только при неуспешном завершении, когда `callState = idle`.
+
+Значение — код протокола SIP. Например, `486` — абонент занят, `480` — абонент недоступен ||
 |#
 
-## Параметры подписки на событие
+## Параметры подписки
+
+Обработчик регистрируют из виджета методом [BX24.placement.bindEvent](../bx24-placement-bind-event.md).
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **PLACEMENT***
+|| **event***
 [`string`](../../../data-types.md) | Имя события интерфейса.
 
 Для данного события — `CallCard::CallStateChanged` ||
-|| **HANDLER***
-[`string`](../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|| **callback***
+[`callable`](../../../data-types.md) | Функция, которую Битрикс24 вызывает при наступлении события. Аргументы обработчика описаны выше ||
 |#
 
 ## Примеры кода
@@ -83,84 +89,44 @@ callback(
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"CallCard::CallStateChanged","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/placement.bindEvent?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.bindEvent('CallCard::CallStateChanged', function (callState, additionalParams) {
+                console.log(callState);
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'placement.bindEvent',
-        params: {
-          PLACEMENT: 'CallCard::CallStateChanged',
-          HANDLER: '**your_handler_url_here**',
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('placement.bindEvent result:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    await $b24.placement.bindEvent('CallCard::CallStateChanged', (callState: string, additionalParams: { failedCode?: string }) => {
+      console.log(callState, additionalParams.failedCode)
+    })
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindCallStateChangedEvent() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.bindEvent',
-            params: {
-              PLACEMENT: 'CallCard::CallStateChanged',
-              HANDLER: '**your_handler_url_here**',
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('placement.bindEvent result:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', bindCallStateChangedEvent)
+        await $b24.placement.bindEvent('CallCard::CallStateChanged', (callState, additionalParams) => {
+          console.log(callState)
+        })
+      })
     </script>
     ```
 
@@ -258,6 +224,14 @@ callback(
 
 {% endlist %}
 
+## Ошибки
+
+Проверьте условия.
+
+- Виджет открыт в точке встраивания `CALL_CARD`. В других точках встраивания события `CallCard::*` не зарегистрированы, и подписка молча не сработает
+- Состояние звонка действительно изменилось. Повторная установка того же значения `callState` события не вызывает
+- Имя события передано без опечаток и с учетом регистра. Список событий, доступных в текущей точке встраивания, возвращает [BX24.placement.getInterface](../bx24-placement-get-interface.md)
+
 ## Продолжите изучение
 
 - [{#T}](./get-status.md)
@@ -265,3 +239,5 @@ callback(
 - [{#T}](./enable-auto-close.md)
 - [{#T}](./call-card-entity-changed.md)
 - [{#T}](./call-card-before-close.md)
+- [{#T}](./index.md)
+- [{#T}](../../telephony/call-card.md)

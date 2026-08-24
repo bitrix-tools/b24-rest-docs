@@ -1,5 +1,9 @@
 # Обзор событий при работе с документами
 
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении документов [генератора документов в CRM](../../index.md).
+
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
+
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
@@ -9,11 +13,17 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении документов.
+> Быстрый переход: [все события](#all-events)
 
-Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
+## Что приходит в обработчик
 
-> Быстрый переход: [все события](#all-events) 
+Все три события передают один и тот же набор полей в `data.FIELDS`:
+
+- `ID` — идентификатор документа, по нему можно запросить данные методом [crm.documentgenerator.document.get](../crm-document-generator-document-get.md)
+- `ENTITY_TYPE_ID` — идентификатор типа CRM-объекта, к которому привязан документ, например `1` — лид
+- `ENTITY_ID` — идентификатор самого CRM-объекта
+
+Файл документа и ссылки на него в событие не передаются. Чтобы получить `pdfUrl`, `imageUrl` или публичную ссылку, вызовите [crm.documentgenerator.document.get](../crm-document-generator-document-get.md) по полученному `ID`.
 
 ## Как получать события
 
@@ -30,13 +40,13 @@
 
 ## Обзор событий {#all-events}
 
-> Scope: [`documentgenerator, crm`](../../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmDocumentGeneratorDocumentAdd](./on-crm-document-generator-document-add.md) | При генерации документа вручную или методом [crm.documentgenerator.document.add](../crm-document-generator-document-add.md) ||
-|| [onCrmDocumentGeneratorDocumentUpdate](./on-crm-document-generator-document-update.md) | При изменении документа или методом [crm.documentgenerator.document.update](../crm-document-generator-document-update.md) ||
-|| [onCrmDocumentGeneratorDocumentDelete](./on-crm-document-generator-document-delete.md) | При удалении документа или методом [crm.documentgenerator.document.delete](../crm-document-generator-document-delete.md) ||
+|| [onCrmDocumentGeneratorDocumentAdd](./on-crm-document-generator-document-add.md) | При генерации документа вручную или методами [crm.documentgenerator.document.add](../crm-document-generator-document-add.md) и [crm.documentgenerator.document.upload](../crm-document-generator-document-upload.md) ||
+|| [onCrmDocumentGeneratorDocumentUpdate](./on-crm-document-generator-document-update.md) | При изменении документа вручную или методом [crm.documentgenerator.document.update](../crm-document-generator-document-update.md) ||
+|| [onCrmDocumentGeneratorDocumentDelete](./on-crm-document-generator-document-delete.md) | При удалении документа вручную или методом [crm.documentgenerator.document.delete](../crm-document-generator-document-delete.md) ||
 |#

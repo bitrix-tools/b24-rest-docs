@@ -186,6 +186,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -823,7 +839,7 @@ HTTP-статус: **200**
 ||**ADDRESS_COUNTRY_CODE**
 [`string`](../../data-types.md) | Код страны ||
 ||**ADDRESS_LOC_ADDR_ID**
-[`location`](../../data-types.md) | Идентификатор адреса местоположения ||
+[`location`](../data-types.md) | Идентификатор адреса местоположения ||
 |#
 
 ## Обработка ошибок

@@ -229,6 +229,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.sip.update", b24.Params{
+    	"CONFIG_ID": 5,
+    	"TITLE":     "SIP line 1 (updated)",
+    })
+    if err != nil {
+    	return fmt.Errorf("voximplant.sip.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

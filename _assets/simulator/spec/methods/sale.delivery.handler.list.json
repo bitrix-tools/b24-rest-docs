@@ -1,0 +1,141 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.handler.list",
+  "scope": "delivery",
+  "kind": "read",
+  "title": "Получить список обработчиков служб доставки sale.delivery.handler.list",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "result",
+      "type": "sale_delivery_handler[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных обработчиках служб доставки",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/handler/sale-delivery-handler-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "14",
+        "NAME": "Uber",
+        "CODE": "uber",
+        "SORT": "250",
+        "DESCRIPTION": "Uber Description",
+        "SETTINGS": {
+          "CALCULATE_URL": "http://gateway.bx/calculate.php",
+          "CREATE_DELIVERY_REQUEST_URL": "http://gateway.bx/create_delivery_request.php",
+          "CANCEL_DELIVERY_REQUEST_URL": "http://gateway.bx/cancel_delivery_request.php",
+          "HAS_CALLBACK_TRACKING_SUPPORT": "Y",
+          "CONFIG": [
+            {
+              "TYPE": "STRING",
+              "NAME": "String Example",
+              "CODE": "SETTING_1"
+            },
+            {
+              "TYPE": "Y/N",
+              "NAME": "Checkbox Example",
+              "CODE": "SETTING_2"
+            },
+            {
+              "TYPE": "NUMBER",
+              "NAME": "Number Example",
+              "CODE": "SETTING_3"
+            },
+            {
+              "TYPE": "ENUM",
+              "NAME": "Enum Example",
+              "OPTIONS": {
+                "Option1Code": "Option1Value",
+                "Option2Code": "Option2Value",
+                "Option3Code": "Option3Value",
+                "Option4Code": "Option4Value",
+                "Option5Code": "Option5Value"
+              },
+              "CODE": "SETTING_4"
+            },
+            {
+              "TYPE": "DATE",
+              "NAME": "Date Example",
+              "CODE": "SETTING_5"
+            },
+            {
+              "TYPE": "LOCATION",
+              "NAME": "Location Example",
+              "CODE": "SETTING_6"
+            }
+          ]
+        },
+        "PROFILES": [
+          {
+            "NAME": "Taxi",
+            "DESCRIPTION": "Taxi Delivery",
+            "CODE": "TAXI"
+          },
+          {
+            "NAME": "Cargo",
+            "DESCRIPTION": "Cargo Delivery",
+            "CODE": "CARGO"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "start": 1713872315.334967,
+      "finish": 1713872315.655173,
+      "duration": 0.3202061653137207,
+      "processing": 0.013887882232666016,
+      "date_start": "2024-04-23T14:38:35+03:00",
+      "date_finish": "2024-04-23T14:38:35+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_delivery_handler[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных обработчиках служб доставки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/handler/sale-delivery-handler-list.html",
+  "executable": false,
+  "entityFields": [
+    "CODE",
+    "DESCRIPTION",
+    "ID",
+    "NAME",
+    "PROFILES",
+    "SETTINGS",
+    "SORT"
+  ]
+}

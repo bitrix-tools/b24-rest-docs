@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -275,6 +275,33 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.update", b24.Params{
+    	"id": 11,
+    	"fields": b24.Params{
+    		"title":         "Название задачи",
+    		"deadline":      "2025-12-31T23:59:59+02:00",
+    		"creatorId":     29,
+    		"responsibleId": 1,
+    		"crmItemIds":    []string{"L_1000959"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.update: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
     ```
 
 {% endlist %}

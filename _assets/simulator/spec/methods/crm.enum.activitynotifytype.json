@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "crm.enum.activitynotifytype",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить элементы перечисления «Тип уведомления о начале активности» crm.enum.activitynotifytype",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами уведомлений о начале активности (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-notify-type.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": 0,
+        "NAME": "",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 1,
+        "NAME": "мин.",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 2,
+        "NAME": "ч.",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      },
+      {
+        "ID": 3,
+        "NAME": "дн.",
+        "SYMBOL_CODE": null,
+        "SYMBOL_CODE_SHORT": null
+      }
+    ],
+    "time": {
+      "start": 1750150460.961181,
+      "finish": 1750150461.006235,
+      "duration": 0.045053958892822266,
+      "processing": 0.00042510032653808594,
+      "date_start": "2025-06-17T11:54:20+03:00",
+      "date_finish": "2025-06-17T11:54:21+03:00",
+      "operating_reset_at": 1750151061,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с типами уведомлений о начале активности (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-notify-type.html",
+  "executable": false
+}

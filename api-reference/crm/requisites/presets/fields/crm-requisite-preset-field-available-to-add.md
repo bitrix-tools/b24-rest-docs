@@ -227,6 +227,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.field.availabletoadd", b24.Params{
+    	"preset": b24.Params{
+    		"ID": 27,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.field.availabletoadd: %w", err)
+    }
+
+    var items []string
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.product.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить товарную позицию из оплаты crm.item.payment.product.delete",
+  "permissions": "требуется право на изменение заказа, из которого удаляется товарная позиция",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор товарной позиции в оплате. Можно получить с помощью crm.item.payment.product.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-delete.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-delete.html",
+  "executable": false
+}

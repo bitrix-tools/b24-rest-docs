@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "catalog.vat.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить ставку НДС catalog.vat.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_vat.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор ставки НДС"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/vat/catalog-vat-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-05-24T15:43:35+02:00",
+      "date_finish": "2024-05-24T15:43:36+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления ставки НДС"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/vat/catalog-vat-delete.html",
+  "executable": false
+}

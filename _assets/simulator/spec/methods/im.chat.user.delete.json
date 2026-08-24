@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "im.chat.user.delete",
+  "scope": "im",
+  "kind": "write",
+  "title": "Исключить участников из чата im.chat.user.delete",
+  "permissions": "участник чата с правом исключать участников из чата",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата. Идентификатор чата можно получить с помощью метода im.chat.get"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, которого нужно исключить из чата. Идентификатор можно получить с помощью метода im.chat.user.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/chat-users/im-chat-user-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772482407,
+      "finish": 1772482407.879069,
+      "duration": 0.8790690898895264,
+      "processing": 0,
+      "date_start": "2026-03-02T13:13:27+03:00",
+      "date_finish": "2026-03-02T13:13:27+03:00",
+      "operating_reset_at": 1772483007,
+      "operating": 0.7018318176269531
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если пользователь удален из чата"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/chat-users/im-chat-user-delete.html",
+  "executable": false
+}

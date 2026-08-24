@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод изменяет параметры указанной записи о затраченном времени.
+Метод `task.elapseditem.update` изменяет параметры указанной записи о затраченном времени.
 
 {% note info %}
 
@@ -286,6 +286,27 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.update", b24.Params{
+    	"TASKID": 691,
+    	"ITEMID": 5,
+    	"ARFIELDS": b24.Params{
+    		"SECONDS":      113,
+    		"COMMENT_TEXT": "текст комментария",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

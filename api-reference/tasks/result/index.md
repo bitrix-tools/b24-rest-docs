@@ -13,9 +13,9 @@
 
 В [REST 3.0](../../rest-v3.md) у результатов задачи появились отдельные методы для создания, изменения и удаления результата, а также вариант получения списка в новом формате ответа.
 
-> Быстрый переход: [все методы и события](#all-methods)
-> 
-> Пользовательская документация: [как зафиксировать результат работы над задачей](https://helpdesk.bitrix24.ru/open/18135236/) 
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как зафиксировать результат работы над задачей](https://helpdesk.bitrix24.ru/open/18135236/)
 
 ## Как начать работу
 
@@ -37,11 +37,11 @@
 
 ## Связь результатов с другими объектами
 
-**Задача.** Результаты привязаны к задаче по идентификатору `taskId`. Получить его можно методом [создания новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md)
+**Задача.** Результаты привязаны к задаче по идентификатору `taskId`. Получить его можно методом [создания новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md).
 
-**Комментарий.** Результат задачи создается из комментария по идентификатору `commentId`. Получить идентификатор комментария можно методом [создания комментария](../comment-item/task-comment-item-add.md) или методом [получения списка комментариев](../comment-item/task-comment-item-get-list.md) задачи
+**Комментарий.** Результат задачи создается из комментария по идентификатору `commentId`. Получить идентификатор комментария можно методом [создания комментария](../comment-item/task-comment-item-add.md) или методом [получения списка комментариев](../comment-item/task-comment-item-get-list.md) задачи.
 
-**Чат задачи.** В REST 3.0 метод [tasks.task.result.addfromchatmessage](./tasks-task-result-addfromchatmessage.md) создает результат из сообщения чата задачи. Для этого передайте `messageId`, полученный при отправке сообщения методом [tasks.task.chat.message.send](../tasks-task-chat-message-send.md) или методами [работы с сообщениями чатов](../../chats/messages/index.md)
+**Чат задачи.** В REST 3.0 метод [tasks.task.result.addfromchatmessage](./tasks-task-result-addfromchatmessage.md) создает результат из сообщения чата задачи. Для этого передайте `messageId`, полученный при отправке сообщения методом [tasks.task.chat.message.send](../tasks-task-chat-message-send.md) или методами [работы с сообщениями чатов](../../chats/messages/index.md).
 
 {% note tip "Пользовательская документация" %}
 
@@ -51,7 +51,7 @@
 
 ## Как удалить комментарий
 
-Метод [tasks.task.result.deleteFromComment](./tasks-task-result-delete-from-comment.md) не удаляет комментарий, только снимает фиксацию в качестве результата. Чтобы удалить комментарий с результатом используйте метод [task.commentitem.delete](../comment-item/task-comment-item-delete.md).
+Метод [tasks.task.result.deleteFromComment](./tasks-task-result-delete-from-comment.md) не удаляет комментарий, только снимает фиксацию в качестве результата. Чтобы удалить комментарий с результатом, используйте метод [task.commentitem.delete](../comment-item/task-comment-item-delete.md).
 
 ## Обзор методов {#all-methods}
 
@@ -67,9 +67,9 @@
 || [tasks.task.result.add](./tasks-task-result-add.md) | Добавляет результат к задаче ||
 || [tasks.task.result.addfromchatmessage](./tasks-task-result-addfromchatmessage.md) | Создает результат из сообщения чата задачи ||
 || [tasks.task.result.update](./tasks-task-result-update.md) | Обновляет текст результата ||
-|| [tasks.task.result.list](./tasks-task-result-list-rest-v3.md) | Получает список результатов задачи v 3.0 ||
+|| [tasks.task.result.list](./tasks-task-result-list-rest-v3.md) | Получает список результатов задачи в REST 3.0 ||
 || [tasks.task.result.delete](./tasks-task-result-delete.md) | Удаляет результат задачи ||
-|| [tasks.task.result.addFromComment](./tasks-task-result-add-from-comment.md) | Добавляет комментарий в результат ||
+|| [tasks.task.result.addFromComment](./tasks-task-result-add-from-comment.md) | Фиксирует комментарий как результат ||
 || [tasks.task.result.list](./tasks-task-result-list.md) | Получает список результатов задачи ||
-|| [tasks.task.result.deleteFromComment](./tasks-task-result-delete-from-comment.md) | Удаляет комментарий из результата задачи ||
+|| [tasks.task.result.deleteFromComment](./tasks-task-result-delete-from-comment.md) | Снимает фиксацию комментария как результата ||
 |#

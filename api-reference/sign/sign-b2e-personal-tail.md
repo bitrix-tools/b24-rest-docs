@@ -25,14 +25,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **limit**
-[`integer`](../data-types.md) | Количество записей на странице. 
+[`integer`](../data-types.md) | Количество записей на странице.
 
-Параметр принимает значение от 1 до 50. 
+Параметр принимает значение от 1 до 1000.
 
 По умолчанию выводится 20 записей на странице ||
 || **offset**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией. Аналогичен стандартному параметру [start](../../settings/performance/huge-data.md).
- 
+
 Размер страницы результатов зависит от параметра **limit**
 ||
 |#
@@ -75,7 +75,7 @@
       const response = await $b24.actions.v2.call.make<SignedDocumentItem[]>({
         method: 'sign.b2e.personal.tail',
         params: {
-          // Number of records per page. Value from 1 to 50. Default is 20.
+          // Number of records per page. Value from 1 to 1000. Default is 20.
           limit: 2,
           // Offset for pagination (analogous to the standard start parameter).
           offset: 0,
@@ -110,7 +110,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'sign.b2e.personal.tail',
             params: {
-              // Number of records per page. Value from 1 to 50. Default is 20.
+              // Number of records per page. Value from 1 to 1000. Default is 20.
               limit: 2,
               // Offset for pagination (analogous to the standard start parameter).
               offset: 0,
@@ -196,7 +196,7 @@
     BX24.callMethod(
         'sign.b2e.personal.tail',
         {
-            // Количество записей на странице. Значение от 1 до 50. По умолчанию 20.
+            // Количество записей на странице. Значение от 1 до 1000. По умолчанию 20.
             limit: 2,
             
             // Параметр для управления постраничной навигацией.
@@ -235,6 +235,32 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sign.b2e.personal.tail", b24.Params{
+    	"limit":  2,
+    	"offset": 0,
+    })
+    if err != nil {
+    	return fmt.Errorf("sign.b2e.personal.tail: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"id"`
+    	Title      string `json:"title"`
+    	SignedDate string `json:"signed_date"`
+    	FileURL    string `json:"file_url"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -248,13 +274,13 @@ HTTP-статус: **200**
             "id": 59,
             "title": "test-pdf е",
             "signed_date": "2024-06-28T19:34:58+03:00",
-            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=6348b3670000071b0075444600000001f0f1073855cfba3bff42f043e2c1c26a46cb93&token=sign.b2e%7CaWQ9NTkmXz1udzlucFJBVHUxM2JjcUV2YncyY0tQbTZNSTNzT0Z3MA%3D%3D%7CImRvd25sb2FkfHNpZ24uYjJlfGFXUTlOVGttWHoxdWR6bHVjRkpCVkhVeE0ySmpjVVYyWW5jeVkwdFFiVFpOU1ROelQwWjNNQT09fDYzNDhiMzY3MDAwMDA3MWIwMDc1NDQ0NjAwMDAwMDAxZjBmMTA3Mzg1NWNmYmEzYmZmNDJmMDQzZTJjMWMyNmE0NmNiOTMi.AoYFUXxsuvEjW9ipqBndwej6EvcjBWJTXMh9QQ3O6BU%3D"
+            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=6348b367...&token=sign.b2e..."
         },
         {
             "id": 55,
             "title": "test-pdf 778484",
             "signed_date": "2024-06-28T18:39:47+03:00",
-            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=6348b3670000071b0075444600000001f0f1073855cfba3bff42f043e2c1c26a46cb93&token=sign.b2e%7CaWQ9NTUmXz04eDU2VkhCUU9hZ0xQQzA3eDJLNWRuYmJ4dTFYOWgzOA%3D%3D%7CImRvd25sb2FkfHNpZ24uYjJlfGFXUTlOVFVtWHowNGVEVTJWa2hDVVU5aFoweFFRekEzZURKTE5XUnVZbUo0ZFRGWU9XZ3pPQT09fDYzNDhiMzY3MDAwMDA3MWIwMDc1NDQ0NjAwMDAwMDAxZjBmMTA3Mzg1NWNmYmEzYmZmNDJmMDQzZTJjMWMyNmE0NmNiOTMi.PYj60eOODc0X4n0pbwMFwIJKV3uZTlSpZBGCmPaj%2F7A%3D"
+            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=6348b367...&token=sign.b2e..."
         }
     ],
     "time": {
@@ -276,7 +302,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа. Содержит информацию о подписанных документах пользователя ||
+[`array`](../data-types.md) | Корневой элемент ответа. Содержит информацию о подписанных документах пользователя ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -313,7 +339,7 @@ HTTP-статус: **401**
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sign-b2e-mysafe-tail.md)

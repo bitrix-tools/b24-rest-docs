@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -252,6 +252,28 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "humanresources.node.communication.list", b24.Params{
+    	"id": 15,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("humanresources.node.communication.list: %w", err)
+    }
+
+    var item struct {
+    	ChannelsNoAccess int `json:"channelsNoAccess"`
+    	ChatsNoAccess    int `json:"chatsNoAccess"`
+    	CollabsNoAccess  int `json:"collabsNoAccess"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChannelsNoAccess, item.ChatsNoAccess)
     ```
 
 {% endlist %}

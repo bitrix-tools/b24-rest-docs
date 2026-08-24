@@ -27,7 +27,7 @@
 
 Идентификатор можно получить методом [imopenlines.session.open](./imopenlines-session-open.md) или [imopenlines.session.history.get](./imopenlines-session-history-get.md) ||
 || **DIALOG_ID**
-[`string`](../../../data-types.md) | Идентификатор диалога в формате `chat<ID>`, где `<ID>` — индентификатор чата открытой линии ||
+[`string`](../../../data-types.md) | Идентификатор диалога в формате `chat<ID>`, где `<ID>` — идентификатор чата открытой линии ||
 || **SESSION_ID**
 [`integer`](../../../data-types.md) | Идентификатор сессии. 
 
@@ -272,6 +272,31 @@
     } else {
         echo 'Success: ' . print_r($result['result'], true);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.dialog.get", b24.Params{
+    	"USER_CODE": "livechat|1|1373|211",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imopenlines.dialog.get: %w", err)
+    }
+
+    var item struct {
+    	ID              b24.ID `json:"id"`
+    	ParentChatID    int    `json:"parent_chat_id"`
+    	ParentMessageID int    `json:"parent_message_id"`
+    	Name            string `json:"name"`
+    	Owner           int    `json:"owner"`
+    	Extranet        bool   `json:"extranet"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.ParentChatID)
     ```
 
 {% endlist %}
@@ -586,6 +611,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
 || `400` | `ACCESS_ERROR` | You do not have access to the specified dialog | Диалог не найден или нет доступа к нему ||
 |#
 

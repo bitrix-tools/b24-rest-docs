@@ -17,15 +17,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id**^*^
-[`integer`](../../data-types.md) | Идентификатор документа ||
+[`integer`](../../../data-types.md) | Идентификатор документа ||
 || **values**
-[`object`](../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -55,21 +55,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **DocumentNumber**
-[`string`](../../data-types.md) | Номер документа ||
+[`string`](../../../data-types.md) | Номер документа ||
 || **DocumentCreateTime**
-[`string`](../../data-types.md) | Дата генерации ||
+[`string`](../../../data-types.md) | Дата генерации ||
 || **DocumentTitle**
-[`string`](../../data-types.md) | Название документа ||
+[`string`](../../../data-types.md) | Название документа ||
 || **ClientPhone**
-[`string`](../../data-types.md) | Телефон клиента ||
+[`string`](../../../data-types.md) | Телефон клиента ||
 || **ClientEmail**
-[`string`](../../data-types.md) | Email клиента ||
+[`string`](../../../data-types.md) | Email клиента ||
 || **ProductsProductName**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Название товара ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Название товара ||
 || **ProductsProductQuantity**
-[`array`](../../data-types.md) \| [`string`](../../data-types.md) | Количество ||
+[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Количество ||
 || **TotalSum**
-[`string`](../../data-types.md) | Общая сумма ||
+[`string`](../../../data-types.md) | Общая сумма ||
 |#
 
 ## Примеры кода
@@ -292,6 +292,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.document.getfields", b24.Params{
+    	"id": 101,
+    	"values": b24.Params{
+    		"DocumentNumber": "2026-001",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.document.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentFields".
+    raw, ok := b24.Unwrap(res.Result, "documentFields")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentFields")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -363,9 +386,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит объект [`result`](#result) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`result`](#result) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип result {#result}
@@ -374,7 +397,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **documentFields**
-[`object`](../../data-types.md) | Объект полей документа, где ключом является код поля, а значением — структура [`documentField`](#documentfield) ||
+[`object`](../../../data-types.md) | Объект полей документа, где ключом является код поля, а значением — структура [`documentField`](#documentfield) ||
 |#
 
 #### Тип documentField {#documentfield}
@@ -383,25 +406,25 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **title**
-[`string`](../../data-types.md) | Название поля ||
+[`string`](../../../data-types.md) | Название поля ||
 || **value**
-[`string`](../../data-types.md) \| [`array`](../../data-types.md) \| [`null`](../../data-types.md) | Текущее значение поля ||
+[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) \| [`null`](../../../data-types.md) | Текущее значение поля ||
 || **default**
-[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Значение поля по умолчанию ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Значение поля по умолчанию ||
 || **required**
-[`char`](../../data-types.md) | Признак обязательности поля: `Y` или `N` ||
+[`char`](../../../data-types.md) | Признак обязательности поля: `Y` или `N` ||
 || **type**
-[`string`](../../data-types.md) | Тип поля, например `IMAGE` ||
+[`string`](../../../data-types.md) | Тип поля, например `IMAGE` ||
 || **group**
-[`array`](../../data-types.md) | Группы, к которым относится поле ||
+[`array`](../../../data-types.md) | Группы, к которым относится поле ||
 || **chain**
-[`string`](../../data-types.md) \| [`array`](../../data-types.md) | Путь поля в провайдере данных, например `this.SOURCE.MY_COMPANY.UF_LOGO` ||
+[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) | Путь поля в провайдере данных, например `this.SOURCE.MY_COMPANY.UF_LOGO` ||
 || **format**
-[`object`](../../data-types.md) | Параметры форматирования поля, например `{"currencyId":"RUB","withZeros":true}` ||
+[`object`](../../../data-types.md) | Параметры форматирования поля, например `{"currencyId":"RUB","withZeros":true}` ||
 || **options**
-[`object`](../../data-types.md) | Дополнительные параметры поля, например `{"isArray":true}` ||
+[`object`](../../../data-types.md) | Дополнительные параметры поля, например `{"isArray":true}` ||
 || **hideRow**
-[`char`](../../data-types.md) | Служебный признак скрытия строки: `Y` или `N` ||
+[`char`](../../../data-types.md) | Служебный признак скрытия строки: `Y` или `N` ||
 |#
 
 ## Обработка ошибок

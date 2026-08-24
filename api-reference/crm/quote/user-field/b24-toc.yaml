@@ -1,4 +1,4 @@
-title: Пользователськие поля
+title: Пользовательские поля
 href: index.md
 items:
   - name: Обзор методов
@@ -6,14 +6,14 @@ items:
   - name: Создать пользовательское поле
     href: crm-quote-user-field-add.md
   - name: Изменить пользовательское поле
-    href: crm-quote-user-field-update.md    
+    href: crm-quote-user-field-update.md
   - name: Получить пользовательское поле по идентификатору
     href: crm-quote-user-field-get.md
   - name: Получить список пользовательских полей
     href: crm-quote-user-field-list.md
   - name: Удалить пользовательское поле
-    href: crm-quote-user-field-delete.md 
-  - name: События 
+    href: crm-quote-user-field-delete.md
+  - name: События
     include:
       path: events/b24-toc.yaml
       mode: link

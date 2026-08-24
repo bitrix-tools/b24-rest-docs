@@ -1,0 +1,151 @@
+{
+  "$v": 1,
+  "method": "crm.requisite.bankdetail.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список банковских реквизитов по фильтру crm.requisite.bankdetail.list",
+  "permissions": "пользователь с правом на чтение контактов и компаний",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержит список полей, которые необходимо выбрать (смотрите поля банковского реквизита). Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля банковских реквизитов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных банковских реквизитов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям банковского реквизита. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных банковских реквизитов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям банковского реквизита. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ENTITY_ID": "27",
+        "ID": "11",
+        "NAME": "Тинькофф"
+      },
+      {
+        "ENTITY_ID": "30",
+        "ID": "15",
+        "NAME": "АО \"АЛЬФА-БАНК\""
+      },
+      {
+        "ENTITY_ID": "30",
+        "ID": "16",
+        "NAME": "АО \"Тинькофф Банк\""
+      },
+      {
+        "ENTITY_ID": "45",
+        "ID": "17",
+        "NAME": "АО \"Тинькофф Банк\""
+      },
+      {
+        "ENTITY_ID": "45",
+        "ID": "18",
+        "NAME": "АО \"АЛЬФА-БАНК\""
+      }
+    ],
+    "total": 5,
+    "time": {
+      "start": 1717498684.70562,
+      "finish": 1717498685.13295,
+      "duration": 0.42733001708984375,
+      "processing": 0.020370006561279297,
+      "date_start": "2024-06-04T12:58:04+02:00",
+      "date_finish": "2024-06-04T12:58:05+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией из выбранных банковских реквизитов. Каждый элемент содержит выбранные поля банковского реквизита"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-list.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "CODE",
+    "COMMENTS",
+    "COUNTRY_ID",
+    "ENTITY_ID",
+    "ID",
+    "NAME",
+    "ORIGINATOR_ID",
+    "RQ_ACC_CURRENCY",
+    "RQ_ACC_NAME",
+    "RQ_ACC_NUM",
+    "RQ_ACC_TYPE",
+    "RQ_AGENCY_NAME",
+    "RQ_BANK_ADDR",
+    "RQ_BANK_CODE",
+    "RQ_BANK_NAME",
+    "RQ_BANK_ROUTE_NUM",
+    "RQ_BIC",
+    "RQ_BIK",
+    "RQ_CODEB",
+    "RQ_CODEG",
+    "RQ_COR_ACC_NUM",
+    "RQ_IBAN",
+    "RQ_IIK",
+    "RQ_MFO",
+    "RQ_RIB",
+    "RQ_SWIFT",
+    "SORT",
+    "XML_ID"
+  ]
+}

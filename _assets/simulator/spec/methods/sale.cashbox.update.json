@@ -1,0 +1,135 @@
+{
+  "$v": 1,
+  "method": "sale.cashbox.update",
+  "scope": "cashbox",
+  "kind": "write",
+  "title": "Обновить существующую кассу sale.cashbox.update",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_cashbox.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор обновляемой кассы"
+    },
+    {
+      "name": "FIELDS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения обновляемых полей (подробное описание приведено ниже)",
+      "ref": "#/defs/FIELDSFields"
+    }
+  ],
+  "defs": {
+    "FIELDSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название кассы"
+        },
+        {
+          "name": "EMAIL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Адрес электронной почты, на который будут отправляться уведомления в случае возникновения ошибок при печати чеков"
+        },
+        {
+          "name": "OFD",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код обработчика ОФД. Доступные обработчики ОФД: - bx_firstofd — Первый ОФД - bx_platformaofd — Платформа ОФД - bx_yarusofd — ОФД ЯРУС - bx_taxcomofd — Такском ОФД - bx_ofdruofd — OFD.RU - bx_tenzorofd — Тензор ОФД - bx_conturofd — Контур ОФД По умолчанию без ОФД"
+        },
+        {
+          "name": "OFD_SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Настройки ОФД (подробное описание приведено ниже)"
+        },
+        {
+          "name": "NUMBER_KKM",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор кассы"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Активность кассы. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Сортировка"
+        },
+        {
+          "name": "USE_OFFLINE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Используется ли касса офлайн. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Настройки кассы в соответствии со структурой настроек, переданной в ключе CONFIG поля SETTINGS метода sale.cashbox.handler.add"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/cashbox/sale-cashbox-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712135335.026931,
+      "finish": 1712135335.407762,
+      "duration": 0.3808310031890869,
+      "processing": 0.0336611270904541,
+      "date_start": "2024-04-03T11:08:55+02:00",
+      "date_finish": "2024-04-03T11:08:55+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления полей кассы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/cashbox/sale-cashbox-update.html",
+  "executable": false
+}

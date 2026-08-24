@@ -19,7 +19,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -27,7 +27,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор файла.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getchildren](../folder/disk-folder-get-children.md), если файл находится в папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getChildren](../folder/disk-folder-get-children.md), если файл находится в папке ||
 || **filter**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -304,6 +304,36 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.getVersions", b24.Params{
+    	"id": 9043,
+    	"filter": b24.Params{
+    		"NAME": "%тест%",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.getVersions: %w", err)
+    }
+
+    var items []struct {
+    	ID                   b24.ID `json:"ID"`
+    	ObjectID             b24.ID `json:"OBJECT_ID"`
+    	Size                 string `json:"SIZE"`
+    	Name                 string `json:"NAME"`
+    	GlobalContentVersion string `json:"GLOBAL_CONTENT_VERSION"`
+    	CreateTime           string `json:"CREATE_TIME"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.ObjectID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -415,4 +445,5 @@ HTTP-статус: **400**
 - [{#T}](./disk-file-rename.md)
 - [{#T}](./disk-file-restore-from-version.md)
 - [{#T}](./disk-file-restore.md)
+- [{#T}](./disk-file-search.md)
 - [{#T}](./disk-file-upload-version.md)

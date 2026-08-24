@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -246,6 +246,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.get", b24.Params{
+    	"moduleId": "crm",
+    	"id":       7095,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "field".
+    raw, ok := b24.Unwrap(res.Result, "field")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа field")
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	EntityID   string `json:"entityId"`
+    	FieldName  string `json:"fieldName"`
+    	UserTypeID string `json:"userTypeId"`
+    	Sort       string `json:"sort"`
+    	Multiple   string `json:"multiple"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -387,15 +419,15 @@ HTTP-статус: **200**
 || **languageId**
 [`object`](../../../data-types.md) | Языки, для которых заданы подписи поля ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования ||
 || **listColumnLabel**
-[`lang_map`](../../../data-types.md) | Подписи колонки в списке ||
+[`lang_map`](../../data-types.md) | Подписи колонки в списке ||
 || **listFilterLabel**
-[`lang_map`](../../../data-types.md) | Подписи в фильтре ||
+[`lang_map`](../../data-types.md) | Подписи в фильтре ||
 || **errorMessage**
-[`lang_map`](../../../data-types.md) | Текст сообщения об ошибке ||
+[`lang_map`](../../data-types.md) | Текст сообщения об ошибке ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Подсказка по полю ||
+[`lang_map`](../../data-types.md) | Подсказка по полю ||
 || **enum**
 [`object[]`](../../../data-types.md) | Варианты значений.
 
@@ -419,9 +451,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Вы не можете просматривать настройки пользовательских полей | Недостаточно прав на просмотр поля. Эта же ошибка может возвращаться, если поле с переданным `id` уже удалено или недоступно в контексте `moduleId` ||
-|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
-|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|| Пустое значение | Вы не можете просматривать настройки пользовательских полей | Недостаточно прав на просмотр поля. Эта же ошибка может возвращаться, если поле с переданным `id` уже удалено или недоступно в контексте `moduleId` ||
+|| Пустое значение | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| Пустое значение | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

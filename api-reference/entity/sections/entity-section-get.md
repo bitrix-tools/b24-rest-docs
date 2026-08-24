@@ -24,7 +24,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -326,6 +326,40 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.section.get", b24.Params{
+    	"ENTITY": "dish",
+    	"SORT": b24.Params{
+    		"NAME": "ASC",
+    	},
+    	"FILTER": b24.Params{
+    		"ACTIVE": "Y",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("entity.section.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	TimestampX string `json:"TIMESTAMP_X"`
+    	DateCreate string `json:"DATE_CREATE"`
+    	CreatedBy  string `json:"CREATED_BY"`
+    	ModifiedBy string `json:"MODIFIED_BY"`
+    	Active     string `json:"ACTIVE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.TimestampX)
+    }
     ```
 
 {% endlist %}

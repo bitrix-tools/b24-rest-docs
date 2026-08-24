@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод возвращает список доступных полей элемента (позиции) корзины для методов [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) — эти методы работают только с товарами модуля catalog в элементах (позициях) корзины.
+Метод `sale.basketitem.getFieldsCatalogProduct` возвращает список доступных полей элемента корзины для методов [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) — эти методы работают только с товарами модуля catalog в элементах корзины.
 
 В отличие от [sale.basketitem.getFields](./sale-basket-item-get-fields.md) метод `sale.basketitem.getFieldsCatalogProduct` возвращает минимально необходимый для работы список полей.
+
+## Параметры метода
 
 Без параметров.
 
@@ -212,6 +214,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketitem.getFieldsCatalogProduct", nil)
+    if err != nil {
+    	return fmt.Errorf("sale.basketitem.getFieldsCatalogProduct: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -263,7 +279,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`object`](../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
 ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||

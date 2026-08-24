@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод добавляет затраченное время к задаче. Возвращает идентификатор добавленной записи.
+Метод `task.elapseditem.add` добавляет затраченное время к задаче. Возвращает идентификатор добавленной записи.
 
 {% note info %}
 
@@ -275,6 +275,28 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.add", b24.Params{
+    	"TASKID": 691,
+    	"ARFIELDS": b24.Params{
+    		"SECONDS":      113,
+    		"COMMENT_TEXT": "текст комментария",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

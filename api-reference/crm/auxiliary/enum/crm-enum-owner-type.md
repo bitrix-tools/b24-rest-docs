@@ -126,7 +126,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -135,18 +134,18 @@
                 'crm.enum.ownertype',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.ownertype: ' . $e->getMessage();
@@ -203,6 +202,20 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.enum.ownertype", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.enum.ownertype: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
@@ -285,7 +298,7 @@ HTTP-статус: **200**
      "NAME": "Закупка",
      "SYMBOL_CODE": "DYNAMIC_156",
      "SYMBOL_CODE_SHORT": "T9c"
-    },
+    }
 ],
 "time": {
     "start": 1750153184.228934,
@@ -328,7 +341,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

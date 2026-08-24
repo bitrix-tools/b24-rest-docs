@@ -2,7 +2,11 @@
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом создания и изменения контактов в CRM
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «изменения» элементов объекта CRM
+>
+> - [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
+> - [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) — пользователь с правом «добавления» элемента объекта CRM
+> - [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
 
 {% note tip "" %}
 
@@ -13,221 +17,70 @@
 
 {% endnote %}
 
-Данные о контактах в CRM могут содержать несколько номеров телефонов и адресов электронной почты. Иногда нужно обновить существующие значения или удалить ненужные.
+Телефоны и почту Битрикс24 хранит не отдельными полями контакта, а мультиполем `fm` — набором записей типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). У одного контакта может быть сколько угодно таких записей: рабочая и личная почта, мобильный и рабочий телефон.
 
-Создадим контакт с несколькими email и номерами телефонов, а потом изменим эту информацию. Для этого последовательно выполним три метода:
+У каждой записи есть свой идентификатор `id`, который выдает Битрикс24 при создании. Изменить или удалить конкретный номер можно только по этому идентификатору: по тексту значения система запись не ищет. Поэтому сначала нужно прочитать контакт и узнать идентификаторы, а уже потом отправлять изменения.
 
-1. [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md) — создадим контакт в CRM,
+В результате сценария у контакта изменятся рабочая почта и мобильный телефон, личная почта будет удалена, а рабочий телефон останется прежним.
 
-2. [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) — получим информацию о созданном контакте,
+Сценарий состоит из трех шагов.
 
-3. [crm.contact.update](../../../api-reference/crm/contacts/crm-contact-update.md) — изменим данные о email и телефонах.
+1. Создать контакт с почтой и телефонами методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md)
+2. Прочитать контакт и узнать `id` записей мультиполя методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
+3. Изменить одни значения и удалить другие методом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md)
 
-## Поля crm_multifield
+Если контакт уже существует, шаг 1 пропустите и начните с шага 2.
 
-Телефон и email система хранит как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). У каждого объекта есть поля:
+## Что нужно до начала
 
-```javascript
-{
-    ID: 123, // Идентификатор существующей записи. Нужен для обновления
-    TYPE_ID: "PHONE" // Тип множественного поля
-    VALUE: "test@test.com", // Значение
-    VALUE_TYPE: "WORK" // Тип значения
-}
-```
+- вебхук создан от имени пользователя, у которого есть право изменять контакты в CRM
 
--  Для удаления значения множественного поля, передайте идентификатор `ID` и пустое значение `VALUE`. Другой вариант — укажите параметр `DELETE: 'Y'` вместо `VALUE`.
+- в правах вебхука отмечен scope `crm`
 
--  Для обновления значения множественного поля передайте идентификатор и новое значение.
+- путь вебхука дает полный доступ в рамках своего scope. Храните путь в переменной окружения и не публикуйте его в открытом коде
 
-## Пример с email
+- обязательные пользовательские поля контакта передавайте в шаге 1 сами: учитывает их метод или нет, зависит от настройки CRM «Проверять наличие обязательных пользовательских полей»
 
-### 1. Добавляем контакт с двумя email
+Сценарий показан на контакте — `entityTypeId`: `3`. Мультиполя устроены одинаково у контакта, компании и лида: что поменять для других объектов, описано в блоке [Что важно учитывать](#other-types).
 
-Для создания контакта в CRM выполним метод [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md). В объекте `fields` передадим поля:
+## Как ключ в поле fm определяет операцию {#fm-format}
 
--  `NAME` — имя контакта,
+В шаге 1 поле `fm` — это массив: каждый элемент добавляет новую запись.
 
--  `EMAIL` — массив электронных адресов из `arNewEmail`.
+В шаге 3 поле `fm` — это объект, и операцию определяет ключ элемента.
+
+#|
+|| **Ключ** | **Что делает** | **Что передать в элементе** ||
+|| `n0`, `n1`, `n2` ... | Добавляет новую запись | `typeId`, `valueType`, `value` ||
+|| Числовой `id` записи | Меняет значение существующей записи | `typeId`, `valueType`, новый `value` ||
+|| Числовой `id` записи | Удаляет запись | `typeId` и пустой `value` ||
+|#
+
+Внутри каждого элемента передаются три ключа:
+
+- `typeId` — тип записи: `PHONE`, `EMAIL`, `WEB`, `IM`, `LINK`
+
+- `valueType` — подтип значения: для телефона — `WORK`, `MOBILE`, `FAX`, `HOME`, `PAGER`, `MAILING`, `OTHER`; для почты — `WORK`, `HOME`, `MAILING`, `OTHER`
+
+- `value` — само значение
 
 {% note warning "" %}
 
-Проверьте, какие обязательные поля настроены для контактов в вашем Битрикс24. Все обязательные поля нужно передать в метод [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md).
+`typeId` обязателен в каждом элементе объекта `fm`, в том числе при удалении. Без него метод не вернет ошибку, но и не выполнит операцию: ответ придет успешный, а значение останется прежним.
 
 {% endnote %}
 
-{% list tabs %}
+Записи, которых нет в объекте `fm`, метод не изменяет. Поэтому удаление задают отдельной операцией с пустым `value`, а не отсутствием записи в запросе.
 
-- JS
+## 1. Создадим контакт с почтой и телефонами {#add}
 
-    ```javascript
-    import { B24Hook } from '@bitrix24/b24jssdk'
+Используем метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) с параметрами:
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
-    ```
+- `entityTypeId` — идентификатор [типа объекта CRM](../../../api-reference/crm/data-types.md#object_type), обязательный параметр. Укажем `3` — контакт
 
-- PHP
+- `fields[name]` и `fields[lastName]` — имя и фамилия контакта
 
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-    ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
-    ))
-    ```
-
-{% endlist %}
-
-В результате получим идентификатор нового контакта, например, `25`.
-
-```json
-{
-	"result": 25
-}
-```
-
-### 2. Получаем контакт для редактирования
-
-Чтобы получить информацию о созданном контакте, используем метод [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) с идентификатором `ID` из результата предыдущего запроса.
-
-{% list tabs %}
-
-- JS
-
-    ```javascript
-    // получаем информацию о контакте по ID
-    const response = await $b24.actions.v2.call.make({
-        method: 'crm.contact.get',
-        params: { ID: contactId },
-        requestId: 'contact-get'
-    })
-    const contactData = response.getData().result
-    ```
-
-- PHP
-
-    ```php
-    // получаем информацию о контакте по ID
-    $contactData = $sb->getCRMScope()->contact()->get($contactId)->contact();
-    ```
-
-- Python
-
-    ```python
-    # получаем информацию о контакте по ID
-    contact_data = client.crm.contact.get(bitrix_id=contact_id).result
-    ```
-
-{% endlist %}
-
-В результате получим описание всех полей нового контакта.
-
-```json
-{
-    "result": {
-        "ID": "25",
-        "NAME": "Новый контакт",
-		..., // другие поля
-        "EMAIL": [
-            {
-                "ID": "1967",
-                "VALUE_TYPE": "WORK",
-                "VALUE": "work_email@nomail.com",
-                "TYPE_ID": "EMAIL"
-            },
-            {
-                "ID": "1969",
-                "VALUE_TYPE": "HOME",
-                "VALUE": "home_email@nomail.com",
-                "TYPE_ID": "EMAIL"
-            }
-        ]
-    }
-}
-```
-
-### 3. Обновляем список email
-
-Для изменения списка email выполним метод [crm.contact.update](../../../api-reference/crm/contacts/crm-contact-update.md).
-
--  `ID` — идентификатор контакта,
-
--  `FIELDS` — массив полей, которые надо изменить. Передадим в массиве поле `EMAIL` и новые значения адресов: для первого адреса укажем новый email, а для второго — `DELETE: 'Y'`, чтобы удалить его.
-
-{% list tabs %}
-
-- JS
-
-    ```javascript
-    // подготавливаем массив с новой информацией о email
-    const arUpdateEmail = [
-        { ID: contactData.EMAIL[0].ID, VALUE: 'new_work_email@example.com' }, // меняем значение для первого email
-        { ID: contactData.EMAIL[1].ID, DELETE: 'Y' } // удаляем второе значение
-    ]
-
-    // обновляем контакт
-    await $b24.actions.v2.call.make({
-        method: 'crm.contact.update',
-        params: { ID: contactId, FIELDS: { EMAIL: arUpdateEmail } },
-        requestId: 'contact-update'
-    })
-    ```
-
-- PHP
-
-    ```php
-    // подготавливаем массив с новой информацией о email
-    $arUpdateEmail = [
-        ['ID' => $contactData->EMAIL[0]->ID, 'VALUE' => 'new_work_email@example.com'], // меняем значение для первого email
-        ['ID' => $contactData->EMAIL[1]->ID, 'DELETE' => 'Y'], // удаляем второе значение
-    ];
-
-    // обновляем контакт
-    $sb->getCRMScope()->contact()->update($contactId, ['EMAIL' => $arUpdateEmail]);
-    ```
-
-- Python
-
-    ```python
-    # подготавливаем массив с новой информацией о email
-    ar_update_email = [
-        {"ID": contact_data["EMAIL"][0]["ID"], "VALUE": "new_work_email@example.com"},  # меняем значение для первого email
-        {"ID": contact_data["EMAIL"][1]["ID"], "DELETE": "Y"},  # удаляем второе значение
-    ]
-
-    # обновляем контакт
-    client.crm.contact.update(bitrix_id=contact_id, fields={"EMAIL": ar_update_email})
-    ```
-
-{% endlist %}
-
-При успешном обновлении метод вернет `true`.
-
-```json
-{
-    "result": true,
-}
-```
-
-### Полный пример кода
+- `fields[fm]` — массив записей мультиполя. Передадим две почты и два телефона
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -241,194 +94,25 @@
     const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-    const arNewEmail = [
-        { VALUE: 'work_email@nomail.com', VALUE_TYPE: 'WORK' },
-        { VALUE: 'home_email@nomail.com', VALUE_TYPE: 'HOME' }
-    ]
-
-    // Шаг 1: создаем контакт
-    const newContact = await $b24.actions.v2.call.make({
-        method: 'crm.contact.add',
-        params: { fields: { NAME: 'Новый контакт', EMAIL: arNewEmail } },
-        requestId: 'contact-add'
-    })
-    if (!newContact.isSuccess) {
-        console.error('Ошибка создания контакта: ' + newContact.getErrorMessages().join('; '))
-    } else {
-        const contactId = newContact.getData().result
-
-        // Шаг 2: получаем данные контакта
-        const contactResponse = await $b24.actions.v2.call.make({
-            method: 'crm.contact.get',
-            params: { ID: contactId },
-            requestId: 'contact-get'
-        })
-        const contactData = contactResponse.getData().result
-
-        // Проверяем наличие email
-        if ((contactData.EMAIL?.length ?? 0) >= 2) {
-            // Шаг 3: формируем обновление email
-            const arUpdateEmail = [
-                { ID: contactData.EMAIL[0].ID, VALUE: 'new_work_email@example.com' },
-                { ID: contactData.EMAIL[1].ID, DELETE: 'Y' }
-            ]
-
-            // обновляем контакт
-            const resultContactChange = await $b24.actions.v2.call.make({
-                method: 'crm.contact.update',
-                params: { ID: contactId, FIELDS: { EMAIL: arUpdateEmail } },
-                requestId: 'contact-update'
-            })
-            if (!resultContactChange.isSuccess) {
-                console.error('Ошибка обновления контакта: ' + resultContactChange.getErrorMessages().join('; '))
-            } else {
-                console.log('Контакт успешно обновлен')
-            }
-        } else {
-            console.warn('Не найдено достаточно email для обновления.')
-        }
-    }
-    ```
-
-- PHP
-
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-    $contact = $sb->getCRMScope()->contact();
-
-    // Формируем массив email в формате multifield
-    $newEmail = [
-        ['VALUE' => 'work_email@nomail.com', 'VALUE_TYPE' => 'WORK'],
-        ['VALUE' => 'home_email@nomail.com', 'VALUE_TYPE' => 'HOME'],
-    ];
-
-    try {
-        // Шаг 1: создаем контакт
-        $contactId = $contact->add([
-            'NAME' => 'Новый контакт',
-            'EMAIL' => $newEmail,
-        ])->getId();
-
-        // Шаг 2: получаем данные о контакте
-        $contactData = $contact->get($contactId)->contact();
-
-        if (count($contactData->EMAIL) >= 2) {
-            // Шаг 3: формируем обновление email
-            $updateEmail = [
-                ['ID' => $contactData->EMAIL[0]->ID, 'VALUE' => 'new_work_email@example.com'],
-                ['ID' => $contactData->EMAIL[1]->ID, 'DELETE' => 'Y'], // удаляем второй email
-            ];
-
-            // обновляем контакт
-            $contact->update($contactId, ['EMAIL' => $updateEmail]);
-            echo 'Контакт успешно обновлен.';
-        } else {
-            echo 'Не найдены email для обновления.';
-        }
-    } catch (\Throwable $e) {
-        echo 'Ошибка работы с контактом: ' . $e->getMessage();
-    }
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.ru",
-            webhook_token="USER_ID/TOKEN",
-        )
-    )
-
-    try:
-        new_contact_id = int(
-            client.crm.contact.add(
-                fields={
-                    "NAME": "Новый контакт",
-                    "EMAIL": [
-                        {"VALUE": "work_email@nomail.com", "VALUE_TYPE": "WORK"},
-                        {"VALUE": "home_email@nomail.com", "VALUE_TYPE": "HOME"},
-                    ],
-                }
-            ).response.result
-        )
-    except BitrixAPIError as error:
-        print(f"Ошибка создания контакта: {error}")
-    else:
-        try:
-            contact_data = client.crm.contact.get(
-                bitrix_id=new_contact_id,
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка получения контакта: {error}")
-        else:
-            if len(contact_data.get("EMAIL", [])) >= 2:
-                update_email = [
-                    {
-                        "ID": contact_data["EMAIL"][0]["ID"],
-                        "VALUE": "new_work_email@example.com",
-                    },
-                    {
-                        "ID": contact_data["EMAIL"][1]["ID"],
-                        "DELETE": "Y",
-                    },
+    const resultAdd = await $b24.actions.v2.call.make({
+        method: 'crm.item.add',
+        params: {
+            entityTypeId: 3, // 3 — контакт
+            fields: {
+                name: 'Иван',
+                lastName: 'Иванов',
+                fm: [
+                    { typeId: 'EMAIL', valueType: 'WORK', value: 'work_email@nomail.com' },
+                    { typeId: 'EMAIL', valueType: 'HOME', value: 'home_email@nomail.com' },
+                    { typeId: 'PHONE', valueType: 'WORK', value: '+79991234567' },
+                    { typeId: 'PHONE', valueType: 'MOBILE', value: '+79997654321' }
                 ]
+            }
+        },
+        requestId: 'item-add'
+    });
 
-                try:
-                    change_result = client.crm.contact.update(
-                        bitrix_id=new_contact_id,
-                        fields={"EMAIL": update_email},
-                    ).response.result
-                except BitrixAPIError as error:
-                    print(f"Ошибка обновления контакта: {error}")
-                else:
-                    if change_result:
-                        print("Контакт успешно обновлен.")
-            else:
-                print("Не найдены email для обновления.")
-    ```
-
-{% endlist %}
-
-## Пример с телефонными номерами
-
-Аналогично можно обновить список телефонов контакта `PHONE`.
-
-### 1. Добавляем контакт с двумя телефонами
-
-Для создания контакта в CRM выполним метод [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md). В объекте `fields` передадим поля:
-
--  `NAME` — имя контакта,
-
--  `PHONE` — массив телефонов  из `arNewPhone`.
-
-{% note warning "" %}
-
-Проверьте, какие обязательные поля настроены для контактов в вашем Битрикс24. Все обязательные поля нужно передать в метод [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md).
-
-{% endnote %}
-
-{% list tabs %}
-
-- JS
-
-    ```javascript
-    import { B24Hook } from '@bitrix24/b24jssdk'
-
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+    const contactId = resultAdd.getData().result.item.id;
     ```
 
 - PHP
@@ -444,6 +128,22 @@
 
     $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
         ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $resultAdd = $sb->getCRMScope()->item()->add(
+        3, // 3 — контакт
+        [
+            'name' => 'Иван',
+            'lastName' => 'Иванов',
+            'fm' => [
+                [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'work_email@nomail.com' ],
+                [ 'typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => 'home_email@nomail.com' ],
+                [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+79991234567' ],
+                [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79997654321' ]
+            ]
+        ]
+    );
+
+    $contactId = $resultAdd->item()->id;
     ```
 
 - Python
@@ -452,148 +152,387 @@
     # pip install b24pysdk
     from b24pysdk import BitrixWebhook, Client
 
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
-    ))
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.ru",
+            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
+        )
+    )
+
+    item = client.crm.item.add(
+        3,  # 3 — контакт
+        {
+            "name": "Иван",
+            "lastName": "Иванов",
+            "fm": [
+                {"typeId": "EMAIL", "valueType": "WORK", "value": "work_email@nomail.com"},
+                {"typeId": "EMAIL", "valueType": "HOME", "value": "home_email@nomail.com"},
+                {"typeId": "PHONE", "valueType": "WORK", "value": "+79991234567"},
+                {"typeId": "PHONE", "valueType": "MOBILE", "value": "+79997654321"},
+            ],
+        },
+    ).response.result["item"]
+
+    contact_id = item["id"]
     ```
 
 {% endlist %}
 
-В результате получим идентификатор нового контакта, например, `25`.
-
-```json
-{
-	"result": 25
-}
-```
-
-### 2. Получаем контакт для редактирования
-
-Чтобы получить информацию о созданном контакте контакте используем метод [crm.contact.get](../../../api-reference/crm/contacts/crm-contact-get.md) с идентификатором `ID`, который получили в предыдущем запросе.
-
-{% list tabs %}
-
-- JS
-
-    ```javascript
-    // получаем информацию о контакте по ID
-    const response = await $b24.actions.v2.call.make({
-        method: 'crm.contact.get',
-        params: { ID: contactId },
-        requestId: 'contact-get'
-    })
-    const contactData = response.getData().result
-    ```
-
-- PHP
-
-    ```php
-    // получаем информацию о контакте по ID
-    $contactData = $sb->getCRMScope()->contact()->get($contactId)->contact();
-    ```
-
-- Python
-
-    ```python
-    # получаем информацию о контакте по ID
-    contact_data = client.crm.contact.get(bitrix_id=contact_id).result
-    ```
-
-{% endlist %}
-
-В результате получим описание всех полей нового контакта.
+Метод возвращает объект `item` с полным набором полей контакта. Ответ сокращен, показаны поля, которые подтверждают результат. Сохраните `id` контакта — он нужен шагам 2 и 3. В примере `id`: `2653`.
 
 ```json
 {
     "result": {
-        "ID": "25",
-        "NAME": "Новый контакт",
-		..., // другие поля
-        "PHONE": [
-            {
-                "ID": "1971",
-                "VALUE_TYPE": "WORK",
-                "VALUE": "89991234567",
-                "TYPE_ID": "PHONE"
-            },
-            {
-                "ID": "1973",
-                "VALUE_TYPE": "HOME",
-                "VALUE": "89997654321",
-                "TYPE_ID": "PHONE"
-            }
-        ]
+        "item": {
+            "id": 2653,
+            "entityTypeId": 3,
+            "name": "Иван",
+            "lastName": "Иванов",
+            "hasPhone": "Y",
+            "hasEmail": "Y",
+            "fm": [
+                {
+                    "id": 8553,
+                    "valueType": "WORK",
+                    "value": "work_email@nomail.com",
+                    "typeId": "EMAIL"
+                },
+                {
+                    "id": 8555,
+                    "valueType": "HOME",
+                    "value": "home_email@nomail.com",
+                    "typeId": "EMAIL"
+                },
+                {
+                    "id": 8557,
+                    "valueType": "WORK",
+                    "value": "+79991234567",
+                    "typeId": "PHONE"
+                },
+                {
+                    "id": 8559,
+                    "valueType": "MOBILE",
+                    "value": "+79997654321",
+                    "typeId": "PHONE"
+                }
+            ]
+        }
     }
 }
 ```
 
-### 3. Обновляем список телефонов
+## 2. Прочитаем идентификаторы записей мультиполя {#get}
 
-Для изменения списка email выполним метод [crm.contact.update](../../../api-reference/crm/contacts/crm-contact-update.md).
+Метод `crm.item.add` уже вернул массив `fm` с идентификаторами, поэтому в одном скрипте шаг 2 можно пропустить. Отдельный вызов нужен, когда контакт создан раньше и идентификаторов у вас нет.
 
--  `ID` — идентификатор контакта,
+Используем метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) с параметрами:
 
--  `FIELDS` — массив полей, которые надо изменить. Передадим в массиве поле `PHONE` и новые значения телефонов: для первого телефона укажем новое значение, а для второго — пустое значение, чтобы удалить.
+- `entityTypeId` — `3` для контакта
+
+- `id` — идентификатор контакта из [шага 1](#add), в примере `2653`
 
 {% list tabs %}
 
 - JS
 
     ```javascript
-    // подготавливаем массив с новой информацией о телефонах
-    const arUpdatePhone = [
-        { ID: contactData.PHONE[0].ID, VALUE: '81119876541' }, // меняем значение для первого телефона
-        { ID: contactData.PHONE[1].ID, VALUE: '' } // пустое значение удаляет второй телефон
-    ]
+    const resultGet = await $b24.actions.v2.call.make({
+        method: 'crm.item.get',
+        params: {
+            entityTypeId: 3,
+            id: contactId
+        },
+        requestId: 'item-get'
+    });
 
-    // обновляем контакт
-    await $b24.actions.v2.call.make({
-        method: 'crm.contact.update',
-        params: { ID: contactId, FIELDS: { PHONE: arUpdatePhone } },
-        requestId: 'contact-update'
-    })
+    const multifields = resultGet.getData().result.item.fm;
     ```
 
 - PHP
 
     ```php
-    // подготавливаем массив с новой информацией о телефонах
-    $arUpdatePhone = [
-        ['ID' => $contactData->PHONE[0]->ID, 'VALUE' => '81119876541'], // меняем значение для первого телефона
-        ['ID' => $contactData->PHONE[1]->ID, 'VALUE' => ''], // пустое значение удаляет второй телефон
-    ];
-
-    // обновляем контакт
-    $sb->getCRMScope()->contact()->update($contactId, ['PHONE' => $arUpdatePhone]);
+    $multifields = $sb->getCRMScope()->item()->get(3, $contactId)->item()->fm;
     ```
 
 - Python
 
     ```python
-    # подготавливаем массив с новой информацией о телефонах
-    ar_update_phone = [
-        {"ID": contact_data["PHONE"][0]["ID"], "VALUE": "81119876541"},  # меняем значение для первого телефона
-        {"ID": contact_data["PHONE"][1]["ID"], "VALUE": ""},  # пустое значение удаляет второй телефон
-    ]
-
-    # обновляем контакт
-    client.crm.contact.update(bitrix_id=contact_id, fields={"PHONE": ar_update_phone})
+    multifields = client.crm.item.get(
+        3,
+        contact_id,
+    ).response.result["item"]["fm"]
     ```
 
 {% endlist %}
 
-При успешном обновлении метод вернет `true`.
+В массиве `fm` найдите нужные записи по паре `typeId` и `valueType` и сохраните их `id`. В примере рабочая почта — `8553`, личная почта — `8555`, мобильный телефон — `8559`.
 
 ```json
 {
-    "result": true,
+    "result": {
+        "item": {
+            "id": 2653,
+            "name": "Иван",
+            "lastName": "Иванов",
+            "fm": [
+                {
+                    "id": 8553,
+                    "valueType": "WORK",
+                    "value": "work_email@nomail.com",
+                    "typeId": "EMAIL"
+                },
+                {
+                    "id": 8555,
+                    "valueType": "HOME",
+                    "value": "home_email@nomail.com",
+                    "typeId": "EMAIL"
+                },
+                {
+                    "id": 8557,
+                    "valueType": "WORK",
+                    "value": "+79991234567",
+                    "typeId": "PHONE"
+                },
+                {
+                    "id": 8559,
+                    "valueType": "MOBILE",
+                    "value": "+79997654321",
+                    "typeId": "PHONE"
+                }
+            ]
+        }
+    }
 }
 ```
 
-### Полный пример кода
+{% note warning "" %}
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+Не записывайте идентификаторы записей из примера в рабочий код. Их выдает Битрикс24 в момент создания записи, поэтому у каждого контакта они свои — запрашивайте их шагом 2 и подставляйте переменными, как в блоке [Пример кода](#full-example).
+
+{% endnote %}
+
+## 3. Изменим и удалим записи мультиполя {#update}
+
+Используем метод [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) с параметрами:
+
+- `entityTypeId` — `3` для контакта
+
+- `id` — идентификатор контакта из [шага 1](#add), в примере `2653`
+
+- `fields[fm]` — объект с операциями над записями мультиполя. Ключ каждого элемента — это `id` записи из [шага 2](#get), а операцию определяет содержимое, как описано в разделе [Как ключ в поле fm определяет операцию](#fm-format)
+
+Выполним три операции одним запросом:
+
+- изменим рабочую почту `8553` — передадим новый `value`
+
+- удалим личную почту `8555` — передадим пустой `value`
+
+- изменим мобильный телефон `8559` — передадим новый `value`
+
+Рабочий телефон `8557` в запросе не упоминаем, поэтому он останется прежним.
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    const resultUpdate = await $b24.actions.v2.call.make({
+        method: 'crm.item.update',
+        params: {
+            entityTypeId: 3,
+            id: contactId,
+            fields: {
+                fm: {
+                    // ключ — id записи из шага 2
+                    8553: { typeId: 'EMAIL', valueType: 'WORK', value: 'new_work_email@nomail.com' }, // меняем рабочую почту
+                    8555: { typeId: 'EMAIL', value: '' }, // пустое значение удаляет личную почту
+                    8559: { typeId: 'PHONE', valueType: 'MOBILE', value: '+79995554433' } // меняем мобильный телефон
+                }
+            }
+        },
+        requestId: 'item-update'
+    });
+    ```
+
+- PHP
+
+    ```php
+    $resultUpdate = $sb->getCRMScope()->item()->update(
+        3,
+        $contactId,
+        [
+            'fm' => [
+                // ключ — id записи из шага 2
+                8553 => [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'new_work_email@nomail.com' ], // меняем рабочую почту
+                8555 => [ 'typeId' => 'EMAIL', 'value' => '' ], // пустое значение удаляет личную почту
+                8559 => [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79995554433' ] // меняем мобильный телефон
+            ]
+        ]
+    );
+    ```
+
+- Python
+
+    ```python
+    result_update = client.crm.item.update(
+        3,
+        contact_id,
+        {
+            "fm": {
+                # ключ — id записи из шага 2
+                "8553": {"typeId": "EMAIL", "valueType": "WORK", "value": "new_work_email@nomail.com"},  # меняем рабочую почту
+                "8555": {"typeId": "EMAIL", "value": ""},  # пустое значение удаляет личную почту
+                "8559": {"typeId": "PHONE", "valueType": "MOBILE", "value": "+79995554433"},  # меняем мобильный телефон
+            },
+        },
+    ).response.result["item"]
+    ```
+
+{% endlist %}
+
+Метод возвращает контакт целиком уже с новым составом записей, поэтому проверять результат отдельным запросом не обязательно. Ответ сокращен.
+
+```json
+{
+    "result": {
+        "item": {
+            "id": 2653,
+            "name": "Иван",
+            "lastName": "Иванов",
+            "hasEmail": "Y",
+            "hasPhone": "Y",
+            "updatedTime": "2026-08-20T09:10:29+03:00",
+            "fm": [
+                {
+                    "id": 8553,
+                    "valueType": "WORK",
+                    "value": "new_work_email@nomail.com",
+                    "typeId": "EMAIL"
+                },
+                {
+                    "id": 8557,
+                    "valueType": "WORK",
+                    "value": "+79991234567",
+                    "typeId": "PHONE"
+                },
+                {
+                    "id": 8559,
+                    "valueType": "MOBILE",
+                    "value": "+79995554433",
+                    "typeId": "PHONE"
+                }
+            ]
+        }
+    }
+}
+```
+
+## Проверим результат
+
+Откройте карточку контакта «Иван Иванов» в CRM. В блоке контактных данных остались рабочая почта `new_work_email@nomail.com`, рабочий телефон `+79991234567` и мобильный `+79995554433`. Личной почты `home_email@nomail.com` больше нет. Номера телефонов Битрикс24 показывает в своем формате, поэтому сверяйте их по цифрам, а не по написанию.
+
+Через REST состав мультиполей возвращает метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) с теми же параметрами, что в шаге 2.
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    const checkResult = await $b24.actions.v2.call.make({
+        method: 'crm.item.get',
+        params: { entityTypeId: 3, id: contactId },
+        requestId: 'item-check'
+    });
+
+    console.dir(checkResult.getData().result.item.fm);
+    ```
+
+- PHP
+
+    ```php
+    print_r($sb->getCRMScope()->item()->get(3, $contactId)->item()->fm);
+    ```
+
+- Python
+
+    ```python
+    print(client.crm.item.get(3, contact_id).response.result["item"]["fm"])
+    ```
+
+{% endlist %}
+
+Сценарий выполнен, если в массиве `fm` три записи: у `8553` новый адрес почты, у `8559` новый номер телефона, записи `8555` нет, а `8557` не изменилась.
+
+```json
+{
+    "result": {
+        "item": {
+            "id": 2653,
+            "fm": [
+                {
+                    "id": 8553,
+                    "valueType": "WORK",
+                    "value": "new_work_email@nomail.com",
+                    "typeId": "EMAIL"
+                },
+                {
+                    "id": 8557,
+                    "valueType": "WORK",
+                    "value": "+79991234567",
+                    "typeId": "PHONE"
+                },
+                {
+                    "id": 8559,
+                    "valueType": "MOBILE",
+                    "value": "+79995554433",
+                    "typeId": "PHONE"
+                }
+            ]
+        }
+    }
+}
+```
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `NOT_FOUND` | Элемент не найден. Проверьте `id` контакта: он мог быть удален или принадлежать другому типу объекта. Тот же код приходит, если в `entityTypeId` передан идентификатор несуществующего смарт-процесса ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | В `entityTypeId` передано значение, которому не соответствует ни один объект CRM. Для контакта нужно `3`, для компании — `4`, для лида — `1` ||
+|| `ACCESS_DENIED` | У пользователя вебхука нет права изменять элементы объекта с этим `entityTypeId`. Проверьте, от чьего имени создан вебхук ||
+|| `allowed_only_intranet_user` | Вебхук создан от имени внешнего пользователя. Сценарий доступен только сотрудникам Битрикс24 ||
+|| `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Неверное значение поля. Текст ошибки называет поле, которое не прошло проверку ||
+|#
+
+Отдельно проверьте случаи, когда метод отвечает успешно, но результат не тот, которого вы ждали.
+
+- значение не изменилось, ошибки нет — в элементе объекта `fm` не передан `typeId`. Добавьте его и повторите шаг 3
+
+- вместо изменения появилась новая запись — переданного `id` у контакта нет. Метод в этом случае не отказывает, а создает новую запись. Сверьте `id` с ответом шага 2
+
+- в карточке появилась запись с неизвестным типом — в `typeId` передано значение не из списка `PHONE`, `EMAIL`, `WEB`, `IM`, `LINK`. Метод такие значения не проверяет и сохраняет как есть. Удалите лишнюю запись по ее `id` с пустым `value`
+
+Шаг 2 ничего не меняет, его можно повторять сколько угодно раз. Если `crm.item.update` вернул ошибку, перечитайте контакт шагом 2 и сверьте состав записей, а потом повторите только те операции, которых в нем нет.
+
+## Что важно учитывать {#other-types}
+
+- если передать в `crm.item.update` поле `fm` массивом, а не объектом, метод не заменит состав мультиполей, а добавит новые записи к существующим: элементы массива он читает как ключи `n0`, `n1` и так далее
+
+- полностью очистить телефоны или почту одним параметром нельзя. Прочитайте контакт шагом 2 и передайте пустой `value` для каждой записи нужного типа
+
+- метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) не проверяет дубликаты. Повторный запуск примера создаст второй контакт «Иван Иванов» с теми же данными. Перед созданием ищите контакт методом [crm.duplicate.findbycomm](../../../api-reference/crm/duplicates/crm-duplicate-find-by-comm.md) по телефону или почте
+
+- если в поле `fm` передать не массив, а строку, метод ошибки не вернет: контакт создастся вообще без телефонов и почты, а поля `hasPhone` и `hasEmail` останутся со значением `N`
+
+- пользовательские поля методы `crm.item.*` называют в camelCase — `ufCrm_1723209318` вместо `UF_CRM_1723209318`. На мультиполя это не влияет, но если в том же запросе вы меняете пользовательское поле, передавайте параметр `useOriginalUfNames`: `Y`, чтобы работать с привычными именами
+
+- сценарий одинаково работает для контакта, компании и лида. Для компании укажите `entityTypeId`: `4` и вместо `name` и `lastName` передайте `title`, для лида — `entityTypeId`: `1`
+
+## Пример кода {#full-example}
+
+Скрипт создает контакт с двумя адресами почты и двумя телефонами, читает идентификаторы записей мультиполя, меняет рабочую почту и мобильный телефон, удаляет личную почту и показывает итоговый состав контактных данных.
 
 {% list tabs %}
 
@@ -605,53 +544,78 @@
     const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-    const arNewPhone = [
-        { VALUE: '89991234567', VALUE_TYPE: 'WORK' },
-        { VALUE: '89997654321', VALUE_TYPE: 'HOME' }
-    ]
+    const ENTITY_TYPE_ID = 3; // 3 — контакт, компания — 4, лид — 1
 
-    // Шаг 1: создаем контакт
-    const newContact = await $b24.actions.v2.call.make({
-        method: 'crm.contact.add',
-        params: { fields: { NAME: 'Новый контакт', PHONE: arNewPhone } },
-        requestId: 'contact-add'
-    })
-    if (!newContact.isSuccess) {
-        console.error('Ошибка создания контакта: ' + newContact.getErrorMessages().join('; '))
-    } else {
-        const contactId = newContact.getData().result
+    async function call(method, params, requestId) {
+        const result = await $b24.actions.v2.call.make({ method, params, requestId });
+        if (!result.isSuccess) {
+            throw new Error(result.getErrorMessages().join('; '));
+        }
+        return result.getData().result;
+    }
 
-        // Шаг 2: получаем данные контакта
-        const contactResponse = await $b24.actions.v2.call.make({
-            method: 'crm.contact.get',
-            params: { ID: contactId },
-            requestId: 'contact-get'
-        })
-        const phoneData = contactResponse.getData().result
+    // находит id записи мультиполя по типу и подтипу значения
+    function findId(multifields, typeId, valueType) {
+        const found = multifields.find(item => item.typeId === typeId && item.valueType === valueType);
+        return found ? found.id : null;
+    }
 
-        // Проверяем наличие телефонов
-        if ((phoneData.PHONE?.length ?? 0) >= 2) {
-            // Шаг 3: формируем обновление телефонов
-            const arUpdatePhone = [
-                { ID: phoneData.PHONE[0].ID, VALUE: '81119876541' },
-                { ID: phoneData.PHONE[1].ID, VALUE: '' }
-            ]
+    async function changeContacts() {
+        try {
+            // Шаг 1: создаем контакт с почтой и телефонами
+            const created = await call('crm.item.add', {
+                entityTypeId: ENTITY_TYPE_ID,
+                fields: {
+                    name: 'Иван',
+                    lastName: 'Иванов',
+                    fm: [
+                        { typeId: 'EMAIL', valueType: 'WORK', value: 'work_email@nomail.com' },
+                        { typeId: 'EMAIL', valueType: 'HOME', value: 'home_email@nomail.com' },
+                        { typeId: 'PHONE', valueType: 'WORK', value: '+79991234567' },
+                        { typeId: 'PHONE', valueType: 'MOBILE', value: '+79997654321' }
+                    ]
+                }
+            }, 'item-add');
+            const contactId = created.item.id;
+            console.log('Контакт создан, id:', contactId);
 
-            // обновляем контакт
-            const resultContactChange = await $b24.actions.v2.call.make({
-                method: 'crm.contact.update',
-                params: { ID: contactId, FIELDS: { PHONE: arUpdatePhone } },
-                requestId: 'contact-update'
-            })
-            if (!resultContactChange.isSuccess) {
-                console.error('Ошибка обновления контакта: ' + resultContactChange.getErrorMessages().join('; '))
-            } else {
-                console.log('Контакт успешно обновлен')
+            // Шаг 2: читаем идентификаторы записей мультиполя
+            const read = await call('crm.item.get', {
+                entityTypeId: ENTITY_TYPE_ID,
+                id: contactId
+            }, 'item-get');
+            const multifields = read.item.fm;
+
+            const workEmailId = findId(multifields, 'EMAIL', 'WORK');
+            const homeEmailId = findId(multifields, 'EMAIL', 'HOME');
+            const mobilePhoneId = findId(multifields, 'PHONE', 'MOBILE');
+            if (!workEmailId || !homeEmailId || !mobilePhoneId) {
+                console.error('У контакта нет нужных записей мультиполя');
+                return;
             }
-        } else {
-            console.warn('Не найдено достаточного количества телефонов.')
+
+            // Шаг 3: меняем одни значения и удаляем другие
+            // typeId обязателен в каждом элементе, иначе операция молча не выполнится
+            const updated = await call('crm.item.update', {
+                entityTypeId: ENTITY_TYPE_ID,
+                id: contactId,
+                fields: {
+                    fm: {
+                        [workEmailId]: { typeId: 'EMAIL', valueType: 'WORK', value: 'new_work_email@nomail.com' },
+                        [homeEmailId]: { typeId: 'EMAIL', value: '' },
+                        [mobilePhoneId]: { typeId: 'PHONE', valueType: 'MOBILE', value: '+79995554433' }
+                    }
+                }
+            }, 'item-update');
+
+            console.log('Контактные данные обновлены:');
+            console.dir(updated.item.fm);
+        } catch (error) {
+            console.error('Контактные данные не обновлены:', error.message);
         }
     }
+
+    changeContacts();
     ```
 
 - PHP
@@ -667,94 +631,152 @@
 
     $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
         ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-    $contact = $sb->getCRMScope()->contact();
 
-    // Формируем массив телефонов в формате multifield
-    $newPhone = [
-        ['VALUE' => '89991234567', 'VALUE_TYPE' => 'WORK'],
-        ['VALUE' => '89997654321', 'VALUE_TYPE' => 'HOME'],
-    ];
+    $entityTypeId = 3; // 3 — контакт, компания — 4, лид — 1
+    $item = $sb->getCRMScope()->item();
+
+    // находит id записи мультиполя по типу и подтипу значения
+    $findId = static function (array $multifields, string $typeId, string $valueType) {
+        foreach ($multifields as $field) {
+            if ($field['typeId'] === $typeId && $field['valueType'] === $valueType) {
+                return $field['id'];
+            }
+        }
+        return null;
+    };
 
     try {
-        // Шаг 1: создаем контакт
-        $contactId = $contact->add([
-            'NAME' => 'Новый контакт',
-            'PHONE' => $newPhone,
-        ])->getId();
+        // Шаг 1: создаем контакт с почтой и телефонами
+        $contactId = $item->add(
+            $entityTypeId,
+            [
+                'name' => 'Иван',
+                'lastName' => 'Иванов',
+                'fm' => [
+                    [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'work_email@nomail.com' ],
+                    [ 'typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => 'home_email@nomail.com' ],
+                    [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+79991234567' ],
+                    [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79997654321' ]
+                ]
+            ]
+        )->item()->id;
+        echo 'Контакт создан, id: ' . $contactId . PHP_EOL;
 
-        // Шаг 2: получаем данные о контакте
-        $contactData = $contact->get($contactId)->contact();
+        // Шаг 2: читаем идентификаторы записей мультиполя
+        $multifields = $item->get($entityTypeId, $contactId)->item()->fm;
 
-        if (count($contactData->PHONE) >= 2) {
-            // Шаг 3: формируем обновление телефонов
-            $updatePhone = [
-                ['ID' => $contactData->PHONE[0]->ID, 'VALUE' => '81119876541'],
-                ['ID' => $contactData->PHONE[1]->ID, 'VALUE' => ''], // пустое значение удаляет второй телефон
-            ];
-
-            // обновляем контакт
-            $contact->update($contactId, ['PHONE' => $updatePhone]);
-            echo 'Контакт успешно обновлен.';
-        } else {
-            echo 'Не найдены телефоны для обновления.';
+        $workEmailId = $findId($multifields, 'EMAIL', 'WORK');
+        $homeEmailId = $findId($multifields, 'EMAIL', 'HOME');
+        $mobilePhoneId = $findId($multifields, 'PHONE', 'MOBILE');
+        if ($workEmailId === null || $homeEmailId === null || $mobilePhoneId === null) {
+            echo 'У контакта нет нужных записей мультиполя';
+            return;
         }
+
+        // Шаг 3: меняем одни значения и удаляем другие
+        // typeId обязателен в каждом элементе, иначе операция молча не выполнится
+        $updated = $item->update(
+            $entityTypeId,
+            $contactId,
+            [
+                'fm' => [
+                    $workEmailId => [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'new_work_email@nomail.com' ],
+                    $homeEmailId => [ 'typeId' => 'EMAIL', 'value' => '' ],
+                    $mobilePhoneId => [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79995554433' ]
+                ]
+            ]
+        );
+
+        echo 'Контактные данные обновлены:' . PHP_EOL;
+        print_r($updated->item()->fm);
     } catch (\Throwable $e) {
-        echo 'Ошибка работы с контактом: ' . $e->getMessage();
+        echo 'Контактные данные не обновлены: ' . $e->getMessage();
     }
     ```
 
 - Python
 
     ```python
+    # pip install b24pysdk
     from b24pysdk import BitrixWebhook, Client
     from b24pysdk.errors import BitrixAPIError
 
     client = Client(
         BitrixWebhook(
             domain="your-domain.bitrix24.ru",
-            webhook_token="USER_ID/TOKEN",
+            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
         )
     )
 
-    try:
-        contact_id = int(
-            client.crm.contact.add(
-                fields={
-                    "NAME": "Новый контакт",
-                    "PHONE": [
-                        {"VALUE": "89991234567", "VALUE_TYPE": "WORK"},
-                        {"VALUE": "89997654321", "VALUE_TYPE": "HOME"},
-                    ],
-                }
-            ).response.result
-        )
-    except BitrixAPIError as error:
-        print(f"Ошибка создания контакта: {error}")
-    else:
-        try:
-            contact = client.crm.contact.get(bitrix_id=contact_id).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка получения контакта: {error}")
-        else:
-            values = contact.get("PHONE") or []
+    ENTITY_TYPE_ID = 3  # 3 — контакт, компания — 4, лид — 1
 
-            if len(values) >= 2:
-                updated_values = [
-                    {"ID": values[0]["ID"], "VALUE": "81119876541"},
-                    {"ID": values[1]["ID"], "VALUE": ""},
-                ]
-                try:
-                    change_result = client.crm.contact.update(
-                        bitrix_id=contact_id,
-                        fields={"PHONE": updated_values},
-                    ).response.result
-                except BitrixAPIError as error:
-                    print(f"Ошибка обновления контакта: {error}")
-                else:
-                    if change_result:
-                        print("Контакт успешно обновлен.")
-            else:
-                print("Не найдены телефоны для обновления.")
+
+    def find_id(multifields, type_id, value_type):
+        """Находит id записи мультиполя по типу и подтипу значения."""
+        for field in multifields:
+            if field["typeId"] == type_id and field["valueType"] == value_type:
+                return field["id"]
+        return None
+
+
+    try:
+        # Шаг 1: создаем контакт с почтой и телефонами
+        created = client.crm.item.add(
+            ENTITY_TYPE_ID,
+            {
+                "name": "Иван",
+                "lastName": "Иванов",
+                "fm": [
+                    {"typeId": "EMAIL", "valueType": "WORK", "value": "work_email@nomail.com"},
+                    {"typeId": "EMAIL", "valueType": "HOME", "value": "home_email@nomail.com"},
+                    {"typeId": "PHONE", "valueType": "WORK", "value": "+79991234567"},
+                    {"typeId": "PHONE", "valueType": "MOBILE", "value": "+79997654321"},
+                ],
+            },
+        ).response.result["item"]
+        contact_id = created["id"]
+        print(f"Контакт создан, id: {contact_id}")
+
+        # Шаг 2: читаем идентификаторы записей мультиполя
+        multifields = client.crm.item.get(
+            ENTITY_TYPE_ID,
+            contact_id,
+        ).response.result["item"]["fm"]
+
+        work_email_id = find_id(multifields, "EMAIL", "WORK")
+        home_email_id = find_id(multifields, "EMAIL", "HOME")
+        mobile_phone_id = find_id(multifields, "PHONE", "MOBILE")
+
+        if not all((work_email_id, home_email_id, mobile_phone_id)):
+            print("У контакта нет нужных записей мультиполя")
+        else:
+            # Шаг 3: меняем одни значения и удаляем другие
+            # typeId обязателен в каждом элементе, иначе операция молча не выполнится
+            updated = client.crm.item.update(
+                ENTITY_TYPE_ID,
+                contact_id,
+                {
+                    "fm": {
+                        str(work_email_id): {"typeId": "EMAIL", "valueType": "WORK", "value": "new_work_email@nomail.com"},
+                        str(home_email_id): {"typeId": "EMAIL", "value": ""},
+                        str(mobile_phone_id): {"typeId": "PHONE", "valueType": "MOBILE", "value": "+79995554433"},
+                    },
+                },
+            ).response.result["item"]
+
+            print("Контактные данные обновлены:")
+            print(updated["fm"])
+    except BitrixAPIError as error:
+        print(f"Контактные данные не обновлены: {error}")
     ```
 
 {% endlist %}
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/universal/crm-item-add.md)
+- [{#T}](../../../api-reference/crm/universal/crm-item-get.md)
+- [{#T}](../../../api-reference/crm/universal/crm-item-update.md)
+- [{#T}](../../../api-reference/crm/data-types.md)
+- [{#T}](../../../api-reference/crm/duplicates/crm-duplicate-find-by-comm.md)
+- [{#T}](../how-to-add-crm-objects/how-to-add-contact.md)

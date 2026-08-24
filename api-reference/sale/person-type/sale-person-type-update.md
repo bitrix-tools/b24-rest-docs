@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод меняет поля типа плательщика.
+Метод `sale.persontype.update` изменяет поля типа плательщика.
 
 ## Параметры метода
 
@@ -278,6 +278,40 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.persontype.update", b24.Params{
+    	"id": 12,
+    	"fields": b24.Params{
+    		"name": "Юр. лицо",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.persontype.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "personType".
+    raw, ok := b24.Unwrap(res.Result, "personType")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа personType")
+    }
+
+    var item struct {
+    	Active string `json:"active"`
+    	Code   string `json:"code"`
+    	ID     b24.ID `json:"id"`
+    	Name   string `json:"name"`
+    	Sort   string `json:"sort"`
+    	XmlID  b24.ID `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -318,7 +352,7 @@ HTTP-статус: **200**
 || **personType**
 [`sale_person_type`](../data-types.md) | Объект с информацией об обновленном типе плательщика ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

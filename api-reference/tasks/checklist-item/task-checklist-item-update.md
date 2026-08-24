@@ -27,7 +27,7 @@
 
 {% endnote %}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -349,6 +349,38 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.checklistitem.update", b24.Params{
+    	"TASKID": 13,
+    	"ITEMID": 475,
+    	"FIELDS": b24.Params{
+    		"TITLE":        "Подготовить отчет",
+    		"PARENT_ID":    447,
+    		"SORT_INDEX":   100,
+    		"IS_COMPLETE":  "N",
+    		"IS_IMPORTANT": "N",
+    		"MEMBERS": b24.Params{
+    			"547": b24.Params{
+    				"TYPE": "A",
+    			},
+    			"125": b24.Params{
+    				"TYPE": "U",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.checklistitem.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

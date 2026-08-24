@@ -129,7 +129,7 @@
 [`boolean`](../../data-types.md) | Дает возможность открывать дополнительные настройки робота в слайдере приложения. Возможные значения:
 - `Y` — да
 - `N` — нет  ||
-|| **PLACEMENT_HANDLER***
+|| **PLACEMENT_HANDLER**
 [`string`](../../data-types.md) | URL обработчика встройки на стороне приложения. Обязательное, если `USE_PLACEMENT = 'Y'` ||
 |#
 
@@ -486,6 +486,49 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.robot.add", b24.Params{
+    	"CODE":             "test_robot",
+    	"HANDLER":          "https://your_domain/robot.php",
+    	"AUTH_USER_ID":     1,
+    	"USE_SUBSCRIPTION": "Y",
+    	"NAME":             "Отправить сообщение",
+    	"PROPERTIES": b24.Params{
+    		"datetime": b24.Params{
+    			"Name": "Во сколько",
+    			"Type": "datetime",
+    		},
+    		"text": b24.Params{
+    			"Name": "Текст",
+    			"Type": "text",
+    		},
+    		"user": b24.Params{
+    			"Name":    "Кому",
+    			"Type":    "user",
+    			"Default": "Автор;",
+    		},
+    	},
+    	"FILTER": b24.Params{
+    		"INCLUDE": []any{
+    			[]string{"crm", "CCrmDocumentDeal"},
+    			[]string{"crm", "CCrmDocumentLead"},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.robot.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

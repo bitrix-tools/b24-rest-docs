@@ -394,6 +394,47 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.catalog.list", b24.Params{
+    	"select": []string{"iblockId", "iblockTypeId", "id", "lid", "name", "productIblockId", "skuPropertyId", "subscription", "vatId"},
+    	"filter": b24.Params{
+    		">id":           10,
+    		"@vatId":        []int{1, 2},
+    		"skuPropertyId": 121,
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.catalog.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "catalogs".
+    raw, ok := b24.Unwrap(res.Result, "catalogs")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа catalogs")
+    }
+
+    var items []struct {
+    	IblockID        b24.ID `json:"iblockId"`
+    	IblockTypeID    b24.ID `json:"iblockTypeId"`
+    	ID              b24.ID `json:"id"`
+    	Lid             string `json:"lid"`
+    	Name            string `json:"name"`
+    	ProductIblockID b24.ID `json:"productIblockId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.IblockID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

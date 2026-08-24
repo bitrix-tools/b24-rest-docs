@@ -212,6 +212,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.leave", b24.Params{
+    	"CHAT_ID": 2935,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.leave: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -265,7 +283,7 @@ HTTP-статус: **400**, **403**
 || `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` ||
 || `ACCESS_ERROR` | Action unavailable | Операция недоступна для этого чата ||
 || `ACCESS_ERROR` | It is forbidden to delete users of this chat | Нельзя выйти из этого чата этим методом ||
-|| `ACCESS_DENIED_KICK` | Недостаточно прав на исключение участников из чата | Пользователь не является участником чата ||
+|| `ACCESS_DENIED_KICK` | Access denied to kick user from chat | Пользователь не является участником чата или не может выйти из этого чата ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -1,4 +1,4 @@
-# Объект Блоки: обзор методов
+# Блоки: обзор методов
 
 {% note tip "" %}
 
@@ -20,6 +20,15 @@
 Структура блока описана в статьях про [атрибуты](./attributes.md), [типы нод](./node-types.md), [расширенное описание карточек](./extended-description.md) и [файл манифеста](./manifest.md).
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как создать и настроить сайт в Битрикс24](https://helpdesk.bitrix24.ru/open/25309314/)
+
+## Как начать работу с блоком
+
+1. Получите блоки страницы методом [landing.block.getlist](./methods/landing-block-get-list.md) или выберите шаблон блока в репозитории методом [landing.block.getrepository](./methods/landing-block-get-repository.md).
+2. Получите структуру блока методом [landing.block.getmanifest](./methods/landing-block-get-manifest.md) или [landing.block.getmanifestfile](./methods/landing-block-get-manifest-file.md).
+3. Измените контент, атрибуты, стили или карточки блока методами обновления.
+4. Опубликуйте страницу методом [landing.landing.publication](../page/methods/landing-landing-publication.md), чтобы изменения появились на опубликованной версии.
 
 ## Как блок связан со страницей и репозиторием
 
@@ -33,22 +42,9 @@
 
 ## Как устроен блок
 
-Блок выводится на странице не в исходном виде. Во время рендеринга система оборачивает его в служебный контейнер `<div id="anchor" class="block-wrapper block-code">...</div>`.
+Блок выводится на странице не в исходном виде. Во время рендеринга система добавляет служебный контейнер `<div id="anchor" class="block-wrapper block-code">...</div>`.
 
-```html
-<section class="landing-block">
-    <div class="text-center g-color-gray-dark-v3 g-pa-10">
-        <div class="g-width-600 mx-auto">
-            <div class="landing-block-node-text g-font-size-12 ">
-                <p>&copy; 2017 All right reserved. Developed by
-                <a href="#" class="landing-block-node-link g-color-primary">Bitrix24</a></p>
-            </div>
-        </div>
-    </div>
-</section>
-```
-
-В этой обертке:
+В служебном контейнере:
 
 - **anchor** — якорь блока. Если пользователь не менял его вручную, он имеет вид `block123`, где `123` — ID блока
 - **block-wrapper** — общий класс для всех блоков
@@ -64,7 +60,7 @@
 
 > Scope: [`landing`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: зависит от метода
+> Кто может выполнять методы: в зависимости от метода
 
 ### Чтение данных блока на странице
 

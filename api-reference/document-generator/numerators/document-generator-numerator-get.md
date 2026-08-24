@@ -221,6 +221,34 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.numerator.get", b24.Params{
+    	"id": 55,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.numerator.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "numerator".
+    raw, ok := b24.Unwrap(res.Result, "numerator")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа numerator")
+    }
+
+    var item struct {
+    	Name     string `json:"name"`
+    	Template string `json:"template"`
+    	ID       b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.Template)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

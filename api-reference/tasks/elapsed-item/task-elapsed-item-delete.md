@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод удаляет запись о затраченном времени.
+Метод `task.elapseditem.delete` удаляет запись о затраченном времени.
 
 {% note info %}
 
@@ -235,6 +235,23 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.delete", b24.Params{
+    	"TASKID": 691,
+    	"ITEMID": 5,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.delete: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

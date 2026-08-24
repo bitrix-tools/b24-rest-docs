@@ -197,6 +197,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.sip.connector.status", nil)
+    if err != nil {
+    	return fmt.Errorf("voximplant.sip.connector.status: %w", err)
+    }
+
+    var item struct {
+    	FreeMinutes int  `json:"FREE_MINUTES"`
+    	Paid        bool `json:"PAID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.FreeMinutes, item.Paid)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

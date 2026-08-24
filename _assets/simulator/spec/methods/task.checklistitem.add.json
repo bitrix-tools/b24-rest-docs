@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.add",
+  "scope": "task",
+  "kind": "write",
+  "title": "Добавить пункт чек-листа task.checklistitem.add",
+  "permissions": "> - любой пользователь с доступом к редактированию задачи",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
+    {
+      "name": "FIELDS",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с полями пункта чек-листа",
+      "ref": "#/defs/FIELDSFields"
+    }
+  ],
+  "defs": {
+    "FIELDSFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Текст пункта чек-листа. Если передать PARENT_ID со значением 0, то TITLE — название чек-листа"
+        },
+        {
+          "name": "SORT_INDEX",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке"
+        },
+        {
+          "name": "IS_COMPLETE",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Статус выполнения пункта. Возможные значения: - Y — выполнен - N — не выполнен По умолчанию — N"
+        },
+        {
+          "name": "IS_IMPORTANT",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Отметка, что пункт важный. Возможные значения: - Y — важный - N — обычный"
+        },
+        {
+          "name": "MEMBERS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Объект с описанием участников пункта чек-листа. Ключ — идентификатор пользователя, значение — объект с параметром типа участника TYPE. Возможные значения типа участника: - 'TYPE': 'A' — соисполнитель - 'TYPE': 'U' — наблюдатель Система добавит участников пункта чек-листа в задачу в тех же ролях"
+        },
+        {
+          "name": "PARENT_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор родительского пункта. Используйте для вложенных чек-листов. - Если передать PARENT_ID со значением 0, система создаст в задаче новый чек-лист - Если в задаче нет пункта чек-листа с указанным PARENT_ID, система создаст новый чек-лист - Если не указать PARENT_ID в FIELDS, система добавит новый пункт в существующий верхний чек-лист. Если в задаче нет чек-листа, то создаст новый"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-add.md"
+  },
+  "resultExample": {
+    "result": 475,
+    "time": {
+      "start": 1762431907,
+      "finish": 1762431908.259832,
+      "duration": 1.2598319053649902,
+      "processing": 0,
+      "date_start": "2025-11-06T15:25:07+03:00",
+      "date_finish": "2025-11-06T15:25:08+03:00",
+      "operating_reset_at": 1762432508,
+      "operating": 0.24803590774536133
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор нового пункта чек-листа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-add.html",
+  "executable": false
+}

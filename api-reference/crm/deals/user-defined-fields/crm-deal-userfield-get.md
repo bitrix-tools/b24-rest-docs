@@ -11,13 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор CRM
+> Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
 Метод `crm.deal.userfield.get` возвращает пользовательское поле сделок по идентификатору.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -226,6 +226,32 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.userfield.get", b24.Params{
+    	"id": 399,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.userfield.get: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"ID"`
+    	EntityID   string `json:"ENTITY_ID"`
+    	FieldName  string `json:"FIELD_NAME"`
+    	UserTypeID string `json:"USER_TYPE_ID"`
+    	Sort       string `json:"SORT"`
+    	Multiple   string `json:"MULTIPLE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -413,7 +439,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `403` | `Access denied` | Возникает в случаях, когда:
-- у пользователя нет административных прав
+- у пользователя нет права «чтения» сделок
 - пользователь пытается получить пользовательское поле, не привязанное к сделкам ||
 || `400` | `ID is not defined or invalid` | Переданный `id` меньше или равен нулю, либо же не передан вовсе ||
 || `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found` | Пользовательское поле с переданным `id` не найдено ||

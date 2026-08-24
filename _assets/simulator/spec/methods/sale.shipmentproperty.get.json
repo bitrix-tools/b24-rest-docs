@@ -1,0 +1,120 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentproperty.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить свойство отгрузки sale.shipmentproperty.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_shipment_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор свойства отгрузки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-property/sale-shipment-property-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "property": {
+        "active": "Y",
+        "code": "PHONE",
+        "defaultValue": "",
+        "description": "",
+        "id": 22,
+        "inputFieldLocation": "0",
+        "isAddress": "N",
+        "isAddressFrom": "N",
+        "isAddressTo": "N",
+        "isEmail": "N",
+        "isFiltered": "N",
+        "isLocation": "N",
+        "isLocation4tax": "N",
+        "isPayer": "N",
+        "isPhone": "Y",
+        "isProfileName": "N",
+        "isZip": "N",
+        "multiple": "N",
+        "name": "Телефон",
+        "personTypeId": 3,
+        "propsGroupId": 5,
+        "required": "Y",
+        "settings": [],
+        "sort": 120,
+        "type": "STRING",
+        "userProps": "Y",
+        "util": "N",
+        "xmlId": ""
+      }
+    },
+    "time": {
+      "start": 1712818820.026505,
+      "finish": 1712818820.232912,
+      "duration": 0.2064070701599121,
+      "processing": 0.018364906311035156,
+      "date_start": "2024-04-11T10:00:20+03:00",
+      "date_finish": "2024-04-11T10:00:20+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "property",
+      "type": "sale_shipment_property",
+      "base": "any",
+      "required": false,
+      "description": "Информация о свойстве отгрузки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-property/sale-shipment-property-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "defaultValue",
+    "description",
+    "id",
+    "inputFieldLocation",
+    "isAddress",
+    "isAddressFrom",
+    "isAddressTo",
+    "isEmail",
+    "isFiltered",
+    "isLocation",
+    "isLocation4tax",
+    "isPayer",
+    "isPhone",
+    "isProfileName",
+    "isZip",
+    "multiple",
+    "name",
+    "personTypeId",
+    "propsGroupId",
+    "required",
+    "settings",
+    "sort",
+    "type",
+    "userProps",
+    "util",
+    "xmlId"
+  ]
+}

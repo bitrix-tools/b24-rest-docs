@@ -1,0 +1,45 @@
+{
+  "$v": 1,
+  "method": "calendar.event.delete",
+  "scope": "calendar",
+  "kind": "write",
+  "title": "Удалить событие calendar.event.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор события. Получить идентификатор можно методом calendar.event.get или calendar.event.get.nearest"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-event/calendar-event-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1733404941.508815,
+      "finish": 1733404942.004014,
+      "duration": 0.49519896507263184,
+      "processing": 0.2604491710662842,
+      "date_start": "2024-12-05T13:22:21+00:00",
+      "date_finish": "2024-12-05T13:22:22+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true в случае успешного удаления"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-event/calendar-event-delete.html",
+  "executable": false
+}

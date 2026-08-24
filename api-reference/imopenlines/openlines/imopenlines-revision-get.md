@@ -191,6 +191,26 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.revision.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imopenlines.revision.get: %w", err)
+    }
+
+    var item struct {
+    	Rest   int `json:"rest"`
+    	Web    int `json:"web"`
+    	Mobile int `json:"mobile"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Rest, item.Web)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

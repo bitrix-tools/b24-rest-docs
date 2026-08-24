@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
-Метод `crm.contact.userfield.list` возвращает список пользовательских полей контактов по фильтру. 
+Метод `crm.contact.userfield.list` возвращает список пользовательских полей контактов по фильтру.
 
 Выводится и информация об этих полях, но без названия, которое присвоил полю пользователь, только внутренний идентификатор. Если нужно пользовательское название поля, воспользуйтесь методом [crm.contact.list](../crm-contact-list.md), который выводит как стандартные поля, так и пользовательские.
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter**
-[`object`][1] | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -40,7 +40,7 @@
 
 Все условия по отдельным полям соединяются с помощью `AND`. Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
 || **order**
-[`object`][1] | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -81,11 +81,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`][1] | Идентификатор пользовательского поля ||
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля ||
 || **FIELD_NAME**
-[`string`][1] | Код пользовательского поля ||
+[`string`](../../../data-types.md) | Код пользовательского поля ||
 || **USER_TYPE_ID**
-[`string`][1] | Тип пользовательского поля. Возможные значения:
+[`string`](../../../data-types.md) | Тип пользовательского поля. Возможные значения:
 - `string` — строка
 - `integer` — целое число
 - `double` — число
@@ -105,34 +105,34 @@
 - [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
 ||
 || **XML_ID**
-[`string`][1] | Внешний код ||
+[`string`](../../../data-types.md) | Внешний код ||
 || **SORT**
-[`integer`][1] | Индекс сортировки ||
+[`integer`](../../../data-types.md) | Индекс сортировки ||
 || **MULTIPLE**
-[`boolean`][1] | Является ли пользовательское поле множественным (`Y` — да / `N` — нет) ||
+[`boolean`](../../../data-types.md) | Является ли пользовательское поле множественным (`Y` — да / `N` — нет) ||
 || **MANDATORY**
-[`boolean`][1] | Является ли пользовательское поле обязательным (`Y` — да/ `N` — нет) ||
+[`boolean`](../../../data-types.md) | Является ли пользовательское поле обязательным (`Y` — да/ `N` — нет) ||
 || **SHOW_FILTER**
-[`char`][1] | Показывать ли в фильтре списка. Возможные значения:
+[`char`](../../../data-types.md) | Показывать ли в фильтре списка. Возможные значения:
 - `N` — не показывать
 - `I` — точное совпадение
 - `E` — маска
 - `S` — подстрока
 ||
 || **SHOW_IN_LIST**
-[`boolean`][1] | Показывать ли в списке (`Y` — да/ `N` — нет).
+[`boolean`](../../../data-types.md) | Показывать ли в списке (`Y` — да/ `N` — нет).
 
 Данный параметр ни на что не влияет в рамках `crm`
 ||
 || **EDIT_IN_LIST**
-[`boolean`][1] | Разрешать ли редактирование пользователем (`Y` — да/ `N` — нет) ||
+[`boolean`](../../../data-types.md) | Разрешать ли редактирование пользователем (`Y` — да/ `N` — нет) ||
 || **IS_SEARCHABLE**
-[`boolean`][1] | Участвуют ли значения поля в поиске (`Y` — да/ `N` — нет)
+[`boolean`](../../../data-types.md) | Участвуют ли значения поля в поиске (`Y` — да/ `N` — нет)
 
 Данный параметр ни на что не влияет в рамках `crm`
 ||
 || **LANG**
-[`string`][1] | [Языковой идентификатор](../../data-types.md#last-ids). При фильтрации по данному параметру будет предоставлен набор полей со значениями на переданном языке:
+[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). При фильтрации по данному параметру будет предоставлен набор полей со значениями на переданном языке:
 - `EDIT_FORM_LABEL` — подпись в форме редактирования
 - `LIST_COLUMN_LABEL` — заголовок в списке
 - `LIST_FILTER_LABEL` — подпись фильтра в списке
@@ -306,18 +306,18 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching user fields: ' . $e->getMessage();
@@ -468,6 +468,47 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.userfield.list", b24.Params{
+    	"filter": b24.Params{
+    		"MULTIPLE":  "Y",
+    		"MANDATORY": "Y",
+    		"LANG":      "ru",
+    	},
+    	"order": b24.Params{
+    		"USER_TYPE_ID": "ASC",
+    		"SORT":         "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.userfield.list: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	EntityID   string `json:"ENTITY_ID"`
+    	FieldName  string `json:"FIELD_NAME"`
+    	UserTypeID string `json:"USER_TYPE_ID"`
+    	Sort       string `json:"SORT"`
+    	Multiple   string `json:"MULTIPLE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.EntityID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}
@@ -652,7 +693,7 @@ HTTP-статус: **200**
 
 Структура отдельно взятого пользовательского поля идентична [`userfield`](./crm-contact-userfield-get.md#userfield) за исключением того, что поля: `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE` отдаются либо в виде `string` при передаче `filter.LANG`, либо не отдаются вовсе ||
 || **total**
-[`integer`][1] | Количество найденных пользовательских полей ||
+[`integer`](../../../data-types.md) | Количество найденных пользовательских полей ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -674,9 +715,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `Parameter 'order' must be array` | Переданный `order` не является объектом ||
-|| `-`     | `Parameter 'filter' must be array` | Переданный `filter` не является объектом ||
-|| `-`     | `Access denied` | У пользователя нет административных прав ||
+|| Пустое значение | `Parameter 'order' must be array` | Переданный `order` не является объектом ||
+|| Пустое значение | `Parameter 'filter' must be array` | Переданный `filter` не является объектом ||
+|| Пустое значение | `Access denied` | У пользователя нет административных прав ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -687,5 +728,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-userfield-update.md)
 - [{#T}](./crm-contact-userfield-get.md)
 - [{#T}](./crm-contact-userfield-delete.md)
-
-[1]: ../../../data-types.md

@@ -31,7 +31,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -56,7 +56,7 @@
 
 ### Параметр extras {#parameter-extras}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -284,6 +284,34 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.details.configuration.get", b24.Params{
+    	"scope": "C",
+    	"extras": b24.Params{
+    		"dealCategoryId": 32,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.details.configuration.get: %w", err)
+    }
+
+    var items []struct {
+    	Name  string `json:"name"`
+    	Title string `json:"title"`
+    	Type  string `json:"type"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Name, it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

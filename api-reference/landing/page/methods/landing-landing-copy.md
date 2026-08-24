@@ -253,6 +253,26 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.copy", b24.Params{
+    	"lid":        1688,
+    	"toSiteId":   305,
+    	"toFolderId": 95,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.copy: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -1,0 +1,185 @@
+{
+  "$v": 1,
+  "method": "imbot.register",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Создать чат-бота imbot.register",
+  "permissions": "авторизованный пользователь приложения, которое регистрирует чат-бота",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Строковый код бота, уникальный в рамках Битрикс24"
+    },
+    {
+      "name": "TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип бота. Допустимые значения: - B — стандартный чат-бот. В групповых чатах видит сообщения, которые адресованы именно ему. - O — чат-бот для Открытых линий. - H — чат-бот в режиме «человек» (human). Перед автоответом включает статус «печатает...» startWriting. - S — чат-бот с повышенными привилегиями (supervisor). Читает все сообщения в чатах, в которых состоит.…"
+    },
+    {
+      "name": "OPENLINE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Режим работы с Открытыми линиями. Допустимые значения: - Y — включить режим поддержки Открытых линий - N — отключить, значение по умолчанию Для TYPE=O параметр можно не указывать. Значение будет принудительно установлено в Y"
+    },
+    {
+      "name": "EVENT_HANDLER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Общий URL обработчика событий. Если передан, его значение копируется в EVENT_MESSAGE_ADD, EVENT_MESSAGE_UPDATE, EVENT_MESSAGE_DELETE, EVENT_WELCOME_MESSAGE, EVENT_BOT_DELETE. Если нужны разные обработчики, не передавайте EVENT_HANDLER. Задайте отдельные URL в параметрах EVENT_MESSAGE_ADD, EVENT_MESSAGE_UPDATE, EVENT_MESSAGE_DELETE, EVENT_WELCOME_MESSAGE, EVENT_BOT_DELETE"
+    },
+    {
+      "name": "EVENT_MESSAGE_ADD",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "URL обработчика события ONIMBOTMESSAGEADD"
+    },
+    {
+      "name": "EVENT_MESSAGE_UPDATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL обработчика события ONIMBOTMESSAGEUPDATE. Параметр игнорируется только для ботов с TYPE=B/H и OPENLINE=N"
+    },
+    {
+      "name": "EVENT_MESSAGE_DELETE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "URL обработчика события ONIMBOTMESSAGEDELETE. Параметр игнорируется только для ботов с TYPE=B/H и OPENLINE=N"
+    },
+    {
+      "name": "EVENT_WELCOME_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "URL обработчика события ONIMBOTJOINCHAT"
+    },
+    {
+      "name": "EVENT_BOT_DELETE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "URL обработчика события ONIMBOTDELETE"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передайте уникальный CLIENTID — этот ключ будет привязан к чат-боту и потребуется для всех последующих вызовов imbot через вебхук"
+    },
+    {
+      "name": "PROPERTIES",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Свойства профиля чат-бота. Структура объекта подробно описана ниже",
+      "ref": "#/defs/PROPERTIESFields"
+    }
+  ],
+  "defs": {
+    "PROPERTIESFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Имя чат-бота. Обязательно передать NAME или LAST_NAME"
+        },
+        {
+          "name": "LAST_NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Фамилия чат-бота. Обязательно передать NAME или LAST_NAME"
+        },
+        {
+          "name": "COLOR",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Цвет чат-бота для мобильного интерфейса: RED, GREEN, MINT, LIGHT_BLUE, DARK_BLUE, PURPLE, AQUA, PINK, LIME, BROWN, AZURE, KHAKI, SAND, MARENGO, GRAY, GRAPHITE"
+        },
+        {
+          "name": "EMAIL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Email для связи чат-бота. Бот создается как пользователь, поэтому email бота не должен совпадать с email реального пользователя Битрикс24. Это позволит избежать конфликтов учетных записей"
+        },
+        {
+          "name": "PERSONAL_BIRTHDAY",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "День рождения в формате YYYY-MM-DD"
+        },
+        {
+          "name": "WORK_POSITION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Должность или описание чат-бота"
+        },
+        {
+          "name": "PERSONAL_WWW",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Ссылка на сайт"
+        },
+        {
+          "name": "PERSONAL_GENDER",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Пол, допустимые значения: M или F"
+        },
+        {
+          "name": "PERSONAL_PHOTO",
+          "type": "file",
+          "base": "any",
+          "required": false,
+          "description": "Аватар чат-бота в формате Base64 Размер изображения не должен превышать ограничение в 5000x5000"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/bots/imbot-register.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Bot.register"
+  },
+  "resultExample": {
+    "result": 39,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/bots/imbot-register.html",
+  "executable": false
+}

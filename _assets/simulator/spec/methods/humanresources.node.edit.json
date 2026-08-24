@@ -1,0 +1,172 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.edit",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Обновить отдел humanresources.node.edit",
+  "permissions": "пользователь с правом «Редактирование отделов» или «Редактирование команд»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое название отдела или команды"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое описание отдела или команды"
+    },
+    {
+      "name": "colorName",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый цвет команды. Возможные значения: - blue — синий - green — зеленый - cyan — голубой - orange — оранжевый - purple — фиолетовый - pink — розовый"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node/humanresources-node-edit.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 44,
+      "name": "Отдел продаж B2B",
+      "type": "DEPARTMENT",
+      "structureId": 1,
+      "parentId": 1,
+      "description": "Работает с корпоративными клиентами",
+      "accessCode": "DR44",
+      "userCount": 18,
+      "colorName": null,
+      "xmlId": null,
+      "createdAt": "2026-05-30T09:20:15+03:00",
+      "updatedAt": "2026-06-02T12:40:18+03:00"
+    },
+    "time": {
+      "start": 1780393218,
+      "finish": 1780393218.504217,
+      "duration": 0.5042169094085693,
+      "processing": 0.47100210189819336,
+      "date_start": "2026-06-02T12:40:18+03:00",
+      "date_finish": "2026-06-02T12:40:18+03:00",
+      "operating_reset_at": 1780393818,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными обновленного отдела или команды"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор отдела или команды"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название отдела или команды"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип элемента структуры"
+    },
+    {
+      "name": "structureId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор структуры компании"
+    },
+    {
+      "name": "parentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительского отдела или команды"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание отдела или команды"
+    },
+    {
+      "name": "accessCode",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код доступа отдела или команды"
+    },
+    {
+      "name": "userCount",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество пользователей в отделе или команде"
+    },
+    {
+      "name": "colorName",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет команды, если он задан"
+    },
+    {
+      "name": "xmlId",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний идентификатор отдела или команды"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания отдела или команды"
+    },
+    {
+      "name": "updatedAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего обновления отдела или команды"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node/humanresources-node-edit.html",
+  "executable": false
+}

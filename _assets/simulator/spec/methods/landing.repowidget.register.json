@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "landing.repowidget.register",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Добавить виджет на Вайб landing.repowidget.register",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Уникальный код виджета. Настоятельно рекомендуется использовать какой-либо уникальный префикс для своих виджетов, чтобы избежать риск совпадения кодов с виджетами других разработчиков"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания виджета",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAME",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название виджета"
+        },
+        {
+          "name": "PREVIEW",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "URL картинки-обложки виджета для слайдера выбора виджетов"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание виджета"
+        },
+        {
+          "name": "CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Верстка виджета с использованием конструкций Vue"
+        },
+        {
+          "name": "SECTIONS",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код раздела, в который будет добавлен виджет. Список доступных разделов: - widgets_company_life — Жизнь компании - widgets_new_employees — Новым сотрудникам - widgets_team — Команда - widgets_automation — Автоматизация - widgets_events — Встречи и события - widgets_profile — Профиль сотрудника - widgets_tasks — Задачи и проекты - widgets_sales — Продажи и клиенты - widgets_hr — HR - widgets_other…"
+        },
+        {
+          "name": "WIDGET_PARAMS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Параметры для vue-шаблонизатора. Если их нет, то блок останется обычным html-кодом с {{}}"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Активность виджета. Принимает значения: - Y - виджет активен и доступен - N - виджет неактивен и недоступен"
+        },
+        {
+          "name": "SITE_TEMPLATE_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Привязка виджета к определенному шаблону сайта. Только для коробочного Битрикс24!"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vibe/landing-repowidget-register.md"
+  },
+  "resultExample": {
+    "result": 10,
+    "time": {
+      "start": 1713949410.036288,
+      "finish": 1713949411.632775,
+      "duration": 1.596487045288086,
+      "processing": 0.6458539962768555,
+      "date_start": "2024-04-24T11:03:30+02:00",
+      "date_finish": "2024-04-24T11:03:31+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор добавленного виджета"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vibe/landing-repowidget-register.html",
+  "executable": false
+}

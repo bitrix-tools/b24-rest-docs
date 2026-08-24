@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
 Метод удаляет пользовательское поле реквизита.
 
@@ -212,6 +212,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.userfield.delete", b24.Params{
+    	"id": 235,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.userfield.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -260,7 +278,7 @@ HTTP-статус: **40x**, **50x**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|  
 || **Код** | **Текст ошибки** | **Описание** ||

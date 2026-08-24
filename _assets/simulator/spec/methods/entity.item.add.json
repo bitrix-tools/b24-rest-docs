@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "entity.item.add",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Добавить элемент в хранилище entity.item.add",
+  "permissions": "пользователь с уровнем права W (запись) или X (управление) на хранилище данных",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название элемента хранилища"
+    },
+    {
+      "name": "PROPERTY_VALUES",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Значения свойств элемента в формате {\"КОД_СВОЙСТВА\": значение}. Обрабатываются только свойства, существующие в хранилище. Список доступных кодов свойств можно получить методом entity.item.property.get Для свойств типа файл используется формат из статьи Как загрузить файлы",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SECTION",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор раздела хранилища"
+    },
+    {
+      "name": "DATE_ACTIVE_FROM",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата начала активности элемента"
+    },
+    {
+      "name": "DATE_ACTIVE_TO",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата окончания активности элемента"
+    },
+    {
+      "name": "PREVIEW_PICTURE",
+      "type": "file",
+      "base": "any",
+      "required": false,
+      "description": "Картинка анонса элемента. Формат файла — в статье Как загрузить файлы"
+    },
+    {
+      "name": "DETAIL_PICTURE",
+      "type": "file",
+      "base": "any",
+      "required": false,
+      "description": "Детальная картинка элемента. Формат файла — в статье Как загрузить файлы"
+    },
+    {
+      "name": "UF_",
+      "type": "any",
+      "base": "any",
+      "required": false,
+      "description": "Пользовательские поля элемента UF_*. Передаются отдельными параметрами в формате \"UF_КОД\": значение, например: \"UF_CRM_1_COLOR\": \"red\", \"UF_CRM_1_SIZE\": 42"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/items/entity-item-add.md"
+  },
+  "resultExample": {
+    "result": 2333,
+    "time": {
+      "start": 1774435185,
+      "finish": 1774435185.636041,
+      "duration": 0.6360409259796143,
+      "processing": 0,
+      "date_start": "2026-03-25T13:39:45+03:00",
+      "date_finish": "2026-03-25T13:39:45+03:00",
+      "operating_reset_at": 1774435785,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного элемента"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/items/entity-item-add.html",
+  "executable": false
+}

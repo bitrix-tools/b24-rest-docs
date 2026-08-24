@@ -29,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`array`](../../data-types.md) | Набор полей — массив вида `array("поле"=>"значение"[, ...])`, содержащий значения полей единицы измерения. 
+[`array`](../../../data-types.md) | Набор полей — массив вида `array("поле"=>"значение"[, ...])`, содержащий значения полей единицы измерения. 
 
 Чтобы узнать требуемый формат полей, выполните метод [crm.measure.fields](./crm-measure-fields.md) и посмотрите формат пришедших значений этих полей 
 ||
@@ -43,17 +43,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`integer`](../../data-types.md) | Код ||
+[`integer`](../../../data-types.md) | Код ||
 || **MEASURE_TITLE***
-[`string`](../../data-types.md) | Наименование единицы измерения ||
+[`string`](../../../data-types.md) | Наименование единицы измерения ||
 || **SYMBOL_RUS**
-[`string`](../../data-types.md) | Условное обозначение ||
+[`string`](../../../data-types.md) | Условное обозначение ||
 || **SYMBOL_INTL**
-[`string`](../../data-types.md) | Условное обозначение (международное) ||
+[`string`](../../../data-types.md) | Условное обозначение (международное) ||
 || **SYMBOL_LETTER_INTL**
-[`string`](../../data-types.md) | Кодовое буквенное обозначение (международное) ||
+[`string`](../../../data-types.md) | Кодовое буквенное обозначение (международное) ||
 || **IS_DEFAULT**
-[`char`](../../data-types.md) | По умолчанию ||
+[`char`](../../../data-types.md) | По умолчанию ||
 |#
 
 ## Примеры кода
@@ -192,6 +192,29 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.measure.add", b24.Params{
+    	"fields": b24.Params{
+    		"CODE":               "212",
+    		"MEASURE_TITLE":      "Ватт",
+    		"SYMBOL_RUS":         "Вт",
+    		"SYMBOL_INTL":        "W",
+    		"SYMBOL_LETTER_INTL": "WTT",
+    		"IS_DEFAULT":         "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.measure.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

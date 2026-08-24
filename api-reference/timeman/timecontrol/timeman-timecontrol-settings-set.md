@@ -292,6 +292,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.timecontrol.settings.set", b24.Params{
+    	"ACTIVE":                  true,
+    	"MINIMUM_IDLE_FOR_REPORT": 15,
+    	"REGISTER_OFFLINE":        true,
+    	"REGISTER_IDLE":           true,
+    	"REGISTER_DESKTOP":        true,
+    	"REPORT_REQUEST_TYPE":     "all",
+    	"REPORT_SIMPLE_TYPE":      "all",
+    	"REPORT_FULL_TYPE":        "all",
+    })
+    if err != nil {
+    	return fmt.Errorf("timeman.timecontrol.settings.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

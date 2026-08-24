@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на добавление и контактов, и компаний
 
 Метод создает новый шаблон реквизитов.
 
@@ -39,9 +39,9 @@
 Идентификаторы типов объектов CRM отдает метод [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) 
 ||
 || **COUNTRY_ID***
-[`integer`](../../../data-types.md) | Идентификатор страны, которой соответствует набор полей шаблона реквизита (для получения доступных значений смотрите метод [crm.requisite.preset.countries](./crm-requisite-preset-countries.md)) ||
+[`integer`](../../../data-types.md) | Идентификатор страны, которой соответствует набор полей шаблона реквизитов (для получения доступных значений смотрите метод [crm.requisite.preset.countries](./crm-requisite-preset-countries.md)) ||
 || **NAME***
-[`string`](../../../data-types.md) | Название реквизита ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний ключ. Используется для операций обмена. Идентификатор объекта внешней информационной базы. 
 
@@ -278,6 +278,31 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_TYPE_ID": 8,
+    		"COUNTRY_ID":     1,
+    		"NAME":           "ИП",
+    		"XML_ID":         "EXAMPLE_COMPANY__VALUE_1",
+    		"ACTIVE":         "Y",
+    		"SORT":           520,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

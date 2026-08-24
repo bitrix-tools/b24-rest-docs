@@ -21,12 +21,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md)| Массив со списком полей [catalog_price_type_group](../../data-types.md#catalog_price_type_group), которые необходимо выбрать.
+[`array`](../../../data-types.md)| Массив со списком полей [catalog_price_type_group](../../data-types.md#catalog_price_type_group), которые необходимо выбрать.
 
 Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля привязки
 ||
 || **filter**
-[`object`](../../data-types.md)| Объект для фильтрации выбранных привязок в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
+[`object`](../../../data-types.md)| Объект для фильтрации выбранных привязок в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type_group](../../data-types.md#catalog_price_type_group).
 
@@ -48,7 +48,7 @@
 Если условия фильтра не соответствуют ни одной записи, метод вернет пустой список
 ||
 || **order**
-[`object`](../../data-types.md)| Объект для сортировки выбранных привязок в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../../data-types.md)| Объект для сортировки выбранных привязок в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type_group](../../data-types.md#catalog_price_type_group).
 
@@ -58,7 +58,7 @@
 - `desc` — в порядке убывания
 ||
 || **start**
-[`integer`](../../data-types.md)| Параметр используется для управления постраничной навигацией.
+[`integer`](../../../data-types.md)| Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
 
@@ -312,6 +312,45 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeGroup.list", b24.Params{
+    	"select": []string{"id", "catalogGroupId", "groupId", "access"},
+    	"filter": b24.Params{
+    		"catalogGroupId": 9,
+    		"groupId":        23,
+    	},
+    	"order": b24.Params{
+    		"id": "ASC",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeGroup.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "priceTypeGroups".
+    raw, ok := b24.Unwrap(res.Result, "priceTypeGroups")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа priceTypeGroups")
+    }
+
+    var items []struct {
+    	Access         string `json:"access"`
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	GroupID        b24.ID `json:"groupId"`
+    	ID             b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Access)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -356,11 +395,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
+[`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **priceTypeGroups**
 [`catalog_price_type_group[]`](../../data-types.md#catalog_price_type_group) | Массив объектов с информацией о выбранных привязках типов цен к группам покупателей, структура зависит от параметра `select` ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../../data-types.md) | Общее количество найденных записей ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

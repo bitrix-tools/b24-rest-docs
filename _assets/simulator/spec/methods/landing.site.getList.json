@@ -1,0 +1,130 @@
+{
+  "$v": 1,
+  "method": "landing.site.getList",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список сайтов landing.site.getList",
+  "permissions": "пользователь с правом «просмотр» сайтов",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Для GROUP, KNOWLEDGE и MAINPAGE передают соответствующий scope (подробное описание)"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры выборки сайтов (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "select",
+          "type": "string[]",
+          "base": "array",
+          "required": false,
+          "description": "Список полей для выборки из базовых полей сайта. Если параметр не передан или передан не массив, используется [\"*\"]. Метод всегда добавляет в выборку ID и TYPE"
+        },
+        {
+          "name": "filter",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Фильтр по полям из базовых полей сайта. Если параметр не передан или передан не массив, используется пустой фильтр {}. Если в параметре TYPE или =TYPE указано значение STORE, публичный метод преобразует его в [\"STORE\", \"SMN\"]. Точная фильтрация по типу работает только для одного значения, которое разрешено в текущем внутреннем scope.…"
+        },
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Сортировка в формате {\"FIELD\": \"ASC DESC\"}. Если параметр не передан, специальная сортировка не применяется"
+        },
+        {
+          "name": "group",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Группировка в формате ORM. Если передан не массив, параметр приводится к пустому массиву. При фильтрации по правам доступа в группировку добавляется ID"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Ограничение количества строк выборки на уровне ORM. По умолчанию не задано"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Смещение выборки на уровне ORM. Если параметр не передан, применяется поведение ORM по умолчанию"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/site/landing-site-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "157",
+        "TITLE": "Вилла Ранду",
+        "TYPE": "PAGE"
+      },
+      {
+        "ID": "147",
+        "TITLE": "Test Test yesss",
+        "TYPE": "STORE"
+      },
+      {
+        "ID": "3",
+        "TITLE": "Музей вилок",
+        "TYPE": "PAGE"
+      }
+    ],
+    "time": {
+      "start": 1773269838,
+      "finish": 1773269838.647153,
+      "duration": 0.6471529006958008,
+      "processing": 0,
+      "date_start": "2026-03-12T01:57:18+03:00",
+      "date_finish": "2026-03-12T01:57:18+03:00",
+      "operating_reset_at": 1773270438,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список сайтов (подробное описание). Метод может вернуть result: [] без ошибки, если по фильтру нет подходящих сайтов или у пользователя нет права «просмотр» для этих сайтов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/site/landing-site-get-list.html",
+  "executable": false
+}

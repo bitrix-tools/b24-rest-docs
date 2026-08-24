@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод обновляет поля робота, зарегистрированного приложением.
+Метод `bizproc.robot.update` обновляет поля робота, зарегистрированного приложением.
 
 Работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
@@ -32,10 +32,12 @@
 
 ### Параметр FIELDS {#parametr-fields}
 
+Передайте в `FIELDS` хотя бы одно поле для обновления.
+
 #|
 || **Название**
 `тип` | **Описание**||
-|| **HANDLER***
+|| **HANDLER**
 [`string`](../../data-types.md) | URL, на который робот будет отправлять данные через сервер очередей bitrix24.
 
 В ссылке должен быть тот же домен, на котором установлено приложение  ||
@@ -46,7 +48,7 @@
 - `Y` — да
 - `N` — нет
 ||
-|| **NAME***
+|| **NAME**
 [`string` \| `object`](../../data-types.md) | Название робота.
 
 Может быть строкой или ассоциативным массивом локализированных строк вида:
@@ -134,8 +136,8 @@
 [`boolean`](../../data-types.md) | Дает возможность открывать дополнительные настройки робота в слайдере приложения. Возможные значения:
 - `Y` — да
 - `N` — нет  ||
-|| **PLACEMENT_HANDLER***
-[`string`](../../data-types.md) | URL обработчика встройки на стороне приложения. Обязательное, если `USE_PLACEMENT = 'Y'` ||
+|| **PLACEMENT_HANDLER**
+[`string`](../../data-types.md) | URL обработчика встройки на стороне приложения ||
 |#
 
 ### Объект PROPERTY {#property}
@@ -424,6 +426,33 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.robot.update", b24.Params{
+    	"CODE": "test_robot",
+    	"FIELDS": b24.Params{
+    		"NAME":             "Отправить сообщение автору",
+    		"USE_SUBSCRIPTION": "N",
+    		"FILTER": b24.Params{
+    			"INCLUDE": []any{
+    				[]string{"crm", "CCrmDocumentDeal"},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.robot.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

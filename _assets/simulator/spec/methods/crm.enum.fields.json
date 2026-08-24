@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "crm.enum.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля элементов перечислений crm.enum.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/auxiliary/enum/crm-enum-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": {
+        "type": "int",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID"
+      },
+      "NAME": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Название"
+      },
+      "SYMBOL_CODE": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Символьный код"
+      },
+      "SYMBOL_CODE_SHORT": {
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Краткий символьный код"
+      }
+    },
+    "time": {
+      "start": 1750152521.485259,
+      "finish": 1750152521.526358,
+      "duration": 0.041098833084106445,
+      "processing": 0.00034499168395996094,
+      "date_start": "2025-06-17T12:28:41+03:00",
+      "date_finish": "2025-06-17T12:28:41+03:00",
+      "operating_reset_at": 1750153121,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/auxiliary/enum/crm-enum-fields.html",
+  "executable": false
+}

@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -268,6 +268,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.reply", b24.Params{
+    	"replyToMessageId": 15,
+    	"from":             "user@example.com",
+    	"to":               []string{"client@example.com"},
+    	"subject":          "Re: Договор",
+    	"body":             "Спасибо, получили.",
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.reply: %w", err)
+    }
+
+    var item struct {
+    	Success bool `json:"success"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success)
     ```
 
 {% endlist %}

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет свойство отгрузки. 
+Метод `sale.shipmentproperty.add` добавляет свойство отгрузки.
 
 ## Параметры метода
 
@@ -87,7 +87,7 @@
 || **sort**
 [`integer`](../../data-types.md) | Сортировка ||
 || **description**
-[`string`](../data-types.md) | Описание свойства отгрузки ||
+[`string`](../../data-types.md) | Описание свойства отгрузки ||
 || **required**
 [`string`](../../data-types.md) | Индикатор обязательности заполнения значения свойства отгрузки.
 Возможные значения:
@@ -220,7 +220,7 @@
 || **pattern**
 [`string`](../../data-types.md) | Регулярное выражение для проверки значения свойства отгрузки.
 Примеры:
-Регулярное выражение для проверки номера телефона ```^((8\|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$```
+Регулярное выражение для проверки номера телефона ```^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$```
 Регулярное выражение для проверки написания даты в формате ДД/ММ/ГГГГ:
 ```^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$``` ||
 || **multiline**
@@ -663,9 +663,66 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentproperty.add", b24.Params{
+    	"fields": b24.Params{
+    		"personTypeId": 3,
+    		"propsGroupId": 6,
+    		"name":         "Телефон (для связи с курьером)",
+    		"type":         "STRING",
+    		"code":         "PHONE",
+    		"active":       "Y",
+    		"util":         "N",
+    		"userProps":    "Y",
+    		"isFiltered":   "N",
+    		"sort":         500,
+    		"description":  "описание свойства",
+    		"required":     "Y",
+    		"multiple":     "N",
+    		"settings": b24.Params{
+    			"multiline": "Y",
+    			"maxlength": 100,
+    		},
+    		"xmlId":         "",
+    		"defaultValue":  "",
+    		"isProfileName": "Y",
+    		"isPayer":       "Y",
+    		"isEmail":       "N",
+    		"isPhone":       "N",
+    		"isZip":         "N",
+    		"isAddress":     "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentproperty.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "property".
+    raw, ok := b24.Unwrap(res.Result, "property")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа property")
+    }
+
+    var item struct {
+    	Active             string `json:"active"`
+    	Code               string `json:"code"`
+    	DefaultValue       string `json:"defaultValue"`
+    	Description        string `json:"description"`
+    	ID                 b24.ID `json:"id"`
+    	InputFieldLocation string `json:"inputFieldLocation"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -763,7 +820,7 @@ HTTP-статус: **400**
 Не поддерживается множественность у свойств отгрузки, отмеченных индикатором `isLocation4tax` ||
 || `200850000015` | Ошибка возникает при попытке создать свойство отгрузки с типом `STRING` и значением параметра `isProfileName`, выставленным в `Y`, в том случае, если значение параметра `required` не указано. 
 Название профиля обязательно и не может быть пустым ||
-|| `200850000016` | Ошибка возникает при попытке создать свойство отгрузки с типом [`STRING`](../../data-types.md) и значением параметра `isProfileName`, выставленным в `Y`, в том случае, если значение параметра `required` не равно `Y`. 
+|| `200850000016` | Ошибка возникает при попытке создать свойство отгрузки с типом `STRING` и значением параметра `isProfileName`, выставленным в `Y`, в том случае, если значение параметра `required` не равно `Y`. 
 Название профиля обязательно и не может быть пустым ||
 || `200040300020` | Недостаточно прав для добавления свойства отгрузки ||
 || `100` | Не указан или пустой параметр `fields` ||

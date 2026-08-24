@@ -23,17 +23,17 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../data-types.md) | Идентификатор коммерческого предложения.
+[`integer`](../../data-types.md) | Идентификатор коммерческого предложения.
 
 Идентификатор можно получить с помощью методов [crm.quote.list](./crm-quote-list.md) и [crm.quote.add](./crm-quote-add.md) ||
 || **fields**
-[`object`](../data-types.md) | Объект формата:
+[`object`](../../data-types.md) | Объект формата:
 
 ```json
 {
@@ -55,7 +55,7 @@
 
 Полный список полей и типов можно получить методом [crm.quote.fields](./crm-quote-fields.md) ||
 || **params**
-[`object`](../data-types.md) | Объект дополнительных параметров [(подробное описание)](#parameter-params) ||
+[`object`](../../data-types.md) | Объект дополнительных параметров [(подробное описание)](#parameter-params) ||
 |#
 
 ### Параметр fields {#parameter-fields}
@@ -64,7 +64,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **TITLE**
-[`string`](../data-types.md) | Тема коммерческого предложения.
+[`string`](../../data-types.md) | Тема коммерческого предложения.
 
 Ограничение длины — до `255` символов.
 
@@ -76,9 +76,9 @@
 || **CURRENCY_ID**
 [`crm_currency`](../data-types.md) | Валюта суммы предложения ||
 || **OPPORTUNITY**
-[`double`](../data-types.md) | Сумма предложения ||
+[`double`](../../data-types.md) | Сумма предложения ||
 || **ASSIGNED_BY_ID**
-[`user`](../data-types.md) | Идентификатор ответственного ||
+[`user`](../../data-types.md) | Идентификатор ответственного ||
 || **COMPANY_ID**
 [`crm_company`](../data-types.md) | Идентификатор компании-клиента ||
 || **CONTACT_IDS**
@@ -88,25 +88,25 @@
 || **MYCOMPANY_ID**
 [`crm_company`](../data-types.md) | Идентификатор «вашей компании» для реквизитов продавца ||
 || **OPENED**
-[`char`](../data-types.md) | Доступно ли предложение для всех. Возможные значения:
+[`char`](../../data-types.md) | Доступно ли предложение для всех. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **PERSON_TYPE_ID**
-[`integer`](../data-types.md) | Идентификатор типа клиента ||
+[`integer`](../../data-types.md) | Идентификатор типа клиента ||
 || **BEGINDATE**
-[`date`](../data-types.md) | Дата выставления ||
+[`date`](../../data-types.md) | Дата выставления ||
 || **CLOSEDATE**
-[`date`](../data-types.md) | Срок действия предложения ||
+[`date`](../../data-types.md) | Срок действия предложения ||
 || **CLIENT_TITLE**
-[`string`](../data-types.md) | Название клиента, до `255` символов ||
+[`string`](../../data-types.md) | Название клиента, до `255` символов ||
 || **CLIENT_ADDR**
-[`string`](../data-types.md) | Адрес клиента, до `255` символов ||
+[`string`](../../data-types.md) | Адрес клиента, до `255` символов ||
 || **CLIENT_EMAIL**
-[`string`](../data-types.md) | Email клиента, до `255` символов ||
+[`string`](../../data-types.md) | Email клиента, до `255` символов ||
 || **CLIENT_PHONE**
-[`string`](../data-types.md) | Телефон клиента, до `255` символов ||
+[`string`](../../data-types.md) | Телефон клиента, до `255` символов ||
 || **COMMENTS**
-[`string`](../data-types.md) | Комментарий ||
+[`string`](../../data-types.md) | Комментарий ||
 || **PARENT_ID_...**
 [`crm_entity`](../data-types.md) | Поля связей со смарт-процессами.
 
@@ -125,7 +125,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **REGISTER_HISTORY_EVENT**
-[`boolean`](../data-types.md) | Создавать ли запись в истории изменения. Возможные значения:
+[`boolean`](../../data-types.md) | Создавать ли запись в истории изменения. Возможные значения:
 - `Y` — да
 - `N` — нет
 
@@ -325,6 +325,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.update", b24.Params{
+    	"id": 43,
+    	"fields": b24.Params{
+    		"STATUS_ID": "SENT",
+    		"COMMENTS":  "Уточнены условия и сроки",
+    	},
+    	"params": b24.Params{
+    		"REGISTER_HISTORY_EVENT": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.quote.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -353,9 +378,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Корневой элемент ответа, возвращает `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа, возвращает `true` в случае успеха ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -375,11 +400,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Parameter 'fields' must be array.` | В `fields` передан не объект ||
-|| `-` | `Parameter 'params' must be array.` | В `params` передан не объект ||
-|| `-` | `ID is not defined or invalid.` | Передан некорректный `id` ||
-|| `-` | `Access denied.` | У пользователя нет прав на изменение коммерческих предложений ||
-|| `-` | `Quote is not found` | Коммерческое предложение с переданным `id` не найдено ||
+|| Пустое значение | `Parameter 'fields' must be array.` | В `fields` передан не объект ||
+|| Пустое значение | `Parameter 'params' must be array.` | В `params` передан не объект ||
+|| Пустое значение | `ID is not defined or invalid.` | Передан некорректный `id` ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на изменение коммерческих предложений ||
+|| Пустое значение | `Quote is not found` | Коммерческое предложение с переданным `id` не найдено ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

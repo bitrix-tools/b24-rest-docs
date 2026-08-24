@@ -336,6 +336,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.changeNodeName", b24.Params{
+    	"lid":   311,
+    	"block": 6058,
+    	"data": b24.Params{
+    		".landing-block-node-title@0": "h1",
+    		".landing-block-node-text@2":  "p",
+    	},
+    	"preventHistory": true,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.changeNodeName: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -389,7 +413,9 @@ HTTP-статус: **400**
 || `MISSING_PARAMS` | Не передан обязательный параметр `lid`, `block` или `data` ||
 || `LANDING_NOT_EXIST` | Страница с идентификатором `lid` не найдена или недоступна текущему пользователю ||
 || `ACCESS_DENIED` | Недостаточно прав для редактирования сайта ||
-|| `TYPE_ERROR` | Параметр `data` передан в неверном формате или значение тега передано не строкой ||
+|| `BLOCK_NOT_FOUND` | Блок с идентификатором `block` не найден на странице `lid` или недоступен в версии страницы для редактирования ||
+|| `NODES_NOT_FOUND` | В параметре `data` не передано ни одного изменения для блока ||
+|| `TYPE_ERROR` | Передан неверный тип одного из параметров метода, например `data` в неподходящем формате ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

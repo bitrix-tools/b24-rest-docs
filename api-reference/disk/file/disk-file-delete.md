@@ -15,11 +15,11 @@
 
 Метод `disk.file.delete` удаляет файл навсегда.
 
-Если вы хотите переместить файл в корзину, используйте метод [disk.file.markdeleted](./disk-file-mark-deleted.md).
+Если вы хотите переместить файл в корзину, используйте метод [disk.file.markDeleted](./disk-file-mark-deleted.md).
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -27,7 +27,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор файла.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getchildren](../folder/disk-folder-get-children.md), если файл находится в папке
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getChildren](../folder/disk-folder-get-children.md), если файл находится в папке
 ||
 |#
 
@@ -211,6 +211,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.delete", b24.Params{
+    	"id": 9035,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -281,4 +299,5 @@ HTTP-статус: **400**
 - [{#T}](./disk-file-rename.md)
 - [{#T}](./disk-file-restore-from-version.md)
 - [{#T}](./disk-file-restore.md)
+- [{#T}](./disk-file-search.md)
 - [{#T}](./disk-file-upload-version.md)

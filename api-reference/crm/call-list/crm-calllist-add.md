@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -27,7 +27,7 @@
 - `CONTACT` — контакт,
 - `COMPANY` — компания ||
 || **ENTITIES***
-[`array`](../../data-types.md) | Массив `ID` контактов или компаний, получить можно методом [crm.item.list](../universal/crm-item-list.md) ||
+[`integer[]`](../../data-types.md) | Массив числовых идентификаторов контактов или компаний, получить можно методом [crm.item.list](../universal/crm-item-list.md) ||
 || **WEBFORM_ID**
 [`integer`](../../data-types.md) | `ID` CRM-формы, которая будет выводиться в форме обзвона. 
 `ID` можно найти в списке форм Битрикс24 https://your-domain.ru/crm/webform/ ||
@@ -232,6 +232,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.add", b24.Params{
+    	"ENTITY_TYPE": "CONTACT",
+    	"ENTITIES":    []int{1, 2, 3},
+    	"WEBFORM_ID":  5,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -271,8 +291,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Invalid parameters.",
-    "error_description": "Переданы некорректные параметры."
+    "error": "ENTITIES_ERROR",
+    "error_description": "Entities is not array"
 }
 ```
 
@@ -281,14 +301,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `Access denied` | Нет прав на выполнение операции ||
-|| `400` | `Invalid parameters` | Переданы некорректные параметры ||
-|| `400` | `Incorrect entity type` | Указан неподдерживаемый тип объекта ||
-|| `400` | `Entities is not array` | Параметр `ENTITIES` не является массивом ||
-|| `400` | `Incorrect entities id` | Переданы некорректные `ID` элементов ||
-|| `403` | `You don't have access to these entities` | Нет доступа к указанным элементам ||
-|| `400` | `Incorrect webform id` | Некорректный `ID` CRM-формы ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | `ENTITY_TYPE is not found`, `ENTITIES is not found` | Не передан обязательный параметр ||
+|| `400` | `ENTITIES_ERROR` | `Entities is not array` | В параметре `ENTITIES` передан не массив ||
+|| `400` | `ENTITY_TYPE_ERROR` | `Incorrect entity type` | В параметре `ENTITY_TYPE` передано значение, отличное от `CONTACT` и `COMPANY` ||
+|| `400` | `ENTITY_ERROR` | `Incorrect entities id` | В параметре `ENTITIES` есть идентификаторы, которых нет в CRM ||
+|| `400` | `WEBFORM_ERROR` | `Incorrect webform id` | В параметре `WEBFORM_ID` указана несуществующая CRM-форма ||
+|| `403` | `ACCESS_ERROR` | `You don't have access to these entities` | Нет доступа ни к одному из переданных элементов ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

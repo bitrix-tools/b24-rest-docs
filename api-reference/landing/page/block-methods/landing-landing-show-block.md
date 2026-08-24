@@ -1,4 +1,4 @@
-# Показать блок на странице `landing.landing.showblock`
+# Показать блок на странице landing.landing.showblock
 
 {% note tip "" %}
 
@@ -238,6 +238,25 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.showblock", b24.Params{
+    	"lid":   351,
+    	"block": 6428,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.showblock: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

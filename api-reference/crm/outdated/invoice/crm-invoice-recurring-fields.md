@@ -135,6 +135,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.invoice.recurring.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.invoice.recurring.fields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Возвращаемые данные
@@ -168,7 +182,7 @@
 || **LIMIT_DATE**
 [`date`](../../../data-types.md) | Дата, до достижения которой можно создавать счета из этого шаблона | Учитывается, если `IS_LIMIT` равно `D` ||
 || **PARAMS**
-[`unknown`](../../../data-types.md)
+[`recurring_params`](../../data-types.md)
 | Набор параметров для расчета - recurring_params: 
 - **PERIOD** - период повторения:
     - day - день

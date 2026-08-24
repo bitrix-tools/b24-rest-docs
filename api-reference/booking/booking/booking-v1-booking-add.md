@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -32,7 +32,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **resourceIds***
-[`array`](../../data-types.md#array) | Массив идентификаторов ресурсов для брони. 
+[`array`](../../data-types.md#standart-types) | Массив идентификаторов ресурсов для брони. 
 ID ресурсов можно получить методом [booking.v1.resource.list](../resource/booking-v1-resource-list.md) ||
 || **name**
 [`string`](../../data-types.md) | Название бронирования. 
@@ -41,7 +41,7 @@ ID ресурсов можно получить методом [booking.v1.resou
 [`string`](../../data-types.md) | Описание бронирования. 
 Значение по умолчанию — пустая строка ||
 || **datePeriod***
-[`object`](../../data-types.md#object) | Объект, содержащий время брони [(подробное описание)](#datePeriod) ||
+[`object`](../../data-types.md#standart-types) | Объект, содержащий время брони [(подробное описание)](#datePeriod) ||
 |#
 
 ### Параметр datePeriod {#datePeriod}
@@ -50,9 +50,9 @@ ID ресурсов можно получить методом [booking.v1.resou
 || **Название**
 `тип` | **Описание** ||
 || **from***
-[`object`](../../data-types.md#object) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
+[`object`](../../data-types.md#standart-types) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
 || **to***
-[`object`](../../data-types.md#object) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
+[`object`](../../data-types.md#standart-types) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
 |#
 
 ## Примеры кода
@@ -328,6 +328,40 @@ ID ресурсов можно получить методом [booking.v1.resou
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.booking.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":        "Название",
+    		"description": "Описание",
+    		"resourceIds": []int{1, 2, 3},
+    		"datePeriod": b24.Params{
+    			"from": b24.Params{
+    				"timestamp": 1723446900,
+    				"timezone":  "Europe/Moscow",
+    			},
+    			"to": b24.Params{
+    				"timestamp": 1723447800,
+    				"timezone":  "Europe/Moscow",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.booking.add: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
     ```
 
 {% endlist %}

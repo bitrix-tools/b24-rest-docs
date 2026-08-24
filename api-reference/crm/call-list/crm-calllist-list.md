@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -394,6 +394,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.list: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	CreatedByID b24.ID `json:"CREATED_BY_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.CreatedByID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -452,8 +479,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Invalid parameters.",
-    "error_description": "Переданы некорректные параметры."
+    "error": "100",
+    "error_description": "Unknown field definition `TITLE` (TITLE) for \\Bitrix\\Crm\\CallList\\Internals\\CallList Entity."
 }
 ```
 
@@ -462,9 +489,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `Invalid parameters` | Переданы некорректные параметры ||
-|| `100` | `Unknown field definition "TITLE"` | Неизвестный параметр «Название параметра» ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | ``Unknown field definition `FIELD` (FIELD) for \Bitrix\Crm\CallList\Internals\CallList Entity.`` | В `select`, `filter` или `order` передано поле, которого нет у обзвона ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

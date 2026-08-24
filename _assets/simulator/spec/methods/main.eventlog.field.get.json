@@ -1,0 +1,99 @@
+{
+  "$v": 1,
+  "method": "main.eventlog.field.get",
+  "scope": "main",
+  "kind": "read",
+  "title": "Получить поле журнала событий main.eventlog.field.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя поля, описание которого нужно получить"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей описания, которые нужно вернуть в ответе. Доступные поля: - name — имя поля - type — тип данных - title — заголовок - description — описание - validationRules — правила валидации - requiredGroups — группы обязательности - filterable — признак доступности в фильтре - sortable — признак доступности в сортировке - editable — признак редактируемости - multiple — признак множественного зна…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/event-log/main-eventlog-field-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "name": "timestampX",
+        "type": "object",
+        "title": "DATE_CREATE",
+        "description": "Дата и время события",
+        "validationRules": [],
+        "requiredGroups": null,
+        "filterable": true,
+        "sortable": true,
+        "editable": false,
+        "multiple": false,
+        "elementType": null
+      }
+    },
+    "time": {
+      "start": 1769780771,
+      "finish": 1769780771.081992,
+      "duration": 0.08199191093444824,
+      "processing": 0,
+      "date_start": "2026-01-30T16:46:11+03:00",
+      "date_finish": "2026-01-30T16:46:11+03:00",
+      "operating_reset_at": 1769781371,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием поля. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/event-log/main-eventlog-field-get.html",
+  "executable": false,
+  "entityFields": [
+    "description",
+    "editable",
+    "elementType",
+    "filterable",
+    "multiple",
+    "name",
+    "requiredGroups",
+    "sortable",
+    "title",
+    "type",
+    "validationRules"
+  ]
+}

@@ -83,7 +83,7 @@ navigation:
         url: '/ai-tools/mcp.html'         
       - text: 'GitHub'
         type: 'link'
-        url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
+        url: 'https://github.com/bitrix-tools/b24-ai-starter'
       - text: 'Битрикс24 Вайбкод'
         type: 'link'
         url: 'https://vibecode.bitrix24.tech/'

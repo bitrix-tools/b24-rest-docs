@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "imopenlines.crm.lead.create",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Создать лид на основании диалога imopenlines.crm.lead.create",
+  "permissions": "любой пользователь с правом на доступ к диалогу",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии. Идентификатор можно получить методом imopenlines.session.open или imopenlines.dialog.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/sessions/imopenlines-crm-lead-create.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773683282,
+      "finish": 1773683283.095389,
+      "duration": 1.0953888893127441,
+      "processing": 1,
+      "date_start": "2026-03-16T20:48:02+03:00",
+      "date_finish": "2026-03-16T20:48:03+03:00",
+      "operating_reset_at": 1773683882,
+      "operating": 0.8203368186950684
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если лид успешно создан"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-crm-lead-create.html",
+  "executable": false
+}

@@ -46,7 +46,7 @@
 || **Ключ**
 `тип` | **Описание** ||
 || **<селектор карточки из manifest.cards>**
-[`object`](../../../data-types.md) | Селектор карточки из [раздела `cards` манифеста блока](../manifest.md#ключ-cards).
+[`object`](../../../data-types.md) | Селектор карточки из [раздела `cards` манифеста блока](../manifest.md#cards).
 
 Значение описывает итоговый набор карточек по этому селектору и изменения их нод [(подробное описание)](#card-data).
 
@@ -489,6 +489,45 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.updateCards", b24.Params{
+    	"lid":   311,
+    	"block": 6058,
+    	"data": b24.Params{
+    		".landing-block-card": b24.Params{
+    			"source": []b24.Params{
+    				{
+    					"type":  "card",
+    					"value": 0,
+    				},
+    				{
+    					"type":  "preset",
+    					"value": "preset_code",
+    				},
+    			},
+    			"values": []b24.Params{
+    				{
+    					".landing-block-node-title@0": "Первая карточка",
+    					".landing-block-node-title@1": "Карточка из пресета",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.updateCards: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

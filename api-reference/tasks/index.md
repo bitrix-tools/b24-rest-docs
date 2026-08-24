@@ -13,7 +13,7 @@
 
 > Быстрый переход: [все методы и события](#all-methods) 
 > 
-> Пользовательская документация: [задачи Битрикс24](https://helpdesk.bitrix24.ru/open/17962166/) 
+> Пользовательская документация: [Задачи в Битрикс24: как создать и настроить](https://helpdesk.bitrix24.ru/open/27359038/)
 
 ## Особенности методов задач
 
@@ -62,8 +62,8 @@
 
 {% note tip "Пользовательская документация" %}
 
-  - [Как создать задачу](https://helpdesk.bitrix24.ru/open/17958164/)
-  - [Чек-листы в задачах](https://helpdesk.bitrix24.ru/open/17657420/)
+  - [Как создать задачу](https://helpdesk.bitrix24.ru/open/27359038/)
+  - [Чек-листы в задачах](https://helpdesk.bitrix24.ru/open/27333140/)
   - [Учет времени в задачах](https://helpdesk.bitrix24.ru/open/17980006/)
   - [Дополнительные возможности задач](https://helpdesk.bitrix24.ru/open/17821400/)
 
@@ -76,13 +76,14 @@
 **Группа или проект.** Задача привязывается по идентификатору группы `GROUP_ID`. Получить идентификатор можно методом [создания новой группы](../sonet-group/sonet-group-create.md) или методом [получения списка групп](../sonet-group/socialnetwork-api-workgroup-list.md).
 
 **Пользователь.** Задача имеет привязку к пользователям по числовым идентификаторам в полях:
-  - `CREATED_BY` — постановщик
-  - `RESPONSIBLE_ID` — исполнитель
-  - `ACCOMPLICES` — соисполнители
-  - `AUDITORS` — наблюдатели
-  - `CHANGED_BY`  — последний пользователь, который изменил задачу
-  - `STATUS_CHANGED_BY` — последний пользователь, который изменил статус задачи 
-  - `CLOSED_BY` — пользователь, который завершил задачу
+
+- `CREATED_BY` — постановщик
+- `RESPONSIBLE_ID` — исполнитель
+- `ACCOMPLICES` — соисполнители
+- `AUDITORS` — наблюдатели
+- `CHANGED_BY` — последний пользователь, который изменил задачу
+- `STATUS_CHANGED_BY` — последний пользователь, который изменил статус задачи
+- `CLOSED_BY` — пользователь, который завершил задачу
 
 Получить идентификатор пользователя можно с помощью метода [user.get](../user/user-get.md).
 
@@ -97,7 +98,7 @@
 {% note tip "Пользовательская документация" %}
 
   - [Как создать подзадачу](https://helpdesk.bitrix24.ru/open/17750248/)
-  - [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
+  - [Как создать проект в Битрикс24](https://helpdesk.bitrix24.ru/open/28540716/)
 
 {% endnote %}
 
@@ -106,12 +107,14 @@
 К описанию задачи можно прикрепить файлы Диска. В параметре `UF_TASK_WEBDAV_FILES` передайте массив с идентификаторами файлов Диска. Перед каждым идентификатором укажите префикс `n`, например: `"UF_TASK_WEBDAV_FILES": ["n428", "n345"]`. Получить идентификаторы файлов можно двумя способами.
 
 Использовать один из методов загрузки файла:
-  - [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md)
-  - [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md)
+
+- [disk.storage.uploadfile](../disk/storage/disk-storage-upload-file.md)
+- [disk.folder.uploadfile](../disk/folder/disk-folder-upload-file.md)
 
 Использовать один из методов получения списка файлов:
-  - [disk.storage.getchildren](../disk/storage/disk-storage-get-children.md)
-  - [disk.folder.getchildren ](../disk/folder/disk-folder-get-children.md)
+
+- [disk.storage.getchildren](../disk/storage/disk-storage-get-children.md)
+- [disk.folder.getchildren](../disk/folder/disk-folder-get-children.md)
 
 Прикрепляйте файлы к задаче методом [tasks.task.files.attach](./tasks-task-files-attach.md), если задача уже создана.
 
@@ -128,7 +131,7 @@
 
 Потоки — это инструмент, который автоматизирует распределение и выполнение задач. Сотрудникам не нужно искать, кто будет делать задачу. Они ставят задачи в поток отдела, и он автоматически назначает исполнителя.
 
-Управлять Потоками можно группой методов [tasks.flow.Flow.*](./flow/index.md). 
+Управлять Потоками можно группой методов [tasks.flow.Flow.*](./flow/index.md).
 
 {% note tip "Пользовательская документация" %}
 
@@ -169,20 +172,19 @@
 
 В карточку задачи можно встроить приложение. Благодаря встраиванию можно будет использовать приложение и не покидать карточку. 
 
-- [Вкладка в карточке задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
-- [Правая панель карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
-- [Ссылка в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
+- [Виджет на вкладке карточки задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
+- [Виджет в правой панели карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
+- [Виджет в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
 
 Приложение можно встроить в списке задач:
 
-- [Пункт контекстного меню списка](../widgets/task/index.md) `TASK_LIST_CONTEXT_MENU` 
-
-В режимах работы с задачами канбан или «Мой план» есть еще два специальных места для встройки:
-
-- [Пункт основного выпадающего меню](../widgets/task/list-toolbar.md) `TASK_USER_LIST_TOOLBAR`, `TASK_GROUP_LIST_TOOLBAR`
-- [Пункт основного выпадающего меню около настроек роботов](../widgets/task/robot-designer-toolbar.md) `TASK_ROBOT_DESIGNER_TOOLBAR`
+- [Пункт контекстного меню задачи в списке](../widgets/task/list-context-menu.md) `TASK_LIST_CONTEXT_MENU`
+- [Пункт выпадающего меню над списком задач](../widgets/task/list-toolbar.md) `TASK_USER_LIST_TOOLBAR`, `TASK_GROUP_LIST_TOOLBAR`
+- [Кнопка в дизайнере роботов задач](../widgets/task/robot-designer-toolbar.md) `TASK_ROBOT_DESIGNER_TOOLBAR`
 
 В новой карточке задач с версии модуля `tasks 25.700.0` места `TASK_VIEW_TAB`, `TASK_VIEW_SIDEBAR` и `TASK_VIEW_TOP_PANEL` объединены в блок «Приложения» в нижней части карточки.
+
+Как выбрать точку и что приходит обработчику, описано в [обзоре точек встраивания](../widgets/task/index.md).
 
 ## Чат задачи в REST 3.0
 

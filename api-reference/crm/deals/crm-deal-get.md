@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -243,6 +243,32 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.get", b24.Params{
+    	"id": 410,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.get: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Title       string `json:"TITLE"`
+    	TypeID      string `json:"TYPE_ID"`
+    	StageID     string `json:"STAGE_ID"`
+    	Probability string `json:"PROBABILITY"`
+    	CurrencyID  string `json:"CURRENCY_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -461,7 +487,7 @@ HTTP-статус: **200**
 || **ADDITIONAL_INFO**
 [`string`](../../data-types.md) | Дополнительная информация ||
 || **LOCATION_ID**
-[`location`](../../data-types.md) | Местоположение. Служебное поле ||
+[`location`](../data-types.md) | Местоположение. Служебное поле ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Внешний источник ||
 || **ORIGIN_ID**
@@ -509,9 +535,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `ID is not defined or invalid` |  В параметр `id` либо не передано значение, либо оно является не целым числом больше нуля ||
-|| `-`     | `Access denied` | У пользователя нет прав на «чтение» данной сделки ||
-|| `-`     | `Not found`      | Сделки с переданным `id` не существует ||
+|| Пустое значение | `ID is not defined or invalid` |  В параметр `id` либо не передано значение, либо оно является не целым числом больше нуля ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «чтение» данной сделки ||
+|| Пустое значение | `Not found`      | Сделки с переданным `id` не существует ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

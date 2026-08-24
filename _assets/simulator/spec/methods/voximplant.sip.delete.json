@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "voximplant.sip.delete",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Удалить SIP-линию voximplant.sip.delete",
+  "permissions": "пользователь с правом Управление номерами — изменение",
+  "params": [
+    {
+      "name": "CONFIG_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настройки SIP-линии. Получить идентификатор можно с помощью метода voximplant.sip.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/sip/voximplant-sip-delete.md"
+  },
+  "resultExample": {
+    "result": 1,
+    "time": {
+      "start": 1773663532,
+      "finish": 1773663532.48429,
+      "duration": 0.48428988456726074,
+      "processing": 0,
+      "date_start": "2026-03-16T15:18:52+03:00",
+      "date_finish": "2026-03-16T15:18:52+03:00",
+      "operating_reset_at": 1773664132,
+      "operating": 0.22906804084777832
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Результат удаления. 1 — удаление выполнено успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-delete.html",
+  "executable": false
+}

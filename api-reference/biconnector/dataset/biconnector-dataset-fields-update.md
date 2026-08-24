@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -51,7 +51,7 @@
 - `id` — Идентификатор поля, можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md)
 - `visible` — видимость поля||
 || **delete**
-[`int[]`](../../data-types.md) | Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md) ||
+[`integer[]`](../../data-types.md) | Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md) ||
 |#
 
 ## Примеры кода
@@ -435,6 +435,47 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "biconnector.dataset.fields.update", b24.Params{
+    	"id": 10,
+    	"add": []b24.Params{
+    		{
+    			"type":         "int",
+    			"name":         "NAME",
+    			"externalCode": "NAME",
+    		},
+    		{
+    			"type":         "int",
+    			"name":         "ID",
+    			"externalCode": "ID",
+    		},
+    	},
+    	"update": []b24.Params{
+    		{
+    			"id":      12,
+    			"visible": false,
+    		},
+    		{
+    			"id":      13,
+    			"visible": true,
+    		},
+    	},
+    	"delete": []int{14, 15},
+    })
+    if err != nil {
+    	return fmt.Errorf("biconnector.dataset.fields.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

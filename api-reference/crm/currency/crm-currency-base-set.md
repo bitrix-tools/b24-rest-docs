@@ -27,7 +27,7 @@
 ||  **Название**
 `тип`| **Описание** ||
 || **id**
-[`srting`](../../data-types.md) | Идентификатор валюты, которая станет базовой.
+[`string`](../../data-types.md) | Идентификатор валюты, которая станет базовой.
 
 Соответствует стандарту ISO 4217.
 
@@ -223,6 +223,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.currency.base.set", b24.Params{
+    	"id": "RUB",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.currency.base.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -275,7 +293,7 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** |  ||
+|| **Код** | **Описание** | **Значение** ||
 || Пустая строка | Access denied. | Недостаточно прав доступа ||
 |#
 

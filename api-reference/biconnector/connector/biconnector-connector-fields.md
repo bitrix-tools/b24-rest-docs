@@ -202,6 +202,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "biconnector.connector.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("biconnector.connector.fields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "fields".
+    raw, ok := b24.Unwrap(res.Result, "fields")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа fields")
+    }
+
+    var items []struct {
+    	Title       string `json:"title"`
+    	Type        string `json:"type"`
+    	IsRequired  bool   `json:"isRequired"`
+    	IsReadOnly  bool   `json:"isReadOnly"`
+    	IsImmutable bool   `json:"isImmutable"`
+    	IsMultiple  bool   `json:"isMultiple"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -326,9 +357,9 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-{% include [системные ошибки](./../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

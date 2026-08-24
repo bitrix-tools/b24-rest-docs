@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Chat.Message.get",
+  "scope": "imbot",
+  "kind": "read",
+  "title": "Получить сообщение imbot.v2.Chat.Message.get",
+  "permissions": "владелец зарегистрированного бота",
+  "params": [
+    {
+      "name": "botId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID бота"
+    },
+    {
+      "name": "botToken",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+    },
+    {
+      "name": "messageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID сообщения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "message": {
+        "id": 789,
+        "chatId": 5,
+        "authorId": 1,
+        "date": "2026-03-19T14:30:00+03:00",
+        "text": "Привет! Как дела?",
+        "isSystem": false,
+        "uuid": "",
+        "forward": null,
+        "params": {},
+        "viewedByOthers": true
+      },
+      "user": {
+        "id": 1,
+        "active": true,
+        "name": "John Smith",
+        "bot": false,
+        "type": "employee"
+      }
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-get.html",
+  "executable": false,
+  "entityFields": [
+    "authorId",
+    "chatId",
+    "date",
+    "forward",
+    "id",
+    "isSystem",
+    "params",
+    "text",
+    "uuid",
+    "viewedByOthers"
+  ]
+}

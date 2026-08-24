@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -280,6 +280,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.messages.search", b24.Params{
+    	"CHAT_ID":        3,
+    	"SEARCH_MESSAGE": "test",
+    	"ORDER": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"LIMIT": 20,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.dialog.messages.search: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -336,7 +356,9 @@ HTTP-статус: **200**
         "messages": [
             {
                 "id": 33653,
+                "chatId": 2421,
                 "chat_id": 2421,
+                "authorId": 1,
                 "author_id": 1,
                 "date": "2026-02-13T14:28:00+03:00",
                 "text": "test message",
@@ -345,8 +367,10 @@ HTTP-статус: **200**
                 "forward": null,
                 "params": [],
                 "viewedByOthers": false,
+                "block": null,
                 "unread": false,
-                "viewed": true
+                "viewed": true,
+                "viewedCount": 0
             }
         ]
     },
@@ -403,10 +427,14 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор сообщения ||
-|| **chat_id**
+|| **chatId**
 [`integer`](../../data-types.md) | Идентификатор чата ||
-|| **author_id**
+|| **chat_id**
+[`integer`](../../data-types.md) | Идентификатор чата. Дубль поля `chatId` в старом написании ||
+|| **authorId**
 [`integer`](../../data-types.md) | Идентификатор автора сообщения ||
+|| **author_id**
+[`integer`](../../data-types.md) | Идентификатор автора сообщения. Дубль поля `authorId` в старом написании ||
 || **date**
 [`datetime`](../../data-types.md) | Дата и время создания сообщения ||
 || **text**
@@ -425,6 +453,10 @@ HTTP-статус: **200**
 [`boolean`](../../data-types.md) | Признак непрочитанного сообщения для текущего пользователя ||
 || **viewed**
 [`boolean`](../../data-types.md) | Признак, что сообщение просмотрено текущим пользователем ||
+|| **viewedCount**
+[`integer`](../../data-types.md) | Количество участников, которые просмотрели сообщение ||
+|| **block**
+[`object`](../../data-types.md) | Служебные данные блокировки сообщения. Может быть `null` ||
 |#
 
 #### Пользователь {#user}
@@ -505,7 +537,6 @@ HTTP-статус: **200**
 [`array`](../../data-types.md) | Реакции текущего пользователя ||
 |#
 
-
 ## Обработка ошибок
 
 HTTP-статус: **400**, **403**
@@ -523,11 +554,11 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `CHAT_ID_EMPTY` | CHAT_ID cant be empty | Не передан обязательный параметр `CHAT_ID` ||
+|| `CHAT_ID_EMPTY` | CHAT_ID can't be empty | Не передан обязательный параметр `CHAT_ID` ||
 || `ACCESS_ERROR` | You do not have access to this chat | Нет доступа к указанному чату ||
 |#
 
-{% include [системные ошибки](./../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

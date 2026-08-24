@@ -1,0 +1,56 @@
+{
+  "$v": 1,
+  "method": "sale.cashbox.handler.list",
+  "scope": "cashbox",
+  "kind": "read",
+  "title": "Получить список доступных обработчиков касс sale.cashbox.handler.list",
+  "permissions": "администратор CRM (право «Разрешить изменять настройки»)",
+  "params": [
+    {
+      "name": "result",
+      "type": "sale_cashbox_handler[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Cписок обработчиков, зарегистрированных в системе",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/cashbox/sale-cashbox-handler-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_cashbox_handler[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Cписок обработчиков, зарегистрированных в системе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/cashbox/sale-cashbox-handler-list.html",
+  "executable": false
+}

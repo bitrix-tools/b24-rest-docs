@@ -72,6 +72,8 @@
 [`char`](../../data-types.md) | Возвращать очередь линии. Каждый элемент очереди содержит `ENTITY_TYPE` и `ENTITY_ID`. Возможные значения:
 - `Y` — да
 - `N` — нет ||
+|| **CHECK_PERMISSION**
+[`string`](../../data-types.md) | Проверять доступ к линиям по указанному действию из карты прав открытых линий ||
 |#
 
 ## Примеры кода
@@ -374,6 +376,44 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.config.list.get", b24.Params{
+    	"PARAMS": b24.Params{
+    		"select": []string{"ID", "LINE_NAME", "ACTIVE"},
+    		"order": b24.Params{
+    			"ID": "ASC",
+    		},
+    		"filter": b24.Params{
+    			"ACTIVE": "Y",
+    		},
+    		"limit":  50,
+    		"offset": 0,
+    	},
+    	"OPTIONS": b24.Params{
+    		"QUEUE":        "Y",
+    		"CONFIG_QUEUE": "Y",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imopenlines.config.list.get: %w", err)
+    }
+
+    var items []struct {
+    	ID       b24.ID `json:"ID"`
+    	LineName string `json:"LINE_NAME"`
+    	Active   string `json:"ACTIVE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.LineName)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -641,7 +681,7 @@ HTTP-статус: **200**
 
 Поле возвращается при `OPTIONS.QUEUE = "Y"` ||
 || **QUEUE_USERS_FIELDS**
-[`object`](../../data-types.md) | Дополнительные поля пользователей очереди. Ключ — идентификатором пользовател, значение — описание полей очереди [(подробное описание)](#queue-users-fields-item). 
+[`object`](../../data-types.md) | Дополнительные поля пользователей очереди. Ключ — идентификатор пользователя, значение — описание полей очереди [(подробное описание)](#queue-users-fields-item). 
 
 Поле возвращается при `OPTIONS.QUEUE = "Y"`  ||
 || **CONFIG_QUEUE**
@@ -755,9 +795,25 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `INVALID_FORMAT` | Unsupported PARAMS fields are passed: ... | В `PARAMS` переданы поля, которых нет в списке `select`, `filter`, `order`, `limit`, `offset` ||
 || `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'select' is passed | Поле `PARAMS.select` передано не массивом ||
 || `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'order' is passed | Поле `PARAMS.order` передано в неверном формате ||
 || `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'filter' is passed | Поле `PARAMS.filter` передано в неверном формате ||
+|| `400` | `INVALID_FORMAT` | A non-negative integer is expected in the PARAMS field 'limit' | Поле `PARAMS.limit` должно быть неотрицательным целым числом ||
+|| `400` | `INVALID_FORMAT` | A non-negative integer is expected in the PARAMS field 'offset' | Поле `PARAMS.offset` должно быть неотрицательным целым числом ||
+|| `400` | `INVALID_FORMAT` | A wrong field name is passed in the PARAMS field 'select' | В `PARAMS.select` передано пустое или некорректное имя поля ||
+|| `400` | `INVALID_FORMAT` | A wrong field name is passed in the PARAMS field 'order' | В `PARAMS.order` передано пустое или некорректное имя поля ||
+|| `400` | `INVALID_FORMAT` | A wrong field name is passed in the PARAMS field 'filter' | В `PARAMS.filter` передано пустое или некорректное имя поля ||
+|| `400` | `INVALID_FORMAT` | An unknown field '...' is passed in the PARAMS field 'select' | В `PARAMS.select` передано неизвестное поле ||
+|| `400` | `INVALID_FORMAT` | An unknown field '...' is passed in the PARAMS field 'order' | В `PARAMS.order` передано неизвестное поле ||
+|| `400` | `INVALID_FORMAT` | An unknown field '...' is passed in the PARAMS field 'filter' | В `PARAMS.filter` передано неизвестное поле ||
+|| `400` | `INVALID_FORMAT` | A wrong field alias is passed in the PARAMS field 'select' | В `PARAMS.select` передан некорректный псевдоним поля ||
+|| `400` | `INVALID_FORMAT` | The alias '...' matches an existing field in the PARAMS field 'select' | Псевдоним в `PARAMS.select` конфликтует с существующим полем ||
+|| `400` | `INVALID_FORMAT` | A wrong sorting direction is passed in the PARAMS field 'order' | В `PARAMS.order` передано направление сортировки, отличное от `ASC` или `DESC` ||
+|| `400` | `INVALID_FORMAT` | Unsupported OPTIONS fields are passed: ... | В `OPTIONS` переданы поля, которых нет в списке `QUEUE`, `CONFIG_QUEUE`, `CHECK_PERMISSION` ||
+|| `400` | `INVALID_FORMAT` | A wrong format for the OPTIONS field 'QUEUE' is passed | Поле `OPTIONS.QUEUE` передано не скалярным значением ||
+|| `400` | `INVALID_FORMAT` | A wrong format for the OPTIONS field 'CONFIG_QUEUE' is passed | Поле `OPTIONS.CONFIG_QUEUE` передано не скалярным значением ||
+|| `400` | `INVALID_FORMAT` | An unknown value for the OPTIONS field 'CHECK_PERMISSION' is passed | В `OPTIONS.CHECK_PERMISSION` передано неизвестное действие ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

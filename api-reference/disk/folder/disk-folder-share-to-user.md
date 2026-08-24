@@ -1,4 +1,4 @@
-# Назначить права доступа на папку disk.folder.sharetouser
+# Назначить права доступа на папку disk.folder.shareToUser
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «Делиться» для нужной папки
 
-Метод `disk.folder.sharetouser` назначает права доступа на папку.
+Метод `disk.folder.shareToUser` назначает права доступа на папку.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 || **userId***
 [`integer`](../../data-types.md) | Идентификатор пользователя, которому выдается доступ.
 
@@ -58,7 +58,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8994,"userId":1271,"taskName":"disk_access_read"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.sharetouser
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.shareToUser
     ```
 
 - cURL (OAuth)
@@ -68,7 +68,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8994,"userId":1271,"taskName":"disk_access_read","auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.sharetouser
+    https://**put_your_bitrix24_address**/rest/disk.folder.shareToUser
     ```
 
 - JS (TS)
@@ -83,7 +83,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'disk.folder.sharetouser',
+        method: 'disk.folder.shareToUser',
         params: {
           id: 8994,
           userId: 1271,
@@ -117,7 +117,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.sharetouser',
+            method: 'disk.folder.shareToUser',
             params: {
               id: 8994,
               userId: 1271,
@@ -177,7 +177,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.sharetouser',
+                'disk.folder.shareToUser',
                 [
                     'id' => 8994,
                     'userId' => 1271,
@@ -202,7 +202,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.sharetouser",
+        "disk.folder.shareToUser",
         {
             id: 8994,              
             userId: 1271,           
@@ -224,7 +224,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.sharetouser',
+        'disk.folder.shareToUser',
         [
             'id' => 8994,
             'userId' => 1271,
@@ -235,6 +235,26 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.shareToUser", b24.Params{
+    	"id":       8994,
+    	"userId":   1271,
+    	"taskName": "disk_access_read",
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.shareToUser: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

@@ -217,6 +217,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.get.iblock.type.id", b24.Params{
+    	"IBLOCK_ID": 87,
+    })
+    if err != nil {
+    	return fmt.Errorf("lists.get.iblock.type.id: %w", err)
+    }
+
+    var value string
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

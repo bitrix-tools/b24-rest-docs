@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список вариантов значений свойств заказа.
+Метод `sale.propertyvalue.list` получает список вариантов значений свойств заказа.
 
 ## Параметры метода
 
@@ -376,6 +376,47 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyvalue.list", b24.Params{
+    	"select": []string{"code", "id", "name", "orderId", "orderPropsId", "orderPropsXmlId", "value"},
+    	"filter": b24.Params{
+    		"=code":    "FIO",
+    		"%value":   "Борис",
+    		">orderId": 1600,
+    	},
+    	"order": b24.Params{
+    		"orderId": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertyvalue.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyValues".
+    raw, ok := b24.Unwrap(res.Result, "propertyValues")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyValues")
+    }
+
+    var items []struct {
+    	Code         string `json:"code"`
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	OrderID      b24.ID `json:"orderId"`
+    	OrderPropsID b24.ID `json:"orderPropsId"`
+    	Value        string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code)
+    }
     ```
 
 {% endlist %}

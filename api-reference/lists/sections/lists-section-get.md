@@ -477,6 +477,42 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.section.get", b24.Params{
+    	"IBLOCK_TYPE_ID": "lists",
+    	"IBLOCK_ID":      95,
+    	"FILTER": b24.Params{
+    		"ID":            169,
+    		"ACTIVE":        "Y",
+    		"NAME":          "%маркетинг%",
+    		"<=DATE_CREATE": "2025-12-31",
+    		">=DATE_CREATE": "2025-01-01",
+    	},
+    	"SELECT": []string{"ID", "CODE", "XML_ID", "EXTERNAL_ID", "IBLOCK_SECTION_ID", "TIMESTAMP_X", "SORT", "NAME", "ACTIVE", "GLOBAL_ACTIVE", "LEFT_MARGIN", "RIGHT_MARGIN", "DEPTH_LEVEL", "SEARCHABLE_CONTENT", "MODIFIED_BY", "DATE_CREATE", "CREATED_BY"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("lists.section.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Code       string `json:"CODE"`
+    	XMLID      string `json:"XML_ID"`
+    	ExternalID string `json:"EXTERNAL_ID"`
+    	TimestampX string `json:"TIMESTAMP_X"`
+    	Sort       string `json:"SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

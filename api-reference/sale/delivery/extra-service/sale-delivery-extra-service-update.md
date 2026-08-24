@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, delivery`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод обновляет услугу службы доставки.
+Метод `sale.delivery.extra.service.update` обновляет услугу службы доставки.
 
 ## Параметры метода
 
@@ -285,6 +285,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.extra.service.update", b24.Params{
+    	"ID":          128,
+    	"ACTIVE":      "N",
+    	"CODE":        "door_delivery",
+    	"NAME":        "Door Delivery New Name",
+    	"DESCRIPTION": "Door Delivery New Description",
+    	"SORT":        200,
+    	"PRICE":       399.99,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.extra.service.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

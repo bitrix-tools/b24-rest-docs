@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.product.property.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить свойство товаров по идентификатору crm.product.property.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор свойства товара"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/products/crm-product-property-get.md"
+  },
+  "deprecated": {
+    "successor": "catalog.productProperty.get"
+  },
+  "page": "/api-reference/crm/outdated/products/crm-product-property-get.html",
+  "executable": false
+}

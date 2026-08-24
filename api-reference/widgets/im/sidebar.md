@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`im`](../../scopes/permissions.md)
+> Scope: [`placement, im`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в сайдбар чата.
 
@@ -17,14 +17,14 @@
 
 {% note info "" %}
 
-Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `IM_SIDEBAR` | Пункт в сайдбаре чата ||
 |#
 
@@ -32,9 +32,11 @@
 
 Откройте чат и нажмите кнопку сайдбара в правой части верхней панели чата. В открывшемся сайдбаре внизу есть блок *Приложения*, в котором отображается пункт приложения с `PLACEMENT=IM_SIDEBAR`.
 
+![Пункт в сайдбаре чата](./_images/IM_SIDEBAR.png "Пункт в сайдбаре чата")
+
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
 ```php
 Array
@@ -46,11 +48,23 @@ Array
     [AUTH_ID] => 6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1
     [AUTH_EXPIRES] => 3600
     [REFRESH_ID] => 50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => im,placement
     [member_id] => da45a03b265ed12127f8a258d793cc5d
-    [status] => F
+    [status] => L
     [PLACEMENT] => IM_SIDEBAR
-    [PLACEMENT_OPTIONS] => {"dialogId":"chat1489"}
+    [PLACEMENT_OPTIONS] => {"dialogId":"chat1","URI":"\/online\/"}
 )
+```
+
+Строка `PLACEMENT_OPTIONS` из этого примера после разбора выглядит так:
+
+```json
+{
+    "dialogId": "chat1",
+    "URI": "/online/"
+}
 ```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -61,9 +75,14 @@ Array
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
-Для `IM_SIDEBAR` в контекст передается ключ:
-
-- `dialogId` — идентификатор текущего чата
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **dialogId***
+[`string`](../../data-types.md) | Идентификатор чата, в сайдбаре которого открыт виджет: `chatNNN` для группового чата, идентификатор пользователя для личной переписки. Получить чат по нему можно методом [im.dialog.get](../../chats/im-dialog-get.md). Для личной переписки данные собеседника вернет метод [user.get](../../user/user-get.md) ||
+|| **URI***
+[`string`](../../data-types.md) | Адрес страницы, с которой открыт виджет. Для мессенджера это `/online/` ||
+|#
 
 ## OPTIONS при регистрации через placement.bind
 
@@ -75,7 +94,7 @@ Array
 || **Параметр**
 `тип` | **Описание** ||
 || **iconName***
-[`string`](../../data-types.md) | Подпись пункта в интерфейсе. До 50 символов, допускаются латинские буквы, пробел и `-` ||
+[`string`](../../data-types.md) | Имя иконки Font Awesome 4, например `fa-file-text-o`. Класс набора `fa` Битрикс24 подставляет сам. До 50 символов, значение должно содержать латинские буквы, пробел или `-` ||
 || **extranet**
 [`string`](../../data-types.md) | Доступ в экстранете, по умолчанию `N`.
 
@@ -126,7 +145,7 @@ Array
 ||
 |#
 
-### Примеры кода
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -151,7 +170,7 @@ Array
           }
         },
         "OPTIONS": {
-          "iconName": "chat-tools",
+          "iconName": "fa-file-text-o",
           "context": "ALL",
           "role": "USER",
           "extranet": "N",
@@ -181,14 +200,14 @@ Array
           TITLE: 'My sidebar item',
           LANG_ALL: {
             ru: {
-              TITLE: 'My sidebar item',
+              TITLE: 'Мой пункт сайдбара',
             },
             en: {
               TITLE: 'My sidebar item',
             },
           },
           OPTIONS: {
-            iconName: 'chat-tools',
+            iconName: 'fa-file-text-o',
             context: 'ALL',
             role: 'USER',
             extranet: 'N',
@@ -230,14 +249,14 @@ Array
               TITLE: 'My sidebar item',
               LANG_ALL: {
                 ru: {
-                  TITLE: 'My sidebar item',
+                  TITLE: 'Мой пункт сайдбара',
                 },
                 en: {
                   TITLE: 'My sidebar item',
                 },
               },
               OPTIONS: {
-                iconName: 'chat-tools',
+                iconName: 'fa-file-text-o',
                 context: 'ALL',
                 role: 'USER',
                 extranet: 'N',
@@ -326,7 +345,7 @@ Array
                         ],
                     ],
                     'OPTIONS' => [
-                        'iconName' => 'chat-tools',
+                        'iconName' => 'fa-file-text-o',
                         'context' => 'ALL',
                         'role' => 'USER',
                         'extranet' => 'N',
@@ -361,7 +380,7 @@ Array
                 en: { TITLE: 'My sidebar item' }
             },
             OPTIONS: {
-                iconName: 'chat-tools',
+                iconName: 'fa-file-text-o',
                 context: 'ALL',
                 role: 'USER',
                 extranet: 'N',
@@ -398,7 +417,7 @@ Array
                 ],
             ],
             'OPTIONS' => [
-                'iconName' => 'chat-tools',
+                'iconName' => 'fa-file-text-o',
                 'context' => 'ALL',
                 'role' => 'USER',
                 'extranet' => 'N',
@@ -412,11 +431,60 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "IM_SIDEBAR",
+    	"HANDLER":   "https://your-domain.com/widgets/im-sidebar-handler.php",
+    	"TITLE":     "Мой пункт сайдбара",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Мой пункт сайдбара",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My sidebar item",
+    		},
+    	},
+    	"OPTIONS": b24.Params{
+    		"iconName": "fa-file-text-o",
+    		"context":  "ALL",
+    		"role":     "USER",
+    		"extranet": "N",
+    		"color":    "LIGHT_BLUE",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа из раздела «Обработка ответа» страницы placement.bind.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| `placement.bind` возвращает `ERROR_ARGUMENT` | Не передан обязательный параметр `OPTIONS[iconName]`. Код незаполненного поля приходит в `argument` ||
+|| Пункт не появился в блоке *Приложения* сайдбара чата | Завершите установку приложения и заново откройте чат ||
+|| Регистрация не проходит из-за значения `context` | Используйте только допустимые значения: `ALL`, `USER`, `CHAT`, `LINES`, `CRM` ||
+|| Пункт виден не в тех чатах, для которых задан `context` | Вместе с другими значениями передан `ALL`, и остальные значения не учитываются. Передавайте либо `ALL`, либо список конкретных контекстов через `;` ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./textarea.md)
+- [{#T}](./context-menu.md)
+- [{#T}](./navigation.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../bx24-widget-methods.md)

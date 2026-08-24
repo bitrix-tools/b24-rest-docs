@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -235,6 +235,31 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.userfield.get", b24.Params{
+    	"id": 399,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.quote.userfield.get: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"ID"`
+    	EntityID   string `json:"ENTITY_ID"`
+    	FieldName  string `json:"FIELD_NAME"`
+    	UserTypeID string `json:"USER_TYPE_ID"`
+    	Sort       string `json:"SORT"`
+    	Multiple   string `json:"MULTIPLE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
     ```
 
 {% endlist %}

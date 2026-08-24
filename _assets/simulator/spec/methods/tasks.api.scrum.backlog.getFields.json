@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.backlog.getFields",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список доступных полей бэклога tasks.api.scrum.backlog.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор группы, для которой был создан бэклог"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который создал бэклог"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользователя, который изменил бэклог"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": {
+        "groupId": {
+          "type": "integer"
+        },
+        "createdBy": {
+          "type": "integer"
+        },
+        "modifiedBy": {
+          "type": "integer"
+        }
+      }
+    },
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-get-fields.html",
+  "executable": false
+}

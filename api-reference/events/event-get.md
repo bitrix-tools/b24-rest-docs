@@ -185,6 +185,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("event.get: %w", err)
+    }
+
+    var items []struct {
+    	Event    string `json:"event"`
+    	Handler  string `json:"handler"`
+    	AuthType string `json:"auth_type"`
+    	Offline  int    `json:"offline"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Event, it.Handler)
+    }
+    ```
+
 {% endlist %}
 
 

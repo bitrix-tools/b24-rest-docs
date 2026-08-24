@@ -24,15 +24,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](./../../index.md) или [пользовательского типа](./../user-defined-object-types/index.md) сущности CRM у которой будет удалена воронка   ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](./../../index.md) или [пользовательского типа](./../user-defined-object-types/index.md) сущности CRM у которой будет удалена воронка   ||
 || **id***
-[`integer`][1] | Идентификатор удаляемой воронки. Можно получить методом [`crm.category.list`](./crm-category-list.md) или при создании воронки методом [`crm.category.add`](./crm-category-add.md) ||
+[`integer`](../../../data-types.md) | Идентификатор удаляемой воронки. Можно получить методом [`crm.category.list`](./crm-category-list.md) или при создании воронки методом [`crm.category.add`](./crm-category-add.md) ||
 |#
 
 ## Примеры кода
@@ -233,6 +233,23 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.category.delete", b24.Params{
+    	"entityTypeId": 2,
+    	"id":           5,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.category.delete: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -260,9 +277,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`null`][1] | Корневой элемент ответа, равный `null` ||
+[`null`](../../../data-types.md) | Корневой элемент ответа, равный `null` ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -302,5 +319,3 @@ HTTP-статус: **160**, **400**
 - [{#T}](./crm-category-get.md)
 - [{#T}](./crm-category-list.md)
 - [{#T}](./crm-category-fields.md)
-
-[1]: ../../../data-types.md

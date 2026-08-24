@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на добавление контакта или компании — владельца реквизита
 
 Метод добавляет новый реквизит.
 
@@ -111,7 +111,7 @@
 || **RQ_FAX**
 [`string`](../../../data-types.md) | Факс ||
 || **RQ_IDENT_TYPE**
-[`crm_status`](../../../data-types.md) | Способ идентификации ||
+[`crm_status`](../../data-types.md) | Способ идентификации ||
 || **RQ_IDENT_DOC**
 [`string`](../../../data-types.md) | Вид документа ||
 || **RQ_IDENT_DOC_SER**
@@ -502,10 +502,46 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_TYPE_ID":       4,
+    		"ENTITY_ID":            1,
+    		"PRESET_ID":            1,
+    		"NAME":                 "Организация",
+    		"ACTIVE":               "Y",
+    		"ADDRESS_ONLY":         "N",
+    		"SORT":                 500,
+    		"RQ_COMPANY_NAME":      "ООО \"1С-БИТРИКС\"",
+    		"RQ_COMPANY_FULL_NAME": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"1С-БИТРИКС\"",
+    		"RQ_COMPANY_REG_DATE":  "06.04.2007",
+    		"RQ_DIRECTOR":          "РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ",
+    		"RQ_INN":               "7717586110",
+    		"RQ_KPP":               "770501001",
+    		"RQ_OGRN":              "5077746476209",
+    		"UF_CRM_1707997209":    "56",
+    		"UF_CRM_1708012333":    "Категория 1",
+    		"XML_ID":               "5e4641fd-1dd9-11e6-b2f2-005056c00008",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -535,7 +571,7 @@ HTTP-статус: **200**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
-## Ответ в случае ошибки
+## Обработка ошибок
 
 HTTP-статус: **400**
 
@@ -548,7 +584,7 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|  
 || **Код** | **Текст ошибки** | **Описание** ||

@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "sale.tradePlatform.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить доступные поля источников заказов sale.tradePlatform.getFields",
+  "permissions": "любой пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "tradePlatform",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта saleordertradeplatform, а value — объект типа restfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/trade-platform/sale-trade-platform-get-fields.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "tradePlatform",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта saleordertradeplatform, а value — объект типа restfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/trade-platform/sale-trade-platform-get-fields.html",
+  "executable": false
+}

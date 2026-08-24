@@ -9,11 +9,13 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении контактов.
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении [контактов](../index.md).
+
+Во всех трех событиях в обработчик приходит только идентификатор контакта в `data.FIELDS.ID`, без значений полей. После создания и изменения запрашивайте данные контакта методом [crm.contact.get](../crm-contact-get.md) или [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 3`. После удаления контакт уже недоступен, поэтому храните нужные данные на своей стороне заранее.
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
-> Быстрый переход: [все события](#all-events) 
+> Быстрый переход: [все события](#all-events)
 
 ## Как получать события
 
@@ -36,7 +38,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmContactAdd](./on-crm-contact-add.md) | При создании контакта вручную или методом [crm.contact.add](../crm-contact-add.md) ||
-|| [onCrmContactUpdate](./on-crm-contact-update.md) | При обновлении контакта вручную или методом [crm.contact.update](../crm-contact-update.md) ||
-|| [onCrmContactDelete](./on-crm-contact-delete.md) | При удалении контакта вручную или методом [crm.contact.delete](../crm-contact-delete.md) ||
+|| [onCrmContactAdd](./on-crm-contact-add.md) | При создании контакта вручную, методом [crm.contact.add](../crm-contact-add.md) или методом [crm.item.add](../../universal/crm-item-add.md) с `entityTypeId = 3` ||
+|| [onCrmContactUpdate](./on-crm-contact-update.md) | При обновлении контакта вручную, методом [crm.contact.update](../crm-contact-update.md) или методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 3` ||
+|| [onCrmContactDelete](./on-crm-contact-delete.md) | При удалении контакта вручную, методом [crm.contact.delete](../crm-contact-delete.md) или методом [crm.item.delete](../../universal/crm-item-delete.md) с `entityTypeId = 3` ||
 |#

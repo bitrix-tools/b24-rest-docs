@@ -264,6 +264,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyRelation.add", b24.Params{
+    	"fields": b24.Params{
+    		"entityId":   6,
+    		"entityType": "D",
+    		"propertyId": 40,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.propertyRelation.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyRelation".
+    raw, ok := b24.Unwrap(res.Result, "propertyRelation")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyRelation")
+    }
+
+    var item struct {
+    	EntityID   b24.ID `json:"entityId"`
+    	EntityType string `json:"entityType"`
+    	PropertyID b24.ID `json:"propertyId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.EntityID, item.EntityType)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

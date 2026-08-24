@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет вариант значения свойства. Метод актуален только для свойств с типом `ENUM`.
+Метод `sale.propertyvariant.add` добавляет вариант значения свойства. Метод актуален только для свойств с типом `ENUM`.
 
 ## Параметры метода
 
@@ -274,6 +274,43 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyvariant.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":         "Красный",
+    		"orderPropsId": 49,
+    		"value":        "red",
+    		"sort":         10,
+    		"description":  "Описание значения для красного цвета",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.propertyvariant.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyVariant".
+    raw, ok := b24.Unwrap(res.Result, "propertyVariant")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyVariant")
+    }
+
+    var item struct {
+    	Description  string `json:"description"`
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	OrderPropsID b24.ID `json:"orderPropsId"`
+    	Sort         int    `json:"sort"`
+    	Value        string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Description, item.ID)
     ```
 
 {% endlist %}

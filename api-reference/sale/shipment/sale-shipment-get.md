@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает значения всех полей отгрузки. 
+Метод `sale.shipment.get` получает значения всех полей отгрузки.
 
 ## Параметры метода
 
@@ -267,9 +267,40 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipment.get", b24.Params{
+    	"id": 2465,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.shipment.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "shipment".
+    raw, ok := b24.Unwrap(res.Result, "shipment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа shipment")
+    }
+
+    var item struct {
+    	AccountNumber     string `json:"accountNumber"`
+    	AllowDelivery     string `json:"allowDelivery"`
+    	BasePriceDelivery int    `json:"basePriceDelivery"`
+    	Canceled          string `json:"canceled"`
+    	Comments          string `json:"comments"`
+    	CompanyID         b24.ID `json:"companyId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.AccountNumber, item.AllowDelivery)
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 

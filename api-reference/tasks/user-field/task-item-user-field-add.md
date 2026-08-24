@@ -458,6 +458,40 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.userfield.add", b24.Params{
+    	"PARAMS": b24.Params{
+    		"USER_TYPE_ID": "string",
+    		"FIELD_NAME":   "UF_TASK_CLIENT_REQUEST",
+    		"XML_ID":       "UF_TASK_CLIENT_REQUEST",
+    		"EDIT_FORM_LABEL": b24.Params{
+    			"ru": "Запрос клиента",
+    			"en": "Client request",
+    		},
+    		"LABEL":     "Запрос клиента",
+    		"SORT":      220,
+    		"MULTIPLE":  "N",
+    		"MANDATORY": "Y",
+    		"SETTINGS": b24.Params{
+    			"DEFAULT_VALUE": "Уточнить цель и ожидаемый результат",
+    			"ROWS":          10,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

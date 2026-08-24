@@ -47,8 +47,8 @@
 || **groupId***
 [`integer`](../../../data-types.md) | Идентификатор группы, для которой создается бэклог.
 
-Иденитификатор группы можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
-|| **createdBy***
+Идентификатор группы можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
+|| **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, от кого будет создан бэклог ||
 || **modifiedBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, от кого будет модифицирован бэклог ||
@@ -261,6 +261,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.backlog.add", b24.Params{
+    	"fields": b24.Params{
+    		"groupId":   1,
+    		"createdBy": 1,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.backlog.add: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	GroupID    b24.ID `json:"groupId"`
+    	CreatedBy  int    `json:"createdBy"`
+    	ModifiedBy int    `json:"modifiedBy"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.GroupID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -317,10 +343,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `0` | Backlog already added | Ошибка возникает при попытке создания бэклога, при этом в группе уже сущеcтвует активный бэклог ||
+|| `0` | Group id not found | Не передан идентификатор группы `groupId` ||
+|| `0` | Backlog already added | Ошибка возникает при попытке создания бэклога, если в группе уже существует активный бэклог ||
 || `0` | Access denied | Отсутствуют соответствующие права доступа ||
-|| `0` | createdBy user not found | Переданный индентификатор пользователя невалидный. Например, пользователя с таким идентификатором не существует ||
-|| `0` | modifiedBy user not found | Переданный индентификатор пользователя невалидный. Например, пользователя с таким идентификатором не существует ||
+|| `0` | createdBy user not found | Переданный идентификатор пользователя невалидный. Например, пользователя с таким идентификатором не существует ||
+|| `0` | modifiedBy user not found | Переданный идентификатор пользователя невалидный. Например, пользователя с таким идентификатором не существует ||
+|| `0` | Unable to add backlog | Не удалось создать бэклог ||
 || `0` | Unknown error | Другая ошибка ||
 |#
 

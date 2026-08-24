@@ -17,32 +17,32 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **fields**^*^
-[`object`](../../data-types.md) | Объект с параметрами шаблона [(подробнее)](#fields) ||
+[`object`](../../../data-types.md) | Объект с параметрами шаблона [(подробнее)](#fields) ||
 |#
 
 ### Параметр fields {#fields}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **name**^*^
-[`string`](../../data-types.md) | Название шаблона ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **file**^*^
-[`file`](../../data-types.md#file) | Файл шаблона в формате `["имя_файла.docx", "base64_контент"]`. Можно передать в `base64` или в `multipart/form-data`. Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
+[`file`](../../../data-types.md) | Файл шаблона в формате `["имя_файла.docx", "base64_контент"]`. Можно передать в `base64` или в `multipart/form-data`. Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 || **numeratorId**^*^
-[`integer`](../../data-types.md) | Идентификатор нумератора. Список доступных нумераторов можно получить методом [crm.documentgenerator.numerator.list](../numerator/crm-document-generator-numerator-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор нумератора. Список доступных нумераторов можно получить методом [crm.documentgenerator.numerator.list](../numerator/crm-document-generator-numerator-list.md) ||
 || **region**^*^
-[`string`](../../data-types.md) | Регион шаблона, например `ru` ||
+[`string`](../../../data-types.md) | Регион шаблона, например `ru` ||
 || **entityTypeId**^*^
-[`array`](../../data-types.md) | Массив идентификаторов CRM-объектов, для которых доступен шаблон.
+[`array`](../../../data-types.md) | Массив идентификаторов CRM-объектов, для которых доступен шаблон.
 
 Типичные значения:
 - `1` — лид
@@ -53,15 +53,15 @@
 - `7` — коммерческое предложение
 - `31` — счет
 
-Для объектов с направлениями добавляется суффикс направления, например:
-- `2_category_0` — сделка, направление `0`
-- `31_1` — счет, направление `1`
+Для объектов с воронками добавляется суффикс воронки, например:
+- `2_category_0` — сделка, воронка `0`
+- `31_1` — счет, воронка `1`
 
 Для смарт-процессов указывается `entityTypeId` типа из [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) или [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md), например:
 - `177` — элемент смарт-процесса с `entityTypeId = 177`
-- `177_1` — элемент смарт-процесса с направлением `1` ||
+- `177_1` — элемент смарт-процесса с воронкой `1` ||
 || **users**
-[`array`](../../data-types.md) | Массив кодов прав доступа, например `["UA"]`
+[`array`](../../../data-types.md) | Массив кодов прав доступа, например `["UA"]`
 
 Поддерживаются коды доступа:
 - `UA` — все пользователи
@@ -78,11 +78,11 @@
 
 Если параметр не передан или передан пустым, в доступ автоматически добавляется текущий пользователь (`U<id>`) ||
 || **active**
-[`char`](../../data-types.md) | Активность шаблона: `Y` или `N`. По умолчанию `Y` ||
+[`char`](../../../data-types.md) | Активность шаблона: `Y` или `N`. По умолчанию `Y` ||
 || **withStamps**
-[`char`](../../data-types.md) | Подставлять печать и подпись: `Y` или `N`. По умолчанию `N` ||
+[`char`](../../../data-types.md) | Подставлять печать и подпись: `Y` или `N`. По умолчанию `N` ||
 || **sort**
-[`integer`](../../data-types.md) | Индекс сортировки ||
+[`integer`](../../../data-types.md) | Индекс сортировки ||
 |#
 
 ## Примеры кода
@@ -368,6 +368,47 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.template.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":         "Шаблон КП из REST",
+    		"file":         []string{"template.docx", "**base64_encoded_content**"},
+    		"numeratorId":  49,
+    		"region":       "ru",
+    		"entityTypeId": []string{"2", "2_category_0"},
+    		"users":        []string{"UA"},
+    		"active":       "Y",
+    		"withStamps":   "N",
+    		"sort":         500,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.template.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "template".
+    raw, ok := b24.Unwrap(res.Result, "template")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа template")
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Region   string `json:"region"`
+    	Download string `json:"download"`
+    	Active   string `json:"active"`
+    	ModuleID string `json:"moduleId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -419,9 +460,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит объект [`template`](#template) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`template`](#template) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип template {#template}
@@ -430,37 +471,37 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../../data-types.md) | Идентификатор шаблона ||
+[`string`](../../../data-types.md) | Идентификатор шаблона ||
 || **name**
-[`string`](../../data-types.md) | Название шаблона ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **region**
-[`string`](../../data-types.md) | Регион шаблона ||
+[`string`](../../../data-types.md) | Регион шаблона ||
 || **code**
-[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Символьный код шаблона ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Символьный код шаблона ||
 || **download**
-[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона ||
+[`string`](../../../data-types.md) | Ссылка на скачивание файла шаблона ||
 || **downloadMachine**
-[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона для приложения ||
+[`string`](../../../data-types.md) | Ссылка на скачивание файла шаблона для приложения ||
 || **active**
-[`char`](../../data-types.md) | Активность шаблона: `Y` или `N` ||
+[`char`](../../../data-types.md) | Активность шаблона: `Y` или `N` ||
 || **moduleId**
-[`string`](../../data-types.md) | Идентификатор модуля ||
+[`string`](../../../data-types.md) | Идентификатор модуля ||
 || **numeratorId**
-[`string`](../../data-types.md) | Идентификатор нумератора ||
+[`string`](../../../data-types.md) | Идентификатор нумератора ||
 || **withStamps**
-[`char`](../../data-types.md) | Подставлять печать и подпись: `Y` или `N` ||
+[`char`](../../../data-types.md) | Подставлять печать и подпись: `Y` или `N` ||
 || **users**
-[`object`](../../data-types.md) | Объект кодов прав доступа в формате `{"UA":"UA"}` ||
+[`object`](../../../data-types.md) | Объект кодов прав доступа в формате `{"UA":"UA"}` ||
 || **isDeleted**
-[`char`](../../data-types.md) | Признак удаления шаблона: `Y` или `N` ||
+[`char`](../../../data-types.md) | Признак удаления шаблона: `Y` или `N` ||
 || **sort**
-[`string`](../../data-types.md) | Индекс сортировки ||
+[`string`](../../../data-types.md) | Индекс сортировки ||
 || **entityTypeId**
-[`array`](../../data-types.md) | Массив идентификаторов CRM-элементов, для которых доступен шаблон ||
+[`array`](../../../data-types.md) | Массив идентификаторов CRM-элементов, для которых доступен шаблон ||
 || **createTime**
-[`datetime`](../../data-types.md) | Дата и время создания шаблона ||
+[`datetime`](../../../data-types.md) | Дата и время создания шаблона ||
 || **updateTime**
-[`datetime`](../../data-types.md) | Дата и время последнего обновления шаблона ||
+[`datetime`](../../../data-types.md) | Дата и время последнего обновления шаблона ||
 |#
 
 ## Обработка ошибок

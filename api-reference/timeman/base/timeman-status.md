@@ -227,6 +227,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.status", b24.Params{
+    	"USER_ID": 503,
+    })
+    if err != nil {
+    	return fmt.Errorf("timeman.status: %w", err)
+    }
+
+    var item struct {
+    	Status    string `json:"STATUS"`
+    	TimeStart string `json:"TIME_START"`
+    	Duration  string `json:"DURATION"`
+    	TimeLeaks string `json:"TIME_LEAKS"`
+    	Active    bool   `json:"ACTIVE"`
+    	IPOpen    string `json:"IP_OPEN"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Status, item.TimeStart)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -272,7 +297,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа.
 
-Содержит объект c описанием рабочего дня ||
+Содержит объект с описанием рабочего дня ||
 || **STATUS**
  [`string`](../../data-types.md) | Статус текущего рабочего дня.
  
@@ -286,7 +311,7 @@ HTTP-статус: **200**
 
 Часовой пояс соответствует часовому поясу начала рабочего дня ||
 || **TIME_FINISH**
-[`datetime`](../../data-types.md) | Дата и время заверения рабочего дня.
+[`datetime`](../../data-types.md) | Дата и время завершения рабочего дня.
 
 Для незавершенного рабочего дня возвращается `null` ||
 || **DURATION**

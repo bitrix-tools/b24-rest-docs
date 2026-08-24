@@ -23,15 +23,14 @@
 
 **Элемент CRM.** Связь комментария с элементом задают параметры `ENTITY_TYPE` и `ENTITY_ID`.
 
-- `ENTITY_TYPE` хранит тип объекта CRM. Значения типов смотрите в справочнике [Тип объекта CRM](../../data-types.md#object_type).  
-- `ENTITY_ID` хранит идентификатор элемента CRM. Его возвращают методы списка и методы создания, например, [crm.item.list](../../universal/crm-item-list.md), [crm.item.add](../../universal/crm-item-add.md).  
+- `ENTITY_TYPE` хранит символьный код типа объекта CRM в нижнем регистре, например `deal` или `dynamic_1046`. Коды системных типов смотрите в справочнике [Тип объекта CRM](../../data-types.md#object_type), коды смарт-процессов — в разделе [Пользовательские типы объектов CRM](../../universal/user-defined-object-types/index.md).
+- `ENTITY_ID` хранит идентификатор элемента CRM. Его возвращают методы списка и методы создания, например, [crm.item.list](../../universal/crm-item-list.md), [crm.item.add](../../universal/crm-item-add.md).
 
 Параметры `ENTITY_TYPE` и `ENTITY_ID` используются в методах [crm.timeline.comment.add](./crm-timeline-comment-add.md) и [crm.timeline.comment.list](./crm-timeline-comment-list.md).
 
 **Файлы.** Комментарий может содержать вложения в поле `FILES`. Формат передачи файлов описан в статьях [Как загрузить файлы](../../../files/how-to-upload-files.md) и [Как обновить файлы](../../../files/how-to-update-files.md).
 
-Поле `FILES` обрабатывают методы [crm.timeline.comment.add](./crm-timeline-comment-add.md) и [crm.timeline.comment.update](./crm-timeline-comment-update.md), а в ответах вложения возвращают [crm.timeline.comment.get](./crm-timeline-comment-get.md) и [crm.timeline.comment.list](./crm-timeline-comment-list.md).  
-
+Поле `FILES` обрабатывают методы [crm.timeline.comment.add](./crm-timeline-comment-add.md) и [crm.timeline.comment.update](./crm-timeline-comment-update.md), а в ответах вложения возвращают [crm.timeline.comment.get](./crm-timeline-comment-get.md) и [crm.timeline.comment.list](./crm-timeline-comment-list.md).
 
 ## Как работать с комментариями
 

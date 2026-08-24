@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод обновляет свойство отгрузки. 
+Метод `sale.shipmentproperty.update` обновляет свойство отгрузки.
 
 ## Параметры метода
 
@@ -91,7 +91,7 @@
 || **xmlId**
 [`string`](../../data-types.md) | Внешний идентификатор свойства отгрузки ||
 || **defaultValue**
-[`any`](../data-types.md) | Дефолтное значение свойства отгрузки.
+[`any`](../../data-types.md) | Дефолтное значение свойства отгрузки.
 Для множественных свойств отгрузки (multiple) поддерживается передача массива значений  ||
 || **settings**
 [`object`](../../data-types.md) | Объект в формате {"field_1": "value_1", ... "field_N": "value_N"} для передачи дополнительных настроек свойства отгрузки.
@@ -148,7 +148,7 @@
 Если не передано, то по умолчанию выставляется в значение `N`||
 |#
 
-Параметры, актуальные для свойств отгрузки типа [`LOCATION`](../data-types.md)			
+Параметры, актуальные для свойств отгрузки типа `LOCATION`
 
 #|
 || **Название**
@@ -568,9 +568,67 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentproperty.update", b24.Params{
+    	"id": 93,
+    	"fields": b24.Params{
+    		"personTypeId": 3,
+    		"propsGroupId": 6,
+    		"name":         "Телефон (для связи с курьером)",
+    		"type":         "STRING",
+    		"code":         "PHONE",
+    		"active":       "Y",
+    		"util":         "N",
+    		"userProps":    "Y",
+    		"isFiltered":   "N",
+    		"sort":         500,
+    		"description":  "описание свойства",
+    		"required":     "Y",
+    		"multiple":     "N",
+    		"settings": b24.Params{
+    			"multiline": "Y",
+    			"maxlength": 100,
+    		},
+    		"xmlId":         "",
+    		"defaultValue":  "",
+    		"isProfileName": "Y",
+    		"isPayer":       "Y",
+    		"isEmail":       "N",
+    		"isPhone":       "N",
+    		"isZip":         "N",
+    		"isAddress":     "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentproperty.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "property".
+    raw, ok := b24.Unwrap(res.Result, "property")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа property")
+    }
+
+    var item struct {
+    	Active             string `json:"active"`
+    	Code               string `json:"code"`
+    	DefaultValue       string `json:"defaultValue"`
+    	Description        string `json:"description"`
+    	ID                 b24.ID `json:"id"`
+    	InputFieldLocation string `json:"inputFieldLocation"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -632,7 +690,7 @@ HTTP-статус: **200**
 || **property**
 [`sale_shipment_property`](../data-types.md) | Объект с информацией об обновленном свойстве отгрузки ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

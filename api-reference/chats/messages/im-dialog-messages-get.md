@@ -280,6 +280,24 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.messages.get", b24.Params{
+    	"DIALOG_ID": "chat1489",
+    	"FIRST_ID":  84869,
+    	"LIMIT":     10,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.dialog.messages.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -317,7 +335,6 @@ HTTP-статус: **200**
                 "params": [],
                 "disappearing_date": null
             },
-            ...,
             {
                 "id": 84869,
                 "chat_id": 1489,
@@ -332,8 +349,7 @@ HTTP-статус: **200**
                     "NOTIFY": "N"
                 },
                 "disappearing_date": null
-            },
-            ...
+            }
         ],
         "users": [
             {
@@ -372,7 +388,29 @@ HTTP-статус: **200**
                 "name": "Анна Петрова",
                 "first_name": "Анна",
                 "last_name": "Петрова",
-                ...
+                "work_position": "Менеджер",
+                "color": "#df532d",
+                "avatar": "",
+                "avatar_hr": "",
+                "gender": "F",
+                "birthday": "",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "default",
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2026-03-04T10:11:02+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [667],
+                "phones": false,
+                "bot_data": null,
+                "type": "user",
+                "website": "",
+                "email": "petrova@mysite.ru"
             }
         ],
         "files": [
@@ -486,7 +524,7 @@ HTTP-статус: **200**
 || **params**
 [`object`](../../data-types.md) | Дополнительные параметры сообщения [(подробное описание)](#params).
 
-Набор полей объекта зависит от типа сообщени: обычное или системное ||
+Набор полей объекта зависит от типа сообщения: обычное или системное ||
 || **disappearing_date**
 [`datetime`](../../data-types.md) | Дата исчезновения сообщения, `null` если не задана ||
 |#

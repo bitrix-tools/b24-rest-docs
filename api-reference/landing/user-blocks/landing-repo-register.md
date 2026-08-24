@@ -11,7 +11,7 @@
 
 > Scope: [`landing`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты
+> Кто может выполнять метод: пользователь с правом «Просмотр» в разделе «Сайты и Магазины»
 
 Метод `landing.repo.register` добавляет новый пользовательский блок в репозиторий.
 
@@ -349,6 +349,42 @@
     echo '<pre>';
     print_r($result);
     echo '</pre>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.repo.register", b24.Params{
+    	"code": "myblockx",
+    	"fields": b24.Params{
+    		"NAME":        "Test block",
+    		"DESCRIPTION": "Just try!",
+    		"SECTIONS":    "cover,about",
+    		"PREVIEW":     "https://www.bitrix24.ru/images/b24_screen.png",
+    		"CONTENT":     "<section class=\"landing-block\"><div class=\"container\">Test</div></section>",
+    	},
+    	"manifest": b24.Params{
+    		"block": b24.Params{
+    			"name": "Test block",
+    		},
+    		"nodes": b24.Params{
+    			".landing-block-node-text": b24.Params{
+    				"name": "Text",
+    				"type": "text",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.repo.register: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

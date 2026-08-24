@@ -21,13 +21,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **USER_DATA**
-[`string`](../../data-types.md) | Возвращать подробные данные пользователей. 
+[`string`](../../data-types.md) | Возвращать подробные данные пользователей.
 
 Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию: `N` ||
 || **OFFSET**
-[`integer`](../../data-types.md) | Смещение выборки пользователей ||
+[`integer`](../../data-types.md) | Смещение выборки пользователей. По умолчанию `0` ||
 || **LIMIT**
 [`integer`](../../data-types.md) | Количество элементов в выборке. По умолчанию `10`. Максимальное значение `50` ||
 |#
@@ -104,8 +106,6 @@
       // im.department.colleagues.list returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<ColleagueUser[]>({
         method: 'im.department.colleagues.list',
         params: {
@@ -143,8 +143,6 @@
           // im.department.colleagues.list returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'im.department.colleagues.list',
             params: {
@@ -270,6 +268,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.department.colleagues.list", b24.Params{
+    	"USER_DATA": "Y",
+    	"OFFSET":    0,
+    	"LIMIT":     5,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.department.colleagues.list: %w", err)
+    }
+
+    var items []b24.ID
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -333,8 +351,7 @@ HTTP-статус: **200**
                 "type": "user",
                 "website": "",
                 "email": "anna.petrova@mysite.ru"
-            },
-            ... // описание для каждого пользователя
+            }
         ],
         "next": 5,
         "total": 7,
@@ -357,7 +374,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Список пользователей. 
+[`array`](../../data-types.md) | Список пользователей.
 - При `USER_DATA = 'N'` содержит идентификаторы пользователей
 - При `USER_DATA = 'Y'` содержит объекты пользователей [(подробное описание)](#user-object) ||
 || **total**
@@ -469,4 +486,4 @@ HTTP-статус: **403**
 - [{#T}](./im-department-get.md)
 - [{#T}](./im-department-managers-get.md)
 - [{#T}](./im-department-employees-get.md)
-- [{#T}](./im-department-colleagues-list.md)
+- [{#T}](./index.md)

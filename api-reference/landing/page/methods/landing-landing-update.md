@@ -318,6 +318,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.update", b24.Params{
+    	"lid": 349,
+    	"fields": b24.Params{
+    		"TITLE":       "Весенняя акция 2026",
+    		"CODE":        "spring-sale-2026",
+    		"DESCRIPTION": "Обновленное описание страницы акции",
+    		"XML_ID":      "promo-2026-landing",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

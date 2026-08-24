@@ -234,6 +234,26 @@ PARAMETERS: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.workflow.start", b24.Params{
+    	"TEMPLATE_ID": 1,
+    	"DOCUMENT_ID": []string{"crm", "CCrmDocumentLead", "LEAD_1"},
+    	"PARAMETERS": b24.Params{
+    		"Parameter1": "user_1",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.workflow.start: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

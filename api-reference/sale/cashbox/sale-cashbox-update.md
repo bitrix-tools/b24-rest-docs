@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод обновляет существующую кассу.
+Метод `sale.cashbox.update` обновляет существующую кассу.
 
 ## Параметры метода
 
@@ -290,6 +290,27 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.update", b24.Params{
+    	"ID": 1,
+    	"FIELDS": b24.Params{
+    		"NAME": "Новое имя",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

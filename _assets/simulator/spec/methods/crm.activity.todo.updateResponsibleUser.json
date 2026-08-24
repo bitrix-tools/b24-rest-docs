@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "crm.activity.todo.updateResponsibleUser",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Обновить ответственного за универсальное дело crm.activity.todo.updateResponsibleUser",
+  "permissions": "пользователь с правом на редактирование элемента CRM, для которого обновляется дело",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор обновляемого дела, например 999"
+    },
+    {
+      "name": "ownerTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело, например 2 для сделки"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор элемента CRM, к которому привязано дело, например 1"
+    },
+    {
+      "name": "responsibleId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, который станет ответственным за дело, например 1"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/todo/crm-activity-todo-update-responsible-user.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 999
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "В случае успеха возвращает объект, содержащий идентификатор обновлённого дела id, в случае ошибки = null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/todo/crm-activity-todo-update-responsible-user.html",
+  "executable": false
+}

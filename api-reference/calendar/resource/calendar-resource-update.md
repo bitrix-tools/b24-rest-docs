@@ -212,6 +212,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.resource.update", b24.Params{
+    	"resourceId": 197,
+    	"name":       "Changed Resource Name",
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.resource.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -248,7 +267,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "name" для метода "calendar.resource.update""
+    "error_description": "Не задан обязательный параметр \"name\" для метода \"calendar.resource.update\""
 }
 ```
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
@@ -257,10 +276,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "id" для метода "calendar.resource.update" | Не передан обязательный параметр `resourceId` ||
-|| Пустая строка | Не задан обязательный параметр "name" для метода "calendar.resource.update" | Не передан обязательный параметр `name` ||
-|| Пустая строка | Доступ запрещен | Метод вызывается внешним пользователем или пользователю запрещено изменение ресурсов ||
-|| Пустая строка | При изменении ресурса произошла ошибка | Другая ошибка ||
+|| Пустое значение | Не задан обязательный параметр "resourceId" для метода "calendar.resource.update" | Не передан обязательный параметр `resourceId` ||
+|| Пустое значение | Не задан обязательный параметр "name" для метода "calendar.resource.update" | Не передан обязательный параметр `name` ||
+|| Пустое значение | Доступ запрещен | Метод вызывается внешним пользователем или пользователю запрещено изменение ресурсов ||
+|| Пустое значение | При изменении ресурса произошла ошибка | Другая ошибка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

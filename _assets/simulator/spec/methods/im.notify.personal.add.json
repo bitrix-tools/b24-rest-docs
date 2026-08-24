@@ -1,0 +1,100 @@
+{
+  "$v": 1,
+  "method": "im.notify.personal.add",
+  "scope": "im",
+  "kind": "write",
+  "title": "Отправить персональное уведомление im.notify.personal.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя-получателя уведомления. Получить идентификатор пользователя можно методами user.get, user.search или im.user.get"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст уведомления. Метод удаляет пробелы по краям строки перед отправкой. Поддерживает BB-коды — подробнее в разделе Форматирование сообщений"
+    },
+    {
+      "name": "MESSAGE_OUT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст уведомления для внешних каналов, например, почты. Если не передан, отправляется пустое значение"
+    },
+    {
+      "name": "TAG",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный тег уведомления в рамках приложения. При добавлении уведомления с существующим тегом другие уведомления будут удалены. Передавайте с CLIENT_ID при вызове через вебхук"
+    },
+    {
+      "name": "SUB_TAG",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дополнительный тег уведомления без проверки уникальности. Передавайте с CLIENT_ID при вызове через вебхук"
+    },
+    {
+      "name": "ATTACH",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Вложение уведомления в формате объекта или JSON-строки. Подробнее смотрите в разделе Вложения",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор приложения. Параметр обязателен только при вызове через вебхук: передавайте его вместе с TAG и SUB_TAG"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/notifications/im-notify-personal-add.md"
+  },
+  "resultExample": {
+    "result": 12345,
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.1,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2026-03-02T09:30:00+03:00",
+      "date_finish": "2026-03-02T09:30:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного уведомления. Если уведомление не создано, может вернуться false"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/notifications/im-notify-personal-add.html",
+  "executable": false
+}

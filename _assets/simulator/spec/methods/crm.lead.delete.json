@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "crm.lead.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить лид crm.lead.delete",
+  "permissions": "любой пользователь с правом удаления лидов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор лида. Идентификатор можно получить с помощью методов crm.lead.list или crm.lead.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/crm-lead-delete.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1705764932.998683,
+      "finish": 1705764937.173995,
+      "duration": 4.175312042236328,
+      "processing": 3.3076529502868652,
+      "date_start": "2024-01-20T18:35:32+03:00",
+      "date_finish": "2024-01-20T18:35:37+03:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/crm-lead-delete.html",
+  "executable": false
+}

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -226,6 +226,45 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Command.update", b24.Params{
+    	"botId":     456,
+    	"botToken":  "b15f6e80ef345c97e23db31e727281f4",
+    	"commandId": 42,
+    	"fields": b24.Params{
+    		"title": b24.Params{
+    			"en": "Updated help",
+    			"ru": "Обновленная помощь",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Command.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "command".
+    raw, ok := b24.Unwrap(res.Result, "command")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа command")
+    }
+
+    var item struct {
+    	ID              b24.ID `json:"id"`
+    	BotID           b24.ID `json:"botId"`
+    	Command         string `json:"command"`
+    	Common          bool   `json:"common"`
+    	Hidden          bool   `json:"hidden"`
+    	ExtranetSupport bool   `json:"extranetSupport"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.BotID)
+    ```
+
 {% endlist %}
 
 ### Пример 2. Удаление перевода
@@ -390,6 +429,45 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Command.update", b24.Params{
+    	"botId":     456,
+    	"botToken":  "b15f6e80ef345c97e23db31e727281f4",
+    	"commandId": 42,
+    	"fields": b24.Params{
+    		"title": b24.Params{
+    			"ru": "Помощь",
+    			"en": nil,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Command.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "command".
+    raw, ok := b24.Unwrap(res.Result, "command")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа command")
+    }
+
+    var item struct {
+    	ID              b24.ID `json:"id"`
+    	BotID           b24.ID `json:"botId"`
+    	Command         string `json:"command"`
+    	Common          bool   `json:"common"`
+    	Hidden          bool   `json:"hidden"`
+    	ExtranetSupport bool   `json:"extranetSupport"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.BotID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

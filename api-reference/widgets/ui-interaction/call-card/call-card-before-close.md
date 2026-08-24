@@ -9,15 +9,17 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../scopes/permissions.md)
+> Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — доступ к точке встраивания карточки звонка
 >
 > Кто может подписаться: любой пользователь
 
-Событие `CallCard::BeforeClose` возникает перед закрытием карточки звонка.
+Событие `CallCard::BeforeClose` возникает, когда Битрикс24 пытается закрыть карточку звонка.
+
+Закрытие может не состояться. Если автозакрытие запрещено командой [disableAutoClose](./disable-auto-close.md) или в карточке открыта форма комментария, событие все равно приходит, а карточка остается на экране еще на 65 секунд. При фактическом закрытии событие приходит второй раз, поэтому обработчик должен быть готов сработать дважды.
 
 {% note info "" %}
 
-Событие работает в контексте приложения в плейсменте `CALL_CARD`.
+Событие работает в контексте приложения, открытого в точке встраивания `CALL_CARD`. Это событие js-интерфейса, а не событие REST: подписаться на него запросом к `/rest/` нельзя.
 
 {% endnote %}
 
@@ -25,19 +27,21 @@
 
 В обработчик события данные не передаются.
 
-## Параметры подписки на событие
+## Параметры подписки
+
+Обработчик регистрируют из виджета методом [BX24.placement.bindEvent](../bx24-placement-bind-event.md).
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **PLACEMENT***
+|| **event***
 [`string`](../../../data-types.md) | Имя события интерфейса.
 
 Для данного события — `CallCard::BeforeClose` ||
-|| **HANDLER***
-[`string`](../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|| **callback***
+[`callable`](../../../data-types.md) | Функция, которую Битрикс24 вызывает при наступлении события. Аргументы в обработчик не передаются ||
 |#
 
 ## Примеры кода
@@ -46,84 +50,44 @@
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"CallCard::BeforeClose","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/placement.bindEvent?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.bindEvent('CallCard::BeforeClose', function () {
+                // код обработчика
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'placement.bindEvent',
-        params: {
-          PLACEMENT: 'CallCard::BeforeClose',
-          HANDLER: '**your_handler_url_here**',
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('Event binding registered:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    await $b24.placement.bindEvent('CallCard::BeforeClose', () => {
+      // код обработчика
+    })
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindCallCardBeforeClose() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.bindEvent',
-            params: {
-              PLACEMENT: 'CallCard::BeforeClose',
-              HANDLER: '**your_handler_url_here**',
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('Event binding registered:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', bindCallCardBeforeClose)
+        await $b24.placement.bindEvent('CallCard::BeforeClose', () => {
+          // код обработчика
+        })
+      })
     </script>
     ```
 
@@ -221,6 +185,13 @@
 
 {% endlist %}
 
+## Ошибки
+
+Проверьте условия.
+
+- Виджет открыт в точке встраивания `CALL_CARD`. В других точках встраивания события `CallCard::*` не зарегистрированы, и подписка молча не сработает
+- Имя события передано без опечаток и с учетом регистра. Список событий, доступных в текущей точке встраивания, возвращает [BX24.placement.getInterface](../bx24-placement-get-interface.md)
+
 ## Продолжите изучение
 
 - [{#T}](./get-status.md)
@@ -228,3 +199,5 @@
 - [{#T}](./enable-auto-close.md)
 - [{#T}](./call-card-entity-changed.md)
 - [{#T}](./call-card-call-state-changed.md)
+- [{#T}](./index.md)
+- [{#T}](../../telephony/call-card.md)

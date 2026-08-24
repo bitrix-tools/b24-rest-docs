@@ -9,39 +9,88 @@
 
 {% endnote %}
 
-Редактирование данных CRM — это изменение значений в карточках и связанных объектах: полях лидов, контактов, компаний и сделок, телефонов и email, привязок дел и даты оплаты.
+Редактирование данных в CRM — это изменение значений, которые уже сохранены в карточках и связанных объектах: полей лидов, контактов, компаний и сделок, телефонов и email, привязок дел и даты оплаты в поле сделки.
 
-Сценарий — это последовательность запросов для одной задачи. В нем описан порядок вызова методов и приведен пример кода.
+Сценарий — это последовательность запросов для одной задачи. В нем описан порядок вызова методов, приведен пример кода и указан результат.
 
-> Быстрый переход: [все сценарии](#choose-tutorial)
+Таблицы ниже помогают подобрать сценарий по задаче, основным методам и результату. Сценарии создания объектов CRM собраны в статьях [Добавить данные](../how-to-add-crm-objects/index.md), выборки и списки — в статьях [Получить списки](../how-to-get-lists/index.md).
 
-## Связь с объектами CRM
+## Что нужно для работы
 
-Сценарии связаны с карточками клиентов, сделками, делами, пользовательскими полями и оплатами.
+**Scope**. Всем сценариям нужен scope [`crm`](../../../api-reference/scopes/permissions.md). Сценариям с формами редактирования дополнительно нужен доступ к данным пользователей — метод [user.get](../../../api-reference/user/user-get.md) работает со scope [`user_brief`](../../../api-reference/scopes/permissions.md), `user_basic` или `user`.
 
-- **Лиды, контакты, компании и сделки.** Формы редактирования строят по полям объекта. Базовые операции выполняют методами [crm.lead.*](../../../api-reference/crm/leads/index.md), [crm.contact.*](../../../api-reference/crm/contacts/index.md), [crm.company.*](../../../api-reference/crm/companies/index.md) и [crm.deal.*](../../../api-reference/crm/deals/index.md)
-- **Телефоны и email.** Контактные данные хранятся в полях типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). Чтобы изменить или удалить значение, передайте новый массив в метод обновления объекта
-- **Дела.** Дела связаны с объектами CRM через привязки. Получить дело можно методом [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), изменить связь — методами [crm.activity.binding.*](../../../api-reference/crm/timeline/activities/binding/index.md)
-- **Пользовательские поля и оплаты.** Дату оплаты можно получить методом [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md) и сохранить в пользовательское поле сделки методами [crm.deal.userfield.*](../../../api-reference/crm/deals/user-defined-fields/index.md) и [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md)
+**Права**. Пользователю нужно право изменять элемент CRM, с которым работает сценарий. Формам редактирования дополнительно нужен доступ к настройкам CRM.
+
+Точные права и scope конкретного сценария указаны в шапке его страницы.
 
 ## Как начать работу
 
-1. Определите объект CRM: лид, контакт, компания или сделка
-2. Выберите сценарий в таблице [Как выбрать сценарий](#choose-tutorial)
-3. Проверьте, какие права и scopes указаны в выбранном сценарии
-4. Получите идентификаторы объекта CRM, дела, поля или оплаты, которые нужны для сценария
-5. Выполните методы в порядке, который описан в сценарии
+1. Выберите сценарий в таблице подходящей группы
+2. Создайте [входящий вебхук](../../../local-integrations/local-webhooks.md#incoming-webhook) или приложение с нужными scope и проверьте права пользователя
+3. Получите идентификаторы, с которых начинается сценарий: элемента CRM, дела, пользовательского поля или оплаты
+4. Выполните методы в порядке, описанном в сценарии
 
-## Как выбрать сценарий {#choose-tutorial}
+## Редактируйте карточки объектов CRM
+
+Форму редактирования строят по описанию полей, а не по заранее заданному списку. Генератор получает поля методом [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) и подбирает элемент HTML-формы под тип каждого поля, поэтому пользовательские поля появляются в форме без изменения кода.
+
+**Тип объекта**. Универсальные методы `crm.item.*` определяют элемент CRM парой значений: `entityTypeId` — тип объекта и `id` — идентификатор самого элемента. Для типа объекта используют значения `1` — лид, `2` — сделка, `3` — контакт, `4` — компания. Полный список приведен в таблице [Тип объекта CRM](../../../api-reference/crm/data-types.md#object_type).
+
+**Справочники**. Служебные коды в полях заменяют на читаемые названия дополнительными методами: [crm.status.list](../../../api-reference/crm/status/crm-status-list.md) возвращает стадии и другие списочные поля, [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md) — воронки, [crm.currency.list](../../../api-reference/crm/currency/crm-currency-list.md) — валюты, [user.get](../../../api-reference/user/user-get.md) — сотрудников.
+
+**Ветка методов**. Сценарии карточек написаны на [универсальных методах](../../../api-reference/crm/universal/index.md) `crm.item.*`: они работают со всеми объектами CRM, включая смарт-процессы. Развитие методов `crm.lead.*`, `crm.contact.*`, `crm.company.*` и `crm.deal.*` остановлено — они продолжают работать, и часть сценариев ниже вызывает их, но для новой разработки выбирайте `crm.item.*`. Методы пользовательских полей, например `crm.deal.userfield.*`, работают по-прежнему.
 
 #|
-|| **Если нужно** | **Откройте** ||
-|| Собрать форму с полями лида и сохранить изменения | [Как сделать свою карточку редактирования лида](./how-to-generate-edit-form-for-lead.md) ||
-|| Собрать форму с полями контакта и сохранить изменения | [Как сделать свою карточку редактирования контакта](./how-to-make-contact-edit-card.md) ||
-|| Собрать форму с полями компании и сохранить изменения | [Как сделать свою карточку редактирования компании](./how-to-generate-edit-form-for-company.md) ||
-|| Собрать форму с полями сделки и сохранить изменения | [Как сделать свою карточку редактирования сделки](./how-to-generate-edit-form-for-deal.md) ||
-|| Обновить список телефонов или email в карточке контакта | [Как изменить или удалить номера телефонов и email](./how-to-change-email-or-phone.md) ||
-|| Перенести дело между двумя элементами одного типа | [Как перенести дело между элементами одного типа](./how-to-move-activity.md) ||
-|| Перенести дело, например из лида в компанию | [Как перенести дело из одного типа объекта в другой](./how-to-move-activity-between-objects.md) ||
-|| Записать дату оплаты в пользовательское поле сделки | [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) ||
+|| **Сценарий** | **Основные методы** | **Результат** ||
+|| [Как сделать свою карточку редактирования лида](./how-to-generate-edit-form-for-lead.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) с `entityTypeId = 1` | Веб-форма, которая создает лид или обновляет существующий ||
+|| [Как сделать свою карточку редактирования контакта](./how-to-make-contact-edit-card.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) с `entityTypeId = 3` | Веб-форма, которая создает контакт или обновляет существующий ||
+|| [Как сделать свою карточку редактирования компании](./how-to-generate-edit-form-for-company.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) с `entityTypeId = 4` | Веб-форма, которая создает компанию или обновляет существующую ||
+|| [Как сделать свою карточку редактирования сделки](./how-to-generate-edit-form-for-deal.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md), [crm.status.list](../../../api-reference/crm/status/crm-status-list.md), [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) с `entityTypeId = 2` | Веб-форма с выбором воронки и стадии, которая создает сделку или обновляет существующую ||
 |#
+
+## Изменяйте телефоны и email
+
+Телефоны и адреса электронной почты хранятся в мультиполе `fm` — наборе записей типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). У каждой записи есть свой `id`, который выдает Битрикс24 при создании.
+
+Найти запись по тексту значения нельзя, поэтому объект сначала читают и узнают идентификаторы, а потом отправляют изменения. В методе обновления операцию задает ключ элемента в объекте `fm`: числовой `id` меняет запись, тот же `id` с пустым `value` ее удаляет, а ключи `n0`, `n1` добавляют новые.
+
+#|
+|| **Сценарий** | **Основные методы** | **Результат** ||
+|| [Как изменить или удалить номера телефонов и email](./how-to-change-email-or-phone.md) | [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Обновленный или очищенный список телефонов и email в карточке контакта ||
+|#
+
+## Переносите дела и меняйте сроки
+
+Дело — запись в таймлайне карточки: звонок, встреча, письмо или запланированное действие. С элементами CRM дела связаны привязками. У одного дела может быть несколько привязок, но последнюю удалить нельзя — метод вернет ошибку `LAST_BINDING_CANNOT_BE_DELETED`.
+
+**Перенос внутри одного типа**. Если исходный и целевой объекты одного типа, привязку переносит один метод [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md).
+
+**Перенос между разными типами**. Метод `crm.activity.binding.move` для этого не подходит: он вернет ошибку `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL_ERROR`. Такой перенос собирают из двух операций — сначала добавляют новую привязку, затем удаляют старую.
+
+**Сроки**. Крайний срок и напоминания меняет метод [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md). Закрытое дело он не обновляет и возвращает ошибку `CAN_NOT_UPDATE_COMPLETED_TODO`, поэтому дело сначала находят с фильтром `COMPLETED: 'N'`.
+
+#|
+|| **Сценарий** | **Основные методы** | **Результат** ||
+|| [Как перенести запланированное дело на другую дату](./how-to-change-date-in-activity.md) | [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md) | Новый крайний срок и напоминания у запланированного дела ||
+|| [Как перенести дело между элементами одного типа](./how-to-move-activity.md) | [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md) | Дело в таймлайне другого элемента того же типа ||
+|| [Как перенести дело из одного типа объекта в другой](./how-to-move-activity-between-objects.md) | [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.binding.add](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-add.md), [crm.activity.binding.delete](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-delete.md) | Дело в таймлайне объекта другого типа, например из лида в компанию ||
+|#
+
+## Сохраняйте дату оплаты в поле сделки
+
+Дата платежа хранится в документе оплаты, а не в сделке. Ее переносят в пользовательское поле сделки, когда дата нужна внешней системе, отчету BI-конструктора, роботу или бизнес-процессу.
+
+Пользовательское поле создают заранее в настройках CRM. Его идентификатор в каждом Битрикс24 свой, поэтому поле находят по названию: метод [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) возвращает состав полей сделки, где ключ — идентификатор вида `ufCrm_*`, а `title` — название поля в карточке.
+
+#|
+|| **Сценарий** | **Основные методы** | **Результат** ||
+|| [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Дата оплаты в пользовательском поле сделки ||
+|#
+
+## Продолжите изучение
+
+- [{#T}](../how-to-add-crm-objects/index.md)
+- [{#T}](../how-to-get-lists/index.md)
+- [{#T}](../../../api-reference/crm/universal/index.md)
+- [{#T}](../../../api-reference/crm/timeline/activities/binding/index.md)
+- [{#T}](../../../api-reference/crm/data-types.md)

@@ -293,6 +293,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.addFolder", b24.Params{
+    	"siteId": 1817,
+    	"fields": b24.Params{
+    		"TITLE":     "Новая папка",
+    		"CODE":      "new-folder",
+    		"ACTIVE":    "Y",
+    		"PARENT_ID": 736,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.addFolder: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

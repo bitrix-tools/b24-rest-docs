@@ -19,7 +19,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -48,9 +48,9 @@
 || **message**
 [`string`](../../../../data-types.md) | Текст ответа. Максимальная длина — 20 000 символов ||
 || **attach**
-[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments.md) ||
+[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../messages/attachments/index.md) ||
 || **keyboard**
-[`array`](../../../../data-types.md) | Клавиатура. Подробнее: [Работа с клавиатурами](../../../../chats/messages/keyboards.md) ||
+[`array`](../../../../data-types.md) | Клавиатура. Подробнее: [Работа с клавиатурами](../messages/message-keyboards.md) ||
 || **system**
 [`boolean`](../../../../data-types.md) | Системное сообщение. Допустимые значения: `true`, `false`. По умолчанию `false` ||
 || **urlPreview**
@@ -203,6 +203,33 @@
     } else {
         echo 'Answer sent';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Command.answer", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"commandId": 42,
+    	"messageId": 789,
+    	"dialogId":  "chat5",
+    	"fields": b24.Params{
+    		"message": "Here is the help text...",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Command.answer: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
     ```
 
 {% endlist %}

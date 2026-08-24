@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -33,11 +33,11 @@
 
 Получить идентификаторы можно методом [bizproc.task.list](./bizproc-task-list.md) ||
 || **FROM_USER_ID***
-[`integer`](../../data-types.md) | Идентификатор пользователя, от которого задачи будут делегированы.
+[`integer`](../../data-types.md) | Идентификатор пользователя, от которого задания будут делегированы.
 
 Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md) ||
 || **TO_USER_ID***
-[`integer`](../../data-types.md) | Идентификатор пользователя, которому задачи будут делегированы.
+[`integer`](../../data-types.md) | Идентификатор пользователя, которому задания будут делегированы.
 
 Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md).
 
@@ -87,7 +87,6 @@
         const result = response.getData().result;
         console.log('Delegated tasks:', result);
         
-        processResult(result);
     }
     catch( error )
     {
@@ -145,8 +144,6 @@
             ->getResult();
 
         echo 'Success: ' . print_r($result, true);
-        processData($result);
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error delegating task: ' . $e->getMessage();
@@ -190,6 +187,26 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.task.delegate", b24.Params{
+    	"TASK_IDS":     []int{1128, 1129, 1130},
+    	"FROM_USER_ID": 15,
+    	"TO_USER_ID":   37,
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.task.delegate: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}
@@ -242,12 +259,12 @@ HTTP-статус: **400**
  
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ERROR_TASK_VALIDATION` | Invalid TASK_IDS | Некорректные идентификаторы задач или не передан параметр `TASK_IDS` ||
+|| `ERROR_TASK_VALIDATION` | Invalid TASK_IDS | Некорректные идентификаторы заданий или не передан параметр `TASK_IDS` ||
 || `ERROR_INVALID_USER_ID` | Invalid FROM_USER_ID | Некорректный или отсутствующий идентификатор пользователя, от которого идет делегирование ||
 || `ERROR_INVALID_USER_ID` | Invalid TO_USER_ID | Некорректный или отсутствующий идентификатор пользователя, которому идет делегирование ||
 || `ERROR_DELEGATION_NOT_ALLOWED` | Пользователь не является ответственным за задание | Пользователь, указанный в параметре `FROM_USER_ID` не является ответственным за задание ||
 || `ERROR_DELEGATION_NOT_ALLOWED` | Делегирование заданий доступно только для интранет-пользователей | Пользователь, указанный в параметре `TO_USER_ID`, не является интранет-пользователем ||
-|| `ERROR_DELEGATION_NOT_ALLOWED` | Перечисление ошибок через символ `;` | В методе можно передать несколько заданий. Если возникнут ошибки в нескольких заданиях, они вернуться перечислением через символ `;` ||
+|| `ERROR_DELEGATION_NOT_ALLOWED` | Перечисление ошибок через символ `;` | В методе можно передать несколько заданий. Если возникнут ошибки в нескольких заданиях, они вернутся перечислением через символ `;` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

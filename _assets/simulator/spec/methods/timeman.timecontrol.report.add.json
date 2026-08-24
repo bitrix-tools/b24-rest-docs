@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "timeman.timecontrol.report.add",
+  "scope": "timeman",
+  "kind": "write",
+  "title": "Добавить отчет об отсутствии timeman.timecontrol.report.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "REPORT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи об отсутствии. Получить идентификаторы записей можно методом timeman.timecontrol.reports.get"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Может указать только администратор. Получить идентификатор пользователя можно методом user.get"
+    },
+    {
+      "name": "TEXT",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст отчета"
+    },
+    {
+      "name": "TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип отчета: - WORK — рабочий - PRIVATE — личный Значение по умолчанию — PRIVATE"
+    },
+    {
+      "name": "CALENDAR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Добавлять событие в календарь: - Y — да - N — нет Значение по умолчанию — Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/timecontrol/timeman-timecontrol-report-add.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1743056587.655975,
+      "finish": 1743056587.85293,
+      "duration": 0.19695496559143066,
+      "processing": 0.16714906692504883,
+      "date_start": "2025-03-27T09:23:07+03:00",
+      "date_finish": "2025-03-27T09:23:07+03:00",
+      "operating_reset_at": 1743057187,
+      "operating": 0.1671299934387207
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат выполнения. Возвращает true, если отчет добавлен успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-report-add.html",
+  "executable": false
+}

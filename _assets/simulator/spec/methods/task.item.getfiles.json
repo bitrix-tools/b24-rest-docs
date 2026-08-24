@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "task.item.getfiles",
+  "scope": "task",
+  "kind": "write",
+  "title": "Получить ссылки на прикрепленные к задаче файлы task.item.getfiles",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "unknown",
+      "base": "any",
+      "required": "unknown",
+      "description": "Идентификатор задачи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/deprecated/task-item/task-item-get-files.md"
+  },
+  "deprecated": {
+    "successor": "tasks.task.get"
+  },
+  "page": "/api-reference/tasks/deprecated/task-item/task-item-get-files.html",
+  "executable": false
+}

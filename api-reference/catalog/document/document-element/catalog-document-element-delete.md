@@ -12,8 +12,8 @@
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: 
-> - пользователь с правом «Cоздание и редактирование» на тип документа в запросе,
-> - и «Просмотр и выбор склада» на склад прихода или списания.
+> - пользователь с правом «Создание и редактирование» на тип документа в запросе
+> - пользователь с правом «Просмотр и выбор склада» на склад прихода или списания
 
 Метод `catalog.document.element.delete` удаляет позицию из документа складского учета. Документ должен быть доступен пользователю и иметь статус `N` — не проведен.
 
@@ -207,6 +207,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.element.delete", b24.Params{
+    	"id": 148,
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.document.element.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

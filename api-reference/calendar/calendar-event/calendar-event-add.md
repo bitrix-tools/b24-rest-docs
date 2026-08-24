@@ -83,11 +83,11 @@
 || **color**
 [`string`](../../data-types.md) | Цвет фона события.
 
-Cимвол `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
 || **text_color**
 [`string`](../../data-types.md) | Цвет текста события.
 
-Cимвол `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
 || **accessibility**
 [`string`](../../data-types.md) | Доступность на время события: 
 - `busy` — занят 
@@ -114,16 +114,16 @@ Cимвол `#` в цвете необходимо передавать в фо�
 - `Y` — встреча с участниками
 - `N` — встреча без участников
 
-Для встречи с участниками обязательно укажите список участников `attendees` и организатора события `host`. Без заполнения этих полей событие создано не будет
+Для встречи с участниками передайте список участников `attendees`
 ||
 || **location**
 [`string`](../../data-types.md) | Место проведения ||
 || **remind**
 [`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии. Структура описана [ниже](#remind) ||
-|| **attendees***
-[`array`](../../data-types.md) | Список идентификаторов участников события. Поле обязательное, если `is_meeting` = `Y` ||
-|| **host***
-[`integer`](../../data-types.md) | Идентификатор организатора события. Поле обязательное, если `is_meeting` = `Y` ||
+|| **attendees**
+[`array`](../../data-types.md) | Список идентификаторов участников события.
+
+Если не передать параметр для встречи с участниками, участником будет пользователь, от имени которого выполняется метод ||
 || **meeting**
 [`object`](../../data-types.md) | Объект с параметрами встречи. Структура описана [ниже](#meeting) ||
 || **crm_fields**
@@ -133,6 +133,14 @@ Cимвол `#` в цвете необходимо передавать в фо�
  - `L_` — лид
  - `D_` — сделка ||
 |#
+
+### Организатор события
+
+Организатором события становится пользователь, от имени которого выполняется метод `calendar.event.add`.
+
+В таблице параметров нет специального параметра `host`, потому что метод `calendar.event.add` не использует его для назначения организатора. Параметр `host` используется в методе [calendar.event.update](./calendar-event-update.md), чтобы пользователь, который не является организатором, мог обновить встречу с указанием текущего организатора.
+
+Идентификатор текущего организатора можно узнать в ответе методов [calendar.event.getbyid](./calendar-event-get-by-id.md) и [calendar.event.get](./calendar-event-get.md) в поле `MEETING_HOST`.
 
 ### Особенности работы с часовыми поясами {#timezone-features}
 
@@ -237,7 +245,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
+    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.add
     ```
 
@@ -247,7 +255,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
+    -d '{"type":"user","ownerId":2,"name":"New Event Name","description":"Description for event","from":"2024-06-14","to":"2024-06-14","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"absent","importance":"normal","is_meeting":"Y","private_event":"N","remind":[{"type":"min","count":20}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
@@ -287,7 +295,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
           ],
           location: 'London',
           attendees: [1, 2, 3],
-          host: 2,
           meeting: {
             notify: true,
             reinvite: false,
@@ -351,7 +358,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
               ],
               location: 'London',
               attendees: [1, 2, 3],
-              host: 2,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -488,7 +494,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
                     ],
                     'location'      => 'London',
                     'attendees'     => [1, 2, 3],
-                    'host'          => 2,
                     'meeting'       => [
                         'notify'      => true,
                         'reinvite'    => false,
@@ -547,7 +552,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
             ],
             location: 'London',
             attendees: [1, 2, 3],
-            host: 2,
             meeting: {
                 notify: true,
                 reinvite: false,
@@ -595,7 +599,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
             ],
             'location' => 'London',
             'attendees' => [1, 2, 3],
-            'host' => 2,
             'meeting' => [
                 'notify' => true,
                 'reinvite' => false,
@@ -617,6 +620,58 @@ Cимвол `#` в цвете необходимо передавать в фо�
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.event.add", b24.Params{
+    	"type":          "user",
+    	"ownerId":       2,
+    	"name":          "New Event Name",
+    	"description":   "Description for event",
+    	"from":          "2024-06-14",
+    	"to":            "2024-06-14",
+    	"skip_time":     "Y",
+    	"section":       5,
+    	"color":         "#9cbe1c",
+    	"text_color":    "#283033",
+    	"accessibility": "absent",
+    	"importance":    "normal",
+    	"is_meeting":    "Y",
+    	"private_event": "N",
+    	"remind": []b24.Params{
+    		{
+    			"type":  "min",
+    			"count": 20,
+    		},
+    	},
+    	"location":  "London",
+    	"attendees": []int{1, 2, 3},
+    	"meeting": b24.Params{
+    		"notify":       true,
+    		"reinvite":     false,
+    		"allow_invite": false,
+    		"hide_guests":  false,
+    	},
+    	"rrule": b24.Params{
+    		"FREQ":     "WEEKLY",
+    		"BYDAY":    []string{"MO", "WE"},
+    		"COUNT":    10,
+    		"INTERVAL": 1,
+    	},
+    	"crm_fields": []string{"C_5", "L_11"},
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.event.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 
@@ -630,7 +685,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"host":1,"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false}}' \
+    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.add
     ```
 
@@ -640,7 +695,7 @@ Cимвол `#` в цвете необходимо передавать в фо�
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"host":1,"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false},"auth":"**put_access_token_here**"}' \
+    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
@@ -688,7 +743,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
             { type: 'min', count: 30 },
           ],
           attendees: [29, 93],
-          host: 1,
           meeting: {
             notify: true,
             reinvite: false,
@@ -753,7 +807,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
                 { type: 'min', count: 30 },
               ],
               attendees: [29, 93],
-              host: 1,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -819,7 +872,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
                         ['type' => 'min', 'count' => 30]
                     ],
                     'attendees'      => [29, 93],
-                    'host'           => 1,
                     'meeting'        => [
                         'notify'       => true,
                         'reinvite'     => false,
@@ -874,7 +926,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
                 { type: 'min', count: 30 } // Напоминание за 30 минут до события
             ],
             attendees: [29, 93], // Список идентификаторов участников события
-            host: 1, // Идентификатор организатора события
             meeting: { // Параметры встречи
                 notify: true, // Оповещение о подтверждении или отказе участников
                 reinvite: false, // Не запрашивать повторное подтверждение участия
@@ -927,7 +978,6 @@ Cимвол `#` в цвете необходимо передавать в фо�
                 ['type' => 'min', 'count' => 30] // Напоминание за 30 минут до события
             ],
             'attendees' => [29, 93], // Список идентификаторов участников события
-            'host' => 1, // Идентификатор организатора события
             'meeting' => [ // Параметры встречи
                 'notify' => true, // Оповещение о подтверждении или отказе участников
                 'reinvite' => false, // Не запрашивать повторное подтверждение участия
@@ -1012,6 +1062,59 @@ Cимвол `#` в цвете необходимо передавать в фо�
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.event.add", b24.Params{
+    	"type":          "company_calendar",
+    	"ownerId":       "",
+    	"from":          "2025-01-31T18:00:00",
+    	"to":            "2025-01-31T20:00:00",
+    	"section":       1,
+    	"name":          "Важная встреча",
+    	"skip_time":     "N",
+    	"timezone_from": "Europe/Moscow",
+    	"timezone_to":   "Europe/Moscow",
+    	"description":   "Описание события",
+    	"color":         "#FF0000",
+    	"text_color":    "#000000",
+    	"accessibility": "busy",
+    	"importance":    "high",
+    	"private_event": "N",
+    	"rrule": b24.Params{
+    		"FREQ":     "WEEKLY",
+    		"COUNT":    10,
+    		"INTERVAL": 1,
+    		"BYDAY":    []string{"MO", "WE", "FR"},
+    	},
+    	"is_meeting": "Y",
+    	"location":   "Конференц-зал",
+    	"remind": []b24.Params{
+    		{
+    			"type":  "min",
+    			"count": 30,
+    		},
+    	},
+    	"attendees": []int{29, 93},
+    	"meeting": b24.Params{
+    		"notify":       true,
+    		"reinvite":     false,
+    		"allow_invite": true,
+    		"hide_guests":  false,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.event.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -1048,7 +1151,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "name" для метода "calendar.event.add""
+    "error_description": "Не задан обязательный параметр \"name\" для метода \"calendar.event.add\""
 }
 ```
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
@@ -1056,18 +1159,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "type" для метода "calendar.event.add" | Не передан обязательный параметр `type` ||
-|| Пустая строка | Не задан обязательный параметр "ownerId" для метода "calendar.event.add" | Не передан обязательный параметр `ownerId` ||
-|| Пустая строка | Не задан обязательный параметр "name" для метода "calendar.event.add" | Не передан обязательный параметр `name` ||
-|| Пустая строка | Не задан обязательный параметр "from" для метода "calendar.event.add" | Не передан обязательный параметр `from` или `from_ts` ||
-|| Пустая строка | Не задан обязательный параметр "to" для метода "calendar.event.add" | Не передан обязательный параметр `to` или `to_ts` ||
-|| Пустая строка | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name`||
-|| Пустая строка | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
-|| Пустая строка | Доступ запрещен | Запрещено создание событий в указанном календаре ||
-|| Пустая строка | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
-|| Пустая строка | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
-|| Пустая строка | При создании события произошла ошибка | Другая ошибка ||
+|| **Код** | **Сообщение об ошибке** | **Описание** ||
+|| Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.add" | Не передан обязательный параметр `type` ||
+|| Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.event.add" | Не передан обязательный параметр `ownerId` ||
+|| Пустое значение | Не задан обязательный параметр "name" для метода "calendar.event.add" | Не передан обязательный параметр `name` ||
+|| Пустое значение | Не задан обязательный параметр "from" для метода "calendar.event.add" | Не передан обязательный параметр `from` или `from_ts` ||
+|| Пустое значение | Не задан обязательный параметр "to" для метода "calendar.event.add" | Не передан обязательный параметр `to` или `to_ts` ||
+|| Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
+|| Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
+|| Пустое значение | Доступ запрещен | Запрещено создание событий в указанном календаре ||
+|| Пустое значение | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
+|| Пустое значение | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
+|| Пустое значение | При создании события произошла ошибка | Другая ошибка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

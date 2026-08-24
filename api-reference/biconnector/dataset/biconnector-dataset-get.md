@@ -231,6 +231,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "biconnector.dataset.get", b24.Params{
+    	"id": 2,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("biconnector.dataset.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Type         string `json:"type"`
+    	Name         string `json:"name"`
+    	Description  string `json:"description"`
+    	ExternalCode string `json:"externalCode"`
+    	ExternalName string `json:"externalName"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Type)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -279,7 +310,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`item`](../../data-types.md) | Корневой элемент ответа. Содержит информацию о полях датасета. Описание полей в статье [Датасеты: обзор методов](./index.md#dataset) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит информацию о полях датасета. Описание полей в статье [Датасеты: обзор методов](./index.md#dataset) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#    

@@ -1,4 +1,4 @@
-# Получить типы хранилищ disk.storage.gettypes
+# Получить типы хранилищ disk.storage.getTypes
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `disk.storage.gettypes` возвращает список типов хранилищ.
+Метод `disk.storage.getTypes` возвращает список типов хранилищ.
 
 ## Параметры метода
 
@@ -32,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.gettypes
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.getTypes
     ```
 
 - cURL (OAuth)
@@ -42,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.storage.gettypes
+    https://**put_your_bitrix24_address**/rest/disk.storage.getTypes
     ```
 
 - JS (TS)
@@ -57,7 +57,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<string[]>({
-        method: 'disk.storage.gettypes',
+        method: 'disk.storage.getTypes',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -87,7 +87,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.storage.gettypes',
+            method: 'disk.storage.getTypes',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -139,7 +139,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.storage.gettypes',
+                'disk.storage.getTypes',
                 []
             );
 
@@ -160,7 +160,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.storage.gettypes",
+        "disk.storage.getTypes",
         {},
         function (result)
         {
@@ -178,13 +178,29 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.storage.gettypes',
+        'disk.storage.getTypes',
         []
     );
 
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getTypes", nil)
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getTypes: %w", err)
+    }
+
+    var items []string
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
     ```
 
 {% endlist %}

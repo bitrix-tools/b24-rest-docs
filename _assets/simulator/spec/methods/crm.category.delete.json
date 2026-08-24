@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "crm.category.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить воронку crm.category.delete",
+  "permissions": "любой пользователь с административным доступом к разделу CRM",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа сущности CRM у которой будет удалена воронка"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор удаляемой воронки. Можно получить методом crm.category.list или при создании воронки методом crm.category.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/category/crm-category-delete.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1718288046.047386,
+      "finish": 1718288046.892514,
+      "duration": 0.845128059387207,
+      "processing": 0.4207921028137207,
+      "date_start": "2024-06-13T16:14:06+02:00",
+      "date_finish": "2024-06-13T16:14:06+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа, равный null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/category/crm-category-delete.html",
+  "executable": false
+}

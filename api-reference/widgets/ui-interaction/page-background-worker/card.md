@@ -9,7 +9,9 @@
 
 {% endnote %}
 
-Для управления карточкой звонка желательно ознакомиться со [сценариями](index.md).
+Карточка звонка состоит из областей: заголовок, текст статуса и кнопки оператора. Каждую область меняет своя команда, а набор кнопок зависит от состояния интерфейса — всего их двенадцать. От состояния зависит и то, какие события придут приложению.
+
+Команды и события, которыми управляют карточкой, перечислены в обзоре раздела [{#T}](./index.md), порядок регистрации обработчика — на странице [{#T}](./webrtc-scenario.md).
 
 ## Общее описание
 
@@ -17,7 +19,7 @@
 
 ![sip_app1](_images/card1.png)
 
-Чтобы изменить заголовок карточки (область 1), требуется вызвать метод [CallCardSetCardTitle](./call-card-set-card-title.md) и передать объект со свойством `title`.
+Чтобы изменить заголовок карточки (область 1), вызовите команду [CallCardSetCardTitle](./call-card-set-card-title.md) и передайте объект со свойством `title`.
 
 ```js
 BX24.placement.call('CallCardSetCardTitle', { title: 'Card Title' }, () => {
@@ -25,7 +27,7 @@ BX24.placement.call('CallCardSetCardTitle', { title: 'Card Title' }, () => {
 });
 ```
 
-Чтобы изменить текст в области 2, требуется вызвать метод [CallCardSetStatusText](./call-card-set-status-text.md) и передать объект со свойством `statusText`.
+Чтобы изменить текст в области 2, вызовите команду [CallCardSetStatusText](./call-card-set-status-text.md) и передайте объект со свойством `statusText`.
 
 ```js
 BX24.placement.call('CallCardSetStatusText', { statusText: 'Status Text' }, () => {
@@ -33,7 +35,7 @@ BX24.placement.call('CallCardSetStatusText', { statusText: 'Status Text' }, () =
 });
 ```
 
-Всего у карточки звонка 12 состояний интерфейса. Получить их можно с помощью вызова метода [CallCardGetListUiStates](./call-card-get-list-ui-states.md). В функцию обратного вызова будет передан массив с доступными состояниями карточки звонка.
+Всего у карточки звонка 12 состояний интерфейса. Получить их можно командой [CallCardGetListUiStates](./call-card-get-list-ui-states.md). В функцию обратного вызова будет передан массив с доступными состояниями карточки звонка.
 
 ```js
 BX24.placement.call('CallCardGetListUiStates', {}, (data) => {
@@ -41,7 +43,7 @@ BX24.placement.call('CallCardGetListUiStates', {}, (data) => {
 });
 ```
 
-Переход на другое состояние карточки осуществляется вызовом метода [CallCardSetUiState](./call-card-set-ui-state.md) с передачей туда объекта со свойством `uiState`.
+Переход на другое состояние карточки выполняет команда [CallCardSetUiState](./call-card-set-ui-state.md): передайте ей объект со свойством `uiState`.
 
 ```js
 BX24.placement.call('CallCardSetUiState', { uiState: 'connected' }, () => {
@@ -49,7 +51,7 @@ BX24.placement.call('CallCardSetUiState', { uiState: 'connected' }, () => {
 });
 ```
 
-Чтобы обрабатывать нажатия оператором кнопок в карточке звонка, требуется подписаться на соответствующие события.
+Чтобы обрабатывать нажатия оператором кнопок в карточке звонка, подпишитесь на соответствующие события — см. [{#T}](./events/index.md).
 
 ## Состояния карточки
 
@@ -83,13 +85,20 @@ BX24.placement.call('CallCardSetUiState', { uiState: 'connected' }, () => {
 - Завершить - `BackgroundCallCard::hangupButtonClick` ||
 || [error](*error) | Если произошла некоторая ошибка |
 - Закрыть - `BackgroundCallCard::closeButtonClick` ||
-|| [moneyError](*moneyError) | Если на счету закончились деньги и требуется проинформировать об этом администратора портала |
+|| [moneyError](*moneyError) | Если на счету закончились деньги и требуется проинформировать об этом администратора Битрикс24 |
 - Уведомить администратора - `BackgroundCallCard::notifyAdminButtonClick`
 - Закрыть - `BackgroundCallCard::closeButtonClick` ||
 || [redial](*redial) | Если абонент занят, дать возможность оператору повторно позвонить на этот номер, не скрывая карточку звонка |
 - Перезвонить - `BackgroundCallCard::makeCallButtonClick` ||
 || Таймер в карточке звонка | По умолчанию, при переходе на состояние `connected` автоматически включается таймер звонка. Данное поведение можно отключить, передав помимо `uiState: 'connected'` еще свойство `disableAutoStartTimer` со значением `true`. При переходе же на другие состояния таймер будет останавливаться. | ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./events/index.md)
+- [{#T}](./call-card-set-ui-state.md)
+- [{#T}](./webrtc-scenario.md)
 
 [*incoming]: ![incoming](_images/card01-02.png)
 

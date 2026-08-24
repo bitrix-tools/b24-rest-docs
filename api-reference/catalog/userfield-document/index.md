@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Раздел содержит методы для чтения и обновления значений пользовательских полей документов складского учета. Создание и настройка самих пользовательских полей выполняются в отдельном разделе `userfieldconfig.*`.
+Методы `catalog.userfield.document.*` читают и обновляют значения пользовательских полей документов складского учета. Создание и настройка самих пользовательских полей выполняются методами `userfieldconfig.*`.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -17,7 +17,7 @@
 
 ## Связь с другими объектами
 
-**Пользовательские поля.** Поля создаются и настраиваются с помощью методов раздела [userfieldconfig.*](../../crm/universal/userfieldconfig/index.md). Для документов складского учета используйте `moduleId = catalog` и `entityId` в формате `CAT_STORE_DOCUMENT_<documentType>`, например `CAT_STORE_DOCUMENT_A`.
+**Пользовательские поля.** Поля создаются и настраиваются методами [userfieldconfig.*](../../crm/universal/userfieldconfig/index.md). Для документов складского учета используйте `moduleId = catalog` и `entityId` в формате `CAT_STORE_DOCUMENT_<documentType>`, например `CAT_STORE_DOCUMENT_A`.
 
 **Тип документа складского учета.** В методах раздела используется `documentType`. Допустимые значения можно получить методом [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md).
 
@@ -32,12 +32,12 @@
 
 {% endnote %}
 
-## Порядок работы с пользовательскими полями документов
+## Как начать работу
 
-1. Создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md).
-2. Получите `documentType` через [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md).
-3. Получите текущие значения полей методом [catalog.userfield.document.list](./catalog-userfield-document-list.md).
-4. Обновите значения методом [catalog.userfield.document.update](./catalog-userfield-document-update.md).
+1. Создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md)
+2. Получите `documentType` через [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md)
+3. Получите текущие значения полей методом [catalog.userfield.document.list](./catalog-userfield-document-list.md)
+4. Обновите значения методом [catalog.userfield.document.update](./catalog-userfield-document-update.md)
 
 ## Обзор методов {#all-methods}
 
@@ -47,6 +47,6 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [catalog.userfield.document.update](./catalog-userfield-document-update.md) | Обновляет значения пользовательских полей документа складского учета ||
 || [catalog.userfield.document.list](./catalog-userfield-document-list.md) | Возвращает список значений пользовательских полей документов складского учета ||
+|| [catalog.userfield.document.update](./catalog-userfield-document-update.md) | Обновляет значения пользовательских полей документа складского учета ||
 |#

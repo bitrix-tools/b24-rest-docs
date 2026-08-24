@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "catalog.productImage.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить изображение из товара catalog.productImage.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "productId",
+      "type": "catalog_product.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор товара, головного товара, вариации или услуги. Чтобы получить существующие идентификаторы, используйте следующие методы: - для товаров — catalog.product.list - для головных товаров — catalog.product.sku.list - для вариаций товара — catalog.product.offer.list - для услуг — catalog.product.service.list"
+    },
+    {
+      "name": "id",
+      "type": "catalog_product_image.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор изображения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-image/catalog-product-image-delete.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления изображения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-image/catalog-product-image-delete.html",
+  "executable": false
+}

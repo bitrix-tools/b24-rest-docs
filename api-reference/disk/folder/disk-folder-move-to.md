@@ -1,4 +1,4 @@
-# Переместить папку и все ее содержимое в указанную папку disk.folder.moveto
+# Переместить папку и все ее содержимое в указанную папку disk.folder.moveTo
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «Редактирование» для исходной папки и правом «Добавление» для целевой папки
 
-Метод `disk.folder.moveto` перемещает папку и все ее содержимое в указанную папку.
+Метод `disk.folder.moveTo` перемещает папку и все ее содержимое в указанную папку.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -27,7 +27,7 @@
 || **targetFolderId***
 [`integer`](../../data-types.md) | Идентификатор целевой папки, куда перемещается папка.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 |#
 
 {% note info "" %}
@@ -49,7 +49,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8968,"targetFolderId":8907}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.moveto
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.moveTo
     ```
 
 - cURL (OAuth)
@@ -59,7 +59,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8968,"targetFolderId":8907,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.moveto
+    https://**put_your_bitrix24_address**/rest/disk.folder.moveTo
     ```
 
 - JS (TS)
@@ -93,7 +93,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<MoveFolderResult>({
-        method: 'disk.folder.moveto',
+        method: 'disk.folder.moveTo',
         params: {
           id: 8968,
           targetFolderId: 8907,
@@ -126,7 +126,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.moveto',
+            method: 'disk.folder.moveTo',
             params: {
               id: 8968,
               targetFolderId: 8907,
@@ -184,7 +184,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.moveto',
+                'disk.folder.moveTo',
                 [
                     'id' => 8968,
                     'targetFolderId' => 8907
@@ -208,7 +208,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.moveto",
+        "disk.folder.moveTo",
         {
             id: 8968,
             targetFolderId: 8907
@@ -229,7 +229,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.moveto',
+        'disk.folder.moveTo',
         [
             'id' => 8968,
             'targetFolderId' => 8907
@@ -239,6 +239,32 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.moveTo", b24.Params{
+    	"id":             8968,
+    	"targetFolderId": 8907,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.moveTo: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	StorageID    b24.ID `json:"STORAGE_ID"`
+    	Type         string `json:"TYPE"`
+    	RealObjectID b24.ID `json:"REAL_OBJECT_ID"`
+    	ParentID     b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

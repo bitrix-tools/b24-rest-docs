@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на удаление контакта, компании или лида — владельца адреса
 
 Метод удаляет адрес.
 
@@ -263,6 +263,29 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.address.delete", b24.Params{
+    	"fields": b24.Params{
+    		"TYPE_ID":        1,
+    		"ENTITY_TYPE_ID": 3,
+    		"ENTITY_ID":      1,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.address.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

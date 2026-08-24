@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод переводит задачу в статус «завершена» или «условно завершена (ждет контроля исполнителя)».
+Метод `task.item.complete` переводит задачу в статус «завершена» или «условно завершена (ждет контроля исполнителя)».
 
 {% note warning "DEPRECATED" %}
 
@@ -185,6 +185,22 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.complete", b24.Params{
+    	"TASKID": 13,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.complete: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

@@ -29,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`string[]`][1] | Список полей, которые должны быть заполнены у контактов в выборке.
+[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у контактов в выборке.
 
 При выборке можно использовать маски:
 - `'*'` — для выборки всех полей (без пользовательских и множественных)
@@ -42,7 +42,7 @@
 По умолчанию берутся все поля — `'*'` + Пользовательские поля — `'UF_*'`
 ||
 || **filter**
-[`object`][1] | Объект формата:
+[`object`](../../data-types.md) | Объект формата:
 
 ```
 {
@@ -84,7 +84,7 @@
 Ключ `logic` в фильтре не поддерживается. Для использования сложной логики в фильтре используйте метод [crm.item.list](../universal/crm-item-list.md)
 ||
 || **order**
-[`object`][1] | Объект формата:
+[`object`](../../data-types.md) | Объект формата:
 
 ```
 {
@@ -103,7 +103,7 @@
 Список доступных полей для сортировки можно узнать с помощью метода [`crm.contact.fields`](crm-contact-fields.md)
 ||
 || **start**
-[`integer`][1] | Параметр для управления постраничной навигацией.
+[`integer`](../../data-types.md) | Параметр для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
 
@@ -454,6 +454,54 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.list", b24.Params{
+    	"filter": b24.Params{
+    		"SOURCE_ID":       "CRM_FORM",
+    		"!=NAME":          "",
+    		"!=LAST_NAME":     "",
+    		"=%NAME":          "И%",
+    		"=%LAST_NAME":     "И%",
+    		"EMAIL":           "special-for@example.com",
+    		"@ASSIGNED_BY_ID": []int{1, 6},
+    		"IMPORT":          "Y",
+    		">=DATE_CREATE":   "**put_six_month_ago_date_here**",
+    	},
+    	"order": b24.Params{
+    		"LAST_NAME": "ASC",
+    		"NAME":      "ASC",
+    	},
+    	"select": []string{"ID", "NAME", "LAST_NAME", "EMAIL", "EXPORT", "ASSIGNED_BY_ID", "DATE_CREATE"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.list: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	LastName     string `json:"LAST_NAME"`
+    	Export       string `json:"EXPORT"`
+    	AssignedByID b24.ID `json:"ASSIGNED_BY_ID"`
+    	DateCreate   string `json:"DATE_CREATE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -566,13 +614,13 @@ HTTP-статус: **200**
 
 Поля отдельно взятого контакта конфигурируются параметром `select` ||
 || **total**
-[`integer`][1] | Общее количество найденных контактов по заданным условиям ||
+[`integer`](../../data-types.md) | Общее количество найденных контактов по заданным условиям ||
 || **next**
-[`integer`][1] | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
+[`integer`](../../data-types.md) | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
 
 Параметр `next` появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение `50` ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -592,10 +640,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `Access denied` | У пользователя нет прав на «Чтение» контактов ||
-|| `-`     | `Parameter 'order' must be array` | В параметр `order` передан не массив ||
-|| `-`     | `Parameter 'filter' must be array` | В параметр `filter` передан не массив ||
-|| `-`     | `Failed to get list. General error` | Произошла неизвестная ошибка ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «Чтение» контактов ||
+|| Пустое значение | `Parameter 'order' must be array` | В параметр `order` передан не массив ||
+|| Пустое значение | `Parameter 'filter' must be array` | В параметр `filter` передан не массив ||
+|| Пустое значение | `Failed to get list. General error` | Произошла неизвестная ошибка ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
@@ -608,10 +656,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-delete.md)
 - [{#T}](./crm-contact-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/search-by-phone-and-email.md)
-
-[1]: ../../data-types.md
-
-
-
-
-

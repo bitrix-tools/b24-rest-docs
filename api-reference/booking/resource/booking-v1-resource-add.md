@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -460,6 +460,49 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.resource.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":                            "Название",
+    		"description":                     "Описание",
+    		"typeId":                          1,
+    		"isMain":                          "N",
+    		"isInfoNotificationOn":            "Y",
+    		"templateTypeInfo":                "inanimate",
+    		"isConfirmationNotificationOn":    "Y",
+    		"templateTypeConfirmation":        "animate",
+    		"isReminderNotificationOn":        "N",
+    		"templateTypeReminder":            "base",
+    		"isFeedbackNotificationOn":        "Y",
+    		"templateTypeFeedback":            "inanimate",
+    		"isDelayedNotificationOn":         "Y",
+    		"templateTypeDelayed":             "inanimate",
+    		"infoDelay":                       60,
+    		"reminderDelay":                   -1,
+    		"delayedDelay":                    300,
+    		"delayedCounterDelay":             7200,
+    		"confirmationDelay":               86400,
+    		"confirmationRepetitions":         1,
+    		"confirmationRepetitionsInterval": 3600,
+    		"confirmationCounterDelay":        7200,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("booking.v1.resource.add: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
     ```
 
 {% endlist %}

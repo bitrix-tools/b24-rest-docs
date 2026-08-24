@@ -15,9 +15,11 @@
 
 Метод `imbot.v2.Chat.Message.read` отмечает сообщения как прочитанные от имени бота. Отмечает прочитанными все сообщения до указанного включительно. Если `messageId` не указан — отмечает прочитанными все сообщения в чате.
 
+Типичный сценарий: бот обработал входящее сообщение из события [ONIMBOTV2MESSAGEADD](../events/events.md#onimbotv2messageadd) и сбрасывает счетчик непрочитанных, чтобы у пользователя не оставалось «висящих» уведомлений. В ответе возвращается оставшийся счетчик `counter`.
+
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -29,7 +31,7 @@
 
 Передавайте тот же botToken, который был указан при регистрации чат-бота ||
 || **dialogId***
-[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
+[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}`. Подробнее — [Формат dialogId](../../index.md#dialog-id) ||
 || **messageId**
 [`integer`](../../../../data-types.md) | Прочитать все сообщения до этого включительно. Если не указан — прочитает все сообщения в чате ||
 |#
@@ -170,6 +172,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.read", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"dialogId":  "chat5",
+    	"messageId": 789,
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.read: %w", err)
+    }
+
+    var item struct {
+    	ChatID  b24.ID `json:"chatId"`
+    	LastID  b24.ID `json:"lastId"`
+    	Counter int    `json:"counter"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChatID, item.LastID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -244,5 +271,8 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [Журнал изменений API imbot.v2](../../change-log.md)
+- [Сообщения imbot.v2](./index.md)
 - [{#T}](./chat-message-send.md)
+- [{#T}](./chat-message-get.md)
 - [{#T}](../events/event-get.md)
+- [{#T}](../../entities.md)

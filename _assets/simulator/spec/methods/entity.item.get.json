@@ -1,0 +1,137 @@
+{
+  "$v": 1,
+  "method": "entity.item.get",
+  "scope": "entity",
+  "kind": "read",
+  "title": "Получить список элементов хранилища entity.item.get",
+  "permissions": "любой пользователь при авторизации приложения",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "SORT",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — поле сортировки - value_n — направление сортировки: ASC или DESC Список доступных полей для сортировки смотрите в разделе Тип item. По умолчанию используется {\"ID\":\"ASC\"}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — поле фильтрации - value_n — значение фильтра Список доступных полей для фильтрации смотрите в разделе Тип item. К ключам field_n можно добавлять префиксы: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - = — равно (по умолчанию) - != или ! — не равно - >< — диапазон - !>< — не в диапазоне - % — LIKE - !% — NOT LIKE - ? — проверка на nul…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы фиксирован: 50 записей. Формула для получения N-й страницы: start = (N - 1) * 50 Подробнее в статье Особенности списочных методов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/items/entity-item-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "2331",
+        "TIMESTAMP_X": "2026-03-25T12:29:06+03:00",
+        "MODIFIED_BY": "577",
+        "DATE_CREATE": "2026-03-25T12:29:06+03:00",
+        "CREATED_BY": "577",
+        "ACTIVE": "Y",
+        "DATE_ACTIVE_FROM": "",
+        "DATE_ACTIVE_TO": "",
+        "SORT": "500",
+        "NAME": "Тестовый элемент",
+        "PREVIEW_PICTURE": null,
+        "PREVIEW_TEXT": null,
+        "DETAIL_PICTURE": null,
+        "DETAIL_TEXT": null,
+        "CODE": null,
+        "ENTITY": "dish",
+        "SECTION": null
+      }
+    ],
+    "total": 1,
+    "time": {
+      "start": 1774430946,
+      "finish": 1774430946.627232,
+      "duration": 0.6272320747375488,
+      "processing": 0,
+      "date_start": "2026-03-25T12:29:06+03:00",
+      "date_finish": "2026-03-25T12:29:06+03:00",
+      "operating_reset_at": 1774431546,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "item[]",
+      "base": "array",
+      "required": false,
+      "description": "Список элементов хранилища"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество элементов в выборке"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для получения следующей страницы (если есть)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/items/entity-item-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "CODE",
+    "CREATED_BY",
+    "DATE_ACTIVE_FROM",
+    "DATE_ACTIVE_TO",
+    "DATE_CREATE",
+    "DETAIL_PICTURE",
+    "DETAIL_TEXT",
+    "ENTITY",
+    "ID",
+    "MODIFIED_BY",
+    "NAME",
+    "PREVIEW_PICTURE",
+    "PREVIEW_TEXT",
+    "SECTION",
+    "SORT",
+    "TIMESTAMP_X"
+  ]
+}

@@ -19,18 +19,21 @@
 
 ## Как начать работу
 
-1. Создайте нумератор методом [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md)
-2. Если используете уже созданный нумератор, получите список нумераторов и их идентификаторы методом [crm.documentgenerator.numerator.list](./crm-document-generator-numerator-list.md)
-3. Если знаете `id` нумератора и хотите проверить его настройки, используйте метод [crm.documentgenerator.numerator.get](./crm-document-generator-numerator-get.md)
-4. Передайте `numeratorId` в шаблон документа:
-   - если создаете новый шаблон, используйте метод [crm.documentgenerator.template.add](../templates/crm-document-generator-template-add.md)
-   - если изменяете существующий шаблон, используйте метод [crm.documentgenerator.template.update](../templates/crm-document-generator-template-update.md)
-5. Если нужно изменить настройки нумератора, используйте метод [crm.documentgenerator.numerator.update](./crm-document-generator-numerator-update.md)
-6. Удалите ненужный нумератор методом [crm.documentgenerator.numerator.delete](./crm-document-generator-numerator-delete.md)
+1. Создайте нумератор методом [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md) — передайте название и шаблон номера. Если нумератор уже есть, найдите его `id` методом [crm.documentgenerator.numerator.list](./crm-document-generator-numerator-list.md)
+2. Передайте полученный `id` как `numeratorId` в [crm.documentgenerator.template.add](../templates/crm-document-generator-template-add.md) при загрузке шаблона или в [crm.documentgenerator.template.update](../templates/crm-document-generator-template-update.md) для уже загруженного шаблона
+3. Создайте документ по этому шаблону методом [crm.documentgenerator.document.add](../documents/crm-document-generator-document-add.md) — номер подставится автоматически
+
+## Из чего состоит нумератор
+
+- **Шаблон номера.** Строка с плейсхолдерами, например `INV-{NUMBER}`. Плейсхолдер `{NUMBER}` заменяется на значение счетчика
+- **Настройки счетчика.** Задают начальное значение и шаг счетчика, минимальную длину номера и период сброса — день, месяц, год или без сброса
+
+Точный список плейсхолдеров и настроек описан в параметрах метода [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md).
 
 ## Что важно учитывать
 
-Методы [crm.documentgenerator.numerator.update](./crm-document-generator-numerator-update.md) и [crm.documentgenerator.numerator.delete](./crm-document-generator-numerator-delete.md) работают только с нумераторами, созданными методом [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md).
+- Методы [crm.documentgenerator.numerator.update](./crm-document-generator-numerator-update.md) и [crm.documentgenerator.numerator.delete](./crm-document-generator-numerator-delete.md) работают только с нумераторами, созданными методом [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md). Нумераторы, созданные в интерфейсе Битрикс24, изменить или удалить через REST нельзя
+- Нумераторы генератора документов в CRM и нумераторы раздела [Генератор документов](../../../document-generator/numerators/index.md) — разные группы методов. Для CRM-документов используйте `crm.documentgenerator.numerator.*`
 
 ## Связь с другими объектами
 
@@ -42,7 +45,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «изменения» шаблонов генератора документов
+> Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов
 
 #|
 || **Метод** | **Описание** ||

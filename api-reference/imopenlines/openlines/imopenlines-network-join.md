@@ -220,6 +220,24 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.network.join", b24.Params{
+    	"CODE": "ab515f5d85a8b844d484f6ea75a2e494",
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.network.join: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -261,7 +279,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "LINE_NOT_FOUND",
+    "error": "NOT_FOUND",
     "error_description": "Line not found"
 }
 ```
@@ -274,7 +292,7 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `CODE` | You entered an invalid code | Некорректный код в параметре `CODE`, ожидается строка из 32 символов ||
 || `400` | `IMBOT_ERROR` | Module IMBOT is not installed | Не установлен модуль imbot ||
-|| `400` | `LINE_NOT_FOUND` | Line not found | Открытая линия не найдена ||
+|| `400` | `NOT_FOUND` | Line not found | Открытая линия не найдена ||
 || `400` | `INACTIVE` | Openline is inactive | Открытая линия в данный момент недоступна ||
 |#
 

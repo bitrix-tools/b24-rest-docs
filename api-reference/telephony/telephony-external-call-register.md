@@ -373,6 +373,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalCall.register", b24.Params{
+    	"USER_ID":          1269,
+    	"PHONE_NUMBER":     "79062195047",
+    	"TYPE":             2,
+    	"CRM_ENTITY_TYPE":  "CONTACT",
+    	"CRM_ENTITY_ID":    797,
+    	"SHOW":             1,
+    	"LINE_NUMBER":      "3",
+    	"EXTERNAL_CALL_ID": "asterisk-1710140185.18441",
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.externalCall.register: %w", err)
+    }
+
+    var item struct {
+    	CallID        string `json:"CALL_ID"`
+    	CRMEntityType string `json:"CRM_ENTITY_TYPE"`
+    	CRMEntityID   b24.ID `json:"CRM_ENTITY_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.CallID, item.CRMEntityType)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

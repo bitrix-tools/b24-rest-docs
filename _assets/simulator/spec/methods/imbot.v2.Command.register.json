@@ -1,0 +1,112 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Command.register",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Зарегистрировать команду imbot.v2.Command.register",
+  "permissions": "владелец зарегистрированного бота",
+  "params": [
+    {
+      "name": "botId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID бота"
+    },
+    {
+      "name": "botToken",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с параметрами команды (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "command",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Команда без символа /. Например: help"
+        },
+        {
+          "name": "title",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Заголовок команды на разных языках. Объект {langCode: text}, где langCode — двухбуквенный код языка в нижнем регистре: en, ru, de и так далее. Отображается в списке доступных команд. Обязателен для видимых команд hidden: false. Для скрытых команд hidden: true можно не указывать"
+        },
+        {
+          "name": "params",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Описание параметров команды на разных языках. Объект {langCode: text}, аналогично title. Отображается как подсказка рядом с командой"
+        },
+        {
+          "name": "common",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Общая команда. Допустимые значения: true, false. По умолчанию false. Подробнее — Общие и локальные команды"
+        },
+        {
+          "name": "hidden",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Скрытая команда. Допустимые значения: true, false. По умолчанию false"
+        },
+        {
+          "name": "extranetSupport",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Поддержка экстранет. Допустимые значения: true, false. По умолчанию false"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-register.md"
+  },
+  "resultExample": {
+    "result": {
+      "command": {
+        "id": 42,
+        "botId": 456,
+        "command": "/help",
+        "common": false,
+        "hidden": false,
+        "extranetSupport": false
+      }
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-register.html",
+  "executable": false
+}

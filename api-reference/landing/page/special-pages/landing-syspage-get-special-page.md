@@ -54,7 +54,7 @@
 
 Параметр `additional` добавляет к адресу найденной страницы дополнительные параметры. Он не влияет на то, какую страницу вернет метод: страница все равно определяется только по `siteId` и `type`.
 
-Передавайте `additional` как объект в формате `{"<имя_параметра>": "<значение>"}`. Все переданные параметры будут добавлены в адресс найденной страницы. Если страница не найдена, параметр не применяется. Если в URL уже есть параметр с таким именем, его значение будет заменено.
+Передавайте `additional` как объект в формате `{"<имя_параметра>": "<значение>"}`. Все переданные параметры будут добавлены в адрес найденной страницы. Если страница не найдена, параметр не применяется. Если в URL уже есть параметр с таким именем, его значение будет заменено.
 
 Пример:
 
@@ -292,6 +292,28 @@ https://b24-test.bitrix24.shop/personalnyyrazdel/?SECTION=private&utm_source=new
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.syspage.getSpecialPage", b24.Params{
+    	"siteId": 1390,
+    	"type":   "personal",
+    	"additional": b24.Params{
+    		"SECTION": "private",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.syspage.getSpecialPage: %w", err)
+    }
+
+    var value string
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

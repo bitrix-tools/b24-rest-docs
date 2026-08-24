@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает поля типа плательщика.
+Метод `sale.persontype.getFields` возвращает поля типа плательщика.
+
+## Параметры метода
 
 Без параметров.
 
@@ -201,6 +203,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.persontype.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.persontype.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "personType".
+    raw, ok := b24.Unwrap(res.Result, "personType")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа personType")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -301,7 +321,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-person-type-add.md)

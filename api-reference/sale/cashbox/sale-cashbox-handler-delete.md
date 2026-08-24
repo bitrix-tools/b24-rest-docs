@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод удаляет REST-обработчик кассы.
+Метод `sale.cashbox.handler.delete` удаляет REST-обработчик кассы.
 
 Если к обработчику привязаны кассы, то обработчик не будет удален — сначала необходимо удалить кассы.
 
@@ -209,6 +209,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.handler.delete", b24.Params{
+    	"ID": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.handler.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

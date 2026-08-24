@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.start",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Запустить бизнес-процесс bizproc.workflow.start",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "TEMPLATE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона бизнес-процесса"
+    },
+    {
+      "name": "DOCUMENT_ID",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Идентификатор документа для запуска бизнес-процесса в формате [модуль, объект, ID_элемента]. Примеры записей для разных вариантов документов: - Лид — ['crm', 'CCrmDocumentLead', 'LEAD_777'] - Компания — ['crm', 'CCrmDocumentCompany', 'COMPANY_777'] - Контакт — ['crm', 'CCrmDocumentContact', 'CONTACT_777'] - Сделка — ['crm', 'CCrmDocumentDeal', 'DEAL_777'] - Коммерческое предложение — ['crm', 'Bitr…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "PARAMETERS",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Значения параметров шаблона бизнес-процесса. Используется, если у шаблона есть параметры. Для передачи значения в параметр типа «Привязка к пользователю» используйте запись вида user_ID. Например:",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-workflow-start.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает идентификатор запущенного бизнес-процесса"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-workflow-start.html",
+  "executable": false
+}

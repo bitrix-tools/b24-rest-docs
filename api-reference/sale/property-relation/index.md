@@ -13,11 +13,13 @@
 
 Каждая привязка задается набором полей:
 
-- `entityType` — тип объекта привязки 
+- `entityType` — тип объекта привязки
 - `entityId` — идентификатор объекта выбранного типа
 - `propertyId` — идентификатор свойства заказа
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как покупателю оформить заказ в интернет-магазине](https://helpdesk.bitrix24.ru/open/28841930/)
 
 ## Как начать работу с привязкой свойства
 
@@ -32,6 +34,16 @@
 5. Создайте привязку методом [sale.propertyRelation.add](./sale-property-relation-add.md).
 6. Проверьте актуальные привязки методом [sale.propertyRelation.list](./sale-property-relation-list.md).
 7. Удалите ненужные привязки методом [sale.propertyRelation.deleteByFilter](./sale-property-relation-delete-by-filter.md).
+
+## Типы объектов привязки
+
+#|
+|| **Код** | **Объект** | **Где получить идентификатор** ||
+|| `P` | Платежная система | Метод [sale.paysystem.list](../../pay-system/sale-pay-system-list.md) ||
+|| `D` | Служба доставки | Метод [sale.delivery.getlist](../delivery/delivery/sale-delivery-get-list.md) ||
+|| `L` | Лендинг | Метод [landing.landing.getList](../../landing/page/methods/landing-landing-get-list.md) ||
+|| `T` | Торговая платформа | Метод [sale.tradePlatform.list](../trade-platform/sale-trade-platform-list.md) ||
+|#
 
 ## Связь с другими объектами
 

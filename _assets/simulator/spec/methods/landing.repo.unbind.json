@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.repo.unbind",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить место встраивания landing.repo.unbind",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код места встраивания. Доступные коды для раздела landing смотрите на страницах LANDINGSETTINGS и LANDINGBLOCK"
+    },
+    {
+      "name": "handler",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Путь обработчика места встраивания. Значение handler должно совпадать со значением поля PLACEMENT_HANDLER, которое передавалось при регистрации места встраивания методом landing.repo.bind. Примеры передачи PLACEMENT_HANDLER смотрите на страницах LANDINGSETTINGS и LANDINGBLOCK. Если параметр не передан, метод удаляет все места встраивания текущего приложения с кодом code.…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/embedding/landing-repo-unbind.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1775203200,
+      "finish": 1775203200.764211,
+      "duration": 0.7642109394073486,
+      "processing": 0,
+      "date_start": "2026-04-03T11:00:00+03:00",
+      "date_finish": "2026-04-03T11:00:00+03:00",
+      "operating_reset_at": 1775203800,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат успешного удаления места встраивания"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/embedding/landing-repo-unbind.html",
+  "executable": false
+}

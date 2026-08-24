@@ -29,7 +29,7 @@
 
 {% endnote %}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -48,7 +48,7 @@
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -56,7 +56,7 @@
 || **POST_MESSAGE***
 [`string`](../../data-types.md) | Текст сообщения ||
 || **UF_FORUM_MESSAGE_DOC**
-[`array`](../../data-types.md) | Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс `n`, например, `['n123', 'n456', ... ]`.
+[`array`](../../data-types.md) | Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс `n`, например `['n123', 'n456', ... ]`.
 
 У автора комментария должен быть доступ к прикрепляемым файлам, иначе метод вернет ошибку.
 
@@ -247,6 +247,29 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.commentitem.update", b24.Params{
+    	"TASKID": 8017,
+    	"ITEMID": 3167,
+    	"FIELDS": b24.Params{
+    		"POST_MESSAGE":         "Комментарий обновлен",
+    		"UF_FORUM_MESSAGE_DOC": []string{"n4755"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.commentitem.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

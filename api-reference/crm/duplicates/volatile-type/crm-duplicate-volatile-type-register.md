@@ -11,13 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор Битрикс24 или администратор CRM
 
 Метод `crm.duplicate.volatileType.register` добавляет поле в функционал поиска дубликатов в лидах, контактах или компаниях.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -33,7 +33,9 @@
 
 ### Особенности работы метода
 
-Суммарно можно зарегистрировать 7 нестандартных полей для поиска дубликатов. Например, если уже добавили 3 поля для контактов и 4 поля для компаний, при попытке добавить еще одно поле для любого типа объекта получите ошибку `MAX_TYPES_COUNT_EXCEEDED`. 
+Суммарно можно зарегистрировать семь нестандартных полей для поиска дубликатов. Например, если уже добавили три поля для контактов и четыре поля для компаний, при попытке добавить еще одно поле для любого типа объекта получите ошибку `MAX_TYPES_COUNT_EXCEEDED`.
+
+Повторный вызов метода для уже зарегистрированного поля не занимает новый слот — метод вернет `id` существующей записи.
 
 ## Примеры кода
 
@@ -230,6 +232,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.duplicate.volatileType.register", b24.Params{
+    	"entityTypeId": 1,
+    	"fieldCode":    "TITLE",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.duplicate.volatileType.register: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -270,8 +293,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Field not found",
-    "error_description": "Указанное поле не найдено."
+    "error": "FIELD_NOT_FOUND",
+    "error_description": "Field not found"
 }
 ```
 
@@ -281,14 +304,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `400` | `Field not found` | Указанное поле не найдено ||
-|| `400` | `MAX_TYPES_COUNT_EXCEEDED` | Превышено максимальное количество нестандартных типов полей в поиске дубликатов ||
+|| `FIELD_NOT_FOUND` | Field not found | Поле с указанным `fieldCode` недоступно для переданного `entityTypeId`. Список доступных полей возвращает [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) ||
+|| `MAX_TYPES_COUNT_EXCEEDED` | There is already a maximum number of volatile types | Заняты все семь слотов дополнительных полей. Освободите слот методом [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) ||
+|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md)
-- [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
-- [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) 
+- [{#T}](./crm-duplicate-volatile-type-fields.md)
+- [{#T}](./crm-duplicate-volatile-type-list.md)
+- [{#T}](./crm-duplicate-volatile-type-unregister.md)

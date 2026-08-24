@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "landing.landing.deleteblock",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить блок со страницы landing.landing.deleteblock",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор блока в версии страницы для редактирования. Идентификатор блока можно получить методом landing.block.getList с параметром params.edit_mode = 1. Метод работает с существующим блоком из черновика страницы, который еще не помечен удаленным. Если блок уже помечен удаленным, не принадлежит странице lid или его идентификатор взят из опубликованной версии страницы, метод вернет ошибку"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/block-methods/landing-landing-delete-block.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773936051,
+      "finish": 1773936051.944169,
+      "duration": 0.9441690444946289,
+      "processing": 0,
+      "date_start": "2026-03-19T19:00:51+03:00",
+      "date_finish": "2026-03-19T19:00:51+03:00",
+      "operating_reset_at": 1773936651,
+      "operating": 0.13278508186340332
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления, при успехе возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/block-methods/landing-landing-delete-block.html",
+  "executable": false
+}

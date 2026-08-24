@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 |#
 
 ## Примеры кода
@@ -225,6 +225,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.get", b24.Params{
+    	"id": 8930,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("disk.folder.get: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	StorageID    b24.ID `json:"STORAGE_ID"`
+    	Type         string `json:"TYPE"`
+    	RealObjectID b24.ID `json:"REAL_OBJECT_ID"`
+    	ParentID     b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

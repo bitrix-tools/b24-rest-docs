@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "catalog.catalog.isOffers",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Проверить, является ли торговый каталог каталогом вариаций catalog.catalog.isOffers",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_catalog.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор торгового каталога"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/catalog/catalog-catalog-is-offers.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1716543897.864191,
+      "finish": 1716543898.270557,
+      "duration": 0.40636587142944336,
+      "processing": 0.011233091354370117,
+      "date_start": "2024-05-24T12:44:57+03:00",
+      "date_finish": "2024-05-24T12:44:58+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат проверки, является ли торговый каталог торговым каталогом вариаций"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/catalog/catalog-catalog-is-offers.html",
+  "executable": false
+}

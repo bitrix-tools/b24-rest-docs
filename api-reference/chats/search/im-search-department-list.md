@@ -17,17 +17,19 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **FIND***
-[`string`](../../data-types.md) | Поисковая фраза для поиска по полному названию подразделения (поле [full_name](../departments/im-department-get.md#department)) ||
-|| **USER_DATA**
-[`string`](../../data-types.md) | Возвращать данные руководителя подразделения в поле [manager_user_data](#manager_user_data). 
+[`string`](../../data-types.md) | Поисковая фраза для поиска по началу слов в полном названии подразделения (поле [full_name](../departments/im-department-get.md#department)).
 
-Доступные значения: 
+Если параметр не передать, метод вернет ошибку `FIND_SHORT`. Пустая или очень короткая фраза ошибки не вызывает: фильтр отключается и метод отдает весь список подразделений ||
+|| **USER_DATA**
+[`string`](../../data-types.md) | Возвращать данные руководителя подразделения в поле [manager_user_data](#manager_user_data).
+
+Доступные значения:
 - `Y` — да
 - `N` — нет
 
@@ -284,11 +286,31 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.search.department.list", b24.Params{
+    	"FIND":      "Отдел",
+    	"USER_DATA": "Y",
+    	"OFFSET":    0,
+    	"LIMIT":     10,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.search.department.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -331,8 +353,7 @@ HTTP-код: **200**
                 "website": "example.ru",
                 "email": "user@example.ru"
             }
-        },
-        ... // описание для каждого подразделения
+        }
     ],
     "total": 2,
     "time": {
@@ -348,11 +369,11 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`array`](../../data-types.md) | Список найденных подразделений.
 
@@ -365,11 +386,11 @@ HTTP-код: **200**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект подразделения {#department-object}
+#### Объект department {#department-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор подразделения ||
 || **name**
@@ -452,6 +473,8 @@ HTTP-код: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **work_phone**
+[`string`](../../data-types.md) | Рабочий телефон ||
 || **personal_mobile**
 [`string`](../../data-types.md) | Мобильный телефон ||
 || **inner_phone**
@@ -469,13 +492,13 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `FIND_SHORT` | Too short a search phrase | Не передан параметр `FIND` или фраза меньше трех символов ||
+|| `FIND_SHORT` | Too short a search phrase | Не передан параметр `FIND` ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
@@ -487,3 +510,4 @@ HTTP-статус: **400**
 - [{#T}](./im-search-last-add.md)
 - [{#T}](./im-search-last-get.md)
 - [{#T}](./im-search-last-delete.md)
+- [{#T}](./index.md)

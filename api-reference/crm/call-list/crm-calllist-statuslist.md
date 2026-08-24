@@ -129,18 +129,18 @@
                 'crm.calllist.statuslist',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching call list status: ' . $e->getMessage();
@@ -199,6 +199,29 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.statuslist", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.statuslist: %w", err)
+    }
+
+    var items []struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	Sort     int    `json:"SORT"`
+    	StatusID string `json:"STATUS_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
     ```
 
 {% endlist %}
@@ -276,7 +299,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
@@ -286,4 +309,4 @@ HTTP-статус: **200**
 - [{#T}](./crm-calllist-get.md)
 - [{#T}](./crm-calllist-items-get.md)
 - [{#T}](./crm-calllist-list.md)
-- [{#T}](./crm-calllist-update.md) 
+- [{#T}](./crm-calllist-update.md)

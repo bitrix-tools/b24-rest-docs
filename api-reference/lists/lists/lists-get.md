@@ -315,6 +315,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.get", b24.Params{
+    	"IBLOCK_TYPE_ID":  "lists_socnet",
+    	"SOCNET_GROUP_ID": 33,
+    	"IBLOCK_ORDER": b24.Params{
+    		"SORT": "asc",
+    		"NAME": "asc",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("lists.get: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	TimestampX   string `json:"TIMESTAMP_X"`
+    	IblockTypeID string `json:"IBLOCK_TYPE_ID"`
+    	Lid          string `json:"LID"`
+    	Name         string `json:"NAME"`
+    	Active       string `json:"ACTIVE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.TimestampX)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "method.get",
+  "scope": "базовый",
+  "kind": "read",
+  "title": "Получить список доступных методов method.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название метода для проверки в нижнем регистре, например user.get. Если параметр не передан или пуст, метод вернет isExisting и isAvailable со значением false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/system/method-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "isExisting": true,
+      "isAvailable": true
+    },
+    "time": {
+      "start": 1721983189.4629,
+      "finish": 1721983189.50346,
+      "duration": 0.0405528545379639,
+      "processing": 0.000152111053466796,
+      "date_start": "2024-07-26T08:39:49+00:00",
+      "date_finish": "2024-07-26T08:39:49+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Возвращаются два параметра: - isExisting => true/false — определяет, существует ли метод именно в этом Битрикс24 - isAvailable => true/false — определяет доступность метода для вызова с текущими доступами (scope) приложения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/system/method-get.html",
+  "executable": false,
+  "entityFields": [
+    "isAvailable",
+    "isExisting"
+  ]
+}

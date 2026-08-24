@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "documentgenerator.region.update",
+  "scope": "documentgenerator",
+  "kind": "write",
+  "title": "Изменить регион documentgenerator.region.update",
+  "permissions": "пользователь с правом на изменение шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского региона. Получить идентификатор можно после создания региона или методом получения списка регионов"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Параметры для обновления (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое название региона"
+        },
+        {
+          "name": "languageId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор языка региона, например ru"
+        },
+        {
+          "name": "formatDate",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Формат даты"
+        },
+        {
+          "name": "formatDatetime",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Формат даты и времени"
+        },
+        {
+          "name": "formatName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Шаблон полного имени, например #LAST_NAME# #NAME# #SECOND_NAME#. Список возможных модификаторов: - #TITLE# — обращение - #NAME# — имя - #LAST_NAME# — фамилия - #SECOND_NAME# — отчество - #NAME_SHORT# — первая буква имени с точкой - #LAST_NAME_SHORT# — первая буква фамилии с точкой - #SECOND_NAME_SHORT# — первая буква отчества с точкой - Что такое модификаторы в шаблонах документов"
+        },
+        {
+          "name": "phrases",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Набор фраз региона в формате код: текст. Ключи объекта строковые и задаются произвольно в зависимости от шаблона. Значения ключей тоже строковые. Чтобы понять, какие поля используются в шаблоне документа, получите их список методом documentgenerator.template.getfields. По этим полям удобно определить, для каких значений шаблона нужны свои языковые фразы.…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/document-generator/region/document-generator-region-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "region": {
+        "id": "1",
+        "title": "Россия (Пользовательский)",
+        "languageId": "ru",
+        "formatDate": "YYYY-MM-DD",
+        "formatDatetime": "DD.MM.YYYY HH:MI:SS",
+        "formatName": "#LAST_NAME# #NAME# #SECOND_NAME#",
+        "phrases": {
+          "TAX_INCLUDED": "Налог включен в цену",
+          "TAX_NOT_INCLUDED": "НДС не включен в цену"
+        }
+      }
+    },
+    "time": {
+      "start": 1774505427,
+      "finish": 1774505427.737558,
+      "duration": 0.7375578880310059,
+      "processing": 0,
+      "date_start": "2026-03-26T09:10:27+03:00",
+      "date_finish": "2026-03-26T09:10:27+03:00",
+      "operating_reset_at": 1774506027,
+      "operating": 0.13835597038269043
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/document-generator/region/document-generator-region-update.html",
+  "executable": false
+}

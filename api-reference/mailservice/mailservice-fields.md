@@ -179,6 +179,30 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mailservice.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("mailservice.fields: %w", err)
+    }
+
+    var item struct {
+    	ID     string `json:"ID"`
+    	SiteID string `json:"SITE_ID"`
+    	Active string `json:"ACTIVE"`
+    	Name   string `json:"NAME"`
+    	Server string `json:"SERVER"`
+    	Port   string `json:"PORT"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.SiteID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

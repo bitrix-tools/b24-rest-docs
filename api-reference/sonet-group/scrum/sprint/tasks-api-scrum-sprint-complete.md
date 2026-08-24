@@ -227,6 +227,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.sprint.complete", b24.Params{
+    	"id": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.sprint.complete: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	GroupID    b24.ID `json:"groupId"`
+    	EntityType string `json:"entityType"`
+    	Name       string `json:"name"`
+    	Goal       string `json:"goal"`
+    	Sort       int    `json:"sort"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.GroupID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

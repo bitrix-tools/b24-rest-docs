@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "catalog.priceTypeGroup.delete",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Удалить привязку типа цен к группе покупателей catalog.priceTypeGroup.delete",
+  "permissions": "пользователь с правом «Управление типами цен»",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_price_type_group.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор привязки типа цены к группе покупателей. Идентификатор можно получить методом catalog.priceTypeGroup.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/price-type-group/catalog-price-type-group-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774263905,
+      "finish": 1774263905.63299,
+      "duration": 0.6329898834228516,
+      "processing": 0,
+      "date_start": "2026-03-23T14:05:05+03:00",
+      "date_finish": "2026-03-23T14:05:05+03:00",
+      "operating_reset_at": 1774264505,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-delete.html",
+  "executable": false
+}

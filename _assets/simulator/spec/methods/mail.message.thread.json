@@ -1,0 +1,136 @@
+{
+  "$v": 1,
+  "method": "mail.message.thread",
+  "scope": "mail",
+  "kind": "write",
+  "title": "Получить цепочку писем mail.message.thread",
+  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор любого письма из цепочки. Идентификатор можно получить методом mail.message.list"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Максимальное количество писем в ответе. По умолчанию — 20, максимум — 50"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/message/mail-message-thread.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 15,
+        "subject": "Договор поставки",
+        "from": "Иван Петров <ivan.petrov@example.com>",
+        "to": "manager@example.com",
+        "cc": "",
+        "date": "2026-05-26 12:17:35",
+        "body": "Добрый день! Направляю проект договора."
+      },
+      {
+        "id": 16,
+        "subject": "Re: Договор поставки",
+        "from": "manager@example.com",
+        "to": "Иван Петров <ivan.petrov@example.com>",
+        "cc": "",
+        "date": "2026-05-27 12:17:35",
+        "body": "Здравствуйте! Спасибо, получили, изучим и вернемся с комментариями."
+      }
+    ],
+    "time": {
+      "start": 1779819678,
+      "finish": 1779819678.84803,
+      "duration": 0.8480300903320312,
+      "processing": 0,
+      "date_start": "2026-05-26T21:21:18+03:00",
+      "date_finish": "2026-05-26T21:21:18+03:00",
+      "operating_reset_at": 1779820278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список писем из цепочки"
+    },
+    {
+      "name": "result[]",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект письма из цепочки"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор письма"
+    },
+    {
+      "name": "subject",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тема письма"
+    },
+    {
+      "name": "from",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Отправитель письма"
+    },
+    {
+      "name": "to",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Получатель письма"
+    },
+    {
+      "name": "cc",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Получатели копии"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время письма"
+    },
+    {
+      "name": "body",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст письма"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/message/mail-message-thread.html",
+  "executable": false
+}

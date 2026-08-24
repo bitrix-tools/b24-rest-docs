@@ -199,6 +199,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.comment.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.comment.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -323,7 +339,7 @@ HTTP-статус: **200**
 || **COMMENT**
 [`string`](../../../data-types.md) | Текст комментария ||
 || **FILES**
-[`attached_diskfile`](../../../data-types.md) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-upload-files.md) ||
+[`attached_diskfile`](../../data-types.md#attached_diskfile) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-upload-files.md) ||
 |#
 
 ## Обработка ошибок

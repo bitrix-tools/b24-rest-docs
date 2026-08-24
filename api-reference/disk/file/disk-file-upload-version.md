@@ -1,4 +1,4 @@
-# Загрузить новую версию файла disk.file.uploadversion
+# Загрузить новую версию файла disk.file.uploadVersion
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «Редактирование» для нужного файла
 
-Метод `disk.file.uploadversion` загружает новую версию файла.
+Метод `disk.file.uploadVersion` загружает новую версию файла.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор файла.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getchildren](../folder/disk-folder-get-children.md), если файл находится в папке ||
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getChildren](../folder/disk-folder-get-children.md), если файл находится в папке ||
 || **fileContent***
 [`array`](../../data-types.md) | Массив из имени файла и строки с [Base64](../../files/how-to-upload-files.md) ||
 |#
@@ -43,7 +43,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":9043,"fileContent":["Тест №2.docx","UEsDBBQABgAIAAAAIQBKvAJxbQEAACgGAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAI...AAAAAA0ADQBAAwAAA2EAAAAA"]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.uploadversion
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.uploadVersion
     ```
 
 - cURL (OAuth)
@@ -53,7 +53,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":9043,"fileContent":["Тест №2.docx","UEsDBBQABgAIAAAAIQBKvAJxbQEAACgGAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAI...AAAAAA0ADQBAAwAAA2EAAAAA"],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.file.uploadversion
+    https://**put_your_bitrix24_address**/rest/disk.file.uploadVersion
     ```
 
 - JS (TS)
@@ -90,7 +90,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<UploadVersionResult>({
-        method: 'disk.file.uploadversion',
+        method: 'disk.file.uploadVersion',
         params: {
           id: 9043,
           fileContent: [
@@ -126,7 +126,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.file.uploadversion',
+            method: 'disk.file.uploadVersion',
             params: {
               id: 9043,
               fileContent: [
@@ -190,7 +190,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.file.uploadversion',
+                'disk.file.uploadVersion',
                 [
                     'id' => 9043,
                     'fileContent' => [
@@ -217,7 +217,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.file.uploadversion",
+        "disk.file.uploadVersion",
         {
             id: 9043,
             fileContent: [
@@ -241,7 +241,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.file.uploadversion',
+        'disk.file.uploadVersion',
         [
             'id' => 9043,
             'fileContent' => [
@@ -254,6 +254,32 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.uploadVersion", b24.Params{
+    	"id":          9043,
+    	"fileContent": []string{"Тест №2.docx", "UEsDBBQABgAIAAAAIQBKvAJxbQEAACgGAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAI...AAAAAA0ADQBAAwAAA2EAAAAA"},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.uploadVersion: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Name        string `json:"NAME"`
+    	StorageID   b24.ID `json:"STORAGE_ID"`
+    	Type        string `json:"TYPE"`
+    	ParentID    b24.ID `json:"PARENT_ID"`
+    	DeletedType string `json:"DELETED_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -387,3 +413,4 @@ HTTP-статус: **400**
 - [{#T}](./disk-file-rename.md)
 - [{#T}](./disk-file-restore-from-version.md)
 - [{#T}](./disk-file-restore.md)
+- [{#T}](./disk-file-search.md)

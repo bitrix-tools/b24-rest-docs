@@ -10,10 +10,10 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
+>
 > Кто может выполнять метод:
->  - Любой пользователь имеет право получать свои и общие настройки
->  - Только администратор имеет право получать чужие настройки
+>  - любой пользователь может получить свои личные и общие настройки
+>  - пользователь с правом «Разрешить изменять настройки» в CRM может получить чужие личные настройки
 
 {% note warning "DEPRECATED" %}
 
@@ -31,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Область применения настроек. 
+[`string`](../../../data-types.md) | Область применения настроек.
 
 Возможные значения:
 - **P** — личные настройки
@@ -42,7 +42,7 @@
 || **userId**
 [`user`](../../../data-types.md) | Идентификатор пользователя. Нужен только при запросе чужих личных настроек.
 
-Если не задан, то берётся текущий
+Если не задан, то берется текущий
 ||
 |#
 
@@ -108,6 +108,31 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.contact.details.configuration.get", b24.Params{
+        	"scope":  "P",
+        	"userId": 6,
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.contact.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
         ```
 
     {% endlist %}
@@ -194,6 +219,30 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.contact.details.configuration.get", b24.Params{
+        	"scope": "C",
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.contact.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
         ```
 
     {% endlist %}
@@ -312,7 +361,7 @@ HTTP-статус: **200**
 || **type**
 [`string`](../../../data-types.md) | Тип раздела ||
 || **elements**
-[`section_element[]`](#section_element) | Список выводимых в карточку полей сущности с дополнительными настройками ||
+[`section_element[]`](#section_element) | Список выводимых в карточку полей объекта с дополнительными настройками ||
 |#
 
 #### section_element
@@ -325,7 +374,7 @@ HTTP-статус: **200**
 || **name**
 [`string`](../../../data-types.md) | Идентификатор поля ||
 || **optionFlags**
-[`boolean`](../../../data-types.md) | Показывать ли поле всегда. 
+[`boolean`](../../../data-types.md) | Показывать ли поле всегда.
 
 Возможные значения:
 - `"1"` — да
@@ -347,7 +396,7 @@ HTTP-статус: **200**
 || **defaultAddressType**
 [`integer`](../../../data-types.md) | `ADDRESS` | Идентификатор типа адреса по умолчанию ||
 || **defaultCountry**
-[`string`](../../../data-types.md) | 
+[`string`](../../../data-types.md) |
 `PHONE`
 `CLIENT`
 `COMPANY`
@@ -396,7 +445,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-contact-details-configuration-set.md)

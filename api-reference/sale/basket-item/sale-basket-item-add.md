@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет позицию в корзину существующего заказа.
+Метод `sale.basketitem.add` добавляет позицию в корзину существующего заказа.
 
 ## Параметры метода
 
@@ -87,7 +87,7 @@
 - `Y` — да
 - `N` — нет ||
 || **vatRate****
-[`double`](../../data-types.md) | Величина налога в процентах. Для указания ставки «Без НДС» нужно передать пустую строку ||
+[`double`](../../data-types.md) | Ставка налога долей от единицы: `0.1` — это 10 %. Для указания ставки «Без НДС» нужно передать пустую строку ||
 || **vatIncluded****
 [`string`](../../data-types.md) | Флаг того, включен ли НДС или налог в цену товара. Возможные значения:
 - `Y` — да
@@ -351,12 +351,47 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketitem.add", b24.Params{
+    	"fields": b24.Params{
+    		"orderId":   5147,
+    		"quantity":  2,
+    		"productId": 6544,
+    		"currency":  "RUB",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.basketitem.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketItem".
+    raw, ok := b24.Unwrap(res.Result, "basketItem")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketItem")
+    }
+
+    var item struct {
+    	BasePrice    int    `json:"basePrice"`
+    	CanBuy       string `json:"canBuy"`
+    	CatalogXmlID string `json:"catalogXmlId"`
+    	Currency     string `json:"currency"`
+    	CustomPrice  string `json:"customPrice"`
+    	DateInsert   string `json:"dateInsert"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.BasePrice, item.CanBuy)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [{#T}](../../../tutorials/sale/example-position-with-custom-price.md)
-- [{#T}](../../../tutorials/sale/example-position-that-is-not-on-the-site.md)
+- [{#T}](../../../tutorials/sale/add-basket-item-to-order.md)
 
 {% endnote %}
 
@@ -370,7 +405,7 @@ HTTP-статус: **200**
         "basketItem": {
             "basePrice": 1000,
             "canBuy": "Y",
-            "catalogXmlId": "FUTURE-1C-CATALOG",
+            "catalogXmlId": "FUTURE-ERP-CATALOG",
             "currency": "RUB",
             "customPrice": "N",
             "dateInsert": "2024-04-23T15:59:37+02:00",

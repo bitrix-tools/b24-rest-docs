@@ -13,34 +13,35 @@
 
 ![Вложения](./_images/attach1.png){width=520}
 
-Методы, которые поддерживают работу с `ATTACH`:
+> Быстрый переход: [все методы](#all-methods)
 
-**Чат-боты 2.0 (`imbot.v2`)**
+## Как собрать вложение {#how-to-start}
 
-- [imbot.v2.Chat.Message.send](../chat-message-send.md) — отправить сообщение от имени чат-бота
-- [imbot.v2.Chat.Message.update](../chat-message-update.md) — изменить сообщение чат-бота
-- [imbot.v2.Command.answer](../../commands/command-answer.md) — отправить ответ чат-бота на команду
+1. Выберите форму объекта: полную — с метаданными `ID`, `COLOR_TOKEN`, `COLOR` и массивом `BLOCKS`, или краткую — сразу массив блоков.
+2. Наберите массив блоков. Каждый элемент — объект с одним ключом верхнего уровня, и этот ключ задает тип блока: `MESSAGE`, `LINK`, `USER`, `GRID`, `IMAGE`, `FILE`, `DELIMITER`.
+3. Передайте объект в параметре `fields.attach` метода отправки сообщения — например, [imbot.v2.Chat.Message.send](../chat-message-send.md).
+4. Чтобы изменить уже отправленное вложение, вызовите [imbot.v2.Chat.Message.update](../chat-message-update.md) с новым значением `fields.attach`.
 
-**Чаты (`im`)**
+Готовые составные карточки, собранные из нескольких блоков, — [Конструктор вложений ATTACH](./constructor.md).
 
-- [im.message.add](../../../../../chats/messages/im-message-add.md) — отправить сообщение в чат
-- [im.message.update](../../../../../chats/messages/im-message-update.md) — изменить отправленное сообщение
+## Типы блоков {#blocks}
 
-**Уведомления (`im.notify`)**
+#|
+|| **Ключ в BLOCKS** | **Блок** | **Для чего использовать** ||
+|| `MESSAGE` | [Блок с текстом](./block-collections/text.md) | Текстовый фрагмент с поддержкой BB-кодов ||
+|| `LINK` | [Блок со ссылками](./block-collections/links.md) | Кликабельная ссылка с подписью ||
+|| `USER` | [Блок пользователя](./block-collections/user.md) | Карточка пользователя: имя, аватар, ссылка ||
+|| `GRID` | [Блок для построения строк и колонок](./block-collections/grid.md) | Таблица из пар «название-значение» ||
+|| `IMAGE` | [Блок с изображениями](./block-collections/images.md) | Одно или несколько изображений ||
+|| `FILE` | [Блок с файлами](./block-collections/files.md) | Файл с названием, размером и ссылкой ||
+|| `DELIMITER` | [Блок с разделителем](./block-collections/delimiter.md) | Визуальный разделитель между частями вложения ||
+|#
 
-- [im.notify](../../../../../chats/notifications/im-notify.md) — отправить уведомление
-- [im.notify.personal.add](../../../../../chats/notifications/im-notify-personal-add.md) — отправить персональное уведомление
-- [im.notify.system.add](../../../../../chats/notifications/im-notify-system-add.md) — отправить системное уведомление
+Полное описание параметров каждого блока — [Коллекция блоков ATTACH](./block-collections/index.md).
 
-**Устаревшие чат-боты (`imbot`)**
+## Форматы объекта ATTACH {#formats}
 
-- [imbot.message.add](../../../../outdated/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
-- [imbot.message.update](../../../../outdated/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
-- [imbot.command.answer](../../../../outdated/commands/imbot-command-answer.md) — отправить ответ чат-бота на команду
-
-## Форматы объекта ATTACH
-
-Вы можете передать `ATTACH` в одном из двух форматов:
+Передать `ATTACH` можно в одном из двух форматов:
 
 1. Полная форма: объект с метаданными вложения и массивом `BLOCKS`
 2. Краткая форма: массив блоков без обертки
@@ -512,31 +513,69 @@
 
 {% endlist %}
 
-## Ограничения и ошибки
+## Что возвращается в ответе {#response}
 
-- Максимальный размер сериализованного `ATTACH`: `60000` символов
-- При некорректной структуре возвращается ошибка `ATTACH_ERROR`
-- При превышении лимита возвращается ошибка `ATTACH_OVERSIZE`
+Сам метод отправки возвращает только идентификатор созданного сообщения — структуру вложения он в ответе не повторяет:
 
-## Валидация ссылок
+```json
+{
+    "result": {
+        "id": 789,
+        "uuidMap": {}
+    }
+}
+```
 
-В блоках вложения поддерживаются:
+Чтобы увидеть отправленное вложение, прочитайте сообщение методом [imbot.v2.Chat.Message.get](../chat-message-get.md) или получите его в событии [ONIMBOTV2MESSAGEADD](../../events/events.md#onimbotv2messageadd). Вложение приходит в поле `params` объекта Message вместе с клавиатурой и файлами — [Объекты и поля](../../../entities.md#message).
 
-- абсолютные URL: `http://` и `https://`
-- относительные URL от корня Битрикс: `/company/personal/user/1/`
+## Ограничения и ошибки {#limits}
 
-{% note warning %}
+#|
+|| **Ограничение** | **Значение** ||
+|| Максимальный размер сериализованного `ATTACH` | 60 000 символов ||
+|| Допустимые ссылки в блоках | Абсолютные URL `http://` и `https://` или относительные пути от корня Битрикс24, например `/company/personal/user/1/` ||
+|| Внешние каналы | Содержимое `ATTACH` не транслируется автоматически в XMPP, email и push-уведомления ||
+|#
 
-Содержимое `ATTACH` не транслируется автоматически в XMPP, email и push-уведомления.
+Коды ошибок, специфичные для вложений:
 
-{% endnote %}
+#|
+|| **Код** | **Когда возвращается** ||
+|| `ATTACH_ERROR` | Структура вложения некорректна ||
+|| `ATTACH_OVERSIZE` | Превышен лимит в 60 000 символов ||
+|#
+
+Остальные коды ошибок зависят от метода отправки — они перечислены в разделе «Возможные коды ошибок» на странице метода, например [imbot.v2.Chat.Message.send](../chat-message-send.md).
+
+## Методы, поддерживающие ATTACH {#all-methods}
+
+Ниже перечислены методы, которые поддерживают работу с `ATTACH`:
+
+**Чат-боты 2.0 (`imbot.v2`)**
+
+- [imbot.v2.Chat.Message.send](../chat-message-send.md) — отправить сообщение от имени чат-бота
+- [imbot.v2.Chat.Message.update](../chat-message-update.md) — изменить сообщение чат-бота
+- [imbot.v2.Command.answer](../../commands/command-answer.md) — отправить ответ чат-бота на команду
+
+**Чаты (`im`)**
+
+- [im.message.add](../../../../../chats/messages/im-message-add.md) — отправить сообщение в чат
+- [im.message.update](../../../../../chats/messages/im-message-update.md) — изменить отправленное сообщение
+
+**Уведомления (`im.notify`)**
+
+- [im.notify](../../../../../chats/notifications/im-notify.md) — отправить уведомление
+- [im.notify.personal.add](../../../../../chats/notifications/im-notify-personal-add.md) — отправить персональное уведомление
+- [im.notify.system.add](../../../../../chats/notifications/im-notify-system-add.md) — отправить системное уведомление
 
 ## Продолжите изучение
 
 - [Журнал изменений API imbot.v2](../../../change-log.md)
 - [{#T}](./constructor.md)
 - [{#T}](./block-collections/index.md)
+- [Сообщения imbot.v2](../index.md)
 - [{#T}](../message-keyboards.md)
+- [{#T}](../message-formatting.md)
 - [{#T}](../chat-message-send.md)
 - [{#T}](../chat-message-update.md)
 - [{#T}](../../../../../chats/notifications/im-notify.md)

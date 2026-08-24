@@ -29,7 +29,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -233,6 +233,26 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "note.document.tree.list", b24.Params{
+    	"collectionId": 123,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("note.document.tree.list: %w", err)
+    }
+
+    var item struct {
+    	Truncated bool `json:"truncated"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Truncated)
     ```
 
 {% endlist %}

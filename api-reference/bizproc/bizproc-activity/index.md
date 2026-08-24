@@ -19,24 +19,24 @@
 
 ## Для каких сценариев подходят действия приложений
 
-- Добавить в шаблон бизнес-процесса шаг, который вызывает внешний сервис приложения.
-- Передать в действие параметры из документа бизнес-процесса и вернуть выходные данные в процесс.
-- Записать в журнал бизнес-процесса промежуточные сообщения.
-- Ограничить доступность действия по типу документа и редакции Битрикс24.
-- Точечно доработать логику внутри уже работающего шаблона без миграции на другой тип автоматизации.
-- Реализовать вспомогательные сценарии контроля и выполнения заданий бизнес-процессов.
+- Добавить в шаблон бизнес-процесса шаг, который вызывает внешний сервис приложения
+- Передать в действие параметры из документа бизнес-процесса и вернуть выходные данные в процесс
+- Записать в журнал бизнес-процесса промежуточные сообщения
+- Ограничить доступность действия по типу документа и редакции Битрикс24
+- Точечно доработать логику внутри уже работающего шаблона без миграции на другой тип автоматизации
+- Реализовать вспомогательные сценарии контроля и выполнения заданий бизнес-процессов
 
 ## Как начать работу
 
-1. Зарегистрируйте действие через [bizproc.activity.add](./bizproc-activity-add.md).
-2. Если нужно вернуть результат, укажите `RETURN_PROPERTIES` с описанием выходных параметров и задайте `USE_SUBSCRIPTION` со значением `'Y'` при регистрации или обновлении действия через [bizproc.activity.add](./bizproc-activity-add.md) и [bizproc.activity.update](./bizproc-activity-update.md). Затем передайте значения через [bizproc.event.send](../bizproc-robot/bizproc-event-send.md).
-3. При необходимости ограничьте доступность действия через `FILTER` в [bizproc.activity.add](./bizproc-activity-add.md) и [bizproc.activity.update](./bizproc-activity-update.md). Используйте правила `INCLUDE` и `EXCLUDE`, например для облака `b24` или коробочной версии `box`.
+1. Зарегистрируйте действие через [bizproc.activity.add](./bizproc-activity-add.md)
+2. Если нужно вернуть результат, укажите `RETURN_PROPERTIES` с описанием выходных параметров и задайте `USE_SUBSCRIPTION` со значением `'Y'` при регистрации или обновлении действия через [bizproc.activity.add](./bizproc-activity-add.md) и [bizproc.activity.update](./bizproc-activity-update.md). Затем передайте значения через [bizproc.event.send](../bizproc-robot/bizproc-event-send.md)
+3. При необходимости ограничьте доступность действия через `FILTER` в [bizproc.activity.add](./bizproc-activity-add.md) и [bizproc.activity.update](./bizproc-activity-update.md). Используйте правила `INCLUDE` и `EXCLUDE`, например для облака `b24` или коробочной версии `box`
 4. Добавьте действие в шаблон и запустите процесс:
    - через интерфейс в дизайнере бизнес-процессов
-   - через методы шаблонов [bizproc.workflow.template.add](../template/bizproc-workflow-template-add.md), [bizproc.workflow.template.update](../template/bizproc-workflow-template-update.md) и [bizproc.workflow.start](../bizproc-workflow-start.md).
-5. Для диагностики и контроля выполнения записывайте этапы в журнал через [bizproc.activity.log](./bizproc-activity-log.md).
-6. Проверяйте установленные действия через [bizproc.activity.list](./bizproc-activity-list.md).
-7. Удаляйте неактуальные действия через [bizproc.activity.delete](./bizproc-activity-delete.md).
+   - через методы шаблонов [bizproc.workflow.template.add](../template/bizproc-workflow-template-add.md), [bizproc.workflow.template.update](../template/bizproc-workflow-template-update.md) и [bizproc.workflow.start](../bizproc-workflow-start.md)
+5. Для диагностики и контроля выполнения записывайте этапы в журнал через [bizproc.activity.log](./bizproc-activity-log.md)
+6. Проверяйте установленные действия через [bizproc.activity.list](./bizproc-activity-list.md)
+7. Удаляйте неактуальные действия через [bizproc.activity.delete](./bizproc-activity-delete.md)
 
 {% note tip "Пользовательская документация" %}
 
@@ -46,14 +46,16 @@
 
 ## Что важно учитывать
 
-- Методы [bizproc.activity.add](./bizproc-activity-add.md), [bizproc.activity.update](./bizproc-activity-update.md), [bizproc.activity.list](./bizproc-activity-list.md), [bizproc.activity.delete](./bizproc-activity-delete.md) работают только в контексте установленного приложения.
-- Для [bizproc.activity.log](./bizproc-activity-log.md) и [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) нужен уникальный ключ `EVENT_TOKEN`, который приходит на обработчик `HANDLER` во время выполнения действия в бизнес-процессе.
+- Методы [bizproc.activity.add](./bizproc-activity-add.md), [bizproc.activity.update](./bizproc-activity-update.md), [bizproc.activity.list](./bizproc-activity-list.md), [bizproc.activity.delete](./bizproc-activity-delete.md) работают только в контексте установленного приложения
+- Для [bizproc.activity.log](./bizproc-activity-log.md) и [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) нужен уникальный ключ `EVENT_TOKEN`, который приходит на обработчик `HANDLER` во время выполнения действия в бизнес-процессе
 
 ## Связь с другими объектами
 
-- **Шаблоны бизнес-процессов.** Действие становится доступным в дизайнере после регистрации через [bizproc.activity.add](./bizproc-activity-add.md) и используется внутри шаблона при его запуске.
-- **Тип документа.** Через `DOCUMENT_TYPE` и `FILTER` действие связывается с нужным типом документа и показывается только в подходящем контексте.
-- **Роботы приложений.** Действия и роботы используют общий внутренний механизм, поэтому важно учитывать пересечения по кодам и сценариям при регистрации.
+**Шаблоны бизнес-процессов.** Действие становится доступным в дизайнере после регистрации через [bizproc.activity.add](./bizproc-activity-add.md) и используется внутри шаблона при его запуске.
+
+**Тип документа.** Через `DOCUMENT_TYPE` и `FILTER` действие связывается с нужным типом документа и показывается только в подходящем контексте.
+
+**Роботы приложений.** Действия и роботы используют общий внутренний механизм, поэтому важно учитывать пересечения по кодам и сценариям при регистрации.
 
 ## Обзор методов {#all-methods}
 

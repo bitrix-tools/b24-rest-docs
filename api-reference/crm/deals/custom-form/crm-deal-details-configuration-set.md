@@ -32,7 +32,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -59,7 +59,7 @@
 
 ### Параметр extras {#parameter-extras}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -75,7 +75,7 @@
 
 Описывает отдельный раздел с полями внутри карточки сделки
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -97,7 +97,7 @@
 
 Конфигурация отдельного поля внутри раздела
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -497,6 +497,88 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.details.configuration.set", b24.Params{
+    	"scope":  "P",
+    	"userId": 1,
+    	"extras": b24.Params{
+    		"dealCategoryId": 32,
+    	},
+    	"data": []b24.Params{
+    		{
+    			"name":  "main",
+    			"title": "О сделке",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "TITLE",
+    				},
+    				{
+    					"name": "OPPORTUNITY_WITH_CURRENCY",
+    				},
+    				{
+    					"name": "STAGE_ID",
+    				},
+    				{
+    					"name": "CLOSEDATE",
+    				},
+    				{
+    					"name": "CLIENT",
+    				},
+    			},
+    		},
+    		{
+    			"name":  "additional",
+    			"title": "Дополнительно",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "TYPE_ID",
+    				},
+    				{
+    					"name": "SOURCE_ID",
+    				},
+    				{
+    					"name": "SOURCE_DESCRIPTION",
+    				},
+    				{
+    					"name": "OPENED",
+    				},
+    				{
+    					"name": "ASSIGNED_BY_ID",
+    				},
+    				{
+    					"name": "COMMENTS",
+    				},
+    			},
+    		},
+    		{
+    			"name":  "products",
+    			"title": "Товары",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "PRODUCT_ROW_SUMMARY",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.details.configuration.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

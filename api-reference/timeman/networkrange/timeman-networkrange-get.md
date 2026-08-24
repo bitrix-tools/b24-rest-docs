@@ -200,6 +200,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.networkrange.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("timeman.networkrange.get: %w", err)
+    }
+
+    var items []struct {
+    	IPRange string `json:"ip_range"`
+    	Name    string `json:"name"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.IPRange, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

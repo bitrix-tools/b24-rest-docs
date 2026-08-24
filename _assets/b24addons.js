@@ -319,6 +319,66 @@ function isInsideIframe() {
     return window.self !== window.top;
 }
 
+// The old BX24.js library is documented under .../bx24-js-sdk/*.
+// Only there do we still load BX24.js and run its legacy examples.
+function isBx24DocsSection() {
+    return /(^|\/)bx24-js-sdk(\/|$)/.test(window.location.pathname);
+}
+
+// Decide whether a code block is runnable and which runtime it targets.
+// 'b24jssdk' — modern "JS (UMD)" example (uses the new @bitrix24/b24jssdk)
+// 'bx24'     — legacy example (uses the old BX24.js global)
+function detectRunnableKind(code) {
+    if (/B24Js\.initializeB24Frame/.test(code)) {
+        return 'b24jssdk';
+    }
+    if (/\bBX24\.callMethod\b/.test(code)) {
+        return 'bx24';
+    }
+    return null;
+}
+
+// A "JS (UMD)" example is an HTML snippet: a <script src="...unpkg..."> loader
+// plus an inline <script> with the actual logic. Extract the runnable JS.
+function extractRunnableFromUmd(htmlSnippet) {
+    var js = '';
+    // inline <script> blocks only (skip the ones that load the SDK via src)
+    var scriptRe = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+    var m;
+    while ((m = scriptRe.exec(htmlSnippet)) !== null) {
+        js += m[1] + '\n';
+    }
+    if (!js.trim()) {
+        js = htmlSnippet; // fallback: snippet was already plain JS
+    }
+    // DOMContentLoaded has already fired — turn the registration into a direct call
+    js = js.replace(
+        /document\.addEventListener\(\s*['"]DOMContentLoaded['"]\s*,\s*([A-Za-z0-9_$]+)\s*\)\s*;?/g,
+        '$1();'
+    );
+    return js;
+}
+
+function runExample(code, kind) {
+    if (kind === 'bx24') {
+        // legacy BX24.js example — BX24 is loaded only in the bx24-js-sdk docs section
+        if (!window.BX24) {
+            console.error('BX24.js is not available on this page.');
+            return;
+        }
+        eval(code);
+        return;
+    }
+    // modern @bitrix24/b24jssdk (UMD) example
+    if (!window.B24Js) {
+        console.error('@bitrix24/b24jssdk is not loaded yet — try again in a moment.');
+        return;
+    }
+    var body = extractRunnableFromUmd(code);
+    // B24Js/$b24 passed in explicitly; the snippet also initializes its own $b24
+    (new Function('B24Js', '$b24', body))(window.B24Js, window.$b24);
+}
+
 function processCodeBlocks() {
     var container = document.querySelector('.dc-doc-page__main');
 
@@ -328,11 +388,18 @@ function processCodeBlocks() {
             return;
         }
 
-        const codeBlocks = container.querySelectorAll('code.hljs.js, code.hljs.javascript');
+        // Old-library docs section runs BX24.js examples; everywhere else — the new SDK.
+        const wantKind = isBx24DocsSection() ? 'bx24' : 'b24jssdk';
+
+        const codeBlocks = container.querySelectorAll('code.hljs');
 
         codeBlocks.forEach(codeBlock => {
 
             const code = codeBlock.textContent;
+
+            if (detectRunnableKind(code) !== wantKind) {
+                return; // not the runnable example we execute on this page
+            }
 
             // Create button container
             const buttonContainer = document.createElement('div');
@@ -342,13 +409,14 @@ function processCodeBlocks() {
             const executeButton = document.createElement('button');
             executeButton.textContent = 'Execute';
             executeButton.className += ' g-button g-button_view_outlined g-button_size_l g-button_pin_round-round pc-button-block pc-button-block_size_m pc-button-block_theme_outlined pc-buttons__button';
+            executeButton.dataset.exampleKind = wantKind;
             executeButton.addEventListener('click', () => {
                 executeButton.disabled = true;
                 executeButton.innerHTML = 'Executing...'; // Clear button content
 
                 setTimeout(() => {
                     try {
-                        eval(code);
+                        runExample(code, wantKind);
                     } catch (error) {
                         console.error('Executing code error:', error);
                     } finally {
@@ -364,101 +432,145 @@ function processCodeBlocks() {
     }
 }
 
-function addAPILibraries() {
-    if (isInsideIframe()) {
-
-        const script = document.createElement('script');
-
-        script.src = '//api.bitrix24.tech/api/v1/';
-        script.onload = function() {
-            try {
-
-                BX24.ready(() => {
-
-                    if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/eruda"]')) {
-
-                        const erudaScript = document.createElement('script');
-                        erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
-                        erudaScript.onload = function() {
-
-                            const erudaContainer = document.createElement('div');
-                            erudaContainer.className = 'eruda-container';
-                            document.body.appendChild(erudaContainer);
-
-                            eruda.init({
-                                container: erudaContainer,
-                                tool: ['console', 'network'],
-                                autoScale: true,
-                                defaults: {
-                                    displaySize: 30,
-                                    transparency: 0.9,
-                                    theme: 'Monokai Pro'
-                                }
-                            });
-
-                            const erudaElement = document.querySelector('#eruda');
-                            if (erudaElement) {
-                                const shadowRoot = erudaElement.shadowRoot;
-
-                                if (shadowRoot) {
-                                    const devToolsElement = shadowRoot.querySelector('.eruda-dev-tools');
-                                    if (devToolsElement) {
-                                        devToolsElement.style.height = '40%';
-                                    } else {
-                                        console.error('eruda-dev-tools element not found.');
-                                    }
-
-                                    const erudaContainer = shadowRoot.querySelector('.eruda-container');
-
-                                    if (erudaContainer) {
-
-                                        const entryButton = erudaContainer.querySelector('.eruda-entry-btn');
-
-                                        if (entryButton) {
-
-                                            entryButton.style.position = 'absolute';
-                                            entryButton.style.bottom = '10px';
-                                            entryButton.style.right = '10px';
-                                            entryButton.style.top = '';
-                                            entryButton.style.left = '';
-                                        } else {
-                                            console.error('Element with class eruda-entry-btn not found.');
-                                        }
-                                    } else {
-                                        console.error('Element with class eruda-container not found.');
-                                    }
-
-                                } else {
-                                    console.error('Shadow root not found.');
-                                }
-
-                            } else {
-                                console.error('Eruda element not found.');
-                            }
-                            eruda.show();
-                        };
-
-                        erudaScript.onerror = function() {
-                            console.error('Failed to load Eruda script.');
-                        };
-
-                        document.head.appendChild(erudaScript);
-
-                        processCodeBlocks();
-                    }
-
-                });
-            } catch (error) {
-                console.error('Error initializing BX24:', error);
-            }
-        };
-        script.onerror = function() {
-            console.error('Failed to load Bitrix24 API script.');
-        };
-
-        document.head.appendChild(script);
-
+// Load the modern @bitrix24/b24jssdk (UMD build) once, exposed as global B24Js,
+// and pre-initialize a shared $b24 frame instance.
+function loadB24JsSdk() {
+    if (window.B24Js || document.querySelector('script[data-b24jssdk]')) {
+        return;
     }
+
+    const sdk = document.createElement('script');
+    sdk.src = 'https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js';
+    sdk.setAttribute('data-b24jssdk', '1');
+    sdk.onload = function() {
+        try {
+            if (window.B24Js && typeof B24Js.initializeB24Frame === 'function') {
+                B24Js.initializeB24Frame()
+                    .then(function($b24) { window.$b24 = $b24; })
+                    .catch(function(error) { console.error('b24jssdk init error:', error); });
+            }
+        } catch (error) {
+            console.error('b24jssdk init error:', error);
+        }
+    };
+    sdk.onerror = function() {
+        console.error('Failed to load @bitrix24/b24jssdk.');
+    };
+
+    document.head.appendChild(sdk);
+}
+
+// Load the legacy BX24.js — only needed to run examples in the old-library docs section.
+function loadBx24Legacy() {
+    if (window.BX24 || document.querySelector('script[data-bx24-legacy]')) {
+        return;
+    }
+
+    const script = document.createElement('script');
+    script.src = '//api.bitrix24.tech/api/v1/';
+    script.setAttribute('data-bx24-legacy', '1');
+    script.onerror = function() {
+        console.error('Failed to load Bitrix24 API script.');
+    };
+
+    document.head.appendChild(script);
+}
+
+// The in-app developer console (eruda). Initializes once.
+function initEruda() {
+    if (window.eruda || document.querySelector('script[data-eruda]')) {
+        return;
+    }
+
+    const erudaScript = document.createElement('script');
+    erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
+    erudaScript.setAttribute('data-eruda', '1');
+    erudaScript.onload = function() {
+
+        const erudaContainer = document.createElement('div');
+        erudaContainer.className = 'eruda-container';
+        document.body.appendChild(erudaContainer);
+
+        eruda.init({
+            container: erudaContainer,
+            tool: ['console', 'network'],
+            autoScale: true,
+            defaults: {
+                displaySize: 30,
+                transparency: 0.9,
+                theme: 'Monokai Pro'
+            }
+        });
+
+        const erudaElement = document.querySelector('#eruda');
+        if (erudaElement) {
+            const shadowRoot = erudaElement.shadowRoot;
+
+            if (shadowRoot) {
+                const devToolsElement = shadowRoot.querySelector('.eruda-dev-tools');
+                if (devToolsElement) {
+                    devToolsElement.style.height = '40%';
+                } else {
+                    console.error('eruda-dev-tools element not found.');
+                }
+
+                const erudaContainerInner = shadowRoot.querySelector('.eruda-container');
+
+                if (erudaContainerInner) {
+
+                    const entryButton = erudaContainerInner.querySelector('.eruda-entry-btn');
+
+                    if (entryButton) {
+
+                        entryButton.style.position = 'absolute';
+                        entryButton.style.bottom = '10px';
+                        entryButton.style.right = '10px';
+                        entryButton.style.top = '';
+                        entryButton.style.left = '';
+                    } else {
+                        console.error('Element with class eruda-entry-btn not found.');
+                    }
+                } else {
+                    console.error('Element with class eruda-container not found.');
+                }
+
+            } else {
+                console.error('Shadow root not found.');
+            }
+
+        } else {
+            console.error('Eruda element not found.');
+        }
+        eruda.show();
+    };
+
+    erudaScript.onerror = function() {
+        console.error('Failed to load Eruda script.');
+    };
+
+    document.head.appendChild(erudaScript);
+}
+
+// Boot the in-app console: dev tools + Execute buttons on the runnable code blocks.
+function bootConsole() {
+    initEruda();
+    processCodeBlocks();
+}
+
+function addAPILibraries() {
+    if (!isInsideIframe()) {
+        return;
+    }
+
+    // New SDK is the primary runtime for executing examples on all content.
+    loadB24JsSdk();
+
+    // Old BX24.js is only needed on pages that document the legacy library itself.
+    if (isBx24DocsSection()) {
+        loadBx24Legacy();
+    }
+
+    bootConsole();
 }
 
 function initB24items() {

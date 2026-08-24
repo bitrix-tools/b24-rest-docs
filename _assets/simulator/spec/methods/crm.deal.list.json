@@ -1,0 +1,210 @@
+{
+  "$v": 1,
+  "method": "crm.deal.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список сделок crm.deal.list",
+  "permissions": "любой пользователь с правом «чтения» сделок",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список полей, которые должны быть заполнены у сделок в выборке. При выборке можно использовать следующие маски: - '*' — для выборки всех полей (без пользовательских и множественных) - 'UF_*' — для выборки всех пользовательских полей (без множественных) Список доступных полей для выборки можно узнать с помощью метода crm.deal.fields.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля, по которому будет отфильтрована выборка элементов - value_n — значение фильтра К ключам field_n можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в качестве значения передается массив - !@ — NOT IN, в качестве значения передается массив…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект формата: где: - field_n — название поля, по которому будет произведена сортировка выборки сделок - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Список доступных полей для сортировки можно узнать с помощью метода crm.deal.fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/crm-deal-list.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.list"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "37",
+        "TITLE": "[А] Сделка",
+        "TYPE_ID": "COMPLEX",
+        "CATEGORY_ID": "1",
+        "STAGE_ID": "C1:NEW",
+        "OPPORTUNITY": "19999.99",
+        "IS_MANUAL_OPPORTUNITY": "Y",
+        "ASSIGNED_BY_ID": "1",
+        "DATE_CREATE": "2024-09-02T18:37:18+02:00"
+      },
+      {
+        "ID": "38",
+        "TITLE": "[А] Сделка",
+        "TYPE_ID": "COMPLEX",
+        "CATEGORY_ID": "1",
+        "STAGE_ID": "C1:NEW",
+        "OPPORTUNITY": "20000.00",
+        "IS_MANUAL_OPPORTUNITY": "Y",
+        "ASSIGNED_BY_ID": "6",
+        "DATE_CREATE": "2024-09-02T18:37:38+02:00"
+      },
+      {
+        "ID": "39",
+        "TITLE": "[Б] Продажа",
+        "TYPE_ID": "COMPLEX",
+        "CATEGORY_ID": "1",
+        "STAGE_ID": "C1:NEW",
+        "OPPORTUNITY": "12500.00",
+        "IS_MANUAL_OPPORTUNITY": "Y",
+        "ASSIGNED_BY_ID": "1",
+        "DATE_CREATE": "2024-04-09T23:11:01+02:00"
+      },
+      {
+        "ID": "40",
+        "TITLE": "[Б] Сделка",
+        "TYPE_ID": "COMPLEX",
+        "CATEGORY_ID": "1",
+        "STAGE_ID": "C1:NEW",
+        "OPPORTUNITY": "13500.00",
+        "IS_MANUAL_OPPORTUNITY": "Y",
+        "ASSIGNED_BY_ID": "6",
+        "DATE_CREATE": "2024-08-08T19:00:14+02:00"
+      },
+      {
+        "ID": "41",
+        "TITLE": "[В] Сделка",
+        "TYPE_ID": "COMPLEX",
+        "CATEGORY_ID": "1",
+        "STAGE_ID": "C1:NEW",
+        "OPPORTUNITY": "11500.00",
+        "IS_MANUAL_OPPORTUNITY": "Y",
+        "ASSIGNED_BY_ID": "6",
+        "DATE_CREATE": "2024-05-08T09:38:23+02:00"
+      },
+      {
+        "ID": "42",
+        "TITLE": "[С] Сделка",
+        "TYPE_ID": "COMPLEX",
+        "CATEGORY_ID": "1",
+        "STAGE_ID": "C1:NEW",
+        "OPPORTUNITY": "18500.00",
+        "IS_MANUAL_OPPORTUNITY": "Y",
+        "ASSIGNED_BY_ID": "6",
+        "DATE_CREATE": "2024-07-02T15:38:32+02:00"
+      }
+    ],
+    "total": 6,
+    "time": {
+      "start": 1725292115.026221,
+      "finish": 1725292115.907058,
+      "duration": 0.8808369636535645,
+      "processing": 0.2484450340270996,
+      "date_start": "2024-09-02T17:48:35+02:00",
+      "date_finish": "2024-09-02T17:48:35+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "deal[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит массив из объектов, содержащих информацию о полях сделок. Стоит учитывать, что структура полей может быть изменена из-за параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных элементов"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Содержит значение, которое нужно передать в следующий запрос в параметр start, чтобы получить следующую порцию данных. Параметр next появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение 50"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/crm-deal-list.html",
+  "executable": true,
+  "entityFields": [
+    "ADDITIONAL_INFO",
+    "ASSIGNED_BY_ID",
+    "BEGINDATE",
+    "CATEGORY_ID",
+    "CLOSED",
+    "CLOSEDATE",
+    "COMMENTS",
+    "COMPANY_ID",
+    "CONTACT_ID",
+    "CONTACT_IDS",
+    "CURRENCY_ID",
+    "DATE_CREATE",
+    "ID",
+    "IS_MANUAL_OPPORTUNITY",
+    "IS_RECURRING",
+    "IS_REPEATED_APPROACH",
+    "IS_RETURN_CUSTOMER",
+    "LOCATION_ID",
+    "OPENED",
+    "OPPORTUNITY",
+    "ORIGINATOR_ID",
+    "ORIGIN_ID",
+    "PARENT_ID_...",
+    "PROBABILITY",
+    "SOURCE_DESCRIPTION",
+    "SOURCE_ID",
+    "STAGE_ID",
+    "TAX_VALUE",
+    "TITLE",
+    "TRACE",
+    "TYPE_ID",
+    "UF_CRM_...",
+    "UTM_CAMPAIGN",
+    "UTM_CONTENT",
+    "UTM_MEDIUM",
+    "UTM_SOURCE",
+    "UTM_TERM"
+  ]
+}

@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, delivery`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет услугу службы доставки.
+Метод `sale.delivery.extra.service.add` добавляет услугу службы доставки.
 
 ## Параметры метода
 
@@ -299,6 +299,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.extra.service.add", b24.Params{
+    	"DELIVERY_ID": 197,
+    	"ACTIVE":      "Y",
+    	"CODE":        "door_delivery",
+    	"NAME":        "Door Delivery",
+    	"DESCRIPTION": "Door Delivery Description",
+    	"TYPE":        "checkbox",
+    	"SORT":        100,
+    	"PRICE":       99.99,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.extra.service.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}
@@ -587,6 +612,42 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.extra.service.add", b24.Params{
+    	"DELIVERY_ID": 198,
+    	"ACTIVE":      "Y",
+    	"CODE":        "cargo_type",
+    	"NAME":        "Cargo Type",
+    	"DESCRIPTION": "Cargo Type Description",
+    	"TYPE":        "enum",
+    	"SORT":        100,
+    	"ITEMS": []b24.Params{
+    		{
+    			"TITLE": "Small Package(s)",
+    			"CODE":  "small_package",
+    			"PRICE": 129.99,
+    		},
+    		{
+    			"TITLE": "Documents",
+    			"CODE":  "documents",
+    			"PRICE": 69.99,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.extra.service.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

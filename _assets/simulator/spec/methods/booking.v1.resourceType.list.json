@@ -1,0 +1,67 @@
+{
+  "$v": 1,
+  "method": "booking.v1.resourceType.list",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить список типов ресурсов booking.v1.resourceType.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ORDER",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка типа ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле типа ресурса для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Значение по умолчанию — {ID: 'ASC'}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о типах ресурсов. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "confirmationCounterDelay",
+    "confirmationDelay",
+    "confirmationRepetitions",
+    "confirmationRepetitionsInterval",
+    "delayedCounterDelay",
+    "delayedDelay",
+    "infoDelay",
+    "isConfirmationNotificationOn",
+    "isDelayedNotificationOn",
+    "isFeedbackNotificationOn",
+    "isInfoNotificationOn",
+    "isReminderNotificationOn",
+    "name",
+    "reminderDelay",
+    "templateTypeConfirmation",
+    "templateTypeDelayed",
+    "templateTypeFeedback",
+    "templateTypeInfo",
+    "templateTypeReminder"
+  ]
+}

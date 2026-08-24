@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `method.get` возвращает два параметра `isExisting` и `isAvailable`, которые  определяют существование метода на портале и его доступность для вызова.
+Метод `method.get` возвращает два параметра `isExisting` и `isAvailable`, которые определяют существование метода в Битрикс24 и его доступность для вызова.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../data-types.md) | Название метода для проверки в нижнем регистре, например `user.get` ||
+[`string`](../../data-types.md) | Название метода для проверки в нижнем регистре, например `user.get`.
+
+Если параметр не передан или пуст, метод вернет `isExisting` и `isAvailable` со значением `false` ||
 |#
 
 ## Примеры кода
@@ -221,6 +223,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "method.get", b24.Params{
+    	"name": "user.get",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("method.get: %w", err)
+    }
+
+    var item struct {
+    	IsExisting  bool `json:"isExisting"`
+    	IsAvailable bool `json:"isAvailable"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.IsExisting, item.IsAvailable)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -253,7 +276,7 @@ HTTP-статус: **200**
 || **result**
 [`array`](../../data-types.md) | Возвращаются два параметра:
 
-- `isExisting => true/false` — определяет существует ли метод именно на этом портале
+- `isExisting => true/false` — определяет, существует ли метод именно в этом Битрикс24
 - `isAvailable => true/false` — определяет доступность метода для вызова с текущими доступами ([scope](./scope.md)) приложения ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||

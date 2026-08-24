@@ -225,6 +225,27 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.template.getSiteRef", b24.Params{
+    	"id": 157,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.template.getSiteRef: %w", err)
+    }
+
+    var item struct {
+    	F1 int `json:"1"`
+    	F2 int `json:"2"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.F1, item.F2)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

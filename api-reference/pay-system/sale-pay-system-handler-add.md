@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`pay_system `](../scopes/permissions.md)
+> Scope: [`pay_system`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
@@ -72,7 +72,7 @@
 || **DESCRIPTION**
 [`string`](../data-types.md) | Описание параметра ||
 || **SORT**
-[`int`](../data-types.md) | Сортировка ||
+[`integer`](../data-types.md) | Сортировка ||
 || **GROUP**
 [`string`](../data-types.md) | Код группы, к которой относится параметр ||
 || **DEFAULT**

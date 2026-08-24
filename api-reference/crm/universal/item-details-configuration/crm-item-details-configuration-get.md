@@ -27,16 +27,16 @@
 || **Название**
 `тип` | **Описание**                                                                                                                    ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объектов CRM ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объектов CRM ||
 || **userId**
-[`user`][1] | Идентификатор пользователя, чью конфигурацию вы хотите получить.
+[`user`](../../../data-types.md) | Идентификатор пользователя, чью конфигурацию вы хотите получить.
 
 Если данный параметр не передан, то будет взят `userId` пользователя, вызывающего данный метод.
 
 Нужен только при запросе личных настроек
 ||
 || **scope**
-[`string`][1] | Область применения настроек. Допустимые значения:
+[`string`](../../../data-types.md) | Область применения настроек. Допустимые значения:
 - `'P'` — личные настройки
 - `'C'` — общие настройки
 
@@ -44,7 +44,7 @@
 
 ||
 || **extras**
-[`object`][1] | Дополнительные параметры. Возможные значения и их структура описана [ниже](#extras) ||
+[`object`](../../../data-types.md) | Дополнительные параметры. Возможные значения и их структура описана [ниже](#extras) ||
 |#
 
 ### extras
@@ -237,6 +237,34 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.details.configuration.get", b24.Params{
+        	"entityTypeId": 2,
+        	"userId":       1,
+        	"scope":        "C",
+        	"extras": b24.Params{
+        		"dealCategoryId": 9,
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.item.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
+        ```
 
     {% endlist %}
 
@@ -401,6 +429,33 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.details.configuration.get", b24.Params{
+        	"entityTypeId": 1032,
+        	"extras": b24.Params{
+        		"categoryId": 5,
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.item.details.configuration.get: %w", err)
+        }
+
+        var items []struct {
+        	Name  string `json:"name"`
+        	Title string `json:"title"`
+        	Type  string `json:"type"`
+        }
+        if err := json.Unmarshal(res.Result, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.Name, it.Title)
+        }
+        ```
+
     {% endlist %}
 
 ## Обработка ответа
@@ -530,7 +585,7 @@ HTTP-статус: **200**
 || **result**
 [`section[]`](#section)\|`null` | Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки элемента. Возвращает `null` в случае отсутствия конфигурации ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 #### section
@@ -541,11 +596,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`][1] | Уникальное название раздела, используемое для идентификации ||
+[`string`](../../../data-types.md) | Уникальное название раздела, используемое для идентификации ||
 || **title**
-[`string`][1] | Название раздела ||
+[`string`](../../../data-types.md) | Название раздела ||
 || **type**
-[`string`][1] | Тип раздела ||
+[`string`](../../../data-types.md) | Тип раздела ||
 || **elements**
 [`section_element[]`](#section_element) | Список выводимых в карточку полей сущности с дополнительными настройками ||
 |#
@@ -558,13 +613,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`][1] | Идентификатор поля ||
+[`string`](../../../data-types.md) | Идентификатор поля ||
 || **optionFlags**
-[`string`][1] | Значения:
+[`string`](../../../data-types.md) | Значения:
 - `"1"` — показывать всегда
 - `"0"` — показывать не всегда ||
 || **options**
-[`object`][1] | Дополнительные опции поля ||
+[`object`](../../../data-types.md) | Дополнительные опции поля ||
 |#
 
 ## Обработка ошибок
@@ -597,5 +652,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-item-details-configuration-set.md)
 - [{#T}](./crm-item-details-configuration-reset.md)
 - [{#T}](./crm-item-details-configuration-forceCommonScopeForAll.md)
-
-[1]: ../../../data-types.md

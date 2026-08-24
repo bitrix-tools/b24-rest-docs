@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -249,6 +249,32 @@
     } else {
         echo 'Created bot ID: ' . $result['result'];
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.register", b24.Params{
+    	"CODE":          "newbot",
+    	"TYPE":          "B",
+    	"EVENT_HANDLER": "https://example.ru/bot/events",
+    	"OPENLINE":      "N",
+    	"PROPERTIES": b24.Params{
+    		"NAME":          "NewBot",
+    		"WORK_POSITION": "Support bot",
+    	},
+    	"CLIENT_ID": "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.register: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

@@ -20,11 +20,11 @@
 
 > Быстрый переход: [все методы](#all-methods)
 
-## Как работать с коэффициентами единиц измерения
+## Как начать работу
 
-1. Получите структуру и типы полей через [catalog.ratio.getFields](./catalog-ratio-get-fields.md).
-2. Получите список коэффициентов через [catalog.ratio.list](./catalog-ratio-list.md). Если нужен основной коэффициент товара, выбирайте запись с `isDefault = Y`.
-3. Получите данные конкретного коэффициента по его `id` через [catalog.ratio.get](./catalog-ratio-get.md).
+1. Получите структуру и типы полей через [catalog.ratio.getFields](./catalog-ratio-get-fields.md)
+2. Получите список коэффициентов через [catalog.ratio.list](./catalog-ratio-list.md). Если нужен основной коэффициент товара, выбирайте запись с `isDefault = Y`
+3. Получите данные конкретного коэффициента по его `id` через [catalog.ratio.get](./catalog-ratio-get.md)
 
 ## Связь с другими объектами
 

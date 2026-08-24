@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на изменение и контактов, и компаний
 
 Метод изменяет шаблон реквизита.
 
@@ -36,7 +36,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **NAME***
-[`string`](../../../data-types.md) | Название реквизита ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **XML_ID**
 [`string`](../../../data-types.md) |Внешний ключ. Используется для операций обмена. Идентификатор объекта внешней информационной базы. 
 
@@ -261,6 +261,28 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.update", b24.Params{
+    	"id": 347,
+    	"fields": b24.Params{
+    		"NAME":   "ИП (архив)",
+    		"ACTIVE": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

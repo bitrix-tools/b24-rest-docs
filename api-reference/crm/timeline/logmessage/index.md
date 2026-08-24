@@ -25,7 +25,7 @@
 
 ## Ключевые ограничения раздела
 
-- Методы [crm.timeline.logmessage.get](./crm-timeline-logmessage-get.md) и [crm.timeline.logmessage.list](./crm-timeline-logmessage-list.md) возвращают только записи, созданные методом [crm.timeline.logmessage.add](./crm-timeline-logmessage-add.md). Системные записи с помощью этих методов получить нельзя.
+- Методы [crm.timeline.logmessage.get](./crm-timeline-logmessage-get.md) и [crm.timeline.logmessage.list](./crm-timeline-logmessage-list.md) возвращают только записи, созданные методом [crm.timeline.logmessage.add](./crm-timeline-logmessage-add.md), включая записи других приложений. Системные записи с помощью этих методов получить нельзя.
 - Запись можно удалить методом [crm.timeline.logmessage.delete](./crm-timeline-logmessage-delete.md) только в контексте того приложения, которое эту запись создало.
 
 ## Связь с другими объектами

@@ -16,7 +16,7 @@
 > — «Просмотр раздела Складской учет»
 > — «Просмотр каталога товаров»   
 
-Метод `catalog.documentcontractor.getFields` возвращает описание полей для привязки поставщика, контакта или компании, к документу складского учета.
+Метод `catalog.documentcontractor.getFields` возвращает описание полей для привязки поставщика, контакта или компании к документу складского учета.
 
 ## Параметры метода  
 
@@ -204,6 +204,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.documentcontractor.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.documentcontractor.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentContractor".
+    raw, ok := b24.Unwrap(res.Result, "documentContractor")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentContractor")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -261,8 +279,8 @@ HTTP-код: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **documentContractor**
-[`object`](../data-types.md#catalog_documentContractor) | Объект с описанием полей привязки поставщика к документу складского учета.
-Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_documentContractor`](../data-types.md#catalog_documentContractor), а `value` — объект типа [`rest_field_description`](../data-types.md) ||  
+[`object`](../data-types.md#catalog_documentcontractor) | Объект с описанием полей привязки поставщика к документу складского учета.
+Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_documentContractor`](../data-types.md#catalog_documentcontractor), а `value` — объект типа [`rest_field_description`](../data-types.md) ||  
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`в зависимости от места встройки`](../../scopes/permissions.md)
+> Scope: [`placement`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
@@ -48,7 +48,7 @@
 - должен быть уникальным
 - итоговый код формируется как `rest_<APP_ID>_<USER_TYPE_ID>` и не может превышать 50 символов, поэтому длина `USER_TYPE_ID` должна быть не больше `50 - длина("rest_<APP_ID>_")` ||
 || **HANDLER***
-[`URL`](../../data-types.md) | Адрес обработчика пользовательского типа | 
+[`string`](../../data-types.md) | Адрес обработчика пользовательского типа | 
 - в том же домене, что и основной адрес приложения
 - уникальным ||
 || **TITLE**
@@ -57,7 +57,7 @@
 [`string`](../../data-types.md) | Текстовое описание типа. Будет выводиться в административном интерфейсе настройки пользовательских полей | ||
 || **OPTIONS**
 [`array`](../../data-types.md) | Дополнительные настройки. На данный момент доступен один ключ: `height` — указывает высоту пользовательского поля в пикселях. Применится любое положительное значение.
-По умолчанию — `0`. Если указано `0`, то будет использована высота стандартная для отображения данной встройки | ||
+По умолчанию — `0`. Если указано `0`, то будет использована стандартная высота для отображения этого виджета | ||
 |#
 
 ## Примеры кода
@@ -296,6 +296,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldtype.add", b24.Params{
+    	"USER_TYPE_ID": "test_type",
+    	"HANDLER":      "https://www.myapplication.com/handler/",
+    	"TITLE":        "Updated test type",
+    	"DESCRIPTION":  "Test userfield type for documentation with updated description",
+    	"OPTIONS": b24.Params{
+    		"height": 60,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldtype.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

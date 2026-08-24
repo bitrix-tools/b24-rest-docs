@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "disk.folder.shareToUser",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Назначить права доступа на папку disk.folder.shareToUser",
+  "permissions": "пользователь с правом «Делиться» для нужной папки",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор папки. Идентификатор можно получить с помощью метода disk.storage.getChildren, если папка находится в корне хранилища, и с помощью метода disk.folder.getChildren, если папка находится в другой папке"
+    },
+    {
+      "name": "userId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользователя, которому выдается доступ. Идентификатор можно получить с помощью метода user.get"
+    },
+    {
+      "name": "taskName",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Уровень прав, который выдается пользователю. Возможные значения: - disk_access_read — чтение - disk_access_add — добавление - disk_access_edit — редактирование - disk_access_full — полный доступ"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/folder/disk-folder-share-to-user.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1768921227,
+      "finish": 1768921228.02202,
+      "duration": 1.0220201015472412,
+      "processing": 1,
+      "date_start": "2026-01-20T17:00:27+03:00",
+      "date_finish": "2026-01-20T17:00:28+03:00",
+      "operating_reset_at": 1768921827,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если права назначены успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/folder/disk-folder-share-to-user.html",
+  "executable": false
+}

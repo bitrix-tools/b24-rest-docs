@@ -1,15 +1,17 @@
 title: Виджеты в задачах
 href: index.md
-items: 
-  - name: Пункт контекстного меню списка
+items:
+  - name: Обзор точек встраивания
     href: index.md
-  - name: Вкладка в карточке задачи 
-    href: view-tab.md
-  - name: Правая панель карточки задачи
-    href: view-sidebar.md
-  - name: Ссылка в верхней части карточки задачи
-    href: view-top-panel.md
-  - name: Пункт основного выпадающего меню 
+  - name: Пункт контекстного меню задачи в списке
+    href: list-context-menu.md
+  - name: Пункт выпадающего меню над списком задач
     href: list-toolbar.md
-  - name: Пункт основного выпадающего меню около настроек роботов 
+  - name: Кнопка в дизайнере роботов задач
     href: robot-designer-toolbar.md
+  - name: Виджет на вкладке карточки задачи
+    href: view-tab.md
+  - name: Виджет в правой панели карточки задачи
+    href: view-sidebar.md
+  - name: Виджет в верхней части карточки задачи
+    href: view-top-panel.md

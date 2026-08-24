@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "catalog.measure.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить информацию о единице измерения по идентификатору catalog.measure.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_measure.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор единицы измерения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/measure/catalog-measure-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "measure": {
+        "code": 715,
+        "id": 6,
+        "isDefault": "N",
+        "measureTitle": "Пара",
+        "symbol": "ПАР",
+        "symbolIntl": "pr; 2",
+        "symbolLetterIntl": "NPR"
+      }
+    },
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-05-24T15:43:35+02:00",
+      "date_finish": "2024-05-24T15:43:36+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "measure",
+      "type": "catalog_measure",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о единице измерения с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/measure/catalog-measure-get.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "id",
+    "isDefault",
+    "measureTitle",
+    "symbol",
+    "symbolIntl",
+    "symbolLetterIntl"
+  ]
+}

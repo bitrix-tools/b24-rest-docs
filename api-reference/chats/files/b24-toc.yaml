@@ -3,12 +3,11 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Добавить файл в чат
+  - name: Добавить файл в чат (устаревший)
     href: im-disk-file-commit.md
   - name: Сохранить файл на свой диск
     href: im-disk-file-save.md
   - name: Удалить файл из папки чата
     href: im-disk-file-delete.md
-  - name: Получить папку хранения файлов чата
+  - name: Получить папку хранения файлов чата (устаревший)
     href: im-disk-folder-get.md
-

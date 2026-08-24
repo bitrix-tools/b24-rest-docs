@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -257,6 +257,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "main.eventlog.get", b24.Params{
+    	"id": 1250,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("main.eventlog.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	TimestampX  string `json:"timestampX"`
+    	Severity    string `json:"severity"`
+    	AuditTypeID string `json:"auditTypeId"`
+    	ModuleID    string `json:"moduleId"`
+    	ItemID      b24.ID `json:"itemId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.TimestampX)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -307,7 +338,7 @@ HTTP-статус: **200**
 || **id**
 [`integer`](../data-types.md) | Идентификатор записи журнала ||
 || **timestampX**
-[`datetime`](../data-types.md#datetime) | Дата и время события ||
+[`datetime`](../data-types.md#standart-types) | Дата и время события ||
 || **severity**
 [`string`](../data-types.md) | Уровень важности события ||
 || **auditTypeId**

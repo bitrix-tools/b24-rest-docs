@@ -1,4 +1,4 @@
-# Виджет в виде ссылки со слайдером REST_APP_URI
+# Открытие приложения по ссылке REST_APP_URI
 
 {% note tip "" %}
 
@@ -11,64 +11,61 @@
 
 > Scope: [`placement`](../../scopes/permissions.md)
 
-Эта встройка не имеет в интерфейсе отдельной заранее известной кнопки, которая позволяет пользователю открыть её самостоятельно. Приложение может просто отправить ссылку особого формата в любой инструмент Битрикс24, поддерживащий добавление контента со ссылками:
+У точки нет своей кнопки в интерфейсе. Обработчик вызывается, когда пользователь переходит по ссылке вида `/marketplace/view/#APP_CODE#/`, которую приложение само разместило в контенте: в сообщении чата, комментарии ленты, описании задачи. Приложение открывается слайдером поверх той страницы, с которой пользователь перешел.
 
-- Сообщения и комментарии новостной ленты;
-- Сообщения внутренних групповых и индивидуальных чатов (не будет работать в диалогах открытых линий);
-- Описания задач и комментарии к ним;
-- Описания встреч календаря;
-- И т.д.
+Свои параметры можно добавить прямо в ссылку: они придут обработчику в `PLACEMENT_OPTIONS`. Так одно приложение открывает разные экраны: карточку документа, отчет, форму согласования.
 
- Для использования данной встройки ссылка должна быть в формате `/marketplace/view/#APP_CODE#/`, где `#APP_CODE#`:
- 
-- символьный код вашего тиражного приложения из кабинета разработчика, который задаётся в карточке приложения;
-- client_id локального приложения (например, `local.66ba434d853c87.18550109`), который можно скопировать из настроек приложения в разделе Разработчикам.
-
-Встройка может принимать любое количество произвольных параметров в get ключе `params`, например: `/marketplace/view/#APP_CODE#/?params[test]=y`. В этом случае `PLACEMENT_OPTIONS` будет следующий:
-
-```php
-
-[PLACEMENT_OPTIONS] => {"test":"y"}
-
-```
-
-Код встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
-|| `REST_APP_URI` | Конкретное место встройки, фактически, не указывается на этапе добавления обработчика виджета, поскольку виджет будет открываться при клике на любые ссылки особого формата, описанного выше ||
+|| **Код точки встраивания** | **Место** ||
+|| `REST_APP_URI` | Слайдер, который открывается при переходе по ссылке `/marketplace/view/#APP_CODE#/` ||
 |#
+
+### Как собрать ссылку
+
+`#APP_CODE#` — это код приложения, а не идентификатор регистрации обработчика:
+
+- для тиражного приложения — символьный код из карточки приложения в кабинете разработчика
+- для локального приложения — `client_id` из настроек приложения в разделе *Разработчикам*, например `local.66ba434d853c87.18550109`
+
+Свои параметры передавайте в ключе `params`: `/marketplace/view/#APP_CODE#/?params[docId]=42`. Имена ключей приложение задает само, значения приходят обработчику строками.
+
+Ссылка срабатывает везде, где Битрикс24 выводит внутренний адрес ссылкой и открывает его слайдером. Обработчик получает адрес исходной страницы в ключе `URI`, поэтому по нему видно, из какого раздела пользователь пришел.
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
 ```php
-
 Array
 (
     [DOMAIN] => xxx.bitrix24.com
     [PROTOCOL] => 1
-    [LANG] => en
-    [APP_SID] => 195ec4ee87932d8f9bbbd6a2f0a83553
-    [AUTH_ID] => f27bbb6600705a0700005a4b00000001f0f107398c3f17f5fc48d5ce194d5c65de7cfb
+    [LANG] => ru
+    [APP_SID] => 9ecab44f06b9efb6c37d7b02180422b2
+    [AUTH_ID] => 913374660070f28d001e30ba00000001f0f1073c8a5e2b7d94f16c0a3e58d271
     [AUTH_EXPIRES] => 3600
-    [REFRESH_ID] => e2fae26600705a0700005a4b00000001f0f1075f986dbd8dff24c36c2ad9bb0816a665
-    [member_id] => da45a03b265edd8787f8a258d793cc5d
+    [REFRESH_ID] => 81b29b660070f28d001e30ba00000001f0f107e4d1a9b3f508c72e6d95af3b04
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
     [status] => L
     [PLACEMENT] => REST_APP_URI
-    [PLACEMENT_OPTIONS] => {"test":"y"}
+    [PLACEMENT_OPTIONS] => {"test":"y","docId":"42","URI":"\/company\/personal\/user\/1\/blog\/"}
 )
-
 ```
+
+Пример снят для ссылки `/marketplace/view/#APP_CODE#/?params[test]=y&params[docId]=42`, по которой перешли из ленты новостей.
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -76,9 +73,214 @@ Array
 
 ### PLACEMENT_OPTIONS
 
-Значением `PLACEMENT_OPTIONS` является JSON-строка, содержащая массив из одного и более ключей, которые были указаны в параметре `params` у конкретной ссылки, как описано выше.
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка. В нее попадают ключи из `params` вашей ссылки и универсальный ключ `URI`.
 
-Это означает, что задавая в своих ссылках и обрабатывая полученный GET-параметр `params` в обработчике виджета, вы можете реализовыывать любую нужную бизнес-логику.
+#|
+|| **Параметр** | **Описание** ||
+|| **Ключи из `params`**
+[`string`](../../data-types.md) | Значения, которые приложение задало в ссылке. Имена ключей произвольные, значения приходят строками ||
+|| **URI***
+[`string`](../../data-types.md) | Путь с query-строкой той страницы Битрикс24, с которой пользователь перешел по ссылке ||
+|#
+
+Ключ `URI` Битрикс24 добавляет сам, но чужое значение не перезаписывает. Если приложение передаст свой ключ `URI` в `params`, обработчик получит именно его.
+
+## OPTIONS при регистрации через placement.bind
+
+Точка не поддерживает параметр `OPTIONS` метода [placement.bind](../placement-bind.md): переданные значения не сохраняются, и [placement.get](../placement-get.md) возвращает пустой массив. Настройки передавайте в адресе обработчика или в ключе `params` ссылки.
+
+Параметр `USER_ID` точка тоже не поддерживает: попытка зарегистрировать обработчик для одного пользователя возвращает ошибку `ERROR_PLACEMENT_USER_MODE`. Обработчик всегда регистрируется для всех пользователей Битрикс24.
+
+Приложение регистрирует только один обработчик этой точки. Повторный вызов `placement.bind` возвращает ошибку `ERROR_PLACEMENT_MAX_COUNT`. Чтобы сменить адрес обработчика, сначала снимите регистрацию методом [placement.unbind](../placement-unbind.md).
+
+### Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "REST_APP_URI",
+        "HANDLER": "https://your-domain.com/widgets/app-uri-handler.php",
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'REST_APP_URI',
+          HANDLER: 'https://your-domain.com/widgets/app-uri-handler.php',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Placement bound successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindAppUri() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'REST_APP_URI',
+              HANDLER: 'https://your-domain.com/widgets/app-uri-handler.php',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Placement bound successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindAppUri)
+    </script>
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'REST_APP_URI',
+                    'HANDLER' => 'https://your-domain.com/widgets/app-uri-handler.php',
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult();
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT: 'REST_APP_URI',
+            HANDLER: 'https://your-domain.com/widgets/app-uri-handler.php'
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'REST_APP_URI',
+            'HANDLER' => 'https://your-domain.com/widgets/app-uri-handler.php',
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "REST_APP_URI",
+    	"HANDLER":   "https://your-domain.com/widgets/app-uri-handler.php",
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
+{% endlist %}
+
+## Связь с другими объектами
+
+**Контент, в котором живет ссылка.** Ссылку приложение размещает теми же методами, что и любой другой текст: в сообщении чата методами раздела [{#T}](../../chats/index.md), в сообщении ленты методами раздела [{#T}](../../log/index.md), в описании задачи методами раздела [{#T}](../../tasks/index.md).
+
+**Интерфейс приложения.** Слайдером управляют [методы JavaScript для виджетов](../bx24-widget-methods.md): `closeApplication` закрывает виджет, `openApplication` открывает его заново с другими параметрами.
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| По ссылке открывается пустой слайдер | Проверьте, что приложение установлено и активно: обработчик подставляется только установленному приложению ||
+|| Слайдер открывается, но параметры не приходят | Параметры передаются только в ключе `params`: `?params[docId]=42`. Ключи, переданные напрямую в query-строке, в `PLACEMENT_OPTIONS` не попадают ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_MAX_COUNT` | Обработчик уже зарегистрирован. Снимите старую регистрацию методом [placement.unbind](../placement-unbind.md) ||
+|| В ссылке указан идентификатор регистрации обработчика | В адресе нужен код приложения: символьный код тиражного или `client_id` локального ||
+|#
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -88,7 +290,10 @@ Array
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./background-worker.md)
 - [{#T}](../placement-bind.md)
+- [{#T}](../placement-unbind.md)
+- [{#T}](../bx24-widget-methods.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)
-- [{#T}](../bx24-widget-methods.md)

@@ -1,0 +1,145 @@
+{
+  "$v": 1,
+  "method": "disk.file.search",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Найти файлы и папки disk.file.search",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "QUERY",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст поискового запроса. Длина — от 3 до 255 символов. Повторяющиеся пробелы схлопываются в один, пробелы по краям обрезаются, длина проверяется уже после этого"
+    },
+    {
+      "name": "TYPE",
+      "type": "enum",
+      "base": "any",
+      "required": false,
+      "description": "Тип объектов в результате: - file — только файлы - folder — только папки - all — файлы и папки Значение по умолчанию — file"
+    },
+    {
+      "name": "FILTER",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Область поиска (подробное описание). Без этого параметра метод ищет по всем доступным пользователю хранилищам",
+      "ref": "#/defs/FILTERFields"
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для постраничной навигации. За один запрос метод возвращает не более 50 объектов. Значение параметра — количество пропущенных объектов, а не номер страницы: при start=10 выдача начнется с одиннадцатого объекта. Значение по умолчанию — 0. Максимальное значение — 1000, большее метод приводит к 1000. Имя параметра пишется строчными буквами, в отличие от остальных параметров метода"
+    }
+  ],
+  "defs": {
+    "FILTERFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "STORAGE_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Необязательный ключ. Идентификатор хранилища, внутри которого нужно искать. Идентификатор можно получить методом disk.storage.getList"
+        },
+        {
+          "name": "FOLDER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Необязательный ключ. Идентификатор папки, внутри которой нужно искать. Поиск идет и по вложенным папкам, сама папка в результат не попадает. Идентификатор можно получить методом disk.folder.getChildren"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/file/disk-file-search.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "1739",
+        "NAME": "Новая папка для теста процесса",
+        "CODE": null,
+        "STORAGE_ID": "1",
+        "TYPE": "folder",
+        "REAL_OBJECT_ID": "1739",
+        "PARENT_ID": "649",
+        "DELETED_TYPE": "0",
+        "CREATE_TIME": "2020-10-26T16:25:33+03:00",
+        "UPDATE_TIME": "2024-11-26T09:23:03+03:00",
+        "DELETE_TIME": null,
+        "CREATED_BY": "0",
+        "UPDATED_BY": "1",
+        "DELETED_BY": "0",
+        "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1/disk/path/Созданные файлы/Новая папка для теста процесса"
+      },
+      {
+        "ID": "1277",
+        "NAME": "Роман Савин - Тестирование Дот Ком.pdf",
+        "CODE": null,
+        "STORAGE_ID": "1",
+        "TYPE": "file",
+        "PARENT_ID": "1275",
+        "DELETED_TYPE": "0",
+        "GLOBAL_CONTENT_VERSION": "1",
+        "FILE_ID": "1983",
+        "SIZE": "5517483",
+        "CREATE_TIME": "2020-08-07T15:43:48+03:00",
+        "UPDATE_TIME": "2020-08-07T15:43:48+03:00",
+        "DELETE_TIME": null,
+        "CREATED_BY": "1",
+        "UPDATED_BY": "1",
+        "DELETED_BY": "0",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=**put_access_token_here**&token=disk%7CaWQ9MTI3NyZfPXVqVGJUMmxoclBOb0JmQjVLWmxyWnRISWFTQ2M5V2hT",
+        "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1/disk/file/Загруженные файлы/Файлы из Google Drive/Роман Савин - Тестирование Дот Ком.pdf"
+      }
+    ],
+    "time": {
+      "start": 1785494344,
+      "finish": 1785494344.440217,
+      "duration": 0.4402170181274414,
+      "processing": 0,
+      "date_start": "2026-07-31T13:39:04+03:00",
+      "date_finish": "2026-07-31T13:39:04+03:00",
+      "operating_reset_at": 1785494944,
+      "operating": 0.13181495666503906
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив найденных объектов (подробное описание)"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для следующего запроса. Приходит только тогда, когда есть следующая страница (пример)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/file/disk-file-search.html",
+  "executable": false
+}

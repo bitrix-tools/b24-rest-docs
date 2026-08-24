@@ -39,7 +39,7 @@
 || **NAME***
 [`string`](../../data-types.md) | Новое имя чата ||
 || **USER_ID**
-[`string`](../../data-types.md) | Идентификатор пользователя. Параметр является обязательным только для коннекторов без групповых чатов с внешней стороны. У такого коннектора в методе [imconnector.register](./imconnector-register.md) параметр `CHAT_GROUP` должен быть равен `N` ||
+[`string`](../../data-types.md) | Идентификатор пользователя. Параметр является обязательным только для коннекторов без групповых чатов с внешней стороны. У такого коннектора в методе [imconnector.register](./imconnector-register.md) параметр `CHAT_GROUP` должен быть равен `false` ||
 |#
 
 ## Примеры кода
@@ -247,6 +247,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.chat.name.set", b24.Params{
+    	"CONNECTOR": "connector",
+    	"LINE":      105,
+    	"CHAT_ID":   "47e007b1-ee15-43db-bcba-1c26e5884d3f",
+    	"NAME":      "Новое имя диалога",
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.chat.name.set: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 
@@ -257,36 +276,35 @@ HTTP-статус: **200**
 
 ```json
 {
-    "answer": {
-        "result": {
-            "SUCCESS": true,
-            "DATA": {
-                "RESULT": {}
-            }
-        },
-        "time": {
-            "start": 1732110908.525962,
-            "finish": 1732110908.879113,
-            "duration": 0.3531508445739746,
-            "processing": 0.07694888114929199,
-            "date_start": "2024-11-20T15:55:08+02:00",
-            "date_finish": "2024-11-20T15:55:08+02:00"
+    "result": {
+        "SUCCESS": true,
+        "DATA": {
+            "RESULT": {}
         }
     },
-    "query": {
-        "method": "imconnector.chat.name.set",
-        "data": {
-            "CONNECTOR": "newcustomconnector",
-            "LINE": "105",
-            "CHAT_ID": "1",
-            "NAME": "name"
-        }
-    },
-    "status": 200
+    "time": {
+        "start": 1732110908.525962,
+        "finish": 1732110908.879113,
+        "duration": 0.3531508445739746,
+        "processing": 0.07694888114929199,
+        "date_start": "2024-11-20T15:55:08+02:00",
+        "date_finish": "2024-11-20T15:55:08+02:00"
+    }
 }
 ```
 
 ### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Результат установки имени чата [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
 
 #|
 || **Название**

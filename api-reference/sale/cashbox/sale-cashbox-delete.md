@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод удаляет кассу.
+Метод `sale.cashbox.delete` удаляет кассу.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_cashbox.ID`](../cashbox/#sale_cashbox) | Идентификатор удаляемой кассы ||
+[`sale_cashbox.ID`](../data-types.md#sale_cashbox) | Идентификатор удаляемой кассы ||
 |#
 
 ## Примеры кода
@@ -207,6 +207,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.delete", b24.Params{
+    	"ID": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

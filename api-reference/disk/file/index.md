@@ -11,17 +11,26 @@
 
 На Диске можно хранить текстовые документы, таблицы, презентации, изображения и другую информацию. Пользователи могут загружать, редактировать, копировать файлы и настраивать права доступа к ним.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
+
+## Как начать работу
+
+1. Получите папку для загрузки методом [disk.folder.get](../folder/disk-folder-get.md) или [disk.storage.getChildren](../storage/disk-storage-get-children.md)
+2. Загрузите файл методом [disk.folder.uploadFile](../folder/disk-folder-upload-file.md)
+3. Получите параметры файла методом [disk.file.get](./disk-file-get.md)
+4. При необходимости переместите, скопируйте, переименуйте или удалите файл
 
 ## Как управлять файлами
 
-Новый файл нужно загружать методом [disk.folder.uploadfile](../folder/disk-folder-upload-file.md) в папку по ее идентификатору.   
+Новый файл нужно загружать методом [disk.folder.uploadFile](../folder/disk-folder-upload-file.md) в папку по ее идентификатору.
 
-Вы можете изменить расположение файлов в структуре Диска: переместить с помощью метода [disk.file.moveto](./disk-file-move-to.md) или скопировать в другие папки методом [disk.file.copyto](./disk-file-copy-to.md).
+Вы можете изменить расположение файлов в структуре Диска: переместить с помощью метода [disk.file.moveTo](./disk-file-move-to.md) или скопировать в другие папки методом [disk.file.copyTo](./disk-file-copy-to.md).
 
 Получить значения полей файла можно методом [disk.file.get](./disk-file-get.md). Например, чтобы узнать, перемещен файл в корзину или нет.
 
 Изменить название файла позволяет метод [disk.file.rename](./disk-file-rename.md).
+
+Найти файлы и папки по имени или по тексту внутри документа можно методом [disk.file.search](./disk-file-search.md). Поиск можно ограничить одним хранилищем или папкой.
 
 {% note tip "Пользовательская документация" %}
 
@@ -33,13 +42,13 @@
 
 ## Версии файлов
 
-Список версий файла можно получить с помощью метода [disk.file.getVersions](./disk-file-get-versions.md). Метод использует идентификатор файла в качестве параметра. 
+Список версий файла можно получить с помощью метода [disk.file.getVersions](./disk-file-get-versions.md). Метод использует идентификатор файла в качестве параметра.
 
 Чтобы получить информацию о версии, используйте метод [disk.version.get](../version/disk-version-get.md). Метод принимает параметр с идентификатором версии, а не файла.
 
 Инструменты Диска позволяют восстановить нужную версию файла. Это выполняется с помощью метода [disk.file.restoreFromVersion](./disk-file-restore-from-version.md).
 
-Новую версию файла можно загрузить методом [disk.file.uploadversion](./disk-file-upload-version.md).
+Новую версию файла можно загрузить методом [disk.file.uploadVersion](./disk-file-upload-version.md).
 
 {% note tip "Пользовательская документация" %}
 
@@ -59,9 +68,9 @@
 
 ## Как удалить файлы
 
-Файлы можно переместить в корзину методом [disk.file.markdeleted](./disk-file-mark-deleted.md). Удаленные файлы можно восстановить с помощью метода [disk.file.restore](./disk-file-restore.md) в течение 30 дней. 
+Файлы можно переместить в корзину методом [disk.file.markDeleted](./disk-file-mark-deleted.md). Удаленные файлы можно восстановить с помощью метода [disk.file.restore](./disk-file-restore.md) в течение 30 дней.
 
-Чтобы полностью удалить файл без возможности восстановления, нужно использовать метод [disk.file.delete](./disk-file-delete.md). Он уничтожит файл навсегда. 
+Чтобы полностью удалить файл без возможности восстановления, нужно использовать метод [disk.file.delete](./disk-file-delete.md). Он уничтожит файл навсегда.
 
 {% note tip "Пользовательская документация" %}
 
@@ -73,20 +82,21 @@
 
 > Scope: [`disk`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять методы: любой пользователь
 
 #|
 || **Метод** | **Описание** ||
-|| [disk.file.getfields](./disk-file-get-fields.md) | Возвращает описание полей файла ||
 || [disk.file.get](./disk-file-get.md) | Возвращает файл по идентификатору ||
+|| [disk.file.search](./disk-file-search.md) | Находит файлы и папки по текстовому запросу ||
 || [disk.file.rename](./disk-file-rename.md) | Переименовывает файл ||
-|| [disk.file.copyto](./disk-file-copy-to.md) | Копирует файл в указанную папку ||
-|| [disk.file.moveto](./disk-file-move-to.md) | Перемещает файл в указанную папку ||
+|| [disk.file.copyTo](./disk-file-copy-to.md) | Копирует файл в указанную папку ||
+|| [disk.file.moveTo](./disk-file-move-to.md) | Перемещает файл в указанную папку ||
 || [disk.file.delete](./disk-file-delete.md) | Удаляет файл навсегда ||
-|| [disk.file.markdeleted](./disk-file-mark-deleted.md) | Перемещает файл в корзину ||
+|| [disk.file.markDeleted](./disk-file-mark-deleted.md) | Перемещает файл в корзину ||
 || [disk.file.restore](./disk-file-restore.md) | Восстанавливает файл из корзины ||
-|| [disk.file.uploadversion](./disk-file-upload-version.md) | Загружает новую версию файла ||
+|| [disk.file.uploadVersion](./disk-file-upload-version.md) | Загружает новую версию файла ||
 || [disk.file.getVersions](./disk-file-get-versions.md) | Возвращает список версий файла ||
 || [disk.file.restoreFromVersion](./disk-file-restore-from-version.md) | Восстанавливает файл из конкретной версии ||
 || [disk.file.getExternalLink](./disk-file-get-external-link.md) | Возвращает публичную ссылку на файл ||
+|| [disk.file.getFields](./disk-file-get-fields.md) | Возвращает описание полей файла ||
 |#

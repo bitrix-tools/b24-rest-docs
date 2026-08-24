@@ -1,0 +1,98 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.kanban.getStages",
+  "scope": "task",
+  "kind": "write",
+  "title": "Получить стадии канбана по идентификатору спринта tasks.api.scrum.kanban.getStages",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "sprintId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор спринта. Получить идентификатор можно при помощи метода tasks.api.scrum.sprint.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-get-stages.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": "58",
+        "name": "Новые",
+        "sort": "100",
+        "type": "NEW",
+        "sprintId": "5",
+        "color": "00C4FB"
+      },
+      {
+        "id": "59",
+        "name": "Выполняются",
+        "sort": "200",
+        "type": "WORK",
+        "sprintId": "5",
+        "color": "47D1E2"
+      },
+      {
+        "id": "60",
+        "name": "Сделаны",
+        "sort": "300",
+        "type": "FINISH",
+        "sprintId": "5",
+        "color": "75D900"
+      }
+    ],
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор стадии"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Название стадии канбана"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип стадии канбана. Возможные значения: NEW, WORK, FINISH"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Порядок сортировки"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Цвет стадии канбана"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-get-stages.html",
+  "executable": false
+}

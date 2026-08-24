@@ -1,4 +1,4 @@
-# Смарт-процессы: обзор методов
+# Смарт-процессы: обзор методов и событий
 
 {% note tip "" %}
 
@@ -17,7 +17,7 @@
 
 ## Порядок работы со смарт-процессом
 
-1. Создайте и настройте смарт-процесс — методы [crm.type.*](./index.md).
+1. Создайте и настройте смарт-процесс — методы [crm.type.*](#all-methods).
 2. Настройте воронки и стадии — [crm.category.*](../category/index.md) для воронок и [crm.status.*](../../status/index.md) для стадий.
 3. Добавьте пользовательские поля — [userfieldconfig.*](../userfieldconfig/index.md).
 4. Настройте вид карточки элемента — [crm.item.details.configuration.*](../item-details-configuration/index.md).
@@ -55,7 +55,7 @@
 - [Как прикрепить задачу к смарт-процессу](../../../../tutorials/tasks/how-to-connect-task-to-spa.md)
 - [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 - [Как добавить комментарий в таймлайн смарт-процесса](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md)
-- [Как создать новую воронку со стадиями в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)  
+- [Как создать новую воронку со стадиями в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 
 {% endnote %}
 
@@ -65,7 +65,7 @@
 
 - левая, в ней располагаются поля с информацией. Если системных полей недостаточно, можно создать собственные пользовательские поля. Поля позволяют хранить информацию в различных форматах данных: строка, число, ссылка, адрес и другие. Для создания, изменения, получения или удаления пользовательских полей смарт-процесса используйте группу методов [userfieldconfig.*](../userfieldconfig/index.md).
 
-- правая, в ней располагается таймлайн смарт-процесса. В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../../timeline/activities/index), и записи таймлайна — группа методов [crm.timeline.*](../../timeline/index).
+- правая, в ней располагается таймлайн смарт-процесса. В нем можно создавать, редактировать, фильтровать, удалять дела CRM — группа методов [crm.activity.*](../../timeline/activities/index.md), и записи таймлайна — группа методов [crm.timeline.*](../../timeline/index.md).
 
 Параметрами карточки смарт-процесса можно управлять через группу методов [crm.item.details.configuration.*](../item-details-configuration/index.md).
 
@@ -85,9 +85,9 @@
 Есть два сценария встройки:
 
 - использовать специальные [места встраивания](../../../widgets/crm/index.md). Например, через создание своей вкладки.
-  
+
 - создать [пользовательское поле](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md), в котором будет загружаться интерфейс вашего приложения.
-  
+
 ### Места встраивания смарт-процессов
 
 Вместо `XXX` укажите числовой идентификатор конкретного смарт-процесса, например `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON`.
@@ -100,7 +100,7 @@
 
 - [`CRM_DYNAMIC_XXX_DOCUMENTGENERATOR_BUTTON`](../../../widgets/crm/document-generator-button.md) — пункт выпадающего меню генератора документов
 
-- [`CRM_DYNAMIC_XXX_LIST_MENU`](../../../widgets/crm/index.md) — пункт контекстного меню в списке элементов
+- [`CRM_DYNAMIC_XXX_LIST_MENU`](../../../widgets/crm/list-menu.md) — пункт контекстного меню в списке элементов
 
 - [`CRM_DYNAMIC_XXX_LIST_TOOLBAR`](../../../widgets/crm/list-toolbar.md) — пункт выпадающего меню над списком элементов
 
@@ -110,7 +110,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Механизм встройки виджетов](../../../widgets/index.md)
+- [Механизм встраивания виджетов](../../../widgets/index.md)
 - [Встроить виджет в карточку CRM](../../../../tutorials/crm/crm-widgets/widget-as-detail-tab.md)
 
 {% endnote %}
@@ -119,13 +119,21 @@
 
 У каждого смарт-процесса есть четыре типа идентификаторов. Используйте идентификаторы, чтобы применить метод к определенному смарт-процессу.
 
-1. Числовой идентификатор типа `130`. Получить можно методом [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) `ID` или [crm.type.list](./crm-type-list.md) `entityTypeId`.
+В таблице все примеры относятся к одному смарт-процессу: у него `id = 13` и `entityTypeId = 156`.
 
-1. Символьный код типа `DYNAMIC_130` — [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) `SYMBOL_CODE`.
+#|
+|| **Идентификатор** | **Пример** | **Где используется** | **Как получить** ||
+|| Числовой идентификатор типа | `156` | Параметр `entityTypeId` в методах `crm.item.*`, `crm.category.*`, `crm.item.details.configuration.*` | [crm.type.list](./crm-type-list.md), ключ `entityTypeId`, или [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md), ключ `ID` ||
+|| Символьный код типа | `DYNAMIC_156` | Идентификаторы справочников стадий вида `DYNAMIC_156_STAGE_52` и коды объектов в списках пользовательских полей | [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md), ключ `SYMBOL_CODE` ||
+|| Краткий символьный код типа | `T9c` | Параметр `ownerType` в методах `crm.item.productrow.*` | [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md), ключ `SYMBOL_CODE_SHORT` ||
+|| Тип объекта пользовательского поля | `CRM_13` | Параметр `entityId` в методах `userfieldconfig.*` | [crm.type.list](./crm-type-list.md), ключ `id`, подставленный в формулу `CRM_{id}` ||
+|#
 
-2. Краткий символьный код типа `T82` — [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) `SYMBOL_CODE_SHORT`.
+{% note warning "" %}
 
-3. Тип объекта пользовательского поля `CRM_13` — [crm.type.list](./crm-type-list.md). `id` из результата метода подставьте в формулу `CRM_ + {ID}`.
+`id` и `entityTypeId` — разные значения, и одно не вычисляется из другого. В формуле `CRM_{id}` для пользовательских полей используйте `id`, а в параметре `entityTypeId` — `entityTypeId`. Оба значения возвращает метод [crm.type.list](./crm-type-list.md).
+
+{% endnote %}
 
 ## Обзор методов и событий {#all-methods}
 
@@ -208,15 +216,31 @@
 
 Идентификатор объекта CRM **entityId** — [тип объекта пользовательского поля](#id), например `CRM_1`.
 
-#|
-|| **Метод** | **Описание** ||
-|| [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
-|| [userfieldconfig.update](../userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
-|| [userfieldconfig.get](../userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
-|| [userfieldconfig.getTypes](../userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
-|| [userfieldconfig.list](../userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
-|| [userfieldconfig.delete](../userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) | Создает пользовательское поле ||
+    || [userfieldconfig.update](../userfieldconfig/userfieldconfig-update.md) | Изменяет настройки поля ||
+    || [userfieldconfig.get](../userfieldconfig/userfieldconfig-get.md) | Возвращает настройки пользовательского поля по идентификатору ||
+    || [userfieldconfig.getTypes](../userfieldconfig/userfieldconfig-get-types.md) | Возвращает набор доступных типов пользовательских полей для модуля ||
+    || [userfieldconfig.list](../userfieldconfig/userfieldconfig-list.md) | Возвращает список настроек пользовательских полей ||
+    || [userfieldconfig.delete](../userfieldconfig/userfieldconfig-delete.md) | Удаляет пользовательское поле ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [onCrmTypeUserFieldAdd](../userfieldconfig/events/on-crm-type-user-field-add.md) | При добавлении пользовательского поля смарт-процесса ||
+    || [onCrmTypeUserFieldUpdate](../userfieldconfig/events/on-crm-type-user-field-update.md) | При изменении настроек пользовательского поля смарт-процесса ||
+    || [onCrmTypeUserFieldDelete](../userfieldconfig/events/on-crm-type-user-field-delete.md) | При удалении пользовательского поля смарт-процесса ||
+    || [onCrmTypeUserFieldSetEnumValues](../userfieldconfig/events/on-crm-type-user-field-set-enum-values.md) | При изменении набора значений пользовательского поля списочного типа ||
+    |#
+
+{% endlist %}
 
 ### Управление настройками карточки
 
@@ -245,3 +269,9 @@
 || [crm.item.productrow.delete](../product-rows/crm-item-productrow-delete.md) | Удаляет товарную позицию ||
 || [crm.item.productrow.fields](../product-rows/crm-item-productrow-fields.md) | Получает список полей товарных позиций ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../index.md)
+- [{#T}](../category/index.md)
+- [{#T}](../events/type/index.md)

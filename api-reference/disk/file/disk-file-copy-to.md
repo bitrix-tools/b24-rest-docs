@@ -1,4 +1,4 @@
-# Копировать файл в указанную папку disk.file.copyto
+# Копировать файл в указанную папку disk.file.copyTo
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для файла и правом «Добавление» для папки
 
-Метод `disk.file.copyto` копирует файл в указанную папку.
+Метод `disk.file.copyTo` копирует файл в указанную папку.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -30,7 +30,7 @@
 
 {% note info "" %}
 
-Идентификаторы файла и папки можно получить с помощью методов [disk.storage.getchildren](../storage/disk-storage-get-children.md) и [disk.folder.getchildren](../folder/disk-folder-get-children.md)
+Идентификаторы файла и папки можно получить с помощью методов [disk.storage.getChildren](../storage/disk-storage-get-children.md) и [disk.folder.getChildren](../folder/disk-folder-get-children.md)
 
 {% endnote %}
 
@@ -47,7 +47,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":9035,"targetFolderId":8930}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.copyto
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.copyTo
     ```
 
 - cURL (OAuth)
@@ -57,7 +57,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":9035,"targetFolderId":8930,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.file.copyto
+    https://**put_your_bitrix24_address**/rest/disk.file.copyTo
     ```
 
 - JS (TS)
@@ -94,7 +94,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<DiskFileCopyToResult>({
-        method: 'disk.file.copyto',
+        method: 'disk.file.copyTo',
         params: {
           id: 9035,
           targetFolderId: 8930,
@@ -127,7 +127,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.file.copyto',
+            method: 'disk.file.copyTo',
             params: {
               id: 9035,
               targetFolderId: 8930,
@@ -185,7 +185,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.file.copyto',
+                'disk.file.copyTo',
                 [
                     'id' => 9035,
                     'targetFolderId' => 8930
@@ -209,7 +209,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.file.copyto",
+        "disk.file.copyTo",
         {
             id: 9035,
             targetFolderId: 8930
@@ -230,7 +230,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.file.copyto',
+        'disk.file.copyTo',
         [
             'id' => 9035,
             'targetFolderId' => 8930
@@ -240,6 +240,32 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.copyTo", b24.Params{
+    	"id":             9035,
+    	"targetFolderId": 8930,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.copyTo: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Name        string `json:"NAME"`
+    	StorageID   b24.ID `json:"STORAGE_ID"`
+    	Type        string `json:"TYPE"`
+    	ParentID    b24.ID `json:"PARENT_ID"`
+    	DeletedType int    `json:"DELETED_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -371,4 +397,5 @@ HTTP-статус: **400**
 - [{#T}](./disk-file-rename.md)
 - [{#T}](./disk-file-restore-from-version.md)
 - [{#T}](./disk-file-restore.md)
+- [{#T}](./disk-file-search.md)
 - [{#T}](./disk-file-upload-version.md)

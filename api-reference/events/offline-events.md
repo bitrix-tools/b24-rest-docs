@@ -205,6 +205,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "feature.get", b24.Params{
+    	"CODE": "rest_offline_extended",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("feature.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Регистрация обработчика
@@ -380,6 +396,23 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.bind", b24.Params{
+    	"event":      "ONCRMDEALUPDATE",
+    	"event_type": "offline",
+    })
+    if err != nil {
+    	return fmt.Errorf("event.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
@@ -579,6 +612,22 @@
     foreach ($result['result']['events'] as $event) {
         echo $event['EVENT_NAME'] . ' ' . $event['MESSAGE_ID'] . PHP_EOL;
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.offline.get", b24.Params{
+    	"limit": 50,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("event.offline.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
@@ -1071,6 +1120,23 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.offline.error", b24.Params{
+    	"process_id": "**put_process_id_here**",
+    	"message_id": []string{"**put_message_id_here**"},
+    })
+    if err != nil {
+    	return fmt.Errorf("event.offline.error: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Как избегать замкнутых циклов {#how-to-avoid-cycles}
@@ -1260,6 +1326,24 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.bind", b24.Params{
+    	"event":          "ONCRMDEALUPDATE",
+    	"event_type":     "offline",
+    	"auth_connector": "my_connector",
+    })
+    if err != nil {
+    	return fmt.Errorf("event.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 Передавайте тот же `auth_connector` в модифицирующих вызовах. Тогда Битрикс24 не запишет в очередь изменение, которое инициировало само приложение.
@@ -1455,6 +1539,26 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.update", b24.Params{
+    	"id": 1,
+    	"fields": b24.Params{
+    		"TITLE": "Новое название",
+    	},
+    	"auth_connector": "my_connector",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 Чтобы забирать события этой очереди, передавайте тот же `auth_connector` в методы [event.offline.get](./event-offline-get.md) и [event.offline.list](./event-offline-list.md). Без совпадающего значения методы вернут только события без источника.

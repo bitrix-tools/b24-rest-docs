@@ -325,6 +325,38 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.getFolders", b24.Params{
+    	"siteId": 1817,
+    	"filter": b24.Params{
+    		"PARENT_ID": 0,
+    		"=DELETED":  "N",
+    		"ACTIVE":    "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.getFolders: %w", err)
+    }
+
+    var items []struct {
+    	ID      b24.ID `json:"ID"`
+    	SiteID  b24.ID `json:"SITE_ID"`
+    	IndexID b24.ID `json:"INDEX_ID"`
+    	Active  string `json:"ACTIVE"`
+    	Deleted string `json:"DELETED"`
+    	Title   string `json:"TITLE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.SiteID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -17,17 +17,17 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../data-types.md#object_type) или [пользовательского типа](./user-defined-object-types/index.md), чей элемент мы хотим удалить.
+[`integer`](../../data-types.md) | Идентификатор [системного](../data-types.md#object_type) или [пользовательского типа](./user-defined-object-types/index.md), чей элемент мы хотим удалить.
 
 Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счёт — 31 и др.) приведены в [справочнике типов объектов CRM](../data-types.md#object_type). Идентификатор смарт-процесса можно узнать методом [crm.type.list](./user-defined-object-types/crm-type-list.md) ||
 || **id***
-[`integer`][1] | Идентификатор элемента, который нужно удалить.
+[`integer`](../../data-types.md) | Идентификатор элемента, который нужно удалить.
 
 Можно получить методом [`crm.item.list`](./crm-item-list.md) или при создании элемента [`crm.item.add`](./crm-item-add.md) ||
 |#
@@ -231,6 +231,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.delete", b24.Params{
+    	"entityTypeId": 1268,
+    	"id":           1,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.item.delete: %w", err)
+    }
+
+    // Ответ — список; разберите его в структуру под форму ответа ниже.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -258,11 +274,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`][1] | Корневой элемент ответа.
+[`array`](../../data-types.md) | Корневой элемент ответа.
 
 Возвращает пустой массив `[]` в случае успеха ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 
@@ -300,5 +316,3 @@ HTTP-статус: **400**, **403**
 - [{#T}](crm-item-list.md)
 - [{#T}](crm-item-fields.md)
 - [{#T}](./object-fields.md)
-
-[1]: ../../data-types.md

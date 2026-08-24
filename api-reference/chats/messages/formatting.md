@@ -202,6 +202,23 @@ BB-коды позволяют форматировать текст сообщ�
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.message.add", b24.Params{
+    	"DIALOG_ID": "chat2725",
+    	"MESSAGE":   "[B]Важное[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.message.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 {% note warning "" %}

@@ -14,6 +14,8 @@
 Например, приложение можно добавить в настройки страницы, чтобы открывать его из редактора. Другой вариант — вывести действие в меню блока, чтобы работать с конкретным блоком без перехода в другой раздел.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как выбрать места встраивания приложения](https://helpdesk.bitrix24.ru/open/28505560/)
 
 ## Как работать с местами встраивания
 
@@ -23,7 +25,7 @@
 
 Чтобы настроить:
 
-1. Выберите место встраивания [LANDING_SETTINGS](./settings.md). 
+1. Выберите место встраивания [LANDING_SETTINGS](./settings.md).
 2. Зарегистрируйте место встраивания через внутренний метод `landing.repo.bind`, а не [placement.bind](../../widgets/placement-bind.md).
 3. В обработчике разберите `PLACEMENT_OPTIONS`, чтобы получить идентификаторы сайта и страницы.
 4. Если место встраивания больше не нужно, его можно удалить методом [landing.repo.unbind](./landing-repo-unbind.md).
@@ -32,7 +34,7 @@
 
 Чтобы настроить:
 
-1. Выберите `LANDING_BLOCK_<CODE>`, если действие нужно только для одного типа блока, или `LANDING_BLOCK_*`, если действие должно работать для всех блоков. 
+1. Выберите `LANDING_BLOCK_<CODE>`, если действие нужно только для одного типа блока, или `LANDING_BLOCK_*`, если действие должно работать для всех блоков.
 2. Зарегистрируйте место встраивания через внутренний метод `landing.repo.bind`, а не [placement.bind](../../widgets/placement-bind.md).
 3. В обработчике разберите `PLACEMENT_OPTIONS`, чтобы получить идентификаторы страницы, блока и код блока.
 4. Если место встраивания больше не нужно, его можно удалить методом [landing.repo.unbind](./landing-repo-unbind.md).
@@ -43,12 +45,12 @@
 
 Чтобы настроить:
 
-1. Получите идентификатор сайта Базы знаний, например методом [landing.site.getList](../site/landing-site-get-list.md). 
+1. Получите идентификатор сайта Базы знаний, например методом [landing.site.getList](../site/landing-site-get-list.md).
 2. Определите, куда нужно добавить Базу знаний: в меню или в группу.
-3. Для меню используйте методы [landing.site.bindingToMenu](./knowledge-base/landing-site-binding-to-menu.md), [landing.site.getMenuBindings](./knowledge-base/landing-site-get-menu-bindings.md), [landing.site.unbindingFromMenu](./knowledge-base/landing-site-unbinding-from-menu.md). 
+3. Для меню используйте методы [landing.site.bindingToMenu](./knowledge-base/landing-site-binding-to-menu.md), [landing.site.getMenuBindings](./knowledge-base/landing-site-get-menu-bindings.md), [landing.site.unbindingFromMenu](./knowledge-base/landing-site-unbinding-from-menu.md).
 4. Для группы используйте методы [landing.site.bindingToGroup](./knowledge-base/landing-site-binding-to-group.md), [landing.site.getGroupBindings](./knowledge-base/landing-site-get-group-bindings.md), [landing.site.unbindingFromGroup](./knowledge-base/landing-site-unbinding-from-group.md).
 
-## Связь с другими разделами
+## Связь с другими объектами
 
 **Сайты и страницы.** Место встраивания [LANDING_SETTINGS](./settings.md) работает в редакторе [сайтов](../site/index.md) и [страниц](../page/index.md). Поэтому в обработчик передаются идентификаторы сайта и страницы.
 
@@ -62,7 +64,7 @@
 
 > Scope: [`landing`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: зависит от метода
+> Кто может выполнять методы: зависит от метода
 
 ### Места встраивания
 

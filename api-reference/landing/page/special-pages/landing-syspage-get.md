@@ -240,6 +240,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.syspage.get", b24.Params{
+    	"id":     1390,
+    	"active": true,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("landing.syspage.get: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

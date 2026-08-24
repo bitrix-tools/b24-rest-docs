@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "landing.landing.unFavoriteBlock",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить из сохраненного списка блоков landing.landing.unFavoriteBlock",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "blockId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сохраненной копии блока. Идентификатор можно получить из результата метода landing.landing.favoriteBlock. Если передать идентификатор обычного блока страницы или несуществующий идентификатор, метод вернет ошибку"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/block-methods/landing-landing-unfavorite-block.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773978259,
+      "finish": 1773978259.693505,
+      "duration": 0.693505048751831,
+      "processing": 0,
+      "date_start": "2026-03-20T06:44:19+03:00",
+      "date_finish": "2026-03-20T06:44:19+03:00",
+      "operating_reset_at": 1773978859,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления сохраненного блока. При успешном выполнении возвращается true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/block-methods/landing-landing-unfavorite-block.html",
+  "executable": false
+}

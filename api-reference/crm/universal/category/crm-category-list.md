@@ -23,13 +23,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) сущностей CRM, для которого нужно получить список воронок ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) сущностей CRM, для которого нужно получить список воронок ||
 |#
 
 ## Примеры кода
@@ -250,6 +250,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.category.list", b24.Params{
+    	"entityTypeId": 2,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.category.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "categories".
+    raw, ok := b24.Unwrap(res.Result, "categories")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа categories")
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	Sort         int    `json:"sort"`
+    	EntityTypeID b24.ID `json:"entityTypeId"`
+    	IsDefault    string `json:"isDefault"`
+    	OriginID     string `json:"originId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -315,11 +348,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный элемент с ключом `categories`, который представляет собой массив воронок. Структура отдельно взятой воронки соответсвует объекту [`category`](./crm-category-add.md#category) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит единственный элемент с ключом `categories`, который представляет собой массив воронок. Структура отдельно взятой воронки соответсвует объекту [`category`](./crm-category-add.md#category) ||
 || **total**
-[`integer`][1] | Общее количество воронок, принадлежащих определенному `entityTypeId` ||
+[`integer`](../../../data-types.md) | Общее количество воронок, принадлежащих определенному `entityTypeId` ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -355,5 +388,3 @@ HTTP-статус: **400**
 - [{#T}](../../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
 - [{#T}](../../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
-
-[1]: ../../../data-types.md

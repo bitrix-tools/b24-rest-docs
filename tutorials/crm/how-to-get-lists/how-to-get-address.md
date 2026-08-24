@@ -142,6 +142,32 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // Адрес привязан не к контакту, а к его РЕКВИЗИТУ, поэтому сначала нужны
+    // идентификаторы реквизитов.
+    res, err := core.Call(ctx, "crm.requisite.list", b24.Params{
+    	"filter": b24.Params{"ENTITY_TYPE_ID": typeContact, "ENTITY_ID": contactID},
+    	"select": []string{"ID", "ENTITY_TYPE_ID", "ENTITY_ID"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.list: %w", err)
+    }
+
+    // Идентификаторы здесь приходят СТРОКАМИ ("361"), хотя crm.enum.* отдаёт их
+    // числами. b24.ID разбирает оба написания, обычный int — нет.
+    var requisites []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &requisites); err != nil {
+    	return fmt.Errorf("разбор реквизитов: %w", err)
+    }
+    if len(requisites) == 0 {
+    	return fmt.Errorf("у контакта %d нет реквизитов, адрес хранить негде", contactID)
+    }
+    ```
+
 {% endlist %}
 
 В ответе получим список реквизитов контакта. В примере реквизит один, его `ID` — `361`. Именно это значение понадобится следующему запросу.
@@ -212,6 +238,23 @@
             "ENTITY_ID": 361,
         }
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    // Без фильтра по типу метод вернёт все адреса реквизита.
+    res, err := core.Call(ctx, "crm.address.list", b24.Params{
+    	"filter": b24.Params{"ENTITY_TYPE_ID": typeRequisite, "ENTITY_ID": r.ID},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.address.list: %w", err)
+    }
+
+    var addresses []address
+    if err := json.Unmarshal(res.Result, &addresses); err != nil {
+    	return fmt.Errorf("разбор адресов: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -309,6 +352,25 @@
             "TYPE_ID": 11,
         }
     ).response.result
+    ```
+
+- Go
+
+    ```go
+    res, err = core.Call(ctx, "crm.address.list", b24.Params{
+    	"filter": b24.Params{
+    		"ENTITY_TYPE_ID": typeRequisite,
+    		"ENTITY_ID":      r.ID,
+    		"TYPE_ID":        11, // 11 — адрес доставки
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.address.list по типу: %w", err)
+    }
+    var delivery []address
+    if err := json.Unmarshal(res.Result, &delivery); err != nil {
+    	return fmt.Errorf("разбор адресов доставки: %w", err)
+    }
     ```
 
 {% endlist %}
@@ -571,6 +633,301 @@
                     print("\t".join(row))
     ```
 
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создаёт контакт с реквизитом и двумя адресами,
+    // находит адреса так, как описывает страница, и убирает за собой. Запускается
+    // на любом портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // Идентификаторы типов объектов CRM: полный перечень отдаёт crm.enum.ownertype.
+    const (
+    	typeContact   = 3 // контакт; компания — 4
+    	typeRequisite = 8 // реквизит
+    )
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- подготовка: контакт, его реквизит и два адреса
+
+    	contactID, err := createClient(ctx, core)
+    	if err != nil {
+    		return err
+    	}
+    	// Удаление контакта уносит с собой и его реквизиты, и адреса реквизитов.
+    	defer del(ctx, core, "crm.contact.delete", b24.Params{"id": contactID})
+
+    	// --- шаг 1: реквизиты клиента
+    	// Адрес привязан не к контакту, а к его РЕКВИЗИТУ, поэтому сначала нужны
+    	// идентификаторы реквизитов.
+    	res, err := core.Call(ctx, "crm.requisite.list", b24.Params{
+    		"filter": b24.Params{"ENTITY_TYPE_ID": typeContact, "ENTITY_ID": contactID},
+    		"select": []string{"ID", "ENTITY_TYPE_ID", "ENTITY_ID"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.requisite.list: %w", err)
+    	}
+
+    	// Идентификаторы здесь приходят СТРОКАМИ ("361"), хотя crm.enum.* отдаёт их
+    	// числами. b24.ID разбирает оба написания, обычный int — нет.
+    	var requisites []struct {
+    		ID b24.ID `json:"ID"`
+    	}
+    	if err := json.Unmarshal(res.Result, &requisites); err != nil {
+    		return fmt.Errorf("разбор реквизитов: %w", err)
+    	}
+    	if len(requisites) == 0 {
+    		return fmt.Errorf("у контакта %d нет реквизитов, адрес хранить негде", contactID)
+    	}
+    	fmt.Printf("у контакта %d реквизитов: %d\n", contactID, len(requisites))
+
+    	// --- шаг 2: адреса каждого реквизита
+
+    	for _, r := range requisites {
+    		// Без фильтра по типу метод вернёт все адреса реквизита.
+    		res, err := core.Call(ctx, "crm.address.list", b24.Params{
+    			"filter": b24.Params{"ENTITY_TYPE_ID": typeRequisite, "ENTITY_ID": r.ID},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("crm.address.list: %w", err)
+    		}
+
+    		var addresses []address
+    		if err := json.Unmarshal(res.Result, &addresses); err != nil {
+    			return fmt.Errorf("разбор адресов: %w", err)
+    		}
+    		for _, a := range addresses {
+    			fmt.Printf("  реквизит %d, тип %d: %s\n", r.ID, a.TypeID, a.String())
+    		}
+
+    		// Чтобы получить адрес только одного типа, добавьте в фильтр TYPE_ID.
+    		res, err = core.Call(ctx, "crm.address.list", b24.Params{
+    			"filter": b24.Params{
+    				"ENTITY_TYPE_ID": typeRequisite,
+    				"ENTITY_ID":      r.ID,
+    				"TYPE_ID":        11, // 11 — адрес доставки
+    			},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("crm.address.list по типу: %w", err)
+    		}
+    		var delivery []address
+    		if err := json.Unmarshal(res.Result, &delivery); err != nil {
+    			return fmt.Errorf("разбор адресов доставки: %w", err)
+    		}
+    		fmt.Printf("  из них адресов доставки: %d\n", len(delivery))
+    	}
+
+    	// --- второй способ хранения: пользовательское поле типа address
+
+    	return userFieldAddresses(ctx, core, contactID)
+    }
+
+    // address — одна строка ответа crm.address.list. Готовой строки адреса у метода
+    // нет: её собирают из частей, и незаполненные части приходят как null — это
+    // нормально даже у заполненного адреса.
+    type address struct {
+    	TypeID     b24.ID `json:"TYPE_ID"`
+    	Address1   string `json:"ADDRESS_1"`
+    	City       string `json:"CITY"`
+    	PostalCode string `json:"POSTAL_CODE"`
+    	Country    string `json:"COUNTRY"`
+    	// По этой паре проверяют, что адрес относится к нужному клиенту.
+    	AnchorTypeID b24.ID `json:"ANCHOR_TYPE_ID"`
+    	AnchorID     b24.ID `json:"ANCHOR_ID"`
+    }
+
+    func (a address) String() string {
+    	out := ""
+    	for _, part := range []string{a.PostalCode, a.Country, a.City, a.Address1} {
+    		if part == "" {
+    			continue
+    		}
+    		if out != "" {
+    			out += ", "
+    		}
+    		out += part
+    	}
+    	if out == "" {
+    		return "не указан"
+    	}
+    	return out
+    }
+
+    // userFieldAddresses читает адрес, который лежит не в реквизите, а прямо в
+    // контакте — в пользовательском поле типа address. Методам crm.address.* такой
+    // адрес не виден, это независимый способ хранения.
+    func userFieldAddresses(ctx context.Context, core *b24.Core, contactID b24.ID) error {
+    	res, err := core.Call(ctx, "crm.contact.userfield.list", b24.Params{
+    		"filter": b24.Params{"USER_TYPE_ID": "address"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		// Метод доступен только администратору — это не повод обрывать сценарий
+    		// с адресами из реквизитов, он уже отработал.
+    		fmt.Fprintf(os.Stderr, "crm.contact.userfield.list: %v\n", err)
+    		return nil
+    	}
+    	var fields []struct {
+    		FieldName string `json:"FIELD_NAME"`
+    		Multiple  string `json:"MULTIPLE"`
+    	}
+    	if err := json.Unmarshal(res.Result, &fields); err != nil {
+    		return fmt.Errorf("разбор пользовательских полей: %w", err)
+    	}
+
+    	res, err = core.Call(ctx, "crm.contact.get",
+    		b24.Params{"id": contactID}, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("crm.contact.get: %w", err)
+    	}
+    	for _, f := range fields {
+    		// От MULTIPLE зависит форма значения: у множественного поля это массив.
+    		raw, ok := b24.Unwrap(res.Result, f.FieldName)
+    		if !ok || b24.IsEmpty(raw) {
+    			fmt.Printf("  поле %s (MULTIPLE=%s): не заполнено\n", f.FieldName, f.Multiple)
+    			continue
+    		}
+    		fmt.Printf("  поле %s (MULTIPLE=%s): %s\n", f.FieldName, f.Multiple, raw)
+    	}
+    	if len(fields) == 0 {
+    		fmt.Println("  полей типа address у контактов на этом портале нет")
+    	}
+    	return nil
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // createClient создаёт контакт, его реквизит и два адреса ОДНИМ связанным
+    // батчем: 4 команды стоят одного обращения к порталу вместо четырёх.
+    func createClient(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	presetID, err := firstPreset(ctx, core)
+    	if err != nil {
+    		return 0, err
+    	}
+
+    	b := b24.NewBatch()
+    	// Связанному батчу Halt ОБЯЗАТЕЛЕН. Без него упавший производитель — не
+    	// ошибка для сервера: он подставит потребителю текст самого плейсхолдера
+    	// как значение, и реквизит привяжется к «контакту» по имени "$result[...]".
+    	b.Halt = true
+
+    	if err := b.AddAs("contact", "crm.contact.add", b24.Params{
+    		"fields": b24.Params{"NAME": "Иван", "LAST_NAME": "Петров"},
+    	}); err != nil {
+    		return 0, err
+    	}
+    	// Пути нет: crm.contact.add отвечает голым идентификатором.
+    	contactRef, err := b24.Ref("contact")
+    	if err != nil {
+    		return 0, err
+    	}
+
+    	if err := b.AddAs("requisite", "crm.requisite.add", b24.Params{
+    		"fields": b24.Params{
+    			"ENTITY_TYPE_ID": typeContact,
+    			"ENTITY_ID":      contactRef,
+    			"PRESET_ID":      presetID,
+    			"NAME":           "Основной реквизит",
+    			"ACTIVE":         "Y",
+    		},
+    	}); err != nil {
+    		return 0, err
+    	}
+    	requisiteRef, err := b24.Ref("requisite")
+    	if err != nil {
+    		return 0, err
+    	}
+
+    	// У одного реквизита может быть несколько адресов, но не больше одного
+    	// каждого типа: второй crm.address.add с тем же TYPE_ID не пройдёт.
+    	// Типы адресов перечисляет crm.enum.addresstype: 1 — фактический,
+    	// 11 — адрес доставки.
+    	addresses := []struct {
+    		cmd    b24.CmdID
+    		fields b24.Params
+    	}{
+    		{"address_actual", b24.Params{"TYPE_ID": 1, "ADDRESS_1": "Тверская улица, 7",
+    			"CITY": "Москва", "POSTAL_CODE": "125009", "COUNTRY": "Россия"}},
+    		{"address_delivery", b24.Params{"TYPE_ID": 11, "ADDRESS_1": "Гранатный переулок, 10",
+    			"CITY": "Москва", "POSTAL_CODE": "123001", "COUNTRY": "Россия"}},
+    	}
+    	for _, a := range addresses {
+    		a.fields["ENTITY_TYPE_ID"] = typeRequisite
+    		a.fields["ENTITY_ID"] = requisiteRef
+    		if err := b.AddAs(a.cmd, "crm.address.add", b24.Params{"fields": a.fields}); err != nil {
+    			return 0, err
+    		}
+    	}
+
+    	// Команды выполняются в порядке ДОБАВЛЕНИЯ, как бы они ни назывались, —
+    	// именно это и делает цепочку работоспособной.
+    	res, err := core.CallBatch(ctx, b)
+    	if err != nil {
+    		return 0, fmt.Errorf("подготовка данных батчем: %w", err)
+    	}
+    	raw, err := res.Get("contact")
+    	if err != nil {
+    		return 0, err
+    	}
+    	var contactID b24.ID
+    	return contactID, json.Unmarshal(raw, &contactID)
+    }
+
+    func firstPreset(ctx context.Context, core *b24.Core) (b24.ID, error) {
+    	res, err := core.Call(ctx, "crm.requisite.preset.list", b24.Params{
+    		"select": []string{"ID", "NAME"}, "order": b24.Params{"ID": "ASC"},
+    	}, b24.WithIdempotent())
+    	if err != nil {
+    		return 0, fmt.Errorf("crm.requisite.preset.list: %w", err)
+    	}
+    	var presets []struct {
+    		ID b24.ID `json:"ID"`
+    	}
+    	if err := json.Unmarshal(res.Result, &presets); err != nil {
+    		return 0, err
+    	}
+    	if len(presets) == 0 {
+    		return 0, fmt.Errorf("на портале нет шаблонов реквизитов")
+    	}
+    	return presets[0].ID, nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
+    ```
+
 {% endlist %}
 
 ## Адрес из пользовательского поля {#userfield}
@@ -661,6 +1018,42 @@
     else:
         for field in fields:
             print(field["FIELD_NAME"], contact.get(field["FIELD_NAME"]))
+    ```
+
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "crm.contact.userfield.list", b24.Params{
+    	"filter": b24.Params{"USER_TYPE_ID": "address"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	// Метод доступен только администратору — это не повод обрывать сценарий
+    	// с адресами из реквизитов, он уже отработал.
+    	fmt.Fprintf(os.Stderr, "crm.contact.userfield.list: %v\n", err)
+    	return nil
+    }
+    var fields []struct {
+    	FieldName string `json:"FIELD_NAME"`
+    	Multiple  string `json:"MULTIPLE"`
+    }
+    if err := json.Unmarshal(res.Result, &fields); err != nil {
+    	return fmt.Errorf("разбор пользовательских полей: %w", err)
+    }
+
+    res, err = core.Call(ctx, "crm.contact.get",
+    	b24.Params{"id": contactID}, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.get: %w", err)
+    }
+    for _, f := range fields {
+    	// От MULTIPLE зависит форма значения: у множественного поля это массив.
+    	raw, ok := b24.Unwrap(res.Result, f.FieldName)
+    	if !ok || b24.IsEmpty(raw) {
+    		fmt.Printf("  поле %s (MULTIPLE=%s): не заполнено\n", f.FieldName, f.Multiple)
+    		continue
+    	}
+    	fmt.Printf("  поле %s (MULTIPLE=%s): %s\n", f.FieldName, f.Multiple, raw)
+    }
     ```
 
 {% endlist %}

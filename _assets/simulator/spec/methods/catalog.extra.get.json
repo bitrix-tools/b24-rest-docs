@@ -1,0 +1,71 @@
+{
+  "$v": 1,
+  "method": "catalog.extra.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей наценки по идентификатору catalog.extra.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_extra.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор наценки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/extra/catalog-extra-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "extra": {
+        "id": 1,
+        "name": "test",
+        "percentage": 5.1
+      }
+    },
+    "time": {
+      "start": 1716558215.93495,
+      "finish": 1716558216.20731,
+      "duration": 0.272363901138306,
+      "processing": 0.028817892074585,
+      "date_start": "2024-10-24T16:40:59+02:00",
+      "date_finish": "2024-10-24T16:40:59+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "extra",
+      "type": "catalog_extra",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о наценке с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/extra/catalog-extra-get.html",
+  "executable": false,
+  "entityFields": [
+    "id",
+    "name",
+    "percentage"
+  ]
+}

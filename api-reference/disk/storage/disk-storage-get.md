@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища.
 
-Идентификатор можно получить с помощью метода [disk.storage.getlist](./disk-storage-get-list.md) ||
+Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md) ||
 |#
 
 ## Примеры кода
@@ -217,6 +217,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.get", b24.Params{
+    	"id": 1357,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("disk.storage.get: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	ModuleID     string `json:"MODULE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    	EntityID     b24.ID `json:"ENTITY_ID"`
+    	RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

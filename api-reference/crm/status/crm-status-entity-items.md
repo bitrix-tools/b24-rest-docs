@@ -18,7 +18,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -218,6 +218,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.status.entity.items", b24.Params{
+    	"entityId": "DEAL_STAGE",
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.status.entity.items: %w", err)
+    }
+
+    var items []struct {
+    	Name     string `json:"NAME"`
+    	Sort     int    `json:"SORT"`
+    	StatusID string `json:"STATUS_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Name, it.Sort)
+    }
     ```
 
 {% endlist %}

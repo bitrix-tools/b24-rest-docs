@@ -224,6 +224,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.chat.add", b24.Params{
+    	"TYPE":        "CHAT",
+    	"TITLE":       "Новый чат",
+    	"DESCRIPTION": "Важные новости",
+    	"COLOR":       "GREEN",
+    	"MESSAGE":     "Добро пожаловать!",
+    	"USERS":       []int{1271},
+    	"AVATAR":      "/9j/4AAQSkZJRgABAQEBLAEsAAD/4QBwRXhp...+gKlSv+1v/2Q==",
+    	"ENTITY_TYPE": "CHAT",
+    	"ENTITY_ID":   "13",
+    	"BOT_ID":      1291,
+    	"CLIENT_ID":   "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.chat.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

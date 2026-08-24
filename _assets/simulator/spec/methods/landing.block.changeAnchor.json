@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "landing.block.changeAnchor",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Изменить якорь блока landing.block.changeAnchor",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList"
+    },
+    {
+      "name": "block",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор блока в черновике страницы. Идентификатор блока можно получить методом landing.block.getlist с параметром params.edit_mode = true"
+    },
+    {
+      "name": "data",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Новый якорь блока без символа #. Передавайте значение строкой. Якорь должен начинаться с буквы A-Z или a-z, содержать не менее двух символов и далее может включать только буквы A-Z и a-z, цифры 0-9 и символы -, _, ., :. Якорь из одного символа недопустим. Например, a вызовет ошибку. Примеры допустимых значений: about-us, Section_A, faq.v2, Tab:1"
+    },
+    {
+      "name": "preventHistory",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Не добавлять изменение в историю страницы. Возможные значения: true — не сохранять изменение в истории, false — сохранить изменение в истории. По умолчанию — false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-change-anchor.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774525298,
+      "finish": 1774525298.491831,
+      "duration": 0.49183106422424316,
+      "processing": 0,
+      "date_start": "2026-03-26T14:41:38+03:00",
+      "date_finish": "2026-03-26T14:41:38+03:00",
+      "operating_reset_at": 1774525898,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат изменения якоря. При успешном выполнении метод возвращает true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-change-anchor.html",
+  "executable": false
+}

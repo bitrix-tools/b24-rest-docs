@@ -1,4 +1,4 @@
-# Получить информацию о доступности функционала на портале feature.get
+# Получить информацию о доступности функционала в Битрикс24 feature.get
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `feature.get` возвращает информацию о доступности функционала на конкретном портале.
+Метод `feature.get` возвращает информацию о доступности функционала в конкретном Битрикс24.
 
 ## Параметры метода
 
@@ -222,6 +222,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "feature.get", b24.Params{
+    	"CODE": "rest_offline_extended",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("feature.get: %w", err)
+    }
+
+    var item struct {
+    	Value string `json:"value"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -252,7 +272,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект содержит информацию о доступности метода:
-- `value` — (Y/N) наличие функционала на портале
+- `value` — (Y/N) наличие функционала в Битрикс24
 - `lang_selfhosted` — *lang* заменяется на en, ru, ua, kz и так далее (используется для коробочной версии *Битрикс24*) ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||

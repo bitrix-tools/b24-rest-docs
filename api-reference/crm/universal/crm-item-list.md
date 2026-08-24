@@ -19,17 +19,17 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../data-types.md#object_type) или [пользовательского типа](./user-defined-object-types/index.md), чьи элементы нужно получить.
+[`integer`](../../data-types.md) | Идентификатор [системного](../data-types.md#object_type) или [пользовательского типа](./user-defined-object-types/index.md), чьи элементы нужно получить.
 
 Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счет — 31 и др.) приведены в [справочнике типов объектов CRM](../data-types.md#object_type). Идентификатор смарт-процесса можно узнать методом [crm.type.list](./user-defined-object-types/crm-type-list.md) ||
 || **select**
-[`array`][1] | Список полей, которые должны быть заполнены у элементов в выборке.
+[`array`](../../data-types.md) | Список полей, которые должны быть заполнены у элементов в выборке.
 
 Может содержать в себе только названия полей элемента или `'*'`.
 
@@ -38,7 +38,7 @@
 Поле `fm` (множественные поля: телефоны, e-mail, мессенджеры) не является полем объекта CRM и не может быть запрошено через `select` явно. Чтобы получить `fm` в ответе, передайте `select: ['*']`
 ||
 || **filter**
-[`object`][1] |
+[`object`](../../data-types.md) |
 Объект формата:
 ```
 {
@@ -84,7 +84,7 @@
 Для фильтрации по пользовательским полям типа `boolean` передавайте в `filter` значения `1` или `0`, даже если при получении или изменении элемента значение такого поля передается в формате `Y` или `N`. Например, для поля `ufCrm2_1234567890` используйте фильтр `{"ufCrm2_1234567890": 1}`. Формат `Y` или `N` в фильтре для пользовательских полей типа `boolean` не поддерживается.
 ||
 || **order**
-[`object`][1] |
+[`object`](../../data-types.md) |
 Объект формата:
 ```
 {
@@ -103,7 +103,7 @@
 Список всех доступных полей для сортировки можно узнать методом [`crm.item.fields`](./crm-item-fields.md). Перечень стандартных полей доступен в статье [Поля объектов CRM](./object-fields.md)
 ||
 || **start**
-[`integer`][1] | Параметр используется для управления постраничной навигацией.
+[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
 
@@ -114,7 +114,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы
 ||
 || **useOriginalUfNames**
-[`boolean`][1] | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
+[`boolean`](../../data-types.md) | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
 Возможные значения:
 
 - `Y` — оригинальные имена пользовательских полей, например `UF_CRM_2_1639669411830`
@@ -660,6 +660,61 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.list", b24.Params{
+    	"entityTypeId": 1,
+    	"select":       []string{"id", "title", "lastName", "name", "stageId", "sourceId", "assignedById", "opportunity", "isManualOpportunity"},
+    	"filter": b24.Params{
+    		"0": b24.Params{
+    			"logic": "OR",
+    			"0": b24.Params{
+    				"!=name": "",
+    			},
+    			"1": b24.Params{
+    				"!=lastName": "",
+    			},
+    		},
+    		"@stageId":            []string{"NEW", "IN_PROCESS"},
+    		"@sourceId":           []string{"WEB", "ADVERTISING"},
+    		"@assignedById":       []int{1, 6},
+    		">=opportunity":       5000,
+    		"<=opportunity":       20000,
+    		"isManualOpportunity": "Y",
+    	},
+    	"order": b24.Params{
+    		"lastName": "ASC",
+    		"name":     "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	AssignedByID b24.ID `json:"assignedById"`
+    	StageID      string `json:"stageId"`
+    	Opportunity  int    `json:"opportunity"`
+    	SourceID     string `json:"sourceId"`
+    	Title        string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ### Пример запроса с фильтром по дате с логикой OR
@@ -964,6 +1019,53 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.item.list", b24.Params{
+    	"entityTypeId": 2,
+    	"select":       []string{"id", "title", "createdTime"},
+    	"filter": b24.Params{
+    		"0": b24.Params{
+    			"logic": "OR",
+    			"0": b24.Params{
+    				">=createdTime": "2025-10-31T00:00:00+02:00",
+    				"<createdTime":  "2025-11-01T00:00:00+02:00",
+    			},
+    			"1": b24.Params{
+    				">=createdTime": "2025-02-28T00:00:00+02:00",
+    				"<createdTime":  "2025-03-01T00:00:00+02:00",
+    			},
+    		},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	AssignedByID b24.ID `json:"assignedById"`
+    	StageID      string `json:"stageId"`
+    	Opportunity  int    `json:"opportunity"`
+    	SourceID     string `json:"sourceId"`
+    	Title        string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -1039,19 +1141,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа. Содержит единственный ключ `items` ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `items` ||
 || **items**
 [`item[]`](./object-fields.md) | Массив c информацией о найденных элементах.
 
 Возвращаемые поля зависят от параметра `select`, [описание полей](./object-fields.md) ||
 || **total**
-[`integer`][1] | Общее количество найденных элементов ||
+[`integer`](../../data-types.md) | Общее количество найденных элементов ||
 || **next**
-[`integer`][1] | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
+[`integer`](../../data-types.md) | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
 
 Параметр `next` появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение `50`. ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 {% note info " " %}
@@ -1101,4 +1203,3 @@ HTTP-статус: **400**, **403**
 - [{#T}](../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)
   
-[1]: ../../data-types.md

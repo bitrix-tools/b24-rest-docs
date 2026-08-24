@@ -26,7 +26,7 @@
 
 {% note info " " %}
 
-Метод [documentgenerator.numerator.list](./document-generator-numerator-list.md) возвращает все нумераторы, доступные в текущем Битрикс24, в том числе [CRM нумераторы](../../crm/document-generator/numerator/index.md).
+Метод [documentgenerator.numerator.list](./document-generator-numerator-list.md) возвращает нумераторы генератора документов, в том числе созданные методами [CRM нумераторов](../../crm/document-generator/numerator/index.md). Нумераторы других инструментов, например счетов CRM, в выборку не попадают.
 
 {% endnote %}
 

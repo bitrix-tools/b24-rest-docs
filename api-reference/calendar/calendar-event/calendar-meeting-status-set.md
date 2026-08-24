@@ -215,6 +215,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.meeting.status.set", b24.Params{
+    	"eventId": 651,
+    	"status":  "Y",
+    })
+    if err != nil {
+    	return fmt.Errorf("calendar.meeting.status.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -253,7 +272,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "status" для метода "calendar.meeting.status.set""
+    "error_description": "Не задан обязательный параметр \"status\" для метода \"calendar.meeting.status.set\""
 }
 ```
 
@@ -263,9 +282,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "status" для метода "calendar.meeting.status.set" | Не передан обязательный параметр `status` ||
-|| Пустая строка | Не задан обязательный параметр "eventId" для метода "calendar.meeting.status.set" | Не передан обязательный параметр `eventId` ||
-|| Пустая строка | Недопустимое значение параметра "status" | В параметре `status` передано значение отличное от `Q`, `Y` или `N` ||
+|| Пустое значение | Не задан обязательный параметр "status" для метода "calendar.meeting.status.set" | Не передан обязательный параметр `status` ||
+|| Пустое значение | Не задан обязательный параметр "eventId" для метода "calendar.meeting.status.set" | Не передан обязательный параметр `eventId` ||
+|| Пустое значение | Недопустимое значение параметра "status" | В параметре `status` передано значение, отличное от `Q`, `Y` или `N` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

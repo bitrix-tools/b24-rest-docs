@@ -1,8 +1,12 @@
 # Как получить список дел из сделок
 
-> Scope: [`crm, user_brief`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`, `user_brief`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом на чтение сделок в CRM
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — на чтение сделок в CRM
+>
+> - [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) — пользователь с правом на чтение элементов объекта CRM
+> - [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) — любой пользователь
+> - [user.current](../../../api-reference/user/user-current.md) и [user.get](../../../api-reference/user/user-get.md) — любой пользователь
 
 {% note tip "" %}
 
@@ -13,15 +17,30 @@
 
 {% endnote %}
 
-Список дел позволяет отслеживать текущие задачи и звонки по сделкам, сроки выполнения дел и ответственных. Чтобы сформировать таблицу дел, последовательно выполним методы:
+Дела — это звонки, встречи, письма и другие действия по элементу CRM. Список незавершенных дел показывает, что предстоит сделать по сделкам сотрудника, в какой срок и кто за это отвечает.
 
-1. [user.current](../../../api-reference/user/user-current.md) — найдем `ID` текущего пользователя,
+Метода, который вернет дела сразу по всем сделкам сотрудника, нет: дела привязаны к элементам CRM, а фильтровать их можно только по этим элементам или по ответственному за само дело. Ответственный за дело и ответственный за сделку — разные роли, поэтому сначала найдем сделки сотрудника, а потом запросим дела по идентификаторам этих сделок.
 
-2. [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) — получим `ID` всех сделок, в которых сотрудник является ответственным,
+В результате сценария получим таблицу незавершенных дел: идентификатор дела, название сделки, описание дела, срок выполнения и имя ответственного.
 
-3. [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) — сформируем список дел по сделкам,
+Сценарий состоит из четырех шагов.
 
-4. [user.get](../../../api-reference/user/user-get.md) — получим информацию об ответственных за дела.
+1. Найти `ID` текущего пользователя методом [user.current](../../../api-reference/user/user-current.md)
+2. Получить `ID` сделок, за которые он отвечает, методом [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md)
+3. Получить дела по этим сделкам методом [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md)
+4. Получить имена ответственных за дела методом [user.get](../../../api-reference/user/user-get.md)
+
+## Что нужно до начала
+
+- вебхук создан от имени сотрудника, чьи сделки и дела нужно получить. Методы возвращают данные с учетом прав этого пользователя: то, что он не видит в CRM, в выборку не попадет
+
+- в правах вебхука отмечены scope `crm` и `user_brief`
+
+- у сотрудника есть хотя бы одна сделка с незавершенным делом, иначе шаги 3 и 4 вернут пустой результат
+
+- путь вебхука дает полный доступ в рамках своего scope. Храните путь в переменной окружения и не публикуйте его в открытом коде
+
+Идентификаторы в примерах — `29` для пользователя, `5111`, `5199` и `5257` для сделок — взяты с одного Битрикс24. В вашем Битрикс24 они будут другими. Каждый следующий шаг подставляет значения из ответа предыдущего.
 
 ## 1. Получим ID текущего пользователя
 
@@ -80,6 +99,26 @@
     result = client.user.current().response.result
     ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.current: %w", err)
+    }
+
+    // Идентификатор приходит СТРОКОЙ ("29"): b24.ID разбирает и число, и строку
+    // с числом, обычный int здесь падает.
+    var me struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &me); err != nil {
+    	return fmt.Errorf("разбор текущего пользователя: %w", err)
+    }
+    ```
+
 {% endlist %}
 
 В результате получим идентификатор пользователя `"ID": "29"`.
@@ -91,24 +130,28 @@
         "ACTIVE": true,
         "NAME": "Иван",
         "LAST_NAME": "Иванов",
-        ...
+        "EMAIL": "i.ivanov@example.com",
+        "WORK_POSITION": "Менеджер",
+        "USER_TYPE": "employee"
     }
 }
 ```
+
+Ответ сокращен: метод возвращает и остальные поля профиля. Идентификатор приходит строкой, а не числом. Сохраним значение поля `ID` — на шаге 2 оно станет значением фильтра `assignedById`.
 
 ## 2. Получим список ID сделок сотрудника
 
 Чтобы получить идентификаторы сделок, закрепленных за сотрудником, вызовем метод [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md). Передаем параметры:
 
--  `entityTypeId` — идентификатор типа объекта CRM. Получить идентификаторы можно методом [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). Укажем значение — `2`, то есть сделка.
+-  `entityTypeId` — идентификатор типа объекта CRM, обязательный параметр. Укажем `2` — сделка. Значения для других объектов возвращает метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
 
--  `select` — массив полей, которые нужно выбрать. Укажем `select: ['id','title']`, чтобы получить идентификаторы и названия сделок.
+-  `select` — поля, которые нужно получить. Укажем `id` и `title`: идентификатор понадобится шагу 3, название — итоговой таблице
 
--  `filter` — фильтр выборки. Чтобы выбрать сделки по `ID` ответственного сотрудника, укажем идентификатор пользователя, который получили в прошлом запросе `assignedById: 29`.
+-  `filter` — условия выборки. Чтобы отобрать сделки по ответственному, укажем `assignedById` со значением `ID` из шага 1. В примере `29`
 
 {% note info "" %}
 
-Чтобы запрос работал быстрее и возвращал только актуальные данные, добавьте фильтр по стадиям `stageId`. Например можно выбрать сделки на стадии *В работе*.
+Чтобы сузить выборку, добавьте фильтр по стадиям `stageId`. Например, можно выбрать только сделки на стадии «В работе».
 
 [Как отфильтровать элементы по названию стадии](../../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 
@@ -152,9 +195,50 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // Списочный метод отдает максимум 50 записей за запрос. Pages идет по
+    // курсору сам: ОТСУТСТВИЕ next заканчивает список, потому что next: 0 —
+    // это законное первое смещение, а не признак конца.
+    pager, err := core.Pages("crm.item.list", b24.Params{
+    	"entityTypeId": entityTypeDeal,
+    	"select":       []string{"id", "title"},
+    	"filter":       b24.Params{"assignedById": me.ID},
+    }, b24.WithCallOptions(b24.WithIdempotent()))
+    if err != nil {
+    	return fmt.Errorf("crm.item.list: %w", err)
+    }
+
+    var deals []struct {
+    	ID    int    `json:"id"`
+    	Title string `json:"title"`
+    }
+    for pager.Next(ctx) {
+    	for _, row := range pager.Rows() {
+    		var d struct {
+    			ID    int    `json:"id"`
+    			Title string `json:"title"`
+    		}
+    		if err := json.Unmarshal(row, &d); err != nil {
+    			return fmt.Errorf("разбор сделки: %w", err)
+    		}
+    		deals = append(deals, d)
+    	}
+    	if len(deals) >= maxDeals {
+    		break
+    	}
+    }
+    // Ошибка всплывает ЗДЕСЬ, после цикла: Next возвращает false и в конце
+    // списка, и при ошибке.
+    if err := pager.Err(); err != nil {
+    	return fmt.Errorf("обход сделок: %w", err)
+    }
+    ```
+
 {% endlist %}
 
-В результате получим массив `items` c идентификаторами сделок вида `"id": 5111`.
+В результате получим массив `items` с идентификаторами сделок вида `"id": 5111`.
 
 ```json
 {
@@ -169,29 +253,33 @@
 }
 ```
 
+Здесь `id` приходит числом, в отличие от `ID` из шага 1. Сохраним два поля: `id` — из него соберем фильтр на шаге 3, `title` — им подпишем строки итоговой таблицы.
+
+Списочные методы сценария — этот и [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) на шаге 3 — возвращают не больше 50 записей за вызов. Если поле `total` больше 50, остальные страницы получите повторными вызовами с параметром `start`: `50`, `100` и так далее. В примере кода ниже страницы перебираются автоматически.
+
 ## 3. Получим список дел по найденным сделкам
 
-Для получения списка дел используем метод [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md).
+Чтобы получить дела по найденным сделкам, используем метод [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md).
 
-Чтобы выбрать дела из нескольких сделок, в фильтре `filter` используем ключ привязки к элементам CRM  `BINDINGS`. Передадим в нем массив объектов. Каждый объект содержит:
+Чтобы выбрать дела сразу из нескольких сделок, в фильтре `filter` используем ключ `BINDINGS` — он задает привязку к элементам CRM. Передадим в нем массив объектов. Каждый объект содержит:
 
--  `OWNER_TYPE_ID` — идентификатор типа объекта CRM. Получить идентификаторы можно методом [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). Укажем значение — `2`, то есть сделка.
+-  `OWNER_TYPE_ID` — идентификатор типа объекта CRM. Укажем `2` — тот же тип сделки, что и на шаге 2
 
--  `OWNER_ID` — идентификатор сделки из результата прошлого запроса.
+-  `OWNER_ID` — идентификатор сделки из поля `id` шага 2
 
-Также отфильтруем только активные дела `COMPLETED: 'N'`.
+Также отфильтруем только незавершенные дела `COMPLETED: 'N'`.
 
-Выведем в результате `select` поля:
+В параметре `select` укажем поля:
 
--  `ID` — идентификатор дела,
+-  `ID` — идентификатор дела
 
--  `OWNER_ID` — идентификатор сделки,
+-  `OWNER_ID` — идентификатор сделки
 
--  `SUBJECT` — описание дела,
+-  `SUBJECT` — описание дела
 
--  `DEADLINE` — дата и время срока выполнения,
+-  `DEADLINE` — дата и время срока выполнения
 
--  `RESPONSIBLE_ID` — идентификатор пользователя, ответственного за дело.
+-  `RESPONSIBLE_ID` — идентификатор пользователя, ответственного за дело
 
 {% list tabs %}
 
@@ -248,9 +336,42 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    // BINDINGS — массив привязок: по объекту на каждую сделку.
+    bindings := make([]b24.Params, 0, len(deals))
+    for _, d := range deals {
+    	bindings = append(bindings, b24.Params{"OWNER_TYPE_ID": entityTypeDeal, "OWNER_ID": d.ID})
+    }
+
+    pager, err = core.Pages("crm.activity.list", b24.Params{
+    	"filter": b24.Params{"BINDINGS": bindings, "COMPLETED": "N"},
+    	"select": []string{"ID", "OWNER_ID", "SUBJECT", "DEADLINE", "RESPONSIBLE_ID"},
+    }, b24.WithCallOptions(b24.WithIdempotent()))
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    // Поля дел — в ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.list отдает camelCase.
+    var activities []activity
+    for pager.Next(ctx) {
+    	for _, row := range pager.Rows() {
+    		var a activity
+    		if err := json.Unmarshal(row, &a); err != nil {
+    			return fmt.Errorf("разбор дела: %w", err)
+    		}
+    		activities = append(activities, a)
+    	}
+    }
+    if err := pager.Err(); err != nil {
+    	return fmt.Errorf("обход дел: %w", err)
+    }
+    ```
+
 {% endlist %}
 
-В результате получим список дел с описанием каждого дела.
+В результате получим список незавершенных дел по указанным сделкам.
 
 ```json
 {
@@ -269,15 +390,31 @@
             "DEADLINE": "2025-08-29T16:00:00+03:00",
             "RESPONSIBLE_ID": "47"
         },
-        ...
+        {
+            "ID": "10145",
+            "OWNER_ID": "5257",
+            "SUBJECT": "Согласовать доставку",
+            "DEADLINE": "9999-12-31T00:00:00+03:00",
+            "RESPONSIBLE_ID": "29"
+        }
     ],
-    "total": 5
+    "total": 3
 }
 ```
 
+Поля дел приходят в верхнем регистре, а значения — строками. Это отличается от шага 2: метод [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) отдает поля в camelCase, а идентификаторы числами.
+
+Что берем из ответа дальше:
+
+-  `OWNER_ID` — свяжем дело со сделкой из шага 2 и подставим ее название в таблицу
+
+-  `RESPONSIBLE_ID` — соберем уникальные значения и передадим их в фильтр на шаге 4
+
+Дело без срока приходит с датой `9999-12-31`. Это не ошибка: так Битрикс24 хранит признак «срок не задан». В таблице такие дела лучше показывать без даты.
+
 ## 4. Получим данные пользователей по RESPONSIBLE_ID
 
-Ответственным за дело в сделке может быть любой пользователь, не только ответственный за сделку. Чтобы увидеть в таблице имя и фамилию ответственного за дело, используем метод [user.get](../../../api-reference/user/user-get.md).
+Чтобы увидеть в таблице имя и фамилию ответственного за дело, используем метод [user.get](../../../api-reference/user/user-get.md).
 
 В фильтре `filter` передадим идентификаторы ответственных `ID: [29, 47, ...]`.
 
@@ -315,6 +452,28 @@
     ).response.result
     ```
 
+- Go
+
+    ```go
+    res, err := core.Call(ctx, "user.get", b24.Params{
+    	"filter": b24.Params{"ID": ids},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+    var rows []struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &rows); err != nil {
+    	return fmt.Errorf("разбор сотрудников: %w", err)
+    }
+    for _, u := range rows {
+    	users[u.ID] = u.Name + " " + u.LastName
+    }
+    ```
+
 {% endlist %}
 
 В результате получим информацию о пользователях.
@@ -335,14 +494,61 @@
             "ACTIVE": true,
             "NAME": "Петр",
             "LAST_NAME": "Петров"
-        },
-        ...
+        }
     ],
-    "total": 3,
+    "total": 2
 }
 ```
 
+Метод вернет только тех пользователей, которых нашел по идентификаторам из фильтра. Соберем по полю `ID` соответствие «идентификатор — имя и фамилия» и подставим имена в таблицу вместо чисел из `RESPONSIBLE_ID`.
+
+## Проверим результат
+
+Сценарий выполнен, если по каждому делу из шага 3 в таблице есть строка со сделкой, сроком и именем ответственного.
+
+Что проверить в ответах:
+
+-  количество строк таблицы совпадает с числом дел из шага 3 после удаления повторов по полю `ID`
+
+-  каждое значение `OWNER_ID` из шага 3 есть среди `id` сделок из шага 2. Если сделка не нашлась, дело привязано не к сделке — проверьте, что в `BINDINGS` передан только `OWNER_TYPE_ID`: `2`
+
+-  каждое значение `RESPONSIBLE_ID` из шага 3 есть среди `ID` пользователей из шага 4. Если пользователь не нашелся, он уволен или удален — такие дела показывайте с идентификатором вместо имени
+
+Проверить данные в интерфейсе можно в карточке сделки: откройте сделку с идентификатором из `OWNER_ID` и сравните дела в ее таймлайне со строками таблицы. В таблице будут только незавершенные дела — те же, что Битрикс24 показывает в карточке как невыполненные.
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `INVALID_ARG_VALUE` `Invalid filter: field 'field' is not allowed in filter` | На шаге 2 в `filter` передано поле, по которому фильтровать нельзя. Список доступных полей возвращает метод [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) с тем же `entityTypeId` ||
+|| `NOT_FOUND` | На шаге 2 передан `entityTypeId`, которому не соответствует ни один объект CRM. Для сделок нужно `2` ||
+|| `allowed_only_intranet_user` | Вебхук создан от имени внешнего пользователя. Сценарий доступен только сотрудникам Битрикс24 ||
+|| `INVALID_REQUEST` `Https required` | Запрос ушел по HTTP. Обращайтесь к Битрикс24 по HTTPS ||
+|#
+
+Пустой результат ошибкой не считается, но означает разные вещи на разных шагах.
+
+- пустой `items` на шаге 2 — у сотрудника нет сделок или он не видит свои сделки по правам. Проверьте `assignedById`: на шаге 1 идентификатор приходит строкой — приведите его к числу, как в примерах кода
+
+- пустой `result` на шаге 3 при непустом шаге 2 — по сделкам нет незавершенных дел. Уберите из фильтра `COMPLETED`: `N` и повторите вызов. Если дела появились, значит все они уже завершены
+
+Все четыре метода только читают данные, поэтому после ошибки можно повторить сценарий с любого шага.
+
+## Что важно учитывать
+
+- `BINDINGS` — это фильтр, а не пакетный запрос. Массив привязок целиком уходит в один вызов, поэтому выборку сделок на шаге 2 стоит сузить заранее
+
+- если дело привязано сразу к двум сделкам из выборки, метод [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md) вернет его дважды — по строке на каждую привязку. Отбрасывайте повторы по полю `ID` дела
+
+- чтобы получить дела по другому объекту CRM, замените `entityTypeId` на шаге 2 и `OWNER_TYPE_ID` на шаге 3. Значения возвращает метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md): `1` — лид, `3` — контакт, `4` — компания
+
 ## Пример кода
+
+Код проходит все четыре шага и выводит таблицу дел. Идентификаторы нигде не зашиты: пользователь берется из [user.current](../../../api-reference/user/user-current.md), сделки и ответственные — из ответов предыдущих шагов. Заменить нужно только путь вебхука в переменной окружения.
+
+Пример на Go самодостаточный: перед шагом 2 он создает две свои сделки с делами, а в конце удаляет их. Остальные примеры ничего не изменяют.
 
 {% list tabs %}
 
@@ -389,7 +595,7 @@
             }
             allResults = allResults.concat(pageItems);
 
-            // Проверяем, есть ли ещё данные
+            // Проверяем, есть ли еще данные
             if (pageItems.length < batchSize) {
                 break;
             }
@@ -567,7 +773,7 @@
     )->getActivities());
 
     if (empty($allActivities)) {
-        echo "Нет незавершённых дел по сделкам.\n";
+        echo "Нет незавершенных дел по сделкам.\n";
         echo implode("\t", ['ID дела', 'Сделка', 'Тема', 'Дедлайн', 'Ответственный']) . "\n";
         exit;
     }
@@ -733,4 +939,285 @@
                 )
     ```
 
+- Go
+
+    ```go
+    // Подготовка в пустом каталоге — go get без go mod init не сработает:
+    //
+    //	go mod init example && go get github.com/bitrix24/b24gosdk
+    //
+    // Запуск:
+    //
+    //	export B24_WEBHOOK_URL='https://ваш-портал.bitrix24.ru/rest/1/токен/' && go run .
+    //
+    // Пример самодостаточный: он создает две свои сделки с делами, собирает по ним
+    // таблицу дел с ответственными и убирает за собой. Запускается на любом
+    // портале, ничего править не нужно.
+    package main
+
+    import (
+    	"context"
+    	"encoding/json"
+    	"fmt"
+    	"log"
+    	"os"
+    	"sort"
+    	"time"
+
+    	b24 "github.com/bitrix24/b24gosdk"
+    )
+
+    // entityTypeDeal — идентификатор типа объекта «сделка» из crm.enum.ownertype.
+    const entityTypeDeal = 2
+
+    // maxDeals ограничивает выборку сделок. BINDINGS — это ФИЛЬТР, а не батч:
+    // массив из тысячи привязок уедет в одном запросе и утяжелит его. На боевом
+    // портале сделки стоит сузить еще и фильтром по стадии.
+    const maxDeals = 50
+
+    func main() {
+    	if err := run(context.Background()); err != nil {
+    		log.Fatal(err)
+    	}
+    }
+
+    func run(ctx context.Context) error {
+    	// Путь вебхука — это секрет, поэтому он приходит из окружения, а не из кода.
+    	core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
+
+    	// --- шаг 1: идентификатор текущего пользователя
+    	res, err := core.Call(ctx, "user.current", nil, b24.WithIdempotent())
+    	if err != nil {
+    		return fmt.Errorf("user.current: %w", err)
+    	}
+
+    	// Идентификатор приходит СТРОКОЙ ("29"): b24.ID разбирает и число, и строку
+    	// с числом, обычный int здесь падает.
+    	var me struct {
+    		ID       b24.ID `json:"ID"`
+    		Name     string `json:"NAME"`
+    		LastName string `json:"LAST_NAME"`
+    	}
+    	if err := json.Unmarshal(res.Result, &me); err != nil {
+    		return fmt.Errorf("разбор текущего пользователя: %w", err)
+    	}
+    	fmt.Printf("текущий пользователь %d: %s %s\n", me.ID, me.Name, me.LastName)
+
+    	// --- подготовка: свои сделки с делами, чтобы таблице было что показать
+
+    	cleanup, err := createDealsWithActivities(ctx, core, me.ID)
+    	defer cleanup()
+    	if err != nil {
+    		return err
+    	}
+
+    	// --- шаг 2: сделки, за которые отвечает сотрудник
+    	// Списочный метод отдает максимум 50 записей за запрос. Pages идет по
+    	// курсору сам: ОТСУТСТВИЕ next заканчивает список, потому что next: 0 —
+    	// это законное первое смещение, а не признак конца.
+    	pager, err := core.Pages("crm.item.list", b24.Params{
+    		"entityTypeId": entityTypeDeal,
+    		"select":       []string{"id", "title"},
+    		"filter":       b24.Params{"assignedById": me.ID},
+    	}, b24.WithCallOptions(b24.WithIdempotent()))
+    	if err != nil {
+    		return fmt.Errorf("crm.item.list: %w", err)
+    	}
+
+    	var deals []struct {
+    		ID    int    `json:"id"`
+    		Title string `json:"title"`
+    	}
+    	for pager.Next(ctx) {
+    		for _, row := range pager.Rows() {
+    			var d struct {
+    				ID    int    `json:"id"`
+    				Title string `json:"title"`
+    			}
+    			if err := json.Unmarshal(row, &d); err != nil {
+    				return fmt.Errorf("разбор сделки: %w", err)
+    			}
+    			deals = append(deals, d)
+    		}
+    		if len(deals) >= maxDeals {
+    			break
+    		}
+    	}
+    	// Ошибка всплывает ЗДЕСЬ, после цикла: Next возвращает false и в конце
+    	// списка, и при ошибке.
+    	if err := pager.Err(); err != nil {
+    		return fmt.Errorf("обход сделок: %w", err)
+    	}
+    	fmt.Printf("сделок сотрудника взято: %d\n", len(deals))
+    	if len(deals) == 0 {
+    		return nil
+    	}
+
+    	// --- шаг 3: дела по этим сделкам
+    	// BINDINGS — массив привязок: по объекту на каждую сделку.
+    	bindings := make([]b24.Params, 0, len(deals))
+    	for _, d := range deals {
+    		bindings = append(bindings, b24.Params{"OWNER_TYPE_ID": entityTypeDeal, "OWNER_ID": d.ID})
+    	}
+
+    	pager, err = core.Pages("crm.activity.list", b24.Params{
+    		"filter": b24.Params{"BINDINGS": bindings, "COMPLETED": "N"},
+    		"select": []string{"ID", "OWNER_ID", "SUBJECT", "DEADLINE", "RESPONSIBLE_ID"},
+    	}, b24.WithCallOptions(b24.WithIdempotent()))
+    	if err != nil {
+    		return fmt.Errorf("crm.activity.list: %w", err)
+    	}
+
+    	// Поля дел — в ВЕРХНЕМ РЕГИСТРЕ, тогда как crm.item.list отдает camelCase.
+    	var activities []activity
+    	for pager.Next(ctx) {
+    		for _, row := range pager.Rows() {
+    			var a activity
+    			if err := json.Unmarshal(row, &a); err != nil {
+    				return fmt.Errorf("разбор дела: %w", err)
+    			}
+    			activities = append(activities, a)
+    		}
+    	}
+    	if err := pager.Err(); err != nil {
+    		return fmt.Errorf("обход дел: %w", err)
+    	}
+    	fmt.Printf("активных дел: %d\n", len(activities))
+
+    	// --- шаг 4: ответственные за дела
+
+    	// Ответственным за дело может быть не тот, кто отвечает за сделку, поэтому
+    	// идентификаторы берутся из самих дел.
+    	ids := uniqueIDs(activities)
+    	users := map[b24.ID]string{}
+    	if len(ids) > 0 {
+    		res, err := core.Call(ctx, "user.get", b24.Params{
+    			"filter": b24.Params{"ID": ids},
+    		}, b24.WithIdempotent())
+    		if err != nil {
+    			return fmt.Errorf("user.get: %w", err)
+    		}
+    		var rows []struct {
+    			ID       b24.ID `json:"ID"`
+    			Name     string `json:"NAME"`
+    			LastName string `json:"LAST_NAME"`
+    		}
+    		if err := json.Unmarshal(res.Result, &rows); err != nil {
+    			return fmt.Errorf("разбор сотрудников: %w", err)
+    		}
+    		for _, u := range rows {
+    			users[u.ID] = u.Name + " " + u.LastName
+    		}
+    	}
+
+    	titles := map[int]string{}
+    	for _, d := range deals {
+    		titles[d.ID] = d.Title
+    	}
+    	fmt.Println("Дело\tСделка\tОписание\tСрок\tОтветственный")
+    	for _, a := range activities {
+    		who := users[a.ResponsibleID]
+    		if who == "" {
+    			who = "Неизвестно"
+    		}
+    		fmt.Printf("%d\t%s\t%s\t%s\t%s\n", a.ID, titles[int(a.OwnerID)], a.Subject, a.Deadline, who)
+    	}
+    	return nil
+    }
+
+    // activity — одна строка ответа crm.activity.list.
+    type activity struct {
+    	ID            b24.ID `json:"ID"`
+    	OwnerID       b24.ID `json:"OWNER_ID"`
+    	Subject       string `json:"SUBJECT"`
+    	Deadline      string `json:"DEADLINE"`
+    	ResponsibleID b24.ID `json:"RESPONSIBLE_ID"`
+    }
+
+    func uniqueIDs(activities []activity) []b24.ID {
+    	seen := map[b24.ID]bool{}
+    	out := make([]b24.ID, 0, len(activities))
+    	for _, a := range activities {
+    		if a.ResponsibleID > 0 && !seen[a.ResponsibleID] {
+    			seen[a.ResponsibleID] = true
+    			out = append(out, a.ResponsibleID)
+    		}
+    	}
+    	sort.Slice(out, func(i, j int) bool { return out[i] < out[j] })
+    	return out
+    }
+
+    // --- вспомогательное: подготовка данных и уборка
+
+    // createDealsWithActivities создает две сделки и по делу в каждой. Возвращает
+    // функцию уборки — она вызывается даже если подготовка оборвалась на середине.
+    func createDealsWithActivities(ctx context.Context, core *b24.Core, userID b24.ID) (func(), error) {
+    	var dealIDs []b24.ID
+    	cleanup := func() {
+    		// Удаление сделки уносит и ее дела.
+    		for _, id := range dealIDs {
+    			del(ctx, core, "crm.item.delete", b24.Params{"entityTypeId": entityTypeDeal, "id": id})
+    		}
+    	}
+
+    	for i, spec := range []struct {
+    		title string
+    		task  string
+    		in    time.Duration
+    	}{
+    		{"Закупка печей (пример b24gosdk)", "Позвонить клиенту", 24 * time.Hour},
+    		{"Закупка блендеров (пример b24gosdk)", "Отправить счет", 48 * time.Hour},
+    	} {
+    		res, err := core.Call(ctx, "crm.item.add", b24.Params{
+    			"entityTypeId": entityTypeDeal,
+    			"fields": b24.Params{
+    				"title":        spec.title,
+    				"assignedById": userID,
+    				"opportunity":  (i + 1) * 100,
+    			},
+    		})
+    		if err != nil {
+    			return cleanup, fmt.Errorf("crm.item.add: %w", err)
+    		}
+    		raw, ok := b24.Unwrap(res.Result, "item", "id")
+    		if !ok {
+    			return cleanup, fmt.Errorf("нет item.id в %s", res.Result)
+    		}
+    		var dealID b24.ID
+    		if err := json.Unmarshal(raw, &dealID); err != nil {
+    			return cleanup, err
+    		}
+    		dealIDs = append(dealIDs, dealID)
+
+    		if _, err := core.Call(ctx, "crm.activity.todo.add", b24.Params{
+    			"ownerTypeId":   entityTypeDeal,
+    			"ownerId":       dealID,
+    			"title":         spec.task,
+    			"description":   "Дело создано примером b24gosdk",
+    			"deadline":      time.Now().Add(spec.in).Format(time.RFC3339),
+    			"responsibleId": userID,
+    		}); err != nil {
+    			return cleanup, fmt.Errorf("crm.activity.todo.add: %w", err)
+    		}
+    	}
+    	return cleanup, nil
+    }
+
+    // del убирает созданное. Ошибку уборки печатаем, но не возвращаем: она не
+    // должна подменить собой настоящую ошибку сценария.
+    func del(ctx context.Context, core *b24.Core, method string, params b24.Params) {
+    	if _, err := core.Call(ctx, method, params); err != nil {
+    		fmt.Fprintf(os.Stderr, "уборка, %s: %v\n", method, err)
+    	}
+    }
+    ```
+
 {% endlist %}
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md)
+- [{#T}](../../../api-reference/crm/universal/crm-item-list.md)
+- [{#T}](../../../api-reference/user/user-get.md)
+- [{#T}](./how-to-get-elements-by-stage-filter.md)
+- [{#T}](../how-to-edit-crm-objects/how-to-move-activity.md)

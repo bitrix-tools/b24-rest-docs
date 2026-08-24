@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает доступные поля свойств заказа по типу свойств.
+Метод `sale.property.getfieldsbytype` получает доступные поля свойств заказа по типу свойств.
 
 ## Параметры метода
 
@@ -229,9 +229,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.property.getfieldsbytype", b24.Params{
+    	"type": "NUMBER",
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.property.getfieldsbytype: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "property".
+    raw, ok := b24.Unwrap(res.Result, "property")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа property")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -373,6 +393,19 @@ HTTP-статус: **200**
    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **property**
+[`sale_order_property`](../data-types.md#sale_order_property) | Описание полей и настроек свойства заказа для выбранного типа ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 

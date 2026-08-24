@@ -27,7 +27,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields**
-[`object`][1] | Объект формата:
+[`object`](../../data-types.md) | Объект формата:
 
 ```
 {
@@ -46,7 +46,7 @@
 
 Некорректное поле в `fields` будет проигнорировано ||
 || **params**
-[`object`][1] | Объект, содержащий набор дополнительных параметров.
+[`object`](../../data-types.md) | Объект, содержащий набор дополнительных параметров.
 
 Структура и возможные значения описана [ниже](#parameter-params) ||
 |#
@@ -59,51 +59,51 @@
 || **HONORIFIC**
 [`crm_status`](../data-types.md) | Обращение.
 
-Список доступных типов обращений можно узнать с помощью метода [`crm.status.list`][2], применив фильтр `{ ENTITY_ID: "HONORIFIC" }`.
+Список доступных типов обращений можно узнать с помощью метода [`crm.status.list`](../status/crm-status-list.md), применив фильтр `{ ENTITY_ID: "HONORIFIC" }`.
 
 По умолчанию — первый доступный тип обращения ||
 || **NAME**
-[`string`][1] | Имя ||
+[`string`](../../data-types.md) | Имя ||
 || **SECOND_NAME**
-[`string`][1] | Отчество ||
+[`string`](../../data-types.md) | Отчество ||
 || **LAST_NAME**
-[`string`][1] | Фамилия ||
+[`string`](../../data-types.md) | Фамилия ||
 || **PHOTO**
-[`file`][1] | Фотография ||
+[`file`](../../data-types.md) | Фотография ||
 || **BIRTHDATE**
-[`date`][1] | Дата рождения ||
+[`date`](../../data-types.md) | Дата рождения ||
 || **TYPE_ID**
 [`crm_status`](../data-types.md) | Тип контакта.
 
-Список доступных типов контакта можно узнать с помощью метода [`crm.status.list`][2], применив фильтр `{ ENTITY_ID: "CONTACT_TYPE" }`.
+Список доступных типов контакта можно узнать с помощью метода [`crm.status.list`](../status/crm-status-list.md), применив фильтр `{ ENTITY_ID: "CONTACT_TYPE" }`.
 
 По умолчанию — первый доступный тип контакта ||
 || **SOURCE_ID**
 [`crm_status`](../data-types.md) | Источник.
 
-Список доступных типов источника можно узнать с помощью метода [`crm.status.list`][2], применив фильтр `{ ENTITY_ID: "SOURCE" }`.
+Список доступных типов источника можно узнать с помощью метода [`crm.status.list`](../status/crm-status-list.md), применив фильтр `{ ENTITY_ID: "SOURCE" }`.
 
 По умолчанию — первый доступный тип источника ||
 || **SOURCE_DESCRIPTION**
-[`string`][1] | Дополнительно об источнике ||
+[`string`](../../data-types.md) | Дополнительно об источнике ||
 || **POST**
-[`string`][1] | Должность ||
+[`string`](../../data-types.md) | Должность ||
 || **COMMENTS**
-[`string`][1] | Комментарий. Поддерживает bb-коды ||
+[`string`](../../data-types.md) | Комментарий. Поддерживает bb-коды ||
 || **OPENED**
-[`boolean`][1] | Доступен ли для всех. Возможные значения:
+[`boolean`](../../data-types.md) | Доступен ли для всех. Возможные значения:
 - `Y` — да
 - `N` — нет
 
 По умолчанию `Y`. Значение по умолчанию может быть изменено в настройках CRM ||
 || **EXPORT**
-[`boolean`][1] | Участвует ли контакт в экспорте. Возможные значения:
+[`boolean`](../../data-types.md) | Участвует ли контакт в экспорте. Возможные значения:
 - `Y` — да
 - `N` — нет
 
 По умолчанию `Y` ||
 || **ASSIGNED_BY_ID**
-[`user`][1] | Идентификатор пользователя, ответственного за элемент.
+[`user`](../../data-types.md) | Идентификатор пользователя, ответственного за элемент.
 
 По умолчанию — идентификатор пользователя, который вызывает метод ||
 || **COMPANY_ID**
@@ -115,19 +115,19 @@
 
 Список компаний можно получить с помощью метода [`crm.item.list`](../universal/crm-item-list.md) по `entityTypeId = 4`  ||
 || **UTM_SOURCE**
-[`string`][1] | Рекламная система (Yandex-Direct, Google-Adwords и другие)  ||
+[`string`](../../data-types.md) | Рекламная система (Yandex-Direct, Google-Adwords и другие)  ||
 || **UTM_MEDIUM**
-[`string`][1] | Тип трафика. Возможные значения:
+[`string`](../../data-types.md) | Тип трафика. Возможные значения:
 - `CPC` — объявления
 - `CPM` — баннеры ||
 || **UTM_CAMPAIGN**
-[`string`][1] | Обозначение рекламной кампании ||
+[`string`](../../data-types.md) | Обозначение рекламной кампании ||
 || **UTM_CONTENT**
-[`string`][1] | Содержание кампании. Например, для контекстных объявлений ||
+[`string`](../../data-types.md) | Содержание кампании. Например, для контекстных объявлений ||
 || **UTM_TERM**
-[`string`][1] | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
+[`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
 || **TRACE**
-[`string`][1] | Информация для [сквозной аналитики](../../../tutorials/crm/how-to-use-analitycs/use-analitics-for-add-contact.md) ||
+[`string`](../../data-types.md) | Информация для [сквозной аналитики](../../../tutorials/crm/how-to-use-analitycs/use-analitics-for-add-contact.md) ||
 || **PHONE**
 [`crm_multifield[]`](../data-types.md) | Телефон ||
 || **EMAIL**
@@ -161,13 +161,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **ORIGINATOR_ID**
-[`string`][1] | Идентификатор внешней системы, являющейся источником данных об этом контакте ||
+[`string`](../../data-types.md) | Идентификатор внешней системы, являющейся источником данных об этом контакте ||
 || **ORIGIN_ID**
-[`string`][1] | Версия данных о контакте во внешней системе. Используется для защиты данных от случайного перетирания внешней системой. 
+[`string`](../../data-types.md) | Версия данных о контакте во внешней системе. Используется для защиты данных от случайного перетирания внешней системой. 
 
 Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных ||
 || **ORIGIN_VERSION**
-[`string`][1] | Версия оригинала ||
+[`string`](../../data-types.md) | Версия оригинала ||
 |#
 
 **Импорт**
@@ -178,22 +178,22 @@
 || **Название**
 `тип` | **Описание** ||
 || **DATE_CREATE**
-[`datetime`][1] | Дата создания.
+[`datetime`](../../data-types.md) | Дата создания.
 
 Доступен при передаче `IMPORT = Y` в `params`.
 
 Не может быть меньше, чем дата создания последнего созданного контакта
 ||
 || **DATE_MODIFY**
-[`datetime`][1] | Дата изменения.
+[`datetime`](../../data-types.md) | Дата изменения.
 
 Доступен при передаче `IMPORT = Y` в `params` ||
 || **CREATED_BY_ID**
-[`user`][1] | Кем создан.
+[`user`](../../data-types.md) | Кем создан.
 
 Доступен при передаче `IMPORT = Y` в `params` ||
 || **MODIFY_BY_ID**
-[`user`][1] | Кем изменен.
+[`user`](../../data-types.md) | Кем изменен.
 Доступен при передаче `IMPORT = Y` в `params` ||
 |#
 
@@ -205,23 +205,23 @@
 || **Название**
 `тип` | **Описание** ||
 || **ADDRESS**
-[`string`][1] | Адрес ||
+[`string`](../../data-types.md) | Адрес ||
 || **ADDRESS_2**
-[`string`][1] | Вторая строка адреса ||
+[`string`](../../data-types.md) | Вторая строка адреса ||
 || **ADDRESS_CITY**
-[`string`][1] | Город ||
+[`string`](../../data-types.md) | Город ||
 || **ADDRESS_POSTAL_CODE**
-[`string`][1] | Почтовый индекс ||
+[`string`](../../data-types.md) | Почтовый индекс ||
 || **ADDRESS_REGION**
-[`string`][1] | Район ||
+[`string`](../../data-types.md) | Район ||
 || **ADDRESS_PROVINCE**
-[`string`][1] | Область ||
+[`string`](../../data-types.md) | Область ||
 || **ADDRESS_COUNTRY**
-[`string`][1] | Страна ||
+[`string`](../../data-types.md) | Страна ||
 || **ADDRESS_COUNTRY_CODE**
-[`string`][1] | Код страны ||
+[`string`](../../data-types.md) | Код страны ||
 || **ADDRESS_LOC_ADDR_ID**
-[`integer`][1] | Идентификатор адреса местоположения ||
+[`integer`](../../data-types.md) | Идентификатор адреса местоположения ||
 |#
 
 ### Параметр params {#parameter-params}
@@ -230,13 +230,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **REGISTER_SONET_EVENT**
-[`boolean`][1] | Производить ли регистрацию события добавления контакта в живой ленте. Возможные значения:
+[`boolean`](../../data-types.md) | Производить ли регистрацию события добавления контакта в живой ленте. Возможные значения:
 - `Y` — да
 - `N` — нет
 
 По умолчанию `N` ||
 || **IMPORT**
-[`boolean`][1] | Включен ли режим импорта. Возможные значения:
+[`boolean`](../../data-types.md) | Включен ли режим импорта. Возможные значения:
 - `Y` — да
 
 Чтобы передать значение `Нет`, необходимо либо вообще не передавать параметр, либо передать значение `0`, `''`
@@ -728,6 +728,70 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.add", b24.Params{
+    	"fields": b24.Params{
+    		"HONORIFIC":   "HNR_RU_1",
+    		"NAME":        "Иван",
+    		"SECOND_NAME": "Иванович",
+    		"LAST_NAME":   "Иванов",
+    		"PHOTO": b24.Params{
+    			"fileData": "**put_photo_data_here**",
+    		},
+    		"BIRTHDATE":          "11.11.2001",
+    		"TYPE_ID":            "PARTNER",
+    		"SOURCE_ID":          "WEB",
+    		"SOURCE_DESCRIPTION": "*Дополнительно об источнике*",
+    		"POST":               "Администратор",
+    		"COMMENTS":           "**put_comment_here**",
+    		"OPENED":             "Y",
+    		"EXPORT":             "N",
+    		"ASSIGNED_BY_ID":     6,
+    		"COMPANY_ID":         12,
+    		"COMPANY_IDS":        []int{12, 13, 15},
+    		"UTM_SOURCE":         "yandex",
+    		"UTM_MEDIUM":         "CPC",
+    		"UTM_CAMPAIGN":       "summer_sale",
+    		"UTM_CONTENT":        "header_banner",
+    		"UTM_TERM":           "discount",
+    		"PHONE": []b24.Params{
+    			{
+    				"VALUE":      "+7333333555",
+    				"VALUE_TYPE": "WORK",
+    			},
+    			{
+    				"VALUE":      "+35599888666",
+    				"VALUE_TYPE": "HOME",
+    			},
+    		},
+    		"EMAIL": []b24.Params{
+    			{
+    				"VALUE":      "ivanov@example.mailing",
+    				"VALUE_TYPE": "MAILING",
+    			},
+    			{
+    				"VALUE":      "ivanov@example.work",
+    				"VALUE_TYPE": "WORK",
+    			},
+    		},
+    		"UF_CRM_1720697698689": "Пример значения пользовательского поля с типом \"Строка\"",
+    		"PARENT_ID_1224":       12,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -754,7 +818,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`][1] | Корневой элемент ответа, содержит идентификатор созданного контакта ||
+[`integer`](../../data-types.md) | Корневой элемент ответа, содержит идентификатор созданного контакта ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -776,10 +840,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `Parameter 'fields' must be array` | В параметр `fields` передан не объект ||
-|| `-`     | `Parameter 'params' must be array` | В параметр `params` передан не объект ||
-|| `-`     | `Access denied` | У пользователя нет прав на «Добавление» или «Импорт» контактов ||
-|| `-`     | Исчерпан выделенный дисковый ресурс | ||
+|| Пустое значение | `Parameter 'fields' must be array` | В параметр `fields` передан не объект ||
+|| Пустое значение | `Parameter 'params' must be array` | В параметр `params` передан не объект ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «Добавление» или «Импорт» контактов ||
+|| Пустое значение | Исчерпан выделенный дисковый ресурс | ||
 || `ERROR_CORE` | Поле `Рабочий e-mail` содержит некорректный адрес | ||
 |#
 
@@ -795,10 +859,3 @@ HTTP-статус: **400**
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contact.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)
 - [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
-
-[1]: ../../data-types.md
-[2]: ../status/crm-status-list.md
-
-
-
-

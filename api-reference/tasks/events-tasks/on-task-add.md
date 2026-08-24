@@ -52,7 +52,7 @@
 }
 ```
 
-{% include notitle [Сноска о параметрах](../../../_includes/required.md) %}
+{% include notitle [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Параметр**

@@ -24,12 +24,6 @@
 - [im.message.add](../../../../chats/messages/im-message-add.md) — отправить сообщение в чат
 - [im.message.update](../../../../chats/messages/im-message-update.md) — изменить отправленное сообщение
 
-**Устаревшие чат-боты (`imbot`)**
-
-- [imbot.message.add](../../../outdated/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
-- [imbot.message.update](../../../outdated/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
-- [imbot.command.answer](../../../outdated/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
-
 ## Как добавить клавиатуру
 
 Чтобы добавить клавиатуру, при создании или обновлении сообщения передайте параметр `KEYBOARD`.
@@ -115,6 +109,13 @@
 
 - `Y` — блокировать после нажатия
 - `N` — не блокировать
+
+`BLOCK` работает только для кнопок с `COMMAND`:
+
+- `COMMAND + BLOCK=Y` — кнопка заблокируется после нажатия
+- `ACTION + BLOCK=Y` — кнопка выполнит действие, но не заблокируется
+
+Кнопки с `ACTION` выполняются на стороне клиента. Бот их не контролирует и не может снять блокировку.
 
 По умолчанию — `N` ||
 || **DISABLED**
@@ -369,7 +370,6 @@
 
 - [imbot.v2.Chat.Message.update](./chat-message-update.md)
 - [im.message.update](../../../../chats/messages/im-message-update.md)
-- [imbot.message.update](../../../outdated/messages/imbot-message-update.md)
 
 При обновлении клавиатуры укажите `BOT_ID` внутри объекта `keyboard` на одном уровне с `BUTTONS`. Если передать только `BUTTONS`, команда кнопки может не связаться с нужным ботом.
 

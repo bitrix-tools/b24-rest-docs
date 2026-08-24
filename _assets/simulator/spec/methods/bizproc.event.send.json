@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "bizproc.event.send",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Вернуть параметры действию или роботу bizproc.event.send",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "EVENT_TOKEN",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Специальный токен, который приходит на обработчик приложения, когда выполняется действие или робот. Значение этого токена обработчик получает в массиве входных данных. Отправить событие можно, если робот или действие зарегистрированы с 'USE_SUBSCRIPTION': 'Y'"
+    },
+    {
+      "name": "RETURN_VALUES",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Массив возвращаемых значений действия или робота. Указываются значения свойств, которые были зарегистрированы как дополнительные результаты RETURN_PROPERTIES методами: - bizproc.robot.add, bizproc.robot.update - bizproc.activity.add, bizproc.activity.update",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "LOG_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Текст для журнала бизнес-процесса. По умолчанию имеет значение «Получен ответ от приложения». Запись событий в журнал должна быть включена в шаблоне бизнес-процесса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-robot/bizproc-event-send.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1738152544.203554,
+      "finish": 1738152544.248411,
+      "duration": 0.044857025146484375,
+      "processing": 0.0039920806884765625,
+      "date_start": "2025-01-29T15:09:04+03:00",
+      "date_finish": "2025-01-29T15:09:04+03:00",
+      "operating_reset_at": 1738153144,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращает true, если значения успешно переданы в процесс"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-robot/bizproc-event-send.html",
+  "executable": false
+}

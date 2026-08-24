@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -88,7 +88,7 @@
 || **ASSIGNED_BY_ID**
 [`user`](../../data-types.md) | Ответственный ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Контакт. Множественное ||
+[`crm_contact`](../data-types.md) | Контакт. Множественное ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных. Используется только для привязки к внешнему источнику ||
 || **ORIGIN_ID**
@@ -330,6 +330,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.update", b24.Params{
+    	"id": 43,
+    	"fields": b24.Params{
+    		"CURRENCY_ID": "RUB",
+    		"REVENUE":     500000,
+    		"EMPLOYEES":   "EMPLOYEES_3",
+    	},
+    	"params": b24.Params{
+    		"REGISTER_SONET_EVENT":   "Y",
+    		"REGISTER_HISTORY_EVENT": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -380,10 +407,10 @@ HTTP-статус: **400**
 
 #|
 || **Код**      | **Описание** | **Значение** ||
-|| `-`          | Parameter 'fields' must be array | В параметр `fields` передан не объект ||
-|| `-`          | Parameter 'params' must be array | В параметр `params` передан не объект ||
-|| `-`          | Access denied | У пользователя нет права «Изменение» компаний ||
-|| `-`          | Исчерпан выделенный дисковый ресурс | ||
+|| Пустое значение | Parameter 'fields' must be array | В параметр `fields` передан не объект ||
+|| Пустое значение | Parameter 'params' must be array | В параметр `params` передан не объект ||
+|| Пустое значение | Access denied | У пользователя нет права «Изменение» компаний ||
+|| Пустое значение | Исчерпан выделенный дисковый ресурс | ||
 || `ERROR_CORE` | Поле `E-mail` содержит некорректный адрес | Поле `E-mail` содержит некорректный адрес ||
 |#
 

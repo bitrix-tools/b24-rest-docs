@@ -1,0 +1,107 @@
+{
+  "$v": 1,
+  "method": "crm.category.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список воронок crm.category.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа сущностей CRM, для которого нужно получить список воронок"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/category/crm-category-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "categories": [
+        {
+          "id": 9,
+          "name": "Воронка с оригинальным названием",
+          "sort": 200,
+          "entityTypeId": 2,
+          "isDefault": "N",
+          "originId": "",
+          "originatorId": ""
+        },
+        {
+          "id": 10,
+          "name": "Лидовый маршрут",
+          "sort": 200,
+          "entityTypeId": 2,
+          "isDefault": "N",
+          "originId": "",
+          "originatorId": ""
+        },
+        {
+          "id": 11,
+          "name": "Путь успеха",
+          "sort": 200,
+          "entityTypeId": 2,
+          "isDefault": "N",
+          "originId": "",
+          "originatorId": ""
+        },
+        {
+          "id": 0,
+          "name": "Общая",
+          "sort": 300,
+          "entityTypeId": 2,
+          "isDefault": "Y"
+        }
+      ]
+    },
+    "total": 4,
+    "time": {
+      "start": 1718293410.373042,
+      "finish": 1718293425.947633,
+      "duration": 15.574590921401978,
+      "processing": 15.16909408569336,
+      "date_start": "2024-06-13T17:43:30+02:00",
+      "date_finish": "2024-06-13T17:43:45+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит единственный элемент с ключом categories, который представляет собой массив воронок. Структура отдельно взятой воронки соответсвует объекту category"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество воронок, принадлежащих определенному entityTypeId"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/category/crm-category-list.html",
+  "executable": true,
+  "entityFields": [
+    "entityTypeId",
+    "id",
+    "isDefault",
+    "name",
+    "originId",
+    "originatorId",
+    "sort"
+  ]
+}

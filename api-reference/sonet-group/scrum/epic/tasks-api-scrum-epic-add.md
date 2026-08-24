@@ -326,6 +326,28 @@ fields: {
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.epic.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":        "Epic 1",
+    		"groupId":     1,
+    		"description": "Description text",
+    		"color":       "#69dafc",
+    		"files":       []string{"n428", "n345"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.epic.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -306,6 +306,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userconsent.agreement.text", b24.Params{
+    	"id": 19,
+    	"replace": b24.Params{
+    		"button_caption": "Я согласен",
+    		"fields": b24.Params{
+    			"COMPANY_NAME":    "ООО Пример",
+    			"COMPANY_ADDRESS": "г. Москва, ул. Примерная, д. 1",
+    			"PURPOSES":        "Обработка персональных данных для улучшения сервиса",
+    			"THIRD_PARTIES":   "Партнеры компании для аналитики",
+    			"EMAIL":           "info@example.com",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("userconsent.agreement.text: %w", err)
+    }
+
+    var item struct {
+    	Label string `json:"LABEL"`
+    	Text  string `json:"TEXT"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Label, item.Text)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

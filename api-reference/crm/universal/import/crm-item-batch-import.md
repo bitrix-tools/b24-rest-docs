@@ -25,19 +25,19 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип`          | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../data-types.md#object_type) или [пользовательского типа](../user-defined-object-types/index.md), для которого нужно создать элемент.
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../data-types.md#object_type) или [пользовательского типа](../user-defined-object-types/index.md), для которого нужно создать элемент.
 
 Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счёт — 31 и др.) приведены в [справочнике типов объектов CRM](../../data-types.md#object_type). Идентификатор смарт-процесса можно узнать методом [crm.type.list](../user-defined-object-types/crm-type-list.md) ||
 || **data***
-[`array`][1] | Массив значений полей элементов. Можно рассматривать его как массив, каждый элемент которого содержит набор полей `fields`, описанный в методе [crm.item.import](crm-item-import.md) ||
+[`array`](../../../data-types.md) | Массив значений полей элементов. Можно рассматривать его как массив, каждый элемент которого содержит набор полей `fields`, описанный в методе [crm.item.import](crm-item-import.md) ||
 || **useOriginalUfNames**
-[`boolean`][1] | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
+[`boolean`](../../../data-types.md) | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
 Возможные значения:
 
 - `Y` — оригинальные имена пользовательских полей, например `UF_CRM_2_1639669411830`
@@ -330,6 +330,88 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.batchImport", b24.Params{
+        	"entityTypeId": 2,
+        	"data": []b24.Params{
+        		{
+        			"title":               "Новая сделка (специально для примера REST методов)",
+        			"typeId":              "SERVICE",
+        			"categoryId":          9,
+        			"stageId":             "C9:UC_KN8KFI",
+        			"isReccurring":        "Y",
+        			"probability":         50,
+        			"currencyId":          "RUB",
+        			"isManualOpportunity": "Y",
+        			"opportunity":         999.99,
+        			"taxValue":            99.9,
+        			"companyId":           5,
+        			"contactId":           4,
+        			"contactIds":          []int{4, 5},
+        			"quoteId":             7,
+        			"begindate":           "formatDate(monthAgo)",
+        			"closedate":           "formatDate(twelveDaysInAdvance)",
+        			"opened":              "N",
+        			"comments":            "commentsExample",
+        			"assignedById":        6,
+        			"sourceId":            "WEB",
+        			"sourceDescription":   "Тут должно быть дополнительное описание об источнике",
+        			"leadId":              102,
+        			"additionalInfo":      "Тут должна быть дополнительная информация",
+        			"observers":           []int{2, 3},
+        			"utmSource":           "google",
+        			"utmMedium":           "CPC",
+        			"ufCrm_1721244707107": 1111.1,
+        			"parentId1220":        2,
+        		},
+        		{
+        			"title":               "Новая сделка (специально для примера REST методов)",
+        			"typeId":              "SERVICE",
+        			"categoryId":          4,
+        			"stageId":             "C9:UC_KN8KFI",
+        			"isReccurring":        "Y",
+        			"probability":         50,
+        			"currencyId":          "RUB",
+        			"isManualOpportunity": "Y",
+        			"opportunity":         999.99,
+        			"taxValue":            99.9,
+        			"companyId":           5,
+        			"contactId":           4,
+        			"contactIds":          []int{4, 5},
+        			"quoteId":             7,
+        			"begindate":           "formatDate(monthAgo)",
+        			"closedate":           "formatDate(twelveDaysInAdvance)",
+        			"opened":              "N",
+        			"comments":            "commentsExample",
+        			"assignedById":        6,
+        			"sourceId":            "WEB",
+        			"sourceDescription":   "Тут должно быть дополнительное описание об источнике",
+        			"leadId":              102,
+        			"additionalInfo":      "Тут должна быть дополнительная информация",
+        			"observers":           []int{2, 3},
+        			"utmSource":           "google",
+        			"utmMedium":           "CPC",
+        			"ufCrm_1721244707107": 1111.1,
+        			"parentId1220":        2,
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.item.batchImport: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "items".
+        raw, ok := b24.Unwrap(res.Result, "items")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа items")
+        }
+
+        fmt.Printf("%s\n", raw)
         ```
 
     {% endlist %}
@@ -691,6 +773,48 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.item.batchImport", b24.Params{
+        	"entityTypeId": 1302,
+        	"data": []b24.Params{
+        		{
+        			"ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
+        			"ufCrm44_1721812814433": 81,
+        			"ufCrm44_1721812853419": time.Now().Format(time.RFC3339),
+        			"ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
+        			"ufCrm44_1721812898903": []string{"green_pixel.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
+        			"ufCrm44_1721812915476": "300|RUB",
+        			"ufCrm44_1721812935209": "Y",
+        			"ufCrm44_1721812948498": 9999.9,
+        		},
+        		{
+        			"ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
+        			"ufCrm44_1721812814433": 45,
+        			"ufCrm44_1721812853419": time.Now().Format(time.RFC3339),
+        			"ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
+        			"ufCrm44_1721812898903": []string{"green_pixel2.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
+        			"ufCrm44_1721812915476": "600|RUB",
+        			"ufCrm44_1721812935209": "N",
+        			"ufCrm44_1721812948498": 9999.9,
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.item.batchImport: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "items".
+        raw, ok := b24.Unwrap(res.Result, "items")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа items")
+        }
+
+        fmt.Printf("%s\n", raw)
+        ```
+
     {% endlist %}
 
 
@@ -733,19 +857,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа.
+[`object`](../../../data-types.md) | Корневой элемент ответа.
 
 Содержит единственный ключ `item` ||
 || **items**
-[`array`][1] | Массив содержащих объекты `item` или ошибки ||
+[`array`](../../../data-types.md) | Массив содержащих объекты `item` или ошибки ||
 || **item**
-[`object`][1] | Информация о созданном элементе.
+[`object`](../../../data-types.md) | Информация о созданном элементе.
 
 Содержит единственный ключ `id` ||
 || **id**
-[`int`][1] | Идентификатор созданного элемента ||
+[`integer`](../../../data-types.md) | Идентификатор созданного элемента ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 {% note info " " %}
@@ -792,5 +916,3 @@ HTTP-статус: **401**, **400**, **403**
 
 - [{#T}](./index.md)
 - [{#T}](./crm-item-import.md)
-
-[1]: ../../data-types.md

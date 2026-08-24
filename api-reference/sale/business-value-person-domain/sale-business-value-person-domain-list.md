@@ -42,8 +42,8 @@
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `@` — IN (в качестве значения передаётся массив)
-- `!@`— NOT IN (в качестве значения передаётся массив)
+- `@` — IN, в качестве значения передается массив
+- `!@` — NOT IN, в качестве значения передается массив
 - `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` - не равно ||
 || **order**
@@ -288,6 +288,40 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.businessValuePersonDomain.list", b24.Params{
+    	"select": []string{"personTypeId"},
+    	"filter": b24.Params{
+    		"=domain": "I",
+    	},
+    	"order": b24.Params{
+    		"personTypeId": "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.businessValuePersonDomain.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "businessValuePersonDomains".
+    raw, ok := b24.Unwrap(res.Result, "businessValuePersonDomains")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа businessValuePersonDomains")
+    }
+
+    var items []struct {
+    	PersonTypeID b24.ID `json:"personTypeId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.PersonTypeID)
+    }
     ```
 
 {% endlist %}

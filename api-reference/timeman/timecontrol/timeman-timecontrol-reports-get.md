@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -297,6 +297,26 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.timecontrol.reports.get", b24.Params{
+    	"USER_ID":       3,
+    	"MONTH":         5,
+    	"YEAR":          2025,
+    	"IDLE_MINUTES":  15,
+    	"WORKDAY_HOURS": 8,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("timeman.timecontrol.reports.get: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
@@ -615,4 +635,5 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./timeman-timecontrol-report-add.md)
+- [{#T}](./timeman-timecontrol-reports-users-get.md)
 - [{#T}](./timeman-timecontrol-reports-users-get.md)

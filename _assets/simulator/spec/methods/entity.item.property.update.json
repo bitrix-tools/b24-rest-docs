@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "entity.item.property.update",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Изменить свойство элементов хранилища entity.item.property.update",
+  "permissions": "пользователь с уровнем права X (управление) на хранилище данных",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "PROPERTY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код существующего свойства, которое нужно изменить. Получить код свойства можно методом entity.item.property.get"
+    },
+    {
+      "name": "PROPERTY_NEW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый код свойства. Разрешены символы a-z, A-Z, 0-9, _"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое название свойства"
+    },
+    {
+      "name": "TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый тип свойства: - S — строка - N — число Изменить тип свойства на F (файл) нельзя — метод вернет ошибку"
+    },
+    {
+      "name": "SORT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Индекс сортировки свойства"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/items/properties/entity-item-property-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774442553,
+      "finish": 1774442553.149827,
+      "duration": 0.1498270034790039,
+      "processing": 0,
+      "date_start": "2026-03-25T15:42:33+03:00",
+      "date_finish": "2026-03-25T15:42:33+03:00",
+      "operating_reset_at": 1774443153,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат обновления свойства (true — успешно)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/items/properties/entity-item-property-update.html",
+  "executable": false
+}

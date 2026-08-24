@@ -19,11 +19,11 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **SEARCH_TEXT**
 [`string`](../../data-types.md) | Текст поиска. Если `SEARCH_TYPE` и `SEARCH_DATE` не заданы, длина строки должна быть не меньше `3` символов ||
 || **SEARCH_TYPE**
@@ -322,11 +322,39 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.history.search", b24.Params{
+    	"SEARCH_TEXT":  "счет",
+    	"SEARCH_TYPE":  "tasks|task_update",
+    	"SEARCH_DATE":  "2026-03-03T16:52:29+03:00",
+    	"LAST_ID":      1500,
+    	"LIMIT":        20,
+    	"CONVERT_TEXT": "Y",
+    	"GROUP_TAG":    "TASK|42",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.history.search: %w", err)
+    }
+
+    var item struct {
+    	ChatID       int `json:"chat_id"`
+    	TotalResults int `json:"total_results"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ChatID, item.TotalResults)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -400,24 +428,24 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом поиска. 
+[`object`](../../data-types.md) | Объект с результатом поиска.
 
 Структура объекта подробно описана [ниже](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект result {#result-object}
+#### Объект result {#result-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **chat_id**
 [`integer`](../../data-types.md) | Идентификатор системного чата уведомлений ||
 || **total_results**
@@ -432,11 +460,11 @@ HTTP-код: **200**
 Структура объекта подробно описана [ниже](#user-object) ||
 |#
 
-### Объект notification {#notification-object}
+#### Объект notification {#notification-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор уведомления ||
 || **chat_id**
@@ -466,11 +494,11 @@ HTTP-код: **200**
 || **notify_buttons**
 [`string`](../../data-types.md) | JSON клавиатуры для уведомлений типа подтверждения. Поле присутствует не всегда ||
 || **params**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`null`](../../data-types.md) | Дополнительные параметры уведомления ||
 |#
 
-### Объект user {#user-object}
+#### Объект user {#user-object}
 
 #|
 || **Название**
@@ -538,6 +566,8 @@ HTTP-код: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **work_phone**
+[`string`](../../data-types.md) | Рабочий телефон ||
 || **personal_mobile**
 [`string`](../../data-types.md) | Мобильный телефон ||
 || **inner_phone**
@@ -555,7 +585,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

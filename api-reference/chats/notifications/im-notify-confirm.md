@@ -17,13 +17,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **NOTIFY_ID***
-[`integer`](../../data-types.md) | Идентификатор уведомления с кнопками. 
+[`integer`](../../data-types.md) | Идентификатор уведомления с кнопками.
 
 Получить идентификатор уведомления можно методом [im.notify.get](./im-notify-get.md) ||
 || **NOTIFY_VALUE***
@@ -225,11 +225,33 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.confirm", b24.Params{
+    	"NOTIFY_ID":    288,
+    	"NOTIFY_VALUE": "Y",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.confirm: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "result_message".
+    raw, ok := b24.Unwrap(res.Result, "result_message")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа result_message")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -251,26 +273,26 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом нажатия кнопки. 
+[`object`](../../data-types.md) | Объект с результатом нажатия кнопки.
 
 Структура объекта подробно описана [ниже](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект result {#result-object}
+#### Объект result {#result-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result_message**
-[`array`](../../data-types.md) 
+[`array`](../../data-types.md)
 [`boolean`](../../data-types.md) | Ответ обработчика кнопки уведомления. Может содержать массив строк или `false` ||
 |#
 
@@ -285,7 +307,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

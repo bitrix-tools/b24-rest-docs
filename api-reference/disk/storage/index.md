@@ -11,7 +11,7 @@
 
 Хранилище — это Диск в Битрикс24, где можно хранить документы и файлы, создавать папки и получать списки содержимого.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
 
 ## Типы хранилищ
 
@@ -21,7 +21,7 @@
 - Общий диск — хранилище компании
 - Диск группы — хранилище рабочей группы
 
-Получить список типов хранилищ можно методом [disk.storage.gettypes](./disk-storage-get-types.md).
+Получить список типов хранилищ можно методом [disk.storage.getTypes](./disk-storage-get-types.md).
 
 {% note tip "Пользовательская документация" %}
 
@@ -30,25 +30,25 @@
 
 {% endnote %}
 
-## Как получить описание хранилища
+## Как начать работу
 
 Для работы с хранилищем нужен его идентификатор.
 
-1. Получите список доступных хранилищ методом [disk.storage.getlist](./disk-storage-get-list.md).
-2. Найдите в списке нужное хранилище и используйте его `ID`.
-3. Получите параметры хранилища методом [disk.storage.get](./disk-storage-get.md).
+1. Получите список доступных хранилищ методом [disk.storage.getList](./disk-storage-get-list.md)
+2. Найдите в списке нужное хранилище и используйте его `ID`
+3. Получите параметры хранилища методом [disk.storage.get](./disk-storage-get.md)
 
-Описание всех полей хранилища возвращает метод [disk.storage.getfields](./disk-storage-get-fields.md). Для работы с хранилищем приложения используйте метод [disk.storage.getforapp](./disk-storage-get-for-app.md).
+Описание всех полей хранилища возвращает метод [disk.storage.getFields](./disk-storage-get-fields.md). Для работы с хранилищем приложения используйте метод [disk.storage.getForApp](./disk-storage-get-for-app.md).
 
 ## Работа с содержимым хранилища
 
 В корне хранилища можно выполнить следующие операции:
 
-- получить список файлов и папок методом [disk.storage.getchildren](./disk-storage-get-children.md)
-- создать папку с помощью метода [disk.storage.addfolder](./disk-storage-add-folder.md)
-- загрузить файл методом [disk.storage.uploadfile](./disk-storage-upload-file.md)
+- получить список файлов и папок методом [disk.storage.getChildren](./disk-storage-get-children.md)
+- создать папку с помощью метода [disk.storage.addFolder](./disk-storage-add-folder.md)
+- загрузить файл методом [disk.storage.uploadFile](./disk-storage-upload-file.md)
 
-Для работы с вложенными папками и файлами используйте методы [disk.folder.\*](../folder/index.md).
+Для работы с вложенными папками и файлами используйте методы [disk.folder.*](../folder/index.md).
 
 ## Как переименовать хранилище
 
@@ -58,17 +58,17 @@
 
 > Scope: [`disk`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: зависит от метода
+> Кто может выполнять методы: зависит от метода
 
 #|
 || **Метод** | **Описание** ||
-|| [disk.storage.getfields](./disk-storage-get-fields.md) | Возвращает описание полей хранилища ||
 || [disk.storage.get](./disk-storage-get.md) | Возвращает хранилище по идентификатору ||
 || [disk.storage.rename](./disk-storage-rename.md) | Переименовывает хранилище приложения ||
-|| [disk.storage.getlist](./disk-storage-get-list.md) | Возвращает список доступных хранилищ ||
-|| [disk.storage.gettypes](./disk-storage-get-types.md) | Возвращает список типов хранилищ ||
-|| [disk.storage.addfolder](./disk-storage-add-folder.md) | Создает папку в корне хранилища ||
-|| [disk.storage.getchildren](./disk-storage-get-children.md) | Возвращает список файлов и папок, которые находятся в корне хранилища ||
-|| [disk.storage.uploadfile](./disk-storage-upload-file.md) | Загружает новый файл в корень хранилища ||
-|| [disk.storage.getforapp](./disk-storage-get-for-app.md) | Возвращает описание хранилища приложения ||
+|| [disk.storage.getList](./disk-storage-get-list.md) | Возвращает список доступных хранилищ ||
+|| [disk.storage.getTypes](./disk-storage-get-types.md) | Возвращает список типов хранилищ ||
+|| [disk.storage.addFolder](./disk-storage-add-folder.md) | Создает папку в корне хранилища ||
+|| [disk.storage.getChildren](./disk-storage-get-children.md) | Возвращает список файлов и папок, которые находятся в корне хранилища ||
+|| [disk.storage.uploadFile](./disk-storage-upload-file.md) | Загружает новый файл в корень хранилища ||
+|| [disk.storage.getForApp](./disk-storage-get-for-app.md) | Возвращает описание хранилища приложения ||
+|| [disk.storage.getFields](./disk-storage-get-fields.md) | Возвращает описание полей хранилища ||
 |#

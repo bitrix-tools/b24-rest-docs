@@ -1,4 +1,4 @@
-# Получить список файлов и папок в корне хранилища disk.storage.getchildren
+# Получить список файлов и папок в корне хранилища disk.storage.getChildren
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `disk.storage.getchildren` возвращает список файлов и папок, которые находятся в корне хранилища.
+Метод `disk.storage.getChildren` возвращает список файлов и папок, которые находятся в корне хранилища.
 
 {% note info "" %}
 
@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища.
 
-Идентификатор можно получить с помощью метода [disk.storage.getlist](./disk-storage-get-list.md) ||
+Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md) ||
 || **filter**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -66,7 +66,7 @@
 - `!=` — не равно
 - `!` — не равно
 
-Список доступных для фильтрации полей можно узнать с помощью метода [disk.folder.getfields](../folder/disk-folder-get-fields.md) ||
+Список доступных для фильтрации полей можно узнать с помощью метода [disk.folder.getFields](../folder/disk-folder-get-fields.md) ||
 || **order**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -85,7 +85,7 @@
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
 
-Список доступных для сортировки полей можно узнать с помощью метода [disk.folder.getfields](../folder/disk-folder-get-fields.md) ||
+Список доступных для сортировки полей можно узнать с помощью метода [disk.folder.getFields](../folder/disk-folder-get-fields.md) ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -111,7 +111,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1357,"filter":{"NAME":"%Папка%"},"order":{"NAME":"DESC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.getchildren
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.getChildren
     ```
 
 - cURL (OAuth)
@@ -121,7 +121,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":1357,"filter":{"NAME":"%Папка%"},"order":{"NAME":"DESC"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.storage.getchildren
+    https://**put_your_bitrix24_address**/rest/disk.storage.getChildren
     ```
 
 - JS (TS)
@@ -154,13 +154,13 @@
     }
 
     try {
-      // disk.storage.getchildren returns a single page (max 50 records). For the whole result set
+      // disk.storage.getChildren returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
       // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<StorageChildItem[]>({
-        method: 'disk.storage.getchildren',
+        method: 'disk.storage.getChildren',
         params: {
           id: 1357,
           filter: {
@@ -198,13 +198,13 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // disk.storage.getchildren returns a single page (max 50 records). For the whole result set
+          // disk.storage.getChildren returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
           // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.storage.getchildren',
+            method: 'disk.storage.getChildren',
             params: {
               id: 1357,
               filter: {
@@ -273,7 +273,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.storage.getchildren',
+                'disk.storage.getChildren',
                 [
                     'id' => 1357,
                     'filter' => [
@@ -302,7 +302,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.storage.getchildren",
+        "disk.storage.getChildren",
         {
             id: 1357,
             filter: {
@@ -328,7 +328,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.storage.getchildren',
+        'disk.storage.getChildren',
         [
             'id' => 1357,
             'filter' => [
@@ -343,6 +343,39 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getChildren", b24.Params{
+    	"id": 1357,
+    	"filter": b24.Params{
+    		"NAME": "%Папка%",
+    	},
+    	"order": b24.Params{
+    		"NAME": "DESC",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getChildren: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	StorageID    b24.ID `json:"STORAGE_ID"`
+    	Type         string `json:"TYPE"`
+    	RealObjectID b24.ID `json:"REAL_OBJECT_ID"`
+    	ParentID     b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
     ```
 
 {% endlist %}

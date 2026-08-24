@@ -218,6 +218,34 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.automatedsolution.get", b24.Params{
+    	"id": 393,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.automatedsolution.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "automatedSolution".
+    raw, ok := b24.Unwrap(res.Result, "automatedSolution")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа automatedSolution")
+    }
+
+    var item struct {
+    	ID    b24.ID `json:"id"`
+    	Title string `json:"title"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -11,15 +11,22 @@
 
 В ленте новостей и мессенджере можно провести опрос сотрудников и устроить голосование за варианты ответов. Создатель опроса может настроить анонимность ответов и возможность переголосовать.
 
-> Быстрый переход: [все методы](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
 >
-> Пользовательская документация: [Опросы в чатах Битрикс24: как создать и настроить](https://helpdesk.bitrix24.ru/open/25240550/), [Опрос в ленте Новостей](https://helpdesk.bitrix24.ru/open/25240550/)
+> Пользовательская документация: [Опросы в чатах Битрикс24: как создать и настроить](https://helpdesk.bitrix24.ru/open/25240550/)
+
+## Как начать работу
+
+1. Создайте опрос. В чате мессенджера опрос создает метод [vote.Integration.Im.send](./vote.integration.im.send.md). Опрос в ленте новостей создается только в интерфейсе Битрикс24 — через REST API можно управлять уже созданным опросом.
+2. Получите идентификатор опроса. Метод [vote.Integration.Im.send](./vote.integration.im.send.md) возвращает идентификатор сообщения `messageId` и идентификатор голосования `voteId`. Для опроса в ленте новостей получите `ID` поста методом [log.blogpost.get](../log/log-blogpost-get.md).
+3. Работайте с голосованием методами `vote.AttachedVote.*`. Каждый из них принимает опрос одним из трех способов: по идентификатору прикрепления `attachId`, по связке `moduleId` + `entityType` + `entityId` или по подписанному идентификатору `signedAttachId`.
+4. Получите результаты методом [vote.AttachedVote.get](./vote.attachedvote.get.md) или [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md), а полный отчет — методом [vote.AttachedVote.download](./vote.attachedvote.download.md).
 
 ## Связь с другими объектами
 
-**Лента новостей.** Опрос в ленте новостей связан с постом. Получите `ID` поста в Битрикс24 методом [log.blogpost.get](../log/log-blogpost-get.md). Используйте `ID` поста в методах vote.AttachedVote.*, чтобы управлять голосованием и получать его результаты.
+**Лента новостей.** Опрос в ленте новостей прикреплен к посту. Связь работает через `ID` поста: передайте его в методы `vote.AttachedVote.*` в параметре `entityId` вместе с `moduleId` со значением `blog`. Получить `ID` поста можно методом [log.blogpost.get](../log/log-blogpost-get.md).
 
-**Мессенджер**. Опрос в чате связан с сообщением мессенджера. Чтобы создать опрос, используйте метод [vote.Integration.Im.send](./vote.integration.im.send.md). Используйте `messageID` из результата в методах vote.AttachedVote.*, чтобы управлять голосованием.
+**Мессенджер.** Опрос в чате прикреплен к сообщению мессенджера. Связь работает через идентификатор сообщения: передайте `messageId` из результата метода [vote.Integration.Im.send](./vote.integration.im.send.md) в методы `vote.AttachedVote.*` в параметре `entityId` вместе с `moduleId` со значением `Im`.
 
 **Пользователь.** Методы [vote.AttachedVote.getAnswerVoted](./vote.attachedvote.getAnswerVoted.md) и [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md) возвращают список проголосовавших пользователей и базовую информацию о них: ID, имя, должность, изображение. Чтобы получить подробную информацию о проголосовавшем пользователе, используйте метод [user.get](../user/user-get.md).
 
@@ -29,15 +36,15 @@
 
 1. Получите ссылку из параметра `downloadUrl`. Параметр доступен в методах:
 
-   - [vote.AttachedVote.vote](./vote.attachedvote.vote.md),
+   - [vote.AttachedVote.vote](./vote.attachedvote.vote.md)
 
-   - [vote.AttachedVote.recall](./vote.attachedvote.recall.md),
+   - [vote.AttachedVote.recall](./vote.attachedvote.recall.md)
 
-   - [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md),
+   - [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md)
 
-   - [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md),
+   - [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md)
 
-   - [vote.AttachedVote.get](./vote.attachedvote.get.md).
+   - [vote.AttachedVote.get](./vote.attachedvote.get.md)
 
 2. Подставьте домен Битрикс24 к ссылке из параметра.
 
@@ -53,18 +60,18 @@
 
 ## Как удалить опрос
 
-Если необходимо удалить опрос полностью, используйте методы:
+Чтобы удалить опрос полностью, используйте методы:
 
-- [log.blogpost.delete](../log/log-blogpost-delete.md) — если опрос привязан к посту в ленте новостей,
+- [log.blogpost.delete](../log/log-blogpost-delete.md) — если опрос привязан к посту в ленте новостей
 
-- [im.message.delete](../chats/messages/im-message-delete.md) — если опрос создан в чате.
+- [im.message.delete](../chats/messages/im-message-delete.md) — если опрос создан в чате
 
 Методы удалят пост или сообщение с опросом и результатами.
 
-## Обзор методов {#all-methods} 
+## Обзор методов {#all-methods}
 
 > Scope: [`vote`](../scopes/permissions.md)
-> 
+>
 > Кто может выполнять методы: в зависимости от метода
 
 #|
@@ -76,7 +83,7 @@
 || [vote.AttachedVote.stop](./vote.attachedvote.stop.md) | Останавливает голосование ||
 || [vote.AttachedVote.get](./vote.attachedvote.get.md) | Возвращает данные прикрепленного голосования ||
 || [vote.AttachedVote.getAnswerVoted](./vote.attachedvote.getAnswerVoted.md) | Возвращает список проголосовавших за ответ ||
-|| [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md) | Возвращаеть несколько голосований ||
-|| [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md) | Возвращает данные голосования с информацией о проголосовавших||
+|| [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md) | Возвращает несколько голосований ||
+|| [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md) | Возвращает данные голосования с информацией о проголосовавших ||
 || [vote.AttachedVote.download](./vote.attachedvote.download.md) | Скачивает отчет по голосованию ||
 |#

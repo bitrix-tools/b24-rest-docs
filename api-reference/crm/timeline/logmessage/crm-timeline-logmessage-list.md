@@ -340,6 +340,44 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.logmessage.list", b24.Params{
+    	"entityTypeId": 1,
+    	"entityId":     1,
+    	"order": b24.Params{
+    		"created": "desc",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.logmessage.list: %w", err)
+    }
+
+    var items []struct {
+    	ID       b24.ID `json:"id"`
+    	Created  string `json:"created"`
+    	AuthorID b24.ID `json:"authorId"`
+    	Title    string `json:"title"`
+    	Text     string `json:"text"`
+    	IconCode string `json:"iconCode"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Created)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

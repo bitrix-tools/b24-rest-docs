@@ -1,4 +1,4 @@
-# Переместить блок на страницу `landing.landing.moveblock`
+# Переместить блок на страницу landing.landing.moveblock
 
 {% note tip "" %}
 
@@ -307,6 +307,31 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.moveblock", b24.Params{
+    	"lid":   351,
+    	"block": 26723,
+    	"params": b24.Params{
+    		"AFTER_ID":       6429,
+    		"RETURN_CONTENT": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.moveblock: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
     ```
 
 {% endlist %}

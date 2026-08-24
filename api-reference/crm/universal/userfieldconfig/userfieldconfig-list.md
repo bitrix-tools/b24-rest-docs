@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -117,7 +117,7 @@
 || **settings**
 [`string`](../../../data-types.md) | Дополнительные настройки поля ||
 || **languageId**
-[`string`](../../../data-types.md) | [Языковой идентификатор](../../../data-types.md#lang-ids). При передаче этого параметра возвращается набор языковых полей на выбранном языке:
+[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). При передаче этого параметра возвращается набор языковых полей на выбранном языке:
 - `editFormLabel` - подпись в форме редактирования
 - `listColumnLabel` - заголовок в списке
 - `listFilterLabel` - подпись фильтра в списке
@@ -419,6 +419,50 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.list", b24.Params{
+    	"moduleId": "crm",
+    	"select": b24.Params{
+    		"0":        "*",
+    		"language": "ru",
+    	},
+    	"order": b24.Params{
+    		"id": "DESC",
+    	},
+    	"filter": b24.Params{
+    		"multiple": "Y",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "fields".
+    raw, ok := b24.Unwrap(res.Result, "fields")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа fields")
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"id"`
+    	EntityID   string `json:"entityId"`
+    	FieldName  string `json:"fieldName"`
+    	UserTypeID string `json:"userTypeId"`
+    	Sort       string `json:"sort"`
+    	Multiple   string `json:"multiple"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -539,15 +583,15 @@ HTTP-статус: **200**
 || **languageId**
 [`object`](../../../data-types.md) | Языковые идентификаторы, для которых заданы подписи ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования ||
 || **listColumnLabel**
-[`lang_map`](../../../data-types.md) | Заголовок в списке ||
+[`lang_map`](../../data-types.md) | Заголовок в списке ||
 || **listFilterLabel**
-[`lang_map`](../../../data-types.md) | Подпись фильтра в списке ||
+[`lang_map`](../../data-types.md) | Подпись фильтра в списке ||
 || **errorMessage**
-[`lang_map`](../../../data-types.md) | Сообщение об ошибке ||
+[`lang_map`](../../data-types.md) | Сообщение об ошибке ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Подсказка ||
+[`lang_map`](../../data-types.md) | Подсказка ||
 || **enum**
 [`object[]`](../../../data-types.md) | Элементы списка для `userTypeId = enumeration`.
 
@@ -571,9 +615,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Вы не можете просматривать настройки пользовательских полей | Недостаточно прав на чтение полей по переданному фильтру ||
-|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
-|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|| Пустое значение | Вы не можете просматривать настройки пользовательских полей | Недостаточно прав на чтение полей по переданному фильтру ||
+|| Пустое значение | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| Пустое значение | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

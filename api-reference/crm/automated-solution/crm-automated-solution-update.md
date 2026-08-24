@@ -33,9 +33,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../data-types.md) | Идентификатор цифрового рабочего места. Может быть получен из ответа метода [crm.automatedsolution.add](./crm-automated-solution-add.md) (result.automatedSolution.id), который был вызван при добавлении цифрового рабочего места, или [crm.automatedsolution.list](./crm-automated-solution-list.md). Так же можно воспользоваться разделом «Цифровые рабочие места» на портале Битрикс24 — колонка `ID` в списке цифровых рабочих мест ||
+[`integer`](../../data-types.md) | Идентификатор цифрового рабочего места. Может быть получен из ответа метода [crm.automatedsolution.add](./crm-automated-solution-add.md) (result.automatedSolution.id), который был вызван при добавлении цифрового рабочего места, или [crm.automatedsolution.list](./crm-automated-solution-list.md). Так же можно воспользоваться разделом «Цифровые рабочие места» на портале Битрикс24 — колонка `ID` в списке цифровых рабочих мест ||
 || **fields***
-[`object`](../data-types.md) | Значения полей (подробное описание приведено ниже) для создания цифрового рабочего места в виде структуры:
+[`object`](../../data-types.md) | Значения полей (подробное описание приведено ниже) для создания цифрового рабочего места в виде структуры:
 
 ```js
 "fields": {
@@ -230,6 +230,37 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.automatedsolution.update", b24.Params{
+        	"id": 238,
+        	"fields": b24.Params{
+        		"title": "HR & Customer Success",
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.automatedsolution.update: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "automatedSolution".
+        raw, ok := b24.Unwrap(res.Result, "automatedSolution")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа automatedSolution")
+        }
+
+        var item struct {
+        	ID    b24.ID `json:"id"`
+        	Title string `json:"title"`
+        }
+        if err := json.Unmarshal(raw, &item); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println(item.ID, item.Title)
+        ```
+
     {% endlist %}
 
 2. Изменить список привязанных смарт-процессов
@@ -393,6 +424,37 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.automatedsolution.update", b24.Params{
+        	"id": 238,
+        	"fields": b24.Params{
+        		"typeIds": []int{14},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.automatedsolution.update: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "automatedSolution".
+        raw, ok := b24.Unwrap(res.Result, "automatedSolution")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа automatedSolution")
+        }
+
+        var item struct {
+        	ID    b24.ID `json:"id"`
+        	Title string `json:"title"`
+        }
+        if err := json.Unmarshal(raw, &item); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println(item.ID, item.Title)
+        ```
+
     {% endlist %}
 
 3. Отвязать все смарт-процессы
@@ -554,6 +616,37 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.automatedsolution.update", b24.Params{
+        	"id": 238,
+        	"fields": b24.Params{
+        		"typeIds": []any{},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.automatedsolution.update: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "automatedSolution".
+        raw, ok := b24.Unwrap(res.Result, "automatedSolution")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа automatedSolution")
+        }
+
+        var item struct {
+        	ID    b24.ID `json:"id"`
+        	Title string `json:"title"`
+        }
+        if err := json.Unmarshal(raw, &item); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println(item.ID, item.Title)
+        ```
+
     {% endlist %}
 
 ## Обработка ответа

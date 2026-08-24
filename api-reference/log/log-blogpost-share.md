@@ -31,7 +31,10 @@
 
 Возможные значения:
 
-{% include notitle [адресаты сообщения](./_includes/log-recepients.md) %}
+- `SG<X>` — рабочие группы и проекты с идентификатором `X`. Идентификатор можно получить методом [sonet_group.get](../sonet-group/sonet-group-get.md)
+- `U<X>` — пользователи с идентификатором `X`. Идентификатор можно получить методом [user.get](../user/user-get.md)
+- `UA` — все авторизованные пользователи
+- `DR<X>` — подразделения компании с идентификатором `X`. Идентификатор можно получить методом [department.get](../departments/department-get.md)
 ||
 || **USER_ID**
 [`integer`](../data-types.md) | Идентификатор пользователя, от имени которого редактируется сообщение. Доступно только администраторам.
@@ -232,6 +235,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogpost.share", b24.Params{
+    	"POST_ID": 217,
+    	"DEST":    []string{"SG69", "DR4"},
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogpost.share: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

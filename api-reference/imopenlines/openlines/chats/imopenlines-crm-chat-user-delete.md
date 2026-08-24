@@ -41,7 +41,7 @@
 
 По умолчанию используется последний чат, привязанный к объекту CRM.
 
-Получить идентификаторы чатов, привязанных к объекту CRM можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
+Получить идентификаторы чатов, привязанных к объекту CRM, можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
 |#
 
 ## Примеры кода
@@ -241,6 +241,27 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.crm.chat.user.delete", b24.Params{
+    	"CRM_ENTITY_TYPE": "lead",
+    	"CRM_ENTITY":      1205,
+    	"USER_ID":         503,
+    	"CHAT_ID":         1763,
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.crm.chat.user.delete: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -263,7 +284,7 @@ HTTP-статус: **200**
 }
 ```
 
-### Возвращаемые данные
+## Возвращаемые данные
 
 #|
 || **Название**
@@ -283,35 +304,33 @@ HTTP-статус: **400**, **403**
 ```json
 {
     "error": "ERROR_ARGUMENT",
-    "error_description": "The value of an argument CRM_ENTITY has an invalid type"
+    "error_description": "The value of an argument 'CRM_ENTITY' has an invalid type"
 }
 ```
 
-{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+{% include notitle [Обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! You don't have access to join user to chat | Возможные причины:
-- указан неверный или несуществующий `CRM_ENTITY_TYPE` 
+- указан неверный или несуществующий `CRM_ENTITY_TYPE`
 - у пользователя, который выполняет метод, нет доступа к объекту CRM
 ||
-|| `400` | `CRM_CHAT_EMPTY_USER` | User identifier is not specified | Не указан обязательный параметр `USER_ID` ||
-|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Empty CRM datad | Не переданы обязательные параметры `CRM_ENTITY_TYPE` и `CRM_ENTITY` ||
-|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | CRM data is not specified | Не переданы данные CRM ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument CRM_ENTITY has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
-|| `400` | `IM_NOT_INSTALLED` | Module im is not installed | Модуль `im` не установлен ||
+|| `400` | `CRM_CHAT_EMPTY_USER` | Empty User ID | Не указан обязательный параметр `USER_ID` ||
+|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Empty CRM data | Не переданы обязательные параметры `CRM_ENTITY_TYPE` и `CRM_ENTITY` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
 || `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Возможные причины:
 - чат не связан с объектом CRM
 - чат с указанным `CHAT_ID` не существует ||
 || `403` | `CHAT_DELETE_USER_PERMISSION_DENIED` | You don't have access to delete a user from this chat | У пользователя нет доступа к удалению участника из чата ||
-|| `400` | `CRM_CHAT_USER_NOT_ACTIVE` | Chat user is not active | Удаляемый пользователь `USER_ID` не активен или не существует ||
+|| `400` | `CRM_CHAT_USER_NOT_ACTIVE` | User not active | Удаляемый пользователь `USER_ID` не активен или не существует ||
 || `400` | `WRONG_REQUEST` | You don't have access or user already not in chat | Пользователь уже удален из чата или недоступен для удаления ||
-|| `400` | `USER_NOT_FOUND` | Указанный пользователь не состоит в чате | Пользователь с идентификатором `CHAT_ID` не состоит в указанном чате ||
 |#
 
-{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+{% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 

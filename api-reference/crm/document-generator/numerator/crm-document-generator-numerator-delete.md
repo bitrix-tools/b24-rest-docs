@@ -19,13 +19,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор нумератора ||
+[`integer`](../../../data-types.md) | Идентификатор нумератора ||
 |#
 
 ## Примеры кода
@@ -208,6 +208,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.numerator.delete", b24.Params{
+    	"id": 47,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.numerator.delete: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -236,9 +252,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`null`](../../data-types.md) | Корневой элемент ответа. Для метода удаления возвращается `null` ||
+[`null`](../../../data-types.md) | Корневой элемент ответа. Для метода удаления возвращается `null` ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

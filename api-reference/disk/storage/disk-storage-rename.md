@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища приложения.
 
-Идентификатор можно получить с помощью метода [disk.storage.getforapp](./disk-storage-get-for-app.md) || 
+Идентификатор можно получить с помощью метода [disk.storage.getForApp](./disk-storage-get-for-app.md) ||
 || **newName***
 [`string`](../../data-types.md) | Новое имя хранилища ||
 |#
@@ -221,6 +221,32 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.rename", b24.Params{
+    	"id":      1366,
+    	"newName": "Bitrix REST API",
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.storage.rename: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	ModuleID     string `json:"MODULE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    	EntityID     b24.ID `json:"ENTITY_ID"`
+    	RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

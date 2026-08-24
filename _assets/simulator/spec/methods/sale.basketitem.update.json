@@ -1,0 +1,227 @@
+{
+  "$v": 1,
+  "method": "sale.basketitem.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Изменить позицию корзины существующего заказа sale.basketitem.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_basket_item.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор позиции заказа"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения изменяемых полей",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Положение в списке позиций заказа"
+        },
+        {
+          "name": "price",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Цена с учетом наценок и скидок"
+        },
+        {
+          "name": "basePrice",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Исходная цена без учета наценок и скидок"
+        },
+        {
+          "name": "discountPrice",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Величина итоговой скидки или наценки"
+        },
+        {
+          "name": "quantity",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Количество товара"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код позиции корзины"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название товара"
+        },
+        {
+          "name": "weight",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Вес товара"
+        },
+        {
+          "name": "dimensions",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Размеры товара (сериализованный массив)"
+        },
+        {
+          "name": "measureCode",
+          "type": "catalog_measure.code",
+          "base": "any",
+          "required": false,
+          "description": "Код единицы измерения товара"
+        },
+        {
+          "name": "measureName",
+          "type": "catalog_measure.symbol",
+          "base": "any",
+          "required": false,
+          "description": "Название единицы измерения"
+        },
+        {
+          "name": "canBuy",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг доступности товара. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "vatRate",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Ставка налога долей от единицы: 0.1 — это 10 %. Для указания ставки «Без НДС» нужно передать пустую строку"
+        },
+        {
+          "name": "vatIncluded",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг того, включен ли НДС или налог в цену товара. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "catalogXmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код каталога товаров"
+        },
+        {
+          "name": "productXmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код товара"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-item/sale-basket-item-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketItem": {
+        "basePrice": 1000,
+        "canBuy": "Y",
+        "catalogXmlId": "",
+        "currency": "RUB",
+        "customPrice": "Y",
+        "dateInsert": "2024-04-23T18:51:28+02:00",
+        "dateUpdate": "2024-04-24T14:02:25+02:00",
+        "dimensions": "a:3:{s:5:\"WIDTH\";i:244;s:6:\"HEIGHT\";i:100;s:6:\"LENGTH\";i:31;}",
+        "discountPrice": 990,
+        "id": 6791,
+        "measureCode": "768",
+        "measureName": "шт",
+        "name": "Пробный товар",
+        "orderId": 5147,
+        "price": 10,
+        "productId": 0,
+        "productXmlId": "ProductKey",
+        "properties": [],
+        "quantity": 7,
+        "reservations": [],
+        "sort": 400,
+        "type": null,
+        "vatIncluded": "Y",
+        "vatRate": 10,
+        "weight": 40,
+        "xmlId": "BasketPositionId"
+      }
+    },
+    "total": 1,
+    "time": {
+      "start": 1713960144.842687,
+      "finish": 1713960146.089664,
+      "duration": 1.2469770908355713,
+      "processing": 0.5501749515533447,
+      "date_start": "2024-04-24T14:02:24+02:00",
+      "date_finish": "2024-04-24T14:02:26+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketItem",
+      "type": "sale_basket_item",
+      "base": "any",
+      "required": false,
+      "description": "Объект с данными обновленного элемента (позиции) корзины"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Число обработанных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-item/sale-basket-item-update.html",
+  "executable": false
+}

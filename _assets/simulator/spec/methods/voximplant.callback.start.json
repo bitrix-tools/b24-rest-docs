@@ -1,0 +1,92 @@
+{
+  "$v": 1,
+  "method": "voximplant.callback.start",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Запустить обратный звонок voximplant.callback.start",
+  "permissions": "пользователь с правом Исходящий звонок — Выполнение",
+  "params": [
+    {
+      "name": "FROM_LINE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор исходящей линии, с которой запускается обратный звонок. Список доступных линий можно получить методом voximplant.line.get"
+    },
+    {
+      "name": "TO_NUMBER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Номер клиента, на который нужно позвонить"
+    },
+    {
+      "name": "TEXT_TO_PRONOUNCE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст, который система произнесет сотруднику перед соединением с клиентом"
+    },
+    {
+      "name": "VOICE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор голоса для синтеза речи. Если не передан, используется голос по умолчанию для языка портала. Список доступных голосов можно получить методом voximplant.tts.voices.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/voximplant-callback-start.md"
+  },
+  "resultExample": {
+    "result": {
+      "RESULT": true,
+      "CALL_ID": "callback.72f42b118e019a4cc47629ff60525f43.1773736077"
+    },
+    "time": {
+      "start": 1773736066,
+      "finish": 1773736067.708955,
+      "duration": 1.7089550495147705,
+      "processing": 1,
+      "date_start": "2026-03-17T11:27:46+03:00",
+      "date_finish": "2026-03-17T11:27:47+03:00",
+      "operating_reset_at": 1773736666,
+      "operating": 0.9574570655822754
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом запуска обратного звонка"
+    },
+    {
+      "name": "RESULT",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак успешного запуска. true — обратный звонок успешно запущен"
+    },
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор звонка"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/voximplant-callback-start.html",
+  "executable": false
+}

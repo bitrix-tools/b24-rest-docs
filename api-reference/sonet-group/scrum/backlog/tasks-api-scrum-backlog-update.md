@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод обновляет бэклог.
+Метод `tasks.api.scrum.backlog.update` обновляет бэклог.
 
 ## Параметры метода
 
@@ -47,7 +47,7 @@
 || **groupId**
 [`integer`](../../../data-types.md) | Идентификатор группы, к которой принадлежит бэклог.
 
-Идентификатор группы можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork-api-workgroup-list.md](../../socialnetwork-api-workgroup-list.md) ||
+Идентификатор группы можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, от кого будет создан бэклог ||
 || **modifiedBy**
@@ -265,6 +265,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.backlog.update", b24.Params{
+    	"id": 1,
+    	"fields": b24.Params{
+    		"groupId":   125,
+    		"createdBy": 6,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.backlog.update: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	GroupID    b24.ID `json:"groupId"`
+    	CreatedBy  int    `json:"createdBy"`
+    	ModifiedBy int    `json:"modifiedBy"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.GroupID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -323,8 +350,14 @@ HTTP-статус: **400**
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
 || `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `0` | Backlog id not found | Не передан идентификатор бэклога `id` ||
 || `0` | Backlog not found | Передан невалидный идентификатор бэклога ||
 || `0` | Access denied | Отсутствуют соответствующие права доступа ||
+|| `0` | It is forbidden move a backlog with items | Нельзя перенести бэклог в другую группу, если в нем есть задачи ||
+|| `0` | The target group already has a backlog | В целевой группе уже есть бэклог ||
+|| `0` | createdBy user not found | Переданный идентификатор пользователя невалидный. Например, пользователя с таким идентификатором не существует ||
+|| `0` | modifiedBy user not found | Переданный идентификатор пользователя невалидный. Например, пользователя с таким идентификатором не существует ||
+|| `0` | Unable to update backlog | Не удалось обновить бэклог ||
 || `0` | Unknown error | Другая ошибка ||
 |#
 

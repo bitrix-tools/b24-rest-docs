@@ -1,6 +1,6 @@
-# Настроить службу доставки для CRM
+# Как настроить службу доставки для CRM
 
-> Scope: [`sale`](../../api-reference/scopes/permissions.md)
+> Scope: [`delivery`](../../api-reference/scopes/permissions.md), [`sale`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: администратор
 
@@ -15,19 +15,27 @@
 
 К Битрикс24 можно подключать внешние сервисы доставки. Это позволяет менеджеру работать со службой доставки в карточках CRM: рассчитывать стоимость и отслеживать статус.
 
-Чтобы настроить службу доставки, последовательно выполним методы:
+В результате сценария в CRM появится служба доставки с профилями, адресными свойствами отгрузки и дополнительной услугой.
 
-1. [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md) — зарегистрируем обработчик доставки,
+Сценарий состоит из пяти шагов.
 
-2. [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md) — создадим родительскую службу и профили, которые привязаны к обработчику,
+1. Зарегистрируем обработчик доставки методом [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md)
+2. Создадим родительскую службу и профили методом [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md)
+3. Добавим свойства отгрузки для адресов методом [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md)
+4. Привяжем свойства к профилям доставки методом [sale.propertyRelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md)
+5. Подключим дополнительную услугу методом [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md)
 
-3. [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md) — добавим свойства отгрузки для адресов,
+## Перед началом
 
-4. [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) — привяжем свойства к профилям доставки.
+Подготовьте значения, которые понадобятся в примерах.
 
-5. [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md) — подключим дополнительные услуги.
+- Входящий вебхук или OAuth-токен пользователя с правами администратора
+- Публичные HTTPS-адреса обработчика: `CALCULATE_URL`, `CREATE_DELIVERY_REQUEST_URL`, `CANCEL_DELIVERY_REQUEST_URL`
+- Уникальный код обработчика доставки, например `uber`
+- Идентификатор типа плательщика `personTypeId`. Получить список типов можно методом [sale.persontype.list](../../api-reference/sale/person-type/sale-person-type-list.md)
+- Идентификатор группы свойств `propsGroupId`. Получить список групп можно методом [sale.propertygroup.list](../../api-reference/sale/property-group/sale-property-group-list.md)
 
-## 1\. Создадим обработчик службы доставки
+## 1. Создадим обработчик службы доставки
 
 Зарегистрируем обработчик с помощью [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md). В метод передадим четыре параметра.
 
@@ -175,12 +183,11 @@
     from b24pysdk import BitrixWebhook, Client
     from b24pysdk.errors import BitrixAPIError
 
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
     )
+    client = Client(token)
 
     try:
         response = client.sale.delivery.handler.add(
@@ -224,23 +231,15 @@
 
 {% endlist %}
 
-Если обработчик успешно добавлен, метод вернет его идентификатор. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.delivery.handler.add](../../api-reference/sale/delivery/handler/sale-delivery-handler-add.md).
+Если обработчик успешно добавлен, метод вернет его идентификатор.
 
 ```json
 {
-    "result": 23,
-    "time": {
-        "start": 1714736790.260814,
-        "finish": 1714736791.896773,
-        "duration": 1.6359591484069824,
-        "processing": 0.03880000114440918,
-        "date_start": "2024-05-03T14:46:30+03:00",
-        "date_finish": "2024-05-03T14:46:31+03:00"
-    }
+    "result": 23
 }
 ```
 
-## 2\. Создадим службу доставки {#second}
+## 2. Создадим службу доставки {#second}
 
 Создадим службу доставки с помощью метода [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md). В метод передадим следующие параметры:
 
@@ -339,58 +338,41 @@
 
 {% endlist %}
 
-Если служба доставки успешно создана, метод вернет объект родительской службы и массив профилей. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.delivery.add](../../api-reference/sale/delivery/delivery/sale-delivery-add.md).
+Если служба доставки успешно создана, метод вернет объект родительской службы и массив профилей. Сохраните идентификаторы профилей из массива `profiles`: они понадобятся для привязки свойств отгрузки и дополнительных услуг.
 
 ```json
 {
-"result":{
-    "parent":{
-        "NAME":"Uber Taxi",
-        "ACTIVE":"Y",
-        "DESCRIPTION":"",
-        "CURRENCY":"RUB",
-        "ID":226,
-        "PARENT_ID":null,
-        "SORT":100,
-        "LOGOTYPE":null
-    },
-    "profiles":[
-        {
-            "NAME":"Taxi",
-            "ACTIVE":"Y",
-            "DESCRIPTION":"Taxi Delivery",
-            "CURRENCY":"RUB",
-            "ID":227,
-            "PARENT_ID":226,
-            "SORT":100,
-            "LOGOTYPE":null
+    "result": {
+        "parent": {
+            "NAME": "Uber Taxi",
+            "ACTIVE": "Y",
+            "CURRENCY": "RUB",
+            "ID": 226,
+            "PARENT_ID": null
         },
-        {
-            "NAME":"Cargo",
-            "ACTIVE":"Y",
-            "DESCRIPTION":"Cargo Delivery",
-            "CURRENCY":"RUB",
-            "ID":228,
-            "PARENT_ID":226,
-            "SORT":100,
-            "LOGOTYPE":null
-        }
-    ]
-},
-"time":{
-    "start":1714737122.600765,
-    "finish":1714737122.894801,
-    "duration":0.2940359115600586,
-    "processing":0.0942530632019043,
-    "date_start":"2024-05-03T14:52:02+03:00",
-    "date_finish":"2024-05-03T14:52:02+03:00"
-}
+        "profiles": [
+            {
+                "NAME": "Taxi",
+                "ACTIVE": "Y",
+                "ID": 227,
+                "PARENT_ID": 226
+            },
+            {
+                "NAME": "Cargo",
+                "ACTIVE": "Y",
+                "ID": 228,
+                "PARENT_ID": 226
+            }
+        ]
+    }
 }
 ```
 
-## 3\. Создадим свойства отгрузки {#third}
+## 3. Создадим свойства отгрузки {#third}
 
 В отгрузке менеджер указывает адрес отправки и адрес доставки. Последовательно создадим два свойства `Address From` и `Address To` с помощью метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
+
+В примерах используются `personTypeId: 3` и `propsGroupId: 6`. Если в вашем Битрикс24 другие типы плательщиков или группы свойств, подставьте значения, полученные методами [sale.persontype.list](../../api-reference/sale/person-type/sale-person-type-list.md) и [sale.propertygroup.list](../../api-reference/sale/property-group/sale-property-group-list.md).
 
 ### Свойство Address From
 
@@ -483,38 +465,19 @@
 
 {% endlist %}
 
-Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
+Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Сохраните значение `property.id`: оно понадобится для привязки свойства к профилям доставки.
 
 ```json
 {
-"result":{
-    "property":{
-        "active":"Y",
-        "code":"",
-        "defaultValue":"",
-        "description":"",
-        "id":102,
-        "isAddressFrom":"Y",
-        "isAddressTo":"N",
-        "maxLength":"",
-        "name":"Address From",
-        "personTypeId":3,
-        "propsGroupId":6,
-        "required":"Y",
-        "settings":[],
-        "sort":100,
-        "type":"ADDRESS",
-        "xmlId":""
+    "result": {
+        "property": {
+            "id": 102,
+            "name": "Address From",
+            "isAddressFrom": "Y",
+            "isAddressTo": "N",
+            "type": "ADDRESS"
+        }
     }
-},
-"time":{
-    "start":1714741422.531968,
-    "finish":1714741422.644666,
-    "duration":0.11269783973693848,
-    "processing":0.06191205978393555,
-    "date_start":"2024-05-03T15:43:42+03:00",
-    "date_finish":"2024-05-03T15:43:42+03:00"
-}
 }
 ```
 
@@ -593,44 +556,25 @@
 
 {% endlist %}
 
-Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.shipmentproperty.add](../../api-reference/sale/shipment-property/sale-shipment-property-add.md).
+Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Сохраните значение `property.id`: оно понадобится для привязки свойства к профилям доставки.
 
 ```json
 {
-"result":{
-    "property":{
-        "active":"Y",
-        "code":"",
-        "defaultValue":"",
-        "description":"",
-        "id":103,
-        "isAddressFrom":"N",
-        "isAddressTo":"Y",
-        "maxLength":"",
-        "name":"Address To",
-        "personTypeId":3,
-        "propsGroupId":6,
-        "required":"Y",
-        "settings":[],
-        "sort":100,
-        "type":"ADDRESS",
-        "xmlId":""
+    "result": {
+        "property": {
+            "id": 103,
+            "name": "Address To",
+            "isAddressFrom": "N",
+            "isAddressTo": "Y",
+            "type": "ADDRESS"
+        }
     }
-},
-"time":{
-    "start":1714741719.195657,
-    "finish":1714741719.368018,
-    "duration":0.17236113548278809,
-    "processing":0.0712430477142334,
-    "date_start":"2024-05-03T15:48:39+03:00",
-    "date_finish":"2024-05-03T15:48:39+03:00"
-}
 }
 ```
 
-## 4\. Привяжем свойства отгрузки к службе доставки
+## 4. Привяжем свойства отгрузки к службе доставки
 
-Чтобы привязать свойства `Address From` и `Address To` к профилям `Taxi` и `Cargo`, вызовем метод [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) четыре раза. В метод передадим объект `fields` со значениями полей для привязки свойств.
+Чтобы привязать свойства `Address From` и `Address To` к профилям `Taxi` и `Cargo`, вызовем метод [sale.propertyRelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) четыре раза. В метод передадим объект `fields` со значениями полей для привязки свойств.
 
 - `entityId` — идентификатор профиля доставки. Для профиля `Taxi` передадим `227`, для `Cargo` — `228`, которые были получены [на втором шаге](#second).
 
@@ -638,13 +582,15 @@
 
 - `propertyId` — идентификатор свойства. Для `Address From` укажем `102`, для `Address To` — `103`, которые были получены [на третьем шаге](#third).
 
+Значения `227`, `228`, `102` и `103` — демонстрационные. В рабочем сценарии подставьте идентификаторы из ответов методов `sale.delivery.add` и `sale.shipmentproperty.add`.
+
 {% list tabs %}
 
 - JS
 
     ```js
     const response = await $b24.actions.v2.call.make({
-        method: 'sale.propertyrelation.add',
+        method: 'sale.propertyRelation.add',
         params: {
             fields: {
                 entityId: 227,
@@ -690,7 +636,7 @@
 
 {% endlist %}
 
-Вызываем метод [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) по очереди.
+Вызываем метод [sale.propertyRelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) по очереди.
 
 1. Служба `Taxi`, свойство `Address From` — передаем `entityId: 227, propertyId: 102`.
 
@@ -700,7 +646,7 @@
 
 4. Служба `Cargo`, свойство `Address To` — передаем `entityId: 228, propertyId: 103`.
 
-Если привязки успешно добавлены, метод вернет объекты с информацией о них. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.propertyrelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md).
+Если привязки успешно добавлены, метод вернет объекты с информацией о них.
 
 ```json
 {
@@ -710,19 +656,11 @@
             "entityType": "D",
             "propertyId": 102
         }
-    },
-    "time": {
-        "start": 1712244475.495277,
-        "finish": 1712244476.402808,
-        "duration": 0.9075310230255127,
-        "processing": 0.08538603782653809,
-        "date_start": "2024-05-03T18:27:55+03:00",
-        "date_finish": "2024-05-03T18:27:56+03:00"
     }
 }
 ```
 
-## 5\. Добавим услуги в службы доставки
+## 5. Добавим услуги в службы доставки
 
 Чтобы добавить дополнительную услугу в службу доставки, вызовем метод [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md). В него передадим следующие параметры:
 
@@ -805,21 +743,135 @@
 
 {% endlist %}
 
-Если услуга добавлена, метод вернет идентификатор в параметре `result`. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [sale.delivery.extra.service.add](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.md).
+Если услуга добавлена, метод вернет идентификатор в параметре `result`.
 
 ```json
 {
-    "result": 140,
-    "time": {
-        "start": 1714739042.228152,
-        "finish": 1714739042.50093,
-        "duration": 0.2727780342102051,
-        "processing": 0.09131193161010742,
-        "date_start": "2024-05-03T15:24:02+03:00",
-        "date_finish": "2024-05-03T15:24:02+03:00"
-    }
+    "result": 140
 }
 ```
+
+## Проверим результат
+
+Откройте карточку CRM с отгрузкой и проверьте, что в списке доставок доступна служба `Uber Taxi`, ее профили `Taxi` и `Cargo`, адресные свойства `Address From` и `Address To`, а также услуга `Door Delivery`.
+
+Через REST проверьте созданные объекты методами [sale.delivery.getlist](../../api-reference/sale/delivery/delivery/sale-delivery-get-list.md), [sale.shipmentproperty.list](../../api-reference/sale/shipment-property/sale-shipment-property-list.md), [sale.propertyRelation.list](../../api-reference/sale/property-relation/sale-property-relation-list.md) и [sale.delivery.extra.service.get](../../api-reference/sale/delivery/extra-service/sale-delivery-extra-service-get.md).
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const deliveryResponse = await $b24.actions.v2.call.make({
+        method: 'sale.delivery.getlist',
+        params: {
+            SELECT: ['ID', 'NAME', 'PARENT_ID', 'ACTIVE'],
+            FILTER: { '=NAME': 'Uber Taxi' },
+        },
+        requestId: 'delivery-getlist-check',
+    })
+
+    const propertyResponse = await $b24.actions.v2.call.make({
+        method: 'sale.shipmentproperty.list',
+        params: {
+            select: ['id', 'name', 'isAddressFrom', 'isAddressTo'],
+            filter: { '=name': ['Address From', 'Address To'] },
+        },
+        requestId: 'shipmentproperty-list-check',
+    })
+
+    const relationResponse = await $b24.actions.v2.call.make({
+        method: 'sale.propertyRelation.list',
+        params: {
+            select: ['entityId', 'entityType', 'propertyId'],
+            filter: { entityId: 227, entityType: 'D' },
+        },
+        requestId: 'propertyrelation-list-check',
+    })
+
+    const extraServiceResponse = await $b24.actions.v2.call.make({
+        method: 'sale.delivery.extra.service.get',
+        params: { DELIVERY_ID: 227 },
+        requestId: 'delivery-extra-service-get-check',
+    })
+
+    console.log(deliveryResponse.getData().result)
+    console.log(propertyResponse.getData().result)
+    console.log(relationResponse.getData().result)
+    console.log(extraServiceResponse.getData().result)
+    ```
+
+- PHP
+
+    ```php
+    $deliveryResponse = $sb->core->call('sale.delivery.getlist', [
+        'SELECT' => ['ID', 'NAME', 'PARENT_ID', 'ACTIVE'],
+        'FILTER' => ['=NAME' => 'Uber Taxi'],
+    ]);
+
+    $propertyResponse = $sb->core->call('sale.shipmentproperty.list', [
+        'select' => ['id', 'name', 'isAddressFrom', 'isAddressTo'],
+        'filter' => ['=name' => ['Address From', 'Address To']],
+    ]);
+
+    $relationResponse = $sb->core->call('sale.propertyRelation.list', [
+        'select' => ['entityId', 'entityType', 'propertyId'],
+        'filter' => ['entityId' => 227, 'entityType' => 'D'],
+    ]);
+
+    $extraServiceResponse = $sb->core->call('sale.delivery.extra.service.get', [
+        'DELIVERY_ID' => 227,
+    ]);
+
+    print_r($deliveryResponse->getResponseData()->getResult());
+    print_r($propertyResponse->getResponseData()->getResult());
+    print_r($relationResponse->getResponseData()->getResult());
+    print_r($extraServiceResponse->getResponseData()->getResult());
+    ```
+
+- Python
+
+    ```python
+    deliveries = token.call_method(
+        "sale.delivery.getlist",
+        {
+            "SELECT": ["ID", "NAME", "PARENT_ID", "ACTIVE"],
+            "FILTER": {"=NAME": "Uber Taxi"},
+        },
+    )
+    properties = token.call_method(
+        "sale.shipmentproperty.list",
+        {
+            "select": ["id", "name", "isAddressFrom", "isAddressTo"],
+            "filter": {"=name": ["Address From", "Address To"]},
+        },
+    )
+    relations = token.call_method(
+        "sale.propertyRelation.list",
+        {
+            "select": ["entityId", "entityType", "propertyId"],
+            "filter": {"entityId": 227, "entityType": "D"},
+        },
+    )
+    extra_services = token.call_method(
+        "sale.delivery.extra.service.get",
+        {"DELIVERY_ID": 227},
+    )
+
+    print(deliveries)
+    print(properties)
+    print(relations)
+    print(extra_services)
+    ```
+
+{% endlist %}
+
+Успешное выполнение сценария подтверждают данные из ответов методов:
+
+- `sale.delivery.add` вернул родительскую службу в объекте `parent` и профили в массиве `profiles`
+- `sale.shipmentproperty.add` вернул идентификаторы свойств `Address From` и `Address To`
+- `sale.propertyRelation.add` вернул привязки свойств к профилям доставки
+- `sale.delivery.extra.service.add` вернул идентификатор дополнительной услуги
 
 ## Оповещения о статусах доставки
 
@@ -831,3 +883,33 @@
 || [sale.delivery.request.sendmessage](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-send-message.md) | Посылает сообщение менеджеру или грузополучателю о текущем статусе заказа на доставку ||
 || [sale.delivery.request.delete](../../api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.md) | Сообщает об отмене заказа на доставку на стороне внешней системы и пытается отменить заказ на доставку на стороне Битрикс24 ||
 |#
+
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса и значения, которые передаются между шагами.
+
+#|
+|| **Код или текст ошибки** | **Причина и действие** ||
+|| `ACCESS_DENIED` | Метод вызвал пользователь без прав администратора ||
+|| `ERROR_CHECK_FAILURE` | Не передан обязательный параметр или значение не прошло проверку. Проверьте `CODE`, `NAME`, `SETTINGS`, `PROFILES`, `REST_CODE`, `CURRENCY`, `fields` и `DELIVERY_ID` ||
+|| `ERROR_HANDLER_ALREADY_EXIST` | Обработчик с таким `CODE` уже есть. Укажите другой код или используйте существующий обработчик ||
+|| `ERROR_HANDLER_NOT_FOUND` | Служба доставки создается с `REST_CODE`, для которого нет обработчика. Проверьте, что `REST_CODE` совпадает с `CODE` из первого шага ||
+|| `ERROR_DELIVERY_ADD`, `ERROR_HANDLER_ADD`, `ERROR_EXTRA_SERVICE_ADD` | Ошибка при добавлении службы, обработчика или услуги. Подробности смотрите в `error_description` ||
+|| `ERROR_DELIVERY_NOT_FOUND` | Служба доставки с указанным `DELIVERY_ID` не найдена. Для услуги передавайте идентификатор профиля доставки ||
+|| `Required fields: entityId` | В привязке свойства не передан идентификатор профиля доставки. Возьмите его из массива `profiles` ответа `sale.delivery.add` ||
+|| `201650000001` | Такая привязка свойства уже существует. Повторный запуск примера не требует создавать ее заново ||
+|| `201650000002` | Свойство не найдено. Проверьте `propertyId` из ответа `sale.shipmentproperty.add` ||
+|#
+
+## Что важно учитывать
+
+- Повторный запуск примера с тем же `CODE` может вернуть ошибку, потому что код обработчика должен быть уникальным
+- Профили доставки создаются на втором шаге. Их идентификаторы нужно сохранить до настройки свойств и услуг
+- Внешний сервис должен принимать запросы по HTTPS-адресам, указанным в настройках обработчика
+
+## Продолжите изучение
+
+- [Вебхуки при работе с доставками](../../api-reference/sale/delivery/webhooks/index.md)
+- [Службы доставки](../../api-reference/sale/delivery/delivery/index.md)
+- [Свойства отгрузки](../../api-reference/sale/shipment-property/index.md)
+- [Дополнительные услуги служб доставки](../../api-reference/sale/delivery/extra-service/index.md)

@@ -426,6 +426,35 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.template.checklist.list", b24.Params{
+    	"templateId": 139,
+    	"filter": b24.Params{
+    		"IS_COMPLETE":  "N",
+    		"IS_IMPORTANT": "N",
+    	},
+    	"select": []string{"ID", "TEMPLATE_ID", "PARENT_ID", "TITLE", "SORT_INDEX", "IS_COMPLETE", "IS_IMPORTANT"},
+    	"order": b24.Params{
+    		"SORT_INDEX": "asc",
+    		"ID":         "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.template.checklist.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "checkListItems".
+    raw, ok := b24.Unwrap(res.Result, "checkListItems")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа checkListItems")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -504,7 +533,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **checkListItems**
-[`object`](../../../data-types.md) | Объект, в котором ключ — идентификатор пункта чек-листа, а значение — описание пункта чек-листа [(подробное описание)](#checklistitems).
+[`object`](../../../data-types.md) | Объект, в котором ключ — идентификатор пункта чек-листа, а значение — описание пункта чек-листа [(подробное описание)](#checklistitem).
 
 Набор полей в ответе зависит от параметра `select` ||
 |#

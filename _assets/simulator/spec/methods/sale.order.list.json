@@ -1,0 +1,119 @@
+{
+  "$v": 1,
+  "method": "sale.order.list",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить список заказов sale.order.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта saleorder). Если не передан или передан пустой массив, то будут выбраны все доступные поля заказов.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации выбранных заказов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта saleorder. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки выбранных заказов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта saleorder. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/order/sale-order-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "orders",
+      "type": "sale_order[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных заказах"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/order/sale-order-list.html",
+  "executable": false,
+  "entityFields": [
+    "additionalInfo",
+    "affiliateId",
+    "canceled",
+    "comments",
+    "currency",
+    "dateInsert",
+    "discountValue",
+    "empCanceledId",
+    "empMarkedId",
+    "empStatusId",
+    "externalOrder",
+    "id1c",
+    "lid",
+    "lockedBy",
+    "marked",
+    "orderTopic",
+    "personTypeId",
+    "price",
+    "reasonCanceled",
+    "reasonMarked",
+    "recountFlag",
+    "recurringId",
+    "responsibleId",
+    "statusId",
+    "updated1c",
+    "userDescription",
+    "userId",
+    "version1c",
+    "xmlId"
+  ]
+}

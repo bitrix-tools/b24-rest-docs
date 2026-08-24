@@ -25,7 +25,7 @@
 || **CALL_ID***
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md) ||
 || **USER_ID**
-[`integer/array`](../data-types.md) | Идентификатор пользователя или массив идентификаторов пользователей.
+[```integer | integer[]```](../data-types.md#compound-types) | Идентификатор пользователя или массив идентификаторов пользователей.
 
 Идентификатор можно получить методом [user.get](../user/user-get.md).
 
@@ -220,6 +220,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalCall.show", b24.Params{
+    	"CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    	"USER_ID": 1269,
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.externalCall.show: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

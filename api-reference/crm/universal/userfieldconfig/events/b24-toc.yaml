@@ -1,0 +1,13 @@
+title: События
+href: index.md
+items:
+  - name: Обзор событий
+    href: index.md
+  - name: При добавлении пользовательского поля
+    href: on-crm-type-user-field-add.md
+  - name: При изменении пользовательского поля
+    href: on-crm-type-user-field-update.md
+  - name: При удалении пользовательского поля
+    href: on-crm-type-user-field-delete.md
+  - name: При изменении набора значений пользовательского поля
+    href: on-crm-type-user-field-set-enum-values.md

@@ -56,7 +56,7 @@
 По умолчанию — `0` ||
 |#
 
-## Примеры  кода
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -208,6 +208,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.workflow.template.update", b24.Params{
+    	"ID": 525,
+    	"FIELDS": b24.Params{
+    		"NAME":         "Вывести время",
+    		"DESCRIPTION":  "Шаблон показывает сообщение с локальным и серверным временем",
+    		"AUTO_EXECUTE": 0,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.workflow.template.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -236,7 +259,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Идентификатор обновленного шаблона бизнес-процесса ||
+[`integer`](../../data-types.md) | Идентификатор обновленного шаблона бизнес-процесса ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -248,7 +271,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ERROR_TEMPLATE_NOT_OWNER",
-    "error_description": "You can update ONLY templates created by current application",
+    "error_description": "You can update ONLY templates created by current application"
 }
 ```
 

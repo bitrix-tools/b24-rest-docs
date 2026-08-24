@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "call.followup.get",
+  "scope": "call",
+  "kind": "read",
+  "title": "Получить Follow-up звонка call.followup.get",
+  "permissions": "пользователь с доступом к звонку",
+  "params": [
+    {
+      "name": "callId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор звонка. Идентификатор можно получить методом call.followup.list"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей и вложенных путей, которые нужно вернуть в ответе. Если параметр не передан, метод возвращает все поля из раздела Корневой объект. Отсутствующие данные имеют значение null. Если передан пустой массив, метод возвращает только базовые метаданные: callId, callType, initiatorId, startDate, endDate, durationSeconds.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "mentionFormat",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Формат упоминаний пользователей в текстовых AI-полях. Возможные значения: - bb — BBCode-формат - html — HTML-формат - none — текст без разметки упоминаний По умолчанию: bb"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/follow-up/call-followup-get.md"
+  },
+  "resultExample": {
+    "error": {
+      "code": "access_denied",
+      "message": "Нет доступа к данным Follow-up"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект Follow-up. Состав полей зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/follow-up/call-followup-get.html",
+  "executable": false
+}

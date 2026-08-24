@@ -1,4 +1,4 @@
-# Установить обработчик виджета placement.bind
+# Зарегистрировать обработчик виджета placement.bind
 
 {% note tip "" %}
 
@@ -9,15 +9,15 @@
 
 {% endnote %}
 
-> Scope: [`placement`, `в зависимости от места встройки`](../scopes/permissions.md)
+> Scope: [`placement`, `в зависимости от точки встраивания`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `placement.bind` добавляет обработчик встройки виджета.
+Метод `placement.bind` регистрирует обработчик виджета в точке встраивания.
 
 Он может быть вызван в любой момент во время работы приложения, однако чаще всего, удобнее регистрировать свои виджеты во время [установки приложения](../../settings/app-installation/index.md).
 
-Важно учитывать, что пока установка приложения не завершена, зарегистрированные вами виджеты не будут доступны обычным пользователям в интерфейсе Битрикс24 - их смогут видеть только пользователи с административными правами. 
+Пока установка приложения не завершена, зарегистрированные виджеты не отображаются в интерфейсе Битрикс24 — ни обычным пользователям, ни администраторам.
 [Проверьте установку приложения](../../settings/app-installation/installation-finish.md).
 
 ## Параметры метода {#params}
@@ -28,11 +28,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **PLACEMENT***
-[`string`](../data-types.md) | Идентификатор требуемого места встройки виджета ||
+[`string`](../data-types.md) | Код точки встраивания ||
 || **HANDLER***
-[`string`](../data-types.md) | URL обработчика места встройки виджета ||
+[`string`](../data-types.md) | URL обработчика виджета ||
 || **TITLE**
-[`string`](../data-types.md) | Название виджета в интерфейсе. В зависимости от конкретного места встройки это может быть название вкладки в форме, название пункта меню и т.д. ||
+[`string`](../data-types.md) | Название виджета в интерфейсе. В зависимости от точки встраивания это может быть название вкладки в форме, название пункта меню и т.д. ||
 || **DESCRIPTION**
 [`string`](../data-types.md) | Описание виджета в интерфейсе. На практике не используется ||
 || **GROUP_NAME**
@@ -59,7 +59,7 @@
 
 ||
 || **OPTIONS**
-[`object`](../data-types.md) | Дополнительные параметры отображения виджета. Конкретные значения зависит от места встройки виджета. На текущий момент используется в виджетах для мессенджера, в виджете [`PAGE_BACKGROUND_WORKER`](./universal/background-worker.md) и в виджете [CRM_XXX_DETAIL_ACTIVITY](../widgets/crm/detail-activity-area.md)
+[`object`](../data-types.md) | Дополнительные параметры отображения виджета. Конкретные значения зависят от точки встраивания. На текущий момент используется в виджетах для мессенджера, в виджете [`PAGE_BACKGROUND_WORKER`](./universal/background-worker.md) и в виджете [CRM_XXX_DETAIL_ACTIVITY](../widgets/crm/detail-activity-area.md)
 
 ||
 || **USER_ID**
@@ -67,7 +67,7 @@
 
 На текущий момент этот параметр поддерживается только виджетом [`PAGE_BACKGROUND_WORKER`](./universal/background-worker.md).
 
-При попытке регистрации места встраивания в прочих виджетах, вы получите ошибку `ERROR_PLACEMENT_USER_MODE: User mode is not available`.
+При попытке зарегистрировать этот параметр в других точках встраивания вы получите ошибку `ERROR_PLACEMENT_USER_MODE: User mode is not available`.
 
 ||
 |#
@@ -360,6 +360,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "PLACEMENT_CODE",
+    	"HANDLER":   "http://myapp.com/handler/?type=1",
+    	"OPTIONS": b24.Params{
+    		"errorHandlerUrl": "http://myapp.com/error/",
+    	},
+    	"TITLE":       "title",
+    	"DESCRIPTION": "description",
+    	"GROUP_NAME":  "group",
+    	"LANG_ALL": b24.Params{
+    		"en": b24.Params{
+    			"TITLE":       "title",
+    			"DESCRIPTION": "description",
+    			"GROUP_NAME":  "group",
+    		},
+    		"ru": b24.Params{
+    			"TITLE":       "заголовок",
+    			"DESCRIPTION": "описание",
+    			"GROUP_NAME":  "группа",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -422,7 +459,9 @@ HTTP-статус: **400**, **403**, **200**
 
 #|
 || **Код** | **Описание** | **Статус** ||
-|| `ERROR_PLACEMENT_MAX_COUNT` | Произошла попытка повторной регистрации обработчика виджета `PAGE_BACKGROUND_WORKER` | 200 ||
+|| `ERROR_PLACEMENT_MAX_COUNT` | Произошла попытка повторной регистрации обработчика виджета, который допускает только одну регистрацию: `PAGE_BACKGROUND_WORKER` или [`REST_APP_URI`](./universal/app-url.md) | 200 ||
+|| `ERROR_PLACEMENT_USER_MODE` | Параметр `USER_ID` передан для виджета, который не поддерживает регистрацию для отдельного пользователя | 200 ||
+|| `EMPTY_ERROR_HANDLER_URL` | При регистрации виджета `PAGE_BACKGROUND_WORKER` не передан обязательный параметр `OPTIONS[errorHandlerUrl]` | 200 ||
 || `ERROR_ARGUMENT` | Не указано значение обязательного поля. Код обязательного поля возвращается в `argument`| 200 ||
 || `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | 403 ||
 |#
@@ -441,7 +480,7 @@ HTTP-статус: **400**, **403**, **200**
 
 Обращаясь к вашему обработчику, Битрикс24 передаст в него POST-message, содержащий информацию о контексте виджета, например, идентификатор сделки, если виджет встраивается в карточку сделки в CRM и т.д.
 
-Примеры таких данных вы найдете в описаниях [конкретных мест встройки виджетов](./placements.md).
+Примеры таких данных вы найдете в описаниях [конкретных точек встраивания](./placements.md).
 
 ## Продолжите изучение
 

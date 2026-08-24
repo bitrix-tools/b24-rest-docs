@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
 Метод создает новое пользовательское поле для реквизита.
 
@@ -50,7 +50,7 @@
 
 Назначение поля может меняться конечным разработчиком ||
 || **SORT**
-[`int`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Сортировка ||
 || **MULTIPLE**
 [`char`](../../../data-types.md) | Признак множественности. Возможные значения:
 - `Y` — да
@@ -106,7 +106,7 @@
 || **HELP_MESSAGE**
 [`string`](../../../data-types.md) | Помощь ||
 || **LIST**
-[`uf_enum_element`](../../../data-types.md) | Элементы списка. Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-enumeration-fields.md) ||
+[`uf_enum_element`](../../../data-types.md#uf_enum_element) | Элементы списка. Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-enumeration-fields.md) ||
 || **SETTINGS**
 [`object`](../../../data-types.md) | Дополнительные настройки (зависят от типа). Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-settings-fields.md) ||
 |#
@@ -366,6 +366,36 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"USER_TYPE_ID":      "string",
+    		"ENTITY_ID":         "CRM_REQUISITE",
+    		"SORT":              100,
+    		"MULTIPLE":          "N",
+    		"MANDATORY":         "N",
+    		"SHOW_FILTER":       "E",
+    		"SHOW_IN_LIST":      "Y",
+    		"EDIT_FORM_LABEL":   "ПП - Строка",
+    		"LIST_COLUMN_LABEL": "ПП - Строка",
+    		"LIST_FILTER_LABEL": "ПП - Строка",
+    		"FIELD_NAME":        "NEWTECH_v1_STRING",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -411,7 +441,7 @@ HTTP-статус: **40x**, **50x**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|  
 || **Код** | **Текст ошибки** | **Описание** ||

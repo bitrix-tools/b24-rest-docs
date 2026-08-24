@@ -1,6 +1,6 @@
-# Обзор CRM
+# CRM: обзор разделов и методов
 
-Раздел содержит методы для работы с объектами CRM в Битрикс24. Он охватывает лиды, сделки, контакты, компании, смарт-процессы, воронки, стадии, таймлайн, документы, реквизиты и автоматизацию.
+Методы CRM управляют клиентской базой Битрикс24: лидами, сделками, контактами, компаниями, коммерческими предложениями, счетами и смарт-процессами. Они создают и обновляют элементы, ведут их по воронкам и стадиям, записывают историю работы в таймлайн, формируют документы и запускают автоматизацию.
 
 Например, можно создать смарт-процесс, настроить его структуру и затем работать с его элементами через универсальные методы CRM.
 
@@ -17,27 +17,42 @@
 >
 > Пользовательская документация: [CRM в Битрикс24](https://helpdesk.bitrix24.ru/open/5435795/)
 
-## Универсальные методы CRM
+## Как начать работу
 
-Универсальные методы CRM работают через `entityTypeId` и покрывают основные операции с объектами: создание, чтение, обновление и фильтрацию. Они подходят для лидов, сделок, контактов, компаний, предложений, счетов и смарт-процессов.
+1. Определите тип объекта. Числовые идентификаторы `entityTypeId` всех типов, включая смарт-процессы, возвращает [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md). Настройки самих смарт-процессов — включены ли воронки, стадии, автоматизация и другие возможности типа — возвращает [crm.type.list](./universal/user-defined-object-types/crm-type-list.md)
+2. Получите состав полей объекта методом [crm.item.fields](./universal/crm-item-fields.md). Для сделок и смарт-процессов заранее подберите воронку `categoryId` — [crm.category.list](./universal/category/crm-category-list.md) — и стадию `stageId` — [crm.status.list](./status/crm-status-list.md)
+3. Создайте элемент методом [crm.item.add](./universal/crm-item-add.md) и обновляйте его методом [crm.item.update](./universal/crm-item-update.md)
+4. Читайте данные: один элемент по идентификатору возвращает [crm.item.get](./universal/crm-item-get.md), выборку — [crm.item.list](./universal/crm-item-list.md). Списочные методы CRM отдают до 50 элементов за запрос, следующую страницу выбирают параметром `start` — подробности в статье [Особенности работы списочных методов](../../settings/how-to-call-rest-api/list-methods-pecularities.md)
 
-Элементы создают методом [crm.item.add](./universal/crm-item-add.md) и обновляют — [crm.item.update](./universal/crm-item-update.md). Один элемент по идентификатору возвращает [crm.item.get](./universal/crm-item-get.md), список — [crm.item.list](./universal/crm-item-list.md).
+На изменения объектов можно подписаться событиями: они описаны в разделах самих объектов, например [события сделок](./deals/events/index.md) и [события элементов смарт-процессов](./universal/events/index.md).
+
+CRM работает в классическом режиме с лидами или в простом режиме без лидов. Текущий режим возвращает [crm.settings.mode.get](./crm-settings-mode-get.md). В простом режиме сделку создают сразу, без предварительного лида.
+
+## Универсальные методы или методы объекта
+
+Универсальные методы [crm.item.*](./universal/index.md) работают через `entityTypeId` и покрывают основные операции: создание, чтение, обновление и фильтрацию. Они подходят для лидов, сделок, контактов, компаний, предложений и счетов, а для смарт-процессов это единственный способ работать с элементами. Актуальный тип счета — `SMART_INVOICE` с `entityTypeId = 31`.
 
 Если операция касается только одного типа объекта — например, связей сделок с контактами — используйте методы нужного раздела: [crm.deal.*](./deals/index.md), [crm.lead.*](./leads/index.md), [crm.contact.*](./contacts/index.md), [crm.company.*](./companies/index.md), [crm.quote.*](./quote/index.md).
+
+Внутри раздела универсальных методов есть подтемы: [воронки](./universal/category/index.md), [разделы детальной карточки](./universal/item-details-configuration/index.md), [товарные позиции](./universal/product-rows/index.md), [счета](./universal/invoice.md), [оплаты](./universal/payment/index.md) и [доставки](./universal/delivery/index.md), [привязка заказов](./universal/order-entity/index.md), [пользовательские поля](./universal/user-defined-fields/index.md) и [их настройки](./universal/userfieldconfig/index.md), [типы смарт-процессов](./universal/user-defined-object-types/index.md), [импорт данных](./universal/import/index.md) и [события](./universal/events/index.md).
+
+Старые ветки методов CRM не развиваются. Счета заменяют [универсальные методы для счетов](./universal/invoice.md), а их стадиями управляет справочник `SMART_INVOICE_STAGE_xx` в методах [crm.status.*](./status/index.md). Товарные позиции заменяют [crm.item.productrow.*](./universal/product-rows/index.md), направления сделок — [crm.category.*](./universal/category/index.md), а товары, каталоги, разделы каталога и единицы измерения — методы [торгового каталога](../catalog/index.md).
+
+Имена полей в двух ветках методов различаются: универсальные методы используют `camelCase`, методы объекта — `UPPER_CASE`. Стадия сделки приходит в поле `stageId` в [crm.item.get](./universal/crm-item-get.md) и в поле `STAGE_ID` в [crm.deal.get](./deals/crm-deal-get.md). Правила преобразования имен описаны в разделе [Универсальные методы CRM](./universal/index.md).
 
 ## Что входит в карточку CRM
 
 Карточка CRM объединяет данные объекта, этап работы с ним и историю взаимодействий.
 
-**Поля.** В карточке хранятся данные объекта, состав которых зависит от его типа. Список доступных полей можно получить методом [crm.item.fields](./universal/crm-item-fields.md). Общие поля описаны в статье [Поля основных объектов CRM](./main-entities-fields.md), а пользовательские поля настраивают методами [userfieldconfig.add](./universal/userfieldconfig/userfieldconfig-add.md) или [userfieldconfig.update](./universal/userfieldconfig/userfieldconfig-update.md).
+**Поля.** В карточке хранятся данные объекта, состав которых зависит от его типа. Список доступных полей можно получить методом [crm.item.fields](./universal/crm-item-fields.md). Общие поля описаны в статье [Поля основных объектов CRM](./main-entities-fields.md). Пользовательские поля настраивают методами [userfieldconfig.add](./universal/userfieldconfig/userfieldconfig-add.md) или [userfieldconfig.update](./universal/userfieldconfig/userfieldconfig-update.md) — им нужны scope `userfieldconfig` и scope модуля из `moduleId`, для CRM это `crm`, а также право «Разрешить изменять настройки».
 
-**Воронка и стадия.** Для сделок и смарт-процессов карточка показывает, в какой воронке находится объект и на каком этапе. Для работы с воронками нужен `categoryId` — его возвращает [crm.category.list](./universal/category/crm-category-list.md). Список стадий с их кодами `ENTITY_ID` возвращает [crm.status.list](./status/crm-status-list.md).
+**Воронка и стадия.** Для сделок и смарт-процессов карточка показывает, в какой воронке находится объект и на каком этапе. Для работы с воронками нужен `categoryId` — его возвращает [crm.category.list](./universal/category/crm-category-list.md). Стадии возвращает [crm.status.list](./status/crm-status-list.md) с фильтром по справочнику `ENTITY_ID`: `DEAL_STAGE` — стадии основной воронки сделок, `DEAL_STAGE_1` — стадии воронки с `categoryId = 1`. Код стадии приходит в поле `STATUS_ID`: у основной воронки это `NEW` или `PREPARATION`, у дополнительной — с префиксом воронки, например `C1:NEW`. Этот код передают в поле `stageId` универсальных методов или `STAGE_ID` методов объекта.
 
-**Таймлайн.** В таймлайне хранится история работы с объектом CRM: дела и комментарии. Чтобы добавить запись в карточку объекта, обычно создают дело методом [crm.activity.add](./timeline/activities/activity-base/crm-activity-add.md) или комментарий методом [crm.timeline.comment.add](./timeline/comments/crm-timeline-comment-add.md).
+**Таймлайн.** В таймлайне хранится история работы с объектом CRM: дела и комментарии. Чтобы добавить запись в карточку объекта, обычно создают универсальное дело методом [crm.activity.todo.add](./timeline/activities/todo/crm-activity-todo-add.md) или комментарий методом [crm.timeline.comment.add](./timeline/comments/crm-timeline-comment-add.md).
 
-**Документы.** Документы в CRM создают на основе шаблонов генератора документов. Шаблон и нумератор добавляют методами [crm.documentgenerator.template.add](./document-generator/templates/crm-document-generator-template-add.md) и [crm.documentgenerator.numerator.add](./document-generator/numerator/crm-document-generator-numerator-add.md). Документ создают и привязывают к CRM-объекту методом [crm.documentgenerator.document.add](./document-generator/documents/crm-document-generator-document-add.md).
+**Документы.** Документы формируют по шаблонам генератора документов: шаблон добавляют методом [crm.documentgenerator.template.add](./document-generator/templates/crm-document-generator-template-add.md), а сам документ создают и привязывают к объекту CRM методом [crm.documentgenerator.document.add](./document-generator/documents/crm-document-generator-document-add.md).
 
-**Автоматизация.** Карточка может участвовать в сценариях автоматизации, которые зависят от состояния объекта. Собственный триггер регистрируют методом [crm.automation.trigger.add](./automation/triggers/crm-automation-trigger-add.md), а затем запускают для нужного элемента методом [crm.automation.trigger.execute](./automation/triggers/crm-automation-trigger-execute.md). Оба метода работают только в контексте [приложения](../../settings/app-installation/index.md).
+**Автоматизация.** Карточка участвует в сценариях автоматизации, которые зависят от состояния объекта. Собственный триггер приложение регистрирует методом [crm.automation.trigger.add](./automation/triggers/crm-automation-trigger-add.md) и запускает методом [crm.automation.trigger.execute](./automation/triggers/crm-automation-trigger-execute.md) — оба метода работают только в контексте [приложения](../../settings/app-installation/index.md).
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -67,51 +82,17 @@
 
 ## Виджеты
 
-В карточки и списки объектов CRM можно встроить приложение. Благодаря встраиванию можно будет использовать приложение, не покидая карточку или список.
+Приложение можно встроить в карточку или список объектов CRM — своей вкладкой, пунктом меню карточки, списка или аналитики, кнопкой над таймлайном или в воронках продаж. Все точки, поддержанные типы объектов и параметры, которые приходят обработчику, собраны в разделе [Места встраивания CRM](../widgets/crm/index.md), общий механизм — в статье [Механизм встраивания виджетов](../widgets/index.md).
 
-Есть два сценария встройки:
+Код точки собирают по шаблону вида `CRM_XXX_DETAIL_TAB`: вместо `XXX` подставьте `LEAD`, `DEAL`, `CONTACT`, `COMPANY`, `QUOTE`, `SMART_INVOICE`, `ORDER` или `ACTIVITY`, а для смарт-процессов — `DYNAMIC_` и числовой идентификатор типа, например `CRM_DYNAMIC_183_DETAIL_TAB`.
 
-- использовать специальные [места встраивания](../widgets/crm/index.md), например вкладку, кнопку над таймлайном или пункт меню
-- создать [пользовательское поле](../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md), в котором будет загружаться интерфейс приложения
-
-### Места встраивания CRM
-
-Вместо `XXX` подставьте код объекта: `LEAD`, `DEAL`, `CONTACT`, `COMPANY`, `QUOTE`, `SMART_INVOICE`. Для смарт-процессов укажите числовой идентификатор типа объекта, например `CRM_DYNAMIC_183_DETAIL_TAB`.
-
-- [`CRM_XXX_DETAIL_TAB`](../widgets/crm/detail-tab.md) — вкладка в детальной карточке
-
-- [`CRM_XXX_DETAIL_ACTIVITY`](../widgets/crm/detail-activity.md) — кнопка над таймлайном карточки
-
-- [`CRM_XXX_DETAIL_TOOLBAR`](../widgets/crm/detail-toolbar.md) — пункт выпадающего меню верхней кнопки карточки
-
-- [`CRM_XXX_DOCUMENTGENERATOR_BUTTON`](../widgets/crm/document-generator-button.md) — пункт выпадающего меню генератора документов
-
-- [`CRM_XXX_ACTIVITY_TIMELINE_MENU`](../widgets/crm/activity-timeline-menu.md) — пункт контекстного меню дела в карточке
-
-- [`CRM_XXX_LIST_MENU`](../widgets/crm/index.md) — пункт контекстного меню в списке элементов
-
-- [`CRM_XXX_LIST_TOOLBAR`](../widgets/crm/list-toolbar.md) — пункт выпадающего меню над списком элементов
-
-- [`CRM_XXX_ROBOT_DESIGNER_TOOLBAR`](../widgets/crm/robot-designer-toolbar.md) — пункт выпадающего меню верхней кнопки дизайнера роботов
-
-- [`CRM_ANALYTICS_MENU`](../widgets/crm/analytics-menu.md) — пункт левого меню CRM-аналитики
-
-- [`CRM_ANALYTICS_TOOLBAR`](../widgets/crm/analytics-toolbar.md) — пункт выпадающего меню верхней кнопки CRM-аналитики
-
-- [`CRM_FUNNELS_TOOLBAR`](../widgets/crm/funnels-toolbar.md) — пункт выпадающего меню в туннелях продаж
-
-{% note tip "Частые кейсы и сценарии" %}
-
-- [Механизм встройки виджетов](../widgets/index.md)
-- [Встроить виджет в карточку CRM](../../tutorials/crm/crm-widgets/widget-as-detail-tab.md)
-
-{% endnote %}
+Второй способ встройки — [пользовательское поле](../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md), в котором загружается интерфейс приложения. Готовый пример разобран в туториале [Встроить виджет в карточку CRM](../../tutorials/crm/crm-widgets/widget-as-detail-tab.md).
 
 ## Ключевые идентификаторы
 
 #|
 || **Идентификатор** | **Что означает** | **Где используется** | **Каким методом получить** ||
-|| `entityTypeId` | Тип объекта CRM | Универсальные методы, воронки, пользовательские поля | Для стандартных объектов — [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md), для смарт-процессов — [crm.type.list](./universal/user-defined-object-types/crm-type-list.md) ||
+|| `entityTypeId` | Тип объекта CRM | Универсальные методы, воронки, пользовательские поля | Все типы, включая смарт-процессы, — [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md); настройки смарт-процесса — [crm.type.list](./universal/user-defined-object-types/crm-type-list.md) ||
 || `id` | Идентификатор элемента CRM | Чтение, обновление, связи между объектами | Из списка элементов [crm.item.list](./universal/crm-item-list.md) или после создания элемента [crm.item.add](./universal/crm-item-add.md) ||
 || `categoryId` | Идентификатор воронки | Сделки и смарт-процессы — нужен при создании и фильтрации элементов | Из списка воронок [crm.category.list](./universal/category/crm-category-list.md) ||
 || `stageId` | Идентификатор стадии | Создание и фильтрация элементов сделок и смарт-процессов | Из списка стадий [crm.status.list](./status/crm-status-list.md) с фильтром по `ENTITY_ID` ||
@@ -119,9 +100,11 @@
 
 ## Связь с другими объектами
 
-**Пользователи.** Ответственный за объект CRM хранится в поле `assignedById`. Данные пользователя можно получить методами [user.get](../user/user-get.md) или [user.search](../user/user-search.md).
+Объекты CRM связаны с пользователями Битрикс24, задачами, торговым каталогом и телефонией.
 
-**Задачи.** Задачи связывают с CRM-объектами через поле `UF_CRM_TASK`. В это поле передают идентификатор элемента CRM. Связь записывают при создании задачи методом [tasks.task.add](../tasks/tasks-task-add.md), а читают — методом [tasks.task.get](../tasks/tasks-task-get.md).
+**Пользователи.** Ответственный за объект CRM хранится в поле `assignedById` в универсальных методах и `ASSIGNED_BY_ID` в методах объекта. Данные пользователя можно получить методами [user.get](../user/user-get.md) или [user.search](../user/user-search.md).
+
+**Задачи.** Задачи связывают с объектами CRM через множественное поле `UF_CRM_TASK`. В нем передают массив идентификаторов с префиксом типа объекта, например `["D_10", "C_7"]`. Префиксы перечислены в статье [Типы данных и структура объектов](./data-types.md#object_type). Связь записывают при создании задачи методом [tasks.task.add](../tasks/tasks-task-add.md), а читают — методом [tasks.task.get](../tasks/tasks-task-get.md). Чтобы поле принимало элементы смарт-процесса, у типа объекта включают привязку к задачам параметром `linkedUserFields` в методе [crm.type.update](./universal/user-defined-object-types/crm-type-update.md).
 
 **Каталог.** Товарные позиции в сделках и коммерческих предложениях берутся из торгового каталога. Управлять товарами можно методами [catalog.product.*](../catalog/product/index.md).
 
@@ -138,7 +121,7 @@
 #|
 || **Статья** | **Описание** ||
 || [Типы данных и структура объектов в REST API CRM](./data-types.md) | Что такое `entityTypeId`, какие бывают идентификаторы и как устроены объекты CRM ||
-|| [Поля основных объектов CRM](./main-entities-fields.md) | Поля ключевых CRM-объектов в одном месте ||
+|| [Поля основных объектов CRM](./main-entities-fields.md) | Поля ключевых объектов CRM в одном месте ||
 || [Частые кейсы и туториалы](./tutorials.md) | Прикладные сценарии и примеры использования CRM ||
 |#
 
@@ -146,19 +129,19 @@
 
 #|
 || **Раздел** | **Когда использовать** | **Ключевые методы** ||
-|| [Универсальные методы CRM](./universal/index.md) | Для работы с CRM-объектами и смарт-процессами через `entityTypeId` | [crm.item.add](./universal/crm-item-add.md), [crm.item.update](./universal/crm-item-update.md), [crm.item.list](./universal/crm-item-list.md)
+|| [Универсальные методы CRM](./universal/index.md) | Для работы с объектами CRM и смарт-процессами через `entityTypeId` | [crm.item.add](./universal/crm-item-add.md), [crm.item.update](./universal/crm-item-update.md), [crm.item.list](./universal/crm-item-list.md)
 
 [Все методы раздела](./universal/index.md) ||
 || [Сделки](./deals/index.md) | Для работы со сделками, их карточками и связями с контактами | [crm.deal.add](./deals/crm-deal-add.md), [crm.deal.update](./deals/crm-deal-update.md), [crm.deal.list](./deals/crm-deal-list.md)
 
 [Все методы раздела](./deals/index.md) ||
-|| [Лиды](./leads/index.md) | При работе с лидами, их карточками и связями с контактами | [crm.lead.add](./leads/crm-lead-add.md), [crm.lead.update](./leads/crm-lead-update.md), [crm.lead.list](./leads/crm-lead-list.md)
+|| [Лиды](./leads/index.md) | Для работы с лидами, их карточками и связями с контактами | [crm.lead.add](./leads/crm-lead-add.md), [crm.lead.update](./leads/crm-lead-update.md), [crm.lead.list](./leads/crm-lead-list.md)
 
 [Все методы раздела](./leads/index.md) ||
 || [Контакты](./contacts/index.md) | Для работы с контактами, их карточками и связями с компаниями | [crm.contact.add](./contacts/crm-contact-add.md), [crm.contact.update](./contacts/crm-contact-update.md), [crm.contact.list](./contacts/crm-contact-list.md)
 
 [Все методы раздела](./contacts/index.md) ||
-|| [Компании](./companies/index.md) | При работе с компаниями, их карточками и связями с контактами | [crm.company.add](./companies/crm-company-add.md), [crm.company.update](./companies/crm-company-update.md), [crm.company.list](./companies/crm-company-list.md)
+|| [Компании](./companies/index.md) | Для работы с компаниями, их карточками и связями с контактами | [crm.company.add](./companies/crm-company-add.md), [crm.company.update](./companies/crm-company-update.md), [crm.company.list](./companies/crm-company-list.md)
 
 [Все методы раздела](./companies/index.md) ||
 || [Коммерческие предложения](./quote/index.md) | Для работы с коммерческими предложениями и товарными позициями | [crm.quote.add](./quote/crm-quote-add.md), [crm.quote.update](./quote/crm-quote-update.md), [crm.quote.list](./quote/crm-quote-list.md)
@@ -173,7 +156,7 @@
 || [Справочники](./status/index.md) | Для управления системными списками CRM: стадиями, источниками, типами | [crm.status.add](./status/crm-status-add.md), [crm.status.update](./status/crm-status-update.md), [crm.status.list](./status/crm-status-list.md)
 
 [Все методы раздела](./status/index.md) ||
-|| [Валюты](./currency/index.md) | При управлении валютами CRM, базовой валютой и локализацией | [crm.currency.add](./currency/crm-currency-add.md), [crm.currency.update](./currency/crm-currency-update.md), [crm.currency.list](./currency/crm-currency-list.md)
+|| [Валюты](./currency/index.md) | Для управления валютами CRM, базовой валютой и локализацией | [crm.currency.add](./currency/crm-currency-add.md), [crm.currency.update](./currency/crm-currency-update.md), [crm.currency.list](./currency/crm-currency-list.md)
 
 [Все методы раздела](./currency/index.md) ||
 || [Реквизиты](./requisites/index.md) | Для работы с реквизитами, адресами и банковскими данными CRM | [crm.requisite.add](./requisites/universal/crm-requisite-add.md), [crm.requisite.update](./requisites/universal/crm-requisite-update.md), [crm.requisite.list](./requisites/universal/crm-requisite-list.md)
@@ -185,10 +168,10 @@
 
 #|
 || **Раздел** | **Когда использовать** | **Ключевые методы** ||
-|| [Таймлайн и дела](./timeline/index.md) | Для работы с делами, комментариями, звонками и другими записями таймлайна | [crm.activity.add](./timeline/activities/activity-base/crm-activity-add.md), [crm.activity.list](./timeline/activities/activity-base/crm-activity-list.md)
+|| [Таймлайн и дела](./timeline/index.md) | Для работы с делами, комментариями, звонками и другими записями таймлайна | [crm.activity.todo.add](./timeline/activities/todo/crm-activity-todo-add.md), [crm.timeline.comment.add](./timeline/comments/crm-timeline-comment-add.md)
 
 [Все методы раздела](./timeline/index.md) ||
-|| [Список обзвона](./call-list/index.md) | При создании списков обзвона и управлении их статусами | [crm.calllist.add](./call-list/crm-calllist-add.md), [crm.calllist.list](./call-list/crm-calllist-list.md)
+|| [Список обзвона](./call-list/index.md) | Для создания списков обзвона и управления их статусами | [crm.calllist.add](./call-list/crm-calllist-add.md), [crm.calllist.list](./call-list/crm-calllist-list.md)
 
 [Все методы раздела](./call-list/index.md) ||
 || [Генератор документов](./document-generator/index.md) | Для формирования документов по шаблонам и управления шаблонами и нумераторами | [crm.documentgenerator.document.add](./document-generator/documents/crm-document-generator-document-add.md), [crm.documentgenerator.template.list](./document-generator/templates/crm-document-generator-template-list.md)
@@ -200,10 +183,10 @@
 
 #|
 || **Раздел** | **Когда использовать** | **Ключевые методы** ||
-|| [Автоматизация CRM](./automation/index.md) | Для регистрации webhook-триггеров и триггеров приложений | [crm.automation.trigger.add](./automation/triggers/crm-automation-trigger-add.md), [crm.automation.trigger.execute](./automation/triggers/crm-automation-trigger-execute.md)
+|| [Автоматизация CRM](./automation/index.md) | Для запуска настроенных webhook-триггеров и регистрации триггеров приложения | [crm.automation.trigger](./automation/crm-automation-trigger.md), [crm.automation.trigger.add](./automation/triggers/crm-automation-trigger-add.md), [crm.automation.trigger.execute](./automation/triggers/crm-automation-trigger-execute.md)
 
 [Все методы раздела](./automation/index.md) ||
-|| [Сквозная аналитика](./tracking/index.md) | При привязке трейсов к объектам CRM и регистрации источников аналитики | [crm.tracking.trace.add](./tracking/crm-tracking-trace-add.md), [crm.tracking.trace.delete](./tracking/crm-tracking-trace-delete.md)
+|| [Сквозная аналитика](./tracking/index.md) | Для создания трейсов и привязки объектов CRM к источникам обращения | [crm.tracking.trace.add](./tracking/crm-tracking-trace-add.md), [crm.tracking.trace.delete](./tracking/crm-tracking-trace-delete.md)
 
 [Все методы раздела](./tracking/index.md) ||
 |#
@@ -212,16 +195,15 @@
 
 #|
 || **Раздел** | **Когда использовать** | **Ключевые методы** ||
-|| [Поиск и обработка дубликатов](./duplicates/index.md) | Для поиска и объединения дублирующихся записей CRM | [crm.duplicate.findbycomm](./duplicates/crm-duplicate-find-by-comm.md)
+|| [Поиск и обработка дубликатов](./duplicates/index.md) | Для поиска и объединения дублирующихся записей CRM | [crm.duplicate.findbycomm](./duplicates/crm-duplicate-find-by-comm.md), [crm.entity.mergeBatch](./duplicates/crm-entity-merge-batch.md)
 
 [Все методы раздела](./duplicates/index.md) ||
-|| [Цифровые рабочие места](./automated-solution/index.md) | При создании и настройке цифровых рабочих мест для смарт-процессов | [crm.automatedsolution.add](./automated-solution/crm-automated-solution-add.md), [crm.automatedsolution.list](./automated-solution/crm-automated-solution-list.md)
+|| [Цифровые рабочие места](./automated-solution/index.md) | Для создания и настройки цифровых рабочих мест смарт-процессов | [crm.automatedsolution.add](./automated-solution/crm-automated-solution-add.md), [crm.automatedsolution.list](./automated-solution/crm-automated-solution-list.md)
 
 [Все методы раздела](./automated-solution/index.md) ||
 || [Вспомогательные объекты](./auxiliary/index.md) | Для работы с перечислениями, множественными полями и другими служебными объектами CRM | [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md)
 
 [Все методы раздела](./auxiliary/index.md) ||
-|| [Устаревшие методы CRM](./outdated/index.md) | При поддержке существующих интеграций на старых ветках методов | [Все методы раздела](./outdated/index.md) ||
 |#
 
 ### Отдельные методы

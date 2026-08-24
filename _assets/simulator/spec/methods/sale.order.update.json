@@ -1,0 +1,118 @@
+{
+  "$v": 1,
+  "method": "sale.order.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Изменить заказ sale.order.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор заказа"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для изменения заказа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/order/sale-order-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "order": {
+        "accountNumber": "456",
+        "additionalInfo": "",
+        "affiliateId": 1,
+        "canceled": "Y",
+        "clients": [],
+        "comments": "",
+        "companyId": 1,
+        "currency": "RUB",
+        "dateCanceled": "2024-04-12T14:06:05+03:00",
+        "dateInsert": "2024-03-01T13:00:00+03:00",
+        "dateLock": null,
+        "dateMarked": "2024-04-15T10:21:14+03:00",
+        "dateStatus": "2024-04-12T14:06:04+03:00",
+        "dateUpdate": "2024-04-15T10:21:15+03:00",
+        "deducted": "N",
+        "discountValue": 10,
+        "empCanceledId": 1,
+        "empMarkedId": 1,
+        "empStatusId": 1,
+        "externalOrder": "N",
+        "id": 300,
+        "id1c": "",
+        "lid": "s1",
+        "lockedBy": "1",
+        "marked": "N",
+        "orderTopic": "",
+        "payed": "N",
+        "personTypeId": 1,
+        "personTypeXmlId": "",
+        "price": 100,
+        "reasonCanceled": "",
+        "reasonMarked": "",
+        "recountFlag": "N",
+        "recurringId": "1",
+        "requisiteLink": [],
+        "responsibleId": 1,
+        "statusId": "N",
+        "statusXmlId": "",
+        "taxValue": null,
+        "updated1c": "N",
+        "userDescription": "",
+        "userId": 1,
+        "version": 3,
+        "version1c": "",
+        "xmlId": ""
+      }
+    },
+    "time": {
+      "start": 1713169274.29568,
+      "finish": 1713169275.698528,
+      "duration": 1.4028480052947998,
+      "processing": 0.9852678775787354,
+      "date_start": "2024-04-15T11:21:14+03:00",
+      "date_finish": "2024-04-15T11:21:15+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "order",
+      "type": "sale_order",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном заказе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/order/sale-order-update.html",
+  "executable": false
+}

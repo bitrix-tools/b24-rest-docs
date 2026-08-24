@@ -25,7 +25,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -169,6 +169,26 @@
     } else {
         echo 'Message: '. $result['result']['message']['text'];
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.get", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"messageId": 789,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.get: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
     ```
 
 {% endlist %}

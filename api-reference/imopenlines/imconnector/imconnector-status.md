@@ -31,7 +31,7 @@
 || **CONNECTOR***
 [`string`](../../data-types.md) | Строковый код коннектора, который задали в параметре `ID` при вызове [imconnector.register](./imconnector-register.md) ||
 || **LINE**
-[`string`](../../data-types.md) | Идентификатор открытой линии ||
+[`integer`](../../data-types.md) | Идентификатор открытой линии ||
 |#
 
 Если параметр `LINE` не передан, метод автоматически использует значение `0`. Это влияет на результат проверки:
@@ -199,6 +199,32 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.status", b24.Params{
+    	"CONNECTOR": "myconnector",
+    	"LINE":      "12",
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.status: %w", err)
+    }
+
+    var item struct {
+    	Line       int    `json:"LINE"`
+    	Connector  string `json:"CONNECTOR"`
+    	Error      bool   `json:"ERROR"`
+    	Configured bool   `json:"CONFIGURED"`
+    	Status     bool   `json:"STATUS"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Line, item.Connector)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -230,6 +256,17 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Объект статуса коннектора [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **LINE**
 [`integer`](../../data-types.md) | Идентификатор открытой линии ||
 || **CONNECTOR**
@@ -240,8 +277,6 @@ HTTP-статус: **200**
 [`boolean`](../../data-types.md) | Признак завершенной настройки коннектора ||
 || **STATUS**
 [`boolean`](../../data-types.md) | Итоговый статус доступности коннектора ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -250,7 +285,7 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-    "error": "CONNECTOR",
+    "error": "ERROR_ARGUMENT",
     "error_description": "Argument 'CONNECTOR' is null or empty"
 }
 ```
@@ -262,7 +297,7 @@ HTTP-статус: **400**, **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения OAuth ||
-|| `400` | `CONNECTOR` | Argument 'CONNECTOR' is null or empty | Не передан идентификатор коннектора `CONNECTOR` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CONNECTOR' is null or empty | Не передан идентификатор коннектора `CONNECTOR` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

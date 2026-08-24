@@ -78,9 +78,28 @@
 - `!=` - не равно
 - `!` — не равно
 
+Значения полей с датой и временем передавайте в формате ISO 8601, например `2020-01-01T00:00:00+03:00`, или в формате даты вашего Битрикс24. Это относится к полям `TIMESTAMP_X`, `DATE_REGISTER`, `LAST_LOGIN`, `LAST_ACTIVITY_DATE`, `PERSONAL_BIRTHDAY`, `UF_EMPLOYMENT_DATE` и к пользовательским полям типа дата и дата со временем. Если значение не распознано как дата, условие не отберет ни одной записиы
+
  ||
 || **ADMIN_MODE**
 [`boolean`](../data-types.md) | [Ключ для работы](*ключ_Ключ для работы) в режиме администратора. Служит для получения данных о любых пользователях ||
+|| **select**
+[`array`](../data-types.md) | Массив с названиями полей, которые вернутся в ответе. Без этого параметра метод возвращает все поля, доступные скоупу приложения или вебхука.
+
+При выборке используйте маски:
+
+- `*` — все доступные поля
+- `UF_*` — все доступные пользовательские поля, в том числе созданные в Битрикс24
+
+Недоступные скоупу и несуществующие поля метод пропускает без ошибки ||
+|| **IMAGE_RESIZE**
+[`string`](../data-types.md) | Размер копии фотографии в поле `PERSONAL_PHOTO`:
+
+- `small` — 150 × 150 пикселей
+- `medium` — 300 × 300 пикселей
+- `large` — 1000 × 1000 пикселей
+
+Без этого параметра метод возвращает ссылку на исходное изображение ||
 || **start**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -92,6 +111,13 @@
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
+
+{% note tip "Как ускорить получение списка" %}
+
+- передавайте в параметре `select` только те поля, которые нужны в ответе. Если среди них нет пользовательских полей, метод не будет загружать сведения о них
+- отключайте подсчет общего количества записей параметром `start = -1`, когда выгружаете большой объем данных. Страницы в этом режиме выбирайте фильтром по последнему полученному идентификатору — [Как получить большой объем данных](../../settings/performance/huge-data.md)
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -561,6 +587,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"NAME": "Ива%",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Active     bool   `json:"ACTIVE"`
+    	Name       string `json:"NAME"`
+    	LastName   string `json:"LAST_NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    	Email      string `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ### Фильтрация по фамилии, не содержащей «ов»
@@ -774,6 +829,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"!%LAST_NAME": "ов",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Active     bool   `json:"ACTIVE"`
+    	Name       string `json:"NAME"`
+    	LastName   string `json:"LAST_NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    	Email      string `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
     ```
 
 {% endlist %}
@@ -993,6 +1077,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.get", b24.Params{
+    	"FILTER": b24.Params{
+    		"@PERSONAL_CITY": []string{"Москва", "Санкт-Петербург"},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	Active     bool   `json:"ACTIVE"`
+    	Name       string `json:"NAME"`
+    	LastName   string `json:"LAST_NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    	Email      string `json:"EMAIL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
     ```
 
 {% endlist %}

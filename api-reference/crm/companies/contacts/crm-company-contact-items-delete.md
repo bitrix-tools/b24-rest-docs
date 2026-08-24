@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -213,6 +213,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.contact.items.delete", b24.Params{
+    	"id": 32,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.contact.items.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -261,7 +279,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
+|| Пустое значение | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение компаний ||
 |#
 

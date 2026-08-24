@@ -1,4 +1,4 @@
-# Пункт выпадающего меню в туннелях продаж CRM_FUNNELS_TOOLBAR
+# Кнопка в воронках и туннелях продаж CRM_FUNNELS_TOOLBAR, CRM_XXX_FUNNELS_TOOLBAR
 
 {% note tip "" %}
 
@@ -9,30 +9,38 @@
 
 {% endnote %}
 
-> Scope: [`intranet`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт в тулбаре туннелей продаж.
+Виджет добавляет свою кнопку в окно, где настраивают воронки и туннели продаж.
 
-![Виджет в виде пункта в тулбаре туннелей продаж](./_images/CRM_FUNNELS_TOOLBAR.png "Виджет в виде пункта в тулбаре туннелей продаж")
-
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
-|| `CRM_FUNNELS_TOOLBAR` | Пункт в тулбаре туннелей продаж ||
+|| **Код точки встраивания** | **Место** ||
+|| `CRM_FUNNELS_TOOLBAR` | Кнопка в воронках и туннелях [сделок](../../crm/deals/index.md) ||
+|| `CRM_SMART_INVOICE_FUNNELS_TOOLBAR` | Кнопка в воронках и туннелях [новых счетов](../../crm/universal/invoice.md) ||
+|| `CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR` | Кнопка в воронках и туннелях пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_FUNNELS_TOOLBAR` ||
 |#
+
+У сделок код точки не содержит имени объекта — `CRM_FUNNELS_TOOLBAR`. У остальных типов имя объекта входит в код {.b24-info}
+
+### Где находится в интерфейсе
+
+Откройте канбан объектов CRM, раскройте список воронок и выберите *Воронки и туннели продаж*. Кнопка приложения выводится справа в шапке окна.
+
+![Кнопка в воронках и туннелях сделок](./_images/CRM_FUNNELS_TOOLBAR.png "Кнопка в воронках и туннелях сделок")
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
 ```php
 
@@ -40,14 +48,18 @@ Array
 (
     [DOMAIN] => xxx.bitrix24.com
     [PROTOCOL] => 1
-    [LANG] => en
-    [APP_SID] => 4c8dff86744e675bbb861d69003fbbe9
-    [AUTH_ID] => 574fba6600631fcd00005a4b00000001f0f107066649fd06e706777e462385fca29ac6
+    [LANG] => ru
+    [APP_SID] => 4048ea3ba712b0c1db2a6cc2b0e61183
+    [AUTH_ID] => d4917166007e9c94001e30ba00000001f0f1078f2c1d40e95b73a6cd50218e4
     [AUTH_EXPIRES] => 3600
-    [REFRESH_ID] => 47cee16600631fcd00005a4b00000001f0f107f2599a4c4602cfa840b6f9765e5f30c7
-    [member_id] => da45a03b265edd8787f8a258d793cc5d
+    [REFRESH_ID] => c3809966007e9c94001e30ba00000001f0f1078bd5e26f307ac194fb2e63d05
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => crm,placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
     [status] => L
     [PLACEMENT] => CRM_FUNNELS_TOOLBAR
+    [PLACEMENT_OPTIONS] => {"URI":"\/crm\/deal\/kanban\/"}
 )
 
 ```
@@ -58,10 +70,263 @@ Array
 
 ### PLACEMENT_OPTIONS
 
-В текущем виджете параметр `PLACEMENT_OPTIONS` не передается.
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
+
+Собственных ключей у точки нет — в контекст попадает только универсальный ключ `URI`.
+
+## OPTIONS при регистрации через placement.bind
+
+Параметры `OPTIONS` точка не поддерживает. Переданные значения не сохраняются: метод [placement.get](../placement-get.md) возвращает для такой регистрации пустой массив.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "CRM_FUNNELS_TOOLBAR",
+        "HANDLER": "https://your-domain.com/widgets/crm-funnels-toolbar-handler.php",
+        "TITLE": "Моя кнопка в туннелях продаж",
+        "LANG_ALL": {
+          "ru": {
+            "TITLE": "Моя кнопка в туннелях продаж"
+          },
+          "en": {
+            "TITLE": "My sales tunnels button"
+          }
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'CRM_FUNNELS_TOOLBAR',
+          HANDLER: 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
+          TITLE: 'My sales tunnels button',
+          LANG_ALL: {
+            ru: {
+              TITLE: 'Моя кнопка в туннелях продаж',
+            },
+            en: {
+              TITLE: 'My sales tunnels button',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Placement bound successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindCrmFunnelsToolbar() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'CRM_FUNNELS_TOOLBAR',
+              HANDLER: 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
+              TITLE: 'My sales tunnels button',
+              LANG_ALL: {
+                ru: {
+                  TITLE: 'Моя кнопка в туннелях продаж',
+                },
+                en: {
+                  TITLE: 'My sales tunnels button',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Placement bound successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindCrmFunnelsToolbar)
+    </script>
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'CRM_FUNNELS_TOOLBAR',
+                    'HANDLER' => 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
+                    'TITLE' => 'Моя кнопка в туннелях продаж',
+                    'LANG_ALL' => [
+                        'ru' => [
+                            'TITLE' => 'Моя кнопка в туннелях продаж',
+                        ],
+                        'en' => [
+                            'TITLE' => 'My sales tunnels button',
+                        ],
+                    ],
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult();
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT: 'CRM_FUNNELS_TOOLBAR',
+            HANDLER: 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
+            TITLE: 'Моя кнопка в туннелях продаж',
+            LANG_ALL: {
+                ru: { TITLE: 'Моя кнопка в туннелях продаж' },
+                en: { TITLE: 'My sales tunnels button' }
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'CRM_FUNNELS_TOOLBAR',
+            'HANDLER' => 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
+            'TITLE' => 'Моя кнопка в туннелях продаж',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Моя кнопка в туннелях продаж',
+                ],
+                'en' => [
+                    'TITLE' => 'My sales tunnels button',
+                ],
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "CRM_FUNNELS_TOOLBAR",
+    	"HANDLER":   "https://your-domain.com/widgets/crm-funnels-toolbar-handler.php",
+    	"TITLE":     "Моя кнопка в туннелях продаж",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Моя кнопка в туннелях продаж",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My sales tunnels button",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
+{% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Код собран для типа объекта, который эта точка не поддерживает, или приложению не выдан скоуп `crm`. Сверьте код с таблицей в начале страницы ||
+|| Для сделок зарегистрирован код `CRM_DEAL_FUNNELS_TOOLBAR` | У сделок код точки не содержит имени объекта — используйте `CRM_FUNNELS_TOOLBAR` ||
+|| Виджет зарегистрирован, но в интерфейсе не появляется | Завершите [установку приложения](../../../settings/app-installation/installation-finish.md) и перезагрузите страницу ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./robot-designer-toolbar.md)
+- [{#T}](./list-toolbar.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)

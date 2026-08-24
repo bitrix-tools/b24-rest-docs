@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает свойство отгрузки. 
+Метод `sale.shipmentproperty.get` получает свойство отгрузки.
 
 ## Параметры метода
 
@@ -241,9 +241,40 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentproperty.get", b24.Params{
+    	"id": 22,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentproperty.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "property".
+    raw, ok := b24.Unwrap(res.Result, "property")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа property")
+    }
+
+    var item struct {
+    	Active             string `json:"active"`
+    	Code               string `json:"code"`
+    	DefaultValue       string `json:"defaultValue"`
+    	Description        string `json:"description"`
+    	ID                 b24.ID `json:"id"`
+    	InputFieldLocation string `json:"inputFieldLocation"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 

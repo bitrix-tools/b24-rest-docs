@@ -12,11 +12,11 @@
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами:
-> — «Просмотр» и «Cоздание и редактирование» на тип документа «Приход»,
+> — «Просмотр» и «Создание и редактирование» на тип документа «Приход»,
 > — «Просмотр раздела Складской учет»
 > — «Просмотр каталога товаров»  
 
-Метод `catalog.documentcontractor.add` создает привязку поставщика, контакта или компании, к документу складского учета.
+Метод `catalog.documentcontractor.add` создает привязку поставщика, контакта или компании к документу складского учета.
 
 ## Параметры метода  
 
@@ -265,6 +265,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.documentcontractor.add", b24.Params{
+    	"fields": b24.Params{
+    		"documentId":   42,
+    		"entityTypeId": 3,
+    		"entityId":     101,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.documentcontractor.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentContractor".
+    raw, ok := b24.Unwrap(res.Result, "documentContractor")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentContractor")
+    }
+
+    var item struct {
+    	DocumentID   b24.ID `json:"documentId"`
+    	EntityID     b24.ID `json:"entityId"`
+    	EntityTypeID b24.ID `json:"entityTypeId"`
+    	ID           b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DocumentID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -302,7 +335,7 @@ HTTP-код: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **documentContractor**
-[`catalog_documentContractor`](../data-types.md#catalog_documentContractor) | Объект с данными созданной привязки поставщика к документу складского учета ||  
+[`catalog_documentContractor`](../data-types.md#catalog_documentcontractor) | Объект с данными созданной привязки поставщика к документу складского учета ||  
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

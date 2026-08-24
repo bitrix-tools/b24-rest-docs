@@ -27,7 +27,7 @@ BX24.appOption.set(string name, mixed value[, Function callback]): void;
 || **name***
 [`string`](../../../api-reference/data-types.md) | Код параметра ||
 || **value***
-[`mixed`](../../../api-reference/data-types.md) | Значение параметра ||
+[`any`](../../../api-reference/data-types.md) | Значение параметра ||
 || **callback**
 [`function`](../../../api-reference/data-types.md) | Callback после сохранения. В качестве аргумента будут переданы текущие настройки приложения ||
 |#

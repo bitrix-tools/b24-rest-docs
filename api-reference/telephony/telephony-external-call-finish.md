@@ -335,6 +335,36 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalCall.finish", b24.Params{
+    	"CALL_ID":     "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    	"USER_ID":     1269,
+    	"DURATION":    95,
+    	"STATUS_CODE": "200",
+    	"VOTE":        5,
+    	"ADD_TO_CHAT": 0,
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.externalCall.finish: %w", err)
+    }
+
+    var item struct {
+    	CallID       string `json:"CALL_ID"`
+    	PortalUserID b24.ID `json:"PORTAL_USER_ID"`
+    	PhoneNumber  string `json:"PHONE_NUMBER"`
+    	PortalNumber string `json:"PORTAL_NUMBER"`
+    	Incoming     string `json:"INCOMING"`
+    	CallDuration int    `json:"CALL_DURATION"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.CallID, item.PortalUserID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -215,6 +215,37 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.pin", b24.Params{
+    	"id": 3897,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.pin: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "task".
+    raw, ok := b24.Unwrap(res.Result, "task")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа task")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	Title       string `json:"title"`
+    	Description string `json:"description"`
+    	Priority    string `json:"priority"`
+    	Multitask   string `json:"multitask"`
+    	NotViewed   string `json:"notViewed"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
     ```
 
 {% endlist %}

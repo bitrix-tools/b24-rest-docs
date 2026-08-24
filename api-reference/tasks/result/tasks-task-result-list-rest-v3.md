@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -371,6 +371,49 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.result.list", b24.Params{
+    	"filter": []any{
+    		[]any{"taskId", 51},
+    	},
+    	"select": []string{"id", "taskId", "text", "authorId", "createdAt", "status", "messageId"},
+    	"order": b24.Params{
+    		"createdAt": "DESC",
+    	},
+    	"pagination": b24.Params{
+    		"limit":  10,
+    		"offset": 0,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.result.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID        b24.ID `json:"id"`
+    	TaskID    b24.ID `json:"taskId"`
+    	Text      string `json:"text"`
+    	AuthorID  b24.ID `json:"authorId"`
+    	CreatedAt string `json:"createdAt"`
+    	Status    string `json:"status"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
     ```
 
 {% endlist %}

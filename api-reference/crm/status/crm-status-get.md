@@ -11,13 +11,13 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение хотя бы одного объекта CRM
 
 Метод `crm.status.get` возвращает параметры элемента справочника по идентификатору.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -223,6 +223,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.status.get", b24.Params{
+    	"id": 123,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.status.get: %w", err)
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"ID"`
+    	EntityID string `json:"ENTITY_ID"`
+    	StatusID string `json:"STATUS_ID"`
+    	Name     string `json:"NAME"`
+    	NameInit string `json:"NAME_INIT"`
+    	Sort     string `json:"SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
     ```
 
 {% endlist %}

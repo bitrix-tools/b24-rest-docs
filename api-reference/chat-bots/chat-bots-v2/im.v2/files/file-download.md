@@ -11,17 +11,17 @@
 
 > Scope: [`im`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: авторизованный пользователь
+> Кто может выполнять метод: пользователь с доступом к чату
 
 Метод `im.v2.File.download` возвращает ссылку для скачивания файла из чата.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **dialogId***
 [`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
 || **fileId***
@@ -160,6 +160,27 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.v2.File.download", b24.Params{
+    	"dialogId": "chat5",
+    	"fileId":   138,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.v2.File.download: %w", err)
+    }
+
+    var item struct {
+    	DownloadUrl string `json:"downloadUrl"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DownloadUrl)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -182,11 +203,11 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../../../../data-types.md) | Результат операции ||
 || **result.downloadUrl**
@@ -206,20 +227,20 @@ HTTP-статус: **400**, **403**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `FILE_NOT_FOUND` | File not found | Файл не найден в указанном чате ||
-|| `FILE_ACCESS_ERROR` | File access error | Нет прав на скачивание файла — файл не принадлежит указанному чату ||
+|| `FILE_NOT_FOUND` | File not found | Файл с таким идентификатором не найден ||
 || `ACCESS_DENIED` | Access denied | Нет доступа к чату ||
 |#
 
-{% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./file-upload.md)
+- [{#T}](../../../../chats/files/index.md)

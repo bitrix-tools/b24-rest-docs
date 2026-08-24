@@ -1,0 +1,205 @@
+{
+  "$v": 1,
+  "method": "sale.statusLang.getListLangs",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Получить список языков для локализации sale.statusLang.getListLangs",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "langs",
+      "type": "sale_lang[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных языках",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status-lang/sale-status-lang-get-list-langs.md"
+  },
+  "resultExample": {
+    "result": {
+      "langs": [
+        {
+          "active": "Y",
+          "lid": "ar",
+          "name": "عربي"
+        },
+        {
+          "active": "Y",
+          "lid": "br",
+          "name": "Português (Brasil)"
+        },
+        {
+          "active": "Y",
+          "lid": "de",
+          "name": "Deutsch"
+        },
+        {
+          "active": "Y",
+          "lid": "en",
+          "name": "English"
+        },
+        {
+          "active": "Y",
+          "lid": "fr",
+          "name": "Français"
+        },
+        {
+          "active": "Y",
+          "lid": "hi",
+          "name": "हिन्दी"
+        },
+        {
+          "active": "Y",
+          "lid": "id",
+          "name": "Bahasa Indonesia"
+        },
+        {
+          "active": "Y",
+          "lid": "in",
+          "name": "English (India)"
+        },
+        {
+          "active": "Y",
+          "lid": "it",
+          "name": "Italiano"
+        },
+        {
+          "active": "Y",
+          "lid": "ja",
+          "name": "日本語"
+        },
+        {
+          "active": "Y",
+          "lid": "la",
+          "name": "Español"
+        },
+        {
+          "active": "Y",
+          "lid": "ms",
+          "name": "Bahasa Melayu"
+        },
+        {
+          "active": "Y",
+          "lid": "pl",
+          "name": "Polski"
+        },
+        {
+          "active": "Y",
+          "lid": "ru",
+          "name": "Русский"
+        },
+        {
+          "active": "Y",
+          "lid": "sc",
+          "name": "中文（简体）"
+        },
+        {
+          "active": "Y",
+          "lid": "tc",
+          "name": "中文（繁體）"
+        },
+        {
+          "active": "Y",
+          "lid": "th",
+          "name": "ภาษาไทย"
+        },
+        {
+          "active": "Y",
+          "lid": "tr",
+          "name": "Türkçe"
+        },
+        {
+          "active": "Y",
+          "lid": "ua",
+          "name": "Українська"
+        },
+        {
+          "active": "Y",
+          "lid": "vn",
+          "name": "Tiếng Việt"
+        }
+      ]
+    },
+    "total": 20,
+    "time": {
+      "start": 1712230480.81481,
+      "finish": 1712230480.846057,
+      "duration": 0.03124690055847168,
+      "processing": 0.004312038421630859,
+      "date_start": "2024-04-04T14:34:40+03:00",
+      "date_finish": "2024-04-04T14:34:40+03:00",
+      "operating_reset_at": 1712231080,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "langs",
+      "type": "sale_lang[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о выбранных языках"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status-lang/sale-status-lang-get-list-langs.html",
+  "executable": false
+}

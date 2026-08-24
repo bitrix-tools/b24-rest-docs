@@ -1,4 +1,4 @@
-# Получить связи записи в лист ожидания booking.v1.waitList.externalData.list
+# Получить связи записи в лист ожидания booking.v1.waitlist.externalData.list
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.waitList.externalData.list` возвращает связи для указанной записи в листе ожидания.
+Метод `booking.v1.waitlist.externalData.list` возвращает связи для указанной записи в листе ожидания.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -40,7 +40,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"waitListId":257}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitList.externalData.list
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitlist.externalData.list
     ```
 
 - cURL (OAuth)
@@ -50,7 +50,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"waitListId":257,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.waitList.externalData.list
+    https://**put_your_bitrix24_address**/rest/booking.v1.waitlist.externalData.list
     ```
 
 - JS (TS)
@@ -73,13 +73,13 @@
     }
 
     try {
-      // booking.v1.waitList.externalData.list returns a single page (max 50 records). For the whole result set
+      // booking.v1.waitlist.externalData.list returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
       // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<ExternalDataListResult>({
-        method: 'booking.v1.waitList.externalData.list',
+        method: 'booking.v1.waitlist.externalData.list',
         params: {
           waitListId: 257,
           start: 0,
@@ -111,13 +111,13 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // booking.v1.waitList.externalData.list returns a single page (max 50 records). For the whole result set
+          // booking.v1.waitlist.externalData.list returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
           // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
-            method: 'booking.v1.waitList.externalData.list',
+            method: 'booking.v1.waitlist.externalData.list',
             params: {
               waitListId: 257,
               start: 0,
@@ -176,7 +176,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'booking.v1.waitList.externalData.list',
+                'booking.v1.waitlist.externalData.list',
                 [
                     'waitListId' => 257,
                 ]
@@ -202,7 +202,7 @@
 
     ```js
     BX24.callMethod(
-        "booking.v1.waitList.externalData.list",
+        "booking.v1.waitlist.externalData.list",
         {
             waitListId: 257,
         },
@@ -221,7 +221,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'booking.v1.waitList.externalData.list',
+        'booking.v1.waitlist.externalData.list',
         [
             'waitListId' => 257
         ]
@@ -230,6 +230,36 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.waitlist.externalData.list", b24.Params{
+    	"waitListId": 257,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.waitlist.externalData.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "externalData".
+    raw, ok := b24.Unwrap(res.Result, "externalData")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа externalData")
+    }
+
+    var items []struct {
+    	EntityTypeID string `json:"entityTypeId"`
+    	ModuleID     string `json:"moduleId"`
+    	Value        string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.EntityTypeID)
+    }
     ```
 
 {% endlist %}

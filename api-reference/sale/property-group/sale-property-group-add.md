@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод создает группу свойств.
+Метод `sale.propertygroup.add` создает группу свойств.
 
 ## Параметры метода
 
@@ -256,6 +256,39 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertygroup.add", b24.Params{
+    	"fields": b24.Params{
+    		"personTypeId": 3,
+    		"name":         "Новая группа свойств",
+    		"sort":         100,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.propertygroup.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyGroup".
+    raw, ok := b24.Unwrap(res.Result, "propertyGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyGroup")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	PersonTypeID b24.ID `json:"personTypeId"`
+    	Sort         int    `json:"sort"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

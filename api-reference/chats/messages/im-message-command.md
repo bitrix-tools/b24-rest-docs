@@ -236,6 +236,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.message.command", b24.Params{
+    	"MESSAGE_ID":     34261,
+    	"BOT_ID":         1291,
+    	"COMMAND":        "task",
+    	"COMMAND_PARAMS": "task №1",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.message.command: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

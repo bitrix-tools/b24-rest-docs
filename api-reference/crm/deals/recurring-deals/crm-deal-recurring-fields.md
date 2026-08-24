@@ -205,6 +205,23 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.recurring.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.recurring.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -468,7 +485,7 @@ HTTP-статус: **200**
 || **LIMIT_DATE**
 [`date`](../../../data-types.md) | Дата окончания генерации сделок | Используется при `IS_LIMIT = D` ||
 || **PARAMS**
-[`recurring_params`](../../../data-types.md) | Параметры для расчета даты следующего выполнения | Структура полей — [ниже](#params-fields) ||
+[`recurring_params`](../../data-types.md) | Параметры для расчета даты следующего выполнения | Структура полей — [ниже](#params-fields) ||
 |#
 
 #### Поля объекта PARAMS {#params-fields}

@@ -1,0 +1,180 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.document.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список документов crm.documentgenerator.document.list",
+  "permissions": "пользователь с правом \"просмотра\" документов генератора документов",
+  "params": [
+    {
+      "name": "select",
+      "type": "string[]",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые должны быть заполнены у документов в выборке. При выборке можно использовать: - '*' — для выборки всех стандартных полей документа - явный список полей, например ['id','title','number','entityId','createTime'] Список полей смотрите в разделе Тип document. По умолчанию используется ['*']",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля для фильтрации - value_n — значение фильтра К ключам field_n можно добавлять префиксы: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — IN, в значении передается массив - !@ — NOT IN, в значении передается массив - = — равно (по умолчанию) - != или ! — не равно Список доступных полей для фильтрации смотрите в разделе Т…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект формата: где: - field_n — название поля сортировки - value_n — направление сортировки: ASC или DESC Список полей для сортировки смотрите в разделе Тип document. Пример: {\"id\":\"DESC\",\"createTime\":\"ASC\"}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр постраничной навигации. Размер страницы фиксирован: 50 записей. Формула для получения N-й страницы: start = (N - 1) * 50 Подробнее в статье Особенности списочных методов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/documents/crm-document-generator-document-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "documents": [
+        {
+          "id": "61",
+          "title": "Демонстрационная реализация товара 2026-001",
+          "number": "2026-002",
+          "templateId": "39",
+          "fileId": "283",
+          "imageId": "285",
+          "pdfId": "287",
+          "createTime": "2026-03-20T13:51:45+03:00",
+          "updateTime": "2026-03-20T14:42:38+03:00",
+          "values": {
+            "_creationMethod": "rest",
+            "stampsEnabled": true
+          },
+          "createdBy": "577",
+          "updatedBy": "577",
+          "downloadUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.download&SITE_ID=s1&id=61",
+          "pdfUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getPdf&SITE_ID=s1&id=61",
+          "imageUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getImage&SITE_ID=s1&id=61",
+          "stampsEnabled": true,
+          "entityId": "101",
+          "entityTypeId": "2",
+          "downloadUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.download.json?auth=***&token=***",
+          "pdfUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getPdf.json?auth=***&token=***",
+          "imageUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getImage.json?auth=***&token=***"
+        },
+        {
+          "id": "59",
+          "title": "Демонстрационная реализация товара 2026-001",
+          "number": "2026-001",
+          "templateId": "39",
+          "fileId": "271",
+          "imageId": "273",
+          "pdfId": "275",
+          "createTime": "2026-03-20T13:28:26+03:00",
+          "updateTime": "2026-03-20T13:28:26+03:00",
+          "values": {
+            "_creationMethod": "rest",
+            "stampsEnabled": true
+          },
+          "createdBy": "577",
+          "updatedBy": null,
+          "downloadUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.download&SITE_ID=s1&id=59",
+          "pdfUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getPdf&SITE_ID=s1&id=59",
+          "imageUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getImage&SITE_ID=s1&id=59",
+          "stampsEnabled": true,
+          "entityId": "101",
+          "entityTypeId": "2",
+          "downloadUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.download.json?auth=***&token=***",
+          "pdfUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getPdf.json?auth=***&token=***",
+          "imageUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getImage.json?auth=***&token=***"
+        }
+      ]
+    },
+    "total": 4,
+    "time": {
+      "start": 1774009414,
+      "finish": 1774009414.09833,
+      "duration": 0.09833002090454102,
+      "processing": 0,
+      "date_start": "2026-03-20T15:23:34+03:00",
+      "date_finish": "2026-03-20T15:23:34+03:00",
+      "operating_reset_at": 1774010014,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа. Содержит структуру result"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество документов, подходящих под фильтр"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для следующей страницы. Возвращается, если есть следующая страница"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-list.html",
+  "executable": false,
+  "entityFields": [
+    "createTime",
+    "createdBy",
+    "downloadUrl",
+    "downloadUrlMachine",
+    "entityId",
+    "entityTypeId",
+    "fileId",
+    "id",
+    "imageId",
+    "imageUrl",
+    "imageUrlMachine",
+    "number",
+    "pdfId",
+    "pdfUrl",
+    "pdfUrlMachine",
+    "stampsEnabled",
+    "templateId",
+    "title",
+    "updateTime",
+    "updatedBy",
+    "values"
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "$v": 1,
+  "method": "landing.landing.addblock",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Добавить блок на страницу landing.landing.addblock",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Для страниц типов PAGE, STORE и SMN параметр передавать не нужно. Для страниц в скоупах GROUP, KNOWLEDGE и MAINPAGE передайте такое же значение scope. Правила выбора значения описаны в статье Работа с типами сайтов и скоупами"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Набор параметров нового блока (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "preventHistory",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Если true, метод не добавляет действие в историю изменений страницы. По умолчанию false"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "CODE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Символьный код блока из репозитория. Код можно получить методом landing.block.getrepository: для fields.CODE нужно брать ключ элемента из result.items, например 02.three_cols_big_1 или repo_385. Для блока, зарегистрированного приложением через landing.repo.register, используйте значение вида repo_<ID>.…"
+        },
+        {
+          "name": "AFTER_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор блока, после которого нужно вставить новый блок. Идентификатор блока можно получить методом landing.block.getList. Если передать идентификатор существующего блока на странице, новый блок будет добавлен сразу после него. Если параметр не передан, новый блок добавится в начало страницы. Если AFTER_ID передан, но блока с таким идентификатором на странице нет, отдельной ошибки не будет.…"
+        },
+        {
+          "name": "ACTIVE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг активности нового блока. Возможные значения: Y — блок активен N — блок неактивен По умолчанию — Y"
+        },
+        {
+          "name": "CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "HTML-содержимое блока. Позволяет заменить стандартный контент блока своим HTML-кодом. При этом код блока все равно должен быть доступен в репозитории для текущего типа страницы и scope. Перед сохранением значение очищается и проверяется"
+        },
+        {
+          "name": "RETURN_CONTENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Если передать Y, после добавления блока метод вернет не только его идентификатор, но и данные блока (подробное описание). При любом другом значении метод вернет только идентификатор блока"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/block-methods/landing-landing-add-block.md"
+  },
+  "resultExample": {
+    "result": 28597,
+    "time": {
+      "start": 1773923439,
+      "finish": 1773923439.57418,
+      "duration": 0.5741798877716064,
+      "processing": 0,
+      "date_start": "2026-03-19T15:30:39+03:00",
+      "date_finish": "2026-03-19T15:30:39+03:00",
+      "operating_reset_at": 1773924039,
+      "operating": 0.10522103309631348
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного блока. Если передан fields.RETURN_CONTENT = 'Y', метод вернет объект блока (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/block-methods/landing-landing-add-block.html",
+  "executable": false
+}

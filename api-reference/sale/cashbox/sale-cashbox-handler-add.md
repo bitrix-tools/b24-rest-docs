@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод добавляет REST-обработчик кассы.
+Метод `sale.cashbox.handler.add` добавляет REST-обработчик кассы.
 
 ## Параметры метода
 
@@ -581,6 +581,66 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.handler.add", b24.Params{
+    	"CODE":            "restcashbox01",
+    	"NAME":            "REST-касса 01",
+    	"SORT":            100,
+    	"SUPPORTS_FFD105": "Y",
+    	"SETTINGS": b24.Params{
+    		"PRINT_URL":    "http://example.com/rest_print.php",
+    		"CHECK_URL":    "http://example.com/rest_check.php",
+    		"HTTP_VERSION": "1.1",
+    		"CONFIG": b24.Params{
+    			"AUTH": b24.Params{
+    				"LABEL": "Авторизация",
+    				"ITEMS": b24.Params{
+    					"KEYWORD": b24.Params{
+    						"TYPE":  "STRING",
+    						"LABEL": "Кодовое слово",
+    					},
+    					"PREFERENCE": b24.Params{
+    						"TYPE":     "ENUM",
+    						"LABEL":    "Множественный выбор",
+    						"REQUIRED": "Y",
+    						"OPTIONS": b24.Params{
+    							"FIRST":  "Первый",
+    							"SECOND": "Второй",
+    							"THIRD":  "Третий",
+    						},
+    					},
+    				},
+    			},
+    			"INTERACTION": b24.Params{
+    				"LABEL": "Настройки взаимодействия с кассой",
+    				"ITEMS": b24.Params{
+    					"MODE": b24.Params{
+    						"TYPE":  "ENUM",
+    						"LABEL": "Режим работы с кассой",
+    						"OPTIONS": b24.Params{
+    							"ACTIVE": "боевой",
+    							"TEST":   "тестовый",
+    						},
+    					},
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.handler.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -751,7 +811,7 @@ HTTP-статус: **400**, **403**
 || **client_phone**
 [`string`](../../data-types.md) | Номер телефона клиента (при наличии) ||
 || **total_sum**
-[`float`](../../data-types.md) | Общая сумма по чеку ||
+[`double`](../../data-types.md) | Общая сумма по чеку ||
 || **uuid**
 [`string`](../../data-types.md) | Идентификатор документа во внешней системе (портал *Битрикс24*) ||
 || **service_email**
@@ -766,17 +826,17 @@ HTTP-статус: **400**, **403**
 || **name**
 [`string`](../../data-types.md) | Название товара ||
 || **base_price**
-[`float`](../../data-types.md) | Цена товара без учета скидок и наценок ||
+[`double`](../../data-types.md) | Цена товара без учета скидок и наценок ||
 || **price**
-[`float`](../../data-types.md) | Цена продажи ||
+[`double`](../../data-types.md) | Цена продажи ||
 || **sum**
-[`float`](../../data-types.md) | Сумма позиции ||
+[`double`](../../data-types.md) | Сумма позиции ||
 || **quantity**
-[`float`](../../data-types.md) | Количество товара ||
+[`double`](../../data-types.md) | Количество товара ||
 || **vat**
-[`int`](../../data-types.md) | Идентификатор налога. Он может быть использован в методе [catalog.vat.get](../../catalog/vat/catalog-vat-get.md) для получения информации по налогу ||
+[`integer`](../../data-types.md) | Идентификатор налога. Он может быть использован в методе [catalog.vat.get](../../catalog/vat/catalog-vat-get.md) для получения информации по налогу ||
 || **vat_sum**
-[`float`](../../data-types.md) | Cумма налога ||
+[`double`](../../data-types.md) | Cумма налога ||
 || **barcode**
 [`string`](../../data-types.md) | Штрихкод. Используется при включенном складском учете и передаче товара с уникальным штрихкодом ||
 || **nomenclature_code**
@@ -803,7 +863,7 @@ HTTP-статус: **400**, **403**
 [`array`](../../data-types.md) | Агентские реквизиты при использовании агентских схем (подробное описание приведено [ниже](#supplier_info)) ||
 || **discount**
 [`array`](../../data-types.md) | Скидка на товар. Ключ является устаревшим и больше не используется. 
-В массиве передается параметр `discount` ([`float`](../../data-types.md)) — размер скидки в денежном выражении ||
+В массиве передается параметр `discount` ([`double`](../../data-types.md)) — размер скидки в денежном выражении ||
 |#
 
 ##### Параметр supplier_info {#supplier_info}
@@ -831,7 +891,7 @@ HTTP-статус: **400**, **403**
 || **is_cash**
 [`string`](../../data-types.md) | Производится ли оплата наличными (`Y/N`). Ключ является устаревшим, вместо него рекомендуется использовать `type` ||
 || **sum**
-[`float`](../../data-types.md) | Сумма оплаты ||
+[`double`](../../data-types.md) | Сумма оплаты ||
 || **currency**
 [`string`](../../data-types.md) | Валюта оплаты ||
 |#

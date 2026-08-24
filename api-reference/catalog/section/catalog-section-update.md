@@ -45,23 +45,23 @@
 Для получения существующих идентификаторов необходимо использовать [catalog.section.list](./catalog-section-list.md) 
 ||
 || **name***
-[`string`](../data-types.md) | Название раздела каталога ||
+[`string`](../../data-types.md) | Название раздела каталога ||
 || **xmlId**
-[`string`](../data-types.md) | Внешний идентификатор.
+[`string`](../../data-types.md) | Внешний идентификатор.
 
 Можно использовать для синхронизации текущего раздела каталога с аналогичной позицией во внешней системе ||
 || **code**
-[`string`](../data-types.md) | Код раздела каталога. Должен быть уникальным ||
+[`string`](../../data-types.md) | Код раздела каталога. Должен быть уникальным ||
 || **sort**
-[`integer`](../data-types.md) | Сортировка ||
+[`integer`](../../data-types.md) | Сортировка ||
 || **active**
-[`string`](../data-types.md) | Индикатор активности раздела каталога:
+[`string`](../../data-types.md) | Индикатор активности раздела каталога:
 - `Y` — активен
 - `N` — неактивен ||
 || **description**
-[`string`](../data-types.md) | Описание раздела каталога||
+[`string`](../../data-types.md) | Описание раздела каталога||
 || **descriptionType**
-[`string`](../data-types.md) | Тип описания. Доступные типы: `text`, `html` ||
+[`string`](../../data-types.md) | Тип описания. Доступные типы: `text`, `html` ||
 |#
 
 ## Примеры кода
@@ -311,6 +311,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.section.update", b24.Params{
+    	"id": 32,
+    	"fields": b24.Params{
+    		"iblockId":        14,
+    		"name":            "Детские игрушки",
+    		"description":     "<H1>Детские игрушки</H1> <p>Товары для детей</p>",
+    		"descriptionType": "html",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.section.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "section".
+    raw, ok := b24.Unwrap(res.Result, "section")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа section")
+    }
+
+    var item struct {
+    	Active          string `json:"active"`
+    	Code            string `json:"code"`
+    	Description     string `json:"description"`
+    	DescriptionType string `json:"descriptionType"`
+    	IblockID        b24.ID `json:"iblockId"`
+    	IblockSectionID b24.ID `json:"iblockSectionId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -388,7 +425,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-section-add.md)
 - [{#T}](./catalog-section-get.md)

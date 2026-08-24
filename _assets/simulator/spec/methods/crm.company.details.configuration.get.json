@@ -1,0 +1,174 @@
+{
+  "$v": 1,
+  "method": "crm.company.details.configuration.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить параметры карточки crm.company.details.configuration.get",
+  "permissions": "> - любой пользователь может получать свои и общие настройки,",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, получить можно методом user.get. Нужен только администратору при запросе чужих личных настроек. Если не указан, вернутся настройки текущего пользователя"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/custom-form/crm-company-details-configuration-get.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.get"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "name": "main",
+        "title": "О компании",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TITLE",
+            "optionFlags": "0"
+          },
+          {
+            "name": "COMPANY_TYPE",
+            "optionFlags": "0"
+          },
+          {
+            "name": "INDUSTRY",
+            "optionFlags": "0"
+          },
+          {
+            "name": "REVENUE_WITH_CURRENCY",
+            "optionFlags": "0"
+          },
+          {
+            "name": "EMAIL",
+            "optionFlags": "0"
+          },
+          {
+            "name": "CONTACT",
+            "optionFlags": "0",
+            "options": {
+              "defaultCountry": "RU"
+            }
+          },
+          {
+            "name": "UF_CRM_1687188367",
+            "optionFlags": "1"
+          },
+          {
+            "name": "UF_CRM_1706178583916",
+            "optionFlags": "1"
+          },
+          {
+            "name": "COMMENTS",
+            "optionFlags": "1"
+          },
+          {
+            "name": "REQUISITES",
+            "optionFlags": "1"
+          },
+          {
+            "name": "PARENT_ID_164",
+            "optionFlags": "0"
+          },
+          {
+            "name": "LOGO",
+            "optionFlags": "1"
+          },
+          {
+            "name": "PHONE",
+            "optionFlags": "1",
+            "options": {
+              "defaultCountry": "RU"
+            }
+          },
+          {
+            "name": "ADDRESS",
+            "optionFlags": "1"
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "EMPLOYEES",
+            "optionFlags": "0"
+          },
+          {
+            "name": "ASSIGNED_BY_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "UTM",
+            "optionFlags": "0"
+          },
+          {
+            "name": "TRACKING_SOURCE_ID",
+            "optionFlags": "0"
+          }
+        ]
+      },
+      {
+        "name": "user_pl047oti",
+        "title": "Новый раздел",
+        "type": "section",
+        "elements": [
+          {
+            "name": "UF_CRM_1689255858",
+            "optionFlags": "1"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "start": 1769418250,
+      "finish": 1769418250.874948,
+      "duration": 0.8749480247497559,
+      "processing": 0,
+      "date_start": "2026-01-26T12:04:10+03:00",
+      "date_finish": "2026-01-26T12:04:10+03:00",
+      "operating_reset_at": 1769418850,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "section[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки компании. Возвращает null в случае отсутствия конфигурации"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/custom-form/crm-company-details-configuration-get.html",
+  "executable": false,
+  "entityFields": [
+    "elements",
+    "name",
+    "title",
+    "type"
+  ]
+}

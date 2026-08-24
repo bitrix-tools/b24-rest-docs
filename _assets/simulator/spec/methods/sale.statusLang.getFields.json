@@ -1,0 +1,112 @@
+{
+  "$v": 1,
+  "method": "sale.statusLang.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить поля локализации статусов sale.statusLang.getFields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "statusLang",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта salestatuslang, а value — объект типа restfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status-lang/sale-status-lang-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "statusLang": {
+        "description": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "lid": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "name": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "statusId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1712231062.904967,
+      "finish": 1712231063.158455,
+      "duration": 0.25348782539367676,
+      "processing": 0.005218982696533203,
+      "date_start": "2024-04-04T14:44:22+03:00",
+      "date_finish": "2024-04-04T14:44:23+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "statusLang",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта salestatuslang, а value — объект типа restfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status-lang/sale-status-lang-get-fields.html",
+  "executable": false
+}

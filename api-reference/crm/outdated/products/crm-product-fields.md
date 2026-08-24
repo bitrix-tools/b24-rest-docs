@@ -129,6 +129,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.product.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.product.fields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Возвращаемые данные
@@ -153,7 +167,7 @@
 || **DESCRIPTION_TYPE**
 [`string`](../../../data-types.md) | Тип описания  ||
 || **DETAIL_PICTURE**
-[`product_file`](../../../data-types.md) | Детальная картинка, поле доступно в старой карточке товара  ||
+[`product_file`](../../data-types.md) | Детальная картинка, поле доступно в старой карточке товара  ||
 || **ID**
 [`integer`](../../../data-types.md) | Идентификатор товара  ||
 || **MEASURE**
@@ -163,7 +177,7 @@
 || **NAME***
 [`string`](../../../data-types.md) | Название  ||
 || **PREVIEW_PICTURE**
-[`product_file`](../../../data-types.md) | Картинка для анонса, поле доступно в старой карточке товара  ||
+[`product_file`](../../data-types.md) | Картинка для анонса, поле доступно в старой карточке товара  ||
 || **PRICE**
 [`double`](../../../data-types.md) | Цена  ||
 || **SECTION_ID**

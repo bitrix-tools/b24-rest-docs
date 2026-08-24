@@ -36,8 +36,8 @@
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `@` — IN (в качестве значения передаётся массив)
-- `!@`— NOT IN (в качестве значения передаётся массив)
+- `@` — IN (в качестве значения передается массив)
+- `!@` — NOT IN (в качестве значения передается массив)
 - `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - "мол%" — ищем значения, начинающиеся с «мол»
@@ -381,6 +381,47 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentitem.list", b24.Params{
+    	"select": []string{"id", "orderDeliveryId", "basketId", "quantity", "xmlId", "dateInsert", "reservedQuantity"},
+    	"filter": b24.Params{
+    		"<id":              10,
+    		"@orderDeliveryId": []int{2431, 2430},
+    		"basketId":         2716,
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentitem.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "shipmentItems".
+    raw, ok := b24.Unwrap(res.Result, "shipmentItems")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа shipmentItems")
+    }
+
+    var items []struct {
+    	BasketID         b24.ID `json:"basketId"`
+    	DateInsert       string `json:"dateInsert"`
+    	ID               b24.ID `json:"id"`
+    	OrderDeliveryID  b24.ID `json:"orderDeliveryId"`
+    	Quantity         int    `json:"quantity"`
+    	ReservedQuantity int    `json:"reservedQuantity"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.BasketID)
+    }
     ```
 
 {% endlist %}

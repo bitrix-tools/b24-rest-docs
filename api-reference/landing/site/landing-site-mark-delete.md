@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «удаления» сайтов
 
-Метод `landing.site.markDelete` помечает сайт как удаленный и переносит его в корзину.
+Метод `landing.site.markDelete` помечает сайт как удаленный, переносит его в корзину и снимает с публикации.
+
+Сайт остается в базе данных вместе со своими страницами. Восстановить его можно методом [landing.site.markUnDelete](./landing-site-mark-undelete.md). По умолчанию сайты хранятся в корзине 30 дней, затем удаляются автоматически. Чтобы удалить сайт сразу и без возможности восстановления, используйте метод [landing.site.delete](./landing-site-delete.md).
 
 ## Параметры метода
 
@@ -30,6 +32,10 @@
 [`integer`](../../data-types.md) | Идентификатор сайта.
 
 Идентификатор сайта можно получить с помощью метода [landing.site.getList](./landing-site-get-list.md) или из результата метода [landing.site.add](./landing-site-add.md) ||
+|| **mark**
+[`boolean`](../../data-types.md) | Признак пометки сайта как удаленного. По умолчанию `true`.
+
+Если передать `false`, метод восстановит сайт из корзины. Для такого сценария обычно используют [landing.site.markUnDelete](./landing-site-mark-undelete.md) ||
 |#
 
 ## Примеры кода
@@ -222,6 +228,24 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.markDelete", b24.Params{
+    	"id": 143,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.markDelete: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

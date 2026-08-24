@@ -1,0 +1,150 @@
+{
+  "$v": 1,
+  "method": "landing.landing.getList",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список страниц landing.landing.getList",
+  "permissions": "пользователь с правом «просмотр» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Для обычных страниц параметр не нужен. Для GROUP, KNOWLEDGE и MAINPAGE передают соответствующий scope. Подробнее о выборе значения в статье Работа с типами сайтов и скоупами"
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры выборки страниц (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "select",
+          "type": "string[]",
+          "base": "array",
+          "required": false,
+          "description": "Список полей для выборки из полей объекта Страница. Если параметр не передан или равен null, используется [\"*\"]. Метод принимает только простые имена полей страницы. Элементы с . игнорируются"
+        },
+        {
+          "name": "filter",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Фильтр по полям из полей объекта Страница. Если параметр не передан или передан в неверном формате, выборка выполняется без пользовательских условий. Ключи с . и CHECK_PERMISSIONS игнорируются. Если в фильтре передан SITE_ID, метод дополнительно исключает страницы, которые находятся в папках этого сайта, помеченных как удаленные. Идентификатор сайта можно получить методом landing.site.getList"
+        },
+        {
+          "name": "order",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Сортировка в формате {\"FIELD\": \"ASC\"} или {\"FIELD\": \"DESC\"}. Если параметр не передан, специальная сортировка не применяется"
+        },
+        {
+          "name": "group",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Группировка в формате ORM. Собственного значения по умолчанию у метода нет"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Ограничение количества строк выборки на уровне ORM. Метод не задает собственный лимит по умолчанию"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Смещение выборки на уровне ORM"
+        },
+        {
+          "name": "get_preview",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Если значение приводится к true, в каждый элемент результата добавляется поле PREVIEW со ссылкой на превью страницы"
+        },
+        {
+          "name": "get_urls",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Если значение приводится к true, в каждый элемент результата добавляется поле PUBLIC_URL с публичным адресом страницы"
+        },
+        {
+          "name": "check_area",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Если значение приводится к true, в каждый элемент результата добавляется поле IS_AREA, которое показывает, является ли страница включаемой областью"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "985",
+        "TITLE": "Новость детально",
+        "SITE_ID": "3",
+        "DATE_MODIFY": "10/10/2022 03:25:30 pm",
+        "DOMAIN_ID": "5"
+      },
+      {
+        "ID": "573",
+        "TITLE": "Page vide",
+        "SITE_ID": "3",
+        "DATE_MODIFY": "10/10/2022 03:25:30 pm",
+        "DOMAIN_ID": "5"
+      }
+    ],
+    "time": {
+      "start": 1773712560,
+      "finish": 1773712560.955928,
+      "duration": 0.9559280872344971,
+      "processing": 0,
+      "date_start": "2026-03-17T04:56:00+03:00",
+      "date_finish": "2026-03-17T04:56:00+03:00",
+      "operating_reset_at": 1773713160,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Список страниц (подробное описание). Метод может вернуть result: [] без ошибки, если по фильтру нет подходящих страниц или у пользователя нет права «просмотр» для этих сайтов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-get-list.html",
+  "executable": false
+}

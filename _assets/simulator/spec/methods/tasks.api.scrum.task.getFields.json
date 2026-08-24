@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.task.getFields",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить поля задачи Скрама tasks.api.scrum.task.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор бэклога или спринта"
+    },
+    {
+      "name": "storyPoints",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Стори Поинты (относительная оценка сложности задачи). Может иметь строковое значение"
+    },
+    {
+      "name": "epicId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор эпика"
+    },
+    {
+      "name": "sort",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Сортировка"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Кем создана задача"
+    },
+    {
+      "name": "modifiedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Кем изменена задача"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get-fields.md"
+  },
+  "resultExample": {
+    "fields": {
+      "entityId": {
+        "type": "integer"
+      },
+      "storyPoints": {
+        "type": "string"
+      },
+      "epicId": {
+        "type": "integer"
+      },
+      "sort": {
+        "type": "integer"
+      },
+      "createdBy": {
+        "type": "integer"
+      },
+      "modifiedBy": {
+        "type": "integer"
+      }
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get-fields.html",
+  "executable": false
+}

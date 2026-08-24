@@ -9,34 +9,31 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../scopes/permissions.md)
+> Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — регистрация звонка, поднимающего карточку
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять команду: любой пользователь
 
-Метод `CallCardClose` закрывает карточку звонка.
+Команда `CallCardClose` закрывает карточку звонка.
 
 {% note info "" %}
 
-Метод работает в контексте приложения в плейсменте `PAGE_BACKGROUND_WORKER`.
+Команда работает в контексте приложения, открытого в точке встраивания `PAGE_BACKGROUND_WORKER`. Это команда js-интерфейса, а не метод REST: вызвать ее запросом к `/rest/` нельзя.
 
 {% endnote %}
 
-## Параметры метода
+## Как вызвать команду
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+Команду вызывают из виджета методом [BX24.placement.call](../bx24-placement-call.md). Третий аргумент — функция обратного вызова, в нее приходит результат команды.
 
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **PLACEMENT***
-[`string`](../../../data-types.md) | Имя команды интерфейса.
+```js
+BX24.placement.call('CallCardClose', {}, function (result) {
+    console.log(result);
+});
+```
 
-Для данного метода — `CallCardClose` ||
-|| **PARAMS***
-[`object`](../../../data-types.md) | Объект параметров команды.
+## Параметры команды
 
-Для данного метода передается пустой объект: `{}` ||
-|#
+Команда не принимает параметров. Вторым аргументом передайте пустой объект `{}`.
 
 {% note warning %}
 
@@ -50,90 +47,48 @@
 
 {% note info "" %}
 
-Рекомендуется вызывать метод после события [BackgroundCallCard::initialized](./events/initialized.md)
+Рекомендуется вызывать команду после события [BackgroundCallCard::initialized](./events/initialized.md)
 
 {% endnote %}
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{"PLACEMENT":"CallCardClose","PARAMS":{}}' \
-      "https://**put_your_bitrix24_address**/rest/placement.call?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.call('CallCardClose', {}, function (result) {
+                console.log(result);
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<unknown[]>({
-        method: 'placement.call',
-        params: {
-          PLACEMENT: 'CallCardClose',
-          PARAMS: {},
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('CallCardClose executed, result:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    await $b24.placement.call('CallCardClose')
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function closeCallCard() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.call',
-            params: {
-              PLACEMENT: 'CallCardClose',
-              PARAMS: {},
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
+        const result = await $b24.placement.call('CallCardClose')
 
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('CallCardClose executed, result:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', closeCallCard)
+        console.log(result)
+      })
     </script>
     ```
 
@@ -231,7 +186,7 @@
 
 {% endlist %}
 
-## Обработка ответа
+## Результат команды
 
 ```json
 []
@@ -241,18 +196,9 @@
 
 Пустой массив при успешном вызове.
 
-## Обработка ошибок
+## Ошибки
 
-### Ошибка REST-вызова
-
-```json
-{
-    "error": "WRONG_AUTH_TYPE",
-    "error_description": "Application context required"
-}
-```
-
-### Ошибка интерфейсного вызова
+Ошибка команды приходит в ту же функцию обратного вызова: вместо обычного результата в нее передается массив с объектом, у которого `result` равен `error`.
 
 ```json
 [
@@ -263,17 +209,14 @@
 ]
 ```
 
-{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
+### Значения errorCode
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Application context required | Метод вызван вне контекста приложения в плейсменте `PAGE_BACKGROUND_WORKER` ||
 || `Call card is undefined` | Карточка звонка недоступна | Нет активной карточки звонка для закрытия ||
 |#
 
-{% include [системные ошибки](../../../../_includes/system-errors.md) %}
+Если команда вызвана в другой точке встраивания, функция обратного вызова не будет вызвана вовсе: неизвестную команду интерфейс точки встраивания игнорирует. Проверить, что команда `CallCardClose` доступна, можно методом [BX24.placement.getInterface](../bx24-placement-get-interface.md).
 
 ## Продолжите изучение
 
@@ -284,3 +227,4 @@
 - [{#T}](./call-card-set-card-title.md)
 - [{#T}](./call-card-set-status-text.md)
 - [{#T}](./events/index.md)
+- [{#T}](./index.md)

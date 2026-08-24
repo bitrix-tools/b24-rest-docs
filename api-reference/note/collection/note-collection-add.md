@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -268,6 +268,40 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "note.collection.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":     "Продуктовая документация",
+    		"position": 100,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("note.collection.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	Name        string `json:"name"`
+    	Position    int    `json:"position"`
+    	PolicyLevel string `json:"policyLevel"`
+    	CreatedBy   int    `json:"createdBy"`
+    	CreatedAt   string `json:"createdAt"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

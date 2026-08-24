@@ -9,13 +9,15 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод возвращает список настроенных касс.
+Метод `sale.cashbox.list` возвращает список настроенных касс.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -358,6 +360,46 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.list", b24.Params{
+    	"SELECT": []string{"ID", "NAME"},
+    	"FILTER": b24.Params{
+    		"=NAME": "Моя Rest-касса",
+    		">ID":   9,
+    	},
+    	"ORDER": b24.Params{
+    		"ID": "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.list: %w", err)
+    }
+
+    var items []struct {
+    	ID        b24.ID `json:"ID"`
+    	Name      string `json:"NAME"`
+    	Ofd       string `json:"OFD"`
+    	Email     string `json:"EMAIL"`
+    	NumberKkm string `json:"NUMBER_KKM"`
+    	Active    string `json:"ACTIVE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

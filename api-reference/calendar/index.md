@@ -9,13 +9,13 @@
 
 {% endnote %}
 
-Календарь  помогает пользователям планировать встречи, задачи и мероприятия. Управлять календарями можно с помощью группы методов [calendar.section.*](#base).
+Календарь помогает пользователям планировать встречи, задачи и мероприятия. Управлять календарями можно с помощью группы методов [calendar.section.*](#base).
 
 События календаря — это запланированные дела или встречи. Для создания, изменения, получения или удаления событий используется группа методов [calendar.event.*](./calendar-event/index.md).
 
-> Быстрый переход: [все методы и события](#all-methods) 
-> 
-> Пользовательская документация: [календарь Битрикс24](https://helpdesk.bitrix24.ru/open/17525000/)
+> Быстрый переход: [все методы и события](#all-methods)
+>
+> Пользовательская документация: [Календарь Битрикс24](https://helpdesk.bitrix24.ru/open/17525000/)
 
 ## Связь календаря с другими объектами
 
@@ -25,7 +25,7 @@
 
 {% note tip "Пользовательская документация" %}
 
-- [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
+- [Как создать проект в Битрикс24](https://helpdesk.bitrix24.ru/open/28540716/)
 
 {% endnote %}
 
@@ -33,11 +33,11 @@
 
 В основных настройках календаря указывается рабочий график компании, выходные и праздничные дни. Получить настройки можно методом [calendar.settings.get](./calendar-settings-get.md).
 
-В пользовательских настройках сотрудник может указать персональные особенности, например, часовой пояс или показ номеров недель. Получить пользовательские настройки можно методом [calendar.user.settings.get](./calendar-user-settings-get.md), установить — методом [calendar.user.settings.set.](./calendar-user-settings-set.md)
+В пользовательских настройках сотрудник может указать персональные особенности, например, часовой пояс или показ номеров недель. Получить пользовательские настройки можно методом [calendar.user.settings.get](./calendar-user-settings-get.md), установить — методом [calendar.user.settings.set](./calendar-user-settings-set.md)
 
 {% note tip "Пользовательская документация" %}
 
--  [Настройки календаря](https://helpdesk.bitrix24.ru/open/7397539/)
+-  [Как настроить календарь Битрикс24](https://helpdesk.bitrix24.ru/open/7397539/)
 
 {% endnote %}
 
@@ -47,22 +47,22 @@
 
 Отслеживать занятость ресурсов можно в Календаре CRM. Технически ресурс — это секция календаря, а бронирование — это событие календаря.
 
-Управляет ресурсами группа методов [calendar.resource.\*.](./resource/index.md)
+Ресурсами управляет группа методов [calendar.resource.*](./resource/index.md).
 
 {% note tip "Пользовательская документация" %}
 
--  [Настраиваем бронирование ресурсов в CRM](https://helpdesk.bitrix24.ru/open/18260410/)
+-  [Как настроить бронирование ресурсов в CRM для записи клиентов](https://helpdesk.bitrix24.ru/open/18260410/)
 
 {% endnote %}
 
-## **Виджеты**
+## Виджеты
 
 В календарь можно встроить приложение. В списке видов отображения календаря есть место для встройки `CALENDAR_GRIDVIEW`, куда можно добавить [свой пункт](../widgets/calendar.md).
 
 {% note tip "Частые кейсы и сценарии" %}
 
--  [{#T}](../widgets/index.md)
--  [{#T}](./calendar-grid-view.md)
+- [{#T}](../widgets/index.md)
+- [{#T}](./calendar-grid-view.md)
 
 {% endnote %}
 
@@ -80,13 +80,13 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [calendar.section.add](./calendar-section-add.md) | Добавить новый календарь ||
-    || [calendar.section.update](./calendar-section-update.md) | Обновить календарь ||
-    || [calendar.section.get](./calendar-section-get.md) | Получить список календарей ||
-    || [calendar.section.delete](./calendar-section-delete.md) | Удалить календарь ||
-    || [calendar.settings.get](./calendar-settings-get.md) | Получить основные настройки календаря ||
-    || [calendar.user.settings.get](./calendar-user-settings-get.md) | Получить пользовательские настройки календаря ||
-    || [calendar.user.settings.set](./calendar-user-settings-set.md) | Установить пользовательские настройки календаря ||
+    || [calendar.section.add](./calendar-section-add.md) | Добавляет новый календарь ||
+    || [calendar.section.update](./calendar-section-update.md) | Обновляет календарь ||
+    || [calendar.section.get](./calendar-section-get.md) | Получает список календарей ||
+    || [calendar.section.delete](./calendar-section-delete.md) | Удаляет календарь ||
+    || [calendar.settings.get](./calendar-settings-get.md) | Получает основные настройки календаря ||
+    || [calendar.user.settings.get](./calendar-user-settings-get.md) | Получает пользовательские настройки календаря ||
+    || [calendar.user.settings.set](./calendar-user-settings-set.md) | Устанавливает пользовательские настройки календаря ||
     |#
 
 - События
@@ -108,15 +108,15 @@
 
     #|
     || **Метод** | **Описание** ||
-    || [calendar.event.add](./calendar-event/calendar-event-add.md) | Добавить событие ||
-    || [calendar.event.update](./calendar-event/calendar-event-update.md) | Обновить событие ||
-    || [calendar.event.getById](./calendar-event/calendar-event-get-by-id.md) | Получить событие по `id` ||
-    || [calendar.event.get](./calendar-event/calendar-event-get.md) | Получить список событий календаря ||
-    || [calendar.event.getNearest](./calendar-event/calendar-event-get-nearest.md) | Получить список будущих событий ||
-    || [calendar.event.delete](./calendar-event/calendar-event-delete.md) | Удалить событие ||
-    || [calendar.meeting.status.get](./calendar-event/calendar-meeting-status-get.md) | Получить статус участия текущего пользователя в событии ||
-    || [calendar.meeting.status.set](./calendar-event/calendar-meeting-status-set.md) | Установить статус участия в событии для текущего пользователя ||
-    || [calendar.accessibility.get](./calendar-event/calendar-accessibility-get.md) | Получить занятость пользователей из списка ||
+    || [calendar.event.add](./calendar-event/calendar-event-add.md) | Добавляет событие ||
+    || [calendar.event.update](./calendar-event/calendar-event-update.md) | Обновляет событие ||
+    || [calendar.event.getbyid](./calendar-event/calendar-event-get-by-id.md) | Получает событие по `id` ||
+    || [calendar.event.get](./calendar-event/calendar-event-get.md) | Получает список событий календаря ||
+    || [calendar.event.getNearest](./calendar-event/calendar-event-get-nearest.md) | Получает список будущих событий ||
+    || [calendar.event.delete](./calendar-event/calendar-event-delete.md) | Удаляет событие ||
+    || [calendar.meeting.status.get](./calendar-event/calendar-meeting-status-get.md) | Получает статус участия текущего пользователя в событии ||
+    || [calendar.meeting.status.set](./calendar-event/calendar-meeting-status-set.md) | Устанавливает статус участия в событии для текущего пользователя ||
+    || [calendar.accessibility.get](./calendar-event/calendar-accessibility-get.md) | Получает занятость пользователей из списка ||
     |#
 
 - События
@@ -134,9 +134,9 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [calendar.resource.add](./resource/calendar-resource-add.md) | Добавить ресурс ||
-|| [calendar.resource.update](./resource/calendar-resource-update.md) | Обновить ресурс ||
-|| [calendar.resource.list](./resource/calendar-resource-list.md) | Получить список ресурсов ||
-|| [calendar.resource.booking.list](./resource/calendar-resource-booking-list.md) | Получить бронирования ресурсов по фильтру ||
-|| [calendar.resource.delete](./resource/calendar-resource-delete.md) | Удалить ресурс ||
+|| [calendar.resource.add](./resource/calendar-resource-add.md) | Добавляет ресурс ||
+|| [calendar.resource.update](./resource/calendar-resource-update.md) | Обновляет ресурс ||
+|| [calendar.resource.list](./resource/calendar-resource-list.md) | Получает список ресурсов ||
+|| [calendar.resource.booking.list](./resource/calendar-resource-booking-list.md) | Получает бронирования ресурсов по фильтру ||
+|| [calendar.resource.delete](./resource/calendar-resource-delete.md) | Удаляет ресурс ||
 |#

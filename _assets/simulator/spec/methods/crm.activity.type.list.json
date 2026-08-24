@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "crm.activity.type.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список пользовательских типов дел crm.activity.type.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа, содержащий массив объектов с информацией о пользовательских типах дел, зарегистрированных приложением",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/types/crm-activity-type-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "TYPE_ID": "1C",
+        "NAME": "Дело 1C",
+        "IS_CONFIGURABLE_TYPE": "Y",
+        "ICON_ID": "0"
+      }
+    ],
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа, содержащий массив объектов с информацией о пользовательских типах дел, зарегистрированных приложением"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/types/crm-activity-type-list.html",
+  "executable": false,
+  "entityFields": [
+    "ICON_FILE",
+    "ICON_ID",
+    "IS_CONFIGURABLE_TYPE",
+    "NAME",
+    "TYPE_ID"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$v": 1,
+  "method": "calendar.meeting.status.get",
+  "scope": "calendar",
+  "kind": "read",
+  "title": "Получить статус участия текущего пользователя в событии calendar.meeting.status.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "eventId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор события. Получить идентификатор можно методом calendar.event.get или calendar.event.get.nearest"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-event/calendar-meeting-status-get.md"
+  },
+  "resultExample": {
+    "result": "Y",
+    "time": {
+      "start": 1728732695.718461,
+      "finish": 1728732696.029712,
+      "duration": 0.256943941116333,
+      "processing": 0.03064703941345215,
+      "date_start": "2024-12-10T11:31:35+00:00",
+      "date_finish": "2024-12-10T11:31:36+00:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Статус участия текущего пользователя. Возможные значения: - Y — согласен - N — отказался - Q — приглашен, но еще не ответил"
+    }
+  ],
+  "page": "/api-reference/calendar/calendar-event/calendar-meeting-status-get.html",
+  "executable": false
+}

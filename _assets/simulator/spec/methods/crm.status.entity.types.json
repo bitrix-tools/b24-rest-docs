@@ -1,0 +1,56 @@
+{
+  "$v": 1,
+  "method": "crm.status.entity.types",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Получить типы справочников crm.status.entity.types",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с описанием типов справочников (подробное описание полей)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/status/crm-status-entity-types.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с описанием типов справочников (подробное описание полей)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/status/crm-status-entity-types.html",
+  "executable": false
+}

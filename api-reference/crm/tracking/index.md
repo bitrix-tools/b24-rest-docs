@@ -19,16 +19,22 @@
 
 ## Как начать работу
 
-1. Соберите данные источника обращения: UTM-метки, канал, путь клиента или другой внешний идентификатор
-2. Создайте трейс методом [crm.tracking.trace.add](./crm-tracking-trace-add.md)
-3. Передайте идентификатор трейса в метод создания лида, сделки, контакта, компании или элемента смарт-процесса
+1. Соберите данные источника обращения в JSON-строку `TRACE`: получите ее на сайте через `b24Tracker.guest.getTrace()` или сформируйте UTM-метки в объекте `tags.list`
+2. Создайте новый объект CRM методом [crm.item.add](../universal/crm-item-add.md) или получите идентификатор существующего объекта методом [crm.item.list](../universal/crm-item-list.md)
+3. Создайте трейс методом [crm.tracking.trace.add](./crm-tracking-trace-add.md) и передайте связь с объектом CRM в параметре `ENTITIES`
 4. Если трейс больше не используется, удалите его методом [crm.tracking.trace.delete](./crm-tracking-trace-delete.md)
+
+{% note tip "Частые кейсы и сценарии" %}
+
+- [Как передать данные сквозной аналитики в CRM](../../../tutorials/crm/how-to-use-analitycs/info-to-analitics.md)
+
+{% endnote %}
 
 ## Связь с объектами CRM
 
-**Лиды и сделки.** Трейс помогает связать созданный объект CRM с источником обращения. Для создания объектов используйте методы [crm.lead.add](../leads/crm-lead-add.md) и [crm.deal.add](../deals/crm-deal-add.md).
+**Лиды, сделки, контакты, компании и предложения.** Трейс помогает связать объект CRM с источником обращения. В параметре `ENTITIES` метода [crm.tracking.trace.add](./crm-tracking-trace-add.md) передайте тип объекта в `TYPE` и его идентификатор в `ID`. Идентификатор можно получить методом [crm.item.list](../universal/crm-item-list.md) или из ответа метода [crm.item.add](../universal/crm-item-add.md).
 
-**Контакты, компании и смарт-процессы.** Данные аналитики можно передавать при создании связанных клиентов и пользовательских объектов CRM через соответствующие методы добавления.
+**Типы объектов.** Для лида используйте `TYPE = LEAD`, для сделки — `DEAL`, для контакта — `CONTACT`, для компании — `COMPANY`, для коммерческого предложения — `QUOTE`. Если получаете идентификатор через [crm.item.list](../universal/crm-item-list.md), передайте `entityTypeId` нужного типа: `1` для лида, `2` для сделки, `3` для контакта, `4` для компании, `7` для коммерческого предложения.
 
 ## Обзор методов {#all-methods}
 
@@ -38,12 +44,11 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.tracking.trace.add](./crm-tracking-trace-add.md) | Создает трейс сквозной аналитики и возвращает его идентификатор ||
-|| [crm.tracking.trace.delete](./crm-tracking-trace-delete.md) | Удаляет трейс сквозной аналитики ||
+|| [crm.tracking.trace.add](./crm-tracking-trace-add.md) | Создает трейс сквозной аналитики, может связать его с объектами CRM и возвращает идентификатор трейса ||
+|| [crm.tracking.trace.delete](./crm-tracking-trace-delete.md) | Удаляет трейс сквозной аналитики по идентификатору из ответа метода добавления ||
 |#
 
 ## Продолжите изучение
 
-- [{#T}](../../../tutorials/crm/how-to-use-analitycs/info-to-analitics.md)
-- [{#T}](../deals/crm-deal-add.md)
-- [{#T}](../contacts/crm-contact-add.md)
+- [{#T}](../universal/crm-item-add.md)
+- [{#T}](../universal/crm-item-list.md)

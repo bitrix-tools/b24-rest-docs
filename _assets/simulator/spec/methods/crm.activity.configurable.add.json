@@ -1,0 +1,136 @@
+{
+  "$v": 1,
+  "method": "crm.activity.configurable.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить конфигурируемое дело crm.activity.configurable.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ownerTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Целочисленный идентификатор типа объекта CRM, в котором создаем дело, например 2 для сделки"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Целочисленный идентификатор элемента CRM, в котором создаем дело, например 1"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Ассоциативный массив значений полей дела в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "layout",
+      "type": "LayoutDto",
+      "base": "any",
+      "required": true,
+      "description": "Ассоциативный массив особой структуры, описывающий внешний вид дела в таймлайне"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "typeId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип конфигурируемого дела. Если значение не указано, то оно устанавливается в значение по умолчанию CONFIGURABLE. Если указано, то значение должно соответствовать одному из типов, созданных методом crm.activity.type.add с полем IS_CONFIGURABLE_TYPE равным Y в контексте того же приложения"
+        },
+        {
+          "name": "completed",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Флаг, говорящий закрыто ли дело. Для установки значения можно использовать Y/N, 1/0, true/false"
+        },
+        {
+          "name": "deadline",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Крайний срок исполнения дела"
+        },
+        {
+          "name": "pingOffsets",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив смещений в минутах относительно крайнего срока, определяющий когда нужно сформировать записи-пинги по этому делу"
+        },
+        {
+          "name": "isIncomingChannel",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Флаг, говорящий создано ли дело из входящего канала. Для установки значения можно использовать Y/N, 1/0, true/false"
+        },
+        {
+          "name": "responsibleId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Ответственный за дело"
+        },
+        {
+          "name": "badgeCode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код значка на канбане, соответствующего делу"
+        },
+        {
+          "name": "originatorId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор источника данных"
+        },
+        {
+          "name": "originId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента в источнике данных"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/configurable/crm-activity-configurable-add.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа, содержащий информацию о добавленном идентификаторе дела id в случае успеха. В случае неудачи вернет null"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/configurable/crm-activity-configurable-add.html",
+  "executable": false
+}

@@ -255,6 +255,39 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.template.checklist.moveAfter", b24.Params{
+    	"templateId":      139,
+    	"checkListItemId": 25,
+    	"afterItemId":     29,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.template.checklist.moveAfter: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "checkListItem".
+    raw, ok := b24.Unwrap(res.Result, "checkListItem")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа checkListItem")
+    }
+
+    var item struct {
+    	ID               b24.ID `json:"id"`
+    	UserID           b24.ID `json:"userId"`
+    	ParentID         b24.ID `json:"parentId"`
+    	Title            string `json:"title"`
+    	SortIndex        int    `json:"sortIndex"`
+    	DisplaySortIndex string `json:"displaySortIndex"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.UserID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

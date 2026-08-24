@@ -37,9 +37,17 @@
 
 **Привязка свойства.** Задайте условия, при которых покупатель увидит конкретное свойство отгрузки. Чтобы покупатель увидел свойство «Этаж» только при выборе доставки курьером, привяжите свойство к службе доставки с помощью метода [sale.propertyRelation.add](../../property-relation/sale-property-relation-add.md).
 
+## Как начать работу
+
+1. Создайте обработчик службы доставки методом [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md).
+2. Создайте службу доставки методом [sale.delivery.add](./sale-delivery-add.md), указав символьный код обработчика.
+3. Настройте параметры службы методом [sale.delivery.config.update](./sale-delivery-config-update.md).
+4. Проверьте список служб методом [sale.delivery.getlist](./sale-delivery-get-list.md).
+5. Если служба больше не используется, удалите ее методом [sale.delivery.delete](./sale-delivery-delete.md).
+
 ## Обзор методов {#all-methods}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: администратор
 

@@ -23,7 +23,7 @@
 4. Создайте шаблон методом [tasks.template.add](./tasks-template-add.md)
 5. Получите шаблон методом [tasks.template.get](./tasks-template-get.md), если нужно проверить сохраненные значения
 6. Измените шаблон методом [tasks.template.update](./tasks-template-update.md), если нужно скорректировать параметры
-7. Добавьте пункты чек-листа методами раздела [Чек-листы шаблонов задач](./checklist/index.md), если задача состоит из повторяющихся шагов
+7. Добавьте пункты чек-листа методами [tasks.template.checklist.add](./checklist/tasks-template-checklist-add.md), [tasks.template.checklist.update](./checklist/tasks-template-checklist-update.md) и [tasks.template.checklist.list](./checklist/tasks-template-checklist-list.md), если задача состоит из повторяющихся шагов
 8. Удалите шаблон методом [tasks.template.delete](./tasks-template-delete.md), если он больше не нужен
 
 ## Права доступа
@@ -38,7 +38,7 @@
 
 ## Связь с другими объектами
 
-**Задачи.** Шаблон хранит настройки будущей задачи: название, описание, сроки, ответственных, наблюдателей, чек-лист и другие параметры. Для работы с задачами используйте методы раздела [Задачи](../index.md).
+**Задачи.** Шаблон хранит настройки будущей задачи: название, описание, сроки, ответственных, наблюдателей, чек-лист и другие параметры. Для работы с задачами используйте методы [tasks.task.add](../tasks-task-add.md), [tasks.task.get](../tasks-task-get.md), [tasks.task.update](../tasks-task-update.md) и [tasks.task.list](../tasks-task-list.md).
 
 **Пользователи.** В шаблоне можно задать постановщика, основного исполнителя, соисполнителей и наблюдателей через поля `CREATED_BY`, `RESPONSIBLE_ID`, `RESPONSIBLES`, `ACCOMPLICES`, `AUDITORS`. Идентификаторы пользователей можно получить методами [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md).
 
@@ -46,7 +46,7 @@
 
 **CRM.** В шаблоне можно заранее сохранить привязку к объектам CRM. В поле `UF_CRM_TASK` укажите идентификаторы объектов CRM c префиксом, например `L_15` для лида или `D_27` для сделки. Идентификаторы существующих элементов можно получить методом [crm.item.list](../../crm/universal/crm-item-list.md). Если объект нужно сначала создать, используйте [crm.item.add](../../crm/universal/crm-item-add.md).
 
-**Чек-листы.** Если типовая задача состоит из повторяющихся шагов, добавьте их в шаблон через методы подраздела [Чек-листы шаблонов задач](./checklist/index.md).
+**Чек-листы.** Если типовая задача состоит из повторяющихся шагов, добавьте их в шаблон методами [tasks.template.checklist.add](./checklist/tasks-template-checklist-add.md), [tasks.template.checklist.update](./checklist/tasks-template-checklist-update.md) и [tasks.template.checklist.delete](./checklist/tasks-template-checklist-delete.md).
 
 ## Обзор методов {#all-methods}
 

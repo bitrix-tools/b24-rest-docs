@@ -1,0 +1,190 @@
+{
+  "$v": 1,
+  "method": "im.notify.history.search",
+  "scope": "im",
+  "kind": "write",
+  "title": "Поиск по истории уведомлений im.notify.history.search",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "SEARCH_TEXT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст поиска. Если SEARCH_TYPE и SEARCH_DATE не заданы, длина строки должна быть не меньше 3 символов"
+    },
+    {
+      "name": "SEARCH_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Фильтр по типу уведомления в формате MODULE или . Готовые значения можно получить методом im.notify.schema.get"
+    },
+    {
+      "name": "SEARCH_TYPES",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив фильтров по типам уведомлений в формате MODULE или",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SEARCH_DATE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Фильтр по дате в формате ISO 8601 (RFC3339)"
+    },
+    {
+      "name": "SEARCH_DATE_FROM",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Начало диапазона дат в формате ISO 8601 (RFC3339). Используется вместе с SEARCH_DATE_TO"
+    },
+    {
+      "name": "SEARCH_DATE_TO",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Конец диапазона дат в формате ISO 8601 (RFC3339). Используется вместе с SEARCH_DATE_FROM"
+    },
+    {
+      "name": "SEARCH_AUTHORS",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов авторов уведомлений для фильтрации",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "LAST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего уведомления предыдущей страницы для загрузки следующей. Обычно берется из поля id последнего элемента массива notifications в ответе предыдущего шага поиска или в ответе im.notify.get"
+    },
+    {
+      "name": "LIMIT",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество уведомлений на страницу. Значение по умолчанию — 50. Максимальное значение — 50"
+    },
+    {
+      "name": "CONVERT_TEXT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Преобразовать текст уведомлений. Значение Y включает преобразование, любое другое значение отключает"
+    },
+    {
+      "name": "GROUP_TAG",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Групповой тег уведомлений для дополнительной фильтрации"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/notifications/im-notify-history-search.md"
+  },
+  "resultExample": {
+    "result": {
+      "chat_id": 77,
+      "total_results": 1,
+      "notifications": [
+        {
+          "id": 1500,
+          "chat_id": 77,
+          "author_id": 1,
+          "date": "2026-03-03T09:00:00+00:00",
+          "notify_type": 2,
+          "notify_module": "tasks",
+          "notify_event": "task_update",
+          "notify_tag": "TASK|42",
+          "notify_sub_tag": "",
+          "notify_title": "",
+          "setting_name": "tasks|task_update",
+          "text": "счет",
+          "notify_read": "Y",
+          "params": null
+        }
+      ],
+      "users": [
+        {
+          "id": 1,
+          "active": true,
+          "name": "Иван Петров",
+          "first_name": "Иван",
+          "last_name": "Петров",
+          "work_position": "",
+          "color": "#1eb4aa",
+          "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+          "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar.png",
+          "gender": "M",
+          "birthday": "15-05",
+          "extranet": false,
+          "network": false,
+          "bot": false,
+          "connector": false,
+          "external_auth_id": "socservices",
+          "status": "online",
+          "idle": false,
+          "last_activity_date": "2026-03-04T15:04:20+03:00",
+          "mobile_last_date": false,
+          "desktop_last_date": false,
+          "absent": false,
+          "departments": [
+            1
+          ],
+          "phones": {
+            "work_phone": "+71234567890",
+            "inner_phone": "22"
+          },
+          "bot_data": null,
+          "type": "user",
+          "website": "example.ru",
+          "email": "ivan@example.ru"
+        }
+      ]
+    },
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.1,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2026-03-04T16:00:00+03:00",
+      "date_finish": "2026-03-04T16:00:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом поиска. Структура объекта подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/notifications/im-notify-history-search.html",
+  "executable": false
+}

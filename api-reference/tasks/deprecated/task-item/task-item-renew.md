@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод переводит задачу в статус «не выполняется». Применяется для задач в статусе [Завершена](./task-item-complete.md).
+Метод `task.item.renew` переводит задачу в статус «не выполняется». Применяется для задач в статусе [Завершена](./task-item-complete.md).
 
 {% note warning "DEPRECATED" %}
 
@@ -180,6 +180,22 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.renew", b24.Params{
+    	"TASKID": 13,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.renew: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

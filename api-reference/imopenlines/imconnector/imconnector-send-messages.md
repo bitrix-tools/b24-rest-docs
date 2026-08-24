@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `imconnector.send.messages` принимает сообщения из внешней системы и передает их в открытую линию Битрикс24 через пользовательский коннектор. 
+Метод `imconnector.send.messages` принимает сообщения из внешней системы и передает их в открытую линию Битрикс24 через пользовательский коннектор.
 
 В параметрах метода используются значения внешней системы: идентификатор пользователя, идентификатор чата, ссылка на чат и его название в приложении, которое зарегистрировало коннектор.
 
@@ -525,6 +525,62 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.send.messages", b24.Params{
+    	"CONNECTOR": "myconnector",
+    	"LINE":      107,
+    	"MESSAGES": []b24.Params{
+    		{
+    			"user": b24.Params{
+    				"id":        "ext-user-42",
+    				"last_name": "Иванов",
+    				"name":      "Иван",
+    				"picture": b24.Params{
+    					"url": "https://example.ru/u42.png",
+    				},
+    				"url":                 "https://example.ru/users/42",
+    				"gender":              "male",
+    				"email":               "ivan@example.ru",
+    				"phone":               "+79990000000",
+    				"skip_phone_validate": "Y",
+    			},
+    			"message": b24.Params{
+    				"id":   "ext-msg-1001",
+    				"date": 1773265993,
+    				"text": "Добрый день",
+    				"files": []b24.Params{
+    					{
+    						"url":  "https://example.ru/files/spec.pdf",
+    						"name": "spec.pdf",
+    					},
+    				},
+    				"disable_crm": "Y",
+    			},
+    			"chat": b24.Params{
+    				"id":   "channel-123",
+    				"name": "Канал поддержки",
+    				"url":  "https://example.ru/chats/123",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.send.messages: %w", err)
+    }
+
+    var item struct {
+    	Success bool `json:"SUCCESS"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

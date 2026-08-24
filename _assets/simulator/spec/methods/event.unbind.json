@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "event.unbind",
+  "scope": null,
+  "kind": "write",
+  "title": "Отменить зарегистрированный обработчик события event.unbind",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "event",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Имя события"
+    },
+    {
+      "name": "handler",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Ссылка на обработчик события"
+    },
+    {
+      "name": "auth_type",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, под которым авторизуется обработчик события. Если требуется удалить обработчики события, установленные с пустым auth_type (с авторизацией от имени пользователя, вызвавшего событие), но оставить остальные обработчики, указывайте auth_type=0 или пустое значение параметра."
+    },
+    {
+      "name": "event_type",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Значения: online\\|offline. По умолчанию event_type=online, и поведение метода не меняется. Если вызывается event_type=offline, то метод работает с офлайн-событиями"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/events/event-unbind.md"
+  },
+  "resultExample": {
+    "result": {
+      "count": 1
+    },
+    "time": {
+      "start": 1721298360.468008,
+      "finish": 1721298360.553977,
+      "duration": 0.0859689712524414,
+      "processing": 0.0023431777954101562,
+      "date_start": "2024-07-18T12:26:00+02:00",
+      "date_finish": "2024-07-18T12:26:00+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/events/event-unbind.html",
+  "executable": false
+}

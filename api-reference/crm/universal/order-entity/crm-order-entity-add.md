@@ -244,6 +244,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.orderentity.add", b24.Params{
+    	"fields": b24.Params{
+    		"orderId":     5125,
+    		"ownerId":     6933,
+    		"ownerTypeId": 2,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.orderentity.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "dealOrder".
+    raw, ok := b24.Unwrap(res.Result, "dealOrder")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа dealOrder")
+    }
+
+    var item struct {
+    	OrderID     b24.ID `json:"orderId"`
+    	OwnerID     b24.ID `json:"ownerId"`
+    	OwnerTypeID b24.ID `json:"ownerTypeId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.OrderID, item.OwnerID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -1,0 +1,60 @@
+{
+  "$v": 1,
+  "method": "imopenlines.bot.session.finish",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Завершить диалог imopenlines.bot.session.finish",
+  "permissions": "пользователь приложения с зарегистрированным чат-ботом",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата, диалог которого нужно завершить. Идентификатор чата можно получить с помощью методов imopenlines.dialog.get или imopenlines.crm.chat.get"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте: - тот же CLIENT_ID, который был указан при регистрации чат-бота методом imbot.register - или значение параметра botToken, переданного при регистрации чат-бота методом imbot.v2.Bot.register"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-finish.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.456,
+      "finish": 1728626400.539,
+      "duration": 0.083,
+      "processing": 0.031,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Содержит true, если диалог успешно завершен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-finish.html",
+  "executable": false
+}

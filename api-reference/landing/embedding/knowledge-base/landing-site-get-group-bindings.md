@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -229,6 +229,32 @@
         echo '<pre>';
         print_r($result['result']);
         echo '</pre>';
+    }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.getGroupBindings", b24.Params{
+    	"groupId": 174,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.getGroupBindings: %w", err)
+    }
+
+    var items []struct {
+    	EntityID   b24.ID `json:"ENTITY_ID"`
+    	EntityType string `json:"ENTITY_TYPE"`
+    	BindingID  b24.ID `json:"BINDING_ID"`
+    	Title      string `json:"TITLE"`
+    	PublicURL  string `json:"PUBLIC_URL"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.EntityID, it.EntityType)
     }
     ```
 

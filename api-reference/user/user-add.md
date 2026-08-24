@@ -330,6 +330,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.add", b24.Params{
+    	"EMAIL":         "newuser1@example.com",
+    	"UF_DEPARTMENT": []int{1},
+    })
+    if err != nil {
+    	return fmt.Errorf("user.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

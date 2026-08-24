@@ -1,0 +1,57 @@
+{
+  "$v": 1,
+  "method": "log.blogpost.getusers.important",
+  "scope": "log",
+  "kind": "write",
+  "title": "Просмотреть пользователей, прочитавших важное сообщение log.blogpost.getusers.important",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "POST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор важного сообщения Ленты новостей. Получить идентификатор можно с помощью метода log.blogpost.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/log-blogpost-getusers-important.md"
+  },
+  "resultExample": {
+    "result": [
+      "1269",
+      "1271"
+    ],
+    "time": {
+      "start": 1773755868,
+      "finish": 1773755868.215257,
+      "duration": 0.215256929397583,
+      "processing": 0,
+      "date_start": "2026-03-17T16:57:48+03:00",
+      "date_finish": "2026-03-17T16:57:48+03:00",
+      "operating_reset_at": 1773756468,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов пользователей, прочитавших важное сообщение. Максимум — 500 записей. Пустой массив означает, что у пользователя нет прав на просмотр сообщения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/log-blogpost-getusers-important.html",
+  "executable": false
+}

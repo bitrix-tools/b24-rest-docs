@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **type***
-[`string`](../../data-types.md) | Тип пользовательского поля. Значение из списка, который возвращает метод [crm.userfield.types](./crm-userfield-types.md) ||
+[`string`](../../../data-types.md) | Тип пользовательского поля. Значение из списка, который возвращает метод [crm.userfield.types](./crm-userfield-types.md) ||
 |#
 
 ## Примеры кода
@@ -218,6 +218,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.userfield.settings.fields", b24.Params{
+    	"type": "double",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.userfield.settings.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -255,9 +273,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа с настройками поля. Итоговый перечень полей зависит от типа запрошенного поля ||
+[`object`](../../../data-types.md) | Корневой элемент ответа с настройками поля. Итоговый перечень полей зависит от типа запрошенного поля ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

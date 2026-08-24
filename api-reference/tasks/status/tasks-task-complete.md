@@ -19,7 +19,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -216,6 +216,37 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.complete", b24.Params{
+    	"taskId": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.complete: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "task".
+    raw, ok := b24.Unwrap(res.Result, "task")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа task")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	ParentID    b24.ID `json:"parentId"`
+    	Title       string `json:"title"`
+    	Description string `json:"description"`
+    	Mark        string `json:"mark"`
+    	Priority    string `json:"priority"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.ParentID)
     ```
 
 {% endlist %}

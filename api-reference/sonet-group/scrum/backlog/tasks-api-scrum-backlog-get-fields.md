@@ -15,6 +15,8 @@
 
 Метод `tasks.api.scrum.backlog.getFields` возвращает доступные поля бэклога.
 
+## Параметры метода
+
 Без параметров.
 
 ## Примеры кода
@@ -194,6 +196,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.backlog.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.backlog.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "fields".
+    raw, ok := b24.Unwrap(res.Result, "fields")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа fields")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}

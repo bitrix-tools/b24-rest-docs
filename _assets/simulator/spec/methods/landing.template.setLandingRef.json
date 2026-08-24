@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "landing.template.setLandingRef",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Установить включаемые области для страницы landing.template.setLandingRef",
+  "permissions": "пользователь с правом «изменение настроек» страницы",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList"
+    },
+    {
+      "name": "data",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Набор привязок включаемых областей страницы. (подробное описание) Передавайте полный итоговый набор привязок для страницы. Метод обновит существующие привязки, добавит новые и удалит те, которых нет в data. Если параметр не передать, передать пустой объект {} или пустой массив [], метод удалит все текущие привязки включаемых областей для страницы",
+      "ref": "#/defs/dataFields"
+    }
+  ],
+  "defs": {
+    "dataFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "<ID_ОБЛАСТИ>",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор страницы, которую нужно назначить в соответствующую включаемую область. Ключом служит идентификатор области шаблона, значением — идентификатор страницы. Идентификаторы областей зависят от шаблона страницы. Их можно определить по шаблону, например через метод landing.template.getlist и поле CONTENT: в разметке области обозначаются как #AREA_1#, #AREA_2# и так далее.…"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/template/landing-template-set-landing-ref.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774891241,
+      "finish": 1774891242.107728,
+      "duration": 1.1077280044555664,
+      "processing": 0,
+      "date_start": "2026-03-30T20:20:41+03:00",
+      "date_finish": "2026-03-30T20:20:42+03:00",
+      "operating_reset_at": 1774891842,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат вызова. Метод возвращает true, если запрос обработан без ошибки. Если для страницы уже сохранены такие же привязки, метод вернет true. Если у пользователя нет права «изменение настроек» страницы, изменения не применятся. При этом метод вернет true"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/template/landing-template-set-landing-ref.html",
+  "executable": false
+}

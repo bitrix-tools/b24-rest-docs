@@ -245,6 +245,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.flow.Flow.get", b24.Params{
+    	"flowId": 517,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.flow.Flow.get: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	CreatorID  b24.ID `json:"creatorId"`
+    	OwnerID    b24.ID `json:"ownerId"`
+    	GroupID    b24.ID `json:"groupId"`
+    	TemplateID b24.ID `json:"templateId"`
+    	Efficiency int    `json:"efficiency"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.CreatorID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

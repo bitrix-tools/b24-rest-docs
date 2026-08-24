@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -216,6 +216,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.get", b24.Params{
+    	"ID": 123,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.get: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	DateCreate   string `json:"DATE_CREATE"`
+    	CreatedByID  b24.ID `json:"CREATED_BY_ID"`
+    	WebformID    b24.ID `json:"WEBFORM_ID"`
+    	EntityTypeID b24.ID `json:"ENTITY_TYPE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.DateCreate)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -272,8 +297,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Incorrect list id",
-    "error_description": "Передан некорректный идентификатор списка."
+    "error": "LIST_ID_ERROR",
+    "error_description": "Incorrect list id"
 }
 ```
 
@@ -282,8 +307,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `Incorrect list id` | Некорректный идентификатор списка или у пользователя нет прав на чтение ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | `ID is not found` | Не передан обязательный параметр `ID` ||
+|| `400` | `LIST_ID_ERROR` | `Incorrect list id` | Обзвона с таким идентификатором нет или у пользователя нет прав на чтение ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -1,0 +1,67 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.icon.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить иконку crm.timeline.icon.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код иконки (например, info)"
+    },
+    {
+      "name": "fileContent",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Закодированное base64 содержимое файла иконки. Требования к файлу: - Тип — png - Размер — 24x24 пикселей - Фон — прозрачный"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "icon": {
+        "code": "info",
+        "isSystem": false,
+        "fileUri": "/upload/crm/13f/huhnvzds7ckoy6mk5mdze9pb7jqscpxi/e66fm2cbau9f8u32oe9jzx2qflqhj2vv"
+      }
+    },
+    "time": {
+      "start": 1712132792.910734,
+      "finish": 1712132793.530359,
+      "duration": 0.6196250915527344,
+      "processing": 0.032338857650756836,
+      "date_start": "2024-04-03T10:26:32+02:00",
+      "date_finish": "2024-04-03T10:26:33+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Поле result содержит объект icon"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-add.html",
+  "executable": false
+}

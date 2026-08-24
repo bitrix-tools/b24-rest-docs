@@ -15,7 +15,7 @@
 
 ## Автоматическое управление подписками
 
-Подписка бота на события `ONIMBOTV2*` создается автоматически при [imbot.v2.Bot.register](../bots/bot-register.md) с `eventMode: "webhook"`, обновляется при [imbot.v2.Bot.update](../bots/bot-update.md) (при смене `webhookUrl` или `eventMode`) и удаляется при [imbot.v2.Bot.unregister](../bots/bot-unregister.md) или переходе в режим `fetch`. Ручной вызов [event.bind](https://apidocs.bitrix24.ru/api-reference/events/event-bind.html) / [event.unbind](https://apidocs.bitrix24.ru/api-reference/events/event-unbind.html) не требуется и может привести к расхождению с внутренним учетом.
+Подписка бота на события `ONIMBOTV2*` создается автоматически при [imbot.v2.Bot.register](../bots/bot-register.md) с `eventMode: "webhook"`, обновляется при [imbot.v2.Bot.update](../bots/bot-update.md) (при смене `webhookUrl` или `eventMode`) и удаляется при [imbot.v2.Bot.unregister](../bots/bot-unregister.md) или переходе в режим `fetch`. Ручной вызов [event.bind](../../../../events/event-bind.md) / [event.unbind](../../../../events/event-unbind.md) не требуется и может привести к расхождению с внутренним учетом.
 
 ## Какие события обрабатывать в первую очередь
 
@@ -129,7 +129,7 @@ Webhook-события доставляются через систему соб
 || **Тип** | **Значение в FETCH** | **Значение в Webhook** ||
 || `integer` | `789` | `"789"` ||
 || `boolean` | `true` / `false` | `"1"` / `"0"` ||
-|| `string\|false` | `false` | `"0"` ||
+|| ```string|false``` | `false` | `"0"` ||
 || `null` | `null` | `""` ||
 |#
 
@@ -362,12 +362,12 @@ Webhook-события доставляются через систему соб
 
 ## ONIMBOTV2CONTEXTGET {#onimbotv2contextget}
 
-Пользователь открыл диалог с ботом, передав произвольные контекстные данные. Контекст задается вызывающей стороной — например, при переходе по ссылке с параметром `botContextData`.
+Пользователь открыл диалог с ботом, передав произвольные контекстные данные. Контекст задается вызывающей стороной — например, при переходе по ссылке с параметром `BOT_CONTEXT`. Подробнее — в статье [{#T}](../bot-context.md).
 
 #|
 || **Поле** | **Тип** | **Описание** ||
 || **bot** | `object` | [Объект бота](#bot-format) ||
-|| **dialogId** | `string` | ID диалога (например, `chat5`) ||
+|| **dialogId** | `string` | ID диалога, из которого пришел контекст. В приватном чате с ботом — числовой ID пользователя, в групповом чате — `chat5` ||
 || **context** | `object` | Произвольные данные, переданные при открытии диалога ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, открывший диалог ||
@@ -394,7 +394,7 @@ Webhook-события доставляются через систему соб
         "countChat": 12,
         "countUser": 45
     },
-    "dialogId": "chat5",
+    "dialogId": "1",
     "context": {
         "entityId": 164,
         "entityType": "task",
@@ -402,11 +402,11 @@ Webhook-события доставляются через систему соб
     },
     "chat": {
         "id": 5,
-        "dialogId": "chat5",
-        "type": "chat",
-        "name": "Support Chat",
+        "dialogId": "1",
+        "type": "private",
+        "name": "",
         "entityType": "",
-        "owner": 1,
+        "owner": 456,
         "avatar": "",
         "color": "#ab7761"
     },

@@ -25,13 +25,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор контакта. Можно получить при помощи методов [`crm.contact.list`](crm-contact-list.md) или [`crm.contact.add`](crm-contact-add.md) ||
+[`integer`](../../data-types.md) | Идентификатор контакта. Можно получить при помощи методов [`crm.contact.list`](crm-contact-list.md) или [`crm.contact.add`](crm-contact-add.md) ||
 |#
 
 ## Примеры кода
@@ -201,6 +201,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.get", b24.Params{
+    	"id": 23,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.contact.get: %w", err)
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"ID"`
+    	Post       string `json:"POST"`
+    	Comments   string `json:"COMMENTS"`
+    	Honorific  string `json:"HONORIFIC"`
+    	Name       string `json:"NAME"`
+    	SecondName string `json:"SECOND_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Post)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -303,7 +328,7 @@ HTTP-статус: **200**
 || **result**
 [`contact`](#contact) | Корневой элемент ответа. Содержит информацию о полях контакта. Структура описана [ниже](#contact) ||
 || **time**
-[`time`][1] | Объект, содержащий в себе информацию о времени выполнения запроса ||
+[`time`](../../data-types.md) | Объект, содержащий в себе информацию о времени выполнения запроса ||
 |#
 
 ### contact
@@ -312,21 +337,21 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`][1] | Идентификатор контакта ||
+[`integer`](../../data-types.md) | Идентификатор контакта ||
 || **POST**
-[`string`][1] | Должность ||
+[`string`](../../data-types.md) | Должность ||
 || **COMMENTS**
-[`text`][1] | Комментарий ||
+[`text`](../../data-types.md) | Комментарий ||
 || **HONORIFIC**
 [`crm_status`](../data-types.md) | Обращение ||
 || **NAME**
-[`string`][1] | Имя ||
+[`string`](../../data-types.md) | Имя ||
 || **SECOND_NAME**
-[`string`][1] | Отчество ||
+[`string`](../../data-types.md) | Отчество ||
 || **LAST_NAME**
-[`string`][1] | Фамилия ||
+[`string`](../../data-types.md) | Фамилия ||
 || **PHOTO**
-[`file`][1] | Фотография ||
+[`file`](../../data-types.md) | Фотография ||
 || **LEAD_ID**
 [`crm_lead`](../data-types.md) | Идентификатор лида, на основе которого был создан контакт ||
 || **TYPE_ID**
@@ -334,60 +359,60 @@ HTTP-статус: **200**
 || **SOURCE_ID**
 [`crm_status`](../data-types.md) | Источник ||
 || **SOURCE_DESCRIPTION**
-[`text`][1] | Дополнительно об источнике ||
+[`text`](../../data-types.md) | Дополнительно об источнике ||
 || **COMPANY_ID**
 [`crm_company`](../data-types.md) | Идентификатор основной компании ||
 || **BIRTHDATE**
-[`date`][1] | Дата рождения ||
+[`date`](../../data-types.md) | Дата рождения ||
 || **EXPORT**
-[`boolean`][1] | Участвует ли в экспорте контактов. Возможные значения:
+[`boolean`](../../data-types.md) | Участвует ли в экспорте контактов. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **HAS_PHONE**
-[`boolean`][1] | Задан ли телефон. Возможные значения:
+[`boolean`](../../data-types.md) | Задан ли телефон. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **HAS_EMAIL**
-[`boolean`][1] | Задан ли e-mail. Возможные значения:
+[`boolean`](../../data-types.md) | Задан ли e-mail. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **HAS_IMOL**
-[`boolean`][1] | Задана ли открытая линия. Возможные значения:
+[`boolean`](../../data-types.md) | Задана ли открытая линия. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **DATE_CREATE**
-[`datetime`][1] | Дата создания ||
+[`datetime`](../../data-types.md) | Дата создания ||
 || **DATE_MODIFY**
-[`datetime`][1] | Дата изменения ||
+[`datetime`](../../data-types.md) | Дата изменения ||
 || **ASSIGNED_BY_ID**
-[`user`][1] | Ответственный ||
+[`user`](../../data-types.md) | Ответственный ||
 || **CREATED_BY_ID**
-[`user`][1] | Кем создан ||
+[`user`](../../data-types.md) | Кем создан ||
 || **MODIFY_BY_ID**
-[`user`][1] | Кем изменен ||
+[`user`](../../data-types.md) | Кем изменен ||
 || **OPENED**
-[`boolean`][1] | Доступно ли для всех. Возможные значения:
+[`boolean`](../../data-types.md) | Доступно ли для всех. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **FACE_ID**
-[`integer`][1] | Привязка к лицам из модуля `faceid` ||
+[`integer`](../../data-types.md) | Привязка к лицам из модуля `faceid` ||
 || **LAST_ACTIVITY_TIME**
-[`datetime`][1] | Последняя активность ||
+[`datetime`](../../data-types.md) | Последняя активность ||
 || **LAST_ACTIVITY_BY**
-[`user`][1] | Кем осуществлена последняя активность в таймлайне ||
+[`user`](../../data-types.md) | Кем осуществлена последняя активность в таймлайне ||
 || **UTM_SOURCE**
-[`string`][1] | Рекламная система (Yandex-Direct, Google-Adwords и другие) ||
+[`string`](../../data-types.md) | Рекламная система (Yandex-Direct, Google-Adwords и другие) ||
 || **UTM_MEDIUM**
-[`string`][1] | Тип трафика. Возможные значения:
+[`string`](../../data-types.md) | Тип трафика. Возможные значения:
 - `CPC` — объявления
 - `CPM` — баннеры ||
 || **UTM_CAMPAIGN**
-[`string`][1] | Обозначение рекламной кампании ||
+[`string`](../../data-types.md) | Обозначение рекламной кампании ||
 || **UTM_CONTENT**
-[`string`][1] | Содержание кампании. Например, для контекстных объявлений ||
+[`string`](../../data-types.md) | Содержание кампании. Например, для контекстных объявлений ||
 || **UTM_TERM**
-[`string`][1] | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
+[`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
 || **PHONE**
 [`crm_multifield[]`](../data-types.md) | Телефон ||
 || **EMAIL**
@@ -411,11 +436,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ORIGINATOR_ID**
-[`string`][1] | Внешний источник ||
+[`string`](../../data-types.md) | Внешний источник ||
 || **ORIGIN_ID**
-[`string`][1] | Идентификатор элемента во внешнем источнике ||
+[`string`](../../data-types.md) | Идентификатор элемента во внешнем источнике ||
 || **ORIGIN_VERSION**
-[`string`][1] | Версия оригинала ||
+[`string`](../../data-types.md) | Версия оригинала ||
 |#
 
 **Устаревшие поля**
@@ -426,21 +451,21 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ADDRESS**
-[`string`][1] | Адрес ||
+[`string`](../../data-types.md) | Адрес ||
 || **ADDRESS_2**
-[`string`][1] | Вторая строка адреса ||
+[`string`](../../data-types.md) | Вторая строка адреса ||
 || **ADDRESS_CITY**
-[`string`][1] | Город ||
+[`string`](../../data-types.md) | Город ||
 || **ADDRESS_POSTAL_CODE**
-[`string`][1] | Почтовый индекс ||
+[`string`](../../data-types.md) | Почтовый индекс ||
 || **ADDRESS_REGION**
-[`string`][1] | Район ||
+[`string`](../../data-types.md) | Район ||
 || **ADDRESS_PROVINCE**
-[`string`][1] | Область ||
+[`string`](../../data-types.md) | Область ||
 || **ADDRESS_COUNTRY**
-[`string`][1] | Страна ||
+[`string`](../../data-types.md) | Страна ||
 || **ADDRESS_LOC_ADDR_ID**
-[`integer`][1] | Идентификатор адреса местоположения ||
+[`integer`](../../data-types.md) | Идентификатор адреса местоположения ||
 |#
 
 {% note tip "Поля типа `crm_multifield`" %}
@@ -483,10 +508,3 @@ HTTP-статус: **400**
 - [{#T}](../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
-
-[1]: ../../data-types.md
-
-
-
-
-

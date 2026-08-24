@@ -225,6 +225,31 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.getadditionalfields", b24.Params{
+    	"lid": 349,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.getadditionalfields: %w", err)
+    }
+
+    var item struct {
+    	FontsCode     string `json:"FONTS_CODE"`
+    	GacounterUse  string `json:"GACOUNTER_USE"`
+    	MetamainUse   string `json:"METAMAIN_USE"`
+    	MetamainTitle string `json:"METAMAIN_TITLE"`
+    	MetaogTitle   string `json:"METAOG_TITLE"`
+    	MetaogImage   string `json:"METAOG_IMAGE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.FontsCode, item.GacounterUse)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

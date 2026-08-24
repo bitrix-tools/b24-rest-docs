@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "sale.paysystem.settings.payment.get",
+  "scope": "pay_system",
+  "kind": "read",
+  "title": "Получить настройки платежной системы для конкретной оплаты sale.paysystem.settings.payment.get",
+  "permissions": "пользователь с правами на создание и редактирование заказов в CRM",
+  "params": [
+    {
+      "name": "PAYMENT_ID",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты"
+    },
+    {
+      "name": "PAY_SYSTEM_ID",
+      "type": "sale_paysystem.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор платежной системы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/pay-system/sale-pay-system-settings-payment-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "REST_SERVICE_ID_IFRAME": "snum",
+      "REST_SERVICE_KEY_IFRAME": "skey",
+      "PS_WORK_MODE_IFRAME": "REGULAR"
+    },
+    "time": {
+      "start": 1712135335.026931,
+      "finish": 1712135335.407762,
+      "duration": 0.3808310031890869,
+      "processing": 0.0336611270904541,
+      "date_start": "2024-04-03T11:08:55+02:00",
+      "date_finish": "2024-04-03T11:08:55+02:00",
+      "operating_reset_at": 1705765533,
+      "operating": 3.307624101638794
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Ключами объекта являются коды параметров, указанные при добавлении обработчика через sale.paysystem.handler.add в параметре CODES. Значениями объекта являются значения параметров: - либо заполненные пользователем вручную при создании платежной системы - либо указанные при добавлении платежной системы через sale.paysystem.add"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/pay-system/sale-pay-system-settings-payment-get.html",
+  "executable": false,
+  "entityFields": [
+    "PS_WORK_MODE_IFRAME",
+    "REST_SERVICE_ID_IFRAME",
+    "REST_SERVICE_KEY_IFRAME"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "sign.b2e.company.provider.list",
+  "scope": "sign.b2e",
+  "kind": "read",
+  "title": "Получить список провайдеров компании sign.b2e.company.provider.list",
+  "permissions": "пользователь с правом создавать документы КЭДО",
+  "params": [
+    {
+      "name": "companyUuid",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "UUID компании в HCM Link. Обязателен, если не передан параметр companyCrmId. Требует дополнительный scope humanresources.hcmlink"
+    },
+    {
+      "name": "companyCrmId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор компании в CRM, подключенный в интеграции как «моя компания». Обязателен, если не передан параметр companyUuid"
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Язык локализации названий провайдеров. По умолчанию en"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество записей на странице. Параметр принимает значение от 1 до 1000. По умолчанию 100"
+    },
+    {
+      "name": "offset",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр для управления постраничной навигацией. По умолчанию 0"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sign/sign-b2e-company-provider-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "code": "ses-ru",
+        "uid": "d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b",
+        "name": "Битрикс24 КЭДО",
+        "date": "2025-02-18T10:15:30+03:00",
+        "expires": "2026-02-18T10:15:30+03:00"
+      }
+    ],
+    "time": {
+      "start": 1739860000.123,
+      "finish": 1739860000.456,
+      "duration": 0.333,
+      "processing": 0.111,
+      "date_start": "2025-02-18T09:19:34+03:00",
+      "date_finish": "2025-02-18T09:19:34+03:00",
+      "operating_reset_at": 1739860600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список провайдеров подписи компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sign/sign-b2e-company-provider-list.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "date",
+    "expires",
+    "name",
+    "uid"
+  ]
+}

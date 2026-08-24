@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "sale.status.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить значения всех полей статуса по id sale.status.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_status.id",
+      "base": "any",
+      "required": true,
+      "description": "Символьный идентификатор статуса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status/sale-status-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "status": {
+        "color": "#BEEDF1",
+        "id": "N",
+        "notify": "Y",
+        "sort": 10,
+        "type": "O",
+        "xmlId": null
+      }
+    },
+    "time": {
+      "start": 1712144798.388861,
+      "finish": 1712144798.636187,
+      "duration": 0.24732613563537598,
+      "processing": 0.012362003326416016,
+      "date_start": "2024-04-03T14:46:38+03:00",
+      "date_finish": "2024-04-03T14:46:38+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "status",
+      "type": "sale_status",
+      "base": "any",
+      "required": false,
+      "description": "Информация о статусе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status/sale-status-get.html",
+  "executable": false,
+  "entityFields": [
+    "color",
+    "id",
+    "notify",
+    "sort",
+    "type",
+    "xmlId"
+  ]
+}

@@ -1,4 +1,4 @@
-# Получить список переводов названия типов цен по фильтру catalog.priceTypeLang.list
+# Получить список переводов названий типов цен по фильтру catalog.priceTypeLang.list
 
 {% note tip "" %}
 
@@ -304,6 +304,38 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeLang.list", b24.Params{
+    	"select": []string{"name", "lang"},
+    	"order": b24.Params{
+    		"lang": "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeLang.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "priceTypeLangs".
+    raw, ok := b24.Unwrap(res.Result, "priceTypeLangs")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа priceTypeLangs")
+    }
+
+    var items []struct {
+    	Lang string `json:"lang"`
+    	Name string `json:"name"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Lang)
+    }
     ```
 
 {% endlist %}

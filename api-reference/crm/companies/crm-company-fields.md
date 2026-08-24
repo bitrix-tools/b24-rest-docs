@@ -186,6 +186,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.company.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -786,7 +802,7 @@ HTTP-статус: **200**
 || **TITLE**
 [`string`](../../data-types.md) | Название компании ||
 || **COMPANY_TYPE**
-[`crm_status`](../../data-types.md) | Тип компании. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=COMPANY_TYPE` ||
+[`crm_status`](../data-types.md) | Тип компании. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=COMPANY_TYPE` ||
 || **LOGO**
 [`file`](../../data-types.md) | Логотип ||
 || **ADDRESS**
@@ -814,11 +830,11 @@ HTTP-статус: **200**
 || **BANKING_DETAILS**
 [`string`](../../data-types.md) | Банковские реквизиты ||
 || **INDUSTRY**
-[`crm_status`](../../data-types.md) | Сфера деятельности. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=INDUSTRY` ||
+[`crm_status`](../data-types.md) | Сфера деятельности. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=INDUSTRY` ||
 || **EMPLOYEES**
-[`crm_status`](../../data-types.md) | Количество сотрудников. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=EMPLOYEES` ||
+[`crm_status`](../data-types.md) | Количество сотрудников. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=EMPLOYEES` ||
 || **CURRENCY_ID**
-[`crm_currency`](../../data-types.md) | Валюта ||
+[`crm_currency`](../data-types.md) | Валюта ||
 || **REVENUE**
 [`double`](../../data-types.md) | Годовой оборот ||
 || **OPENED**
@@ -844,9 +860,9 @@ HTTP-статус: **200**
 || **DATE_MODIFY**
 [`datetime`](../../data-types.md) | Дата изменения ||
 || **CONTACT_ID**
-[`crm_contact`](../../data-types.md) | Контакт. Множественное ||
+[`crm_contact`](../data-types.md) | Контакт. Множественное ||
 || **LEAD_ID**
-[`crm_lead`](../../data-types.md) | Идентификатор лида, связанного с компанией ||
+[`crm_lead`](../data-types.md) | Идентификатор лида, связанного с компанией ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных. Используется только для привязки к внешнему источнику ||
 || **ORIGIN_ID**
@@ -875,15 +891,15 @@ HTTP-статус: **200**
 || **LAST_COMMUNICATION_TIME**
 [`string`](../../data-types.md) | Дата последней коммуникации ||
 || **PHONE**
-[`crm_multifield`](../../data-types.md) | Телефон. Множественное ||
+[`crm_multifield`](../data-types.md) | Телефон. Множественное ||
 || **EMAIL**
-[`crm_multifield`](../../data-types.md) | E-mail. Множественное ||
+[`crm_multifield`](../data-types.md) | E-mail. Множественное ||
 || **WEB**
-[`crm_multifield`](../../data-types.md) | Сайт. Множественное ||
+[`crm_multifield`](../data-types.md) | Сайт. Множественное ||
 || **IM**
-[`crm_multifield`](../../data-types.md) | Мессенджер. Множественное ||
+[`crm_multifield`](../data-types.md) | Мессенджер. Множественное ||
 || **LINK**
-[`crm_multifield`](../../data-types.md) | LINK. Множественное ||
+[`crm_multifield`](../data-types.md) | LINK. Множественное ||
 ||**UF_...**  | Пользовательские поля. Например, `UF_CRM_25534736`.
 
 В зависимости от настроек портала у компаний может быть набор пользовательских полей определенных типов.
@@ -910,7 +926,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Access denied` | У пользователя нет прав на «Чтение» компаний ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «Чтение» компаний ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

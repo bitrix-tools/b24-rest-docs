@@ -131,6 +131,27 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "calendar.event.get.nearest", b24.Params{
+        	"type":           "user",
+        	"ownerId":        2,
+        	"days":           10,
+        	"forCurrentUser": true,
+        	"maxEventsCount": 100,
+        	"detailUrl":      "/company/personal/user/#user_id#/calendar/",
+        })
+        if err != nil {
+        	return fmt.Errorf("calendar.event.get.nearest: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
+        ```
+
     {% endlist %}
 
 
@@ -215,6 +236,24 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "calendar.event.get", b24.Params{
+        	"type":           "company_calendar",
+        	"ownerId":        "",
+        	"forCurrentUser": false,
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("calendar.event.get: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
         ```
 
     {% endlist %}
@@ -363,8 +402,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Доступ запрещен | Запрещен доступ к типу календаря или у пользователя не активирована функциональность календаря ||
+|| **Код** | **Сообщение об ошибке** | **Описание** ||
+|| Пустое значение | Доступ запрещен | Запрещен доступ к типу календаря или у пользователя не активирована функциональность календаря ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

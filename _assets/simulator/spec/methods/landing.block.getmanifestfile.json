@@ -1,0 +1,158 @@
+{
+  "$v": 1,
+  "method": "landing.block.getmanifestfile",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить файл манифеста блока landing.block.getmanifestfile",
+  "permissions": "пользователь с доступом к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код блока из файлового репозитория. Можно передать короткий код, например 01.big_with_text. Тогда метод будет искать блок только в пространстве имен bitrix и автоматически добавит префикс bitrix:. Если нужен блок из другого пространства имен, передайте полный код в формате <namespace>:<code>. В коде можно использовать только латинские буквы, цифры и символы . _ - :"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/block/methods/landing-block-get-manifest-file.md"
+  },
+  "resultExample": {
+    "result": {
+      "block": {
+        "name": "Обложка с меняющимися на фоне картинками",
+        "section": [
+          "cover"
+        ],
+        "dynamic": false
+      },
+      "cards": {
+        ".landing-block-card-img": {
+          "name": "Фоновая картинка",
+          "label": [
+            ".landing-block-card-img"
+          ]
+        }
+      },
+      "nodes": {
+        ".landing-block-node-small-title": {
+          "name": "Подзаголовок",
+          "type": "text"
+        },
+        ".landing-block-node-title": {
+          "name": "Заголовок",
+          "type": "text"
+        },
+        ".landing-block-node-text": {
+          "name": "Текст",
+          "type": "text"
+        },
+        ".landing-block-node-button": {
+          "name": "Кнопка",
+          "type": "link"
+        },
+        ".landing-block-card-img": {
+          "name": "Фоновая картинка",
+          "type": "img",
+          "dimensions": {
+            "width": 1920,
+            "height": 1080
+          },
+          "allowInlineEdit": false,
+          "useInDesigner": false,
+          "create2xByDefault": false
+        }
+      },
+      "style": {
+        "block": {
+          "type": [
+            "display"
+          ],
+          "additional": {
+            "name": "Слайдер",
+            "attrsType": [
+              "autoplay",
+              "autoplay-speed",
+              "pause-hover",
+              "dots"
+            ]
+          }
+        },
+        "nodes": {
+          ".landing-block-node-text-container": {
+            "title": "Набор элементов",
+            "type": [
+              "background-color",
+              "animation"
+            ]
+          },
+          ".landing-block-node-small-title": {
+            "title": "Подзаголовок",
+            "type": [
+              "typo",
+              "heading"
+            ]
+          },
+          ".landing-block-node-title": {
+            "title": "Заголовок",
+            "type": [
+              "typo",
+              "heading"
+            ]
+          },
+          ".landing-block-node-text": {
+            "title": "Текст",
+            "type": "typo"
+          },
+          ".landing-block-node-button": {
+            "title": "Кнопка",
+            "type": "button"
+          },
+          ".landing-block-card-img": {
+            "name": "Фоновая картинка",
+            "type": [
+              "background-overlay",
+              "height-vh"
+            ]
+          }
+        }
+      },
+      "assets": {
+        "ext": [
+          "landing_carousel"
+        ]
+      }
+    },
+    "time": {
+      "start": 1774521452,
+      "finish": 1774521452.955493,
+      "duration": 0.9554929733276367,
+      "processing": 0,
+      "date_start": "2026-03-26T13:37:32+03:00",
+      "date_finish": "2026-03-26T13:37:32+03:00",
+      "operating_reset_at": 1774522052,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Исходный манифест блока из файлового репозитория. Общий формат файла манифеста описан в статье Файл манифеста. Если блок не найден, код содержит недопустимые символы или передан код локального репозиторного блока вида repo_<ID>, метод вернет пустой массив [] без ошибки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/block/methods/landing-block-get-manifest-file.html",
+  "executable": false
+}

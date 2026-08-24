@@ -15,7 +15,7 @@
 > - любой пользователь для стадий «Моего плана»
 > - любой пользователь с доступом к группе для стадий канбана
 
-Метод удаляет стадию канбана или «Моего плана». 
+Метод `task.stages.delete` удаляет стадию канбана или «Моего плана».
 
 Принимает на вход `id` стадии. Стадия проверяется на достаточный уровень прав, а также на то, что в ней нет задач.
 
@@ -219,6 +219,24 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.stages.delete", b24.Params{
+    	"id": 5,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.stages.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

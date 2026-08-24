@@ -284,6 +284,40 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.call.attachTranscription", b24.Params{
+    	"CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    	"MESSAGES": []b24.Params{
+    		{
+    			"SIDE":       "User",
+    			"START_TIME": 1,
+    			"STOP_TIME":  3,
+    			"MESSAGE":    "Добрый день",
+    		},
+    		{
+    			"SIDE":       "Client",
+    			"START_TIME": 4,
+    			"STOP_TIME":  7,
+    			"MESSAGE":    "Здравствуйте",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.call.attachTranscription: %w", err)
+    }
+
+    var item struct {
+    	TranscriptID b24.ID `json:"TRANSCRIPT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.TranscriptID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

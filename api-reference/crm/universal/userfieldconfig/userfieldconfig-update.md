@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -46,9 +46,9 @@
 || **isSearchable**
 [`boolean`](../../../data-types.md) | Флаг участия поля в поиске (`Y`/`N`) ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования по языкам ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования по языкам ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Текст подсказки по языкам ||
+[`lang_map`](../../data-types.md) | Текст подсказки по языкам ||
 || **settings**
 [`object`](../../../data-types.md) | Дополнительные настройки поля. Набор ключей зависит от типа поля [(подробное описание)](#settings) ||
 || **enum**
@@ -152,7 +152,7 @@
     || **Название**
     `тип` | **Описание** ||
     || **DEFAULT_VALUE**
-    [`string`](../../../data-types.md) | Значение по умолчанию в формате `{VALUE}|{CURRENCY}` ||
+    [`string`](../../../data-types.md) | Значение по умолчанию в формате ```{VALUE}|{CURRENCY}``` ||
     |#
 
 - url
@@ -561,6 +561,45 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.update", b24.Params{
+    	"moduleId": "crm",
+    	"id":       7095,
+    	"field": b24.Params{
+    		"mandatory": "Y",
+    		"editFormLabel": b24.Params{
+    			"ru": "Список характеристик (обновлено)",
+    			"en": "List of characteristics (updated)",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "field".
+    raw, ok := b24.Unwrap(res.Result, "field")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа field")
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	EntityID   string `json:"entityId"`
+    	FieldName  string `json:"fieldName"`
+    	UserTypeID string `json:"userTypeId"`
+    	Sort       string `json:"sort"`
+    	Multiple   string `json:"multiple"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -702,15 +741,15 @@ HTTP-статус: **200**
 || **languageId**
 [`object`](../../../data-types.md) | Языки, для которых заданы подписи поля ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования ||
 || **listColumnLabel**
-[`lang_map`](../../../data-types.md) | Подписи колонки в списке ||
+[`lang_map`](../../data-types.md) | Подписи колонки в списке ||
 || **listFilterLabel**
-[`lang_map`](../../../data-types.md) | Подписи в фильтре ||
+[`lang_map`](../../data-types.md) | Подписи в фильтре ||
 || **errorMessage**
-[`lang_map`](../../../data-types.md) | Текст сообщения об ошибке ||
+[`lang_map`](../../data-types.md) | Текст сообщения об ошибке ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Подсказка по полю ||
+[`lang_map`](../../data-types.md) | Подсказка по полю ||
 || **enum**
 [`object[]`](../../../data-types.md) | Варианты значений.
 
@@ -734,10 +773,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Вы не можете изменить настройки пользовательского поля | Недостаточно прав на изменение поля. Эта же ошибка возвращается, если поле с переданным `id` уже удалено или недоступно в контексте `moduleId` ||
-|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
-|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
-|| `-` | Ошибка при попытке изменения настроек пользовательских полей | Общая ошибка изменения поля ||
+|| Пустое значение | Вы не можете изменить настройки пользовательского поля | Недостаточно прав на изменение поля. Эта же ошибка возвращается, если поле с переданным `id` уже удалено или недоступно в контексте `moduleId` ||
+|| Пустое значение | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| Пустое значение | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|| Пустое значение | Ошибка при попытке изменения настроек пользовательских полей | Общая ошибка изменения поля ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

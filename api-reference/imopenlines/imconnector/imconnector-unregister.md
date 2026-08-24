@@ -181,6 +181,27 @@
         ]
     );
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imconnector.unregister", b24.Params{
+    	"ID": "myconnector",
+    })
+    if err != nil {
+    	return fmt.Errorf("imconnector.unregister: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -31,7 +31,10 @@
 
 Возможные значения:
 
-{% include notitle [адресаты сообщения](./_includes/log-recepients.md) %}
+- `SG<X>` — рабочие группы и проекты с идентификатором `X`. Идентификатор можно получить методом [sonet_group.get](../sonet-group/sonet-group-get.md)
+- `U<X>` — пользователи с идентификатором `X`. Идентификатор можно получить методом [user.get](../user/user-get.md)
+- `UA` — все авторизованные пользователи
+- `DR<X>` — подразделения компании с идентификатором `X`. Идентификатор можно получить методом [department.get](../departments/department-get.md)
 
 По умолчанию — `UA`
 ||
@@ -75,7 +78,7 @@
 
 По умолчанию — `N` ||
 || **UF_\***
-[`mixed`](../data-types.md) | Пользовательские поля. Поддерживается определенный [набор полей](#uf-fields), который зависит от настроек портала ||
+[`any`](../data-types.md) | Пользовательские поля. Поддерживается определенный [набор полей](#uf-fields), который зависит от настроек портала ||
 |#
 
 ### Пользовательские поля{#uf-fields}
@@ -100,7 +103,7 @@
 
 Заполняется автоматически при `IMPORTANT = 'Y'` ||
 || **UF_IMPRTANT_DATE_END**
-[`datetime`](../data-types.md#datetime) | Срок действия важного сообщения.
+[`datetime`](../data-types.md#standart-types) | Срок действия важного сообщения.
 
 Заполняется автоматически при переданном `IMPORTANT_DATE_END` ||
 || **UF_BLOG_POST_URL_PRV**
@@ -376,6 +379,32 @@ UF_BLOG_POST_VOTE: 'n<ID_опроса>',
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogpost.add", b24.Params{
+    	"POST_TITLE":   "Новый регламент",
+    	"POST_MESSAGE": "С 1 ноября обновляется процесс согласования.",
+    	"DEST":         []string{"UA"},
+    	"TAGS":         "регламент,согласование,обновление",
+    	"IMPORTANT":    "Y",
+    	"FILES": []any{
+    		[]string{"first-image.jpg", "iVBORw0KGgoAAAANSUhEUgAAAAUA..."},
+    		[]string{"second-image.jpg", "iVBORw0KGgoAAAANSUhEUgAAAAUA..."},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogpost.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

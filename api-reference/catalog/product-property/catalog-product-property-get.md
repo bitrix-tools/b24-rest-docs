@@ -234,6 +234,37 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productProperty.get", b24.Params{
+    	"id": 659,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.productProperty.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productProperty".
+    raw, ok := b24.Unwrap(res.Result, "productProperty")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productProperty")
+    }
+
+    var item struct {
+    	Active    string `json:"active"`
+    	Code      string `json:"code"`
+    	ColCount  int    `json:"colCount"`
+    	Filtrable string `json:"filtrable"`
+    	IblockID  b24.ID `json:"iblockId"`
+    	ID        b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

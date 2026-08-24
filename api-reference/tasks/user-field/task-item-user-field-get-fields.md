@@ -198,6 +198,22 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.userfield.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.item.userfield.getfields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -356,7 +372,7 @@ HTTP-статус: **200**
 || **HELP_MESSAGE**
 [`string`](../../data-types.md) | Подсказка ||
 || **LIST**
-[`uf_enum_element`](../../data-types.md) | Элементы списка. Множественное ||
+[`uf_enum_element`](../../data-types.md#uf_enum_element) | Элементы списка. Множественное ||
 || **SETTINGS**
 [`object`](../../data-types.md) | Дополнительные настройки ||
 |#

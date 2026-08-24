@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор CRM
+> Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
 Метод `crm.deal.userfield.list` возвращает список пользовательских полей сделок по фильтру.
 
@@ -144,9 +144,11 @@
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 Получить список пользовательских полей, которые:
-- являются множественными,
-- являются обязательными,
-- имеют подписи пользовательского поля на русском языке. Благодаря фильтру по параметру `LANG` дополнительно получим в ответе названия полей.
+- являются множественными
+- являются обязательными
+- имеют подписи пользовательского поля на русском языке
+
+Благодаря фильтру по параметру `LANG` дополнительно получим в ответе названия полей.
 
 {% list tabs %}
 
@@ -457,6 +459,48 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.userfield.list", b24.Params{
+    	"filter": b24.Params{
+    		"MULTIPLE":  "Y",
+    		"MANDATORY": "Y",
+    		"LANG":      "ru",
+    	},
+    	"order": b24.Params{
+    		"USER_TYPE_ID": "ASC",
+    		"SORT":         "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.deal.userfield.list: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	EntityID   string `json:"ENTITY_ID"`
+    	FieldName  string `json:"FIELD_NAME"`
+    	UserTypeID string `json:"USER_TYPE_ID"`
+    	Sort       string `json:"SORT"`
+    	Multiple   string `json:"MULTIPLE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.EntityID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на добавление контакта или компании — владельца реквизита
 
 Метод создает новый банковский реквизит.
 
@@ -359,6 +359,37 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.bankdetail.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_ID":       27,
+    		"COUNTRY_ID":      1,
+    		"NAME":            "Супербанк",
+    		"RQ_BANK_NAME":    "ПАО Супербанк",
+    		"RQ_BANK_ADDR":    "117312, г. Москва, улица Вавилова, дом 19",
+    		"RQ_BIK":          "044525225",
+    		"RQ_ACC_NUM":      "40702810938000060473",
+    		"RQ_ACC_CURRENCY": "RUR",
+    		"RQ_COR_ACC_NUM":  "30101810400000000225",
+    		"XML_ID":          "1e4641fd-2dd9-31e6-b2f2-105056c00008",
+    		"ACTIVE":          "Y",
+    		"SORT":            600,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.bankdetail.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -404,7 +435,7 @@ HTTP-статус: **40x**, **50x**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|  
 || **Текст ошибки** | **Описание** ||

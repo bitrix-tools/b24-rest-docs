@@ -1,0 +1,74 @@
+{
+  "$v": 1,
+  "method": "task.planner.getlist",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список задач из плана на день task.planner.getlist",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список идентификаторов задач. Если в плане на день нет задач, возвращает пустой массив",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/planner/task-planner-get-list.md"
+  },
+  "resultExample": {
+    "result": [
+      7811,
+      8017,
+      7789,
+      8015
+    ],
+    "time": {
+      "start": 1755252195.609436,
+      "finish": 1755252195.636649,
+      "duration": 0.027212858200073242,
+      "processing": 0.0030121803283691406,
+      "date_start": "2025-08-15T13:03:15+03:00",
+      "date_finish": "2025-08-15T13:03:15+03:00",
+      "operating_reset_at": 1755252795,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список идентификаторов задач. Если в плане на день нет задач, возвращает пустой массив"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/planner/task-planner-get-list.html",
+  "executable": false
+}

@@ -29,9 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор раздела товаров ||
+[`integer`](../../../data-types.md) | Идентификатор раздела товаров ||
 || **fields**
-[`array`](../../data-types.md) | [Набор полей](./crm-product-section-add.md) — массив вида `array("обновляемое поле"=>"значение"[, ...])`, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.productsection.fields](./crm-product-section-fields.md). 
+[`array`](../../../data-types.md) | [Набор полей](./crm-product-section-add.md) — массив вида `array("обновляемое поле"=>"значение"[, ...])`, где "обновляемое поле" может принимать значения из возвращаемых методом [crm.productsection.fields](./crm-product-section-fields.md). 
 
 {% note info %}
 

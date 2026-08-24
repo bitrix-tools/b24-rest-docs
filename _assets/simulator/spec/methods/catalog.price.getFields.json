@@ -1,0 +1,149 @@
+{
+  "$v": 1,
+  "method": "catalog.price.getFields",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить поля цены catalog.price.getFields",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "price",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта catalogprice, а value — объект типа restfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price/catalog-price-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "price": {
+        "catalogGroupId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "currency": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "extraId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "price": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "double"
+        },
+        "priceScale": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "double"
+        },
+        "productId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "quantityFrom": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "quantityTo": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "timestampX": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        }
+      }
+    },
+    "time": {
+      "start": 1766065411,
+      "finish": 1766065412.091394,
+      "duration": 1.0913939476013184,
+      "processing": 0,
+      "date_start": "2025-12-18T13:43:31+00:00",
+      "date_finish": "2025-12-18T13:43:32+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "price",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — идентификатор поля объекта catalogprice, а value — объект типа restfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price/catalog-price-get-fields.html",
+  "executable": false
+}

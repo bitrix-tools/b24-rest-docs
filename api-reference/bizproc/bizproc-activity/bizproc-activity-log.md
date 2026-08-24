@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод записывает информацию в журнал бизнес-процесса. Запись событий в журнал должна быть включена в шаблоне бизнес-процесса.
+Метод `bizproc.activity.log` записывает информацию в журнал бизнес-процесса. Запись событий в журнал должна быть включена в шаблоне бизнес-процесса.
 
 ## Параметры метода
 
@@ -168,6 +168,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.activity.log", b24.Params{
+    	"EVENT_TOKEN": "55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90",
+    	"LOG_MESSAGE": "Please wait for answer!",
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.activity.log: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

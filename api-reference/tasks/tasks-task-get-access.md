@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -223,6 +223,27 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.getaccess", b24.Params{
+    	"taskId": 8017,
+    	"users":  []int{503, 547},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.getaccess: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "allowedActions".
+    raw, ok := b24.Unwrap(res.Result, "allowedActions")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа allowedActions")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}

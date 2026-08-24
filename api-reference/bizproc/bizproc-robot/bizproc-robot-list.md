@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает список роботов, зарегистрированных приложением.
+Метод `bizproc.robot.list` возвращает список роботов, зарегистрированных приложением.
 
 Работает только в контексте [приложения](../../../settings/app-installation/index.md).
+
+## Параметры метода
 
 Без параметров.
 
@@ -152,6 +154,22 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.robot.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("bizproc.robot.list: %w", err)
+    }
+
+    var items []string
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
     ```
 
 {% endlist %}

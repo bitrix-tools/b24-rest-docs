@@ -290,6 +290,38 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.automatedsolution.list", b24.Params{
+        	"order": b24.Params{
+        		"id": "DESC",
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.automatedsolution.list: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "automatedSolutions".
+        raw, ok := b24.Unwrap(res.Result, "automatedSolutions")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа automatedSolutions")
+        }
+
+        var items []struct {
+        	ID    b24.ID `json:"id"`
+        	Title string `json:"title"`
+        }
+        if err := json.Unmarshal(raw, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.ID)
+        }
+        ```
+
     {% endlist %}
 
 2. Получить все цифровые рабочие места, название которых начинается с «HR»
@@ -518,6 +550,37 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.automatedsolution.list", b24.Params{
+        	"filter": b24.Params{
+        		"%=title": "HR%",
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.automatedsolution.list: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "automatedSolutions".
+        raw, ok := b24.Unwrap(res.Result, "automatedSolutions")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа automatedSolutions")
+        }
+
+        var items []struct {
+        	ID    b24.ID `json:"id"`
+        	Title string `json:"title"`
+        }
+        if err := json.Unmarshal(raw, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.ID)
+        }
+        ```
+
     {% endlist %}
 
 3. Получить все цифровые места, у которых название начинается с «HR» или «Customer» и `id` больше `100` с сортировкой по названию
@@ -801,6 +864,49 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.automatedsolution.list", b24.Params{
+        	"order": b24.Params{
+        		"title": "ASC",
+        	},
+        	"filter": b24.Params{
+        		">id": 100,
+        		"0": b24.Params{
+        			"logic": "OR",
+        			"0": b24.Params{
+        				"%=title": "HR%",
+        			},
+        			"1": b24.Params{
+        				"%=title": "Customer%",
+        			},
+        		},
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.automatedsolution.list: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "automatedSolutions".
+        raw, ok := b24.Unwrap(res.Result, "automatedSolutions")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа automatedSolutions")
+        }
+
+        var items []struct {
+        	ID    b24.ID `json:"id"`
+        	Title string `json:"title"`
+        }
+        if err := json.Unmarshal(raw, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.ID)
+        }
+        ```
+
     {% endlist %}
 
 ## Обработка ответа

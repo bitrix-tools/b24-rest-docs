@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение контакта или компании — владельца реквизита
 
 Метод возвращает банковский реквизит по идентификатору.
 
@@ -243,6 +243,31 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.bankdetail.get", b24.Params{
+    	"id": 357,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.bankdetail.get: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	EntityID    b24.ID `json:"ENTITY_ID"`
+    	CountryID   b24.ID `json:"COUNTRY_ID"`
+    	DateCreate  string `json:"DATE_CREATE"`
+    	DateModify  string `json:"DATE_MODIFY"`
+    	CreatedByID b24.ID `json:"CREATED_BY_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -412,7 +437,7 @@ HTTP-статус: **40x**, **50x**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|  
 || **Текст ошибки** | **Описание** ||

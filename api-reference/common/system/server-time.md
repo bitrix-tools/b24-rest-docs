@@ -189,6 +189,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "server.time", nil)
+    if err != nil {
+    	return fmt.Errorf("server.time: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -197,17 +211,15 @@ HTTP-статус: **200**
 
 ```json
 {
-    {
-        "result": "2024-08-05T09:02:13+00:00",
-        "time": {
-            "start": 1722848533.40768,
-            "finish": 1722848533.44277,
-            "duration": 0.0350871086120606,
-            "processing": 0.000040054321289062,
-            "date_start": "2024-08-05T09:02:13+00:00",
-            "date_finish": "2024-08-05T09:02:13+00:00",
-            "operating": 0
-        }
+    "result": "2024-08-05T09:02:13+00:00",
+    "time": {
+        "start": 1722848533.40768,
+        "finish": 1722848533.44277,
+        "duration": 0.0350871086120606,
+        "processing": 0.000040054321289062,
+        "date_start": "2024-08-05T09:02:13+00:00",
+        "date_finish": "2024-08-05T09:02:13+00:00",
+        "operating": 0
     }
 }
 ```

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки, находящейся в корзине.
 
-Папки в корзине не доступны для запроса через стандартные методы. Чтобы получить идентификатор папки для восстановления, сохраните его сразу после вызова метода [disk.folder.markdeleted](./disk-folder-mark-deleted.md) ||
+Папки в корзине не доступны для запроса через стандартные методы. Чтобы получить идентификатор папки для восстановления, сохраните его сразу после вызова метода [disk.folder.markDeleted](./disk-folder-mark-deleted.md) ||
 |#
 
 ## Примеры кода
@@ -225,6 +225,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.restore", b24.Params{
+    	"id": 8996,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.restore: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	StorageID    b24.ID `json:"STORAGE_ID"`
+    	Type         string `json:"TYPE"`
+    	RealObjectID b24.ID `json:"REAL_OBJECT_ID"`
+    	ParentID     b24.ID `json:"PARENT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

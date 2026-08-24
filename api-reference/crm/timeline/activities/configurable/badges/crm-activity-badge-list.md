@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.activity.badge.list` получает список доступных бейджей. Вернет массив, содержащий список всех зарегистрированных бейджей. Каждый элемент массива содержит [поля бейджа](./index.md#поля-записи-о-бейдже).
+Метод `crm.activity.badge.list` получает список доступных бейджей. Вернет массив, содержащий список всех зарегистрированных бейджей. Каждый элемент массива содержит [поля бейджа](./index.md#badge-fields).
 
 ## Параметры метода
 
@@ -205,6 +205,36 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.badge.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.badge.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "badges".
+    raw, ok := b24.Unwrap(res.Result, "badges")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа badges")
+    }
+
+    var items []struct {
+    	Code  string `json:"code"`
+    	Title string `json:"title"`
+    	Value string `json:"value"`
+    	Type  string `json:"type"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -241,7 +271,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../../data-types.md) | Корневой элемент ответа, содержащий массив, каждый элемент которого несет информацию о бейдже ||
+[`array`](../../../../../data-types.md) | Корневой элемент ответа, содержащий массив, каждый элемент которого несет информацию о бейдже ||
 || **time**
 [`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

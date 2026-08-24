@@ -9,30 +9,29 @@
 
 {% endnote %}
 
-Множественные поля используют для телефонов, email-адресов и другой контактной информации в лидах, контактах и компаниях.
+Множественные поля используют для телефонов, e-mail и другой контактной информации в лидах, контактах и компаниях.
 
 > Быстрый переход: [все методы](#all-methods)
 
+## Как заполнить множественное поле
+
+1. Получите состав полей и их характеристики методом [crm.multifield.fields](./crm-multifield-fields.md)
+
+2. Выберите допустимое значение `VALUE_TYPE` по описанию типа [crm_multifield](../../data-types.md#crm_multifield)
+
+3. Передайте массив значений в поле объекта CRM методом создания или обновления
+
+4. Проверьте сохраненные данные методом чтения объекта
+
 ## Связь множественных полей с объектами CRM
 
-**Лид, контакт, компания.** Контактные данные в этих объектах хранятся в множественных полях. Чтобы корректно заполнить такие поля в методах CRM, сначала получите их описание через [crm.multifield.fields](./crm-multifield-fields.md).
+Контактные данные лида, контакта и компании хранятся в множественных полях `PHONE`, `EMAIL`, `WEB` и `IM`. Значение каждого поля — массив объектов [crm_multifield](../../data-types.md#crm_multifield).
 
-**Типы значений.** Для каждого поля используйте допустимые значения `VALUE_TYPE`, чтобы корректно передать контактные данные.
+**Лид.** Записывайте и читайте контактные данные методами [crm.lead.add](../../leads/crm-lead-add.md), [crm.lead.update](../../leads/crm-lead-update.md), [crm.lead.get](../../leads/crm-lead-get.md).
 
-## Как применять множественные поля
+**Контакт.** Записывайте и читайте контактные данные методами [crm.contact.add](../../contacts/crm-contact-add.md), [crm.contact.update](../../contacts/crm-contact-update.md), [crm.contact.get](../../contacts/crm-contact-get.md).
 
-1. Получите структуру и допустимые типы значений методом [crm.multifield.fields](./crm-multifield-fields.md).
-2. Подготовьте значение поля в формате [crm_multifield](../../data-types.md#crm_multifield).
-3. Передайте подготовленные данные в метод создания или обновления нужного объекта CRM.
-4. Проверьте сохраненные данные методом чтения объекта.
-
-## Где использовать множественные поля
-
-**Лиды.** Для записи и чтения контактных данных используйте методы [crm.lead.add](../../leads/crm-lead-add.md), [crm.lead.update](../../leads/crm-lead-update.md), [crm.lead.get](../../leads/crm-lead-get.md).
-
-**Контакты.** Для записи и чтения контактных данных используйте методы [crm.contact.add](../../contacts/crm-contact-add.md), [crm.contact.update](../../contacts/crm-contact-update.md), [crm.contact.get](../../contacts/crm-contact-get.md).
-
-**Компании.** Для записи и чтения контактных данных используйте методы [crm.company.add](../../companies/crm-company-add.md), [crm.company.update](../../companies/crm-company-update.md), [crm.company.get](../../companies/crm-company-get.md).
+**Компания.** Записывайте и читайте контактные данные методами [crm.company.add](../../companies/crm-company-add.md), [crm.company.update](../../companies/crm-company-update.md), [crm.company.get](../../companies/crm-company-get.md).
 
 ## Пример структуры значения
 
@@ -51,13 +50,12 @@ EMAIL: [
 ]
 ```
 
-Для быстрых сценариев обычно используют `PHONE` с `VALUE_TYPE: MOBILE` или `WORK`, а для `EMAIL` — `WORK` или `HOME`.
-Полный набор допустимых значений смотрите в [crm.multifield.fields](./crm-multifield-fields.md).
+Чаще всего в `PHONE` передают `VALUE_TYPE` со значением `MOBILE` или `WORK`, а в `EMAIL` — `WORK` или `HOME`. Полный набор допустимых значений `VALUE_TYPE` для телефона, почты, сайта и мессенджера смотрите в описании типа [crm_multifield](../../data-types.md#crm_multifield).
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Как изменить номера телефонов и email на примере контакта](../../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
-- [Как создать новый лид](../../leads/crm-lead-add.md)
+- [Как изменить или удалить номера телефонов и email](../../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-email-or-phone.md)
+- [Создать новый лид crm.lead.add](../../leads/crm-lead-add.md)
 
 {% endnote %}
 

@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает доступные поля задачи Скрама.
+Метод `tasks.api.scrum.task.getFields` получает доступные поля задачи Скрама.
+
+## Параметры метода
 
 Без параметров.
 
@@ -184,6 +186,20 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.api.scrum.task.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.api.scrum.task.getFields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

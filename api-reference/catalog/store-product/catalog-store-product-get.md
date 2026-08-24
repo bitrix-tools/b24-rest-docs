@@ -220,6 +220,35 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.storeproduct.get", b24.Params{
+    	"id": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.storeproduct.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "storeProduct".
+    raw, ok := b24.Unwrap(res.Result, "storeProduct")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа storeProduct")
+    }
+
+    var item struct {
+    	Amount    int    `json:"amount"`
+    	ID        b24.ID `json:"id"`
+    	ProductID b24.ID `json:"productId"`
+    	StoreID   b24.ID `json:"storeId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Amount, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

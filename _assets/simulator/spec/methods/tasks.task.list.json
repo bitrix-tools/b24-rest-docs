@@ -1,0 +1,271 @@
+{
+  "$v": 1,
+  "method": "tasks.task.list",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список задач tasks.task.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка задач в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию По умолчанию — по убыванию ID.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для фильтрации списка задач в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Фильтруемое поле может принимать значения: - ID — идентификатор задачи - PARENT_ID — идентификатор родительской задачи - GROUP_ID — идентификатор рабочей группы - CREATED_BY — постановщик - STATUS_CHANGED_BY — пользователь, последним изменивший статус задачи - PRIORITY — приоритет - FORUM_TOPIC_ID — иден…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив содержит список полей, которые необходимо выбрать. По умолчанию система возвращает только те поля, которые хранятся в записи — без дополнительных данных, рассчитываемых на лету. Всегда указывайте поля в select. Набор полей по умолчанию может измениться.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Дополнительная информация, которую можно получить по задаче: - WITH_RESULT_INFO — информация о результате в задаче - WITH_TIMER_INFO — данные о затраченном времени - WITH_PARSED_DESCRIPTION — описание с HTML-разметкой",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "tasks": [
+        {
+          "id": "8017",
+          "title": "Пример задачи",
+          "description": "Описание задачи с [B]форматированием[/B]",
+          "deadline": "2025-10-24T19:00:00+03:00",
+          "createdDate": "2025-06-04T16:15:55+03:00",
+          "responsibleId": "547",
+          "priority": "2",
+          "mark": "",
+          "descriptionInBbcode": "Y",
+          "lengthDeadline": "1",
+          "status": "2",
+          "auditors": [
+            "13",
+            "103"
+          ],
+          "accomplices": [],
+          "group": [],
+          "responsible": {
+            "id": "547",
+            "name": "Мария",
+            "link": "/company/personal/user/547/",
+            "icon": "/bitrix/images/tasks/default_avatar.png",
+            "workPosition": "Тестировщик"
+          },
+          "accomplicesData": [],
+          "auditorsData": {
+            "13": {
+              "id": "13",
+              "name": "Иван Иванов",
+              "link": "/company/personal/user/13/",
+              "icon": "https://mysite.ru/b17053/resize_cache/209/c0120a8d7c10d63c83e32398d1ec4d9e/main/c8dd225a1c6ea0a25722d01644b90fe4/8b.jpg",
+              "workPosition": "Системный администратор"
+            },
+            "103": {
+              "id": "103",
+              "name": "Светлана Иванова",
+              "link": "/company/personal/user/103/",
+              "icon": "https://mysite.ru/b17053/resize_cache/8644/c0120a8d7c10d63c83e32398d1ec4d9e/main/45f/45fff10d17d398a5583184c8350cd197/buh.jpg",
+              "workPosition": "Бухгалтер"
+            }
+          },
+          "taskRequireResult": "Y",
+          "taskHasOpenResult": "N",
+          "taskHasResult": "Y",
+          "timeElapsed": null,
+          "timerIsRunningForCurrentUser": "N",
+          "parsedDescription": "Описание задачи с [B]форматированием[/B]",
+          "counter": {
+            "counters": {
+              "expired": 0,
+              "newComments": 0,
+              "projectExpired": 0,
+              "projectNewComments": 0,
+              "mutedExpired": 0,
+              "mutedNewComments": 0
+            },
+            "color": "gray",
+            "value": 0
+          },
+          "tags": {
+            "35": {
+              "id": 35,
+              "title": "арпар"
+            }
+          },
+          "subStatus": "2"
+        }
+      ]
+    },
+    "total": 1,
+    "time": {
+      "start": 1761054322,
+      "finish": 1761054322.348041,
+      "duration": 0.3480410575866699,
+      "processing": 0,
+      "date_start": "2025-10-21T16:45:22+03:00",
+      "date_finish": "2025-10-21T16:45:22+03:00",
+      "operating_reset_at": 1761054922,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "tasks",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Массив объектов, где каждый объект содержит описание задачи. Набор полей зависит от параметра select"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество найденных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-list.html",
+  "executable": true,
+  "entityFields": [
+    "UF_\\",
+    "accomplices",
+    "accomplicesData",
+    "action",
+    "activityDate",
+    "addInReport",
+    "allowChangeDeadline",
+    "allowTimeTracking",
+    "auditors",
+    "auditorsData",
+    "backlogId",
+    "changedBy",
+    "changedDate",
+    "chatId",
+    "checkListCanAdd",
+    "checkListTree",
+    "checklist",
+    "closedBy",
+    "closedDate",
+    "commentsCount",
+    "counter",
+    "createdBy",
+    "createdDate",
+    "creator",
+    "dateStart",
+    "deadline",
+    "description",
+    "descriptionInBbcode",
+    "durationFact",
+    "durationPlan",
+    "durationType",
+    "endDatePlan",
+    "exchangeId",
+    "exchangeModified",
+    "favorite",
+    "flowId",
+    "forkedByTemplateId",
+    "forumId",
+    "forumTopicId",
+    "group",
+    "groupId",
+    "guid",
+    "id",
+    "isMuted",
+    "isPinned",
+    "isPinnedInGroup",
+    "lengthDeadline",
+    "mark",
+    "matchWorkTime",
+    "multitask",
+    "newCommentsCount",
+    "notViewed",
+    "outlookVersion",
+    "parentId",
+    "parsedDescription",
+    "priority",
+    "replicate",
+    "responsible",
+    "responsibleId",
+    "serviceCommentsCount",
+    "siteId",
+    "sorting",
+    "sprintId",
+    "stageId",
+    "startDatePlan",
+    "status",
+    "statusChangedBy",
+    "statusChangedDate",
+    "subStatus",
+    "subordinate",
+    "tags",
+    "taskControl",
+    "taskHasOpenResult",
+    "taskHasResult",
+    "taskRequireResult",
+    "timeElapsed",
+    "timeEstimate",
+    "timeSpentInLogs",
+    "timerIsRunningForCurrentUser",
+    "title",
+    "ufCrmTask",
+    "ufMailMessage",
+    "ufTaskWebdavFiles",
+    "viewedDate",
+    "xmlId"
+  ]
+}

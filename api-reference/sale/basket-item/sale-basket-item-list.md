@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод возвращает набор элементов (позиций) корзины, отобранных по фильтру.
+Метод `sale.basketitem.list` возвращает набор элементов корзины, отобранных по фильтру.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -378,6 +380,46 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketitem.list", b24.Params{
+    	"select": []string{"id", "orderId", "productId", "name", "price", "currency"},
+    	"filter": b24.Params{
+    		"@orderId": []int{5147, 5146},
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    	"start": 0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.basketitem.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketItems".
+    raw, ok := b24.Unwrap(res.Result, "basketItems")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketItems")
+    }
+
+    var items []struct {
+    	Currency  string `json:"currency"`
+    	ID        b24.ID `json:"id"`
+    	Name      string `json:"name"`
+    	OrderID   b24.ID `json:"orderId"`
+    	Price     int    `json:"price"`
+    	ProductID b24.ID `json:"productId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Currency)
+    }
     ```
 
 {% endlist %}

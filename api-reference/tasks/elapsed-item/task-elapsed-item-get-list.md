@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает список записей о затраченном времени по задаче.
+Метод `task.elapseditem.getlist` возвращает список записей о затраченном времени по задаче.
 
 ## Параметры метода
 
@@ -406,6 +406,38 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.getlist", []b24.Params{
+    	{
+    		"ID": "desc",
+    	},
+    	{
+    		">=CREATED_DATE": "2024-02-16",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.getlist: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	TaskID      b24.ID `json:"TASK_ID"`
+    	UserID      b24.ID `json:"USER_ID"`
+    	CommentText string `json:"COMMENT_TEXT"`
+    	Seconds     string `json:"SECONDS"`
+    	Minutes     string `json:"MINUTES"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.TaskID)
+    }
     ```
 
 {% endlist %}

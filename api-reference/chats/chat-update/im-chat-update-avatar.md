@@ -23,9 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../data-types.md) | Идентификатор чата.
+[`integer`](../../data-types.md) | Идентификатор чата. Передайте число без префикса `chat`. Обязателен, если не передан `DIALOG_ID`.
 
 Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md) ||
+|| **DIALOG_ID**
+[`string`](../../data-types.md) | Идентификатор диалога в формате `chatXXX`, где `XXX` — идентификатор чата. Можно передать вместо `CHAT_ID`.
+
+Метод работает только с групповыми чатами: для личного диалога он вернет ошибку `DIALOG_ID_EMPTY` ||
 || **AVATAR***
 [`string`](../../data-types.md) | Изображение в формате [Base64](../../files/how-to-upload-files.md).
 
@@ -222,6 +226,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.updateAvatar", b24.Params{
+    	"CHAT_ID": 2935,
+    	"AVATAR":  "/9j/4QAYRXhpZgAAS...CgCgCgCgP/9k=",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.updateAvatar: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -272,7 +295,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` ||
+|| `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или значение содержит префикс `chat` ||
+|| `DIALOG_ID_EMPTY` | Dialog ID can't be empty | В `DIALOG_ID` передан личный диалог или неверный формат ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для изменения аватара ||
 || `ACCESS_ERROR` | Action unavailable | Операция недоступна для этого чата ||
 || `ACCESS_ERROR` | The avatar of this chat cannot be changed | Нельзя изменить аватар этого чата ||

@@ -1,0 +1,77 @@
+{
+  "$v": 1,
+  "method": "sale.propertygroup.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Обновить поля группы свойств sale.propertygroup.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_property_group.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор группы свойств"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления группы свойств",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/property-group/sale-property-group-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyGroup": {
+        "id": 10,
+        "name": "Обновленная группа свойств",
+        "personTypeId": 3,
+        "sort": 100
+      }
+    },
+    "time": {
+      "start": 1711451989.729911,
+      "finish": 1711451989.907491,
+      "duration": 0.1775798797607422,
+      "processing": 0.008534908294677734,
+      "date_start": "2024-03-26T14:19:49+03:00",
+      "date_finish": "2024-03-26T14:19:49+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyGroup",
+      "type": "sale_order_property_group",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленной группе свойств"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/property-group/sale-property-group-update.html",
+  "executable": false
+}

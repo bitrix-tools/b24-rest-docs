@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод создает статус заказа или доставки.
+Метод `sale.status.add` создает статус заказа или доставки.
 
 ## Параметры метода
 
@@ -292,6 +292,44 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.status.add", b24.Params{
+    	"fields": b24.Params{
+    		"id":     "MS",
+    		"type":   "O",
+    		"notify": "Y",
+    		"sort":   500,
+    		"color":  "#FF0000",
+    		"xmlId":  "myStatusXmlId",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.status.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "status".
+    raw, ok := b24.Unwrap(res.Result, "status")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа status")
+    }
+
+    var item struct {
+    	Color  string `json:"color"`
+    	ID     string `json:"id"`
+    	Notify string `json:"notify"`
+    	Sort   int    `json:"sort"`
+    	Type   string `json:"type"`
+    	XmlID  string `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Color, item.ID)
     ```
 
 {% endlist %}

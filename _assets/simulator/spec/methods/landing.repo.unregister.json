@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "landing.repo.unregister",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Удалить пользовательский блок landing.repo.unregister",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "code",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внешний код блока (XML_ID). Код можно получить, например, из результата метода landing.repo.getList в поле XML_ID"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/user-blocks/landing-repo-unregister.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774951693,
+      "finish": 1774951693.523505,
+      "duration": 0.5235049724578857,
+      "processing": 0,
+      "date_start": "2026-03-31T13:08:13+03:00",
+      "date_finish": "2026-03-31T13:08:13+03:00",
+      "operating_reset_at": 1774952293,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления: - true — блок найден и удален - false — code не строка, пустой или блок не найден"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/user-blocks/landing-repo-unregister.html",
+  "executable": false
+}

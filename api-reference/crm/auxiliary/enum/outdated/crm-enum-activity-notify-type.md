@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `crm.enum.activitynotifytype` возвращает типы уведомлений о начале активности для поля `NOTIFY_TYPE` [дел встреч и звонков](../../../timeline/activities/index.md).
+Метод `crm.enum.activitynotifytype` возвращает типы уведомлений о начале активности для поля `NOTIFY_TYPE` [дел](../../../timeline/activities/index.md) — встреч и звонков.
 
 ## Параметры метода
 
@@ -126,7 +126,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -135,18 +134,18 @@
                 'crm.enum.activitynotifytype',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.activitynotifytype: ' . $e->getMessage();
@@ -181,6 +180,52 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.client import BaseClient
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    client: BaseClient
+
+    try:
+        bitrix_response = client.crm.enum.activitynotifytype().response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.enum.activitynotifytype", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.enum.activitynotifytype: %w", err)
+    }
+
+    var items []struct {
+    	ID   b24.ID `json:"ID"`
+    	Name string `json:"NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
     ```
 
 {% endlist %}
@@ -258,15 +303,10 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки.
+{% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./../index.md)
-
-
-
-
-
+- [{#T}](../index.md)

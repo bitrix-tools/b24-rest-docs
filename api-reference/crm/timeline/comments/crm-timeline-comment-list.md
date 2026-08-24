@@ -422,6 +422,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.comment.list", b24.Params{
+    	"filter": b24.Params{
+    		"ENTITY_ID":   10,
+    		"ENTITY_TYPE": "deal",
+    	},
+    	"select": []string{"ID", "CREATED", "ENTITY_ID", "ENTITY_TYPE", "AUTHOR_ID", "COMMENT", "FILES"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.comment.list: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	EntityID   b24.ID `json:"ENTITY_ID"`
+    	EntityType string `json:"ENTITY_TYPE"`
+    	Created    string `json:"CREATED"`
+    	Comment    string `json:"COMMENT"`
+    	AuthorID   b24.ID `json:"AUTHOR_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.EntityID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -537,6 +537,51 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "socialnetwork.api.workgroup.list", b24.Params{
+    	"filter": b24.Params{
+    		"ACTIVE": "Y",
+    		"CLOSED": "N",
+    		"%NAME":  "группа",
+    	},
+    	"select": []string{"ID", "NAME", "TYPE", "AVATAR"},
+    	"order": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"params": b24.Params{
+    		"mode":                 "mobile",
+    		"shouldSelectDialogId": "Y",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("socialnetwork.api.workgroup.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "workgroups".
+    raw, ok := b24.Unwrap(res.Result, "workgroups")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа workgroups")
+    }
+
+    var items []struct {
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Type     string `json:"type"`
+    	ImageID  b24.ID `json:"imageId"`
+    	Avatar   string `json:"avatar"`
+    	DialogID string `json:"dialogId"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

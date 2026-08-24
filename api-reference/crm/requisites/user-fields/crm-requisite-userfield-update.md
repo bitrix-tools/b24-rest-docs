@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор, пользователь с правом «Разрешить изменять настройки» в CRM
 
 Метод изменяет существующее пользовательское поле реквизита.
 
@@ -82,7 +82,7 @@
 || **HELP_MESSAGE**
 [`string`](../../../data-types.md) | Помощь ||
 || **LIST**
-[`uf_enum_element`](../../../data-types.md) | Элементы списка. Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-enumeration-fields.md) ||
+[`uf_enum_element`](../../../data-types.md#uf_enum_element) | Элементы списка. Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-enumeration-fields.md) ||
 || **SETTINGS**
 [`object`](../../../data-types.md) | Дополнительные настройки (зависят от типа). Для получения подробной информации смотрите раздел [{#T}](../../universal/user-defined-fields/crm-userfield-settings-fields.md) ||
 |#
@@ -312,6 +312,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.userfield.update", b24.Params{
+    	"id": 235,
+    	"fields": b24.Params{
+    		"EDIT_FORM_LABEL":   "Категория",
+    		"LIST_COLUMN_LABEL": "Категория",
+    		"LIST_FILTER_LABEL": "Категория",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.userfield.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -360,7 +383,7 @@ HTTP-статус: **40x**, **50x**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|  
 || **Код** | **Текст ошибки** | **Описание** ||

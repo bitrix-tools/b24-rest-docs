@@ -210,6 +210,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeGroup.delete", b24.Params{
+    	"id": 109,
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeGroup.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -238,7 +256,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

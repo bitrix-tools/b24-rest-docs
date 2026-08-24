@@ -75,7 +75,7 @@
 || **ts**
 [`timestamp`](../../data-types.md) | Дата и время отправки события из [очереди событий](../../events/index.md) ||
 || **auth**
-[`object`](../../data-types.md) | Объект с параметрами авторизации и данными о портале.
+[`object`](../../data-types.md) | Объект с параметрами авторизации и данными Битрикс24.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -89,3 +89,4 @@
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
 - [{#T}](./on-sign-b2e-document-status-changed.md)
+- [{#T}](./on-sign-hcm-link-b2e-document-signed.md)

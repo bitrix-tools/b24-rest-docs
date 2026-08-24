@@ -23,13 +23,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор контакта. 
+[`integer`](../../data-types.md) | Идентификатор контакта. 
 
 Идентификатор можно получить с помощью методов [`crm.contact.list`](crm-contact-list.md) или [`crm.contact.add`](crm-contact-add.md) ||
 |#
@@ -194,6 +194,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.delete", b24.Params{
+    	"id": 50,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -220,7 +238,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа.
+[`boolean`](../../data-types.md) | Корневой элемент ответа.
 
 Возвращает `true` в случае успеха ||
 || **time**
@@ -244,8 +262,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `ID is not defined or invalid` | Параметр `id` не передан либо переданное значение не является целым числом больше 0 ||
-|| `-`     | `Access denied` | У пользователя нет прав на «Удаление» контакта ||
+|| Пустое значение | `ID is not defined or invalid` | Параметр `id` не передан либо переданное значение не является целым числом больше 0 ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «Удаление» контакта ||
 || `ERROR_CORE` | Элемент не найден | Контакт с переданным `id` не найден ||
 |#
 
@@ -258,10 +276,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-get.md)
 - [{#T}](./crm-contact-list.md)
 - [{#T}](./crm-contact-fields.md)
-
-[1]: ../../data-types.md
-
-
-
-
-

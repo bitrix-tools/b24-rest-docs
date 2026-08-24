@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод получает настройки службы доставки. 
+Метод `sale.delivery.config.get` получает настройки службы доставки.
 
 ## Параметры метода
 
@@ -212,6 +212,29 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.config.get", b24.Params{
+    	"ID": 196,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.config.get: %w", err)
+    }
+
+    var items []struct {
+    	Code  string `json:"CODE"`
+    	Value string `json:"VALUE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code, it.Value)
+    }
     ```
 
 {% endlist %}

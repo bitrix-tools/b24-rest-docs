@@ -40,7 +40,7 @@
 
 Допустимые значения: [типы документов складского учета](../enum/catalog-enum-get-store-document-types.md) ||
 || **fieldN**
-[`mixed`](../../data-types.md) | Значение пользовательского поля, где `N` — идентификатор пользовательского поля, например `field287`.
+[`any`](../../data-types.md) | Значение пользовательского поля, где `N` — идентификатор пользовательского поля, например `field287`.
 
 Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig-list.md) ||
 |#
@@ -254,6 +254,38 @@
     echo '<PRE>';
     print_r($result['result']['document']);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.userfield.document.update", b24.Params{
+    	"documentId": 81,
+    	"fields": b24.Params{
+    		"documentType": "A",
+    		"field7097":    "Тестовое поле",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.userfield.document.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	DocumentID   b24.ID `json:"documentId"`
+    	DocumentType string `json:"documentType"`
+    	Field7097    string `json:"field7097"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DocumentID, item.DocumentType)
     ```
 
 {% endlist %}

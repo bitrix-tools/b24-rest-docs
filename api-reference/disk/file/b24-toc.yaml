@@ -25,5 +25,7 @@ items:
     href: disk-file-restore-from-version.md
   - name: Восстановить файл из корзины
     href: disk-file-restore.md
+  - name: Найти файлы и папки
+    href: disk-file-search.md
   - name: Загрузить новую версию файла
     href: disk-file-upload-version.md

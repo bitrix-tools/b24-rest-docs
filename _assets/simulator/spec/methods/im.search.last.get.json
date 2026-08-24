@@ -1,0 +1,148 @@
+{
+  "$v": 1,
+  "method": "im.search.last.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить историю поиска im.search.last.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "SKIP_OPENLINES",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пропустить чаты Открытых линий. Возможные значения: - Y — да - N — нет Значение по умолчанию — N"
+    },
+    {
+      "name": "SKIP_CHAT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пропустить групповые чаты. Возможные значения: - Y — да - N — нет Значение по умолчанию — N"
+    },
+    {
+      "name": "SKIP_DIALOG",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пропустить личные диалоги. Возможные значения: - Y — да - N — нет Значение по умолчанию — N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/search/im-search-last-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": "chat1157",
+        "type": "chat",
+        "avatar": {
+          "url": "",
+          "color": "#ab7761"
+        },
+        "title": "Бурый чат №18",
+        "chat": {
+          "id": 1157,
+          "name": "Бурый чат №18",
+          "owner": 27,
+          "extranet": false,
+          "avatar": "",
+          "color": "#ab7761",
+          "type": "thread",
+          "entity_type": "THREAD",
+          "entity_id": "",
+          "entity_data_1": "",
+          "entity_data_2": "",
+          "entity_data_3": "",
+          "mute_list": [],
+          "date_create": "2025-01-30T00:41:03+03:00",
+          "message_type": "C"
+        }
+      },
+      {
+        "id": 103,
+        "type": "user",
+        "avatar": {
+          "url": "https://example.bitrix24.ru/upload/main/avatar.png",
+          "color": "#4ba984"
+        },
+        "title": "Светлана Иванова",
+        "user": {
+          "id": 103,
+          "active": true,
+          "name": "Светлана Иванова",
+          "first_name": "Светлана",
+          "last_name": "Иванова",
+          "work_position": "Руководитель ИТ-отдела",
+          "color": "#4ba984",
+          "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+          "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar.png",
+          "gender": "F",
+          "birthday": "08-03",
+          "extranet": false,
+          "network": false,
+          "bot": false,
+          "connector": false,
+          "external_auth_id": "socservices",
+          "status": "online",
+          "idle": false,
+          "last_activity_date": "2026-03-05T10:19:37+03:00",
+          "mobile_last_date": false,
+          "desktop_last_date": false,
+          "absent": false,
+          "departments": [
+            1,
+            7
+          ],
+          "phones": {
+            "personal_mobile": "81234567890",
+            "work_phone": "79123456789",
+            "inner_phone": "78"
+          },
+          "bot_data": null,
+          "type": "user",
+          "website": "",
+          "email": "svetlana@example.ru"
+        }
+      }
+    ],
+    "time": {
+      "start": 1772695649,
+      "finish": 1772695649.89509,
+      "duration": 0.8950901031494141,
+      "processing": 0,
+      "date_start": "2026-03-05T10:27:29+03:00",
+      "date_finish": "2026-03-05T10:27:29+03:00",
+      "operating_reset_at": 1772696249,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список элементов истории поиска. Структура объекта элемента подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/search/im-search-last-get.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "chat",
+    "id",
+    "title",
+    "type"
+  ]
+}

@@ -139,6 +139,20 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.productsection.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.productsection.fields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Поля
@@ -147,15 +161,15 @@
 || **Название**
 `тип`  | **Описание** | **Примечание** ||
 || **CATALOG_ID** 
-[`integer`](../../data-types.md) | Идентификатор каталога | Неизменяемое ||
+[`integer`](../../../data-types.md) | Идентификатор каталога | Неизменяемое ||
 || **ID** 
-[`integer`](../../data-types.md) | Идентификатор раздела | Только для чтения ||
+[`integer`](../../../data-types.md) | Идентификатор раздела | Только для чтения ||
 || **NAME** 
-[`string`](../../data-types.md) | Название раздела | Обязательное ||
+[`string`](../../../data-types.md) | Название раздела | Обязательное ||
 || **SECTION_ID** 
-[`integer`](../../data-types.md) | Идентификатор привязанного раздела | ||
+[`integer`](../../../data-types.md) | Идентификатор привязанного раздела | ||
 || **XML_ID** 
-[`string`](../../data-types.md) | Символьный код | ||
+[`string`](../../../data-types.md) | Символьный код | ||
 |#
 
 

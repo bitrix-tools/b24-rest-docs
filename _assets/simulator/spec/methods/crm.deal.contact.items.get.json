@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "crm.deal.contact.items.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить набор контактов, связанных с указанной сделкой crm.deal.contact.items.get",
+  "permissions": "пользователь с правом «чтения» сделок",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сделки Можно получить с помощью методов crm.deal.list или crm.deal.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/contacts/crm-deal-contact-items-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "CONTACT_ID": 55,
+        "SORT": 100,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "Y"
+      },
+      {
+        "CONTACT_ID": 54,
+        "SORT": 200,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "N"
+      },
+      {
+        "CONTACT_ID": 56,
+        "SORT": 400,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "N"
+      }
+    ],
+    "time": {
+      "start": 1773231773,
+      "finish": 1773231773.901404,
+      "duration": 0.9014039039611816,
+      "processing": 0,
+      "date_start": "2026-03-11T15:22:53+03:00",
+      "date_finish": "2026-03-11T15:22:53+03:00",
+      "operating_reset_at": 1773232373,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "deal_contact_binding[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив с информацией о привязанных к сделке контактах"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/contacts/crm-deal-contact-items-get.html",
+  "executable": false,
+  "entityFields": [
+    "CONTACT_ID",
+    "IS_PRIMARY",
+    "ROLE_ID",
+    "SORT"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "$v": 1,
+  "method": "sale.shipmentpropertyvalue.modify",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Обновить значения свойств отгрузки sale.shipmentpropertyvalue.modify",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Корневой элемент, в котором передаются параметры запроса",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "shipment",
+          "type": "object",
+          "base": "object",
+          "required": true,
+          "description": "Объект, содержащий значения идентификатора отгрузки и значения свойств отгрузки (подробное описание приведено ниже)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment-property-value/sale-shipment-property-value-modify.md"
+  },
+  "resultExample": {
+    "result": {
+      "propertyValues": [
+        {
+          "code": null,
+          "id": 38164,
+          "name": "Comments",
+          "value": "Comments value"
+        },
+        {
+          "code": null,
+          "id": 38165,
+          "name": "Description",
+          "value": "Description value"
+        }
+      ]
+    },
+    "time": {
+      "start": 1718022201.149589,
+      "finish": 1718022201.726496,
+      "duration": 0.5769069194793701,
+      "processing": 0.38397693634033203,
+      "date_start": "2024-06-10T15:23:21+03:00",
+      "date_finish": "2024-06-10T15:23:21+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "propertyValues",
+      "type": "sale_shipment_property_value[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов, содержащих информацию о значениях свойств отгрузок"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment-property-value/sale-shipment-property-value-modify.html",
+  "executable": false
+}

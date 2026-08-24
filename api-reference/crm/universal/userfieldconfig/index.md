@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Методы раздела позволяют управлять пользовательскими полями: получать доступные типы полей, создавать поле для нужного объекта, читать его настройки, обновлять параметры и удалять поле.
+Методы `userfieldconfig.*` управляют пользовательскими полями: возвращают доступные типы полей, создают поле для нужного объекта, читают его настройки, обновляют параметры и удаляют поле.
 
 Технически обработчик этих методов находится в модуле `main`, но в REST они доступны как отдельная группа `userfieldconfig.*` и используют scope `userfieldconfig`. В AJAX тот же обработчик вызывается как `main.userfieldconfig.*`.
 
@@ -62,17 +62,17 @@
 
 ### CRM смарт-процессы
 
-Для смарт-процесса используется формат `CRM_{ID}`, где `ID` — идентификатор смарт-процесса.
+Для смарт-процесса используется формат `CRM_{id}`, где `id` — ключ `id` из результата метода [crm.type.list](../user-defined-object-types/crm-type-list.md). Это не `entityTypeId`: у смарт-процесса с `id = 13` и `entityTypeId = 156` значение `entityId` будет `CRM_13`.
+
+### RPA
+
+В модуле `rpa` используется формат `RPA_{id}`, где `id` — идентификатор процесса.
 
 {% note tip "Частые кейсы и сценарии" %}
 
 - [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 
 {% endnote %}
-
-### RPA
-
-В модуле `rpa` используется формат `RPA_{ID}`, где `ID` — идентификатор процесса.
 
 ## Обзор методов {#all-methods}
 
@@ -89,3 +89,28 @@
 || [userfieldconfig.delete](./userfieldconfig-delete.md) | Удаляет пользовательское поле ||
 || [userfieldconfig.getTypes](./userfieldconfig-get-types.md) | Получает доступные типы пользовательских полей для модуля ||
 |#
+
+## События {#events}
+
+Битрикс24 отправляет события, когда меняются пользовательские поля смарт-процессов, новых счетов и документов на подпись. Как подписаться и что приходит в обработчик, описано в разделе [События при работе с настройками пользовательских полей](./events/index.md).
+
+> Scope: [`crm`](../../../scopes/permissions.md)
+>
+> Кто может подписаться: любой пользователь
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [onCrmTypeUserFieldAdd](./events/on-crm-type-user-field-add.md) | При добавлении пользовательского поля вручную или методом [userfieldconfig.add](./userfieldconfig-add.md) ||
+|| [onCrmTypeUserFieldUpdate](./events/on-crm-type-user-field-update.md) | При изменении настроек пользовательского поля вручную или методом [userfieldconfig.update](./userfieldconfig-update.md) ||
+|| [onCrmTypeUserFieldDelete](./events/on-crm-type-user-field-delete.md) | При удалении пользовательского поля вручную или методом [userfieldconfig.delete](./userfieldconfig-delete.md) ||
+|| [onCrmTypeUserFieldSetEnumValues](./events/on-crm-type-user-field-set-enum-values.md) | При изменении набора значений пользовательского поля списочного типа вручную или методами [userfieldconfig.add](./userfieldconfig-add.md) и [userfieldconfig.update](./userfieldconfig-update.md) ||
+|#
+
+Для пользовательских полей лида, контакта, компании, сделки, предложения и реквизита есть свои события. Для полей в модулях `rpa` и `catalog` события не отправляются.
+
+## Продолжите изучение
+
+- [{#T}](./events/index.md)
+- [{#T}](../user-defined-fields/index.md)
+- [{#T}](../user-defined-object-types/index.md)
+- [{#T}](../index.md)

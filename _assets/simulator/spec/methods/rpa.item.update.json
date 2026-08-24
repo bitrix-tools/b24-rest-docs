@@ -1,0 +1,46 @@
+{
+  "$v": 1,
+  "method": "rpa.item.update",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Изменить элемент процессса rpa.item.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор элемента"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект со значениями пользовательских полей элемента",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/item/rpa-item-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/item/rpa-item-update.html",
+  "executable": false
+}

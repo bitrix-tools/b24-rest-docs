@@ -12,18 +12,27 @@
 Оплаты содержат информацию о платежах по заказам: платежную систему, статус и дату оплаты, идентификатор плательщика.
 
 > Быстрый переход: [все методы](#all-methods)
-> 
-> Пользовательская документация: [Как отследить статус оплаты, доставки и СМС](https://helpdesk.bitrix24.ru/open/18291172)
+>
+> Пользовательская документация: [Платежные системы в Интернет-магазине](https://helpdesk.bitrix24.ru/open/17121396/)
+
+## Как начать работу с оплатой
+
+1. Получите заказ методом [sale.order.get](../order/sale-order-get.md) или [sale.order.list](../order/sale-order-list.md).
+2. Выберите платежную систему методом [sale.paysystem.list](../../pay-system/sale-pay-system-list.md).
+3. Создайте оплату методом [sale.payment.add](./sale-payment-add.md).
+4. При частичной оплате свяжите оплату с позициями корзины методами [sale.paymentitembasket.*](../payment-item-basket/index.md).
+5. Если оплата относится к конкретной отгрузке, создайте связь методами [sale.paymentItemShipment.*](../payment-item-shipment/index.md).
+6. Проверяйте состояние оплаты методом [sale.payment.get](./sale-payment-get.md) или отбирайте оплаты через [sale.payment.list](./sale-payment-list.md).
 
 ## Связь оплат с другими объектами
 
-**Заказ.** Укажите заказ, для которого создаете оплату. Получить список заказов можно с помощью метода [sale.order.list](../order/sale-order-list.md).
+**Заказ.** Укажите заказ, для которого создаете оплату. Получить список заказов можно методом [sale.order.list](../order/sale-order-list.md).
 
-**Платежные системы.** Укажите платежную систему. Получить список платежных систем можно с помощью метода [sale.paysystem.list](../../pay-system/sale-pay-system-list.md).
+**Платежные системы.** Укажите платежную систему. Получить список платежных систем можно методом [sale.paysystem.list](../../pay-system/sale-pay-system-list.md).
 
-**Привязка элемента корзины к оплате.** Выберите элементы корзины, для которых хотите создать оплату. Используйте методы [sale.paymentitembasket.*](../payment-item-basket/index.md).
+**Привязка элемента корзины к оплате.** Выберите элементы корзины, для которых хотите создать оплату. Используйте методы [sale.paymentitembasket.*](../payment-item-basket/index.md).
 
-**Привязка оплат к отгрузкам.** Укажите, какие отгрузки оплачены. Используйте методы [sale.paymentItemShipment.*](../payment-item-shipment/index.md).
+**Привязка оплат к отгрузкам.** Укажите, какие отгрузки оплачены. Используйте методы [sale.paymentItemShipment.*](../payment-item-shipment/index.md).
 
 ## Обзор методов {#all-methods}
 

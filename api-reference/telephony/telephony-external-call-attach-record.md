@@ -256,6 +256,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalCall.attachRecord", b24.Params{
+    	"CALL_ID":      "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    	"FILENAME":     "call-001.mp3",
+    	"FILE_CONTENT": "SUQzAwAAAAAiVVRJVDI...AAAAAAAAAAAAP8=",
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.externalCall.attachRecord: %w", err)
+    }
+
+    var item struct {
+    	FileID b24.ID `json:"FILE_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.FileID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

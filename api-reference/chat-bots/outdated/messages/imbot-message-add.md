@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -210,6 +210,30 @@
         echo 'Created message ID: ' . $result['result'];
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.message.add", b24.Params{
+    	"BOT_ID":      39,
+    	"DIALOG_ID":   "chat123",
+    	"MESSAGE":     "Текст сообщения",
+    	"SYSTEM":      "N",
+    	"URL_PREVIEW": "Y",
+    	"CLIENT_ID":   "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.message.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

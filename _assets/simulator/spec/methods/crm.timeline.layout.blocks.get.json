@@ -1,0 +1,113 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.layout.blocks.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить набор дополнительных контентных блоков для записи таймлайна crm.timeline.layout.blocks.get",
+  "permissions": "любой пользователь с правом на чтение элемента CRM, к которому привязана запись",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа объекта CRM, к которому привязана запись таймлайна"
+    },
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта CRM, к которому привязана запись таймлайна"
+    },
+    {
+      "name": "timelineId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи таймлайна"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/layout-blocks/crm-timeline-layout-blocks-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "layout": {
+        "blocks": {
+          "block_1": {
+            "type": "text",
+            "properties": {
+              "value": "Здравствуйте!\nМы начинаем.",
+              "multiline": true,
+              "bold": true,
+              "color": "base_90"
+            }
+          },
+          "block_2": {
+            "type": "largeText",
+            "properties": {
+              "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания."
+            }
+          },
+          "block_3": {
+            "type": "link",
+            "properties": {
+              "text": "Открыть сделку",
+              "bold": true,
+              "action": {
+                "type": "redirect",
+                "uri": "/crm/deal/details/123/"
+              }
+            }
+          },
+          "block_4": {
+            "type": "withTitle",
+            "properties": {
+              "title": "Заголовок",
+              "block": {
+                "type": "text",
+                "properties": {
+                  "value": "Какое-то значение"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "time": {
+      "start": 1753341040.475739,
+      "finish": 1753341040.582705,
+      "duration": 0.10696601867675781,
+      "processing": 0.04708504676818848,
+      "date_start": "2025-07-24T17:57:20+00:00",
+      "date_finish": "2025-07-24T17:57:20+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/layout-blocks/crm-timeline-layout-blocks-get.html",
+  "executable": false,
+  "entityFields": [
+    "blocks"
+  ]
+}

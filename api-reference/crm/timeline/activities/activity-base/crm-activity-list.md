@@ -23,11 +23,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../../data-types.md) | Массив полей дела [crm.activity.fields](./crm-activity-fields.md), которые необходимо выбрать.
+[`array`](../../../../data-types.md) | Массив полей дела [crm.activity.fields](./crm-activity-fields.md), которые необходимо выбрать.
 Чтобы получить поля `COMMUNICATIONS` и `FILES` укажите их в select.
 ||
 || **filter**
-[`object`](../../../data-types.md) | Объект для фильтрации выбираемых элементов в формате ключ-значение.
+[`object`](../../../../data-types.md) | Объект для фильтрации выбираемых элементов в формате ключ-значение.
 
 Возможные значения для `field` соответствуют полям дела [crm.activity.fields](./crm-activity-fields.md).
 
@@ -56,7 +56,7 @@
 - `!` — не равно
 ||
 || **order**
-[`object`](../../../data-types.md) | Набор пар ключ-значение для сортировки результатов вывода.
+[`object`](../../../../data-types.md) | Набор пар ключ-значение для сортировки результатов вывода.
 В качестве ключей можно использовать смотрите поля дела [crm.activity.fields](./crm-activity-fields.md).
 
 Возможные значения для `order`:
@@ -67,7 +67,7 @@
 По-умолчанию сортируется по увеличению поля Дата начала (`START_TIME`)
 ||
 || **start**
-  [`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
+  [`integer`](../../../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный: 50 записей.
 
@@ -439,6 +439,31 @@ Cм. описание [списочных методов](../../../../../setting
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"order": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"filter": b24.Params{
+    		"OWNER_TYPE_ID": 3,
+    		"OWNER_ID":      102,
+    	},
+    	"select": []string{"*", "COMMUNICATIONS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -916,6 +941,48 @@ HTTP-статус: **400**, **403**
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"order": b24.Params{
+    		"ID": "DESC",
+    	},
+    	"filter": b24.Params{
+    		"BINDINGS": []b24.Params{
+    			{
+    				"OWNER_TYPE_ID": 2,
+    			},
+    			{
+    				"OWNER_TYPE_ID": 3,
+    			},
+    		},
+    	},
+    	"select": []string{"*", "COMMUNICATIONS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    var items []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ### Получение COMMUNICATIONS {#example-communications}
@@ -1219,6 +1286,38 @@ HTTP-статус: **400**, **403**
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"filter": b24.Params{
+    		"ID": "20",
+    	},
+    	"select": []string{"*", "COMMUNICATIONS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    var items []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 #### Пример возвращаемых данных
@@ -1559,6 +1658,38 @@ HTTP-статус: **200**
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.list", b24.Params{
+    	"filter": b24.Params{
+    		"ID": "101121",
+    	},
+    	"select": []string{"*", "STORAGE_ELEMENT_IDS"},
+    	"start":  0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.list: %w", err)
+    }
+
+    var items []struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 #### Пример возвращаемых данных

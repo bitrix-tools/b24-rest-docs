@@ -1,0 +1,108 @@
+{
+  "$v": 1,
+  "method": "im.message.update",
+  "scope": "im",
+  "kind": "write",
+  "title": "Изменить сообщение im.message.update",
+  "permissions": "автор сообщения",
+  "params": [
+    {
+      "name": "MESSAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения. Идентификатор возвращает метод im.message.add"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый текст сообщения. Если передать пустое значение, сообщение будет удалено. Если параметр не передан, текст сообщения не изменится"
+    },
+    {
+      "name": "ATTACH",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Вложение с блоками контента: изображения, ссылки, файлы. Чтобы удалить вложение, передайте N или пустое значение. Подробнее читайте в разделе Вложения",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "KEYBOARD",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Кнопки под сообщением, с которыми может взаимодействовать пользователь. Чтобы отключить вывод кнопок, передайте N или пустое значение. Подробнее читайте в статье Работа с клавиатурами",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "MENU",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные пункты в контекстном меню чата. Чтобы отключить показ дополнительных пунктов меню, передайте N или пустое значение. Подробнее читайте в статье Контекстное меню",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "URL_PREVIEW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Преобразование ссылок в rich-ссылки. Допустимые значения: - Y — включено - N — выключено"
+    },
+    {
+      "name": "IS_EDITED",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Флаг отметки «изменено»: - Y — отметить - N — не отмечать По умолчанию — Y Параметр применяется при обновлении ATTACH. При изменении MESSAGE метка «изменено» может появиться даже если передан IS_EDITED = 'N'"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/messages/im-message-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772623160,
+      "finish": 1772623160.616113,
+      "duration": 0.6161129474639893,
+      "processing": 0,
+      "date_start": "2026-03-04T14:19:20+03:00",
+      "date_finish": "2026-03-04T14:19:20+03:00",
+      "operating_reset_at": 1772623760,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если сообщение обновлено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/messages/im-message-update.html",
+  "executable": false
+}

@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "messageservice.sender.list",
+  "scope": "messageservice",
+  "kind": "read",
+  "title": "Получить список СМС-провайдеров или провайдеров сообщений messageservice.sender.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив кодов провайдеров, зарегистрированных текущим приложением. Пустой массив означает, что у текущего приложения нет зарегистрированных провайдеров",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/messageservice/messageservice-sender-list.md"
+  },
+  "resultExample": {
+    "result": [
+      "provider1",
+      "provider2"
+    ],
+    "time": {
+      "start": 1742895600,
+      "finish": 1742895600.845505,
+      "duration": 0.845505952835083,
+      "processing": 0,
+      "date_start": "2025-03-25T10:00:00+03:00",
+      "date_finish": "2025-03-25T10:00:00+03:00",
+      "operating_reset_at": 1742896200,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив кодов провайдеров, зарегистрированных текущим приложением. Пустой массив означает, что у текущего приложения нет зарегистрированных провайдеров"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/messageservice/messageservice-sender-list.html",
+  "executable": false
+}

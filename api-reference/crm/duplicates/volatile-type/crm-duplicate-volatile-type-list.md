@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор Битрикс24 или администратор CRM
 
 Метод `crm.duplicate.volatileType.list` возвращает список нестандартных полей, которые уже используются для поиска дубликатов в лидах, контактах и компаниях.
 
@@ -258,6 +258,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.duplicate.volatileType.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.duplicate.volatileType.list: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	EntityTypeID b24.ID `json:"entityTypeId"`
+    	FieldCode    string `json:"fieldCode"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.EntityTypeID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -302,12 +330,28 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Специфичные ошибки метода не выделены.
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
+|#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md)
-- [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md)
-- [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) 
+- [{#T}](./crm-duplicate-volatile-type-fields.md)
+- [{#T}](./crm-duplicate-volatile-type-register.md)
+- [{#T}](./crm-duplicate-volatile-type-unregister.md)

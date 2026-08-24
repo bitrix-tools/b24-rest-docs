@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -48,7 +48,7 @@
 
 ### Параметр fields {#parameter-fields}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -58,7 +58,7 @@
 
 Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 3` ||
 || **IS_PRIMARY**
-[`char`](../../../data-types.md#char) | Является ли привязка первичной. Возможные значения:
+[`char`](../../../data-types.md#standart-types) | Является ли привязка первичной. Возможные значения:
 - `Y` — да
 - `N` — нет
 
@@ -286,6 +286,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.contact.add", b24.Params{
+    	"id": 32,
+    	"fields": b24.Params{
+    		"CONTACT_ID": 54,
+    		"IS_PRIMARY": "Y",
+    		"SORT":       1000,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.contact.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -337,11 +360,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
-|| `-`     | `The parameter 'fields' must be array` | В `fields` передан не объект ||
+|| Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
+|| Пустое значение | `The parameter 'fields' must be array` | В `fields` передан не объект ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение компании ||
-|| `-`     | `Not found` | Компания с переданным `id` не найдена ||
-|| `-`     | `The parameter 'fields' is not valid` | Может возникать из-за нескольких причин:
+|| Пустое значение | `Not found` | Компания с переданным `id` не найдена ||
+|| Пустое значение | `The parameter 'fields' is not valid` | Может возникать из-за нескольких причин:
 - если не передан обязательный параметр `fields.CONTACT_ID`
 - если переданный параметр `fields.CONTACT_ID` меньше или равен 0 ||
 |#

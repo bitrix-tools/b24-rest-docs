@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает массив данных о задаче (`TITLE`, `DESCRIPTION` и так далее). Доступны следующие [поля](./index.md).
+Метод `task.item.getdata` возвращает массив данных о задаче (`TITLE`, `DESCRIPTION` и так далее). Доступны следующие [поля](./index.md).
 
 {% note warning "DEPRECATED" %}
 
@@ -183,6 +183,22 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.item.getdata", b24.Params{
+    	"TASKID": 2,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.item.getdata: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

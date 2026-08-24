@@ -22,9 +22,9 @@
 #|
 ||  | Методы `documentgenerator.*` | Методы `crm.documentgenerator.*` ||
 || Где использовать | В REST-сценариях приложения, когда шаблоны и документы находятся в scope `documentgenerator` | В CRM-сценариях, когда документ связан с объектом CRM ||
-|| Что передавать при генерации | 
+|| Что передавать при генерации |
 - `value` — внешний ID объекта, для которого создается документ
-- `providerClassName` — класс провайдера данных | 
+- `providerClassName` — класс провайдера данных |
 - `entityId` — идентификатор объекта CRM
 - `entityTypeId` — тип объекта CRM ||
 || Методы работы с шаблонами | [documentgenerator.template.*](./templates/index.md) | [crm.documentgenerator.template.*](../crm/document-generator/templates/index.md) ||
@@ -64,7 +64,7 @@
 
 ## Особенность конвертации документа в PDF
 
-Конвертация файла в PDF выполняется асинхронно. Если поле `pdfUrl` не заполнено сразу после создания документа, вызовите метод [documentgenerator.document.get](./document-generator-document-get.md), чтобы проверить результат конвертации повторно.
+Конвертация файла в PDF выполняется асинхронно. Поле `pdfUrl` приходит в ответе, только когда PDF уже сформирован, поэтому сразу после создания документа его обычно нет. Чтобы проверить результат конвертации повторно, вызовите метод [documentgenerator.document.get](./document-generator-document-get.md).
 
 ## Обзор методов {#all-methods}
 

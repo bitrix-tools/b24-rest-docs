@@ -353,6 +353,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.invoice.update", b24.Params{
+    	"id": "**put_invoice_id_here**",
+    	"fields": b24.Params{
+    		"DATE_BILL":        "**put_date_here**",
+    		"USER_DESCRIPTION": "Комментарий для клиента (обновленный).",
+    		"PRODUCT_ROWS": []b24.Params{
+    			{
+    				"ID":         "**put_row_id_here**",
+    				"PRODUCT_ID": 703,
+    				"QUANTITY":   4,
+    				"PRICE":      779.60,
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.invoice.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 

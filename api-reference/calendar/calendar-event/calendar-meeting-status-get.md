@@ -206,6 +206,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.meeting.status.get", b24.Params{
+    	"eventId": 651,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("calendar.meeting.status.get: %w", err)
+    }
+
+    var value string
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -256,8 +274,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Не задан обязательный параметр "eventId" для метода "calendar.meeting.status.set" | Не передан обязательный параметр `eventId` ||
-|| Пустая строка | При выборке статуса произошла ошибка | Другая ошибка ||
+|| Пустое значение | Не задан обязательный параметр "eventId" для метода "calendar.meeting.status.get" | Не передан обязательный параметр `eventId` ||
+|| Пустое значение | При выборке статуса произошла ошибка | Другая ошибка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

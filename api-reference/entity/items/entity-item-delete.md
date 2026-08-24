@@ -11,7 +11,7 @@
 
 > Scope: [`entity`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с уровнем права `X` (управление) на хранилище данных
+> Кто может выполнять метод: пользователь с уровнем права `W` (запись) или `X` (управление) на хранилище данных
 
 Метод `entity.item.delete` удаляет элемент хранилища данных приложения.
 
@@ -24,7 +24,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -217,6 +217,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.item.delete", b24.Params{
+    	"ENTITY": "dish",
+    	"ID":     2333,
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.item.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

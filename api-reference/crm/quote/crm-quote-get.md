@@ -23,13 +23,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../data-types.md) | Идентификатор коммерческого предложения.
+[`integer`](../../data-types.md) | Идентификатор коммерческого предложения.
 
 Идентификатор можно получить с помощью методов [crm.quote.list](./crm-quote-list.md) и [crm.quote.add](./crm-quote-add.md) ||
 |#
@@ -218,6 +218,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.get", b24.Params{
+    	"id": 43,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.quote.get: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Title       string `json:"TITLE"`
+    	StatusID    string `json:"STATUS_ID"`
+    	CurrencyID  string `json:"CURRENCY_ID"`
+    	Opportunity string `json:"OPPORTUNITY"`
+    	TaxValue    string `json:"TAX_VALUE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -303,11 +328,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа. Содержит поля коммерческого предложения.
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит поля коммерческого предложения.
 
 Набор и типы полей можно получить методом [crm.quote.fields](./crm-quote-fields.md) ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -327,9 +352,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `ID is not defined or invalid.` | Передан некорректный `id` ||
-|| `-` | `Access denied.` | У пользователя нет прав на чтение коммерческих предложений ||
-|| `-` | `Not found` | Коммерческое предложение с переданным `id` не найдено ||
+|| Пустое значение | `ID is not defined or invalid.` | Передан некорректный `id` ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на чтение коммерческих предложений ||
+|| Пустое значение | `Not found` | Коммерческое предложение с переданным `id` не найдено ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

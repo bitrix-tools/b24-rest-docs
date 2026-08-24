@@ -19,7 +19,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -164,6 +164,22 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Bot.get", b24.Params{
+    	"botToken": "my_bot_token",
+    	"code":     "support_bot",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Bot.get: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -243,7 +259,7 @@ HTTP-статус: **200**
 || **isReactionsEnabled**
 [`boolean`](../../../../data-types.md) | Для сообщений бота включены реакции ||
 || **backgroundId**
-[`string|null`](../../../../data-types.md) | ID фона чата или `null` ||
+[```string|null```](../../../../data-types.md) | ID фона чата или `null` ||
 || **language**
 [`string`](../../../../data-types.md) | Язык бота ||
 || **moduleId**

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -153,6 +153,40 @@
         echo 'Error: '. $result['error_description'];
     } else {
         print_r($result['result']['commands']);
+    }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Command.list", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Command.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "commands".
+    raw, ok := b24.Unwrap(res.Result, "commands")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа commands")
+    }
+
+    var items []struct {
+    	ID      b24.ID `json:"id"`
+    	BotID   b24.ID `json:"botId"`
+    	Command string `json:"command"`
+    	Title   string `json:"title"`
+    	Params  string `json:"params"`
+    	Common  bool   `json:"common"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
     }
     ```
 

@@ -113,6 +113,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.bot.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.bot.list: %w", err)
+    }
+
+    // Ответ — объект, где ключ верхнего уровня — идентификатор.
+    var items map[string]struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	Code     string `json:"CODE"`
+    	Openline string `json:"OPENLINE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for id, it := range items {
+    	fmt.Println(id, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

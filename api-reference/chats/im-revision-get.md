@@ -196,6 +196,28 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.revision.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.revision.get: %w", err)
+    }
+
+    var item struct {
+    	Rest             int `json:"rest"`
+    	Web              int `json:"web"`
+    	Mobile           int `json:"mobile"`
+    	Desktop          int `json:"desktop"`
+    	ImRevisionMobile int `json:"im_revision_mobile"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Rest, item.Web)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -224,11 +246,11 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../data-types.md) | Корневой объект с ревизиями API ||
 || **result.rest**
@@ -247,9 +269,20 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+У метода нет собственных кодов ошибок — возможны только системные ошибки REST API.
+
 Специальных бизнес-ошибок у метода нет.
 
-{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}
 

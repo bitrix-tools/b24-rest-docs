@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод предназначен для получения доступных полей групп свойств.
+Метод `sale.propertygroup.getFields` получает доступные поля групп свойств.
+
+## Параметры метода
 
 Без параметров.
 
@@ -198,6 +200,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertygroup.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertygroup.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyGroup".
+    raw, ok := b24.Unwrap(res.Result, "propertyGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyGroup")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}

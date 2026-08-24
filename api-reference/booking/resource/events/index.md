@@ -17,7 +17,7 @@
 
 ## Как получать события
 
-Подписаться на события раздела можно через:
+Подписаться на события ресурсов можно через:
 
 - [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
 - [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)

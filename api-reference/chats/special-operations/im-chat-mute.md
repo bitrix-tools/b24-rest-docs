@@ -22,16 +22,18 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **CHAT_ID***
-[`integer`](../../data-types.md) | Идентификатор чата. Получить идентификатор можно с помощью метода [im.chat.get](../im-chat-get.md) ||
-|| **DIALOG_ID***
+|| **CHAT_ID**
+[`integer`](../../data-types.md) | Идентификатор чата. Обязателен, если не передан `DIALOG_ID`.
+
+Получить идентификатор можно с помощью метода [im.chat.get](../im-chat-get.md) ||
+|| **DIALOG_ID**
 [`string`](../../data-types.md) | Идентификатор чата в формате:
 
 - `chatXXX` — чат
 - `sgXXX` — чат группы или проекта
 - `XXX` — идентификатор пользователя личного чата
 
-Можно передать вместо `CHAT_ID`. 
+Обязателен, если не передан `CHAT_ID`. Передайте либо `CHAT_ID`, либо `DIALOG_ID`.
 
 Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
 || **MUTE**
@@ -231,6 +233,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.mute", b24.Params{
+    	"CHAT_ID": 1489,
+    	"MUTE":    "Y",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.mute: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

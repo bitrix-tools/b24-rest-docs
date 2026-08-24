@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод добавляет локализацию статуса заказа или доставки.
+Метод `sale.statusLang.add` добавляет локализацию статуса заказа или доставки.
 
 ## Параметры метода
 
@@ -70,7 +70,7 @@ fields: {
 - ua — украинский
 - vn — вьетнамский
 
-Список актуальных языков можно получить методом [sale.statuslang.getlistlangs](./sale-status-lang-get-list-langs.md)
+Список актуальных языков можно получить методом [sale.statusLang.getListLangs](./sale-status-lang-get-list-langs.md)
 ||
 || **name***
 [`string`](../../data-types.md) | Название статуса для создаваемой локализации ||
@@ -91,7 +91,7 @@ fields: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"statusId":"RD","lid":"ru","name":"Возвращен покупателем","description":"Покупатель вернул товар по причине наличия дефекта"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statuslang.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.statusLang.add
     ```
 
 - cURL (OAuth)
@@ -101,7 +101,7 @@ fields: {
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"statusId":"RD","lid":"ru","name":"Возвращен покупателем","description":"Покупатель вернул товар по причине наличия дефекта"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.statuslang.add
+    https://**put_your_bitrix24_address**/rest/sale.statusLang.add
     ```
 
 - JS (TS)
@@ -126,7 +126,7 @@ fields: {
 
     try {
       const response = await $b24.actions.v2.call.make<StatusLangAddResult>({
-        method: 'sale.statuslang.add',
+        method: 'sale.statusLang.add',
         params: {
           fields: {
             statusId: 'RD',
@@ -163,7 +163,7 @@ fields: {
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'sale.statuslang.add',
+            method: 'sale.statusLang.add',
             params: {
               fields: {
                 statusId: 'RD',
@@ -232,7 +232,7 @@ fields: {
         $response = $b24Service
             ->core
             ->call(
-                'sale.statuslang.add',
+                'sale.statusLang.add',
                 [
                     'fields' => [
                         'statusId'    => 'RD',
@@ -259,7 +259,7 @@ fields: {
 
     ```js
     BX24.callMethod(
-        'sale.statuslang.add',
+        'sale.statusLang.add',
         {
             fields: {
                 statusId: 'RD',
@@ -284,7 +284,7 @@ fields: {
     require_once('crest.php');
 
     $result = CRest::call(
-        'sale.statuslang.add',
+        'sale.statusLang.add',
         [
             'fields' =>
             [
@@ -299,6 +299,40 @@ fields: {
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.statusLang.add", b24.Params{
+    	"fields": b24.Params{
+    		"statusId":    "RD",
+    		"lid":         "ru",
+    		"name":        "Возвращен покупателем",
+    		"description": "Покупатель вернул товар по причине наличия дефекта",
+    	},
+    })
+    if err != nil {
+        return fmt.Errorf("sale.statusLang.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "statusLang".
+    raw, ok := b24.Unwrap(res.Result, "statusLang")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа statusLang")
+    }
+
+    var item struct {
+    	Description string `json:"description"`
+    	Lid         string `json:"lid"`
+    	Name        string `json:"name"`
+    	StatusID    string `json:"statusId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Description, item.Lid)
     ```
 
 {% endlist %}
@@ -368,7 +402,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-status-lang-get-list-langs.md)

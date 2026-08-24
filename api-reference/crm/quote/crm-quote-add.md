@@ -25,13 +25,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../data-types.md) | Объект с полями коммерческого предложения формата:
+[`object`](../../data-types.md) | Объект с полями коммерческого предложения формата:
 
 ```json
 {
@@ -50,18 +50,18 @@
 Полный список доступных полей и их типов можно получить методом [crm.quote.fields](./crm-quote-fields.md)
 ||
 || **params**
-[`object`](../data-types.md) | Объект дополнительных параметров [(подробное описание)](#parameter-params) ||
+[`object`](../../data-types.md) | Объект дополнительных параметров [(подробное описание)](#parameter-params) ||
 |#
 
 ### Параметр fields {#parameter-fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **TITLE***
-[`string`](../data-types.md) | Тема коммерческого предложения
+[`string`](../../data-types.md) | Тема коммерческого предложения
 
 Ограничение длины — до `255` символов.
 
@@ -75,11 +75,11 @@
 || **CURRENCY_ID**
 [`crm_currency`](../data-types.md) | Валюта суммы предложения ||
 || **OPPORTUNITY**
-[`double`](../data-types.md) | Сумма предложения
+[`double`](../../data-types.md) | Сумма предложения
 
 Передавайте числовое значение в паре с `CURRENCY_ID` ||
 || **ASSIGNED_BY_ID**
-[`user`](../data-types.md) | Идентификатор ответственного ||
+[`user`](../../data-types.md) | Идентификатор ответственного ||
 || **COMPANY_ID**
 [`crm_company`](../data-types.md) | Идентификатор компании-клиента ||
 || **CONTACT_IDS**
@@ -88,25 +88,25 @@
 || **MYCOMPANY_ID**
 [`crm_company`](../data-types.md) | Идентификатор «вашей компании» для реквизитов продавца ||
 || **OPENED**
-[`char`](../data-types.md) | Доступно ли предложение для всех. Возможные значения:
+[`char`](../../data-types.md) | Доступно ли предложение для всех. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **PERSON_TYPE_ID**
-[`integer`](../data-types.md) | Идентификатор типа плательщика ||
+[`integer`](../../data-types.md) | Идентификатор типа плательщика ||
 || **BEGINDATE**
-[`date`](../data-types.md) | Дата выставления ||
+[`date`](../../data-types.md) | Дата выставления ||
 || **CLOSEDATE**
-[`date`](../data-types.md) | Срок действия предложения ||
+[`date`](../../data-types.md) | Срок действия предложения ||
 || **CLIENT_TITLE**
-[`string`](../data-types.md) | Название клиента, до `255` символов ||
+[`string`](../../data-types.md) | Название клиента, до `255` символов ||
 || **CLIENT_ADDR**
-[`string`](../data-types.md) | Адрес клиента, до `255` символов ||
+[`string`](../../data-types.md) | Адрес клиента, до `255` символов ||
 || **CLIENT_EMAIL**
-[`string`](../data-types.md) | Email клиента, до `255` символов ||
+[`string`](../../data-types.md) | Email клиента, до `255` символов ||
 || **CLIENT_PHONE**
-[`string`](../data-types.md) | Телефон клиента, до `255` символов ||
+[`string`](../../data-types.md) | Телефон клиента, до `255` символов ||
 || **COMMENTS**
-[`string`](../data-types.md) | Комментарий ||
+[`string`](../../data-types.md) | Комментарий ||
 |#
 
 {% note info "Особенность метода" %}
@@ -121,7 +121,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **IMPORT**
-[`boolean`](../data-types.md) | Режим импорта. Возможные значения:
+[`boolean`](../../data-types.md) | Режим импорта. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 |#
@@ -134,13 +134,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **DATE_CREATE**
-[`datetime`](../data-types.md) | Дата создания ||
+[`datetime`](../../data-types.md) | Дата создания ||
 || **DATE_MODIFY**
-[`datetime`](../data-types.md) | Дата изменения ||
+[`datetime`](../../data-types.md) | Дата изменения ||
 || **CREATED_BY_ID**
-[`user`](../data-types.md) | Кем создана ||
+[`user`](../../data-types.md) | Кем создана ||
 || **MODIFY_BY_ID**
-[`user`](../data-types.md) | Кем изменена ||
+[`user`](../../data-types.md) | Кем изменена ||
 |#
 
 ## Примеры кода
@@ -376,6 +376,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":          "КП на поставку мебели",
+    		"STATUS_ID":      "DRAFT",
+    		"OPENED":         "Y",
+    		"ASSIGNED_BY_ID": 1,
+    		"CURRENCY_ID":    "RUB",
+    		"OPPORTUNITY":    150000,
+    		"COMPANY_ID":     1,
+    		"MYCOMPANY_ID":   3,
+    		"COMMENTS":       "Подготовлено по запросу клиента",
+    		"BEGINDATE":      "2026-03-13T10:00:00+03:00",
+    		"CLOSEDATE":      "2026-03-20T18:00:00+03:00",
+    	},
+    	"params": b24.Params{
+    		"IMPORT": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.quote.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -404,9 +437,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../data-types.md) | Корневой элемент ответа. Содержит идентификатор созданного коммерческого предложения ||
+[`integer`](../../data-types.md) | Корневой элемент ответа. Содержит идентификатор созданного коммерческого предложения ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -426,9 +459,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Parameter 'fields' must be array.` | В `fields` передан не объект ||
-|| `-` | `Parameter 'params' must be array.` | В `params` передан не объект ||
-|| `-` | `Access denied.` | У пользователя нет прав на добавление коммерческих предложений ||
+|| Пустое значение | `Parameter 'fields' must be array.` | В `fields` передан не объект ||
+|| Пустое значение | `Parameter 'params' must be array.` | В `params` передан не объект ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на добавление коммерческих предложений ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -281,6 +281,43 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.vat.update", b24.Params{
+    	"id": 6,
+    	"fields": b24.Params{
+    		"name":   "Налог 23%",
+    		"rate":   23,
+    		"sort":   20,
+    		"active": "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.vat.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "vat".
+    raw, ok := b24.Unwrap(res.Result, "vat")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа vat")
+    }
+
+    var item struct {
+    	Active     string `json:"active"`
+    	ID         b24.ID `json:"id"`
+    	Name       string `json:"name"`
+    	Rate       int    `json:"rate"`
+    	Sort       int    `json:"sort"`
+    	TimestampX string `json:"timestampX"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

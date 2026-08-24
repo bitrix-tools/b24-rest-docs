@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "crm.product.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить товар crm.product.update",
+  "permissions": "администратор, пользователь с правом «Разрешить изменять настройки» в CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор товара"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Набор полей - массив вида array(\"обновляемое поле\"=>\"значение\"[, ...]), где \"обновляемое поле\" может принимать значения из возвращаемых методом crm.product.fields. Необходимо обязательно указать CURRENCY_ID для установки цены. Чтобы узнать требуемый формат полей, выполните метод crm.product.fields и посмотрите формат пришедших значений этих полей.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/products/crm-product-update.md"
+  },
+  "deprecated": {
+    "successor": "catalog.product.update"
+  },
+  "page": "/api-reference/crm/outdated/products/crm-product-update.html",
+  "executable": false
+}

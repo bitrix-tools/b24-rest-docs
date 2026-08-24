@@ -19,11 +19,15 @@ items:
     href: crm-quote-product-rows-get.md
   - name: Создать/изменить товарные позиции предложения
     href: crm-quote-product-rows-set.md
-  - name: Пользовательские поля 
+  - name: Контакты
+    include:
+      path: contacts/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля
     include:
       path: user-field/b24-toc.yaml
       mode: link
-  - name: События 
+  - name: События
     include:
       path: events/b24-toc.yaml
       mode: link

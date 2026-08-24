@@ -32,11 +32,14 @@
 - `value_N` — значение поля
 
 Перед названием фильтруемого поля можно указать тип фильтрации:
-- `!` — не равно
+- `=` — равно
+- `!` или `!=` — не равно
 - `<` — меньше
 - `<=` — меньше либо равно
 - `>` — больше
-- `>=` — больше либо равно | ||
+- `>=` — больше либо равно
+
+Без префикса фильтр сравнивает значение на равенство. Название поля можно передавать в любом регистре ||
 || **ORDER**
 [`object`](../../data-types.md) | Объект для сортировки списка запущенных бизнес-процессов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где
 - `field_N` — [поле](#fields) шаблона для сортировки
@@ -92,7 +95,7 @@ CRM
 Диск
 - `Bitrix\Disk\BizProcDocument` ||
 || **DOCUMENT_TYPE**
-[`integer`](../../data-types.md) | Тип документа. Возможные значения:
+[`string`](../../data-types.md) | Тип документа. Возможные значения:
 crm:
 - `LEAD` — лиды
 - `CONTACT` — контакты
@@ -422,6 +425,29 @@ crm:
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.workflow.template.list", b24.Params{
+    	"SELECT": []string{"ID", "NAME", "USER_ID", "SYSTEM_CODE"},
+    	"FILTER": b24.Params{
+    		"MODULE_ID":    "lists",
+    		"AUTO_EXECUTE": 0,
+    	},
+    	"ORDER": b24.Params{
+    		"ID": "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("bizproc.workflow.template.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -439,9 +465,10 @@ HTTP-статус: **200**
         },
         {
            "ID": "379",
-           ... 
+           "NAME": "App template",
+           "USER_ID": "503",
+           "SYSTEM_CODE": "rest_app_5"
         }
-        ...
     ],
     "total": 34,
     "time": {
@@ -463,9 +490,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. 
+[`array`](../../data-types.md) | Корневой элемент ответа.
 
-Cодержит массив объектов с информацией о шаблонах бизнес-процессов.
+Содержит массив объектов с информацией о шаблонах бизнес-процессов.
 
 Каждый объект содержит [поля](#fields) шаблона, указанные в параметре `SELECT` ||
 || **total**
@@ -481,7 +508,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied!",
+    "error_description": "Access denied!"
 }
 ```
 

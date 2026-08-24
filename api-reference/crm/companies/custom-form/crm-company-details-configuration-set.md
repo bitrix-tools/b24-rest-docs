@@ -451,6 +451,76 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.company.details.configuration.set", b24.Params{
+    	"userId": 1,
+    	"data": []b24.Params{
+    		{
+    			"name":  "main",
+    			"title": "О компании",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "TITLE",
+    				},
+    				{
+    					"name": "LOGO",
+    				},
+    				{
+    					"name": "COMPANY_TYPE",
+    				},
+    				{
+    					"name": "POST",
+    				},
+    				{
+    					"name": "PHONE",
+    					"options": b24.Params{
+    						"defaultCountry": "RU",
+    					},
+    				},
+    				{
+    					"name": "EMAIL",
+    				},
+    				{
+    					"name": "CONTACT",
+    				},
+    			},
+    		},
+    		{
+    			"name":  "additional",
+    			"title": "Дополнительно",
+    			"type":  "section",
+    			"elements": []b24.Params{
+    				{
+    					"name": "INDUSTRY",
+    				},
+    				{
+    					"name": "OPENED",
+    				},
+    				{
+    					"name": "ASSIGNED_BY_ID",
+    				},
+    				{
+    					"name": "COMMENTS",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.company.details.configuration.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -501,14 +571,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied | У пользователя нет прав изменять настройки CRM ||
-|| `-` | Parameter 'data' must be array | В `data` передан не массив ||
-|| `-` | The data must be indexed array | В `data` передан не индексированный массив ||
-|| `-` | There are no data to write | В `data` передан пустой массив ||
-|| `-` | Section at index `#` have type `data[i].type`. The expected type is 'section' | В `data[i].type` находится значение отличное от `'section'` ||
-|| `-` | Section at index `#` does not have name | В `data[i].name` передано пустое значение ||
-|| `-` | Section at index `#` does not have title | В `data[i].title` передано пустое значение ||
-|| `-` | Element at index `#` in section at index `#` does not have name | В `data[i].elements[j].name` передано пустое значение ||
+|| Пустое значение | Access denied | У пользователя нет прав изменять настройки CRM ||
+|| Пустое значение | Parameter 'data' must be array | В `data` передан не массив ||
+|| Пустое значение | The data must be indexed array | В `data` передан не индексированный массив ||
+|| Пустое значение | There are no data to write | В `data` передан пустой массив ||
+|| Пустое значение | Section at index `#` have type `data[i].type`. The expected type is 'section' | В `data[i].type` находится значение отличное от `'section'` ||
+|| Пустое значение | Section at index `#` does not have name | В `data[i].name` передано пустое значение ||
+|| Пустое значение | Section at index `#` does not have title | В `data[i].title` передано пустое значение ||
+|| Пустое значение | Element at index `#` in section at index `#` does not have name | В `data[i].elements[j].name` передано пустое значение ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

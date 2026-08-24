@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение объектов CRM
 
 Метод возвращает список связей реквизитов по фильтру.
 
@@ -409,6 +409,44 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.link.list", b24.Params{
+    	"order": b24.Params{
+    		"ENTITY_ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"@ENTITY_TYPE_ID": []int{1, 2, 7, 31},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.link.list: %w", err)
+    }
+
+    var items []struct {
+    	EntityTypeID   b24.ID `json:"ENTITY_TYPE_ID"`
+    	EntityID       b24.ID `json:"ENTITY_ID"`
+    	RequisiteID    b24.ID `json:"REQUISITE_ID"`
+    	BankDetailID   b24.ID `json:"BANK_DETAIL_ID"`
+    	McRequisiteID  b24.ID `json:"MC_REQUISITE_ID"`
+    	McBankDetailID b24.ID `json:"MC_BANK_DETAIL_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.EntityTypeID, it.EntityID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

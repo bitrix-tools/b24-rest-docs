@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: участник чата
 
+{% note warning "Устаревший метод" %}
+
+Метод оставлен для поддержки существующих интеграций. Чтобы загрузить файл в чат, папка больше не нужна — используйте [im.v2.File.upload](../../chat-bots/chat-bots-v2/im.v2/files/file-upload.md).
+
+{% endnote %}
+
 Метод `im.disk.folder.get` получает идентификатор папки, в которой хранятся файлы чата.
 
 Идентификатор из ответа можно использовать в методах Диска:
@@ -219,6 +225,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.disk.folder.get", b24.Params{
+    	"DIALOG_ID": "chat1489",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.disk.folder.get: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -287,3 +313,4 @@ HTTP-статус: **400**
 - [{#T}](./im-disk-file-commit.md)
 - [{#T}](./im-disk-file-save.md)
 - [{#T}](./im-disk-file-delete.md)
+- [{#T}](./index.md)

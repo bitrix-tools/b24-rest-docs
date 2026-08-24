@@ -1,4 +1,4 @@
-# Открытые линии Битрикс24: API линий и коннекторов
+# Открытые линии Битрикс24: обзор методов и событий
 
 {% note tip "" %}
 
@@ -9,27 +9,28 @@
 
 {% endnote %}
 
-Раздел описывает два связанных направления API.
-- [Открытые линии](./openlines/index.md) — правила обработки обращений внутри Битрикс24: очереди операторов, сессии, сообщения, чат-боты, события, связь с CRM.
-- [Коннекторы](./imconnector/index.md) — подключение и обслуживание внешних каналов связи, через которые клиенты пишут в открытые линии.
+Открытые линии объединяют обращения клиентов из сайтов, мессенджеров и социальных сетей в единый поток обработки. Для интеграций доступны два связанных направления API:
+
+- [Открытые линии](./openlines/index.md) — настройка линий, очередей операторов, сессий, сообщений, чат-ботов, событий и связи с CRM
+- [Коннекторы](./imconnector/index.md) — подключение и обслуживание внешних каналов связи, через которые клиенты пишут в открытые линии
 
 > Быстрый переход: [все методы и события](#all-methods)
 >
-> Пользовательская документация: [Контакт-центр и открытые линии](https://helpdesk.bitrix24.ru/open/7954623/)
+> Пользовательская документация: [Контакт-центр в Битрикс24](https://helpdesk.bitrix24.ru/open/27978904/)
 
 ## Как выбрать раздел
 
 #|
 || **Сценарий** | **Что использовать** ||
-|| Настроить линию, очереди операторов и правила обработки обращений | Методы раздела [Открытые линии](./openlines/index.md) ||
-|| Подключить собственный внешний канал связи к Битрикс24 | Методы раздела [Коннекторы открытых линий](./imconnector/index.md) ||
-|| Подключить к текущему порталу внешнюю открытую линию с другого Битрикс24 | Метод [imopenlines.network.join](./openlines/imopenlines-network-join.md) ||
+|| Настроить линию, очереди операторов и правила обработки обращений | Группа методов [Открытые линии](./openlines/index.md) ||
+|| Подключить собственный внешний канал связи к Битрикс24 | Группа методов [Коннекторы открытых линий](./imconnector/index.md) ||
+|| Подключить внешнюю открытую линию с другого Битрикс24 | Метод [imopenlines.network.join](./openlines/imopenlines-network-join.md) ||
 || Подписаться на события сообщений, диалогов и статусов | События из разделов [События коннекторов](./imconnector/events/index.md) и [События открытых линий](./openlines/events/index.md) ||
 |#
 
 ## Как связаны открытые линии и коннекторы
 
-Для собственного внешнего канала используются оба набора методов: `imconnector.*` для регистрации и обслуживания коннектора и `imopenlines.*` для настройки линии и обработки диалогов. Если нужно подключить к порталу внешнюю открытую линию другого Битрикс24 без регистрации своего коннектора, используйте метод [imopenlines.network.join](./openlines/imopenlines-network-join.md).
+Для собственного внешнего канала используются оба набора методов: `imconnector.*` для регистрации и обслуживания коннектора и `imopenlines.*` для настройки линии и обработки диалогов. Если нужно подключить внешнюю открытую линию другого Битрикс24 без регистрации своего коннектора, используйте метод [imopenlines.network.join](./openlines/imopenlines-network-join.md).
 
 ## Связи открытых линий и коннекторов с другими объектами
 
@@ -41,7 +42,7 @@
 
 **Внешний пользователь.** Клиент внешнего канала связан с диалогом через `USER_CODE`. По этому идентификатору система определяет, к какому чату и сессии относится обращение.
 
-**Сообщение.** Переписка клиента и оператора связана с чатом и сессией. Для отправки сообщений и сохранения быстрых ответов используйте методы раздела [Сообщения](./openlines/messages/index.md), для реакции на изменения сообщений — раздел [События](./openlines/events/index.md).
+**Сообщение.** Переписка клиента и оператора связана с чатом и сессией. Отправить сообщение можно методом [imopenlines.crm.message.add](./openlines/messages/imopenlines-crm-message-add.md), сохранить быстрый ответ — методом [imopenlines.message.quick.save](./openlines/messages/imopenlines-message-quick-save.md). Для реакции на изменения сообщений используйте [события открытых линий](./openlines/events/index.md).
 
 **Чат-бот.** Бот может отправлять сообщения, переключать диалог на оператора и завершать сессию с помощью методов группы [imopenlines.bot.*](./openlines/chat-bots/index.md).
 
@@ -78,45 +79,27 @@
 
 ## Обзор методов и событий {#all-methods}
 
-> Scope: [`imopenlines`](../scopes/permissions.md)
+> Scope: [`imopenlines`](../scopes/permissions.md), [`imconnector`](../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода и прав доступа к открытым линиям
+> Кто может выполнять методы и события: в зависимости от метода, события и прав доступа к открытым линиям
 
 ### Открытые линии
 
 #|
-|| **Раздел** | **Когда использовать** | **Ключевые методы** ||
-|| Настройки линии | Создать линию, обновить настройки и получить параметры | [imopenlines.config.add](./openlines/imopenlines-config-add.md), [imopenlines.config.update](./openlines/imopenlines-config-update.md), [imopenlines.config.get](./openlines/imopenlines-config-get.md)
-
- [Все методы раздела](./openlines/index.md) ||
-|| Диалоги и сессии | Найти чат, запустить сессию, прочитать историю и управлять режимами | [imopenlines.session.open](./openlines/sessions/imopenlines-session-open.md), [imopenlines.session.start](./openlines/sessions/imopenlines-session-start.md), [imopenlines.session.history.get](./openlines/sessions/imopenlines-session-history-get.md)
-
-[Все методы раздела](./openlines/sessions/index.md) ||
-|| Операторы | Передать и завершить диалог, распределить обращения между операторами | [imopenlines.operator.answer](./openlines/operators/imopenlines-operator-answer.md), [imopenlines.operator.transfer](./openlines/operators/imopenlines-operator-transfer.md), [imopenlines.operator.finish](./openlines/operators/imopenlines-operator-finish.md)
-
-[Все методы раздела](./openlines/operators/index.md) ||
-|| Сообщения | Отправить сообщение и сохранить быстрый ответ | [imopenlines.crm.message.add](./openlines/messages/imopenlines-crm-message-add.md), [imopenlines.message.quick.save](./openlines/messages/imopenlines-message-quick-save.md)
-
-[Все методы раздела](./openlines/messages/index.md) ||
-|| Чаты CRM | Найти CRM-чат и добавить участников | [imopenlines.crm.chat.get](./openlines/chats/imopenlines-crm-chat-get.md), [imopenlines.crm.chat.user.add](./openlines/chats/imopenlines-crm-chat-user-add.md)
-
-[Все методы раздела](./openlines/chats/index.md) ||
-|| Чат-боты | Автоматизировать диалог с помощью чат-бота | [imopenlines.bot.session.message.send](./openlines/chat-bots/imopenlines-bot-session-message-send.md), [imopenlines.bot.session.transfer](./openlines/chat-bots/imopenlines-bot-session-transfer.md)
-
-[Все методы раздела](./openlines/chat-bots/index.md) ||
+|| **Раздел** | **Описание** ||
+|| [Открытые линии](./openlines/index.md) | Методы настройки линий, очередей, диалогов, сообщений и связи с CRM ||
+|| [Диалоги открытых линий](./openlines/sessions/index.md) | Методы работы с чатами, сессиями, историей и режимами диалога ||
+|| [Операторы открытых линий](./openlines/operators/index.md) | Методы передачи, завершения и распределения диалогов между операторами ||
+|| [Сообщения открытых линий](./openlines/messages/index.md) | Методы отправки сообщений и сохранения быстрых ответов ||
+|| [Чаты CRM](./openlines/chats/index.md) | Методы поиска CRM-чатов и управления участниками ||
+|| [Чат-боты в открытых линиях](./openlines/chat-bots/index.md) | Методы автоматизации диалогов с помощью чат-ботов ||
+|| [События открытых линий](./openlines/events/index.md) | События сообщений и сессий открытых линий ||
 |#
-
-События: [События открытых линий](./openlines/events/index.md)
 
 ### Коннекторы открытых линий
 
 #|
-|| **Раздел** | **Когда использовать** | **Ключевые методы** ||
-|| Регистрация и подключение | Зарегистрировать канал и активировать его в портале | [imconnector.register](./imconnector/imconnector-register.md), [imconnector.activate](./imconnector/imconnector-activate.md), [imconnector.connector.data.set](./imconnector/imconnector-connector-data-set.md) ||
-|| Обмен сообщениями | Передать, изменить и удалить сообщения внешнего канала | [imconnector.send.messages](./imconnector/imconnector-send-messages.md), [imconnector.update.messages](./imconnector/imconnector-update-messages.md), [imconnector.delete.messages](./imconnector/imconnector-delete-messages.md) ||
-|| Служебные операции | Проверить статус коннектора, получить список и отключить каналы | [imconnector.status](./imconnector/imconnector-status.md), [imconnector.list](./imconnector/imconnector-list.md), [imconnector.unregister](./imconnector/imconnector-unregister.md) ||
+|| **Раздел** | **Описание** ||
+|| [Коннекторы открытых линий](./imconnector/index.md) | Методы регистрации коннекторов, подключения каналов и обмена сообщениями ||
+|| [События коннекторов](./imconnector/events/index.md) | События сообщений, диалогов, линий и статусов коннекторов ||
 |#
-
-Все методы коннекторов: [Коннекторы открытых линий](./imconnector/index.md)
-
-События: [События коннекторов](./imconnector/events/index.md)

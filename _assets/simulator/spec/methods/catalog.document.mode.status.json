@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "catalog.document.mode.status",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Проверить состояние складского учета catalog.document.mode.status",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Активность складского учета. Возможные значения: - 'Y' — включен, - 'N' — отключен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-mode-status.md"
+  },
+  "resultExample": {
+    "result": "Y",
+    "time": {
+      "start": 1759484053.115812,
+      "finish": 1759484053.162347,
+      "duration": 0.04653501510620117,
+      "processing": 0.006915092468261719,
+      "date_start": "2025-11-02T12:54:13+03:00",
+      "date_finish": "2025-11-02T12:54:13+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Активность складского учета. Возможные значения: - 'Y' — включен, - 'N' — отключен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-mode-status.html",
+  "executable": false
+}

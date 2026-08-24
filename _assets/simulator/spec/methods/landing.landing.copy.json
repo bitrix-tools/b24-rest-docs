@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "landing.landing.copy",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Копировать страницу landing.landing.copy",
+  "permissions": "пользователь с правом «редактирование» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор исходной страницы. Идентификатор страницы можно получить методом landing.landing.getList"
+    },
+    {
+      "name": "toSiteId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор целевого сайта. Если параметр не передавать или передать 0, копия будет создана в том же сайте, где находится исходная страница Идентификатор сайта можно получить методом landing.site.getList"
+    },
+    {
+      "name": "toFolderId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор целевой папки. Если параметр передан, копия создается в указанной папке. Папка должна относиться к целевому сайту toSiteId. Если параметр не передавать или передать 0, копия создается в корне целевого сайта. Если папка не найдена или относится к другому сайту, метод не возвращает ошибку и создает копию в корне целевого сайта.…"
+    },
+    {
+      "name": "skipSystem",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Флаг копирования системного признака страницы. По умолчанию false. Если передать true, новая страница создается как не системная (SYS = N)"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-copy.md"
+  },
+  "resultExample": {
+    "result": 2237,
+    "time": {
+      "start": 1773706491,
+      "finish": 1773706492.91233,
+      "duration": 1.912329912185669,
+      "processing": 1,
+      "date_start": "2026-03-17T03:14:51+03:00",
+      "date_finish": "2026-03-17T03:14:52+03:00",
+      "operating_reset_at": 1773707091,
+      "operating": 0.9924919605255127
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной копии страницы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-copy.html",
+  "executable": false
+}

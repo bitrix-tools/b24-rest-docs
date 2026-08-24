@@ -1,0 +1,136 @@
+{
+  "$v": 1,
+  "method": "log.blogpost.update",
+  "scope": "log",
+  "kind": "write",
+  "title": "Изменить сообщение Ленты новостей log.blogpost.update",
+  "permissions": "администратор или автор сообщения",
+  "params": [
+    {
+      "name": "POST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения. Получить идентификатор можно с помощью метода log.blogpost.get"
+    },
+    {
+      "name": "POST_MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый текст сообщения"
+    },
+    {
+      "name": "POST_TITLE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый заголовок сообщения Если не передать ни POST_TITLE, ни POST_MESSAGE, метод завершится ошибкой EMPTY_TITLE. Если передать только POST_MESSAGE, заголовок из оригинального сообщения не сохранится"
+    },
+    {
+      "name": "DEST",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Новый список адресатов, которые получат право на просмотр сообщения. Возможные значения: {% include notitle адресаты сообщения %}",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "SPERM",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Устаревший аналог DEST",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "FILES",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив файлов в формате, описанном в работе с файлами. Чтобы удалить файл, используйте формат { ID: 'del' }, где ID — идентификатор привязки файла в сообщении. Получить идентификатор можно с помощью метода log.blogpost.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "IMPORTANT",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Признак важного сообщения. Возможные значения: - Y — сообщение важно - N — сообщение не важное"
+    },
+    {
+      "name": "IMPORTANT_DATE_END",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время в формате ISO 8601, до которого сообщение будет считаться важным"
+    },
+    {
+      "name": "SITE_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор сайта"
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, от имени которого редактируется сообщение. Доступно только администраторам. Идентификатор можно получить с помощью метода user.get По умолчанию — текущий пользователь, инициировавший вызов метода"
+    },
+    {
+      "name": "UF_\\",
+      "type": "mixed",
+      "base": "any",
+      "required": true,
+      "description": "Пользовательские поля. Поддерживается определенный набор полей, который зависит от настроек портала"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/log-blogpost-update.md"
+  },
+  "resultExample": {
+    "result": 217,
+    "time": {
+      "start": 1773817731,
+      "finish": 1773817731.902982,
+      "duration": 0.9029819965362549,
+      "processing": 0,
+      "date_start": "2026-03-18T10:08:51+03:00",
+      "date_finish": "2026-03-18T10:08:51+03:00",
+      "operating_reset_at": 1773818331,
+      "operating": 0.704833984375
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор измененного сообщения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/log-blogpost-update.html",
+  "executable": false
+}

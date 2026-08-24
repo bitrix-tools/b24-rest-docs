@@ -206,6 +206,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "humanresources.employee.count", nil)
+    if err != nil {
+    	return fmt.Errorf("humanresources.employee.count: %w", err)
+    }
+
+    var item struct {
+    	Total int `json:"total"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Total)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

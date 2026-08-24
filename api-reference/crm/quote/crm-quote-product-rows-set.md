@@ -25,13 +25,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../data-types.md) | Идентификатор коммерческого предложения.
+[`integer`](../../data-types.md) | Идентификатор коммерческого предложения.
 
 Идентификатор можно получить с помощью методов [crm.quote.list](./crm-quote-list.md) или [crm.quote.add](./crm-quote-add.md) ||
 || **rows**
@@ -59,39 +59,39 @@
 || **Название**
 `тип` | **Описание** ||
 || **PRODUCT_ID**
-[`integer`](../data-types.md) | Идентификатор товара в каталоге.
+[`integer`](../../data-types.md) | Идентификатор товара в каталоге.
 
 Список товаров можно получить методом [catalog.product.list](../../catalog/product/catalog-product-list.md).
 
 Если `PRODUCT_ID = 0`, позиция создается как «произвольная» ||
 || **PRODUCT_NAME**
-[`string`](../data-types.md) | Наименование товарной позиции ||
+[`string`](../../data-types.md) | Наименование товарной позиции ||
 || **PRODUCT_DESCRIPTION**
-[`string`](../data-types.md) | Описание товарной позиции ||
+[`string`](../../data-types.md) | Описание товарной позиции ||
 || **PRICE**
-[`double`](../data-types.md) | Итоговая стоимость товара за единицу ||
+[`double`](../../data-types.md) | Итоговая стоимость товара за единицу ||
 || **QUANTITY**
-[`double`](../data-types.md) | Количество единиц товара ||
+[`double`](../../data-types.md) | Количество единиц товара ||
 || **DISCOUNT_TYPE_ID**
-[`integer`](../data-types.md) | Тип скидки:
+[`integer`](../../data-types.md) | Тип скидки:
 - `1` — абсолютная
 - `2` — процентная ||
 || **DISCOUNT_RATE**
-[`double`](../data-types.md) | Значение скидки в процентах ||
+[`double`](../../data-types.md) | Значение скидки в процентах ||
 || **DISCOUNT_SUM**
-[`double`](../data-types.md) | Абсолютное значение скидки ||
+[`double`](../../data-types.md) | Абсолютное значение скидки ||
 || **TAX_RATE**
-[`double`](../data-types.md) | Ставка налога в процентах ||
+[`double`](../../data-types.md) | Ставка налога в процентах ||
 || **TAX_INCLUDED**
-[`char`](../data-types.md) | Включен ли налог в стоимость:
+[`char`](../../data-types.md) | Включен ли налог в стоимость:
 - `Y` — да
 - `N` — нет ||
 || **MEASURE_CODE**
 [`catalog_measure.code`](../../catalog/data-types.md#catalog_measure) | Код единицы измерения ||
 || **MEASURE_NAME**
-[`string`](../data-types.md) | Текстовое представление единицы измерения ||
+[`string`](../../data-types.md) | Текстовое представление единицы измерения ||
 || **SORT**
-[`integer`](../data-types.md) | Сортировка ||
+[`integer`](../../data-types.md) | Сортировка ||
 |#
 
 Полный список полей товарной позиции и типов можно получить методом [crm.productrow.fields](../outdated/productrow-old/crm-productrow-fields.md).
@@ -381,6 +381,50 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.productrows.set", b24.Params{
+    	"id": 1,
+    	"rows": []b24.Params{
+    		{
+    			"PRODUCT_ID":       459,
+    			"PRICE":            3000,
+    			"QUANTITY":         1,
+    			"DISCOUNT_TYPE_ID": 2,
+    			"DISCOUNT_RATE":    0,
+    			"TAX_RATE":         0,
+    			"TAX_INCLUDED":     "Y",
+    			"MEASURE_CODE":     796,
+    			"MEASURE_NAME":     "шт",
+    			"SORT":             10,
+    		},
+    		{
+    			"PRODUCT_NAME":     "Услуга сопровождения",
+    			"PRICE":            1500,
+    			"QUANTITY":         2,
+    			"DISCOUNT_TYPE_ID": 2,
+    			"DISCOUNT_RATE":    0,
+    			"TAX_RATE":         0,
+    			"TAX_INCLUDED":     "Y",
+    			"MEASURE_CODE":     796,
+    			"MEASURE_NAME":     "шт",
+    			"SORT":             20,
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.quote.productrows.set: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -409,11 +453,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Корневой элемент ответа. Содержит:
+[`boolean`](../../data-types.md) | Корневой элемент ответа. Содержит:
 - `true` — товарные позиции успешно сохранены
 - `false` — товарные позиции не сохранены ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -433,11 +477,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `The parameter id is invalid or not defined.` | В параметр `id` не передано значение или передано невалидное значение ||
-|| `-` | `The parameter rows must be array.` | В параметр `rows` передан не массив ||
-|| `-` | `Access denied.` | У пользователя нет прав на изменение коммерческого предложения ||
-|| `-` | `Not found.` | Коммерческое предложение с переданным `id` не найдено ||
-|| `-` | Текст ошибки проверки прав каталога | Ошибка проверки прав на товары каталога и/или ограничения каталога для переданных позиций ||
+|| Пустое значение | `The parameter id is invalid or not defined.` | В параметр `id` не передано значение или передано невалидное значение ||
+|| Пустое значение | `The parameter rows must be array.` | В параметр `rows` передан не массив ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на изменение коммерческого предложения ||
+|| Пустое значение | `Not found.` | Коммерческое предложение с переданным `id` не найдено ||
+|| Пустое значение | Текст ошибки проверки прав каталога | Ошибка проверки прав на товары каталога и/или ограничения каталога для переданных позиций ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

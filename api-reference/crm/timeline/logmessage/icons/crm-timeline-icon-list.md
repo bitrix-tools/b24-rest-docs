@@ -261,6 +261,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.icon.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.icon.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "icons".
+    raw, ok := b24.Unwrap(res.Result, "icons")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа icons")
+    }
+
+    var items []struct {
+    	Code     string `json:"code"`
+    	IsSystem bool   `json:"isSystem"`
+    	FileUri  string `json:"fileUri"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Code)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

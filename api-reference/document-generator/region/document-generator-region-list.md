@@ -187,6 +187,24 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.region.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.region.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "regions".
+    raw, ok := b24.Unwrap(res.Result, "regions")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа regions")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

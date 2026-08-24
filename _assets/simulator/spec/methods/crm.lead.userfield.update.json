@@ -1,0 +1,170 @@
+{
+  "$v": 1,
+  "method": "crm.lead.userfield.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить существующее пользовательское поле лидов crm.lead.userfield.update",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пользовательского поля. Идентификатор можно получить с помощью методов crm.lead.userfield.add и crm.lead.userfield.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект формата: - field_n — название поля - value_n — новое значение поля Список доступных полей описан ниже. Некорректное поле в fields будет проигнорировано. В fields нужно передавать только те поля, которые требуется изменить",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "MANDATORY",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли поле обязательным. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "SHOW_FILTER",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли поле в фильтре. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные параметры поля. Для каждого типа поля USER_TYPE_ID существует свой пул доступных настроек, они описаны ниже. Поле перезаписывает лишь переданные значения"
+        },
+        {
+          "name": "LIST",
+          "type": "uf_enum_element[]",
+          "base": "array",
+          "required": false,
+          "description": "Список возможных значений для пользовательского поля типа enumeration, описание ниже"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки. Обязательно больше нуля"
+        },
+        {
+          "name": "SHOW_IN_LIST",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли пользовательское поле в списке. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "EDIT_IN_LIST",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Разрешать ли редактирование пользователем. Возможные значения: - Y — да - N — нет Значение N поддерживают не все типы полей в рамках crm"
+        },
+        {
+          "name": "IS_SEARCHABLE",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Участвуют ли значения поля в поиске. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "LIST_FILTER_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подпись фильтра в списке. При передаче строки она устанавливается для каждого языка. Для языков, у которых явно не указано значение, будет записано ''. Поле полностью перезаписывает предыдущее значение"
+        },
+        {
+          "name": "LIST_COLUMN_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Заголовок в списке. При передаче строки она устанавливается для каждого языка. Для языков, у которых явно не указано значение, будет записано ''. Поле полностью перезаписывает предыдущее значение"
+        },
+        {
+          "name": "EDIT_FORM_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подпись в форме редактирования. При передаче строки она устанавливается для каждого языка. Для языков, у которых явно не указано значение, будет записано ''. Поле полностью перезаписывает предыдущее значение"
+        },
+        {
+          "name": "ERROR_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Сообщение об ошибке"
+        },
+        {
+          "name": "HELP_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Помощь"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/userfield/crm-lead-userfield-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1753790234.592207,
+      "finish": 1753790234.762644,
+      "duration": 0.17043709754943848,
+      "processing": 0.11566615104675293,
+      "date_start": "2025-07-29T14:57:14+03:00",
+      "date_finish": "2025-07-29T14:57:14+03:00",
+      "operating_reset_at": 1753790834,
+      "operating": 0.11564803123474121
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/userfield/crm-lead-userfield-update.html",
+  "executable": false
+}

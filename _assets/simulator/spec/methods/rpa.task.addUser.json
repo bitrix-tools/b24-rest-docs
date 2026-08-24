@@ -1,0 +1,49 @@
+{
+  "$v": 1,
+  "method": "rpa.task.addUser",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Добавить пользователя к существующему заданию rpa.task.addUser",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "stageId",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор стадии"
+    },
+    {
+      "name": "robotName",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Имя робота"
+    },
+    {
+      "name": "userValue",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Строка с пользователем формата Имя Фамилия [ид пользователя]"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/task/rpa-task-add-user.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/task/rpa-task-add-user.html",
+  "executable": false
+}

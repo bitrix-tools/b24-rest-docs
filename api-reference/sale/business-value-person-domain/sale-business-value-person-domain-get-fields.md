@@ -15,6 +15,8 @@
 
 Метод `sale.businessValuePersonDomain.getFields` возвращает поля соответствия физическому или юридическому лицу.
 
+## Параметры метода
+
 Без параметров.
 
 ## Примеры кода
@@ -198,6 +200,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.businessValuePersonDomain.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.businessValuePersonDomain.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "businessValuePersonDomain".
+    raw, ok := b24.Unwrap(res.Result, "businessValuePersonDomain")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа businessValuePersonDomain")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}

@@ -350,6 +350,45 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.element.list", b24.Params{
+    	"select": []string{"id", "docId", "elementId", "amount", "storeFrom", "storeTo"},
+    	"filter": b24.Params{
+    		"docId": 64,
+    	},
+    	"order": b24.Params{
+    		"id": "ASC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.document.element.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentElements".
+    raw, ok := b24.Unwrap(res.Result, "documentElements")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentElements")
+    }
+
+    var items []struct {
+    	Amount          int    `json:"amount"`
+    	DocID           b24.ID `json:"docId"`
+    	ElementID       b24.ID `json:"elementId"`
+    	ID              b24.ID `json:"id"`
+    	PurchasingPrice int    `json:"purchasingPrice"`
+    	StoreTo         int    `json:"storeTo"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Amount)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -400,8 +439,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **documentElement**
-[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Объект с информацией о товарах документа, структура ответа зависит от параметра `select` ||
+|| **documentElements**
+[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Массив объектов с информацией о товарах документа, структура ответа зависит от параметра `select` ||
+|| **next**
+[`integer`](../../../data-types.md) | Значение для получения следующей страницы ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество записей ||
 || **time**

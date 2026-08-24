@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "disk.file.getExternalLink",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Получить публичную ссылку на файл disk.file.getExternalLink",
+  "permissions": "пользователь с правом «Чтение» для нужного файла",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор файла. Идентификатор можно получить с помощью метода disk.storage.getChildren, если файл находится в корне хранилища, и с помощью метода disk.folder.getChildren, если файл находится в папке"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/file/disk-file-get-external-link.md"
+  },
+  "resultExample": {
+    "result": "https://test.bitrix24.ru/~4Pie9",
+    "time": {
+      "start": 1770651076,
+      "finish": 1770651076.172321,
+      "duration": 0.17232108116149902,
+      "processing": 0,
+      "date_start": "2026-02-09T15:31:16+03:00",
+      "date_finish": "2026-02-09T15:31:16+03:00",
+      "operating_reset_at": 1770651676,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Публичная ссылка на файл"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/file/disk-file-get-external-link.html",
+  "executable": false
+}

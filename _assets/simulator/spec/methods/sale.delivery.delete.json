@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.delivery.delete",
+  "scope": "delivery",
+  "kind": "write",
+  "title": "Удалить службу доставки sale.delivery.delete",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "ID",
+      "type": "sale_delivery_service.ID",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор службы доставки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/delivery/delivery/sale-delivery-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1714133231.200359,
+      "finish": 1714133231.954504,
+      "duration": 0.7541449069976807,
+      "processing": 0.4400501251220703,
+      "date_start": "2024-04-26T15:07:11+03:00",
+      "date_finish": "2024-04-26T15:07:11+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления службы доставки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/delivery/delivery/sale-delivery-delete.html",
+  "executable": false
+}

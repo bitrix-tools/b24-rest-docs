@@ -1,0 +1,105 @@
+{
+  "$v": 1,
+  "method": "crm.activity.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список дел crm.activity.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив полей дела crm.activity.fields, которые необходимо выбрать. Чтобы получить поля COMMUNICATIONS и FILES укажите их в select.",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбираемых элементов в формате ключ-значение. Возможные значения для field соответствуют полям дела crm.activity.fields. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Набор пар ключ-значение для сортировки результатов вывода. В качестве ключей можно использовать смотрите поля дела crm.activity.fields. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания По-умолчанию сортируется по увеличению поля Дата начала (START_TIME)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов, необходимо передавать значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/activities/activity-base/crm-activity-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив дел. Для получения информации о структуре дела смотрите метод crm.activity.fields"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-list.html",
+  "executable": false,
+  "entityFields": [
+    "ASSOCIATED_ENTITY_ID",
+    "COMMUNICATIONS",
+    "DEADLINE",
+    "DESCRIPTION",
+    "DESCRIPTION_TYPE",
+    "DIRECTION",
+    "END_TIME",
+    "FILES",
+    "IS_INCOMING_CHANNEL",
+    "LOCATION",
+    "NOTIFY_TYPE",
+    "ORIGINATOR_ID",
+    "ORIGIN_ID",
+    "ORIGIN_VERSION",
+    "OWNER_ID",
+    "OWNER_TYPE_ID",
+    "PRIORITY",
+    "PROVIDER_DATA",
+    "PROVIDER_GROUP_ID",
+    "PROVIDER_ID",
+    "PROVIDER_PARAMS",
+    "PROVIDER_TYPE_ID",
+    "RESPONSIBLE_ID",
+    "SETTINGS",
+    "START_TIME",
+    "STATUS",
+    "SUBJECT",
+    "TYPE_ID",
+    "WEBDAV_ELEMENTS"
+  ]
+}

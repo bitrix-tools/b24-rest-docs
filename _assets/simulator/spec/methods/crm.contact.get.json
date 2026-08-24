@@ -1,0 +1,160 @@
+{
+  "$v": 1,
+  "method": "crm.contact.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить контакт по Id crm.contact.get",
+  "permissions": "любой пользователь с правом «чтения» контактов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор контакта. Можно получить при помощи методов crm.contact.list или crm.contact.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/contacts/crm-contact-get.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.get"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "43",
+      "POST": "Администратор",
+      "COMMENTS": "\nПример комментария внутри контакта\n\n[B]Жирный текст[/B]\n[I]Курсив[/I]\n[U]Подчеркнутый[/U]\n[S]Зачеркнутый[/S]\n[B][I][U][S]Микс[/S][/U][/I][/B]\n\n[LIST]\n[*]Элемент списка #1\n[*]Элемент списка #2\n[*]Элемент списка #3\n[/LIST]\n\n[LIST=1]\n[*]Нумерованный элемент списка #1\n[*]Нумерованный элемент списка #2\n[*]Нумерованный элемент списка #3\n[/LIST]\n",
+      "HONORIFIC": "HNR_RU_1",
+      "NAME": "Иван",
+      "SECOND_NAME": "Иванович",
+      "LAST_NAME": "Иванов",
+      "PHOTO": null,
+      "LEAD_ID": null,
+      "TYPE_ID": "PARTNER",
+      "SOURCE_ID": "WEB",
+      "SOURCE_DESCRIPTION": "*Дополнительно об источнике*",
+      "COMPANY_ID": "12",
+      "BIRTHDATE": "2001-11-11T02:00:00+02:00",
+      "EXPORT": "N",
+      "HAS_PHONE": "Y",
+      "HAS_EMAIL": "Y",
+      "HAS_IMOL": "N",
+      "DATE_CREATE": "2024-08-15T10:38:21+02:00",
+      "DATE_MODIFY": "2024-08-15T10:38:21+02:00",
+      "ASSIGNED_BY_ID": "6",
+      "CREATED_BY_ID": "1",
+      "MODIFY_BY_ID": "1",
+      "OPENED": "Y",
+      "ORIGINATOR_ID": null,
+      "ORIGIN_ID": null,
+      "ORIGIN_VERSION": null,
+      "FACE_ID": null,
+      "LAST_ACTIVITY_TIME": "2024-08-15T10:38:21+02:00",
+      "ADDRESS": null,
+      "ADDRESS_2": null,
+      "ADDRESS_CITY": null,
+      "ADDRESS_POSTAL_CODE": null,
+      "ADDRESS_REGION": null,
+      "ADDRESS_PROVINCE": null,
+      "ADDRESS_COUNTRY": null,
+      "ADDRESS_LOC_ADDR_ID": null,
+      "UTM_SOURCE": "yandex",
+      "UTM_MEDIUM": "CPC",
+      "UTM_CAMPAIGN": "summer_sale",
+      "UTM_CONTENT": "header_banner",
+      "UTM_TERM": "discount",
+      "PARENT_ID_1224": "12",
+      "LAST_ACTIVITY_BY": "1",
+      "UF_CRM_1720697698689": "Пример значения пользовательского поля с типом \"Строка\"",
+      "PHONE": [
+        {
+          "ID": "156",
+          "VALUE_TYPE": "WORK",
+          "VALUE": "+7333333555",
+          "TYPE_ID": "PHONE"
+        },
+        {
+          "ID": "157",
+          "VALUE_TYPE": "HOME",
+          "VALUE": "+35599888666",
+          "TYPE_ID": "PHONE"
+        }
+      ],
+      "EMAIL": [
+        {
+          "ID": "158",
+          "VALUE_TYPE": "MAILING",
+          "VALUE": "ivanov@example.mailing",
+          "TYPE_ID": "EMAIL"
+        },
+        {
+          "ID": "159",
+          "VALUE_TYPE": "WORK",
+          "VALUE": "ivanov@example.work",
+          "TYPE_ID": "EMAIL"
+        }
+      ]
+    },
+    "time": {
+      "start": 1723736139.883652,
+      "finish": 1723736140.299369,
+      "duration": 0.41571712493896484,
+      "processing": 0.14158892631530762,
+      "date_start": "2024-08-15T17:35:39+02:00",
+      "date_finish": "2024-08-15T17:35:40+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "contact",
+      "base": "any",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях контакта. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий в себе информацию о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/contacts/crm-contact-get.html",
+  "executable": true,
+  "entityFields": [
+    "ASSIGNED_BY_ID",
+    "BIRTHDATE",
+    "COMMENTS",
+    "COMPANY_ID",
+    "COMPANY_IDS",
+    "EMAIL",
+    "EXPORT",
+    "HONORIFIC",
+    "IM",
+    "LAST_NAME",
+    "LINK",
+    "NAME",
+    "OPENED",
+    "PARENT_ID_...",
+    "PHONE",
+    "PHOTO",
+    "POST",
+    "SECOND_NAME",
+    "SOURCE_DESCRIPTION",
+    "SOURCE_ID",
+    "TRACE",
+    "TYPE_ID",
+    "UF_...",
+    "UTM_CAMPAIGN",
+    "UTM_CONTENT",
+    "UTM_MEDIUM",
+    "UTM_SOURCE",
+    "UTM_TERM",
+    "WEB"
+  ]
+}

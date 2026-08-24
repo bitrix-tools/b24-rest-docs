@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`documentgenerator, crm`](../../../../scopes/permissions.md)
+> Scope: [`crm`](../../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONCRMDOCUMENTGENERATORDOCUMENTADD` сработает при создании нового документа.
+Событие `ONCRMDOCUMENTGENERATORDOCUMENTADD` сработает при создании нового документа: по шаблону методом [crm.documentgenerator.document.add](../crm-document-generator-document-add.md) и при загрузке готового файла методом [crm.documentgenerator.document.upload](../crm-document-generator-document-upload.md).
 
 {% note info "" %}
 

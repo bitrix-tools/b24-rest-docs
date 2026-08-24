@@ -22,6 +22,17 @@
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **scope**
+[`string`](../../../data-types.md) | Раздел, к которому относится роль. Параметр не связан с REST-скоупом `landing` в названии метода.
+
+Значения `GROUP`, `KNOWLEDGE` и `MAINPAGE` соответствуют типам сайтов из статьи [Работа с типами сайтов и скоупами](../../types.md).
+
+Возможные значения:
+`GROUP` — роли для сайтов групп
+`KNOWLEDGE` — роли для баз знаний
+`MAINPAGE` — роли для главной страницы или вайба
+
+Если параметр не передать, метод работает с ролями для сайтов и интернет-магазинов. Для роли другого раздела метод вернет ошибку `ROLE_SCOPE_MISMATCH` ||
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор роли. Получить идентификатор можно с помощью метода [landing.role.getList](./landing-role-get-list.md) ||
 || **codes**
@@ -279,6 +290,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.role.setAccessCodes", b24.Params{
+    	"id":    11,
+    	"codes": []string{"U45", "DR7", "SG3_A"},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.role.setAccessCodes: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -340,6 +370,7 @@ HTTP-статус: **400**
 || `FEATURE_NOT_AVAIL` | Управление правами в разделе «Сайты и магазины» недоступно на текущем тарифе ||
 || `MISSING_PARAMS` | Не передан обязательный параметр `id` ||
 || `ERROR_ARGUMENT` | Параметр `codes` передан не в формате массива ||
+|| `ROLE_SCOPE_MISMATCH` | Роль не относится к разделу из параметра `scope`. Метод возвращает эту ошибку и для роли другого раздела, и для несуществующей роли ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

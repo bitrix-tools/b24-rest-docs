@@ -1,4 +1,4 @@
-# Получить список доступных хранилищ disk.storage.getlist
+# Получить список доступных хранилищ disk.storage.getList
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `disk.storage.getlist` возвращает список доступных хранилищ.
+Метод `disk.storage.getList` возвращает список доступных хранилищ.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -56,7 +56,7 @@
 - `!=` — не равно
 - `!` — не равно
 
-Список доступных для фильтрации полей можно узнать с помощью метода [disk.storage.getfields](./disk-storage-get-fields.md) ||
+Список доступных для фильтрации полей можно узнать с помощью метода [disk.storage.getFields](./disk-storage-get-fields.md) ||
 || **order**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -75,7 +75,7 @@
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
 
-Список доступных для сортировки полей можно узнать с помощью метода [disk.storage.getfields](./disk-storage-get-fields.md) ||
+Список доступных для сортировки полей можно узнать с помощью метода [disk.storage.getFields](./disk-storage-get-fields.md) ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -101,7 +101,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"filter":{"NAME":"%Битрикс24%"},"order":{"NAME":"DESC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.getlist
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.storage.getList
     ```
 
 - cURL (OAuth)
@@ -111,7 +111,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"filter":{"NAME":"%Битрикс24%"},"order":{"NAME":"DESC"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.storage.getlist
+    https://**put_your_bitrix24_address**/rest/disk.storage.getList
     ```
 
 - JS (TS)
@@ -136,13 +136,13 @@
     }
 
     try {
-      // disk.storage.getlist returns a single page (max 50 records). For the whole result set
+      // disk.storage.getList returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
       // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<StorageItem[]>({
-        method: 'disk.storage.getlist',
+        method: 'disk.storage.getList',
         params: {
           filter: {
             NAME: '%Bitrix24%',
@@ -179,13 +179,13 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // disk.storage.getlist returns a single page (max 50 records). For the whole result set
+          // disk.storage.getList returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
           // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.storage.getlist',
+            method: 'disk.storage.getList',
             params: {
               filter: {
                 NAME: '%Bitrix24%',
@@ -252,7 +252,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.storage.getlist',
+                'disk.storage.getList',
                 [
                     'filter' => [
                         'NAME' => '%Битрикс24%',
@@ -280,7 +280,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.storage.getlist",
+        "disk.storage.getList",
         {
             filter: {
                 NAME: '%Битрикс24%',
@@ -305,7 +305,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.storage.getlist',
+        'disk.storage.getList',
         [
             'filter' => [
                 'NAME' => '%Битрикс24%',
@@ -319,6 +319,38 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getList", b24.Params{
+    	"filter": b24.Params{
+    		"NAME": "%Битрикс24%",
+    	},
+    	"order": b24.Params{
+    		"NAME": "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getList: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	ModuleID     string `json:"MODULE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    	EntityID     b24.ID `json:"ENTITY_ID"`
+    	RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
     ```
 
 {% endlist %}

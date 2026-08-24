@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "bizproc.workflow.kill",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Удалить запущенный процесс bizproc.workflow.kill",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор бизнес-процесса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-workflow-kill.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-workflow-kill.html",
+  "executable": false
+}

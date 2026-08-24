@@ -245,6 +245,28 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.flow.Flow.delete", b24.Params{
+    	"flowData": b24.Params{
+    		"id": 517,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.flow.Flow.delete: %w", err)
+    }
+
+    var item struct {
+    	Deleted bool `json:"deleted"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Deleted)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

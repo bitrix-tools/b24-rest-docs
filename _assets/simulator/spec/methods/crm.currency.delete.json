@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "crm.currency.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить валюту crm.currency.delete",
+  "permissions": "любой пользователь с доступом к изменению настроек CRM",
+  "params": [
+    {
+      "name": "id",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор валюты. Соответствует стандарту ISO 4217. Идентификатор можно получить методом crm.currency.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/currency/crm-currency-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1718094270.751676,
+      "finish": 1718094271.335892,
+      "duration": 0.5842158794403076,
+      "processing": 0.1017751693725586,
+      "date_start": "2024-06-11T10:24:30+02:00",
+      "date_finish": "2024-06-11T10:24:31+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат удаления валюты"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/currency/crm-currency-delete.html",
+  "executable": false
+}

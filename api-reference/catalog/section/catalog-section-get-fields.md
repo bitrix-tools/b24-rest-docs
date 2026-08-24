@@ -201,6 +201,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.section.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.section.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "section".
+    raw, ok := b24.Unwrap(res.Result, "section")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа section")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -320,7 +338,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-section-add.md)
 - [{#T}](./catalog-section-update.md)

@@ -186,6 +186,25 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.config.path.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imopenlines.config.path.get: %w", err)
+    }
+
+    var item struct {
+    	ServerAddress string `json:"SERVER_ADDRESS"`
+    	PublicPath    string `json:"PUBLIC_PATH"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ServerAddress, item.PublicPath)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

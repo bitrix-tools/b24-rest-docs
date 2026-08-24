@@ -57,7 +57,7 @@
 
 ### Параметр FIELDS {#parametr-fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -344,6 +344,34 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.section.add", b24.Params{
+    	"IBLOCK_TYPE_ID":    "lists",
+    	"IBLOCK_ID":         95,
+    	"IBLOCK_SECTION_ID": 0,
+    	"SECTION_CODE":      "marketing_documents",
+    	"FIELDS": b24.Params{
+    		"NAME":        "Документы отдела маркетинга",
+    		"EXTERNAL_ID": "ext_marketing_docs_001",
+    		"XML_ID":      "xml_marketing_docs_001",
+    		"SORT":        500,
+    		"ACTIVE":      "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("lists.section.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

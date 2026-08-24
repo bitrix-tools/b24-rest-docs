@@ -263,6 +263,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.field.get", b24.Params{
+    	"IBLOCK_TYPE_ID": "lists",
+    	"IBLOCK_ID":      "123",
+    	"FIELD_ID":       "PROPERTY_1151",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("lists.field.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "L".
+    raw, ok := b24.Unwrap(res.Result, "L")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа L")
+    }
+
+    var item struct {
+    	FieldID      string `json:"FIELD_ID"`
+    	Sort         int    `json:"SORT"`
+    	Name         string `json:"NAME"`
+    	IsRequired   string `json:"IS_REQUIRED"`
+    	Multiple     string `json:"MULTIPLE"`
+    	DefaultValue string `json:"DEFAULT_VALUE"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.FieldID, item.Sort)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

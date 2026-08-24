@@ -240,6 +240,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalLine.update", b24.Params{
+    	"NUMBER":          "74951234567",
+    	"NAME":            "Линия поддержки",
+    	"CRM_AUTO_CREATE": "N",
+    })
+    if err != nil {
+    	return fmt.Errorf("telephony.externalLine.update: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

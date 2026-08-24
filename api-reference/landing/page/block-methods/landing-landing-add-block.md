@@ -1,4 +1,4 @@
-# Добавить блок на страницу `landing.landing.addblock`
+# Добавить блок на страницу landing.landing.addblock
 
 {% note tip "" %}
 
@@ -304,6 +304,29 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.landing.addblock", b24.Params{
+    	"lid": 351,
+    	"fields": b24.Params{
+    		"CODE":     "02.three_cols_big_1",
+    		"AFTER_ID": 6428,
+    		"ACTIVE":   "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.landing.addblock: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

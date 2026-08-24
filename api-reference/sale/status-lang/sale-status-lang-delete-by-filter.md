@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет записи локазации статуса заказа или доставки по идентификатору статуса и языку.
+Метод `sale.statusLang.deleteByFilter` удаляет записи локализации статуса заказа или доставки по идентификатору статуса и языку.
 
 ## Параметры метода
 
@@ -69,7 +69,7 @@ fields: {
 - ua — украинский
 - vn — вьетнамский
 
-Список актуальных языков можно получить методом [sale.statuslang.getlistlangs](./sale-status-lang-get-list-langs.md) ||
+Список актуальных языков можно получить методом [sale.statusLang.getListLangs](./sale-status-lang-get-list-langs.md) ||
 || **name***
 [`string`](../../data-types.md) | 
 
@@ -291,6 +291,28 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.statusLang.deleteByFilter", b24.Params{
+    	"fields": b24.Params{
+    		"statusId": "RD",
+    		"lid":      "la",
+    		"name":     "-",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.statusLang.deleteByFilter: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -349,7 +371,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-status-lang-get-list-langs.md)

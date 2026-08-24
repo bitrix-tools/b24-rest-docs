@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -298,6 +298,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.status.add", b24.Params{
+    	"fields": b24.Params{
+    		"ENTITY_ID": "DEAL_STAGE_1",
+    		"STATUS_ID": "DECISION",
+    		"NAME":      "Принятие решения",
+    		"SORT":      70,
+    		"COLOR":     "#FFA900",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.status.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -337,8 +361,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Invalid parameters.",
-    "error_description": "Переданы некорректные параметры."
+    "error": "",
+    "error_description": "The field STATUS_ID is required."
 }
 ```
 
@@ -347,16 +371,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400`     | `Access denied.` | Нет прав на выполнение операции ||
-|| `400`     | `Invalid parameters.` | Переданы некорректные параметры ||
-|| `400`     | `Specified entity type is not supported.` | Указан неподдерживаемый тип справочника ||
-|| `400`     | `The field ENTITY_ID is required.` | Не указан `ENTITY_ID` ||
-|| `400`     | `The field STATUS_ID is required.` | Не указан `STATUS_ID` ||
-|| `400`     | `Duplicate STATUS_ID.` | Такой `STATUS_ID` уже существует ||
-|| `400`     | `Error on creating status.` | Ошибка при создании элемента ||
-|| `400`     | ` ` | Нельзя создать промежуточную стадию после успешной ||
-|| `400`     | ` ` | Не заполнено обязательное поле "Заголовок" ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `The field ENTITY_ID is required.`, `The field STATUS_ID is required.` | Не передано обязательное поле `ENTITY_ID` или `STATUS_ID`. Если не переданы оба, обе строки приходят в одном ответе ||
+|| `400` | Пустое значение | `Parameter 'fields' must be array.` | В параметр `fields` передан не объект ||
+|| `400` | Пустое значение | `Specified entity type is not supported.` | В поле `ENTITY_ID` передан справочник, которого нет в CRM ||
+|| `400` | Пустое значение | `Не заполнено обязательное поле "Заголовок"` | Не передано название элемента `NAME` ||
+|| `400` | Пустое значение | `Нельзя создать промежуточную стадию после успешной` | Для справочника `DEAL_STAGE` в поле `SORT` указано значение больше, чем у стадии `WON` ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права изменять настройки CRM ||
+|| `400` | Пустое значение | `Error on creating status.` | Элемент справочника не создан, причину система не вернула ||
+|| `400` | `ERROR_CORE` | `Указанный идентификатор статуса, уже существует.` | В справочнике `ENTITY_ID` уже есть элемент с таким `STATUS_ID` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

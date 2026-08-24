@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет тип плательщика.
+Метод `sale.persontype.delete` удаляет тип плательщика.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Параметр**
 `тип`| **Описание** ||
 || **id***
-[`sale_person_type.id`](../../data-types.md) | Идентификатор типа плательщика ||
+[`sale_person_type.id`](../data-types.md) | Идентификатор типа плательщика ||
 |#
 
 ## Примеры кода
@@ -208,6 +208,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.persontype.delete", b24.Params{
+    	"id": 5,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.persontype.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -237,7 +255,7 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../data-types.md) | Результат удаления типа плательщика ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

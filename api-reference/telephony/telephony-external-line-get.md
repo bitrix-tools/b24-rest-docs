@@ -196,6 +196,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "telephony.externalLine.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("telephony.externalLine.get: %w", err)
+    }
+
+    var items []struct {
+    	Number        string `json:"NUMBER"`
+    	Name          string `json:"NAME"`
+    	CRMAutoCreate string `json:"CRM_AUTO_CREATE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Number, it.Name)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

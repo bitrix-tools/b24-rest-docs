@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.member.move",
+  "scope": "humanresources",
+  "kind": "write",
+  "title": "Перенести участников в отдел humanresources.node.member.move",
+  "permissions": "пользователь с правом «Добавление сотрудников в отдел» или «Добавление участников в команду»",
+  "params": [
+    {
+      "name": "nodeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор целевого отдела или команды. Идентификатор можно получить методом humanresources.node.list"
+    },
+    {
+      "name": "userIds",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов пользователей, которых нужно перенести. Идентификаторы пользователей можно получить методом user.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "role",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Роль, которую нужно назначить перенесенным участникам. Возможные значения для отдела: - MEMBER_HEAD — руководитель отдела - MEMBER_DEPUTY_HEAD — заместитель руководителя отдела - MEMBER_EMPLOYEE — сотрудник отдела Возможные значения для команды: - MEMBER_TEAM_HEAD — руководитель команды - MEMBER_TEAM_DEPUTY_HEAD — заместитель руководителя команды - MEMBER_TEAM_EMPLOYEE — участник команды По умолча…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node-member/humanresources-node-member-move.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true
+    },
+    "time": {
+      "start": 1780406100,
+      "finish": 1780406100.215497,
+      "duration": 0.21549701690673828,
+      "processing": 0.1711289882659912,
+      "date_start": "2026-06-02T16:15:00+03:00",
+      "date_finish": "2026-06-02T16:15:00+03:00",
+      "operating_reset_at": 1780406700,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом операции"
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Значение true, если пользователи успешно перенесены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node-member/humanresources-node-member-move.html",
+  "executable": false
+}

@@ -15,7 +15,7 @@
 > - любой пользователь для стадий «Моего плана»
 > - любой пользователь с доступом к группе для стадий канбана
 
-Метод добавляет стадию канбана или «Моего плана».
+Метод `task.stages.add` добавляет стадию канбана или «Моего плана».
 
 ## Параметры метода
 
@@ -297,6 +297,30 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.stages.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":     "Название стадии",
+    		"COLOR":     "#FFAAEE",
+    		"AFTER_ID":  1,
+    		"ENTITY_ID": 1,
+    	},
+    	"isAdmin": false,
+    })
+    if err != nil {
+    	return fmt.Errorf("task.stages.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "tasks.task.chat.message.field.list",
+  "scope": "tasks",
+  "kind": "read",
+  "title": "Получить список полей сообщения чата задачи tasks.task.chat.message.field.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей описания, которые нужно вернуть в ответе. Доступные поля: - name — имя поля - type — тип данных - title — заголовок - description — описание - validationRules — правила валидации - requiredGroups — группы обязательности - filterable — признак доступности в фильтре - sortable — признак доступности в сортировке - editable — признак редактируемости - multiple — признак множественного зна…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-chat-message-field-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "name": "id",
+          "type": "int",
+          "title": "id",
+          "description": null,
+          "filterable": true,
+          "sortable": true,
+          "multiple": false
+        },
+        {
+          "name": "taskId",
+          "type": "int",
+          "title": "taskId",
+          "description": null,
+          "filterable": false,
+          "sortable": false,
+          "multiple": false
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "title": "text",
+          "description": null,
+          "filterable": false,
+          "sortable": false,
+          "multiple": false
+        }
+      ]
+    },
+    "time": {
+      "start": 1773649487,
+      "finish": 1773649487.864536,
+      "duration": 0.8645360469818115,
+      "processing": 0,
+      "date_start": "2026-03-16T11:24:47+03:00",
+      "date_finish": "2026-03-16T11:24:47+03:00",
+      "operating_reset_at": 1773650087,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с описанием полей. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-chat-message-field-list.html",
+  "executable": false,
+  "entityFields": [
+    "description",
+    "filterable",
+    "multiple",
+    "name",
+    "sortable",
+    "title",
+    "type"
+  ]
+}

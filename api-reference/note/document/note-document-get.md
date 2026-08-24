@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -228,6 +228,37 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "note.document.get", b24.Params{
+    	"id": 42,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("note.document.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	CollectionID b24.ID `json:"collectionId"`
+    	ParentID     b24.ID `json:"parentId"`
+    	Title        string `json:"title"`
+    	Markdown     string `json:"markdown"`
+    	Position     int    `json:"position"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.CollectionID)
     ```
 
 {% endlist %}

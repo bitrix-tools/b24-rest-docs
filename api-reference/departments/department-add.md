@@ -25,11 +25,11 @@
 || **NAME***
 [`string`](../data-types.md) | Название подразделения ||
 || **SORT**
-[`int`](../data-types.md) | Поле сортировки подразделения ||
+[`integer`](../data-types.md) | Поле сортировки подразделения ||
 || **PARENT***
-[`int`](../data-types.md) | Идентификатор родительского подразделения ||
+[`integer`](../data-types.md) | Идентификатор родительского подразделения ||
 || **UF_HEAD**
-[`int`](../data-types.md) | Идентификатор пользователя, который станет руководителем подразделения ||
+[`integer`](../data-types.md) | Идентификатор пользователя, который станет руководителем подразделения ||
 |#
 
 ## Примеры кода
@@ -196,6 +196,28 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "department.add", b24.Params{
+    	"NAME":    "Отдел изучения маглов",
+    	"SORT":    450,
+    	"UF_HEAD": 1,
+    	"PARENT":  15,
+    })
+    if err != nil {
+    	return fmt.Errorf("department.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -223,7 +245,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`int`](../data-types.md) | Идентификатор созданного отдела ||
+[`integer`](../data-types.md) | Идентификатор созданного отдела ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#

@@ -38,7 +38,7 @@
 || **name**
 [`string`](../../data-types.md) | Название шаблона ||
 || **file**
-[`file`](../../data-types.md#file) | Новый файл шаблона. Можно передать тремя способами:
+[`file`](../../data-types.md#standart-types) | Новый файл шаблона. Можно передать тремя способами:
 - строкой base64
 - массивом `["имя_файла.docx","base64_контент"]`
 - как файл `multipart/form-data`
@@ -328,6 +328,44 @@
 
   print_r($result);
   ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.template.update", b24.Params{
+    	"id": 57,
+    	"fields": b24.Params{
+    		"name":        "SUPPLY_CONTRACT_NEW Template",
+    		"numeratorId": 3,
+    		"code":        "REST_TEMPLATE",
+    		"users":       []string{"U503"},
+    		"sort":        700,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.template.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "template".
+    raw, ok := b24.Unwrap(res.Result, "template")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа template")
+    }
+
+    var item struct {
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Region   string `json:"region"`
+    	Code     string `json:"code"`
+    	Download string `json:"download"`
+    	Active   string `json:"active"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
 
 {% endlist %}
 

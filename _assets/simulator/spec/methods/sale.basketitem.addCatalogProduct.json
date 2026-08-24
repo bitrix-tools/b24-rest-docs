@@ -1,0 +1,185 @@
+{
+  "$v": 1,
+  "method": "sale.basketitem.addCatalogProduct",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить позицию с товаром или услугой из модуля catalog в корзину существующего заказа sale.basketitem.addCatalogProduct",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания элемента (позиции) корзины в заказе",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "sale_order.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор заказа. Может быть указан только при создании позиции корзины. Должен быть получен ранее методами sale.order.add или sale.order.list"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Положение в списке позиций заказа"
+        },
+        {
+          "name": "productid",
+          "type": "catalog_product.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор товара/вариации"
+        },
+        {
+          "name": "price",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Цена с учетом наценок и скидок (смотрите поле customPrice ниже). Если не указать, будет рассчитана на основе данных каталога. Поле будет заполнено автоматически, если customPrice !== ‘Y’"
+        },
+        {
+          "name": "basePrice",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Исходная цена без учета наценок и скидок (смотрите поле customPrice ниже). Если не указать, будет рассчитана на основе данных каталога. Поле будет заполнено автоматически, если customPrice !== ‘Y’"
+        },
+        {
+          "name": "discountPrice",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Величина итоговой скидки или наценки (смотрите поле customPrice ниже). Если не указать, будет рассчитана на основе данных каталога. Поле будет заполнено автоматически, если customPrice !== ‘Y’"
+        },
+        {
+          "name": "currency",
+          "type": "crm_currency.CURRENCY",
+          "base": "any",
+          "required": true,
+          "description": "Валюта цены. Должна совпадать с валютой заказа"
+        },
+        {
+          "name": "customPrice",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Указана ли цена вручную: - Y — цена задана вручную - N — цена получена из каталога товаров По умолчанию значение N. Если указывается значение Y, то данные цены из каталога будут игнорироваться. Необходимо явно задать параметры price, basePrice и discountPrice так, чтобы выполнялось условие basePrice = price + discountPrice"
+        },
+        {
+          "name": "quantity",
+          "type": "double",
+          "base": "number",
+          "required": true,
+          "description": "Количество товара"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код позиции корзины"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название товара"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-item/sale-basket-item-add-catalog-product.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketItem": {
+        "basePrice": 1234,
+        "canBuy": "Y",
+        "catalogXmlId": "FUTURE-ERP-CATALOG",
+        "currency": "RUB",
+        "customPrice": "N",
+        "dateInsert": "2024-04-22T16:36:43+02:00",
+        "dateUpdate": "2024-04-22T16:36:43+02:00",
+        "dimensions": "a:3:{s:5:\"WIDTH\";N;s:6:\"HEIGHT\";N;s:6:\"LENGTH\";N;}",
+        "discountPrice": 124,
+        "id": 6784,
+        "measureCode": "796",
+        "measureName": "шт",
+        "name": "Услуга2",
+        "orderId": 5147,
+        "price": 1110,
+        "productId": 4347,
+        "productXmlId": "4347",
+        "properties": [],
+        "quantity": 1,
+        "reservations": [],
+        "sort": 100,
+        "type": 2,
+        "vatIncluded": "N",
+        "vatRate": null,
+        "weight": 0,
+        "xmlId": "bx_662675fba6516"
+      }
+    },
+    "total": 1,
+    "time": {
+      "start": 1713796602.830767,
+      "finish": 1713796604.315251,
+      "duration": 1.4844841957092285,
+      "processing": 0.6749260425567627,
+      "date_start": "2024-04-22T16:36:42+02:00",
+      "date_finish": "2024-04-22T16:36:44+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketItem",
+      "type": "sale_basket_item",
+      "base": "any",
+      "required": false,
+      "description": "Объект с данными созданного элемента (позиции) корзины"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Число обработанных записей"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-item/sale-basket-item-add-catalog-product.html",
+  "executable": false
+}

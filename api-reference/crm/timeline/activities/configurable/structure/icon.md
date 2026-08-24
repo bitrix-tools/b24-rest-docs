@@ -13,12 +13,12 @@
 
 ## Параметры объекта `IconDto`
 
-{% include [Сноска о параметрах](../../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../../_includes/required.md) %}
 
 #|
 || **Поле** | **Описание** | **Дополнительно** ||
 || **code^*^**
-[`string`](../../../../data-types.md) | Код иконки | Список доступных кодов можно получить методом [crm.timeline.icon.list](../../../logmessage/icons/crm-timeline-icon-list.md) ||
+[`string`](../../../../../data-types.md) | Код иконки | Список доступных кодов можно получить методом [crm.timeline.icon.list](../../../logmessage/icons/crm-timeline-icon-list.md) ||
 |#
 
 ## Пример объекта

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает значение свойства по идентификатору.
+Метод `sale.propertyvalue.get` получает значение свойства по идентификатору.
 
 ## Параметры метода
 
@@ -216,6 +216,36 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyvalue.get", b24.Params{
+    	"id": 13176,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertyvalue.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyValue".
+    raw, ok := b24.Unwrap(res.Result, "propertyValue")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyValue")
+    }
+
+    var item struct {
+    	Code         string `json:"code"`
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	OrderPropsID b24.ID `json:"orderPropsId"`
+    	Value        string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Code, item.ID)
     ```
 
 {% endlist %}

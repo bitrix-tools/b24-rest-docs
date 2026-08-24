@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение контактов и компаний
 
 Метод возвращает список шаблонов реквизитов по фильтру.
 
@@ -80,24 +80,24 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор реквизита. Создается автоматически и уникален в рамках портала ||
+[`integer`](../../../data-types.md) | Идентификатор шаблона. Создается автоматически и уникален в рамках Битрикс24 ||
 || **ENTITY_TYPE_ID**
 [`integer`](../../../data-types.md) | Идентификатор типа родительского объекта.
 
 Идентификаторы типов объектов CRM отдает метод [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) 
 ||
 || **COUNTRY_ID**
-[`integer`](../../../data-types.md) | Идентификатор страны, которой соответствует набор полей шаблона реквизита (для получения доступных значений смотрите метод [crm.requisite.preset.countries](./crm-requisite-preset-countries.md)) ||
+[`integer`](../../../data-types.md) | Идентификатор страны, которой соответствует набор полей шаблона реквизитов (для получения доступных значений смотрите метод [crm.requisite.preset.countries](./crm-requisite-preset-countries.md)) ||
 || **DATE_CREATE**
 [`datetime`](../../../data-types.md) | Дата создания ||
 || **DATE_MODIFY**
 [`datetime`](../../../data-types.md) | Дата изменения. Содержит пустую строку, если шаблон не менялся после создания ||
 || **CREATED_BY_ID**
-[`user`](../../../data-types.md) | Идентификатор пользователя, создавшего реквизит ||
+[`user`](../../../data-types.md) | Идентификатор пользователя, создавшего шаблон ||
 || **MODIFY_BY_ID**
-[`user`](../../../data-types.md) | Идентификатор пользователя, изменившего реквизит ||
+[`user`](../../../data-types.md) | Идентификатор пользователя, изменившего шаблон ||
 || **NAME**
-[`string`](../../../data-types.md) | Название реквизита ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний ключ. Используется для операций обмена. Идентификатор объекта внешней информационной базы. 
 
@@ -408,6 +408,41 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.list", b24.Params{
+    	"order": b24.Params{
+    		"ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"COUNTRY_ID": "1",
+    	},
+    	"select": []string{"ID", "NAME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.list: %w", err)
+    }
+
+    var items []struct {
+    	ID   b24.ID `json:"ID"`
+    	Name string `json:"NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

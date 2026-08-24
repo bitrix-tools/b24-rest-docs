@@ -1,0 +1,128 @@
+{
+  "$v": 1,
+  "method": "humanresources.node.list",
+  "scope": "humanresources",
+  "kind": "read",
+  "title": "Получить список отделов humanresources.node.list",
+  "permissions": "пользователь с правом «Просмотр отделов» или «Просмотр команд»",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип элемента структуры. Возможные значения: - DEPARTMENT — отдел - TEAM — команда"
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей отдела или команды, которые нужно вернуть. Доступные поля: - id — идентификатор элемента структуры - name — название отдела или команды - type — тип элемента структуры - structureId — идентификатор структуры компании - parentId — идентификатор родительского отдела или команды - description — описание элемента структуры - accessCode — код доступа элемента структуры - userCount — количе…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры постраничной навигации: - page — номер страницы - limit — количество записей на страницу, по умолчанию 50, максимум 200 - offset — смещение записей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/departments/node/humanresources-node-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 1,
+          "name": "Отдел продаж",
+          "type": "DEPARTMENT",
+          "structureId": 1,
+          "parentId": null,
+          "description": "Основной отдел продаж",
+          "accessCode": "DR1",
+          "userCount": 18,
+          "colorName": null,
+          "xmlId": null,
+          "createdAt": "2026-05-20T10:15:00+03:00",
+          "updatedAt": "2026-06-02T10:30:00+03:00"
+        },
+        {
+          "id": 2,
+          "name": "Отдел маркетинга",
+          "type": "DEPARTMENT",
+          "structureId": 1,
+          "parentId": 1,
+          "description": "Отдел отвечает за продвижение продуктов компании",
+          "accessCode": "DR2",
+          "userCount": 9,
+          "colorName": null,
+          "xmlId": "marketing_department",
+          "createdAt": "2026-05-22T09:00:00+03:00",
+          "updatedAt": "2026-06-02T11:45:00+03:00"
+        }
+      ]
+    },
+    "time": {
+      "start": 1780403500,
+      "finish": 1780403500.248911,
+      "duration": 0.24891114234924316,
+      "processing": 0.21900415420532227,
+      "date_start": "2026-06-02T15:31:40+03:00",
+      "date_finish": "2026-06-02T15:31:40+03:00",
+      "operating_reset_at": 1780404100,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов отделов или команд. Состав полей элемента зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/departments/node/humanresources-node-list.html",
+  "executable": false,
+  "entityFields": [
+    "accessCode",
+    "colorName",
+    "createdAt",
+    "description",
+    "id",
+    "name",
+    "parentId",
+    "structureId",
+    "type",
+    "updatedAt",
+    "userCount",
+    "xmlId"
+  ]
+}

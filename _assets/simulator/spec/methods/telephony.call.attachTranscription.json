@@ -1,0 +1,123 @@
+{
+  "$v": 1,
+  "method": "telephony.call.attachTranscription",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Добавить расшифровку записи к звонку telephony.call.attachTranscription",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CALL_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор звонка из метода telephony.externalCall.register"
+    },
+    {
+      "name": "MESSAGES",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив реплик расшифровки",
+      "ref": "#/defs/MESSAGESFields"
+    },
+    {
+      "name": "COST",
+      "type": "double",
+      "base": "number",
+      "required": false,
+      "description": "Стоимость расшифровки. По умолчанию — не задается"
+    },
+    {
+      "name": "COST_CURRENCY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Валюта стоимости расшифровки. Используется только вместе с COST. По умолчанию — не задается"
+    }
+  ],
+  "defs": {
+    "MESSAGESFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "SIDE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Участник разговора. Возможные значения: - User — пользователь портала - Client — клиент"
+        },
+        {
+          "name": "START_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Время начала реплики в секундах от начала звонка. Минимальное значение — 0"
+        },
+        {
+          "name": "STOP_TIME",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Время окончания реплики в секундах от начала звонка. Минимальное значение — 1"
+        },
+        {
+          "name": "MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Текст реплики"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/telephony-call-attach-transcription.md"
+  },
+  "resultExample": {
+    "result": {
+      "TRANSCRIPT_ID": 1
+    },
+    "time": {
+      "start": 1773136191,
+      "finish": 1773136191.49517,
+      "duration": 0.49517011642456055,
+      "processing": 0,
+      "date_start": "2026-03-10T12:49:51+03:00",
+      "date_finish": "2026-03-10T12:49:51+03:00",
+      "operating_reset_at": 1773136791,
+      "operating": 0.1380019187927246
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "TRANSCRIPT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор расшифровки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/telephony-call-attach-transcription.html",
+  "executable": false
+}

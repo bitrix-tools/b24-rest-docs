@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "im.recent.unread",
+  "scope": "im",
+  "kind": "write",
+  "title": "Установить или снять признак «прочитано» у чата im.recent.unread",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор чата в формате: - chatXXX — чат - sgXXX — чат группы или проекта - XXX — идентификатор пользователя личного чата Идентификатор чата можно получить с помощью метода im.chat.get. Идентификатор пользователя — с помощью методов user.get и user.search"
+    },
+    {
+      "name": "ACTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Действие с меткой «прочитано»: - Y — установить метку - N — снять метку и отметить диалог прочитанным По умолчанию: Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/special-operations/im-recent-unread.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772518597,
+      "finish": 1772518597.385986,
+      "duration": 0.3859860897064209,
+      "processing": 0,
+      "date_start": "2026-03-03T09:16:37+03:00",
+      "date_finish": "2026-03-03T09:16:37+03:00",
+      "operating_reset_at": 1772519197,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если метка успешно установлена или снята. Возвращает false, если чат с указанным DIALOG_ID не найден"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/special-operations/im-recent-unread.html",
+  "executable": false
+}

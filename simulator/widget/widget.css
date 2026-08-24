@@ -1,0 +1,133 @@
+/* Виджет «Попробовать метод».
+   Внешний вид берётся из компонентов документации (g-card, g-button,
+   g-text-input, g-label, yfm-note, yfm-tabs). Здесь — только раскладка. */
+
+.b24sim {
+    margin: 24px 0;
+}
+
+/* Подсветка yfm-cut-highlight нужна только свёрнутому спойлеру, чтобы он не терялся
+   в тексте. В раскрытом виде она складывалась с фоном карточки, давая ~10% серого,
+   на котором поля с прозрачным фоном перестают читаться как поля. */
+.b24sim[open] {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Панель на фоне страницы, ограниченная рамкой. Цвет фона берётся из переменной
+   темы, если она объявлена; на текущем сайте переменные Gravity на :root пустые,
+   поэтому фактически применяется белый. Рамка задана нейтральным серым с
+   прозрачностью, чтобы оставаться видимой на любом фоне. */
+.b24sim__card {
+    padding: 14px 16px 16px;
+    background: var(--g-color-base-background, #fff);
+    border: 1px solid rgba(127, 127, 127, 0.26);
+    border-radius: 8px;
+}
+
+.b24sim .g-text-input,
+.b24sim .g-text-area {
+    border: 1px solid rgba(127, 127, 127, 0.35);
+    border-radius: 6px;
+}
+
+.b24sim__param + .b24sim__param {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--g-color-line-generic, rgba(0, 0, 0, 0.1));
+}
+
+.b24sim__label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.b24sim__type {
+    font-size: 0.9em;
+}
+
+.b24sim__fields > div:first-child {
+    margin-bottom: 6px;
+}
+
+.b24sim__field-row {
+    display: grid;
+    grid-template-columns: minmax(0, 11fr) minmax(0, 13fr) auto;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+/* Когда выбрано «другое поле», рядом со списком появляется ввод имени —
+   строка становится из четырёх колонок, а не переносится. */
+.b24sim__field-row_custom {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 8fr) minmax(0, 8fr) auto;
+}
+
+.b24sim__field-value {
+    min-width: 0;
+}
+
+.b24sim-select .g-text-input__control {
+    text-overflow: ellipsis;
+}
+
+.b24sim__add {
+    margin-top: 2px;
+}
+
+.b24sim__actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.b24sim__output:empty {
+    display: none;
+}
+
+.b24sim__result {
+    margin-top: 18px;
+}
+
+.b24sim__code {
+    max-height: 340px;
+    overflow: auto;
+}
+
+/* Нативный <select> внутри обёртки g-text-input: отступы обёртки рассчитаны на
+   <input>, у select они обрезают текст по вертикали. */
+.b24sim-select .g-text-input__control {
+    width: 100%;
+    height: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+/* Панель таба показывается классом active — как в примерах кода документации */
+.b24sim .yfm-tab-panel.active {
+    position: relative;
+    visibility: visible;
+    overflow: visible;
+    height: auto;
+}
+
+@media (max-width: 700px) {
+    .b24sim__param-cell {
+        width: auto;
+    }
+
+    .b24sim__field-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+}

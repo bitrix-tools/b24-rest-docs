@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.landing.getpublicurl",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Получить публичный URL страницы landing.landing.getpublicurl",
+  "permissions": "пользователь с доступом к разделу «Сайты и магазины» и правом «просмотр» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "lid",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/methods/landing-landing-get-public-url.md"
+  },
+  "resultExample": {
+    "result": "https://b24-r8rseo.bitrix24site.ru/spring-sale/",
+    "time": {
+      "start": 1773784381,
+      "finish": 1773784381.945904,
+      "duration": 0.945904016494751,
+      "processing": 0,
+      "date_start": "2026-03-18T00:53:01+03:00",
+      "date_finish": "2026-03-18T00:53:01+03:00",
+      "operating_reset_at": 1773784981,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Полный публичный URL страницы. Для главной страницы сайта и индексной страницы папки метод возвращает адрес без CODE страницы. Если у страницы заполнено поле RULE, адрес также возвращается без добавления CODE. Подробнее о полях CODE и RULE в разделе Поля объекта Страница"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/methods/landing-landing-get-public-url.html",
+  "executable": false
+}

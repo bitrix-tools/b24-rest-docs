@@ -178,7 +178,7 @@
 || **ADDITIONAL_INFO**
 [`string`](../../data-types.md) | Дополнительная информация ||
 || **LOCATION_ID**
-[`location`](../../data-types.md) | Местоположение клиента. Служебное поле ||
+[`location`](../data-types.md) | Местоположение клиента. Служебное поле ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных. 
 
@@ -563,6 +563,55 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.add", b24.Params{
+    	"fields": b24.Params{
+    		"TITLE":                 "Новая сделка #1",
+    		"TYPE_ID":               "COMPLEX",
+    		"CATEGORY_ID":           0,
+    		"STAGE_ID":              "PREPARATION",
+    		"IS_RECURRING":          "N",
+    		"IS_RETURN_CUSTOMER":    "Y",
+    		"IS_REPEATED_APPROACH":  "Y",
+    		"PROBABILITY":           99,
+    		"CURRENCY_ID":           "EUR",
+    		"OPPORTUNITY":           1000000,
+    		"IS_MANUAL_OPPORTUNITY": "Y",
+    		"TAX_VALUE":             0.10,
+    		"COMPANY_ID":            9,
+    		"CONTACT_IDS":           []int{84, 83},
+    		"BEGINDATE":             time.Now().Format(time.RFC3339),
+    		"CLOSEDATE":             time.Now().AddDate(0, 0, 10).Format(time.RFC3339),
+    		"OPENED":                "Y",
+    		"CLOSED":                "N",
+    		"COMMENTS":              "Пример комментария",
+    		"SOURCE_ID":             "CALLBACK",
+    		"SOURCE_DESCRIPTION":    "Дополнительно об источнике",
+    		"ADDITIONAL_INFO":       "Дополнительная информация",
+    		"UTM_SOURCE":            "google",
+    		"UTM_MEDIUM":            "CPC",
+    		"PARENT_ID_1220":        22,
+    		"UF_CRM_1721244482250":  "Привет мир!",
+    	},
+    	"params": b24.Params{
+    		"REGISTER_SONET_EVENT": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -612,11 +661,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `Parameter 'fields' must be array` | В параметр `fields` передан не объект ||
-|| `-`     | `Parameter 'params' must be array` | В Параметр `params` передан не объект ||
-|| `-`     | `Access denied` | У пользователя нет прав на «добавление» сделок ||
-|| `-`     | Исчерпан выделенный дисковый ресурс |> ||
-|| `-`     | Неверное значение поля «Валюта» |> ||
+|| Пустое значение | `Parameter 'fields' must be array` | В параметр `fields` передан не объект ||
+|| Пустое значение | `Parameter 'params' must be array` | В Параметр `params` передан не объект ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «добавление» сделок ||
+|| Пустое значение | Исчерпан выделенный дисковый ресурс |> ||
+|| Пустое значение | Неверное значение поля «Валюта» |> ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

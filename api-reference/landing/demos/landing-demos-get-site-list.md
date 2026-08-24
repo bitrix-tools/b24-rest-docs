@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -287,6 +287,40 @@
     echo '<pre>';
     print_r($result);
     echo '</pre>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.demos.getSiteList", b24.Params{
+    	"type": "page",
+    	"filter": b24.Params{
+    		"TYPE": "page",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.demos.getSiteList: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "empty".
+    raw, ok := b24.Unwrap(res.Result, "empty")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа empty")
+    }
+
+    var item struct {
+    	ID          string `json:"ID"`
+    	XMLID       string `json:"XML_ID"`
+    	Title       string `json:"TITLE"`
+    	Active      bool   `json:"ACTIVE"`
+    	Publication bool   `json:"PUBLICATION"`
+    	LockDelete  bool   `json:"LOCK_DELETE"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.XMLID)
     ```
 
 {% endlist %}

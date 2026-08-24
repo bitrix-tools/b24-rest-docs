@@ -17,13 +17,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор контакта.
+[`integer`](../../../data-types.md) | Идентификатор контакта.
 
 Идентификатор можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md) ||
 |#
@@ -215,6 +215,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.company.items.delete", b24.Params{
+    	"id": 54,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.company.items.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -241,9 +259,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа. Содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -263,7 +281,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
+|| Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение контактов ||
 |#
 
@@ -276,5 +294,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-company-fields.md)
 - [{#T}](./crm-contact-company-items-get.md)
 - [{#T}](./crm-contact-company-items-set.md)
-
-[1]: ../../../data-types.md

@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод обновляет данные REST-обработчика кассы.
+Метод `sale.cashbox.handler.update` обновляет данные REST-обработчика кассы.
 
 ## Параметры метода
 
@@ -477,6 +477,73 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.handler.update", b24.Params{
+    	"ID": 1,
+    	"FIELDS": b24.Params{
+    		"NAME": "Моя REST-касса с новым именем",
+    		"SORT": 200,
+    		"SETTINGS": b24.Params{
+    			"PRINT_URL": "http://setagaya.bx/receipt_print.php",
+    			"CHECK_URL": "http://setagaya.bx/receipt_check.php",
+    			"CONFIG": b24.Params{
+    				"AUTH": b24.Params{
+    					"LABEL": "Авторизация",
+    					"ITEMS": b24.Params{
+    						"LOGIN": b24.Params{
+    							"TYPE":     "STRING",
+    							"REQUIRED": "Y",
+    							"LABEL":    "Логин",
+    						},
+    						"PASSWORD": b24.Params{
+    							"TYPE":     "STRING",
+    							"REQUIRED": "Y",
+    							"LABEL":    "Пароль",
+    						},
+    					},
+    				},
+    				"COMPANY": b24.Params{
+    					"LABEL": "Данные об организации",
+    					"ITEMS": b24.Params{
+    						"INN": b24.Params{
+    							"TYPE":     "STRING",
+    							"REQUIRED": "Y",
+    							"LABEL":    "ИНН организации",
+    						},
+    					},
+    				},
+    				"INTERACTION": b24.Params{
+    					"LABEL": "Настройки взаимодействия с кассой",
+    					"ITEMS": b24.Params{
+    						"MODE": b24.Params{
+    							"TYPE":  "ENUM",
+    							"LABEL": "Режим работы с кассой",
+    							"OPTIONS": b24.Params{
+    								"ACTIVE": "боевой",
+    								"TEST":   "тестовый",
+    							},
+    						},
+    					},
+    				},
+    			},
+    			"SUPPORTS_FFD105": "N",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.handler.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

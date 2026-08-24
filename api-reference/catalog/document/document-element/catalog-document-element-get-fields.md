@@ -208,6 +208,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.element.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.document.element.getFields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "documentElement".
+    raw, ok := b24.Unwrap(res.Result, "documentElement")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа documentElement")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

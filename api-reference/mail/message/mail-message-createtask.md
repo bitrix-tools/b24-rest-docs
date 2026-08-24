@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -250,6 +250,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.createtask", b24.Params{
+    	"messageId":     15,
+    	"title":         "Подготовить договор",
+    	"responsibleId": 7,
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.createtask: %w", err)
+    }
+
+    var item struct {
+    	Success   bool   `json:"success"`
+    	TaskID    b24.ID `json:"taskId"`
+    	MessageID b24.ID `json:"messageId"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success, item.TaskID)
     ```
 
 {% endlist %}

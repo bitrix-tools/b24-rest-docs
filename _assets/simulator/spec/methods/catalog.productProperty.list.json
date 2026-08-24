@@ -1,0 +1,119 @@
+{
+  "$v": 1,
+  "method": "catalog.productProperty.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список свойств товаров или вариаций catalog.productProperty.list",
+  "permissions": "пользователь с правом на просмотр каталога",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта catalogproductproperty). Если параметр не передан, будут выбраны все поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных свойств в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogproductproperty. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса: - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - % — LIKE, поиск по подстроке.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных свойств в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogproductproperty. Возможные значения для order: - ASC — в порядке возрастания - DESC — в порядке убывания Если параметр не передан, применяется сортировка id ASC",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — 100 и так далее. Формула расчета значения параметра start: start = (N - 1) * 50, где N — номер нужной страницы. Если передать значение -1, в ответе не будет поля total"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-property/catalog-product-property-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "productProperties",
+      "type": "catalog_product_property[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с информацией о выбранных свойствах"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для следующей страницы. Поле возвращается, если есть еще записи"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее число записей. Поле не возвращается, если запрос выполнен со start = -1"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-property/catalog-product-property-list.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "code",
+    "colCount",
+    "defaultValue",
+    "fileType",
+    "filtrable",
+    "hint",
+    "iblockId",
+    "isRequired",
+    "linkIblockId",
+    "listType",
+    "multiple",
+    "multipleCnt",
+    "name",
+    "propertyType",
+    "rowCount",
+    "searchable",
+    "sort",
+    "userType",
+    "userTypeSettings",
+    "withDescription",
+    "xmlId"
+  ]
+}

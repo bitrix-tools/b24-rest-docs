@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -38,7 +38,7 @@
 
 ### Параметр FIELDS {#fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -48,7 +48,7 @@
 || **AUTHOR_ID**
 [`integer`](../../data-types.md) | Идентификатор пользователя, от имени которого нужно создать комментарий.
 
-Получить идентификатор пользователя можно с помощью метода [user.get](../../user/user-get.md).
+Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md).
 
 {% note alert "" %}
 
@@ -60,7 +60,7 @@
 || **POST_DATE**
 [`string`](../../data-types.md) | Дата сообщения ||
 || **UF_FORUM_MESSAGE_DOC**
-[`array`](../../data-types.md) | Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс `n`, например, `['n123', 'n456', ... ]`.
+[`array`](../../data-types.md) | Массив с идентификаторами файлов с Диска. Перед каждым идентификатором укажите префикс `n`, например `['n123', 'n456', ... ]`.
 
 У автора комментария должен быть доступ к прикрепляемым файлам, иначе метод вернет ошибку ||
 |#
@@ -251,6 +251,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.commentitem.add", b24.Params{
+    	"TASKID": 8017,
+    	"FIELDS": b24.Params{
+    		"POST_MESSAGE":         "Текст нового комментария к задаче",
+    		"AUTHOR_ID":            503,
+    		"POST_DATE":            "2025-07-15T14:30:00+03:00",
+    		"UF_FORUM_MESSAGE_DOC": []string{"n4755", "n4753"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("task.commentitem.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

@@ -12,6 +12,8 @@
 Операторы открытых линий работают с диалогами: принимают их в обработку, передают, завершают или помечают как спам.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как настроить очередь сотрудников в открытых линиях](https://helpdesk.bitrix24.ru/open/26228062/)
 
 ## Связь операторов с другими объектами
 
@@ -29,27 +31,26 @@
 
 {% endnote %}
 
-## Как использовать методы
+## Как начать работу
 
-Выбирайте метод по рабочему сценарию:
-- начать обработку нового обращения — [imopenlines.operator.answer](./imopenlines-operator-answer.md)
-- завершить свой диалог — [imopenlines.operator.finish](./imopenlines-operator-finish.md)
-- завершить диалог другого оператора — [imopenlines.operator.another.finish](./imopenlines-operator-another-finish.md)
-- передать диалог конкретному сотруднику или в другую очередь — [imopenlines.operator.transfer](./imopenlines-operator-transfer.md)
-- передать диалог следующему оператору в очереди — [imopenlines.operator.skip](./imopenlines-operator-skip.md)
-- закрыть некорректное обращение — [imopenlines.operator.spam](./imopenlines-operator-spam.md)
+1. Получите идентификатор чата `CHAT_ID` методом [imopenlines.session.open](../sessions/imopenlines-session-open.md) или [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md)
+2. Если текущий оператор начинает обработку нового обращения, вызовите [imopenlines.operator.answer](./imopenlines-operator-answer.md)
+3. Если диалог нужно передать другому сотруднику или в другую очередь, вызовите [imopenlines.operator.transfer](./imopenlines-operator-transfer.md)
+4. Если оператор не может обработать обращение, передайте его следующему оператору методом [imopenlines.operator.skip](./imopenlines-operator-skip.md)
+5. Если обращение завершено, закройте его методом [imopenlines.operator.finish](./imopenlines-operator-finish.md)
+6. Если обращение некорректное, отметьте его как спам методом [imopenlines.operator.spam](./imopenlines-operator-spam.md)
 
 ### Правила вызова imopenlines.operator.transfer
 
-- Передавайте только один параметр: `TRANSFER_ID`, `USER_ID` или `QUEUE_ID`. Передавать `TRANSFER_ID` с `USER_ID` или `QUEUE_ID` одновременно не нужно.
-- В качестве `TRANSFER_ID` используйте `USER_ID` сотрудника или строку вида `queue<QUEUE_ID>`.
+- Передавайте только один параметр: `TRANSFER_ID`, `USER_ID` или `QUEUE_ID`. Передавать `TRANSFER_ID` с `USER_ID` или `QUEUE_ID` одновременно не нужно
+- В качестве `TRANSFER_ID` используйте `USER_ID` сотрудника или строку вида `queue<QUEUE_ID>`
 
 ## Формат ответа методов
 
 Все методы раздела возвращают одинаковый формат ответа:
 
-- `result` — статус выполнения операции,
-- `time` — информация о времени выполнения.
+- `result` — статус выполнения операции
+- `time` — информация о времени выполнения
 
 ```json
 {

@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.order.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить заказ и связанные объекты sale.order.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор заказа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/order/sale-order-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712761141.260635,
+      "finish": 1712761143.127523,
+      "duration": 1.8668880462646484,
+      "processing": 1.4157729148864746,
+      "date_start": "2024-04-10T17:59:01+03:00",
+      "date_finish": "2024-04-10T17:59:03+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления заказа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/order/sale-order-delete.html",
+  "executable": false
+}

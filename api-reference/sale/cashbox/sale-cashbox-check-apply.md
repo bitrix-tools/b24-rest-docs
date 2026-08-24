@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale, cashbox`](../../scopes/permissions.md)
+> Scope: [`cashbox`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод сохраняет результат печати чека, напечатанного на REST-кассе. UUID чека сохраняется при его печати из ответа `PRINT_URL`, указанного при добавлении обработчика (см. [пример реализации простой кассы на REST API](../../../tutorials/sale/cashbox-add-example.md)).
+Метод `sale.cashbox.check.apply` сохраняет результат печати чека, напечатанного на REST-кассе. UUID чека сохраняется при его печати из ответа `PRINT_URL`, указанного при добавлении обработчика. Пример сценария — в туториале [Как подключить кассу к Битрикс24](../../../tutorials/sale/cashbox-add-example.md).
 
 ## Параметры метода
 
@@ -265,6 +265,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.cashbox.check.apply", b24.Params{
+    	"UUID":                  "check|example.com|1",
+    	"PRINT_END_TIME":        "1609459200",
+    	"REG_NUMBER_KKT":        "1234567891011121",
+    	"FISCAL_DOC_ATTR":       "1234567890",
+    	"FISCAL_DOC_NUMBER":     "12345",
+    	"FISCAL_RECEIPT_NUMBER": "123",
+    	"FN_NUMBER":             "1234567891011121",
+    	"SHIFT_NUMBER":          "1",
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.cashbox.check.apply: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

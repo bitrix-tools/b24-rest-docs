@@ -242,6 +242,27 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.lead.details.configuration.forceCommonScopeForAll", b24.Params{
+    	"extras": b24.Params{
+    		"leadCustomerType": 2,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.lead.details.configuration.forceCommonScopeForAll: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -291,7 +312,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied | Недостаточно прав для принудительной установки общей карточки ||
+|| Пустое значение | Access denied | Недостаточно прав для принудительной установки общей карточки ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

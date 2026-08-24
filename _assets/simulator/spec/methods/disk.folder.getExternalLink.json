@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "disk.folder.getExternalLink",
+  "scope": "disk",
+  "kind": "write",
+  "title": "Получить публичную ссылку на папку disk.folder.getExternalLink",
+  "permissions": "пользователь с правом «Чтение» для нужной папки",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор папки. Идентификатор можно получить с помощью метода disk.storage.getChildren, если папка находится в корне хранилища, и с помощью метода disk.folder.getChildren, если папка находится в другой папке"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/disk/folder/disk-folder-get-external-link.md"
+  },
+  "resultExample": {
+    "result": "https://test.bitrix24.ru/~Co13P",
+    "time": {
+      "start": 1768397792,
+      "finish": 1768397792.968311,
+      "duration": 0.968311071395874,
+      "processing": 0,
+      "date_start": "2026-01-14T15:36:32+03:00",
+      "date_finish": "2026-01-14T15:36:32+03:00",
+      "operating_reset_at": 1768398392,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Публичная ссылка на папку"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/disk/folder/disk-folder-get-external-link.html",
+  "executable": false
+}

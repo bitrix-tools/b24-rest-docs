@@ -1,4 +1,4 @@
-# Загрузить новый файл в указанную папку disk.folder.uploadfile
+# Загрузить новый файл в указанную папку disk.folder.uploadFile
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «Добавление» для нужной папки
 
-Метод `disk.folder.uploadfile` загружает новый файл в указанную папку.
+Метод `disk.folder.uploadFile` загружает новый файл в указанную папку.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки, в которую нужно загрузить файл.
 
-Идентификатор можно получить с помощью метода [disk.storage.getchildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md), если папка находится в другой папке
+Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке
 ||
 || **data***
 [`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя файла.
@@ -72,7 +72,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8930,"data":{"NAME":"test.png"},"fileContent":["test.png","iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...rk5CYII="],"generateUniqueName":true,"rights":[{"TASK_ID":75,"ACCESS_CODE":"U1271"}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.uploadfile
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.uploadFile
     ```
 
 - cURL (OAuth)
@@ -82,7 +82,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8930,"data":{"NAME":"test.png"},"fileContent":["test.png","iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...rk5CYII="],"generateUniqueName":true,"rights":[{"TASK_ID":75,"ACCESS_CODE":"U1271"}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.uploadfile
+    https://**put_your_bitrix24_address**/rest/disk.folder.uploadFile
     ```
 
 - JS (TS)
@@ -119,7 +119,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<UploadFileResult>({
-        method: 'disk.folder.uploadfile',
+        method: 'disk.folder.uploadFile',
         params: {
           id: 8930,
           data: {
@@ -165,7 +165,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.uploadfile',
+            method: 'disk.folder.uploadFile',
             params: {
               id: 8930,
               data: {
@@ -236,7 +236,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.uploadfile',
+                'disk.folder.uploadFile',
                 [
                     'id' => 8930,
                     'data' => [
@@ -273,7 +273,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.uploadfile",
+        "disk.folder.uploadFile",
         {
             id: 8930,
             data: {
@@ -307,7 +307,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.uploadfile',
+        'disk.folder.uploadFile',
         [
             'id' => 8930,
             'data' => [
@@ -332,6 +332,33 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.uploadFile", b24.Params{
+    	"id": 8930,
+    	"data": b24.Params{
+    		"NAME": "test.png",
+    	},
+    	"fileContent":        []string{"test.png", "iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...rk5CYII="},
+    	"generateUniqueName": true,
+    	"rights": []b24.Params{
+    		{
+    			"TASK_ID":     75,
+    			"ACCESS_CODE": "U1271",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.uploadFile: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ### Загрузка файла через URL {#uploadurl}
@@ -347,7 +374,7 @@
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"id":8930}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.uploadfile
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.uploadFile
         ```
 
     - cURL (OAuth)
@@ -357,7 +384,7 @@
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
         -d '{"id":8930,"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/disk.folder.uploadfile
+        https://**put_your_bitrix24_address**/rest/disk.folder.uploadFile
         ```
 
     - JS (TS)
@@ -378,7 +405,7 @@
 
         try {
           const response = await $b24.actions.v2.call.make<GetUploadUrlResult>({
-            method: 'disk.folder.uploadfile',
+            method: 'disk.folder.uploadFile',
             params: {
               id: 8930,
             },
@@ -410,7 +437,7 @@
               const $b24 = await B24Js.initializeB24Frame()
 
               const response = await $b24.actions.v2.call.make({
-                method: 'disk.folder.uploadfile',
+                method: 'disk.folder.uploadFile',
                 params: {
                   id: 8930,
                 },
@@ -467,7 +494,7 @@
             $response = $b24Service
                 ->core
                 ->call(
-                    'disk.folder.uploadfile',
+                    'disk.folder.uploadFile',
                     [
                         'id' => 8930
                     ]
@@ -490,7 +517,7 @@
 
         ```js
         BX24.callMethod(
-            "disk.folder.uploadfile",
+            "disk.folder.uploadFile",
             {
                 id: 8930
             },
@@ -510,7 +537,7 @@
         require_once('crest.php');
 
         $result = CRest::call(
-            'disk.folder.uploadfile',
+            'disk.folder.uploadFile',
             [
                 'id' => 8930
             ]
@@ -519,6 +546,22 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "disk.folder.uploadFile", b24.Params{
+        	"id": 8930,
+        })
+        if err != nil {
+        	return fmt.Errorf("disk.folder.uploadFile: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
         ```
 
     {% endlist %}
@@ -565,7 +608,7 @@
     if (file_exists($path))
     {
         $file = CRest::call(
-            'disk.folder.uploadfile',
+            'disk.folder.uploadFile',
             [
                 'id' => $folderId,
             ]

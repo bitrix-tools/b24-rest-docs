@@ -224,6 +224,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.session.mode.pin", b24.Params{
+    	"CHAT_ID":  2043,
+    	"ACTIVATE": "Y",
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.session.mode.pin: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

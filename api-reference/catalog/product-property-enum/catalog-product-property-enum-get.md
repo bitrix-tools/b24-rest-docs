@@ -211,6 +211,37 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productPropertyEnum.get", b24.Params{
+    	"id": 1739,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.productPropertyEnum.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productPropertyEnum".
+    raw, ok := b24.Unwrap(res.Result, "productPropertyEnum")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productPropertyEnum")
+    }
+
+    var item struct {
+    	Def        string `json:"def"`
+    	ID         b24.ID `json:"id"`
+    	PropertyID b24.ID `json:"propertyId"`
+    	Sort       int    `json:"sort"`
+    	Value      string `json:"value"`
+    	XmlID      string `json:"xmlId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Def, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

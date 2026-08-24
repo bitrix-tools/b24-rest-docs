@@ -1,0 +1,73 @@
+{
+  "$v": 1,
+  "method": "task.stages.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список стадий канбана или «Моего плана» task.stages.get",
+  "permissions": "> - любой пользователь для стадий «Моего плана»",
+  "params": [
+    {
+      "name": "entityId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор объекта. Возможные значения: - ID группы — метод получит стадии канбана группы. При недостаточном уровне прав выводится ошибка доступа - 0 — метод получит стадии «Моего плана» текущего пользователя"
+    },
+    {
+      "name": "isAdmin",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Если установлено true, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/stages/task-stages-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "5": {
+        "ID": "5",
+        "TITLE": "Не спланированы",
+        "SORT": "100",
+        "COLOR": "00C4FB",
+        "SYSTEM_TYPE": "NEW",
+        "ENTITY_ID": "1",
+        "ENTITY_TYPE": "U",
+        "ADDITIONAL_FILTER": [],
+        "TO_UPDATE": [],
+        "TO_UPDATE_ACCESS": null
+      },
+      "6": {
+        "ID": "6",
+        "TITLE": "Сделаю на неделе",
+        "SORT": "200",
+        "COLOR": "47D1E2",
+        "SYSTEM_TYPE": null,
+        "ENTITY_ID": "1",
+        "ENTITY_TYPE": "U",
+        "ADDITIONAL_FILTER": [],
+        "TO_UPDATE": [],
+        "TO_UPDATE_ACCESS": null
+      }
+    }
+  },
+  "page": "/api-reference/tasks/stages/task-stages-get.html",
+  "executable": false,
+  "entityFields": [
+    "ADDITIONAL_FILTER",
+    "AFTER_ID",
+    "COLOR",
+    "ENTITY_ID",
+    "ENTITY_TYPE",
+    "ID",
+    "SORT",
+    "SYSTEM_TYPE",
+    "TITLE",
+    "TO_UPDATE",
+    "TO_UPDATE_ACCESS"
+  ]
+}

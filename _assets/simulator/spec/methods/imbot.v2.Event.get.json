@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Event.get",
+  "scope": "imbot",
+  "kind": "read",
+  "title": "Получить события бота imbot.v2.Event.get",
+  "permissions": "владелец зарегистрированного бота",
+  "params": [
+    {
+      "name": "botId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID бота"
+    },
+    {
+      "name": "botToken",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+    },
+    {
+      "name": "offset",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Подтверждает все события с ID меньше указанного значения. При первом вызове не передается"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Максимальное количество возвращаемых событий (1–1000). По умолчанию 100"
+    },
+    {
+      "name": "withUserEvents",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Включить пользовательские события (ONIMV2*) в ответ вместе с бот-событиями. По умолчанию false. Подробнее — ниже"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/events/event-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "events": [
+        {
+          "eventId": 1001,
+          "type": "ONIMBOTV2MESSAGEADD",
+          "date": "2025-01-15T10:30:00+03:00",
+          "data": {}
+        }
+      ],
+      "nextOffset": 1002,
+      "hasMore": false
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/events/event-get.html",
+  "executable": false,
+  "entityFields": [
+    "data",
+    "date",
+    "eventId",
+    "type"
+  ]
+}

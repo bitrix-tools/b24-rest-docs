@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "vote.AttachedVote.resume",
+  "scope": "vote",
+  "kind": "write",
+  "title": "Возобновить голосование vote.AttachedVote.resume",
+  "permissions": "пользователь с правами редактирования голосования",
+  "params": [
+    {
+      "name": "attachId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор прикрепленного голосования, получить можно методами vote.AttachedVote.get или vote.AttachedVote.getMany"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/vote/vote.attachedvote.resume.md"
+  },
+  "resultExample": {
+    "result": [],
+    "time": {
+      "start": 1754464002.144207,
+      "finish": 1754464002.182058,
+      "duration": 0.03785109519958496,
+      "processing": 0.020069122314453125,
+      "date_start": "2025-08-06T10:06:42+03:00",
+      "date_finish": "2025-08-06T10:06:42+03:00",
+      "operating_reset_at": 1754464602,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Пустой массив при успешном выполнении операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/vote/vote.attachedvote.resume.html",
+  "executable": false
+}

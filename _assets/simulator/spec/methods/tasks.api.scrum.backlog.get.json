@@ -1,0 +1,47 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.backlog.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить поля бэклога по идентификатору Скрама tasks.api.scrum.backlog.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор группы. Можно получить при создании новой группы sonetgroup.create или при получении списка существующих групп socialnetwork.api.workgroup.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 1,
+      "groupId": 125,
+      "createdBy": 6,
+      "modifiedBy": 1
+    },
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-get.html",
+  "executable": false,
+  "entityFields": [
+    "createdBy",
+    "groupId",
+    "id",
+    "modifiedBy"
+  ]
+}

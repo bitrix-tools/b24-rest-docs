@@ -1,0 +1,118 @@
+{
+  "$v": 1,
+  "method": "landing.syspage.get",
+  "scope": "landing",
+  "kind": "read",
+  "title": "Получить список специальных страниц сайта landing.syspage.get",
+  "permissions": "пользователь с правом «чтение» для сайта",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сайта. Идентификатор сайта можно получить методом landing.site.getList или из результата метода landing.site.add"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращать только страницы, которые не удалены и активны. Фильтр считается включенным, если передать true. По умолчанию — false"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/page/special-pages/landing-syspage-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "mainpage": {
+        "TYPE": "mainpage",
+        "LANDING_ID": "711",
+        "TITLE": "Классический магазин. Одежда",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      },
+      "catalog": {
+        "TYPE": "catalog",
+        "LANDING_ID": "713",
+        "TITLE": "Каталог",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      },
+      "personal": {
+        "TYPE": "personal",
+        "LANDING_ID": "717",
+        "TITLE": "Персональный раздел",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      },
+      "cart": {
+        "TYPE": "cart",
+        "LANDING_ID": "2261",
+        "TITLE": "Корзина",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      },
+      "order": {
+        "TYPE": "order",
+        "LANDING_ID": "721",
+        "TITLE": "Оформление заказа",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      },
+      "compare": {
+        "TYPE": "compare",
+        "LANDING_ID": "749",
+        "TITLE": "Сравнение",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      },
+      "payment": {
+        "TYPE": "payment",
+        "LANDING_ID": "751",
+        "TITLE": "Оплата заказа",
+        "DELETED": "N",
+        "ACTIVE": "Y"
+      }
+    },
+    "time": {
+      "start": 1774349441,
+      "finish": 1774349441.726663,
+      "duration": 0.7266631126403809,
+      "processing": 0,
+      "date_start": "2026-03-24T13:50:41+03:00",
+      "date_finish": "2026-03-24T13:50:41+03:00",
+      "operating_reset_at": 1774350041,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "any",
+      "base": "any",
+      "required": false,
+      "description": "Результат выполнения запроса. Метод возвращает объект со специальными страницами, сгруппированными по коду типа (подробное описание). Если сайт не найден или у пользователя нет права «чтение» сайта, метод вернет null. Если доступ к сайту есть, но специальные страницы не назначены, метод вернет пустой объект {}.…"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/page/special-pages/landing-syspage-get.html",
+  "executable": false,
+  "entityFields": [
+    "ACTIVE",
+    "DELETED",
+    "LANDING_ID",
+    "TITLE",
+    "TYPE"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "$v": 1,
+  "method": "catalog.documentcontractor.add",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Добавить поставщика к документу складского учета catalog.documentcontractor.add",
+  "permissions": "пользователь с правами:",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Поля привязки (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "documentContractor": {
+        "documentId": 73,
+        "entityId": 2185,
+        "entityTypeId": 3,
+        "id": 15
+      }
+    },
+    "time": {
+      "start": 1766469835,
+      "finish": 1766469835.824666,
+      "duration": 0.8246660232543945,
+      "processing": 0,
+      "date_start": "2025-12-23T09:03:55+03:00",
+      "date_finish": "2025-12-23T09:03:55+03:00",
+      "operating_reset_at": 1766470435,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "documentContractor",
+      "type": "catalog_documentContractor",
+      "base": "any",
+      "required": false,
+      "description": "Объект с данными созданной привязки поставщика к документу складского учета"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/documentcontractor/catalog-documentcontractor-add.html",
+  "executable": false
+}

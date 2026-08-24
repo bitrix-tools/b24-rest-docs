@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.numerator.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить информацию о нумераторе crm.documentgenerator.numerator.get",
+  "permissions": "пользователь с правом \"изменения\" шаблонов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор нумератора"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/numerator/crm-document-generator-numerator-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "numerator": {
+        "id": "45",
+        "name": "Нумератор из REST (обновлен)",
+        "template": "INV-{NUMBER}",
+        "code": null,
+        "settings": {
+          "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+            "start": 100,
+            "step": 1,
+            "length": 0,
+            "padString": "0",
+            "periodicBy": null,
+            "timezone": null,
+            "isDirectNumeration": false
+          }
+        }
+      }
+    },
+    "time": {
+      "start": 1773747475,
+      "finish": 1773747475.904903,
+      "duration": 0.9049029350280762,
+      "processing": 0,
+      "date_start": "2026-03-17T14:37:55+03:00",
+      "date_finish": "2026-03-17T14:37:55+03:00",
+      "operating_reset_at": 1773748075,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит объект numerator"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-get.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "id",
+    "name",
+    "settings",
+    "template"
+  ]
+}

@@ -13,7 +13,7 @@ items:
     href: im-notify-get.md
   - name: Получить схему типов уведомлений
     href: im-notify-schema-get.md
-  - name: Прочитать список уведомлений 
+  - name: Прочитать список уведомлений
     href: im-notify-read-list.md
   - name: Прочитать уведомление
     href: im-notify-read.md

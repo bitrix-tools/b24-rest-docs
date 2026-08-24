@@ -1,0 +1,176 @@
+{
+  "$v": 1,
+  "method": "im.user.list.get",
+  "scope": "im",
+  "kind": "read",
+  "title": "Получить данные о списке пользователей im.user.list.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "ID",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов пользователей или JSON-строка с массивом. Получить идентификаторы пользователей можно методами user.get, user.search или im.chat.user.list",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "AVATAR_HR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр для запроса поля avatar_hr с адресом аватара в высоком разрешении. Допустимые значения: Y или N, по умолчанию N. На текущий момент поле avatar_hr возвращается всегда, независимо от значения параметра"
+    },
+    {
+      "name": "RESULT_TYPE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Формат result. Значение array вернет обычный массив объектов пользователей, любое другое значение вернет объект с ключами-идентификаторами пользователей"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/users/im-user-list-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 4,
+        "active": true,
+        "name": "Анна Соколова",
+        "first_name": "Анна",
+        "last_name": "Соколова",
+        "work_position": "Аналитик",
+        "color": "#df532d",
+        "avatar": "https://example.bitrix24.ru/upload/main/avatar4.png",
+        "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar4_hr.png",
+        "gender": "F",
+        "birthday": "",
+        "extranet": false,
+        "network": false,
+        "bot": false,
+        "connector": false,
+        "external_auth_id": "default",
+        "status": "online",
+        "idle": false,
+        "last_activity_date": "2026-03-02T09:30:00+03:00",
+        "mobile_last_date": false,
+        "desktop_last_date": false,
+        "absent": false,
+        "departments": [
+          7,
+          5
+        ],
+        "phones": {
+          "work_phone": "+71234567891",
+          "personal_mobile": "+71234567891",
+          "inner_phone": "22"
+        },
+        "website": "example.ru",
+        "email": "anna.sokolova@example.ru",
+        "bot_data": null,
+        "type": "user"
+      },
+      {
+        "id": 5,
+        "active": true,
+        "name": "Иван Петров",
+        "first_name": "Иван",
+        "last_name": "Петров",
+        "work_position": "Менеджер",
+        "color": "#048bd0",
+        "avatar": "https://example.bitrix24.ru/upload/main/avatar.png",
+        "avatar_hr": "https://example.bitrix24.ru/upload/main/avatar_hr.png",
+        "gender": "M",
+        "birthday": "",
+        "extranet": false,
+        "network": false,
+        "bot": false,
+        "connector": false,
+        "external_auth_id": "default",
+        "status": "online",
+        "idle": false,
+        "last_activity_date": "2026-03-02T09:30:00+03:00",
+        "mobile_last_date": false,
+        "desktop_last_date": false,
+        "absent": false,
+        "departments": [
+          10
+        ],
+        "phones": {
+          "work_phone": "+71234567890",
+          "personal_mobile": "+71234567890",
+          "inner_phone": "21"
+        },
+        "website": "example.ru",
+        "email": "user@example.ru",
+        "bot_data": null,
+        "type": "user"
+      }
+    ],
+    "time": {
+      "start": 1772449081,
+      "finish": 1772449081.887056,
+      "duration": 0.8870561122894287,
+      "processing": 0,
+      "date_start": "2026-03-02T13:58:01+03:00",
+      "date_finish": "2026-03-02T13:58:01+03:00",
+      "operating_reset_at": 1772449681,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные пользователей. По умолчанию возвращается объект с ключами-идентификаторами, при RESULT_TYPE = 'array' возвращается массив. Структура объекта пользователя подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/users/im-user-list-get.html",
+  "executable": false,
+  "entityFields": [
+    "absent",
+    "active",
+    "avatar",
+    "avatar_hr",
+    "birthday",
+    "bot",
+    "bot_data",
+    "color",
+    "connector",
+    "departments",
+    "desktop_last_date",
+    "email",
+    "external_auth_id",
+    "extranet",
+    "first_name",
+    "gender",
+    "id",
+    "idle",
+    "last_activity_date",
+    "last_name",
+    "mobile_last_date",
+    "name",
+    "network",
+    "phones",
+    "status",
+    "type",
+    "website",
+    "work_position"
+  ]
+}

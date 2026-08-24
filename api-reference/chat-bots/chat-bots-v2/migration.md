@@ -1,7 +1,3 @@
----
-title: Миграция с imbot на imbot.v2
----
-
 # Миграция с imbot на imbot.v2
 
 {% note tip "" %}

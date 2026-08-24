@@ -1,0 +1,41 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить информацию об оплате crm.item.payment.get",
+  "permissions": "требуется право на изменение заказа оплаты",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/crm-item-payment-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "sale_order_payment_crm_simple",
+      "base": "any",
+      "required": false,
+      "description": "Объект, содержащий краткую информацию об оплате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/crm-item-payment-get.html",
+  "executable": false
+}

@@ -1,0 +1,79 @@
+{
+  "$v": 1,
+  "method": "timeman.networkrange.check",
+  "scope": "timeman",
+  "kind": "write",
+  "title": "Проверить IP-адрес timeman.networkrange.check",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "IP",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "IP-адрес, который нужно проверить. Например 10.10.255.25. Если не указать — проверка будет выполнена для текущего IP-адреса"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/networkrange/timeman-networkrange-check.md"
+  },
+  "resultExample": {
+    "result": {
+      "ip": "10.10.255.255",
+      "range": "10.0.0.0-10.255.255.255",
+      "name": "10.x.x.x"
+    },
+    "time": {
+      "start": 1742997578.167589,
+      "finish": 1742997578.205729,
+      "duration": 0.038140058517456055,
+      "processing": 0.0028028488159179688,
+      "date_start": "2025-03-26T16:59:38+03:00",
+      "date_finish": "2025-03-26T16:59:38+03:00",
+      "operating_reset_at": 1742998178,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит объект с описанием диапазона, в который входит IP-адрес. Вернет false если IP-адрес не входит ни в один диапазон офисной сети"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "IP-адрес, который был проверен"
+    },
+    {
+      "name": "range",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Диапазон, в который входит IP-адрес"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Название диапазона, в который входит IP-адрес"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/networkrange/timeman-networkrange-check.html",
+  "executable": false
+}

@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -33,7 +33,7 @@
 
 Идентификатор задачи можно получить при [создании новой задачи](./tasks-task-add-rest-v3.md) или старым методом [получения списка задач](./tasks-task-list-rest-v3.md) ||
 || **fileIds***
-[`array<integer>`](../data-types.md) | Массив идентификаторов файлов Диска.
+[`integer[]`](../data-types.md) | Массив идентификаторов файлов Диска.
 
 Получить идентификаторы файлов можно двумя способами.
 
@@ -248,6 +248,27 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.file.attach", b24.Params{
+    	"taskId":  8017,
+    	"fileIds": []int{1065, 1077},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.file.attach: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
     ```
 
 {% endlist %}

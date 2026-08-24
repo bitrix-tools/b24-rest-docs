@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет группу свойств.
+Метод `sale.propertygroup.delete` удаляет группу свойств.
 
 ## Параметры метода
 
@@ -205,6 +205,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertygroup.delete", b24.Params{
+    	"id": 15,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.propertygroup.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

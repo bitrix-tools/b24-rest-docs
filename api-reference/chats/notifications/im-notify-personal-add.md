@@ -17,19 +17,19 @@
 
 {% note info "" %}
 
-Метод доступен только при вызове через приложение.
+Метод нельзя вызвать с сессионной авторизацией — он вернет ошибку `WRONG_AUTH_TYPE`. Вызывайте его через вебхук или с токеном приложения.
 
 {% endnote %}
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **USER_ID***
-[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления. 
+[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления.
 
 Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.user.get](../users/im-user-get.md) ||
 || **MESSAGE***
@@ -41,8 +41,10 @@
 || **SUB_TAG**
 [`string`](../../data-types.md) | Дополнительный тег уведомления без проверки уникальности. Передавайте с `CLIENT_ID` при вызове через вебхук ||
 || **ATTACH**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`string`](../../data-types.md) | Вложение уведомления в формате объекта или JSON-строки. Подробнее смотрите в разделе [Вложения](../messages/attachments.md) ||
+|| **CLIENT_ID**
+[`string`](../../data-types.md) | Идентификатор приложения. Параметр обязателен только при вызове через вебхук: передавайте его вместе с `TAG` и `SUB_TAG` ||
 |#
 
 ## Примеры кода
@@ -247,11 +249,34 @@
         echo 'Notification ID: ' . $result['result'];
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.personal.add", b24.Params{
+    	"USER_ID":     5,
+    	"MESSAGE":     "Напоминание по задаче",
+    	"MESSAGE_OUT": "Напоминание по задаче (email)",
+    	"TAG":         "TASK_REMINDER_42",
+    	"SUB_TAG":     "TASK_REMINDER|42",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.personal.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -269,13 +294,13 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`integer`](../../data-types.md) 
+[`integer`](../../data-types.md)
 [`boolean`](../../data-types.md) | Идентификатор созданного уведомления. Если уведомление не создано, может вернуться `false` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -292,7 +317,7 @@ HTTP-статус: **400**, **403**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
@@ -301,7 +326,7 @@ HTTP-статус: **400**, **403**
 || `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
 || `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или `USER_ID <= 0` ||
 || `MESSAGE_EMPTY` | Message can't be empty | Не передан текст сообщения ||
-|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 30 Кб ||
+|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 60 000 символов ||
 || `ATTACH_ERROR` | Incorrect attach params | Передан некорректный формат вложения `ATTACH` ||
 |#
 

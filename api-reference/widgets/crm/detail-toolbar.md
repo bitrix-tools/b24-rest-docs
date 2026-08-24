@@ -9,187 +9,64 @@
 
 {% endnote %}
 
-> Scope: [`crm`](../../scopes/permissions.md)
+> Scope: [`placement, crm`](../../scopes/permissions.md)
 
-Вы можете добавить свой пункт выпадающего меню в верхней кнопки карточки объектов CRM: [лиды](../../crm/leads/index.md), [контакты](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческие предложения](../../crm/quote/index.md), [новые счета](../../crm/universal/invoice.md), [пользовательские типы объектов](../../crm/universal/index.md).
+Виджет добавляет свой пункт в меню верхней кнопки карточки объекта CRM: [лида](../../crm/leads/index.md), [контакта](../../crm/contacts/index.md), [компании](../../crm/companies/index.md), [сделки](../../crm/deals/index.md), [коммерческого предложения](../../crm/quote/index.md), [нового счета](../../crm/universal/invoice.md) или [пользовательского типа объектов](../../crm/universal/index.md).
 
-![Виджет в виде пункта выпадающего меню верхней кнопки карточки сделки](./_images/CRM_DEAL_DETAIL_TOOLBAR.png "Виджет в виде пункта выпадающего меню верхней кнопки карточки сделки")
-
-Код конкретного места встройки виджета указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
 {% note info "" %}
 
-Встройка не будет отображаться в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `CRM_LEAD_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [лида](../../crm/leads/index.md) ||
 || `CRM_DEAL_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [сделки](../../crm/deals/index.md) ||
 || `CRM_CONTACT_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [контакта](../../crm/contacts/index.md) ||
 || `CRM_COMPANY_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [компании](../../crm/companies/index.md) ||
 || `CRM_QUOTE_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [коммерческого предложения](../../crm/quote/index.md) ||
-|| `CRM_SMART_INVOICE_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [счетов](../../crm/universal/invoice.md) ||
-|| `CRM_DYNAMIC_XXX_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_ACTIVITY` ||
+|| `CRM_SMART_INVOICE_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки [нового счета](../../crm/universal/invoice.md) ||
+|| `CRM_DYNAMIC_XXX_DETAIL_TOOLBAR` | Пункт выпадающего меню верхней кнопки карточки пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_DETAIL_TOOLBAR` ||
 |#
+
+### Где находится в интерфейсе
+
+Откройте карточку объекта CRM и раскройте меню кнопки в правом верхнем углу карточки — той, что стоит слева от кнопки *Документ*. Пункт приложения выводится в этом меню рядом с пунктами баз знаний и Маркетплейса.
+
+![Пункт меню верхней кнопки карточки сделки](./_images/CRM_DEAL_DETAIL_TOOLBAR.png "Пункт меню верхней кнопки карточки сделки")
 
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
-{% list tabs %}
+Пример показан для точки `CRM_DEAL_DETAIL_TOOLBAR`. У остальных кодов состав данных такой же: меняются значение `PLACEMENT` и идентификатор объекта в `PLACEMENT_OPTIONS`.
 
-- CRM_LEAD_DETAIL_TOOLBAR
+```php
 
-    ```php
+Array
+(
+    [DOMAIN] => xxx.bitrix24.com
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => cf9799131da897ead1b2579024a13be2
+    [AUTH_ID] => 7c3a7166007e9c94001e30ba00000001f0f10716b4e9d02c8f735ae61d09b4f2
+    [AUTH_EXPIRES] => 3600
+    [REFRESH_ID] => 6b299966007e9c94001e30ba00000001f0f107a5c81f6b3d290e74fca83b5e10
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => crm,placement
+    [member_id] => d897063e1ce7c5eb9f04b9751eef5915
+    [status] => L
+    [PLACEMENT] => CRM_DEAL_DETAIL_TOOLBAR
+    [PLACEMENT_OPTIONS] => {"ID":"8061","URI":"\/crm\/deal\/details\/8061\/?any=details%2F8061%2F"}
+)
 
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 0d43bf11edd7e3c050ea8b0577eb6a87
-        [AUTH_ID] => 18d3a06600631fcd00005a4b00000001f0f1077b7ce52f79713d82c4bc9960bcf4b598
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 0852c86600631fcd00005a4b00000001f0f107ce505dcd9306e0eb55ad77df1d2b2f16
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_LEAD_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ID":"6591"}
-    )
-
-    ```
-
-- CRM_DEAL_DETAIL_TOOLBAR
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 88fe421c3ce39985adb9d220cc965e61
-        [AUTH_ID] => 31d3a06600631fcd00005a4b00000001f0f10791c1fc87943e62dc8a28210b56b2af87
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 2152c86600631fcd00005a4b00000001f0f10780aada857e86212d3a73281c74525ccd
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DEAL_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ID":"3473"}
-    )
-
-    ```
-
-- CRM_CONTACT_DETAIL_TOOLBAR
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 8bc3acce3a150e11f48469e4a37384af
-        [AUTH_ID] => 44d3a06600631fcd00005a4b00000001f0f10784af91cb9aeebddf2b1822776d4e7a9e
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 3452c86600631fcd00005a4b00000001f0f1078f707dfdc8c4b9830929c565294f37b0
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_CONTACT_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ID":"13037"}
-    )
-
-    ```
-
-- CRM_COMPANY_DETAIL_TOOLBAR
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 75ca32f216adb32ca5a16c928d9a6fd2
-        [AUTH_ID] => 5bd3a06600631fcd00005a4b00000001f0f107b39291622bfbbc6a0c75eeadb4ef65ea
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 4b52c86600631fcd00005a4b00000001f0f107ac1cfa783b59df28b087eead8d49b869
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_COMPANY_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ID":"2946"}
-    )
-        
-    ```
-
-- CRM_QUOTE_DETAIL_TOOLBAR
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 7c10e9dd04fc0ee9a2ca4981b708f322
-        [AUTH_ID] => 85d3a06600631fcd00005a4b00000001f0f107f1285d38d8f287a126f7fd9d42ab87fb
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 7552c86600631fcd00005a4b00000001f0f1072f206ef3499d9fb87f5d9a575a78186a
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_QUOTE_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"5"}
-    )
-    
-    ```
-
-- CRM_SMART_INVOICE_DETAIL_TOOLBAR
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 0913971fc9a85afea6263cc6dcff04bd
-        [AUTH_ID] => 9fc7ca670076a4b8006f518000000001201c07e51994c33447f80190049359e6d29a0c
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 8f46f2670076a4b8006f518000000001201c078f877b9e542e35eeeca4c284d2fd976a
-        [member_id] => e8857f161a1a8288f312b6cc6ad67995
-        [status] => L
-        [PLACEMENT] => CRM_SMART_INVOICE_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"32"}
-    )
-    
-    ```
-
-- CRM_DYNAMIC_XXX_DETAIL_TOOLBAR
-
-    ```php
-
-    Array
-    (
-        [DOMAIN] => xxx.bitrix24.com
-        [PROTOCOL] => 1
-        [LANG] => en
-        [APP_SID] => 220448997c6d7f606bd25c1c1896456e
-        [AUTH_ID] => 9ed3a06600631fcd00005a4b00000001f0f10797d8322191958e46f791643a1f7cb06f
-        [AUTH_EXPIRES] => 3600
-        [REFRESH_ID] => 8e52c86600631fcd00005a4b00000001f0f10734c4bc5b1f7ad2eca54b546ef12a2bf9
-        [member_id] => da45a03b265edd8787f8a258d793cc5d
-        [status] => L
-        [PLACEMENT] => CRM_DYNAMIC_183_DETAIL_TOOLBAR
-        [PLACEMENT_OPTIONS] => {"ENTITY_ID":"3"}
-    )
-    
-    ```
-
-{% endlist %}
+```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -197,7 +74,7 @@
 
 ### PLACEMENT_OPTIONS
 
-Значением `PLACEMENT_OPTIONS` является JSON-строка, содержащая массив из одного и более ключей.
+Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова. Кроме универсального ключа `URI` в контекст попадает идентификатор объекта.
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -208,20 +85,273 @@
 
 Может быть использован для получения дополнительной информации с помощью соответствующих методов:
 
-- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [т.д.](../../crm/data-types.md#object_type)
+- любой тип объекта [crm.item.get](../../crm/universal/crm-item-get.md) с указанием entityTypeId = '1' для лидов, '2' для сделок и [так далее](../../crm/data-types.md#object_type)
 - лид [crm.lead.get](../../crm/leads/crm-lead-get.md)
 - сделка [crm.deal.get](../../crm/deals/crm-deal-get.md)
 - контакт [crm.contact.get](../../crm/contacts/crm-contact-get.md)
 - компания [crm.company.get](../../crm/companies/crm-company-get.md)
 - коммерческое предложение [crm.quote.get](../../crm/quote/crm-quote-get.md)
 
-В случае встройки виджета в объект пользовательского типа, идентификатор типа можно получить из значения параметра `PLACEMENT`. В примере выше — `183`
+Имя ключа зависит от типа объекта: у лида, сделки, контакта и компании идентификатор приходит в ключе `ID`, у коммерческого предложения, нового счета и пользовательского типа объектов — в ключе `ENTITY_ID`.
+
+Идентификатор типа объекта отдельным ключом не приходит. Для пользовательского типа объектов его можно взять из значения параметра `PLACEMENT`: например, у кода `CRM_DYNAMIC_183_DETAIL_TOOLBAR` идентификатор типа равен `183`
 
 ||
 |#
 
+## OPTIONS при регистрации через placement.bind
+
+Параметры `OPTIONS` точка не поддерживает. Переданные значения не сохраняются: метод [placement.get](../placement-get.md) возвращает для такой регистрации пустой массив.
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "PLACEMENT": "CRM_DEAL_DETAIL_TOOLBAR",
+        "HANDLER": "https://your-domain.com/widgets/crm-detail-toolbar-handler.php",
+        "TITLE": "Мой пункт в карточке сделки",
+        "LANG_ALL": {
+          "ru": {
+            "TITLE": "Мой пункт в карточке сделки"
+          },
+          "en": {
+            "TITLE": "My deal card item"
+          }
+        },
+        "auth": "**put_access_token_here**"
+      }' \
+      https://**put_your_bitrix24_address**/rest/placement.bind
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'placement.bind',
+        params: {
+          PLACEMENT: 'CRM_DEAL_DETAIL_TOOLBAR',
+          HANDLER: 'https://your-domain.com/widgets/crm-detail-toolbar-handler.php',
+          TITLE: 'My deal card item',
+          LANG_ALL: {
+            ru: {
+              TITLE: 'Мой пункт в карточке сделки',
+            },
+            en: {
+              TITLE: 'My deal card item',
+            },
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Placement bound successfully:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function bindCrmDealDetailToolbar() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'placement.bind',
+            params: {
+              PLACEMENT: 'CRM_DEAL_DETAIL_TOOLBAR',
+              HANDLER: 'https://your-domain.com/widgets/crm-detail-toolbar-handler.php',
+              TITLE: 'My deal card item',
+              LANG_ALL: {
+                ru: {
+                  TITLE: 'Мой пункт в карточке сделки',
+                },
+                en: {
+                  TITLE: 'My deal card item',
+                },
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Placement bound successfully:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', bindCrmDealDetailToolbar)
+    </script>
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'placement.bind',
+                [
+                    'PLACEMENT' => 'CRM_DEAL_DETAIL_TOOLBAR',
+                    'HANDLER' => 'https://your-domain.com/widgets/crm-detail-toolbar-handler.php',
+                    'TITLE' => 'Мой пункт в карточке сделки',
+                    'LANG_ALL' => [
+                        'ru' => [
+                            'TITLE' => 'Мой пункт в карточке сделки',
+                        ],
+                        'en' => [
+                            'TITLE' => 'My deal card item',
+                        ],
+                    ],
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult();
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error binding placement: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'placement.bind',
+        {
+            PLACEMENT: 'CRM_DEAL_DETAIL_TOOLBAR',
+            HANDLER: 'https://your-domain.com/widgets/crm-detail-toolbar-handler.php',
+            TITLE: 'Мой пункт в карточке сделки',
+            LANG_ALL: {
+                ru: { TITLE: 'Мой пункт в карточке сделки' },
+                en: { TITLE: 'My deal card item' }
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.log(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'placement.bind',
+        [
+            'PLACEMENT' => 'CRM_DEAL_DETAIL_TOOLBAR',
+            'HANDLER' => 'https://your-domain.com/widgets/crm-detail-toolbar-handler.php',
+            'TITLE' => 'Мой пункт в карточке сделки',
+            'LANG_ALL' => [
+                'ru' => [
+                    'TITLE' => 'Мой пункт в карточке сделки',
+                ],
+                'en' => [
+                    'TITLE' => 'My deal card item',
+                ],
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "CRM_DEAL_DETAIL_TOOLBAR",
+    	"HANDLER":   "https://your-domain.com/widgets/crm-detail-toolbar-handler.php",
+    	"TITLE":     "Мой пункт в карточке сделки",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Мой пункт в карточке сделки",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My deal card item",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его по форме ответа
+    // метода placement.bind, см. раздел «Обработка ответа» на его странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
+{% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Код собран для типа объекта, который эта точка не поддерживает, или приложению не выдан скоуп `crm`. Сверьте код с таблицей в начале страницы ||
+|| Виджет зарегистрирован, но в интерфейсе не появляется | Завершите [установку приложения](../../../settings/app-installation/installation-finish.md) и перезагрузите страницу ||
+|| Пункт не удается найти в карточке | Раскройте меню кнопки в правом верхнем углу карточки — той, что стоит слева от кнопки *Документ* ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
+
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./detail-tab.md)
+- [{#T}](./list-toolbar.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)

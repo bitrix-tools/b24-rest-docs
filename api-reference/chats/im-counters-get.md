@@ -211,6 +211,19 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.counters.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.counters.get: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -298,6 +311,17 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+У метода нет собственных кодов ошибок — возможны только системные ошибки REST API.
 
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 

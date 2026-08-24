@@ -9,13 +9,20 @@
 
 {% endnote %}
 
-Ресурсы – это объекты, которые можно забронировать: помещения, техника, услуги и так далее.
+Ресурсы — это объекты, которые можно забронировать: помещения, техника или услуги.
 
-> Быстрый переход: [все методы](#all-methods) 
-> 
+> Быстрый переход: [все методы](#all-methods)
+>
 > Пользовательская документация: [Онлайн-запись: как создать новый ресурс](https://helpdesk.bitrix24.ru/open/23661822/)
 
-## Связь ресурсов  с другими объектами
+## Как начать работу
+
+1. Создайте или получите тип ресурса методами [booking.v1.resourceType.*](./resource-type/index.md)
+2. Создайте ресурс методом [booking.v1.resource.add](./booking-v1-resource-add.md)
+3. Настройте доступное время методами [booking.v1.resource.slots.*](./slots/index.md)
+4. Передайте `id` ресурса в параметре `resourceIds` методов [booking.v1.booking.*](../booking/index.md), чтобы ресурс участвовал в бронировании
+
+## Связь ресурсов с другими объектами
 
 **Бронь.** Передавайте `id` ресурсов в параметре `resourceIds` методов [booking.v1.booking.*](../booking/index.md). Одно бронирование может включать несколько ресурсов.
 
@@ -34,8 +41,8 @@
 #|
 || **Метод** | **Описание** ||
 || [booking.v1.resource.add](./booking-v1-resource-add.md) | Добавляет новый ресурс ||
-|| [booking.v1.resource.delete](./booking-v1-resource-delete.md) | Удаляет ресурс ||
+|| [booking.v1.resource.update](./booking-v1-resource-update.md) | Обновляет ресурс ||
 || [booking.v1.resource.get](./booking-v1-resource-get.md) | Получает ресурс ||
 || [booking.v1.resource.list](./booking-v1-resource-list.md) | Получает список ресурсов ||
-|| [booking.v1.resource.update](./booking-v1-resource-update.md) | Обновляет ресурс ||
+|| [booking.v1.resource.delete](./booking-v1-resource-delete.md) | Удаляет ресурс ||
 |#

@@ -9,9 +9,9 @@
 
 {% endnote %}
 
-> Scope: [`в зависимости от места встройки`](../../scopes/permissions.md)
+> Scope: [`placement`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
 Метод `userfieldtype.delete` удаляет зарегистрированный приложением тип пользовательских полей. Возвращает _true_ или ошибку с описанием причины.
 
@@ -203,6 +203,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldtype.delete", b24.Params{
+    	"USER_TYPE_ID": "test",
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldtype.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

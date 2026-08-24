@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -163,6 +163,39 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.get", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"dialogId": "chat5",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "chat".
+    raw, ok := b24.Unwrap(res.Result, "chat")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа chat")
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	DialogID    string `json:"dialogId"`
+    	Name        string `json:"name"`
+    	Description string `json:"description"`
+    	Type        string `json:"type"`
+    	MessageType string `json:"messageType"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.DialogID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -253,15 +286,15 @@ HTTP-статус: **200**
 || **owner**
 [`integer`](../../../../data-types.md) | ID владельца чата ||
 || **color**
-[`string\|null`](../../../../data-types.md) | Цвет чата в формате HEX ||
+[```string|null```](../../../../data-types.md) | Цвет чата в формате HEX ||
 || **avatar**
 [`string`](../../../../data-types.md) | URL аватара чата. Пустая строка, если не установлен ||
 || **role**
 [`string`](../../../../data-types.md) | Роль текущего пользователя: `owner`, `manager`, `member`, `guest`, `none` ||
 || **dateCreate**
-[`string\|null`](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
+[```string|null```](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
 || **lastMessageId**
-[`integer\|null`](../../../../data-types.md) | ID последнего сообщения ||
+[```integer|null```](../../../../data-types.md) | ID последнего сообщения ||
 || **muteList**
 [`array`](../../../../data-types.md) | Список ID пользователей, отключивших уведомления ||
 || **managerList**

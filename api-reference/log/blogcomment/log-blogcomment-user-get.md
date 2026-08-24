@@ -257,6 +257,23 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogcomment.user.get", b24.Params{
+    	"USER_ID":  28,
+    	"FIRST_ID": 215,
+    	"LAST_ID":  216,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("log.blogcomment.user.get: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -335,11 +352,13 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-Метод не возвращает ошибки. 
-
 Если идентификатор пользователя не указан или передано некорректное значение, метод возвращает комментарии текущего пользователя.
 
-{% include [Системные ошибки](../../../_includes/system-errors.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
 
 - [{#T}](./log-blogcomment-add.md)
 - [{#T}](./log-blogcomment-delete.md)

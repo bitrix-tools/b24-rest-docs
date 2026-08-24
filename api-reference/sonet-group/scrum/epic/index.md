@@ -11,34 +11,36 @@
 
 Эпик — это тема, контекст или большая цель, к которой относится задача. Прикрепляйте задачи к эпикам и ваш бэклог станет нагляднее.
 
-> Быстрый переход: [все методы и события](#all-methods) 
-> 
-> Пользовательская документация: [как работать в скраме](https://helpdesk.bitrix24.ru/open/14659922/) 
+> Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как работать в Скрам](https://helpdesk.bitrix24.ru/open/14659922/)
 
 ## Связь эпиков с другими объектами
 
-**Группа.** Эпики привязываются к группе (скраму) по идентификатору группы `groupId`. Получить идентификатор можно методом [создания новой группы](../../sonet-group-create.md) или методом [получения списка групп](../../socialnetwork-api-workgroup-list.md). Группа является скрамом, если заполнено поле `SCRUM_MASTER_ID`.
+**Группа.** Эпики привязываются к группе (скраму) по идентификатору группы `groupId`. Получить идентификатор можно методом [создания новой группы](../../sonet-group-create.md) или методом [получения списка групп](../../socialnetwork-api-workgroup-list.md). Группа является скрамом, если заполнено поле `SCRUM_MASTER_ID`.
 
-**Пользователь.** Эпик имеет привязку к пользователям по числовому идентификатору в параметрах `createdBy` и `modifiedBy`. Получить идентификатор пользователя можно с помощью метода [user.get](../../../user/user-get.md).
+**Пользователь.** Эпик имеет привязку к пользователям по числовому идентификатору в параметрах `createdBy` и `modifiedBy`. Получить идентификатор пользователя можно с помощью метода [user.get](../../../user/user-get.md).
 
-{% note tip "Пользовательская документация" %}
+## Как начать работу
 
-- [Битрикс24.Скрам](https://helpdesk.bitrix24.ru/open/13660630/)
-- [Как создать группу и проект](https://helpdesk.bitrix24.ru/open/22699004/)
-
-{% endnote %}
+1. Получите идентификатор Скрама методом [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md).
+2. Создайте эпик методом [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md).
+3. Получите задачу Скрама методом [tasks.api.scrum.task.get](../task/tasks-api-scrum-task-get.md).
+4. Прикрепите задачу к эпику методом [tasks.api.scrum.task.update](../task/tasks-api-scrum-task-update.md).
 
 ## Как прикрепить файлы к эпику
 
 К эпику можно прикреплять файлы Диска. Для этого в параметре `files` передайте массив с идентификаторами файлов. Перед каждым идентификатором укажите префикс `n`, например: `"files": ["n428", "n345"]`. Получить идентификаторы файлов можно двумя способами. 
 
-Использовать один из методов загрузки файла:
-  - [disk.storage.uploadfile](../../../disk/storage/disk-storage-upload-file.md)
-  - [disk.folder.uploadfile](../../../disk/folder/disk-folder-upload-file.md)
+Используйте один из методов загрузки файла:
 
-Использовать один из методов получения списка файлов:
-  - [disk.storage.getchildren](../../../disk/storage/disk-storage-get-children.md)
-  - [disk.folder.getchildren ](../../../disk/folder/disk-folder-get-children.md)
+- [disk.storage.uploadfile](../../../disk/storage/disk-storage-upload-file.md)
+- [disk.folder.uploadfile](../../../disk/folder/disk-folder-upload-file.md)
+
+Используйте один из методов получения списка файлов:
+
+- [disk.storage.getchildren](../../../disk/storage/disk-storage-get-children.md)
+- [disk.folder.getchildren](../../../disk/folder/disk-folder-get-children.md)
 
 ## Обзор методов {#all-methods}
 

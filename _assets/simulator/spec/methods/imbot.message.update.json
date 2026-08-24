@@ -1,0 +1,109 @@
+{
+  "$v": 1,
+  "method": "imbot.message.update",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Изменить отправленное сообщение imbot.message.update",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота. Метод работает только с ботами этого приложения.",
+  "params": [
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чат-бота. Получить можно методом imbot.bot.list. Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением"
+    },
+    {
+      "name": "MESSAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения, которое нужно изменить. Значение должно быть больше 0. Для сообщений, которые отправлены ботом через REST, идентификатор возвращает метод imbot.message.add"
+    },
+    {
+      "name": "MESSAGE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый текст сообщения. Если передать пустое значение, сообщение будет удалено. Если параметр не передан, текст сообщения не изменится"
+    },
+    {
+      "name": "ATTACH",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Вложение с блоками контента: изображения, ссылки, файлы. Можно передать: - строку JSON - объект с корневым ключом BLOCKS - массив блоков без обертки Подробнее читайте в разделе Вложения. Пустое значение или N очищает вложение",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "KEYBOARD",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Кнопки под сообщением, с которыми может взаимодействовать пользователь. Подробнее читайте в статье Работа с клавиатурами. Пустое значение или N отключает вывод кнопок",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "MENU",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные пункты в контекстном меню чата. Подробнее читайте в статье Контекстное меню. Пустое значение или N отключает показ дополнительных пунктов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "URL_PREVIEW",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Управляет отображением ссылок: при включении ссылка показывается как «богатая ссылка» с карточкой. Допустимые значения: - Y — включено, значение по умолчанию - N — выключено"
+    },
+    {
+      "name": "SKIP_CONNECTOR",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Пропускает отправку сообщения во внешние коннекторы открытых линий при обновлении MESSAGE. Допустимые значения: - Y — пропустить - N — не пропускать, значение по умолчанию"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/messages/imbot-message-update.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.Message.update"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/messages/imbot-message-update.html",
+  "executable": false
+}

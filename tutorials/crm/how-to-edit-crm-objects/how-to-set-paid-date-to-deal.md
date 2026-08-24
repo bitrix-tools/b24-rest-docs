@@ -2,7 +2,11 @@
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом на изменение элемента CRM
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «изменения» элементов объекта CRM
+>
+> - [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
+> - [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) и [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
+> - [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md) — пользователь с правом на чтение объекта CRM, из которого выбираются оплаты
 
 {% note tip "" %}
 
@@ -13,225 +17,217 @@
 
 {% endnote %}
 
-В Битрикс24 дата платежа хранится в документах оплаты. Иногда дата оплаты может понадобиться в поле сделки:
+Дату оплаты Битрикс24 хранит в документе оплаты, а не в самой сделке. В карточке сделки этой даты нет, и обычный фильтр по сделкам ее не видит. Поэтому дату оплаты часто дублируют в пользовательское поле сделки: оттуда ее забирают интеграции с внешними системами, отчеты BI-конструктора, роботы и бизнес-процессы.
 
-- для интеграций с внешними системами,
-- отчетов BI-конструктора,
-- автоматизаций через роботы и бизнес-процессы.
-  
-Чтобы перенести информацию о дате оплаты в сделку, последовательно выполним три метода:
+Идентификатор пользовательского поля в каждом Битрикс24 свой, и записать его в код константой нельзя. Поэтому поле придется каждый раз находить по названию.
 
-1. [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) — получим идентификатор поля сделки, в которое сохраним информацию о дате
-2. [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md) — получим информацию об оплате
-3. [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) — сохраним дату оплаты в поле сделки
+В результате сценария в поле «Дата оплаты» карточки сделки появится дата оплаты, а `crm.item.update` вернет сделку с новым значением поля.
 
-## 1. Получаем идентификатор поля {#field_id}
+Сценарий состоит из трех шагов.
 
-Чтобы получить идентификатор поля cделки, используем метод [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) с параметрами:
+1. Найти идентификатор поля сделки методом [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md)
+2. Получить дату оплаты методом [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md)
+3. Записать дату в поле сделки методом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md)
 
-- `filter[LANG]` — фильтр по языку используем для вывода названий полей на нужном языке. Без данного фильтра названия выведены не будут.
-- `filter[USER_TYPE_ID]` — фильтр по типу поля используем, чтобы получить только поля с типом «Дата» в результате.
+## Что нужно до начала
+
+- вебхук создан от имени пользователя, у которого есть право изменять сделки в CRM
+
+- в правах вебхука отмечен scope `crm`
+
+- путь вебхука дает полный доступ в рамках своего scope. Храните путь в переменной окружения и не публикуйте его в открытом коде
+
+- в карточке сделки заранее создано пользовательское поле для даты оплаты. Его добавляют в настройках карточки сделки или методом [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md). Как выбрать тип поля, описано в блоке [Что важно учитывать](#date-type)
+
+- известен `id` сделки, для которой переносится дата. Найти его можно в адресе карточки сделки или методом [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md)
+
+- по этой сделке проведена хотя бы одна оплата. Если оплат нет, шаг 2 вернет пустой массив, и записывать в сделку будет нечего
+
+Дальше в примерах используется сделка `6917` и поле с названием «Дата оплаты».
+
+## 1. Найдем идентификатор поля сделки {#field-name}
+
+Используем метод [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md) с параметром:
+
+- `entityTypeId` — идентификатор [типа объекта CRM](../../../api-reference/crm/data-types.md#object_type), обязательный параметр. Укажем `2` — сделка
+
+Метод возвращает объект `fields`: ключ — идентификатор поля, значение — его настройки. Нужное поле найдем перебором по паре признаков:
+
+- `title` — название поля, которое видит пользователь в карточке. Ищем «Дата оплаты»
+
+- `type` — тип поля. Проверяем, что это `date` или `datetime`: так название вроде «Дата оплаты» у строкового поля не собьет отбор
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - JS
-  
+
     ```javascript
     import { B24Hook } from '@bitrix24/b24jssdk'
 
     const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-    const result = await $b24.actions.v2.call.make({
-        method: 'crm.deal.userfield.list',
+    const resultFields = await $b24.actions.v2.call.make({
+        method: 'crm.item.fields',
         params: {
-            filter: {
-                LANG: 'ru',
-                USER_TYPE_ID: 'date'
-            }
-        }
+            entityTypeId: 2 // 2 — сделка
+        },
+        requestId: 'item-fields'
     });
+
+    const fields = resultFields.getData().result.fields;
+    const fieldName = Object.keys(fields).find(
+        key => fields[key].title === 'Дата оплаты'
+            && ['date', 'datetime'].includes(fields[key].type)
+    );
     ```
 
 - PHP
-  
+
     ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
     require_once 'vendor/autoload.php';
 
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
     use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
+    use Psr\Log\NullLogger;
 
-    $logger = new Logger('b24');
-    $logger->pushHandler(new StreamHandler('php://stdout'));
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
         ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
-    $result = $serviceBuilder->getCRMScope()->dealUserfield()->list(
-        [],
-        [
-            'LANG' => 'ru',
-            'USER_TYPE_ID' => 'date'
-        ]
+    // у crm.item.fields нет обертки в SDK — вызываем метод напрямую
+    $resultFields = $sb->core->call(
+        'crm.item.fields',
+        [ 'entityTypeId' => 2 ] // 2 — сделка
     );
+
+    $fields = $resultFields->getResponseData()->getResult()['fields'];
+
+    $fieldName = null;
+    foreach ($fields as $key => $settings) {
+        if ($settings['title'] === 'Дата оплаты' && in_array($settings['type'], ['date', 'datetime'], true)) {
+            $fieldName = $key;
+            break;
+        }
+    }
     ```
 
 - Python
 
     ```python
+    # pip install b24pysdk
     from b24pysdk import BitrixWebhook, Client
 
     client = Client(
         BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
+            domain="your-domain.bitrix24.ru",
+            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
         )
     )
 
-    result = client.crm.deal.userfield.list(
-        filter={
-            "LANG": "ru",
-            "USER_TYPE_ID": "date",
-        }
-    ).response.result
+    fields = client.crm.item.fields(
+        2,  # 2 — сделка
+    ).response.result["fields"]
+
+    field_name = next(
+        (
+            key
+            for key, settings in fields.items()
+            if settings["title"] == "Дата оплаты" and settings["type"] in ("date", "datetime")
+        ),
+        None,
+    )
     ```
 
 {% endlist %}
 
-В результате получим информацию обо всех полях сделок с типом «Дата». Определим подходящее поле по названию в параметре `EDIT_FORM_LABEL`. Идентификатор поля возьмем из поля `FIELD_NAME`.
+Сохраните найденный идентификатор — он нужен на шаге 3. В примере это `ufCrm_1746431727372`. Ответ сокращен до одного поля — метод возвращает весь состав полей сделки.
 
 ```json
 {
-    "result": [
-        {
-            "ID": "6787",
-            "ENTITY_ID": "CRM_DEAL",
-            "FIELD_NAME": "UF_CRM_1723209318",
-            "USER_TYPE_ID": "date",
-            "XML_ID": null,
-            "SORT": "150",
-            "MULTIPLE": "N",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "E",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "DEFAULT_VALUE": {
-                    "TYPE": "NONE",
-                    "VALUE": ""
-                }
-            },
-            "EDIT_FORM_LABEL": "Дата оплаты",
-            "LIST_COLUMN_LABEL": "Дата оплаты",
-            "LIST_FILTER_LABEL": "Дата оплаты",
-            "ERROR_MESSAGE": null,
-            "HELP_MESSAGE": null
-        },
-        {
-            "ID": "6795",
-            "ENTITY_ID": "CRM_DEAL",
-            "FIELD_NAME": "UF_CRM_1723206732",
-            "USER_TYPE_ID": "date",
-            "XML_ID": null,
-            "SORT": "150",
-            "MULTIPLE": "N",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "E",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "DEFAULT_VALUE": {
-                    "TYPE": "NONE",
-                    "VALUE": ""
-                }
-            },
-            "EDIT_FORM_LABEL": "Окончание РК",
-            "LIST_COLUMN_LABEL": "Окончание РК",
-            "LIST_FILTER_LABEL": "Окончание РК",
-            "ERROR_MESSAGE": null,
-            "HELP_MESSAGE": null
-        },
-        {
-            "ID": "6805",
-            "ENTITY_ID": "CRM_DEAL",
-            "FIELD_NAME": "UF_CRM_1723206709",
-            "USER_TYPE_ID": "date",
-            "XML_ID": null,
-            "SORT": "150",
-            "MULTIPLE": "N",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "E",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "DEFAULT_VALUE": {
-                    "TYPE": "NONE",
-                    "VALUE": ""
-                }
-            },
-            "EDIT_FORM_LABEL": "Старт РК",
-            "LIST_COLUMN_LABEL": "Старт РК",
-            "LIST_FILTER_LABEL": "Старт РК",
-            "ERROR_MESSAGE": null,
-            "HELP_MESSAGE": null
+    "result": {
+        "fields": {
+            "ufCrm_1746431727372": {
+                "type": "date",
+                "isRequired": false,
+                "isReadOnly": false,
+                "isImmutable": false,
+                "isMultiple": false,
+                "isDynamic": true,
+                "title": "Дата оплаты",
+                "listLabel": "Дата оплаты",
+                "formLabel": "Дата оплаты",
+                "filterLabel": "Дата оплаты",
+                "settings": {
+                    "DEFAULT_VALUE": {
+                        "TYPE": "NONE",
+                        "VALUE": ""
+                    }
+                },
+                "upperName": "UF_CRM_1746431727372"
+            }
         }
-    ],
-    "total": 3,
+    }
 }
 ```
 
-## 2. Получаем дату оплаты {#date}
+Признак `isDynamic`: `true` подтверждает, что поле пользовательское, а не системное. В `upperName` лежит то же поле в старом написании — `UF_CRM_1746431727372`. Метод [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) по умолчанию понимает только вариант из ключа, поэтому на шаге 3 передаем именно `ufCrm_1746431727372`.
+
+## 2. Получим дату оплаты {#date}
 
 Используем метод [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md) с параметрами:
 
-- `entityId` — `ID` сделки, для которой получаем дату оплаты
-- `entityTypeId` — [тип объекта](../../../api-reference/crm/data-types.md#object_type), укажем `2` для сделки
+- `entityTypeId` — идентификатор [типа объекта CRM](../../../api-reference/crm/data-types.md#object_type), обязательный параметр. Укажем `2` — сделка
+
+- `entityId` — идентификатор сделки, для которой получаем оплаты, обязательный параметр. В примере `6917`
 
 {% list tabs %}
 
 - JS
-  
+
     ```javascript
-    const result = await $b24.actions.v2.call.make({
+    const resultPayments = await $b24.actions.v2.call.make({
         method: 'crm.item.payment.list',
         params: {
-            entityId: 6917,
             entityTypeId: 2,
-        }
+            entityId: 6917
+        },
+        requestId: 'payment-list'
     });
+
+    const payments = resultPayments.getData().result;
     ```
 
 - PHP
-  
+
     ```php
-    $result = $serviceBuilder->core->call(
+    // у crm.item.payment.list нет обертки в SDK — вызываем метод напрямую
+    $resultPayments = $sb->core->call(
         'crm.item.payment.list',
         [
-            'entityId' => 6917,
-            'entityTypeId' => 2
+            'entityTypeId' => 2,
+            'entityId' => 6917
         ]
     );
+
+    $payments = $resultPayments->getResponseData()->getResult();
     ```
 
 - Python
 
     ```python
-    result = client.crm.item.payment.list(
-        entity_id=6917,
+    payments = client.crm.item.payment.list(
         entity_type_id=2,
+        entity_id=6917,
     ).response.result
     ```
 
 {% endlist %}
 
-В результате получим список оплат с полями для сделки. Дату оплаты возьмем из поля `datePaid`.
+Метод возвращает массив оплат сделки. Дату платежа возьмите из поля `datePaid`, а по полю `paid` проверьте, что оплата действительно проведена: у неоплаченного документа `paid` равно `N`, а `datePaid` пустое.
 
 ```json
 {
@@ -247,40 +243,48 @@
             "currency": "RUB",
             "paySystemName": "ЮKassa"
         }
-    ],
+    ]
 }
 ```
 
-## 3. Сохраним дату в поле сделки
-   
-Чтобы изменить поле сделки и записать в него дату оплаты, используем метод [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) с параметрами:
+## 3. Запишем дату в поле сделки
 
-- `id` — `ID` сделки, обязательный параметр
-- `fields[UF_CRM_1723209318]` — укажем значение из поля `datePaid`, полученного на [шаге 2](#date). Как идентификатор поля передадим `FIELD_NAME` поля, полученное на [шаге 1](#field_id)
+Используем метод [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) с параметрами:
+
+- `entityTypeId` — `2` для сделки
+
+- `id` — идентификатор сделки, в примере `6917`
+
+- `fields[ufCrm_1746431727372]` — идентификатор поля из [шага 1](#field-name). Значением передаем `datePaid` из [шага 2](#date)
 
 {% list tabs %}
 
 - JS
-    
+
     ```javascript
-    const result = await $b24.actions.v2.call.make({
-        method: 'crm.deal.update',
+    const resultUpdate = await $b24.actions.v2.call.make({
+        method: 'crm.item.update',
         params: {
+            entityTypeId: 2,
             id: 6917,
             fields: {
-                UF_CRM_1723209318: "2025-04-29T13:03:20+03:00",
-            },
-        }
+                // ключ — идентификатор поля из шага 1, значение — datePaid из шага 2
+                [fieldName]: payments[0].datePaid
+            }
+        },
+        requestId: 'item-update'
     });
     ```
 
 - PHP
-  
+
     ```php
-    $result = $serviceBuilder->getCRMScope()->deal()->update(
+    $resultUpdate = $sb->getCRMScope()->item()->update(
+        2,
         6917,
         [
-            'UF_CRM_1723209318' => '2025-04-29T13:03:20+03:00'
+            // ключ — идентификатор поля из шага 1, значение — datePaid из шага 2
+            $fieldName => $payments[0]['datePaid']
         ]
     );
     ```
@@ -288,313 +292,368 @@
 - Python
 
     ```python
-    result = client.crm.deal.update(
-        bitrix_id=6917,
-        fields={
-            "UF_CRM_1723209318": "2025-04-29T13:03:20+03:00",
+    result_update = client.crm.item.update(
+        2,
+        6917,
+        {
+            # ключ — идентификатор поля из шага 1, значение — datePaid из шага 2
+            field_name: payments[0]["datePaid"],
         },
-    ).response.result
+    ).response.result["item"]
     ```
 
 {% endlist %}
 
-В результате получим `true`, изменение сделки прошло успешно. Если в результате вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md#обработка-ошибок).
+Метод возвращает сделку целиком уже с новым значением поля, поэтому проверять запись отдельным запросом не обязательно. Ответ сокращен до полей, которые подтверждают запись.
 
 ```json
 {
-    "result": true,
+    "result": {
+        "item": {
+            "id": 6917,
+            "title": "Сделка #6531",
+            "stageId": "C9:NEW",
+            "opportunity": 30,
+            "currencyId": "RUB",
+            "updatedTime": "2026-08-20T09:14:13+03:00",
+            "ufCrm_1746431727372": "2025-04-29T03:00:00+03:00"
+        }
+    }
 }
 ```
 
-## Проверяем значение поля сделки
+{% note warning "" %}
 
-В полученном результате нет информации о полях сделки. Чтобы проверить, успешно ли обновилось поле с датой оплаты, выполним метод [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md) с параметрами:
+Записали `2025-04-29T13:03:20+03:00`, а в ответе пришло `2025-04-29T03:00:00+03:00`. Это не ошибка: поле имеет тип «Дата», поэтому время не сохраняется. Время в ответе служебное и не зависит от того, что вы отправили: значения `2025-04-29`, `2025-04-29T00:00:00+03:00` и `2025-04-29T23:59:00+03:00` дадут один и тот же ответ. Сверяйте с отправленным значением только дату. Если время оплаты важно, заведите поле типа «Дата/время» — оно сохраняет значение целиком.
 
-- `id` — `ID` сделки, обязательный параметр
+{% endnote %}
+
+## Проверим результат
+
+Откройте карточку сделки в CRM. В поле «Дата оплаты» стоит `29.04.2025` — та же дата, что и в документе оплаты.
+
+Через REST значение поля возвращает метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) с параметрами:
+
+- `entityTypeId` — `2` для сделки
+
+- `id` — идентификатор сделки, в примере `6917`
 
 {% list tabs %}
 
 - JS
-  
+
     ```javascript
-    const result = await $b24.actions.v2.call.make({
-        method: 'crm.deal.get',
-        params: {
-            id: 6917,
-        }
+    const checkResult = await $b24.actions.v2.call.make({
+        method: 'crm.item.get',
+        params: { entityTypeId: 2, id: 6917 },
+        requestId: 'item-check'
     });
+
+    console.log(checkResult.getData().result.item[fieldName]);
     ```
 
 - PHP
-  
+
     ```php
-    $result = $serviceBuilder->getCRMScope()->deal()->get(6917);
+    echo $sb->getCRMScope()->item()->get(2, 6917)->item()->{$fieldName};
     ```
 
 - Python
 
     ```python
-    result = client.crm.deal.get(
-        bitrix_id=6917,
-    ).response.result
+    print(client.crm.item.get(2, 6917).response.result["item"][field_name])
     ```
 
 {% endlist %}
 
-В результате получим значения всех полей сделки, включая пользовательские поля. Значение поля «Дата оплаты» `UF_CRM_1723209318`: `2025-04-29T03:00:00+03:00` установлено успешно.
+Сценарий выполнен, если в ответе у поля `ufCrm_1746431727372` стоит дата оплаты, а не `null` и не пустая строка.
 
 ```json
 {
     "result": {
-        "ID": "6917",
-        "TITLE": "Сделка #6531",
-        "TYPE_ID": "SALE",
-        "STAGE_ID": "C9:NEW",
-        "PROBABILITY": "0",
-        "CURRENCY_ID": "RUB",
-        "OPPORTUNITY": "30.00",
-        "IS_MANUAL_OPPORTUNITY": "N",
-        "TAX_VALUE": "0.00",
-        "LEAD_ID": null,
-        "COMPANY_ID": "0",
-        "CONTACT_ID": "275",
-        "QUOTE_ID": null,
-        "BEGINDATE": "2024-08-20T03:00:00+03:00",
-        "CLOSEDATE": "2024-08-27T03:00:00+03:00",
-        "ASSIGNED_BY_ID": "1",
-        "CREATED_BY_ID": "1",
-        "MODIFY_BY_ID": "1",
-        "DATE_CREATE": "2025-04-29T00:03:19+03:00",
-        "DATE_MODIFY": "2025-05-05T10:17:08+03:00",
-        "OPENED": "Y",
-        "CLOSED": "N",
-        "COMMENTS": "",
-        "ADDITIONAL_INFO": null,
-        "LOCATION_ID": null,
-        "CATEGORY_ID": "9",
-        "STAGE_SEMANTIC_ID": "P",
-        "IS_NEW": "Y",
-        "IS_RECURRING": "N",
-        "IS_RETURN_CUSTOMER": "Y",
-        "IS_REPEATED_APPROACH": "N",
-        "SOURCE_ID": "",
-        "SOURCE_DESCRIPTION": "",
-        "ORIGINATOR_ID": null,
-        "ORIGIN_ID": null,
-        "MOVED_BY_ID": "0",
-        "MOVED_TIME": "2025-04-29T00:03:19+03:00",
-        "LAST_ACTIVITY_TIME": "2025-04-29T13:03:21+03:00",
-        "UTM_SOURCE": null,
-        "UTM_MEDIUM": null,
-        "UTM_CAMPAIGN": null,
-        "UTM_CONTENT": null,
-        "UTM_TERM": null,
-        "PARENT_ID_156": null,
-        "PARENT_ID_177": null,
-        "LAST_COMMUNICATION_TIME": null,
-        "LAST_ACTIVITY_BY": "1",
-        "UF_CRM_66976FE3B2425": [],
-        "UF_CRM_1723206732": "",
-        "UF_CRM_1723206709": "",
-        "UF_CRM_1740471712": "",
-        "UF_CRM_1723209318": "2025-04-29T03:00:00+03:00",
-        "UF_CRM_1722577765": "",
-        "UF_CRM_1723188121": ""
-    },
+        "item": {
+            "id": 6917,
+            "title": "Сделка #6531",
+            "ufCrm_1746431727372": "2025-04-29T03:00:00+03:00"
+        }
+    }
 }
 ```
 
-## Пример кода
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Код** | **Причина и действие** ||
+|| `NOT_FOUND` | Элемент не найден. Проверьте `id` сделки: она могла быть удалена или находиться в недоступной пользователю воронке ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | В `entityTypeId` передано значение, которому не соответствует ни один объект CRM. Для сделки нужно `2` ||
+|| `ACCESS_DENIED` | У пользователя вебхука нет права изменять сделки. Проверьте, от чьего имени создан вебхук ||
+|| `allowed_only_intranet_user` | Вебхук создан от имени внешнего пользователя. Сценарий доступен только сотрудникам Битрикс24 ||
+|#
+
+Метод [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) возвращает ошибку редко. Неизвестный идентификатор поля, недопустимое значение даты и лишние поля он отбрасывает и отвечает успехом.
+
+Отдельно проверьте случаи, когда ответ успешный, а результат отличается от ожидаемого.
+
+- шаг 1 не нашел поле, `fieldName` пустой — в Битрикс24 нет поля с таким названием либо у него другой тип. Сверьте название с карточкой сделки: отбор идет по точному совпадению `title`, поэтому лишний пробел или другой регистр его сломают
+
+- шаг 2 вернул пустой массив — по сделке нет оплат либо в `entityTypeId` передан не тот тип объекта. При неверном `entityTypeId` метод не отказывает, а возвращает пустой результат
+
+- шаг 3 отработал, но поле осталось пустым — идентификатор передан в старом написании `UF_CRM_1746431727372`. Передавайте идентификатор из шага 1 или добавьте в запрос `useOriginalUfNames`: `Y`
+
+- в поле оказалась не та дата — в поле типа «Дата» время отбрасывается, подробности в блоке [Что важно учитывать](#date-type)
+
+Шаги 1 и 2 ничего не меняют, их можно повторять сколько угодно раз. Если ошибку вернул шаг 3, сверьте текущее значение поля по разделу «Проверим результат», исправьте запрос и повторите только шаг 3.
+
+## Что важно учитывать {#date-type}
+
+- тип поля решает, сохранится ли время оплаты: «Дата» оставляет только дату, «Дата/время» — значение целиком. Выбирайте тип до того, как запустите перенос по всей базе: у заполненных полей время уже не восстановить
+
+- параметр `useOriginalUfNames`: `Y` меняет и принимаемые, и возвращаемые идентификаторы: с ним ответ приходит с ключом `UF_CRM_1746431727372`. Читайте значение по тому идентификатору, который задает параметр, а не по тому, что отправили
+
+- значение даты метод принимает в двух форматах: `2025-04-29T13:03:20+03:00` и `29.04.2025`
+
+- у сделки может быть несколько оплат, и метод возвращает их все. Фрагменты шагов для краткости берут первую запись массива, а она не обязательно последняя по времени и не обязательно проведенная
+
+- правильный отбор показан в блоке [Пример кода](#full-example): записи с `paid`: `Y`, из них максимальный `datePaid`. Если нужна первая оплата или сумма по всем, измените условие отбора
+
+- поле сделки — это копия даты, а не связь с документом оплаты. Если оплату отменят или проведут заново, значение в сделке не обновится само. Перезапускайте сценарий по расписанию или каждый раз, когда меняете оплаты сделки
+
+- тот же сценарий работает для других типов объектов CRM, у которых есть оплаты: поменяйте `entityTypeId` во всех трех шагах. Идентификаторы типов приведены в [справочнике типов объектов CRM](../../../api-reference/crm/data-types.md#object_type)
+
+## Пример кода {#full-example}
+
+Скрипт находит пользовательское поле сделки по названию, читает дату проведенной оплаты и записывает ее в это поле. Название поля и `id` сделки вынесены в переменные в начале скрипта.
 
 {% list tabs %}
 
 - JS
-  
+
     ```javascript
     import { B24Hook } from '@bitrix24/b24jssdk'
-    import { createInterface } from 'node:readline/promises'
 
     const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
-    async function call(method, params) {
-        const result = await $b24.actions.v2.call.make({ method, params });
+    const ENTITY_TYPE_ID = 2; // 2 — сделка
+    const DEAL_ID = 6917; // укажите свою сделку
+    const FIELD_TITLE = 'Дата оплаты'; // название поля в карточке сделки
+
+    async function call(method, params, requestId) {
+        const result = await $b24.actions.v2.call.make({ method, params, requestId });
         if (!result.isSuccess) {
             throw new Error(result.getErrorMessages().join('; '));
         }
         return result.getData().result;
     }
 
-    try {
-        // Шаг 1: Получение FIELD_NAME для поля с EDIT_FORM_LABEL "Дата оплаты"
-        const fields = await call('crm.deal.userfield.list', {
-            filter: {
-                LANG: 'ru',
-                USER_TYPE_ID: 'date'
+    async function setPaidDate() {
+        try {
+            // Шаг 1: находим идентификатор поля по его названию и типу
+            const { fields } = await call('crm.item.fields', {
+                entityTypeId: ENTITY_TYPE_ID
+            }, 'item-fields');
+
+            const fieldName = Object.keys(fields).find(
+                key => fields[key].title === FIELD_TITLE
+                    && ['date', 'datetime'].includes(fields[key].type)
+            );
+            if (!fieldName) {
+                console.error(`Поле «${FIELD_TITLE}» с типом «Дата» не найдено в карточке сделки`);
+                return;
             }
-        });
-        const dateField = fields.find(field => field.EDIT_FORM_LABEL === "Дата оплаты");
-        if (dateField) {
-            const fieldName = dateField.FIELD_NAME;
-            console.log("FIELD_NAME для 'Дата оплаты':", fieldName);
+            console.log('Идентификатор поля:', fieldName);
 
-            // Шаг 2: Запрос ID сделки у пользователя и получение даты оплаты
-            const rl = createInterface({ input: process.stdin, output: process.stdout });
-            const dealId = await rl.question("Введите ID сделки: ");
-            rl.close();
-
+            // Шаг 2: читаем дату проведенной оплаты
             const payments = await call('crm.item.payment.list', {
-                entityId: dealId,
-                entityTypeId: 2
-            });
-            if (payments.length > 0) {
-                const datePaid = payments[0].datePaid;
-                console.log("Дата оплаты:", datePaid);
+                entityTypeId: ENTITY_TYPE_ID,
+                entityId: DEAL_ID
+            }, 'payment-list');
 
-                // Шаг 3: Изменение сделки
-                await call('crm.deal.update', {
-                    id: dealId,
-                    fields: {
-                        [fieldName]: datePaid
-                    }
-                });
-                console.log("Сделка успешно обновлена");
+            const paid = payments.filter(payment => payment.paid === 'Y' && payment.datePaid);
+            if (paid.length === 0) {
+                console.error(`По сделке ${DEAL_ID} нет проведенных оплат`);
+                return;
             }
+            // берем последнюю по времени оплату, а не первую из массива
+            const datePaid = paid.map(payment => payment.datePaid).sort().pop();
+            console.log('Дата оплаты:', datePaid);
+
+            // Шаг 3: записываем дату в поле сделки
+            const updated = await call('crm.item.update', {
+                entityTypeId: ENTITY_TYPE_ID,
+                id: DEAL_ID,
+                fields: { [fieldName]: datePaid }
+            }, 'item-update');
+
+            // поле типа «Дата» отбрасывает время, поэтому сверяем значение в ответе
+            console.log('Записано в сделку:', updated.item[fieldName]);
+        } catch (error) {
+            console.error('Дата оплаты не записана:', error.message);
         }
-    } catch (error) {
-        console.error(error.message);
     }
+
+    setPaidDate();
     ```
 
 - PHP
-  
+
     ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
     require_once 'vendor/autoload.php';
 
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
     use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
+    use Psr\Log\NullLogger;
 
-    $logger = new Logger('b24');
-    $logger->pushHandler(new StreamHandler('php://stdout'));
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $logger))
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
         ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
 
-    $crm = $serviceBuilder->getCRMScope();
+    $entityTypeId = 2; // 2 — сделка
+    $dealId = 6917; // укажите свою сделку
+    $fieldTitle = 'Дата оплаты'; // название поля в карточке сделки
 
     try {
-        // Шаг 1: Получение FIELD_NAME для поля с EDIT_FORM_LABEL "Дата оплаты"
-        $fields = $crm->dealUserfield()->list(
-            [],
-            [
-                'LANG' => 'ru',
-                'USER_TYPE_ID' => 'date'
-            ]
-        )->getUserfields();
+        // Шаг 1: находим идентификатор поля по его названию и типу
+        // у crm.item.fields нет обертки в SDK — вызываем метод напрямую
+        $resultFields = $sb->core->call(
+            'crm.item.fields',
+            [ 'entityTypeId' => $entityTypeId ]
+        );
+        $fields = $resultFields->getResponseData()->getResult()['fields'];
 
-        $dateField = null;
-        foreach ($fields as $field) {
-            if ($field->EDIT_FORM_LABEL === "Дата оплаты") {
-                $dateField = $field;
+        $fieldName = null;
+        foreach ($fields as $key => $settings) {
+            if ($settings['title'] === $fieldTitle && in_array($settings['type'], ['date', 'datetime'], true)) {
+                $fieldName = $key;
                 break;
             }
         }
+        if ($fieldName === null) {
+            echo 'Поле «' . $fieldTitle . '» с типом «Дата» не найдено в карточке сделки';
+            return;
+        }
+        echo 'Идентификатор поля: ' . $fieldName . PHP_EOL;
 
-        if ($dateField) {
-            $fieldName = $dateField->FIELD_NAME;
-            echo "FIELD_NAME для 'Дата оплаты': " . $fieldName . "\n";
+        // Шаг 2: читаем дату проведенной оплаты
+        // у crm.item.payment.list нет обертки в SDK — вызываем метод напрямую
+        $resultPayments = $sb->core->call(
+            'crm.item.payment.list',
+            [
+                'entityTypeId' => $entityTypeId,
+                'entityId' => $dealId
+            ]
+        );
+        $payments = $resultPayments->getResponseData()->getResult();
 
-            // Шаг 2: Запрос ID сделки у пользователя и получение даты оплаты
-            $dealId = readline("Введите ID сделки: ");
-            $payments = $serviceBuilder->core->call(
-                'crm.item.payment.list',
-                [
-                    'entityId' => $dealId,
-                    'entityTypeId' => 2
-                ]
-            )->getResponseData()->getResult();
-
-            if (count($payments) > 0) {
-                $datePaid = $payments[0]['datePaid'];
-                echo "Дата оплаты: " . $datePaid . "\n";
-
-                // Шаг 3: Изменение сделки
-                $crm->deal()->update(
-                    (int)$dealId,
-                    [
-                        $fieldName => $datePaid
-                    ]
-                );
-                echo "Сделка успешно обновлена\n";
+        $dates = [];
+        foreach ($payments as $payment) {
+            if ($payment['paid'] === 'Y' && !empty($payment['datePaid'])) {
+                $dates[] = $payment['datePaid'];
             }
         }
+        if ($dates === []) {
+            echo 'По сделке ' . $dealId . ' нет проведенных оплат';
+            return;
+        }
+        // берем последнюю по времени оплату, а не первую из массива
+        sort($dates);
+        $datePaid = end($dates);
+        echo 'Дата оплаты: ' . $datePaid . PHP_EOL;
+
+        // Шаг 3: записываем дату в поле сделки
+        $updated = $sb->getCRMScope()->item()->update(
+            $entityTypeId,
+            $dealId,
+            [ $fieldName => $datePaid ]
+        );
+
+        // поле типа «Дата» отбрасывает время, поэтому сверяем значение в ответе
+        echo 'Записано в сделку: ' . $updated->item()->{$fieldName};
     } catch (\Throwable $e) {
-        echo "Error: " . $e->getMessage();
+        echo 'Дата оплаты не записана: ' . $e->getMessage();
     }
     ```
 
 - Python
 
     ```python
+    # pip install b24pysdk
     from b24pysdk import BitrixWebhook, Client
     from b24pysdk.errors import BitrixAPIError
 
     client = Client(
         BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
+            domain="your-domain.bitrix24.ru",
+            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
         )
     )
 
+    ENTITY_TYPE_ID = 2  # 2 — сделка
+    DEAL_ID = 6917  # укажите свою сделку
+    FIELD_TITLE = "Дата оплаты"  # название поля в карточке сделки
+
     try:
-        user_fields = client.crm.deal.userfield.list(
-            filter={
-                "LANG": "ru",
-                "USER_TYPE_ID": "date",
-            }
-        ).response.result
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    else:
-        date_field = next(
+        # Шаг 1: находим идентификатор поля по его названию и типу
+        fields = client.crm.item.fields(
+            ENTITY_TYPE_ID,
+        ).response.result["fields"]
+
+        field_name = next(
             (
-                field
-                for field in user_fields
-                if field.get("EDIT_FORM_LABEL") == "Дата оплаты"
+                key
+                for key, settings in fields.items()
+                if settings["title"] == FIELD_TITLE and settings["type"] in ("date", "datetime")
             ),
             None,
         )
 
-        if date_field:
-            print("FIELD_NAME для 'Дата оплаты':", date_field["FIELD_NAME"])
+        if field_name is None:
+            print(f"Поле «{FIELD_TITLE}» с типом «Дата» не найдено в карточке сделки")
+        else:
+            print(f"Идентификатор поля: {field_name}")
 
-            deal_id = int(input("Введите ID сделки: "))
+            # Шаг 2: читаем дату проведенной оплаты
+            payments = client.crm.item.payment.list(
+                entity_type_id=ENTITY_TYPE_ID,
+                entity_id=DEAL_ID,
+            ).response.result
 
-            try:
-                payments = client.crm.item.payment.list(
-                    entity_type_id=2,
-                    entity_id=deal_id,
-                ).response.result
-            except BitrixAPIError as error:
-                print(f"Ошибка: {error}")
+            dates = [
+                payment["datePaid"]
+                for payment in payments
+                if payment["paid"] == "Y" and payment["datePaid"]
+            ]
+
+            if not dates:
+                print(f"По сделке {DEAL_ID} нет проведенных оплат")
             else:
-                if payments:
-                    date_paid = payments[0]["datePaid"]
-                    print("Дата оплаты:", date_paid)
+                # берем последнюю по времени оплату, а не первую из массива
+                date_paid = max(dates)
+                print(f"Дата оплаты: {date_paid}")
 
-                    try:
-                        client.crm.deal.update(
-                            bitrix_id=deal_id,
-                            fields={
-                                date_field["FIELD_NAME"]: date_paid,
-                            },
-                        ).response
-                    except BitrixAPIError as error:
-                        print(f"Ошибка: {error}")
-                    else:
-                        print("Сделка успешно обновлена")
+                # Шаг 3: записываем дату в поле сделки
+                updated = client.crm.item.update(
+                    ENTITY_TYPE_ID,
+                    DEAL_ID,
+                    {field_name: date_paid},
+                ).response.result["item"]
+
+                # поле типа «Дата» отбрасывает время, поэтому сверяем значение в ответе
+                print(f"Записано в сделку: {updated[field_name]}")
+    except BitrixAPIError as error:
+        print(f"Дата оплаты не записана: {error}")
     ```
 
 {% endlist %}
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/crm/universal/crm-item-fields.md)
+- [{#T}](../../../api-reference/crm/universal/crm-item-update.md)
+- [{#T}](../../../api-reference/crm/universal/payment/crm-item-payment-list.md)
+- [{#T}](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](../../../api-reference/crm/data-types.md)
+- [{#T}](../../../api-reference/sale/payment/sale-payment-list.md)

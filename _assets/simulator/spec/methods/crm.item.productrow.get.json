@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.item.productrow.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить информацию о товарной позиции по id crm.item.productrow.get",
+  "permissions": "требуется право на чтение объекта, к которому привязаны товарные позиции",
+  "params": [
+    {
+      "name": "id",
+      "type": "crm_item_product_row.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор товарной позиции"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/product-rows/crm-item-productrow-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "productRow",
+      "type": "crm_item_product_row",
+      "base": "object",
+      "required": false,
+      "description": "Объект, содержащий информацию о товарной позиции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-get.html",
+  "executable": false,
+  "entityFields": [
+    "discountRate",
+    "discountSum",
+    "discountTypeId",
+    "measureCode",
+    "ownerId",
+    "ownerType",
+    "price",
+    "productId",
+    "productName",
+    "quantity",
+    "sort",
+    "taxIncluded",
+    "taxRate"
+  ]
+}

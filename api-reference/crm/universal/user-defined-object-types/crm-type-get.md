@@ -17,13 +17,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор смарт-процесса. Можно получить с помощью методов: [`crm.type.list`](./crm-type-list.md), [`crm.type.add`](./crm-type-add.md) ||
+[`integer`](../../../data-types.md) | Идентификатор смарт-процесса. Можно получить с помощью методов: [`crm.type.list`](./crm-type-list.md), [`crm.type.add`](./crm-type-add.md) ||
 |#
 
 ## Примеры кода
@@ -253,6 +253,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.type.get", b24.Params{
+    	"id": 16,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.type.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "type".
+    raw, ok := b24.Unwrap(res.Result, "type")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа type")
+    }
+
+    var item struct {
+    	ID                  b24.ID `json:"id"`
+    	Title               string `json:"title"`
+    	Code                string `json:"code"`
+    	CreatedBy           int    `json:"createdBy"`
+    	EntityTypeID        b24.ID `json:"entityTypeId"`
+    	IsCategoriesEnabled string `json:"isCategoriesEnabled"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -355,9 +386,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа, содержащий объект [`type`](../../data-types.md#type) с информацией о смарт-процессе ||
+[`object`](../../../data-types.md) | Корневой элемент ответа, содержащий объект [`type`](../../data-types.md#type) с информацией о смарт-процессе ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -392,6 +423,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
-
-
-[1]: ../../../data-types.md

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет робота, зарегистрированного приложением.
+Метод `bizproc.robot.delete` удаляет робота, зарегистрированного приложением.
 
 Работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
@@ -142,6 +142,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.robot.delete", b24.Params{
+    	"CODE": "test_robot",
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.robot.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

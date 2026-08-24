@@ -13,7 +13,7 @@
 
 Порядок вызовов похож на работу в редакторе сайтов: сначала создают или выбирают сайт, затем страницу, добавляют блоки, настраивают содержимое и публикуют результат.
 
-> Быстрый переход: [все методы](#all-methods)
+> Быстрый переход: [все разделы и методы](#all-methods)
 >
 > Пользовательская документация: [Как создать и настроить сайт в Битрикс24](https://helpdesk.bitrix24.ru/open/25309314/)
 
@@ -98,187 +98,36 @@
 || `CODE` блока | Добавление стандартного или пользовательского блока на страницу | Из [landing.block.getrepository](./block/methods/landing-block-get-repository.md) или после регистрации блока методом [landing.repo.register](./user-blocks/landing-repo-register.md) ||
 |#
 
-## Обзор методов {#all-methods}
+## Обзор разделов и методов {#all-methods}
 
 > Scope: [`landing`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: зависит от метода
+> Кто может выполнять методы: зависит от метода
 
-### Пользовательские блоки
+### Основные объекты
 
 #|
-|| **Метод** | **Описание** ||
-|| [landing.repo.register](./user-blocks/landing-repo-register.md) | Регистрирует пользовательский блок в репозитории ||
-|| [landing.repo.checkContent](./user-blocks/landing-repo-check-content.md) | Проверяет контент блока через санитайзер ||
-|| [landing.repo.getList](./user-blocks/landing-repo-get-list.md) | Получает список пользовательских блоков из репозитория ||
-|| [landing.repo.unregister](./user-blocks/landing-repo-unregister.md) | Удаляет пользовательский блок из репозитория по его коду ||
+|| **Раздел** | **Описание** ||
+|| [Сайты](./site/index.md) | Методы создания, настройки, публикации и удаления сайтов, магазинов и папок ||
+|| [Страницы](./page/index.md) | Методы работы со страницами, блоками на странице и специальными страницами ||
+|| [Блоки](./block/index.md) | Методы изменения содержимого блоков: нод, карточек, атрибутов, стилей и файлов ||
+|| [Шаблоны представления](./template/index.md) | Методы получения шаблонов и настройки включаемых областей сайта или страницы ||
 |#
 
-### Шаблоны представления
+### Расширение сайтов
 
 #|
-|| **Метод** | **Описание** ||
-|| [landing.template.getlist](./template/landing-template-get-list.md) | Получает список шаблонов представления ||
-|| [landing.template.getSiteRef](./template/landing-template-get-site-ref.md) | Получает список включаемых областей для сайта ||
-|| [landing.template.setSiteRef](./template/landing-template-set-site-ref.md) | Устанавливает включаемые области для сайта ||
-|| [landing.template.getLandingRef](./template/landing-template-get-landing-ref.md) | Получает список включаемых областей для страницы ||
-|| [landing.template.setLandingRef](./template/landing-template-set-landing-ref.md) | Устанавливает включаемые области для страницы ||
+|| **Раздел** | **Описание** ||
+|| [Пользовательские блоки](./user-blocks/index.md) | Методы регистрации собственных блоков в репозитории ||
+|| [Пользовательские шаблоны](./demos/index.md) | Методы добавления шаблонов в мастер создания сайтов и страниц ||
+|| [Места встраивания](./embedding/index.md) | Места встраивания приложений в настройки сайта, страницы и действия блока ||
+|| [Встраивание Базы знаний](./embedding/knowledge-base/index.md) | Методы привязки Баз знаний к группам и меню ||
 |#
 
-### Пользовательские шаблоны
+### Настройки и доступ
 
 #|
-|| **Метод** | **Описание** ||
-|| [landing.demos.register](./demos/landing-demos-register.md) | Регистрирует шаблон в мастере создания сайта и страницы ||
-|| [landing.demos.getList](./demos/landing-demos-get-list.md) | Получает список зарегистрированных шаблонов ||
-|| [landing.demos.getSiteList](./demos/landing-demos-get-site-list.md) | Получает список шаблонов для создания сайтов ||
-|| [landing.demos.getPageList](./demos/landing-demos-get-page-list.md) | Получает список шаблонов для создания страниц ||
-|| [landing.demos.unregister](./demos/landing-demos-unregister.md) | Удаляет зарегистрированный пользовательский шаблон ||
-|#
-
-### Сайты
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.site.add](./site/landing-site-add.md) | Добавляет сайт ||
-|| [landing.site.addFolder](./site/landing-site-add-folder.md) | Добавляет папку в сайт ||
-|| [landing.site.update](./site/landing-site-update.md) | Обновляет параметры сайта ||
-|| [landing.site.updateFolder](./site/landing-site-update-folder.md) | Обновляет параметры папки ||
-|| [landing.site.getList](./site/landing-site-get-list.md) | Получает список сайтов ||
-|| [landing.site.getFolders](./site/landing-site-get-folders.md) | Получает папки сайта ||
-|| [landing.site.getPreview](./site/landing-site-get-preview.md) | Возвращает URL превью сайта ||
-|| [landing.site.getPublicUrl](./site/landing-site-get-public-url.md) | Возвращает публичный URL сайта ||
-|| [landing.site.getadditionalfields](./site/landing-site-get-additional-fields.md) | Получает дополнительные поля сайта ||
-|| [landing.site.publication](./site/landing-site-publication.md) | Публикует сайт и все его страницы ||
-|| [landing.site.publicationFolder](./site/landing-site-publication-folder.md) | Публикует папку сайта ||
-|| [landing.site.unpublic](./site/landing-site-unpublic.md) | Снимает с публикации сайт и все его страницы ||
-|| [landing.site.unPublicFolder](./site/landing-site-unpublic-folder.md) | Снимает с публикации папку сайта ||
-|| [landing.site.markDelete](./site/landing-site-mark-delete.md) | Помечает сайт как удаленный ||
-|| [landing.site.markFolderDelete](./site/landing-site-mark-folder-delete.md) | Помечает папку как удаленную ||
-|| [landing.site.markFolderUnDelete](./site/landing-site-mark-folder-undelete.md) | Восстанавливает папку из корзины ||
-|| [landing.site.markUnDelete](./site/landing-site-mark-undelete.md) | Восстанавливает сайт из корзины ||
-|| [landing.site.delete](./site/landing-site-delete.md) | Удаляет сайт ||
-|| [landing.site.fullExport](./site/landing-site-full-export.md) | Экспортирует сайт и его страницы в массив ||
-|#
-
-### Права
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.role.enable](./rights/landing-role-enable.md) | Включает или выключает ролевую модель прав ||
-|| [landing.role.isEnabled](./rights/landing-role-is-enabled.md) | Проверяет, включена ли ролевая модель прав ||
-|#
-
-#### Расширенная модель прав
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.site.getRights](./rights/extended-model/landing-site-get-rights.md) | Получает права текущего пользователя для сайта ||
-|| [landing.site.setRights](./rights/extended-model/landing-site-set-rights.md) | Устанавливает права доступа для сайта ||
-|#
-
-#### Ролевая модель прав
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.role.getList](./rights/role-model/landing-role-get-list.md) | Получает список ролей текущего типа сайтов ||
-|| [landing.role.getRights](./rights/role-model/landing-role-get-rights.md) | Возвращает права роли по сайтам ||
-|| [landing.role.setAccessCodes](./rights/role-model/landing-role-set-access-codes.md) | Задает коды доступа для роли ||
-|| [landing.role.setRights](./rights/role-model/landing-role-set-rights.md) | Устанавливает права роли по сайтам ||
-|#
-
-### Страницы
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.landing.add](./page/methods/landing-landing-add.md) | Добавляет страницу ||
-|| [landing.landing.addByTemplate](./page/methods/landing-landing-add-by-template.md) | Создает страницу по шаблону ||
-|| [landing.landing.copy](./page/methods/landing-landing-copy.md) | Копирует страницу ||
-|| [landing.landing.update](./page/methods/landing-landing-update.md) | Изменяет параметры страницы ||
-|| [landing.landing.move](./page/methods/landing-landing-move.md) | Перемещает страницу в другой сайт или папку ||
-|| [landing.landing.getList](./page/methods/landing-landing-get-list.md) | Получает список страниц ||
-|| [landing.landing.getadditionalfields](./page/methods/landing-landing-get-additional-fields.md) | Получает дополнительные поля страницы ||
-|| [landing.landing.getpreview](./page/methods/landing-landing-get-preview.md) | Возвращает путь к превью страницы ||
-|| [landing.landing.getpublicurl](./page/methods/landing-landing-get-public-url.md) | Возвращает публичный URL страницы ||
-|| [landing.landing.resolveIdByPublicUrl](./page/methods/landing-landing-resolve-id-by-public-url.md) | Возвращает идентификатор страницы по публичному URL ||
-|| [landing.landing.publication](./page/methods/landing-landing-publication.md) | Публикует страницу ||
-|| [landing.landing.unpublic](./page/methods/landing-landing-unpublic.md) | Снимает страницу с публикации ||
-|| [landing.landing.markDelete](./page/methods/landing-landing-mark-delete.md) | Помечает страницу как удаленную ||
-|| [landing.landing.markUnDelete](./page/methods/landing-landing-mark-undelete.md) | Восстанавливает страницу из удаленных ||
-|| [landing.landing.removeEntities](./page/methods/landing-landing-remove-entities.md) | Удаляет блоки и изображения страницы ||
-|| [landing.landing.delete](./page/methods/landing-landing-delete.md) | Удаляет страницу ||
-|#
-
-#### Работа с блоками на странице
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.landing.addblock](./page/block-methods/landing-landing-add-block.md) | Добавляет новый блок на страницу ||
-|| [landing.landing.copyblock](./page/block-methods/landing-landing-copy-block.md) | Копирует блок со страницы на страницу ||
-|| [landing.landing.deleteblock](./page/block-methods/landing-landing-delete-block.md) | Удаляет блок со страницы ||
-|| [landing.landing.downblock](./page/block-methods/landing-landing-down-block.md) | Опускает блок на одну позицию вниз ||
-|| [landing.landing.favoriteBlock](./page/block-methods/landing-landing-favorite-block.md) | Сохраняет блок в «Мои блоки» ||
-|| [landing.landing.hideblock](./page/block-methods/landing-landing-hide-block.md) | Скрывает блок на странице ||
-|| [landing.landing.markdeletedblock](./page/block-methods/landing-landing-mark-deleted-block.md) | Помечает блок как удаленный без физического удаления ||
-|| [landing.landing.markundeletedblock](./page/block-methods/landing-landing-mark-undeleted-block.md) | Восстанавливает блок из удаленных ||
-|| [landing.landing.moveblock](./page/block-methods/landing-landing-move-block.md) | Перемещает блок со страницы на страницу ||
-|| [landing.landing.showblock](./page/block-methods/landing-landing-show-block.md) | Показывает блок на странице ||
-|| [landing.landing.unFavoriteBlock](./page/block-methods/landing-landing-unfavorite-block.md) | Удаляет блок из «Моих блоков» ||
-|| [landing.landing.upblock](./page/block-methods/landing-landing-up-block.md) | Поднимает блок на одну позицию вверх ||
-|#
-
-#### Специальные страницы
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.syspage.deleteForLanding](./page/special-pages/landing-syspage-delete-for-landing.md) | Удаляет привязки страницы как специальной ||
-|| [landing.syspage.deleteForSite](./page/special-pages/landing-syspage-delete-for-site.md) | Удаляет все специальные страницы сайта ||
-|| [landing.syspage.getSpecialPage](./page/special-pages/landing-syspage-get-special-page.md) | Получает адрес специальной страницы сайта ||
-|| [landing.syspage.get](./page/special-pages/landing-syspage-get.md) | Получает список специальных страниц ||
-|| [landing.syspage.set](./page/special-pages/landing-syspage-set.md) | Назначает специальную страницу для сайта ||
-|#
-
-### Блоки
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.block.getlist](./block/methods/landing-block-get-list.md) | Получает список блоков страницы ||
-|| [landing.block.getbyid](./block/methods/landing-block-get-by-id.md) | Получает блок по его идентификатору ||
-|| [landing.block.getcontent](./block/methods/landing-block-get-content.md) | Получает контент блока ||
-|| [landing.block.getmanifest](./block/methods/landing-block-get-manifest.md) | Получает манифест блока, уже размещенного на странице ||
-|| [landing.block.updatenodes](./block/methods/landing-block-update-nodes.md) | Изменяет контент нод блока ||
-|| [landing.block.updateattrs](./block/methods/landing-block-update-attrs.md) | Изменяет атрибуты нод блока ||
-|| [landing.block.updateStyles](./block/methods/landing-block-update-styles.md) | Изменяет стили блока ||
-|| [landing.block.updatecontent](./block/methods/landing-block-update-content.md) | Обновляет содержимое размещенного на странице блока произвольным контентом ||
-|| [landing.block.changeNodeName](./block/methods/landing-block-change-node-name.md) | Изменяет название тега ноды ||
-|| [landing.block.changeAnchor](./block/methods/landing-block-change-anchor.md) | Изменяет символьный код якоря блока ||
-|| [landing.block.uploadfile](./block/methods/landing-block-upload-file.md) | Загружает файл и привязывает его к блоку ||
-|| [landing.block.clonecard](./block/methods/landing-block-clone-card.md) | Клонирует карточку блока ||
-|| [landing.block.addcard](./block/methods/landing-block-add-card.md) | Добавляет карточку блока с измененным контентом ||
-|| [landing.block.removecard](./block/methods/landing-block-remove-card.md) | Удаляет карточку блока ||
-|| [landing.block.updateCards](./block/methods/landing-block-update-cards.md) | Массово изменяет карточки блока ||
-|| [landing.block.getrepository](./block/methods/landing-block-get-repository.md) | Получает список блоков из репозитория ||
-|| [landing.block.getmanifestfile](./block/methods/landing-block-get-manifest-file.md) | Получает манифест блока из репозитория ||
-|| [landing.block.getContentFromRepository](./block/methods/landing-block-get-content-from-repository.md) | Получает контент блока из репозитория до его добавления на страницу ||
-|#
-
-### Места встраивания
-
-#|
-|| **Метод или место встраивания** | **Описание** ||
-|| [LANDING_SETTINGS](./embedding/settings.md) | Добавляет пункт приложения в меню настроек сайта или страницы ||
-|| [LANDING_BLOCK_*](./embedding/block.md) | Добавляет пункт приложения в действия редактирования блока ||
-|| [landing.repo.unbind](./embedding/landing-repo-unbind.md) | Удаляет место встраивания текущего приложения ||
-|#
-
-#### Встраивание Базы знаний
-
-#|
-|| **Метод** | **Описание** ||
-|| [landing.site.bindingToGroup](./embedding/knowledge-base/landing-site-binding-to-group.md) | Привязывает Базу знаний к группе Социальной сети ||
-|| [landing.site.bindingToMenu](./embedding/knowledge-base/landing-site-binding-to-menu.md) | Привязывает Базу знаний к меню ||
-|| [landing.site.getGroupBindings](./embedding/knowledge-base/landing-site-get-group-bindings.md) | Получает привязки Баз знаний к группам ||
-|| [landing.site.getMenuBindings](./embedding/knowledge-base/landing-site-get-menu-bindings.md) | Получает привязки Баз знаний к меню ||
-|| [landing.site.unbindingFromGroup](./embedding/knowledge-base/landing-site-unbinding-from-group.md) | Отвязывает Базу знаний от группы Социальной сети ||
-|| [landing.site.unbindingFromMenu](./embedding/knowledge-base/landing-site-unbinding-from-menu.md) | Отвязывает Базу знаний от меню ||
+|| **Раздел** | **Описание** ||
+|| [Работа с типами сайтов и скоупами](./types.md) | Правила выбора внутреннего параметра `scope` для сайтов, магазинов, Баз знаний, главной страницы и вайба ||
+|| [Права](./rights/index.md) | Методы расширенной и ролевой модели прав доступа к сайтам и магазинам ||
 |#

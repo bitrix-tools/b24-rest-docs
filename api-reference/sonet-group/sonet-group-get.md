@@ -347,6 +347,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sonet_group.get", b24.Params{
+    	"ORDER": b24.Params{
+    		"NAME": "ASC",
+    	},
+    	"FILTER": b24.Params{
+    		"%NAME": "Про",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sonet_group.get: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"ID"`
+    	SiteID     string `json:"SITE_ID"`
+    	Name       string `json:"NAME"`
+    	DateCreate string `json:"DATE_CREATE"`
+    	DateUpdate string `json:"DATE_UPDATE"`
+    	Active     string `json:"ACTIVE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.SiteID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -143,7 +143,7 @@
 || **ADDITIONAL_INFO**
 [`string`](../../data-types.md) | Дополнительная информация ||
 || **LOCATION_ID**
-[`location`](../../data-types.md) | Местоположение клиента. Служебное поле ||
+[`location`](../data-types.md) | Местоположение клиента. Служебное поле ||
 || **ORIGINATOR_ID**
 [`string`](../../data-types.md) | Идентификатор источника данных.
 
@@ -479,6 +479,41 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.update", b24.Params{
+    	"id": 123,
+    	"fields": b24.Params{
+    		"TITLE":                 "Новое название сделки!",
+    		"TYPE_ID":               "GOODS",
+    		"STAGE_ID":              "WON",
+    		"IS_RECCURING":          "Y",
+    		"IS_RETURN_CUSTOMER":    "Y",
+    		"OPPORTUNITY":           9999.99,
+    		"IS_MANUAL_OPPORTUNITY": "Y",
+    		"ASSIGNED_BY_ID":        1,
+    		"UF_CRM_1725365197310":  "Строка",
+    		"PARENT_ID_1032":        1,
+    	},
+    	"params": b24.Params{
+    		"REGISTER_SONET_EVENT":   "N",
+    		"REGISTER_HISTORY_EVENT": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ### Пояснения к методу
@@ -534,13 +569,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `ID is not defined or invalid` | В параметр `id` передано не целое число больше нуля ||
-|| `-`     | `Not found` | Сделка с переданным `id` не существует ||
-|| `-`     | `Parameter 'fields' must be array` | В параметр `fields` передан не объект ||
-|| `-`     | `Parameter 'params' must be array` | В параметр `params` передан не объект ||
-|| `-`     | `Access denied` | У пользователя нет прав на «изменение» сделок ||
-|| `-`     | Исчерпан выделенный дисковый ресурс |> ||
-|| `-`     | Неверное значение поля «Валюта» |> ||
+|| Пустое значение | `ID is not defined or invalid` | В параметр `id` передано не целое число больше нуля ||
+|| Пустое значение | `Not found` | Сделка с переданным `id` не существует ||
+|| Пустое значение | `Parameter 'fields' must be array` | В параметр `fields` передан не объект ||
+|| Пустое значение | `Parameter 'params' must be array` | В параметр `params` передан не объект ||
+|| Пустое значение | `Access denied` | У пользователя нет прав на «изменение» сделок ||
+|| Пустое значение | Исчерпан выделенный дисковый ресурс |> ||
+|| Пустое значение | Неверное значение поля «Валюта» |> ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

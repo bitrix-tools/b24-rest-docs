@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список типов плательщиков.
+Метод `sale.persontype.list` получает список типов плательщиков.
 
 Используйте метод `sale.persontype.list`, если создаётся платёжная система **для заказов**. В CRM (для старых счетов, сделок) список типов плательщиков получает метод [crm.persontype.list](../../crm/outdated/invoice/crm-person-type-list.md).
 
@@ -301,6 +301,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.persontype.list", b24.Params{
+    	"select": []string{"id", "name", "sort"},
+    	"filter": b24.Params{
+    		"<=sort": 100,
+    	},
+    	"order": b24.Params{
+    		"sort": "DESC",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.persontype.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -347,7 +369,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **personTypes**
-[`sale_person_type[]`](../../data-types.md) | Массив объектов с информацией о выбранных типах плательщиков ||
+[`sale_person_type[]`](../data-types.md) | Массив объектов с информацией о выбранных типах плательщиков ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**

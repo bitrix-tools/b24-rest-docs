@@ -1,0 +1,36 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.kanban.deleteStage",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить стадию tasks.api.scrum.kanban.deleteStage",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "stageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор стадии. Получить идентификатор можно при помощи метода tasks.api.scrum.kanban.getStages"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-delete-stage.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-delete-stage.html",
+  "executable": false
+}

@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает доступные поля оплаты.
+Метод `sale.payment.getFields` получает доступные поля оплаты.
+
+## Параметры метода
 
 Без параметров.
 
@@ -203,6 +205,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.payment.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.payment.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "payment".
+    raw, ok := b24.Unwrap(res.Result, "payment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа payment")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}
@@ -527,7 +547,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-payment-add.md)

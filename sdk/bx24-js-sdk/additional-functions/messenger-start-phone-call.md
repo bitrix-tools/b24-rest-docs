@@ -32,8 +32,12 @@ Promise Messenger.startPhoneCall(String number[, Object params])
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
+Объект `Messenger` доступен после загрузки расширения `im.public.iframe`:
+
 ```js
-BX.Messenger.Public.startPhoneCall('88000000000');
+BX.Runtime.loadExtension('im.public.iframe').then(function (exports) {
+    exports.Messenger.startPhoneCall('88000000000');
+});
 ```
 
 ## Обработка ответа
@@ -52,4 +56,4 @@ BX.Messenger.Public.startPhoneCall('88000000000');
 ## Продолжите изучение
 
 - [{#T}](./messenger-start-video-call.md)
-- [{#T}](./outdated/bx24-im-phone-to.md)
+- [{#T}](./messenger-open-chat.md)

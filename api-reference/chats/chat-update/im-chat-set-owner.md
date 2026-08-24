@@ -23,9 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../data-types.md) | Идентификатор чата.
+[`integer`](../../data-types.md) | Идентификатор чата. Передайте число без префикса `chat`. Обязателен, если не передан `DIALOG_ID`.
 
 Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md) ||
+|| **DIALOG_ID**
+[`string`](../../data-types.md) | Идентификатор диалога в формате `chatXXX`, где `XXX` — идентификатор чата. Можно передать вместо `CHAT_ID`.
+
+Метод работает только с групповыми чатами: для личного диалога он вернет ошибку `DIALOG_ID_EMPTY` ||
 || **USER_ID***
 [`integer`](../../data-types.md) | Идентификатор нового владельца чата.
 
@@ -222,6 +226,25 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.setOwner", b24.Params{
+    	"CHAT_ID": 2935,
+    	"USER_ID": 1271,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.setOwner: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -257,7 +280,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -272,7 +295,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` ||
+|| `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или значение содержит префикс `chat` ||
+|| `DIALOG_ID_EMPTY` | Dialog ID can't be empty | В `DIALOG_ID` передан личный диалог или неверный формат ||
 || `USER_ID_EMPTY` | User ID can't be empty | Не передан `USER_ID` ||
 || `ACCESS_ERROR` | Action unavailable | Операция недоступна для этого чата ||
 || `WRONG_REQUEST` | Change owner can only owner and user must be member in chat | Сменить владельца может только текущий владелец, новый владелец должен быть участником чата ||

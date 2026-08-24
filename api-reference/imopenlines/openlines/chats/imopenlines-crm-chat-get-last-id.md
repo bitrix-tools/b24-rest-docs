@@ -1,4 +1,4 @@
-# Получить Id последнего чата imopenlines.crm.chat.getLastId
+# Получить идентификатор последнего чата imopenlines.crm.chat.getLastId
 
 {% note tip "" %}
 
@@ -217,6 +217,25 @@
     );
 
     print_r($result);
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.crm.chat.getLastId", b24.Params{
+    	"CRM_ENTITY_TYPE": "lead",
+    	"CRM_ENTITY":      1205,
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.crm.chat.getLastId: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

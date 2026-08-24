@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод возвращает свойство для элемента (позиции) корзины в заказе по его идентификатору. 
+Метод `sale.basketproperties.get` возвращает свойство для элемента корзины в заказе по его идентификатору.
 
 ## Параметры метода
 
@@ -228,6 +228,37 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketproperties.get", b24.Params{
+    	"id": 17,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.basketproperties.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketProperty".
+    raw, ok := b24.Unwrap(res.Result, "basketProperty")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketProperty")
+    }
+
+    var item struct {
+    	BasketID b24.ID `json:"basketId"`
+    	Code     string `json:"code"`
+    	ID       b24.ID `json:"id"`
+    	Name     string `json:"name"`
+    	Sort     int    `json:"sort"`
+    	Value    string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.BasketID, item.Code)
     ```
 
 {% endlist %}

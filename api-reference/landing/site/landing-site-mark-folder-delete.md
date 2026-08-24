@@ -13,7 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом «удаления» сайта, к которому относится папка
 
-Метод `landing.site.markFolderDelete` помечает папку как удаленную и переносит ее в корзину. При успешном вызове метод также помечает как удаленные страницы в этой папке и во вложенных папках.
+Метод `landing.site.markFolderDelete` помечает папку как удаленную и переносит ее в корзину. При успешном вызове метод также помечает как удаленные страницы в этой папке и во вложенных папках. Такие страницы снимаются с публикации.
+
+Папка и ее страницы остаются в базе данных. Восстановить их можно методом [landing.site.markFolderUnDelete](./landing-site-mark-folder-undelete.md). По умолчанию содержимое корзины хранится 30 дней, затем удаляется автоматически.
+
+Включаемые области блокируют вызов. Перенесите такие страницы за пределы папки или удалите их, иначе метод вернет ошибку `FOLDER_CONTAINS_AREAS`.
 
 ## Параметры метода
 
@@ -30,6 +34,10 @@
 [`integer`](../../data-types.md) | Идентификатор папки.
 
 Идентификатор папки можно получить методом [landing.site.getFolders](./landing-site-get-folders.md) ||
+|| **mark**
+[`boolean`](../../data-types.md) | Признак пометки папки как удаленной. По умолчанию `true`.
+
+Если передать `false`, метод восстановит папку из корзины. Для такого сценария обычно используют [landing.site.markFolderUnDelete](./landing-site-mark-folder-undelete.md) ||
 |#
 
 ## Примеры кода
@@ -222,6 +230,24 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.site.markFolderDelete", b24.Params{
+    	"id": 737,
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.site.markFolderDelete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

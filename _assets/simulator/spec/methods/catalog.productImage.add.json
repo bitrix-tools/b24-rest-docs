@@ -1,0 +1,84 @@
+{
+  "$v": 1,
+  "method": "catalog.productImage.add",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Добавить изображение в товар catalog.productImage.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для добавления изображения (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    },
+    {
+      "name": "fileContent",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив из двух элементов: - первый — название файла - второй – файл в кодировке base64",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "productId",
+          "type": "catalog_product.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор товара, головного товара, вариации или услуги. Чтобы получить существующие идентификаторы, используйте следующие методы: - для товаров — catalog.product.list - для головных товаров — catalog.product.sku.list - для вариаций товара — catalog.product.offer.list - для услуг — catalog.product.service.list"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип изображения: - DETAIL_PICTURE — детальная картинка, поле доступно в старой карточке товара - PREVIEW_PICTURE — картинка для анонса, поле доступно в старой карточке товара - MORE_PHOTO — картинка Если не указать значение, то картинка будет сохранена в MORE_PHOTO"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-image/catalog-product-image-add.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "productImage",
+      "type": "catalog_product_image",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленном изображении товара"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-image/catalog-product-image-add.html",
+  "executable": false
+}

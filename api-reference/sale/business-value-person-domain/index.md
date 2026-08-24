@@ -14,10 +14,20 @@
 - `E` — юридическое лицо.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация: [Как покупателю оформить заказ в интернет-магазине](https://helpdesk.bitrix24.ru/open/8238203/)
 
 ## Связь статусов типов плательщиков с другими объектами
 
 **Типы плательщиков.** Укажите тип плательщика, для которого настраиваете соответствие физическому или юридическому лицу. Получить доступные типы плательщиков можно с помощью метода [sale.persontype.list](../person-type/sale-person-type-list.md).
+
+## Как начать работу
+
+1. Получите список типов плательщиков методом [sale.persontype.list](../person-type/sale-person-type-list.md).
+2. Выберите значение домена: `I` для физического лица или `E` для юридического лица.
+3. Создайте соответствие методом [sale.businessValuePersonDomain.add](./sale-business-value-person-domain-add.md).
+4. Проверьте список соответствий методом [sale.businessValuePersonDomain.list](./sale-business-value-person-domain-list.md).
+5. Если соответствие больше не нужно, удалите его методом [sale.businessValuePersonDomain.deleteByFilter](./sale-business-value-person-domain-delete-by-filter.md).
 
 ## Обзор методов {#all-methods}
 

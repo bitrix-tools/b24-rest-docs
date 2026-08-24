@@ -20,7 +20,6 @@
 Подписаться на события звонков можно через:
 
 - [исходящий вебхук](../../../../local-integrations/local-webhooks.md)
-
 - [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
@@ -31,7 +30,7 @@
 
 ## Обзор событий {#all-events}
 
-> Scope: [`telephony`](../../../scopes/permissions.md) 
+> Scope: [`telephony`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 

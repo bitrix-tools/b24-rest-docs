@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод изменяет позицию корзины (товар из каталога) существующего заказа.
+Метод `sale.basketitem.updateCatalogProduct` изменяет позицию корзины с товаром из каталога в существующем заказе.
 
 ## Параметры метода
 
@@ -283,6 +283,40 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.basketitem.updateCatalogProduct", b24.Params{
+    	"id": 6783,
+    	"fields": b24.Params{
+    		"quantity": 4,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.basketitem.updateCatalogProduct: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "basketItem".
+    raw, ok := b24.Unwrap(res.Result, "basketItem")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа basketItem")
+    }
+
+    var item struct {
+    	BasePrice    int    `json:"basePrice"`
+    	CanBuy       string `json:"canBuy"`
+    	CatalogXmlID string `json:"catalogXmlId"`
+    	Currency     string `json:"currency"`
+    	CustomPrice  string `json:"customPrice"`
+    	DateInsert   string `json:"dateInsert"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.BasePrice, item.CanBuy)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -295,7 +329,7 @@ HTTP-статус: **200**
         "basketItem": {
             "basePrice": 1234,
             "canBuy": "Y",
-            "catalogXmlId": "FUTURE-1C-CATALOG",
+            "catalogXmlId": "FUTURE-ERP-CATALOG",
             "currency": "RUB",
             "customPrice": "N",
             "dateInsert": "2024-04-22T16:23:43+02:00",

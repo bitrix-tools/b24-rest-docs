@@ -25,13 +25,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`string[]`](../data-types.md) | Список полей, которые нужно вернуть в ответе.
+[`string[]`](../../data-types.md) | Список полей, которые нужно вернуть в ответе.
 
 При выборке можно использовать маски:
 - `'*'` — для выборки всех стандартных полей (без пользовательских и множественных),
@@ -41,7 +41,7 @@
 
 По умолчанию возвращаются все стандартные поля и пользовательские поля (`'*'` + `'UF_*'`) ||
 || **filter**
-[`object`](../data-types.md) | Объект формата:
+[`object`](../../data-types.md) | Объект формата:
 
 ```json
 {
@@ -79,7 +79,7 @@
 
 Список доступных полей для фильтрации можно получить с помощью метода [crm.quote.fields](./crm-quote-fields.md) ||
 || **order**
-[`object`](../data-types.md) | Объект формата:
+[`object`](../../data-types.md) | Объект формата:
 
 ```json
 {
@@ -98,7 +98,7 @@
 
 При сортировке по `STATUS_ID` используется внутреннее поле `STATUS_SORT` ||
 || **start**
-[`integer`](../data-types.md) | Параметр постраничной навигации.
+[`integer`](../../data-types.md) | Параметр постраничной навигации.
 
 Размер страницы — `50` записей.
 
@@ -326,6 +326,47 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.quote.list", b24.Params{
+    	"order": b24.Params{
+    		"STATUS_ID": "ASC",
+    		"ID":        "ASC",
+    	},
+    	"filter": b24.Params{
+    		"=COMPANY_ID": 1,
+    		"=STATUS_ID":  "SENT",
+    	},
+    	"select": []string{"ID", "TITLE", "STATUS_ID", "OPPORTUNITY", "CURRENCY_ID", "ASSIGNED_BY_ID"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.quote.list: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"ID"`
+    	Title        string `json:"TITLE"`
+    	StatusID     string `json:"STATUS_ID"`
+    	Opportunity  string `json:"OPPORTUNITY"`
+    	CurrencyID   string `json:"CURRENCY_ID"`
+    	AssignedByID b24.ID `json:"ASSIGNED_BY_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -372,15 +413,15 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object[]`](../data-types.md) | Массив коммерческих предложений. Состав полей зависит от параметра `select` ||
+[`object[]`](../../data-types.md) | Массив коммерческих предложений. Состав полей зависит от параметра `select` ||
 || **total**
-[`integer`](../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **next**
-[`integer`](../data-types.md) | Значение для параметра `start` в следующем запросе.
+[`integer`](../../data-types.md) | Значение для параметра `start` в следующем запросе.
 
 Параметр `next` возвращается, если количество элементов в выборке больше `50` ||
 || **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -400,10 +441,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | `Parameter 'order' must be array.` | В `order` передан не объект ||
-|| `-` | `Parameter 'filter' must be array.` | В `filter` передан не объект ||
-|| `-` | `Access denied.` | У пользователя нет прав на чтение коммерческих предложений ||
-|| `-` | `Failed to get list. General error.` | Общая ошибка выполнения запроса ||
+|| Пустое значение | `Parameter 'order' must be array.` | В `order` передан не объект ||
+|| Пустое значение | `Parameter 'filter' must be array.` | В `filter` передан не объект ||
+|| Пустое значение | `Access denied.` | У пользователя нет прав на чтение коммерческих предложений ||
+|| Пустое значение | `Failed to get list. General error.` | Общая ошибка выполнения запроса ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

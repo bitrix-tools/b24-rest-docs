@@ -1,0 +1,116 @@
+{
+  "$v": 1,
+  "method": "catalog.document.element.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Обновить товар в документе складского учета catalog.document.element.update",
+  "permissions": "> - пользователь с правом «Создание и редактирование» на тип документа в запросе",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_document_element.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор товара документа, можно получить методом catalog.document.element.list"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Поля, которые нужно изменить (подробное описание ниже)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "storeFrom",
+          "type": "catalog_store.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор склада-источника, можно получить методом catalog.store.list. Используйте для документов списания. Если параметр не передавать, сохранится текущее значение"
+        },
+        {
+          "name": "storeTo",
+          "type": "catalog_store.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор склада-получателя, можно получить методом catalog.store.list. Подходит для документов поступления и перемещения. Если параметр не передавать, сохранится текущее значение"
+        },
+        {
+          "name": "amount",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Количество товара в единицах учета документа. Если параметр не передавать, сохранится текущее значение"
+        },
+        {
+          "name": "purchasingPrice",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Закупочная цена в валюте документа. Если параметр не передавать, сохранится текущее значение"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/document-element/catalog-document-element-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "documentElement": {
+        "amount": 12,
+        "docId": 64,
+        "elementId": 312,
+        "id": 148,
+        "purchasingPrice": 1180,
+        "storeFrom": null,
+        "storeTo": 2
+      }
+    },
+    "time": {
+      "start": 1759482203.22173,
+      "finish": 1759482203.33928,
+      "duration": 0.11754989624023438,
+      "processing": 0.02244114875793457,
+      "date_start": "2025-11-02T12:23:23+03:00",
+      "date_finish": "2025-11-02T12:23:23+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "documentElement",
+      "type": "catalog_document_element",
+      "base": "any",
+      "required": false,
+      "description": "Обновленные данные товара документа."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Служебная информация о времени обработки запроса."
+    }
+  ],
+  "page": "/api-reference/catalog/document/document-element/catalog-document-element-update.html",
+  "executable": false
+}

@@ -12,8 +12,8 @@
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
->  - Любой пользователь имеет право получать свои и общие настройки
->  - Только администратор имеет право получать чужие настройки
+>  - любой пользователь может сбросить свои личные настройки
+>  - пользователь с правом «Разрешить изменять настройки» в CRM может сбросить общие и чужие личные настройки
 
 {% note warning "DEPRECATED" %}
 
@@ -31,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Область применения настроек. 
+[`string`](../../../data-types.md) | Область применения настроек.
 
 Возможные значения:
 - **P** — личные настройки
@@ -106,6 +106,24 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.contact.details.configuration.reset", b24.Params{
+        	"scope": "C",
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.contact.details.configuration.reset: %w", err)
+        }
+
+        var ok bool
+        if err := json.Unmarshal(res.Result, &ok); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("выполнено:", ok)
         ```
 
     {% endlist %}
@@ -197,6 +215,25 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.contact.details.configuration.reset", b24.Params{
+        	"scope":  "P",
+        	"userId": 6,
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.contact.details.configuration.reset: %w", err)
+        }
+
+        var ok bool
+        if err := json.Unmarshal(res.Result, &ok); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("выполнено:", ok)
+        ```
+
     {% endlist %}
 
 ## Обработка ответа
@@ -253,7 +290,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-contact-details-configuration-get.md)

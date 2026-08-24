@@ -1,0 +1,123 @@
+{
+  "$v": 1,
+  "method": "catalog.measure.add",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Добавить единицу измерения catalog.measure.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания новой единицы измерения",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "code",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Уникальный код единицы измерения"
+        },
+        {
+          "name": "isDefault",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Используется ли текущая единица измерения в качестве единицы измерения по умолчанию для новых товаров. Возможные значения: - Y — да - N — нет Если значение поля не указано, то автоматически устанавливается значение N. Только одна единица измерения из всего справочника может принимать значение Y"
+        },
+        {
+          "name": "measureTitle",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название единицы измерения"
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условное обозначение"
+        },
+        {
+          "name": "symbolIntl",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Международное условное обозначение"
+        },
+        {
+          "name": "symbolLetterIntl",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Международное кодовое буквенное обозначение"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/measure/catalog-measure-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "measure": {
+        "code": 715,
+        "id": 6,
+        "isDefault": "N",
+        "measureTitle": "Пара",
+        "symbol": "пар",
+        "symbolIntl": "pr; 2",
+        "symbolLetterIntl": "NPR"
+      }
+    },
+    "time": {
+      "start": 1716552521.40908,
+      "finish": 1716552521.69852,
+      "duration": 0.289434909820557,
+      "processing": 0.011207103729248,
+      "date_start": "2024-05-24T14:08:41+02:00",
+      "date_finish": "2024-05-24T14:08:41+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "measure",
+      "type": "catalog_measure",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о созданной единице измерения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/measure/catalog-measure-add.html",
+  "executable": false
+}

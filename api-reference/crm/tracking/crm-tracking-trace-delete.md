@@ -29,7 +29,7 @@
 
 Для полного удаления трейса нужны права на изменение всех связанных с ним объектов.
 
-`id` можно получить методом [crm.tracking.trace.add](./crm-tracking-trace-add.md) ||
+Идентификатор можно получить в ответе метода [crm.tracking.trace.add](./crm-tracking-trace-add.md) ||
 |#
 
 ## Примеры кода
@@ -218,6 +218,22 @@
     echo '<pre>';
     print_r($result);
     echo '</pre>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.tracking.trace.delete", b24.Params{
+    	"id": 125,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.tracking.trace.delete: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

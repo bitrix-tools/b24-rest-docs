@@ -210,6 +210,36 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productPropertySection.get", b24.Params{
+    	"propertyId": 901,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.productPropertySection.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productPropertySection".
+    raw, ok := b24.Unwrap(res.Result, "productPropertySection")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productPropertySection")
+    }
+
+    var item struct {
+    	DisplayExpanded string `json:"displayExpanded"`
+    	DisplayType     string `json:"displayType"`
+    	FilterHint      string `json:"filterHint"`
+    	PropertyID      b24.ID `json:"propertyId"`
+    	SmartFilter     string `json:"smartFilter"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.DisplayExpanded, item.DisplayType)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

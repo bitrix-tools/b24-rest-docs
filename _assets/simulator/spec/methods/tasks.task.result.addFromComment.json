@@ -1,0 +1,135 @@
+{
+  "$v": 1,
+  "method": "tasks.task.result.addFromComment",
+  "scope": "task",
+  "kind": "write",
+  "title": "Добавить комментарий в результат tasks.task.result.addFromComment",
+  "permissions": "любой пользователь с доступом к задаче",
+  "params": [
+    {
+      "name": "commentId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор комментария, который нужно закрепить как результат. Идентификатор комментария можно получить при добавлении нового комментария или методом получения списка комментариев"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/result/tasks-task-result-add-from-comment.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 21,
+      "taskId": 8017,
+      "commentId": 3199,
+      "createdBy": 503,
+      "createdAt": "2025-07-13T14:30:00+03:00",
+      "updatedAt": "2025-07-13T14:30:00+03:00",
+      "status": 0,
+      "text": "Отправил документы клиенту. Клиент обещает ответить в [B]понедельник[/B].",
+      "formattedText": "Отправил документы клиенту. Клиент обещает ответить в <b>понедельник</b>.",
+      "files": null
+    },
+    "time": {
+      "start": 1755597246.027815,
+      "finish": 1755597246.115861,
+      "duration": 0.08804583549499512,
+      "processing": 0.05956697463989258,
+      "date_start": "2025-08-19T12:54:06+03:00",
+      "date_finish": "2025-08-19T12:54:06+03:00",
+      "operating_reset_at": 1755597846,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект, описывающий закрепленный результат"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор результата"
+    },
+    {
+      "name": "taskId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор задачи"
+    },
+    {
+      "name": "commentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор комментария, закрепленного как результат"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, закрепившего результат"
+    },
+    {
+      "name": "createdAt",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время закрепления результата в формате ISO 8601"
+    },
+    {
+      "name": "updatedAt",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время последнего изменения результата в формате ISO 8601"
+    },
+    {
+      "name": "status",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Статус результата. Возможные значения: - 0 — результат открыт - 1 — результат закрыт Результат становится закрытым после завершения задачи и сохраняет этот статус после возобновления задачи. Открытыми будут только новые результаты в незавершенной задаче. Комментарий с открытым результатом нельзя повторно добавить в результат. Если результат закрыт — добавление возможно"
+    },
+    {
+      "name": "text",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Текст результата"
+    },
+    {
+      "name": "formattedText",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Отформатированный текст результата"
+    },
+    {
+      "name": "files",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Имеет значение null. Список файлов, прикрепленных к результату, можно получить методом tasks.task.result.list"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/result/tasks-task-result-add-from-comment.html",
+  "executable": false
+}

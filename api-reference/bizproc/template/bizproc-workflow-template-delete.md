@@ -97,7 +97,7 @@
 
 	```php
 	try {
-		$templateId = 123; // Replace with the actual template ID you want to delete
+		$templateId = 123; // Идентификатор шаблона, который нужно удалить
 		$result = $serviceBuilder
 			->getBizProcScope()
 			->template()
@@ -147,6 +147,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "bizproc.workflow.template.delete", b24.Params{
+    	"ID": 525,
+    })
+    if err != nil {
+    	return fmt.Errorf("bizproc.workflow.template.delete: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -187,7 +203,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ERROR_TEMPLATE_NOT_FOUND",
-    "error_description": "Workflow template not found.",
+    "error_description": "Workflow template not found."
 }
 ```
 

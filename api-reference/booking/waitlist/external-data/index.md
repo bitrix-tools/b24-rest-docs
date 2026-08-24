@@ -9,17 +9,24 @@
 
 {% endnote %}
 
-К записи в лист ожидания можно привязать дополнительные объекты. Это помогает синхронизировать продажи и использовать автоматизацию, например роботов в сделке.
+К записи в листе ожидания можно привязать дополнительные объекты. Это помогает синхронизировать продажи и использовать автоматизацию, например роботов в сделке.
 
 > Быстрый переход: [все методы](#all-methods)
 
-## Связь с объектами
+## Как начать работу
 
-**Лист ожидания.** Чтобы создать новую связь для записи в лист ожидания, укажите `ID` записи в параметре `waitListId`. Получить `ID` можно методами [создания](../booking-v1-waitlist-add.md) или [фильтрации](../booking-v1-waitlist-list.md).
+1. Создайте или найдите запись в листе ожидания методами [booking.v1.waitlist.*](../index.md)
+2. Получите `ID` сделки CRM
+3. Установите связь методом [booking.v1.waitlist.externalData.set](./booking-v1-waitlist-externaldata-set.md)
+4. Проверьте связи методом [booking.v1.waitlist.externalData.list](./booking-v1-waitlist-externaldata-list.md)
+
+## Связь с другими объектами
+
+**Лист ожидания.** Чтобы создать новую связь для записи в листе ожидания, укажите `ID` записи в параметре `waitListId`. Получить `ID` можно методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) или [booking.v1.waitlist.list](../booking-v1-waitlist-list.md).
 
 {% note info "" %}
 
-Сейчас к записи в лист ожидания можно привязать только сделки CRM. Другие модули и типы объектов пока не поддерживаются.
+Сейчас к записи в листе ожидания можно привязать только сделки CRM. Другие модули и типы объектов пока не поддерживаются.
 
 {% endnote %}
 
@@ -27,13 +34,13 @@
 
 ## Обзор методов {#all-methods}
 
-> Scope: [`booking`](../../../scopes/permissions)
+> Scope: [`booking`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: любой пользователь
 
 #|
 || **Метод** | **Описание** ||
-|| [booking.v1.waitlist.externalData.list](./booking-v1-waitlist-externaldata-list.md) | Получает связи для записи в лист ожидания ||
-|| [booking.v1.waitlist.externalData.set](./booking-v1-waitlist-externaldata-set.md) | Устанавливает связи для записи в лист ожидания ||
-|| [booking.v1.waitlist.externalData.unset](./booking-v1-waitlist-externaldata-unset.md) | Удаляет связи для записи в лист ожидания ||
+|| [booking.v1.waitlist.externalData.set](./booking-v1-waitlist-externaldata-set.md) | Устанавливает связи для записи в листе ожидания ||
+|| [booking.v1.waitlist.externalData.list](./booking-v1-waitlist-externaldata-list.md) | Получает связи для записи в листе ожидания ||
+|| [booking.v1.waitlist.externalData.unset](./booking-v1-waitlist-externaldata-unset.md) | Удаляет связи для записи в листе ожидания ||
 |#

@@ -46,7 +46,7 @@
 || **auth_type**
 [`integer`](../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. По умолчанию будет использоваться авторизация пользователя, действия которого привели к срабатыванию события ||
 || **event_type**
-[`string`](../data-types.md) | Значения: `online\|offline`. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](./offline-events.md) ||
+[`string`](../data-types.md) | Значения: ```online|offline```. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](./offline-events.md) ||
 || **auth_connector**
 [`string`](../data-types.md) |  Ключ источника. Параметр предназначен для [офлайн-событий](./offline-events.md). Позволяет исключать ложные срабатывания событий ||
 || **options**
@@ -191,6 +191,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "event.bind", b24.Params{
+    	"event":   "ONCRMLEADADD",
+    	"handler": "https://www.my-domain.ru/handler/",
+    })
+    if err != nil {
+    	return fmt.Errorf("event.bind: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

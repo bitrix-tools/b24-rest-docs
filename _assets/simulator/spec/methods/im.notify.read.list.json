@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "im.notify.read.list",
+  "scope": "im",
+  "kind": "read",
+  "title": "Прочитать список уведомлений im.notify.read.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "IDS",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов уведомлений. Если в массиве встретится значение <= 0, обработка списка останавливается на этом элементе",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "ACTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Действие над уведомлениями: - Y — отметить как прочитанные - N — отметить как непрочитанные Значение по умолчанию — Y. Если передано любое значение, отличное от Y, метод применяет действие как для N"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/notifications/im-notify-read-list.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1760000000,
+      "finish": 1760000000.1,
+      "duration": 0.1,
+      "processing": 0.04,
+      "date_start": "2026-03-02T09:30:00+03:00",
+      "date_finish": "2026-03-02T09:30:00+03:00",
+      "operating_reset_at": 1760030000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true после обработки списка уведомлений"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/notifications/im-notify-read-list.html",
+  "executable": false
+}

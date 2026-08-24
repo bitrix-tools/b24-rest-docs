@@ -216,6 +216,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "salescenter.payment.getPublicUrl", b24.Params{
+    	"id": 1063,
+    })
+    if err != nil {
+    	return fmt.Errorf("salescenter.payment.getPublicUrl: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "payment".
+    raw, ok := b24.Unwrap(res.Result, "payment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа payment")
+    }
+
+    var item struct {
+    	URL      string `json:"url"`
+    	ShortUrl string `json:"shortUrl"`
+    	Qr       string `json:"qr"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.URL, item.ShortUrl)
+    ```
+
 {% endlist %}
 
 ## Ответ в случае успеха

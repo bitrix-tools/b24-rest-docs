@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -149,6 +149,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.vat.get", b24.Params{
+    	"id": 7,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.vat.get: %w", err)
+    }
+
+    var item struct {
+    	ID     b24.ID `json:"ID"`
+    	Active string `json:"ACTIVE"`
+    	Name   string `json:"NAME"`
+    	Rate   string `json:"RATE"`
+    	CSort  string `json:"C_SORT"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Active)
     ```
 
 {% endlist %}

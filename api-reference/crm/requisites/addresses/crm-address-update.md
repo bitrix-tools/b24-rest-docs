@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на изменение контакта, компании или лида — владельца адреса
 
 Метод изменяет адрес для реквизита или лида.
 
@@ -302,6 +302,31 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.address.update", b24.Params{
+    	"fields": b24.Params{
+    		"TYPE_ID":        1,
+    		"ENTITY_TYPE_ID": 3,
+    		"ENTITY_ID":      1,
+    		"ADDRESS_1":      "Московский проспект, 261",
+    		"CITY":           "Калининград",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.address.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

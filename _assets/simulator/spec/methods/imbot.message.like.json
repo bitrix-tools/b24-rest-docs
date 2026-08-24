@@ -1,0 +1,62 @@
+{
+  "$v": 1,
+  "method": "imbot.message.like",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Установить «Мне нравится» для сообщения imbot.message.like",
+  "permissions": "авторизованный пользователь приложения, которое зарегистрировало чат-бота. Метод работает только с ботами этого приложения.",
+  "params": [
+    {
+      "name": "BOT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор чат-бота. Получить идентификатор бота можно с помощью метода imbot.bot.list. Если параметр не передан, метод ищет первого бота, который зарегистрирован текущим приложением"
+    },
+    {
+      "name": "MESSAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения в личных диалогах или в групповых чатах, где присутствует чат-бот. Значение должно быть больше 0. Для сообщений, которые отправлены ботом через REST, идентификатор возвращает метод imbot.message.add. Идентификаторы сообщений, которые отправили в чат пользователи, можно получить с помощью метода im.dialog.messages.get"
+    },
+    {
+      "name": "ACTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Действие с реакцией на сообщение. Допустимые значения: - auto — автоматически переключить текущий статус: если реакции «Мне нравится» нет, она будет установлена, если реакция есть — снята - plus — поставить «Мне нравится» - minus — снять «Мне нравится» Если параметр не передан, используется auto"
+    },
+    {
+      "name": "CLIENT_ID",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Параметр обязателен только для вебхуков. Передавайте тот же CLIENTID, который был указан при регистрации чат-бота"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/messages/imbot-message-like.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.Message.Reaction.add"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating_reset_at": 1762349466,
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/chat-bots/outdated/messages/imbot-message-like.html",
+  "executable": false
+}

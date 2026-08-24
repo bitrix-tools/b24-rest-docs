@@ -15,7 +15,7 @@
 
 Метод `disk.rights.getTasks` возвращает список доступных уровней доступа.
 
-Используйте полученные идентификаторы уровней доступа для установки прав на файлы при их загрузке. Указывайте идентификаторы как значение параметра `TASK_ID` в методах [disk.storage.uploadfile](../storage/disk-storage-upload-file.md) и [disk.folder.uploadfile](../folder/disk-folder-upload-file.md).
+Используйте полученные идентификаторы уровней доступа для установки прав на файлы при их загрузке. Указывайте идентификаторы как значение параметра `TASK_ID` в методах [disk.storage.uploadFile](../storage/disk-storage-upload-file.md) и [disk.folder.uploadFile](../folder/disk-folder-upload-file.md).
 
 ## Параметры метода
 
@@ -208,6 +208,28 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.rights.getTasks", nil)
+    if err != nil {
+    	return fmt.Errorf("disk.rights.getTasks: %w", err)
+    }
+
+    var items []struct {
+    	ID    b24.ID `json:"ID"`
+    	Name  string `json:"NAME"`
+    	Title string `json:"TITLE"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
     ```
 
 {% endlist %}

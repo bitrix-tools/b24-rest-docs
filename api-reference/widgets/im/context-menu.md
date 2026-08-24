@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`im`](../../scopes/permissions.md)
+> Scope: [`placement, im`](../../scopes/permissions.md)
 
 Виджет добавляет свой пункт в контекстное меню сообщения в чате.
 
@@ -17,14 +17,14 @@
 
 {% note info "" %}
 
-Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Виджет не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код точки встраивания** | **Место** ||
 || `IM_CONTEXT_MENU` | Пункт контекстного меню сообщения ||
 |#
 
@@ -32,9 +32,11 @@
 
 Откройте любой чат и наведите курсор на сообщение. В строке действий сообщения нажмите кнопку `...` и откройте контекстное меню. Наведите курсор на *Еще*, чтобы открыть дополнительные пункты меню. Пункт приложения с `PLACEMENT=IM_CONTEXT_MENU` отображается в конце списка действий над сообщением.
 
+![Пункт контекстного меню сообщения](./_images/IM_CONTEXT_MENU.png "Пункт контекстного меню сообщения")
+
 ## Что получает обработчик
 
-Данные передаются в виде POST-запроса {.b24-info}
+Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
 ```php
 Array
@@ -46,11 +48,24 @@ Array
     [AUTH_ID] => 6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1
     [AUTH_EXPIRES] => 3600
     [REFRESH_ID] => 50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12
+    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
+    [APPLICATION_TOKEN] => ec1b2074a9d3f5c81b6e40d27a95cf38
+    [APPLICATION_SCOPE] => im,placement
     [member_id] => da45a03b265ed12127f8a258d793cc5d
-    [status] => F
+    [status] => L
     [PLACEMENT] => IM_CONTEXT_MENU
-    [PLACEMENT_OPTIONS] => {"messageId":84889, "dialogId":"chat1489"}
+    [PLACEMENT_OPTIONS] => {"messageId":"38507","dialogId":"chat4339","URI":"\/online\/"}
 )
+```
+
+Строка `PLACEMENT_OPTIONS` из этого примера после разбора выглядит так:
+
+```json
+{
+    "messageId": "38507",
+    "dialogId": "chat4339",
+    "URI": "/online/"
+}
 ```
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -61,10 +76,16 @@ Array
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
-Для `IM_CONTEXT_MENU` в контекст передаются ключи:
-
-- `dialogId` — идентификатор текущего чата
-- `messageId` — идентификатор выбранного сообщения
+#|
+|| **Параметр**
+`тип` | **Описание** ||
+|| **messageId***
+[`string`](../../data-types.md) | Идентификатор сообщения, из меню которого вызван виджет. Значение приходит строкой. По нему приложение работает с сообщением [методами чатов](../../chats/messages/index.md) ||
+|| **dialogId***
+[`string`](../../data-types.md) | Идентификатор чата: `chatNNN` для группового чата, идентификатор пользователя для личной переписки. Получить чат по нему можно методом [im.dialog.get](../../chats/im-dialog-get.md). Для личной переписки данные собеседника вернет метод [user.get](../../user/user-get.md) ||
+|| **URI***
+[`string`](../../data-types.md) | Адрес страницы, с которой открыт виджет. Для мессенджера это `/online/` ||
+|#
 
 ## OPTIONS при регистрации через placement.bind
 
@@ -156,7 +177,7 @@ Array
           TITLE: 'My menu item',
           LANG_ALL: {
             ru: {
-              TITLE: 'My menu item',
+              TITLE: 'Мой пункт меню',
             },
             en: {
               TITLE: 'My menu item',
@@ -203,7 +224,7 @@ Array
               TITLE: 'My menu item',
               LANG_ALL: {
                 ru: {
-                  TITLE: 'My menu item',
+                  TITLE: 'Мой пункт меню',
                 },
                 en: {
                   TITLE: 'My menu item',
@@ -375,11 +396,58 @@ Array
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
+    	"PLACEMENT": "IM_CONTEXT_MENU",
+    	"HANDLER":   "https://your-domain.com/widgets/im-context-menu-handler.php",
+    	"TITLE":     "Мой пункт меню",
+    	"LANG_ALL": b24.Params{
+    		"ru": b24.Params{
+    			"TITLE": "Мой пункт меню",
+    		},
+    		"en": b24.Params{
+    			"TITLE": "My menu item",
+    		},
+    	},
+    	"OPTIONS": b24.Params{
+    		"context":  "ALL",
+    		"role":     "USER",
+    		"extranet": "N",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.bind: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа из раздела «Обработка ответа» страницы placement.bind.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
+
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| Пункт не появился в контекстном меню сообщения | Завершите установку приложения и заново откройте чат ||
+|| Пункт не находят в меню, потому что смотрят только первые действия | Пункт приложения стоит в конце списка. Наведите курсор на *Еще*, чтобы открыть остальные пункты ||
+|| Регистрация не проходит из-за значения `context` | Используйте только допустимые значения: `ALL`, `USER`, `CHAT`, `LINES`, `CRM` ||
+|| Пункт виден не в тех чатах, для которых задан `context` | Вместе с другими значениями передан `ALL`, и остальные значения не учитываются. Передавайте либо `ALL`, либо список конкретных контекстов через `;` ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./textarea.md)
+- [{#T}](./sidebar.md)
+- [{#T}](./navigation.md)
 - [{#T}](../placement-bind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../bx24-widget-methods.md)

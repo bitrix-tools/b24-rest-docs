@@ -1,0 +1,56 @@
+{
+  "$v": 1,
+  "method": "crm.deal.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить сделку crm.deal.delete",
+  "permissions": "любой пользователь с правом «удаления» сделок",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сделки. Идентификатор можно получить с помощью методов crm.deal.list или crm.deal.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/crm-deal-delete.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.delete"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725019350.037109,
+      "finish": 1725019355.903999,
+      "duration": 5.86689019203186,
+      "processing": 5.262096881866455,
+      "date_start": "2024-08-30T14:02:30+02:00",
+      "date_finish": "2024-08-30T14:02:35+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/crm-deal-delete.html",
+  "executable": false
+}

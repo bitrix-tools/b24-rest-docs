@@ -1,0 +1,147 @@
+{
+  "$v": 1,
+  "method": "imbot.dialog.get",
+  "scope": "imbot",
+  "kind": "read",
+  "title": "Получить данные о чате imbot.dialog.get",
+  "permissions": "пользователь с доступом к чату",
+  "params": [
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор объекта. Поддерживаемые форматы: - XXX — идентификатор пользователя, который можно получить через user.get или user.search. Используется для получения данных о личных чатах. - chatXXX, где XXX — идентификатор группового чата, который можно получить через imbot.chat.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/outdated/chats/imbot-dialog-get.md"
+  },
+  "deprecated": {
+    "successor": "imbot.v2.Chat.get"
+  },
+  "resultExample": {
+    "result": {
+      "id": 2725,
+      "parent_chat_id": 0,
+      "parent_message_id": 0,
+      "name": "Новое имя для чата",
+      "description": "Важные новости",
+      "owner": 1291,
+      "extranet": false,
+      "avatar": "https://cdn-ru.bitrix24.ru/b13743910/resize_cache/33079/ff58db95aecdfa09ae61b51b5fd8f63f/im/708/70810b67c7c206ca3477933063b8ebbc/zuc0242aflwpzacvndxwnfhuxhzvgjaq",
+      "color": "#f76187",
+      "type": "chat",
+      "counter": 0,
+      "user_counter": 2,
+      "message_count": 11,
+      "unread_id": 0,
+      "restrictions": {
+        "avatar": true,
+        "rename": true,
+        "extend": true,
+        "call": true,
+        "mute": true,
+        "leave": true,
+        "leave_owner": true,
+        "send": true,
+        "user_list": true
+      },
+      "last_message_id": 33807,
+      "last_id": 33807,
+      "marked_id": 0,
+      "disk_folder_id": 0,
+      "entity_type": "CHAT",
+      "entity_id": "13",
+      "entity_data_1": "",
+      "entity_data_2": "",
+      "entity_data_3": "",
+      "mute_list": [],
+      "date_create": "2026-02-24T13:19:39+03:00",
+      "message_type": "C",
+      "public": "",
+      "role": "member",
+      "entity_link": {
+        "type": "CHAT",
+        "url": "",
+        "id": "13"
+      },
+      "text_field_enabled": true,
+      "background_id": null,
+      "permissions": {
+        "manage_users_add": "member",
+        "manage_users_delete": "manager",
+        "manage_ui": "member",
+        "manage_settings": "owner",
+        "manage_messages": "member",
+        "can_post": "member"
+      },
+      "is_new": false,
+      "readed_list": [
+        {
+          "user_id": 1291,
+          "user_name": "MyBot",
+          "message_id": 33807,
+          "date": null
+        }
+      ],
+      "manager_list": [
+        1291
+      ],
+      "last_message_views": {
+        "message_id": 33807,
+        "first_viewers": [
+          {
+            "user_id": 1271,
+            "user_name": "Сотрудник",
+            "date": "2026-02-24T15:41:17+03:00"
+          }
+        ],
+        "count_of_viewers": 0
+      },
+      "dialog_id": "chat2725"
+    },
+    "time": {
+      "start": 1771937178,
+      "finish": 1771937178.934208,
+      "duration": 0.9342079162597656,
+      "processing": 0,
+      "date_start": "2026-02-24T15:46:18+03:00",
+      "date_finish": "2026-02-24T15:46:18+03:00",
+      "operating_reset_at": 1771937778,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием чата"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chat-bots/outdated/chats/imbot-dialog-get.html",
+  "executable": false,
+  "entityFields": [
+    "avatar",
+    "call",
+    "extend",
+    "leave",
+    "leave_owner",
+    "mute",
+    "rename",
+    "send",
+    "user_list"
+  ]
+}

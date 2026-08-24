@@ -1,0 +1,318 @@
+{
+  "$v": 1,
+  "method": "sale.order.add",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить заказ sale.order.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для создания заказа",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "lid",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Идентификатор сайта, на котором будет использоваться данный тип плательщика. Имеет постоянное значение 's1'"
+        },
+        {
+          "name": "personTypeId",
+          "type": "sale_person_type.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор типа плательщика"
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Валюта. Список валют можно получить через метод crm.currency.list"
+        },
+        {
+          "name": "price",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Цена"
+        },
+        {
+          "name": "discountValue",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Значение скидки"
+        },
+        {
+          "name": "statusId",
+          "type": "sale_status.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор статуса заказа"
+        },
+        {
+          "name": "empStatusId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, изменившего статус заказа"
+        },
+        {
+          "name": "dateInsert",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата создания заказа"
+        },
+        {
+          "name": "marked",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Флаг маркировки. Признак того, является ли отгрузка отмеченной как проблемная. Значение Y ставится автоматически, если при сохранении произошла ошибка. - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "empMarkedId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, поставившего маркировку"
+        },
+        {
+          "name": "reasonMarked",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Причина, по которой заказ был промаркирован"
+        },
+        {
+          "name": "userDescription",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий покупателя к заказу"
+        },
+        {
+          "name": "additionalInfo",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Устаревший. Дополнительная информация"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий менеджера к заказу"
+        },
+        {
+          "name": "responsibleId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, ответственного за заказ"
+        },
+        {
+          "name": "recurringId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор продления подписки"
+        },
+        {
+          "name": "lockedBy",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Актуально только для коробочной версии. Идентификатор пользователя, заблокировавшего заказ. Заказ блокируется в административной панели, когда пользователь открывает детальную карточку заказа"
+        },
+        {
+          "name": "recountFlag",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Устаревший. Флаг пересчёта. - Y — да - N — нет По умолчанию устанавливается Y"
+        },
+        {
+          "name": "affiliateId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Актуально только для коробочной версии. Идентификатор аффилиата"
+        },
+        {
+          "name": "updated1c",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обновлён ли через 1С. - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "orderTopic",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Устаревший. Тема заказа"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор"
+        },
+        {
+          "name": "id1c",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор в 1С"
+        },
+        {
+          "name": "version1c",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Версия в 1с"
+        },
+        {
+          "name": "externalOrder",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Заказ из внешней системы или нет. - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "canceled",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Был ли отменен заказ. - Y — да - N — нет По умолчанию устанавливается N"
+        },
+        {
+          "name": "empCanceledId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор пользователя, отменившего заказ"
+        },
+        {
+          "name": "reasonCanceled",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Причина отмены"
+        },
+        {
+          "name": "userId",
+          "type": "user.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор клиента"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/order/sale-order-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "order": {
+        "accountNumber": "455",
+        "additionalInfo": "",
+        "affiliateId": 1,
+        "canceled": "Y",
+        "clients": [],
+        "comments": "",
+        "companyId": 1,
+        "currency": "RUB",
+        "dateCanceled": "2024-04-12T13:50:21+03:00",
+        "dateInsert": "2024-03-01T13:00:00+03:00",
+        "dateMarked": "2024-04-12T13:50:21+03:00",
+        "dateStatus": "2024-04-12T13:50:21+03:00",
+        "dateUpdate": "2024-04-12T13:50:21+03:00",
+        "deducted": "N",
+        "discountValue": 10,
+        "empCanceledId": 1,
+        "empMarkedId": 1,
+        "empStatusId": 1,
+        "externalOrder": "N",
+        "id": 299,
+        "id1c": "",
+        "lid": "s1",
+        "lockedBy": "1",
+        "marked": "Y",
+        "orderTopic": "",
+        "payed": "N",
+        "personTypeId": 1,
+        "personTypeXmlId": "",
+        "price": 100,
+        "reasonCanceled": "",
+        "reasonMarked": "",
+        "recountFlag": "N",
+        "recurringId": "1",
+        "requisiteLink": [],
+        "responsibleId": 1,
+        "statusId": "N",
+        "statusXmlId": "",
+        "updated1c": "N",
+        "userDescription": "",
+        "userId": 1,
+        "version1c": "",
+        "xmlId": ""
+      }
+    },
+    "time": {
+      "start": 1712922620.724857,
+      "finish": 1712922623.393783,
+      "duration": 2.6689260005950928,
+      "processing": 2.210068941116333,
+      "date_start": "2024-04-12T14:50:20+03:00",
+      "date_finish": "2024-04-12T14:50:23+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "order",
+      "type": "sale_order",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленном заказе"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/order/sale-order-add.html",
+  "executable": false
+}

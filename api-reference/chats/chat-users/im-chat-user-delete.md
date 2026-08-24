@@ -29,7 +29,7 @@
 || **USER_ID***
 [`integer`](../../data-types.md) | Идентификатор пользователя, которого нужно исключить из чата.
 
-Идентификатор можно получить с помощью метода [im.chat.user.list](../chat-users/im-chat-user-list.md) ||
+Идентификатор можно получить с помощью метода [im.chat.user.list](./im-chat-user-list.md) ||
 |#
 
 ## Примеры кода
@@ -220,6 +220,25 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.chat.user.delete", b24.Params{
+    	"CHAT_ID": 2935,
+    	"USER_ID": 1291,
+    })
+    if err != nil {
+    	return fmt.Errorf("im.chat.user.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

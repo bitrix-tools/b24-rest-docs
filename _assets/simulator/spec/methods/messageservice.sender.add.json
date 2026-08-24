@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "messageservice.sender.add",
+  "scope": "messageservice",
+  "kind": "write",
+  "title": "Зарегистрировать СМС-провайдер или провайдер сообщений messageservice.sender.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код провайдера. Допустимые символы: a-z, A-Z, 0-9, ., -, _"
+    },
+    {
+      "name": "TYPE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип провайдера. Поддерживаемое значение: SMS"
+    },
+    {
+      "name": "HANDLER",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "URL обработчика приложения, который вызывается при отправке сообщения. Данные, которые приходят в обработчик, описаны ниже"
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Название провайдера. Может быть строкой или ассоциативным массивом локализированных строк вида:"
+    },
+    {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание провайдера. Может быть строкой или ассоциативным массивом локализированных строк вида:"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/messageservice/messageservice-sender-add.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1742895600,
+      "finish": 1742895600.845505,
+      "duration": 0.845505952835083,
+      "processing": 0,
+      "date_start": "2025-03-25T10:00:00+03:00",
+      "date_finish": "2025-03-25T10:00:00+03:00",
+      "operating_reset_at": 1742896200,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "true, если провайдер успешно зарегистрирован"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/messageservice/messageservice-sender-add.html",
+  "executable": false
+}

@@ -1,0 +1,42 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.userfield.update",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Изменить пользовательское поле crm.invoice.userfield.update",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор пользовательского поля"
+    },
+    {
+      "name": "fields",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Набор полей - массив вида array(\"обновляемое поле\"=>\"значение\"[, ...]), где \"обновляемое поле\" может принимать значения из возвращаемых методом crm.userfield.fields"
+    },
+    {
+      "name": "LIST",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Содержит набор значений списка для пользовательских полей типа Список. Указывается при создании/обновлении поля. Каждое значение представляет собой массив с полями: - VALUE - значение элемента списка. Поле является обязательным в случае, когда создается новый элемент - SORT - сортировка - DEF - если равно Y, то элемент списка является значением по-умолчанию.…"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-user-field-update.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-user-field-update.html",
+  "executable": false
+}

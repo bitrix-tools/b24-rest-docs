@@ -11,23 +11,30 @@
 
 Заказы интернет-магазина можно связать с объектами CRM. Это позволяет использовать информацию о заказе в сценариях работы со сделками и счетами.
 
+Привязка — это отдельная запись, а не поле заказа или объекта CRM. У заказа может быть только одна привязка: если создать привязку для заказа, у которого она уже есть, прежняя связь заменится новой.
+
 > Быстрый переход: [все методы](#all-methods)
 
 ## Связь с другими объектами
 
-**Заказы интернет-магазина.** Идентификатор заказа `orderId` связывает запись заказа с объектом CRM.
+**Заказы интернет-магазина.** Идентификатор заказа `orderId` связывает запись заказа с объектом CRM. Самими заказами управляет группа методов [sale.order.*](../../../sale/order/index.md).
 
 **Объекты CRM.** Привязка поддерживается для сделок и счетов с помощью пары параметров `ownerTypeId` и `ownerId`. Первый определяет тип объекта, второй — идентификатор конкретной сделки или счета.
+
+#|
+|| **Объект CRM** | **`ownerTypeId`** | **Где взять `ownerId`** ||
+|| Сделка | `2` | [crm.deal.list](../../deals/crm-deal-list.md) ||
+|| Счет | `31` | [crm.item.list](../crm-item-list.md) с `entityTypeId = 31` ||
+|#
 
 ## Как начать работу
 
 1. Получите идентификатор заказа `orderId` методом [sale.order.add](../../../sale/order/sale-order-add.md) или [sale.order.list](../../../sale/order/sale-order-list.md).
-2. Определите тип объекта `ownerTypeId` методом [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md): `2` — сделка, `31` — счет.
-3. Получите `ownerId` методом [crm.deal.list](../../deals/crm-deal-list.md) для сделок или [crm.item.list](../crm-item-list.md) с `entityTypeId = 31` для счетов.
+2. Подготовьте пару `ownerTypeId` и `ownerId` по таблице выше.
+3. Проверьте состав полей привязки методом [crm.orderentity.getFields](./crm-order-entity-get-fields.md).
 4. Создайте привязку методом [crm.orderentity.add](./crm-order-entity-add.md).
 5. Проверьте результат методом [crm.orderentity.list](./crm-order-entity-list.md).
-6. При необходимости удалите привязку методом [crm.orderentity.deleteByFilter](./crm-order-entity-delete-by-filter.md).
-7. Чтобы получить структуру полей привязки, используйте [crm.orderentity.getFields](./crm-order-entity-get-fields.md).
+6. Если связь больше не нужна, удалите ее методом [crm.orderentity.deleteByFilter](./crm-order-entity-delete-by-filter.md).
 
 ## Обзор методов {#all-methods}
 
@@ -42,3 +49,9 @@
 || [crm.orderentity.deleteByFilter](./crm-order-entity-delete-by-filter.md) | Удаляет привязку заказа к объекту CRM ||
 || [crm.orderentity.getFields](./crm-order-entity-get-fields.md) | Возвращает поля привязки заказа ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../index.md)
+- [{#T}](../invoice.md)
+- [{#T}](../../../sale/order/index.md)

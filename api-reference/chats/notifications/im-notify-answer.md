@@ -17,11 +17,11 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **NOTIFY_ID***
 [`integer`](../../data-types.md) | Идентификатор уведомления, которое поддерживает быстрый ответ.
 
@@ -219,11 +219,33 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.answer", b24.Params{
+    	"NOTIFY_ID":   270,
+    	"ANSWER_TEXT": "Приму участие",
+    })
+    if err != nil {
+    	return fmt.Errorf("im.notify.answer: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "result_message".
+    raw, ok := b24.Unwrap(res.Result, "result_message")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа result_message")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -245,26 +267,26 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом отправки ответа. 
+[`object`](../../data-types.md) | Объект с результатом отправки ответа.
 
 Структура объекта подробно описана [ниже](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект result {#result-object}
+#### Объект result {#result-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result_message**
-[`array`](../../data-types.md) 
+[`array`](../../data-types.md)
 [`boolean`](../../data-types.md) | Ответ обработчика быстрого ответа. Может содержать массив строк или `false` ||
 |#
 
@@ -279,7 +301,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

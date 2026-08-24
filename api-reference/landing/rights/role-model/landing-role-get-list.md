@@ -240,6 +240,30 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.role.getList", b24.Params{
+    	"scope": "KNOWLEDGE",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("landing.role.getList: %w", err)
+    }
+
+    var items []struct {
+    	ID    b24.ID `json:"ID"`
+    	Title string `json:"TITLE"`
+    	XMLID string `json:"XML_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

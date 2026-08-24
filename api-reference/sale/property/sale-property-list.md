@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список свойств заказа. 
+Метод `sale.property.list` получает список свойств заказа.
 
 ## Параметры метода
 
@@ -515,9 +515,49 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.property.list", b24.Params{
+    	"select": []string{"id", "active", "code", "defaultValue", "description", "inputFieldLocation", "isAddress", "isAddressFrom", "isAddressTo", "isEmail", "isFiltered", "isLocation", "isLocation4tax", "isPayer", "isPhone", "isProfileName", "isZip", "multiple", "name", "personTypeId", "propsGroupId", "required", "settings", "sort", "type", "userProps", "util", "xmlId"},
+    	"filter": b24.Params{
+    		"@type": "STRING",
+    		"%code": "EMAIL",
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.property.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "properties".
+    raw, ok := b24.Unwrap(res.Result, "properties")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа properties")
+    }
+
+    var items []struct {
+    	Active             string `json:"active"`
+    	Code               string `json:"code"`
+    	DefaultValue       string `json:"defaultValue"`
+    	Description        string `json:"description"`
+    	ID                 b24.ID `json:"id"`
+    	InputFieldLocation string `json:"inputFieldLocation"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Active)
+    }
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 

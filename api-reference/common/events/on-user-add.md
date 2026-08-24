@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`базовый`](../../scopes/permissions.md)
+> Scope: [`user`](../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONUSERADD` вызывается при добавлении пользователя в Битрикс24. Событие срабатывает не после приглашения, а после того, как пользователь зайдет на портал и зарегистрируется до конца.
+Событие `ONUSERADD` вызывается при добавлении пользователя в Битрикс24. Событие срабатывает не после приглашения, а после того, как пользователь зайдет в Битрикс24 и завершит регистрацию.
 
 {% note info "" %}
 
@@ -43,10 +43,15 @@
     },
     "ts": "1466439714",
     "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "expires_in": 3600,
+        "scope": "user",
         "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
+        "status": "F",
         "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
-        "member_id": "a223c6b3710f85df22e9377d6c4f7553"
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
 ```
@@ -67,7 +72,7 @@
 || **ts***
 [`timestamp`](../../data-types.md) | Дата и время отправки события ||
 || **auth***
-[`object`](../../data-types.md) | Данные авторизации и портала.
+[`object`](../../data-types.md) | Данные авторизации и Битрикс24.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -138,8 +143,6 @@
 [`string`](../../data-types.md) | Общий путь для вызовов методов API для Битрикс24, на котором произошло событие ||
 || **member_id***
 [`string`](../../data-types.md) | Идентификатор Битрикс24, на котором произошло событие ||
-|| **refresh_token***
-[`string`](../../data-types.md) | Токен продления авторизации [OAuth 2.0](../../../settings/oauth/index.md) ||
 || **application_token***
 [`string`](../../data-types.md) | Токен для безопасной обработки событий ||
 |#

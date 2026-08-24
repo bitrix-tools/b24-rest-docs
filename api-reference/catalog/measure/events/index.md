@@ -1,4 +1,4 @@
-# Обзор событий при работе с единицами измерения
+# События при работе с единицами измерения: обзор событий
 
 {% note tip "" %}
 
@@ -14,10 +14,12 @@
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
 > Быстрый переход: [все события](#all-events)
+>
+> Пользовательская документация: [Как добавить и настроить единицы измерения в CRM](https://helpdesk.bitrix24.ru/open/5488453/)
 
 ## Как получать события
 
-Подписаться на события единицы измерения можно через [приложение](./../../../../settings/app-installation/index.md) и метод [event.bind](./../../../events/event-bind.md).
+Подписаться на события единицы измерения можно через [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md).
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 
@@ -25,7 +27,7 @@
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
 
-## Обзор событий
+## Обзор событий {#all-events}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
@@ -33,7 +35,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [CATALOG.MEASURE.ON.ADD](catalog-measure-on-add.md) | При добавлении единицы измерения вручную или методом [catalog.measure.add](../catalog-measure-add.md) ||
-|| [CATALOG.MEASURE.ON.UPDATE](catalog-measure-on-update.md)| При обновлении единицы измерения вручную или методом [catalog.measure.update](../catalog-measure-update.md) ||
-|| [CATALOG.MEASURE.ON.DELETE](catalog-measure-on-delete.md)| При удалении единицы измерения вручную или методом [catalog.measure.delete](../catalog-measure-delete.md) ||
+|| [CATALOG.MEASURE.ON.ADD](./catalog-measure-on-add.md) | При добавлении единицы измерения вручную или методом [catalog.measure.add](../catalog-measure-add.md) ||
+|| [CATALOG.MEASURE.ON.UPDATE](./catalog-measure-on-update.md) | При обновлении единицы измерения вручную или методом [catalog.measure.update](../catalog-measure-update.md) ||
+|| [CATALOG.MEASURE.ON.DELETE](./catalog-measure-on-delete.md) | При удалении единицы измерения вручную или методом [catalog.measure.delete](../catalog-measure-delete.md) ||
 |#

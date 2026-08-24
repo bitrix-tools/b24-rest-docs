@@ -422,6 +422,50 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imopenlines.config.update", b24.Params{
+    	"CONFIG_ID": 15,
+    	"PARAMS": b24.Params{
+    		"LINE_NAME": "Линия поддержки интернет-магазина (VIP)",
+    		"QUEUE": []b24.Params{
+    			{
+    				"ENTITY_TYPE": "user",
+    				"ENTITY_ID":   "1",
+    			},
+    			{
+    				"ENTITY_TYPE": "user",
+    				"ENTITY_ID":   "15",
+    			},
+    			{
+    				"ENTITY_TYPE": "user",
+    				"ENTITY_ID":   "23",
+    			},
+    		},
+    		"QUEUE_TYPE":           "strictly",
+    		"QUEUE_TIME":           45,
+    		"NO_ANSWER_TIME":       120,
+    		"WELCOME_MESSAGE":      "Y",
+    		"WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
+    		"WORKTIME_ENABLE":      "Y",
+    		"WORKTIME_FROM":        "09:00",
+    		"WORKTIME_TO":          "21:00",
+    		"WORKTIME_TIMEZONE":    "Europe/Kaliningrad",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imopenlines.config.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

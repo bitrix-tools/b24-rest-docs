@@ -11,7 +11,7 @@
 
 > Scope: [`entity`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с уровнем права `X` (управление) в хранилище данных
+> Кто может выполнять метод: пользователь с уровнем права `X` (управление) на хранилище данных
 
 Метод `entity.item.property.update` изменяет свойство элементов хранилища данных приложения.
 
@@ -24,7 +24,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -47,10 +47,12 @@
 [`string`](../../../data-types.md) | Новый тип свойства:
 - `S` — строка
 - `N` — число
-- `F` — файл ||
+
+Изменить тип свойства на `F` (файл) нельзя — метод вернет ошибку ||
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки свойства ||
 |#
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
@@ -249,6 +251,28 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.item.property.update", b24.Params{
+    	"ENTITY":       "dish",
+    	"PROPERTY":     "new_prop",
+    	"PROPERTY_NEW": "updated_prop",
+    	"NAME":         "Обновленное свойство",
+    	"SORT":         200,
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.item.property.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

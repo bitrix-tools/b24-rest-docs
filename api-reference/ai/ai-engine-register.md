@@ -81,7 +81,7 @@
 
 ### Требования к endpoint
 
-1. Endpoint должен быстро принять запрос и вернуть ответ или поставить задачу в свою внутреннюю очередь. На первичный ответ даётся не более 5 секунд — по истечении таймаута соединение обрывается
+1. Endpoint должен быстро принять запрос и вернуть ответ или поставить задачу в свою внутреннюю очередь. На первичный ответ дается не более 5 секунд — по истечении таймаута соединение обрывается
 2. Для категории `image` обработку нужно строить асинхронно
 3. В payload запроса приходят `callbackUrl` и `errorCallbackUrl`. После обработки нужно отправлять результат в `callbackUrl`, а информацию об ошибке в `errorCallbackUrl`
 4. Endpoint должен корректно возвращать HTTP-статусы:
@@ -165,7 +165,7 @@
 || **max_tokens**
 [`integer`](../data-types.md) | Максимальное число лексем в ответе ||
 || **temperature**
-[`number`](../data-types.md) | Параметр, который управляет степенью случайности вывода ||
+[`double`](../data-types.md) | Параметр, который управляет степенью случайности вывода ||
 || **callbackUrl**
 [`string`](../data-types.md) | URL, на который нужно отправить результат успешной обработки ||
 || **errorCallbackUrl**
@@ -441,6 +441,32 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "ai.engine.register", b24.Params{
+    	"name":            "Acme GPT",
+    	"code":            "acme_gpt",
+    	"category":        "text",
+    	"completions_url": "https://api.example.com/bitrix24/ai/completions",
+    	"settings": b24.Params{
+    		"code_alias":          "ChatGPT",
+    		"model_context_type":  "token",
+    		"model_context_limit": 15666,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("ai.engine.register: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

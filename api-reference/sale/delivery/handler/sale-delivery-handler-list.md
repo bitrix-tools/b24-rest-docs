@@ -9,11 +9,13 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод получает список обработчиков служб доставки. 
+Метод `sale.delivery.handler.list` получает список обработчиков служб доставки. 
+
+## Параметры метода
 
 Без параметров.
 
@@ -238,6 +240,36 @@
             ]
         ]
     );
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.handler.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.handler.list: %w", err)
+    }
+
+    var items []struct {
+    	ID          b24.ID `json:"ID"`
+    	Name        string `json:"NAME"`
+    	Code        string `json:"CODE"`
+    	Sort        string `json:"SORT"`
+    	Description string `json:"DESCRIPTION"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

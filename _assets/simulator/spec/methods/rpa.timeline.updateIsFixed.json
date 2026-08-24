@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "rpa.timeline.updateIsFixed",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Обновить флаг прикрепления записи rpa.timeline.updateIsFixed",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор записи"
+    },
+    {
+      "name": "isFixed",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Флаг прикрепления записи. Возможные значения: - Y — запись будет прикреплена - N — запись не будет прикреплена"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/timeline/rpa-timeline-update-is-fixed.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/timeline/rpa-timeline-update-is-fixed.html",
+  "executable": false
+}

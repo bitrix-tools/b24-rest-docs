@@ -15,7 +15,7 @@
 
 Метод обновляет существующую валюту.
 
-## Параметры
+## Параметры метода
 
 #|
 ||  **Название**
@@ -100,7 +100,7 @@ fields: {
 ||  **Название**
 `тип`| **Описание** ||
 || **DECIMALS***
-[`int`](../../data-types.md) | Число десятичных знаков дробной части ||
+[`integer`](../../data-types.md) | Число десятичных знаков дробной части ||
 || **DEC_POINT**
 [`string`](../../data-types.md) | Десятичная точка при выводе ||
 || **FORMAT_STRING**
@@ -117,7 +117,7 @@ fields: {
 Допустимые значения смотрите в справочнике [crm_currency_localization](../data-types.md#crm_currency_localization) ||
 |#
 
-## Примеры
+## Примеры кода
 
 1. Изменение курса юаня по отношению к базовой валюте
 
@@ -265,6 +265,27 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.currency.update", b24.Params{
+        	"ID": "CNY",
+        	"fields": b24.Params{
+        		"AMOUNT": 15.3449,
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.currency.update: %w", err)
+        }
+
+        var ok bool
+        if err := json.Unmarshal(res.Result, &ok); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("выполнено:", ok)
         ```
 
     {% endlist %}
@@ -487,6 +508,44 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.currency.update", b24.Params{
+        	"ID": "USD",
+        	"fields": b24.Params{
+        		"LANG": b24.Params{
+        			"en": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "$#",
+        				"FULL_NAME":         "доллар США",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "S",
+        			},
+        			"de": b24.Params{
+        				"DECIMALS":          2,
+        				"DEC_POINT":         ".",
+        				"FORMAT_STRING":     "# $",
+        				"FULL_NAME":         "US-Dollar",
+        				"HIDE_ZERO":         "Y",
+        				"THOUSANDS_VARIANT": "C",
+        			},
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.currency.update: %w", err)
+        }
+
+        var ok bool
+        if err := json.Unmarshal(res.Result, &ok); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println("выполнено:", ok)
         ```
 
     {% endlist %}

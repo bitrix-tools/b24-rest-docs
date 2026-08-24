@@ -27,8 +27,8 @@
 
 - `chatXXX` — чат
 - `sgXXX` — чат группы или проекта
-- `XXX` — идентификатор пользователя личного чата 
-  
+- `XXX` — идентификатор пользователя личного чата
+
 Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
 || **SKIP_EXTERNAL**
 [`string`](../../data-types.md) | Исключить системных пользователей:
@@ -119,18 +119,12 @@
     }
 
     try {
-      // im.dialog.users.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<DialogUser[]>({
         method: 'im.dialog.users.list',
         params: {
           DIALOG_ID: 'chat13',
           SKIP_EXTERNAL: 'Y',
           LIMIT: 20,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -159,18 +153,12 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // im.dialog.users.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'im.dialog.users.list',
             params: {
               DIALOG_ID: 'chat13',
               SKIP_EXTERNAL: 'Y',
               LIMIT: 20,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -292,6 +280,42 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.dialog.users.list", b24.Params{
+    	"DIALOG_ID":     "chat2935",
+    	"SKIP_EXTERNAL": "Y",
+    	"LIMIT":         20,
+    	"OFFSET":        0,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.dialog.users.list: %w", err)
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	Active       bool   `json:"active"`
+    	Name         string `json:"name"`
+    	FirstName    string `json:"first_name"`
+    	LastName     string `json:"last_name"`
+    	WorkPosition string `json:"work_position"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Active)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

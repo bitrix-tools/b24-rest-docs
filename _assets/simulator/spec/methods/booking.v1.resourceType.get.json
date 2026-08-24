@@ -1,0 +1,105 @@
+{
+  "$v": 1,
+  "method": "booking.v1.resourceType.get",
+  "scope": "booking",
+  "kind": "read",
+  "title": "Получить тип ресурса booking.v1.resourceType.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор типа ресурса. Можно получить в методах booking.v1.resourceType.add и booking.v1.resourceType.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/resource/resource-type/booking-v1-resourcetype-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "resourceType": {
+        "code": "equipment",
+        "confirmationCounterDelay": 10800,
+        "confirmationNotificationDelay": 86400,
+        "confirmationNotificationRepetitions": null,
+        "confirmationNotificationRepetitionsInterval": 10800,
+        "delayedCounterDelay": 300,
+        "delayedNotificationDelay": 300,
+        "id": 15,
+        "infoNotificationDelay": null,
+        "isConfirmationNotificationOn": "Y",
+        "isDelayedNotificationOn": "Y",
+        "isFeedbackNotificationOn": "N",
+        "isReminderNotificationOn": "Y",
+        "name": "Оборудование",
+        "reminderNotificationDelay": -1,
+        "templateTypeConfirmation": "inanimate",
+        "templateTypeDelayed": "inanimate",
+        "templateTypeFeedback": "inanimate",
+        "templateTypeReminder": "base"
+      }
+    },
+    "time": {
+      "start": 1746539255.201164,
+      "finish": 1746539255.280769,
+      "duration": 0.0796051025390625,
+      "processing": 0.014694929122924805,
+      "date_start": "2025-05-06T16:47:35+03:00",
+      "date_finish": "2025-05-06T16:47:35+03:00",
+      "operating_reset_at": 1746539855,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о полях типа ресурса. Структура описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-get.html",
+  "executable": false,
+  "entityFields": [
+    "code",
+    "confirmationCounterDelay",
+    "confirmationDelay",
+    "confirmationNotificationDelay",
+    "confirmationNotificationRepetitions",
+    "confirmationNotificationRepetitionsInterval",
+    "confirmationRepetitions",
+    "confirmationRepetitionsInterval",
+    "delayedCounterDelay",
+    "delayedDelay",
+    "delayedNotificationDelay",
+    "id",
+    "infoDelay",
+    "infoNotificationDelay",
+    "isConfirmationNotificationOn",
+    "isDelayedNotificationOn",
+    "isFeedbackNotificationOn",
+    "isInfoNotificationOn",
+    "isReminderNotificationOn",
+    "name",
+    "reminderDelay",
+    "reminderNotificationDelay",
+    "templateTypeConfirmation",
+    "templateTypeDelayed",
+    "templateTypeFeedback",
+    "templateTypeInfo",
+    "templateTypeReminder"
+  ]
+}

@@ -135,6 +135,20 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.measure.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.measure.fields: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Возвращаемые поля
@@ -143,19 +157,19 @@
 || **Поле**
 `тип` | **Описание** | **Примечание** ||
 || **CODE** 
-[`integer`](../../data-types.md) | Код единицы | Обязательное ||
+[`integer`](../../../data-types.md) | Код единицы | Обязательное ||
 || **ID** 
-[`integer`](../../data-types.md) | Идентификатор | Только для чтения ||
+[`integer`](../../../data-types.md) | Идентификатор | Только для чтения ||
 || **IS_DEFAULT** 
-[`char`](../../data-types.md) | По умолчанию | ||
+[`char`](../../../data-types.md) | По умолчанию | ||
 || **MEASURE_TITLE** 
-[`string`](../../data-types.md) | Наименование единицы измерения | Обязательное ||
+[`string`](../../../data-types.md) | Наименование единицы измерения | Обязательное ||
 || **SYMBOL_INTL** 
-[`string`](../../data-types.md) | Условное обозначение (международное) | ||
+[`string`](../../../data-types.md) | Условное обозначение (международное) | ||
 || **SYMBOL_LETTER_INTL** 
-[`string`](../../data-types.md) | Кодовое буквенное обозначение (международное) | ||
+[`string`](../../../data-types.md) | Кодовое буквенное обозначение (международное) | ||
 || **SYMBOL_RUS** 
-[`string`](../../data-types.md) | Условное обозначение | ||
+[`string`](../../../data-types.md) | Условное обозначение | ||
 |#
 
 ## Продолжите изучение

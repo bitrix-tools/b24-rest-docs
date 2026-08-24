@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: любой пользователь с правом на изменение элемента CRM, к которому привязана запись
 
 Метод `crm.timeline.layout.blocks.set` устанавливает набор дополнительных контентных блоков для записи таймлайна.
 
@@ -502,6 +502,70 @@
     echo '';
     print_r($result);
     echo '';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.layout.blocks.set", b24.Params{
+    	"entityTypeId": 2,
+    	"entityId":     4,
+    	"timelineId":   8,
+    	"layout": b24.Params{
+    		"blocks": b24.Params{
+    			"block_1": b24.Params{
+    				"type": "text",
+    				"properties": b24.Params{
+    					"value":     "Здравствуйте!\nМы начинаем.",
+    					"multiline": true,
+    					"bold":      true,
+    					"color":     "base_90",
+    				},
+    			},
+    			"block_2": b24.Params{
+    				"type": "largeText",
+    				"properties": b24.Params{
+    					"value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания.",
+    				},
+    			},
+    			"block_3": b24.Params{
+    				"type": "link",
+    				"properties": b24.Params{
+    					"text": "Открыть сделку",
+    					"bold": true,
+    					"action": b24.Params{
+    						"type": "redirect",
+    						"uri":  "/crm/deal/details/123/",
+    					},
+    				},
+    			},
+    			"block_4": b24.Params{
+    				"type": "withTitle",
+    				"properties": b24.Params{
+    					"title": "Заголовок",
+    					"block": b24.Params{
+    						"type": "text",
+    						"properties": b24.Params{
+    							"value": "Какое-то значение",
+    						},
+    					},
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.layout.blocks.set: %w", err)
+    }
+
+    var item struct {
+    	Success bool `json:"success"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Success)
     ```
 
 {% endlist %}

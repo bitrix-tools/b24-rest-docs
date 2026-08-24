@@ -242,7 +242,57 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "app.option.set", b24.Params{
+    	"options": b24.Params{
+    		"data":  "value",
+    		"data2": "value2",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("app.option.set: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
+
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1722001311.94644,
+        "finish": 1722001311.98622,
+        "duration": 0.0397801399230957,
+        "processing": 0.000041961669921875,
+        "date_start": "2024-07-26T13:41:51+00:00",
+        "date_finish": "2024-07-26T13:41:51+00:00",
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Возвращается `true`, если настройки сохранены ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 
@@ -262,7 +312,8 @@ HTTP-статус: **400**
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
 || `ArgumentNullException` | options is empty | Пустой массив `options`  ||
-|| `AccessException` | Application context required / Administrator authorization required | Доступ запрещен ||
+|| `AccessException` | Application context required | Метод вызван вне контекста приложения ||
+|| `AccessException` | Administrator authorization required | У текущего пользователя нет прав администратора ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

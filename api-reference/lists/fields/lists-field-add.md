@@ -57,7 +57,7 @@
 
 ### Параметр FIELDS {#parametr-fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -491,6 +491,53 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.field.add", b24.Params{
+    	"IBLOCK_TYPE_ID": "lists",
+    	"IBLOCK_ID":      "123",
+    	"FIELDS": b24.Params{
+    		"NAME":        "Проект",
+    		"IS_REQUIRED": "Y",
+    		"MULTIPLE":    "N",
+    		"TYPE":        "L",
+    		"SORT":        "10",
+    		"CODE":        "PROJECT",
+    		"LIST": b24.Params{
+    			"10": b24.Params{
+    				"VALUE": "Планирование",
+    				"SORT":  10,
+    				"DEF":   "Y",
+    			},
+    			"20": b24.Params{
+    				"VALUE": "В разработке",
+    				"SORT":  20,
+    				"DEF":   "N",
+    			},
+    		},
+    		"LIST_TEXT_VALUES": "Тестирование\nЗавершен\nОтложен",
+    		"SETTINGS": b24.Params{
+    			"SHOW_ADD_FORM":        "Y",
+    			"SHOW_EDIT_FORM":       "Y",
+    			"ADD_READ_ONLY_FIELD":  "N",
+    			"EDIT_READ_ONLY_FIELD": "N",
+    			"SHOW_FIELD_PREVIEW":   "N",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("lists.field.add: %w", err)
+    }
+
+    var value string
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -268,6 +268,40 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.waitlist.list", b24.Params{
+    	"filter": b24.Params{
+    		"createdWithin": b24.Params{
+    			"from": "01.04.2025",
+    			"to":   "16.04.2025",
+    		},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.waitlist.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "waitList".
+    raw, ok := b24.Unwrap(res.Result, "waitList")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа waitList")
+    }
+
+    var items []struct {
+    	ID   b24.ID `json:"id"`
+    	Note string `json:"note"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
     ```
 
 {% endlist %}

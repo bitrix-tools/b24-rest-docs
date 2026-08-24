@@ -314,6 +314,39 @@ ranges: [
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "timeman.networkrange.set", b24.Params{
+    	"RANGES": []b24.Params{
+    		{
+    			"ip_range": "10.0.0.0-10.255.255.255",
+    			"name":     "Офисная сеть 10.x.x.x",
+    		},
+    		{
+    			"ip_range": "172.16.0.0-172.31.255.255",
+    			"name":     "Офисная сеть 172.x.x.x",
+    		},
+    		{
+    			"ip_range": "192.168.0.0-192.168.255.255",
+    			"name":     "Офисная сеть 192.168.x.x",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("timeman.networkrange.set: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

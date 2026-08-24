@@ -11,13 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор Битрикс24 или администратор CRM
 
 Метод `crm.duplicate.volatileType.unregister` удаляет нестандартное поле из поиска дубликатов.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -207,6 +207,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.duplicate.volatileType.unregister", b24.Params{
+    	"id": 101,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.duplicate.volatileType.unregister: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -247,7 +265,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "TYPE_IS_NOT_ASSIGNED",
-    "error_description": "This type is not assigned."
+    "error_description": "This type is not assigned"
 }
 ```
 
@@ -257,13 +275,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `400` | `TYPE_IS_NOT_ASSIGNED` | Идентификатор записи о добавленном поле не найден ||
+|| `TYPE_IS_NOT_ASSIGNED` | This type is not assigned | Запись с переданным `id` не найдена. Актуальные идентификаторы возвращает [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md) ||
+|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md)
-- [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md)
-- [crm.duplicate.volatileType.register](./crm-duplicate-volatile-type-register.md) 
+- [{#T}](./crm-duplicate-volatile-type-fields.md)
+- [{#T}](./crm-duplicate-volatile-type-list.md)
+- [{#T}](./crm-duplicate-volatile-type-register.md)

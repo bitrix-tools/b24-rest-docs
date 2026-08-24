@@ -1,0 +1,106 @@
+{
+  "$v": 1,
+  "method": "catalog.priceTypeLang.update",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Изменить перевод названия типа цены catalog.priceTypeLang.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "Id",
+      "type": "catalog_price_type_lang.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор перевода названия типа цены"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления перевода названия типа цены",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "catalogGroupId",
+          "type": "catalog_price_type.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор типа цены. Получить идентификаторы типов цен можно с помощью метода catalog.priceType.list"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Перевод названия типа цены"
+        },
+        {
+          "name": "lang",
+          "type": "catalog_language.lid",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор языка. Получить идентификаторы языков можно с помощью метода catalog.priceTypeLang.getLanguages"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "priceTypeLang": {
+        "catalogGroupId": 1,
+        "id": 6,
+        "lang": "kz",
+        "name": "Base Price"
+      }
+    },
+    "time": {
+      "start": 1733843735.3651,
+      "finish": 1733843735.75101,
+      "duration": 0.385910987854004,
+      "processing": 0.0111708641052246,
+      "date_start": "2024-12-10T17:15:35+02:00",
+      "date_finish": "2024-12-10T17:15:35+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "priceTypeLang",
+      "type": "catalog_price_type_lang",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленном переводе названия типа цены"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-update.html",
+  "executable": false
+}

@@ -40,7 +40,7 @@ const $b24 = await B24Js.initializeB24Frame()
 
 ### Параметры
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Параметр** | **Описание** ||
@@ -83,7 +83,7 @@ const responseGet = await $b24.parent.message.send(
 
 ### Параметры
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Параметр** | **Описание** ||

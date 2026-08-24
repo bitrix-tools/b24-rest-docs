@@ -1,0 +1,78 @@
+{
+  "$v": 1,
+  "method": "log.blogcomment.add",
+  "scope": "log",
+  "kind": "write",
+  "title": "Добавить комментарий к сообщению log.blogcomment.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "POST_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения Ленты новостей. Идентификатор сообщения можно получить с помощью метода log.blogpost.get"
+    },
+    {
+      "name": "TEXT",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст комментария. Учитывается при проверке на дублирование и сохраняется в поле POST_TEXT"
+    },
+    {
+      "name": "FILES",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив файлов, который описан по правилам работы с файлами. Файлы будут загружены на Диск пользователя и привязаны к комментарию",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "USER_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, от имени которого публикуется комментарий. Доступно только администраторам. По умолчанию используется текущий пользователь, инициировавший вызов метода. Идентификатор пользователя можно получить с помощью метода user.get или user.search"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/log/blogcomment/log-blogcomment-add.md"
+  },
+  "resultExample": {
+    "result": 312,
+    "time": {
+      "start": 1728904800.123456,
+      "finish": 1728904800.398112,
+      "duration": 0.2746560573577881,
+      "processing": 0.10234594345092773,
+      "date_start": "2025-10-14T12:40:00+03:00",
+      "date_finish": "2025-10-14T12:40:00+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданного комментария"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/log/blogcomment/log-blogcomment-add.html",
+  "executable": false
+}

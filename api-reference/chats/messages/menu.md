@@ -79,7 +79,7 @@
 
 Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки ||
 || **APP_PARAMS**
-[`string`](../../data-types.md) | Параметры запуска приложения для чата. Передавайте вместе с `APP_ID`. 
+[`string`](../../data-types.md) | Параметры запуска приложения для чата. Передавайте вместе с `APP_ID`.
 
 Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки
 
@@ -398,6 +398,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.message.add", b24.Params{
+    	"DIALOG_ID":   "chat2725",
+    	"MESSAGE":     "Выберите действие в меню",
+    	"URL_PREVIEW": "Y",
+    	"MENU": b24.Params{
+    		"ITEMS": []b24.Params{
+    			{
+    				"TEXT": "Открыть сайт",
+    				"LINK": "https://www.example.ru/",
+    			},
+    			{
+    				"TEXT":         "Отправить текст",
+    				"ACTION":       "SEND",
+    				"ACTION_VALUE": "Готово",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("im.message.add: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Как обновить или удалить контекстное меню
@@ -421,11 +452,19 @@
     ```php
     "COMMAND" => "example", // команда, которая будет отправлена чат-боту
     "COMMAND_PARAMS" => "example", // параметры для команды
-     ```  
-     
+     ```
+
 2. Нажатие на пункт меню сформирует событие [ONIMCOMMANDADD](../../chat-bots/outdated/commands/events/on-im-command-add.md).
 3. Внутри события в массиве `data[COMMAND]` будут переданы данные о вызванном событии. Значение `COMMAND_CONTEXT` покажет в каком контексте была вызвана команда:
    - `TEXTAREA` — команда введена вручную
    - `KEYBOARD` — команда вызвана кнопкой
    - `MENU` — команда вызвана из контекстного меню
 
+## Продолжите изучение
+
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./keyboards.md)
+- [{#T}](./attachments.md)
+- [{#T}](./formatting.md)
+- [{#T}](./index.md)

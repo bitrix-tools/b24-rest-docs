@@ -1,0 +1,105 @@
+{
+  "$v": 1,
+  "method": "sale.statusLang.add",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Добавить локализацию sale.statusLang.add",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для добавления локализации статуса в виде структуры:",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "statusId",
+          "type": "sale_status.id",
+          "base": "any",
+          "required": true,
+          "description": "Символьный идентификатор статуса"
+        },
+        {
+          "name": "lid",
+          "type": "sale_lang.lid",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор языка. Текущие возможные значения приведены ниже: - ar — арабский - br — португальский - de — немецкий - en — английский - fr — французский - hi — хинди - id — индонезийский - in — английский (Индия) - it — итальянский - ja — японский - la — испанский - ms — малайский - pl — польский - ru — русский - sc — китайский (упрощенный) - tc — китайский (традиционный) - th — тайский - tr — ту…"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название статуса для создаваемой локализации"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание статуса для создаваемой локализации"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/status-lang/sale-status-lang-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "statusLang": {
+        "description": "Покупатель вернул товар по причине наличия дефекта",
+        "lid": "ru",
+        "name": "Возвращен покупателем",
+        "statusId": "RD"
+      }
+    },
+    "time": {
+      "start": 1712218058.514339,
+      "finish": 1712218060.34603,
+      "duration": 1.831691026687622,
+      "processing": 0.042268991470336914,
+      "date_start": "2024-04-04T11:07:38+03:00",
+      "date_finish": "2024-04-04T11:07:40+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "statusLang",
+      "type": "sale_status_lang",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о добавленной локализации статуса"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/status-lang/sale-status-lang-add.html",
+  "executable": false
+}

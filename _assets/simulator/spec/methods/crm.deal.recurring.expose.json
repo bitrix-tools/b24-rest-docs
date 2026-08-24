@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.deal.recurring.expose",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать новую сделку из шаблона crm.deal.recurring.expose",
+  "permissions": "пользователь с правами «чтение» и «добавление» сделок",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настройки шаблона регулярной сделки"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/recurring-deals/crm-deal-recurring-expose.md"
+  },
+  "resultExample": {
+    "result": {
+      "DEAL_ID": 7589
+    },
+    "time": {
+      "start": 1772692903,
+      "finish": 1772692904.118889,
+      "duration": 1.1188890933990479,
+      "processing": 1,
+      "date_start": "2026-03-05T09:41:43+03:00",
+      "date_finish": "2026-03-05T09:41:44+03:00",
+      "operating_reset_at": 1772693503,
+      "operating": 0.7653989791870117
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит данные о созданной сделке"
+    },
+    {
+      "name": "result.DEAL_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной сделки"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/recurring-deals/crm-deal-recurring-expose.html",
+  "executable": false
+}

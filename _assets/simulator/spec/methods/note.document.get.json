@@ -1,0 +1,156 @@
+{
+  "$v": 1,
+  "method": "note.document.get",
+  "scope": "note",
+  "kind": "read",
+  "title": "Получить документ note.document.get",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Просмотр» для базы знаний документа",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа. Идентификатор можно получить методом note.document.tree.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/document/note-document-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 42,
+        "collectionId": 123,
+        "parentId": 10,
+        "title": "Глава 1",
+        "markdown": "# Глава 1\n\nТекст в Markdown...",
+        "position": 5,
+        "createdBy": 1,
+        "updatedBy": 1,
+        "createdAt": "2026-04-20T12:00:00Z",
+        "updatedAt": "2026-04-21T09:15:30Z"
+      }
+    },
+    "time": {
+      "start": 1780639800,
+      "finish": 1780639800.215441,
+      "duration": 0.21544098854064941,
+      "processing": 0.1772141456604004,
+      "date_start": "2026-06-19T10:10:00+03:00",
+      "date_finish": "2026-06-19T10:10:00+03:00",
+      "operating_reset_at": 1780640400,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными документа"
+    },
+    {
+      "name": "item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект документа"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор документа"
+    },
+    {
+      "name": "collectionId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор базы знаний или null, если документ доступен через прямой доступ к документу"
+    },
+    {
+      "name": "parentId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор родительского документа или null"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Заголовок документа"
+    },
+    {
+      "name": "markdown",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Содержимое документа в Markdown"
+    },
+    {
+      "name": "position",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Позиция документа среди соседних страниц"
+    },
+    {
+      "name": "createdBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор автора документа"
+    },
+    {
+      "name": "updatedBy",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор последнего редактора документа"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время создания документа в UTC"
+    },
+    {
+      "name": "updatedAt",
+      "type": "datetime",
+      "base": "datetime",
+      "required": false,
+      "description": "Дата и время последнего изменения документа в UTC"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/document/note-document-get.html",
+  "executable": false,
+  "entityFields": [
+    "collectionId",
+    "createdAt",
+    "createdBy",
+    "id",
+    "markdown",
+    "parentId",
+    "position",
+    "title",
+    "updatedAt",
+    "updatedBy"
+  ]
+}

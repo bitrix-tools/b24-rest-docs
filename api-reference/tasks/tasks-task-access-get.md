@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -270,6 +270,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.access.get", b24.Params{
+    	"id": 8017,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("tasks.task.access.get: %w", err)
+    }
+
+    var item struct {
+    	Read          bool `json:"read"`
+    	Watch         bool `json:"watch"`
+    	Mute          bool `json:"mute"`
+    	CreateSubtask bool `json:"createSubtask"`
+    	CreateResult  bool `json:"createResult"`
+    	Edit          bool `json:"edit"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Read, item.Watch)
     ```
 
 {% endlist %}

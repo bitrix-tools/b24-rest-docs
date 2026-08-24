@@ -13,11 +13,15 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает список методов вида `task.elapseditem.*` и их описание.
+Метод `task.elapseditem.getmanifest` возвращает список методов вида `task.elapseditem.*` и их описание.
 
 Возвращаемое значение этого метода не предназначено для автоматической обработки, так как его формат может быть изменен без предупреждения.
 
 Метод может быть полезен в качестве справочной информации, так как всегда содержит актуальную информацию.
+
+## Параметры метода
+
+Без параметров.
 
 ## Примеры кода
 
@@ -189,6 +193,27 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.elapseditem.getmanifest", nil)
+    if err != nil {
+    	return fmt.Errorf("task.elapseditem.getmanifest: %w", err)
+    }
+
+    var item struct {
+    	ManifestVersion           string `json:"Manifest version"`
+    	ManifestChangeDate        string `json:"Manifest change date"`
+    	Warning                   string `json:"Warning"`
+    	RestShortnameAliasToClass string `json:"REST: shortname alias to class"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ManifestVersion, item.ManifestChangeDate)
     ```
 
 {% endlist %}

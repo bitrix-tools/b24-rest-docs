@@ -1,4 +1,4 @@
-# Обзор событий при работе с секциями календаря или ресурсами
+# События при работе с секциями календаря и ресурсами: обзор событий
 
 {% note tip "" %}
 
@@ -14,13 +14,15 @@
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../events/index.md).
 
 > Быстрый переход: [все события](#all-events)
+>
+> Пользовательская документация: [Календарь Битрикс24](https://helpdesk.bitrix24.ru/open/17525000/)
 
 ## Как получать события
 
-Подписаться на события задач можно через:
+Подписаться на события календаря можно через:
 
--  [исходящий вебхук](../../../local-integrations/local-webhooks.md)
--  [приложение](../../../settings/app-installation/index.md) и метод [event.bind](../../events/event-bind.md)
+- [исходящий вебхук](../../../local-integrations/local-webhooks.md)
+- [приложение](../../../settings/app-installation/index.md) и метод [event.bind](../../events/event-bind.md)
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../events/test-handler.md).
 
@@ -39,10 +41,10 @@
 || [OnCalendarSectionAdd](./on-calendar-section-add.md) |
 - При добавлении секции календаря вручную или методом [calendar.section.add](../calendar-section-add.md)
 - При добавлении ресурса вручную или методом [calendar.resource.add](../resource/calendar-resource-add.md) ||
-|| [OnCalendarSectionUpdate](./on-calendar-section-update.md) | 
+|| [OnCalendarSectionUpdate](./on-calendar-section-update.md) |
 - При изменении секции календаря вручную или методом [calendar.section.update](../calendar-section-update.md)
 - При изменении ресурса вручную или методом [calendar.resource.update](../resource/calendar-resource-update.md) ||
-|| [OnCalendarSectionDelete](./on-calendar-section-delete.md) | 
+|| [OnCalendarSectionDelete](./on-calendar-section-delete.md) |
 - При удалении секции календаря вручную или методом [calendar.section.delete](../calendar-section-delete.md)
 - При удалении ресурса вручную или методом [calendar.resource.delete](../resource/calendar-resource-delete.md) ||
 |#

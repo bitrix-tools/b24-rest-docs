@@ -1,0 +1,184 @@
+{
+  "$v": 1,
+  "method": "crm.item.details.configuration.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить параметры карточки элементов crm.item.details.configuration.get",
+  "permissions": "проверка прав при выполнении метода зависит от переданных данных:",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа объектов CRM"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя, чью конфигурацию вы хотите получить. Если данный параметр не передан, то будет взят userId пользователя, вызывающего данный метод. Нужен только при запросе личных настроек"
+    },
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Допустимые значения: - 'P' — личные настройки - 'C' — общие настройки По умолчанию значение равно 'P'"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры. Возможные значения и их структура описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "name": "main",
+        "title": "О сделке",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TITLE",
+            "optionFlags": "0"
+          },
+          {
+            "name": "STAGE_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "OPPORTUNITY_WITH_CURRENCY",
+            "optionFlags": "0"
+          },
+          {
+            "name": "CLOSEDATE",
+            "optionFlags": "0"
+          },
+          {
+            "name": "CLIENT",
+            "optionFlags": "1",
+            "options": {
+              "defaultCountry": "RU"
+            }
+          },
+          {
+            "name": "UF_CRM_1686898039656",
+            "optionFlags": "1"
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TYPE_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "SOURCE_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "SOURCE_DESCRIPTION",
+            "optionFlags": "0"
+          },
+          {
+            "name": "BEGINDATE",
+            "optionFlags": "0"
+          },
+          {
+            "name": "OPENED",
+            "optionFlags": "0"
+          },
+          {
+            "name": "ASSIGNED_BY_ID",
+            "optionFlags": "0"
+          },
+          {
+            "name": "OBSERVER",
+            "optionFlags": "0"
+          },
+          {
+            "name": "COMMENTS",
+            "optionFlags": "0"
+          },
+          {
+            "name": "UTM",
+            "optionFlags": "0"
+          }
+        ]
+      },
+      {
+        "name": "products",
+        "title": "Товары",
+        "type": "section",
+        "elements": [
+          {
+            "name": "PRODUCT_ROW_SUMMARY",
+            "optionFlags": "0"
+          }
+        ]
+      },
+      {
+        "name": "recurring",
+        "title": "Регулярная сделка",
+        "type": "section",
+        "elements": [
+          {
+            "name": "RECURRING",
+            "optionFlags": "0"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "start": 1720624891.017344,
+      "finish": 1720624891.405621,
+      "duration": 0.3882770538330078,
+      "processing": 0.02097320556640625,
+      "date_start": "2024-07-10T17:21:31+02:00",
+      "date_finish": "2024-07-10T17:21:31+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "section[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки элемента. Возвращает null в случае отсутствия конфигурации"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-get.html",
+  "executable": false,
+  "entityFields": [
+    "elements",
+    "name",
+    "title",
+    "type"
+  ]
+}

@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания привязки типа цены к группе покупателей ([подробное описание](#fields)) ||
+[`object`](../../../data-types.md) | Значения полей для создания привязки типа цены к группе покупателей ([подробное описание](#fields)) ||
 |#
 
 ### Параметр fields {#fields}
@@ -36,9 +36,9 @@
 || **catalogGroupId***
 [`catalog_price_type.id`](../../data-types.md#catalog_price_type) | Идентификатор типа цены. Можно получить методом [catalog.priceType.list](../catalog-price-type-list.md) ||
 || **groupId***
-[`integer`](../../data-types.md) | Идентификатор группы покупателей ||
+[`integer`](../../../data-types.md) | Идентификатор группы покупателей ||
 || **access***
-[`char`](../../data-types.md) | Тип доступа к цене. Возможные значения:
+[`char`](../../../data-types.md) | Тип доступа к цене. Возможные значения:
 - `Y` — право на покупку по этому типу цены
 - `N` — право на просмотр этого типа цены ||
 |#
@@ -266,6 +266,39 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.priceTypeGroup.add", b24.Params{
+    	"fields": b24.Params{
+    		"catalogGroupId": 9,
+    		"groupId":        23,
+    		"access":         "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.priceTypeGroup.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "priceTypeGroup".
+    raw, ok := b24.Unwrap(res.Result, "priceTypeGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа priceTypeGroup")
+    }
+
+    var item struct {
+    	Access         string `json:"access"`
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	GroupID        b24.ID `json:"groupId"`
+    	ID             b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Access, item.CatalogGroupID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -301,7 +334,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
+[`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **priceTypeGroup**
 [`catalog_price_type_group`](../../data-types.md#catalog_price_type_group) | Объект с информацией о созданной привязке типа цены к группе покупателей ||
 || **time**

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../../../scopes/permissions.md)
+> Scope: [`placement`](../../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../../scopes/permissions.md) — регистрация звонка, поднимающего карточку
 >
 > Кто может подписаться: любой пользователь
 
@@ -17,13 +17,13 @@
 
 {% note info "" %}
 
-Событие работает в контексте приложения в плейсменте `PAGE_BACKGROUND_WORKER`.
+Событие работает в контексте приложения, открытого в точке встраивания `PAGE_BACKGROUND_WORKER`. Это событие js-интерфейса, а не событие REST: подписаться на него запросом к `/rest/` нельзя.
 
 {% endnote %}
 
 ## Что получает обработчик
 
-Данные передаются в callback `BX24.placement.bindEvent` {.b24-info}
+Данные передаются в функцию обратного вызова метода `BX24.placement.bindEvent` {.b24-info}
 
 ```js
 callback({
@@ -51,26 +51,49 @@ callback({
 || **CALL_ID**
 [`string`](../../../../data-types.md) | Идентификатор звонка ||
 || **PHONE_NUMBER**
-[`string`](../../../../data-types.md) | Номер клиента ||
+[`string`](../../../../data-types.md) | Номер клиента.
+
+Ключ не приходит вовсе, если номер не определен ||
 || **LINE_NUMBER**
 [`string`](../../../../data-types.md) | Номер линии ||
 || **LINE_NAME**
-[`string`](../../../../data-types.md) | Название линии ||
+[`string`](../../../../data-types.md) | Название телефонной линии компании.
+
+Может быть пустой строкой, если название линии не задано ||
 || **CRM_ENTITY_TYPE**
-[`string`](../../../../data-types.md) | Тип текущего объекта CRM ||
+[`string`](../../../../data-types.md) | Тип текущего объекта CRM: `LEAD`, `CONTACT`, `COMPANY` или `DEAL`.
+
+Пустая строка, если звонок не привязан к CRM ||
 || **CRM_ENTITY_ID**
-[`integer`](../../../../data-types.md) | Идентификатор текущего объекта CRM ||
+[`integer`](../../../../data-types.md) | Идентификатор объекта CRM, к которому привязан звонок.
+
+`0`, если звонок не привязан к CRM ||
 || **CRM_ACTIVITY_ID**
-[`integer`](../../../../data-types.md) | Идентификатор CRM-дела ||
+[`integer`](../../../../data-types.md) | Идентификатор дела CRM, созданного для звонка.
+
+Если дела нет, ключ не приходит вовсе или приходит пустой строкой ||
 || **CRM_BINDINGS**
 [`object[]`](../../../../data-types.md) | Привязки звонка к объектам CRM [(подробное описание)](#crm_bindings) ||
 || **CALL_DIRECTION**
-[`string`](../../../../data-types.md) | Направление звонка ||
+[`string`](../../../../data-types.md) | Направление звонка.
+
+Возможные значения:
+
+- `incoming` — входящий звонок
+- `outgoing` — исходящий звонок
+- `callback` — обратный звонок ||
 || **CALL_STATE**
-[`string`](../../../../data-types.md) | Состояние звонка ||
+[`string`](../../../../data-types.md) | Состояние звонка.
+
+Возможные значения:
+
+- `idle` — соединение отсутствует
+- `connecting` — выполняется установка соединения
+- `connected` — соединение установлено ||
 || **CALL_LIST_MODE**
 [`boolean`](../../../../data-types.md) | Признак режима обзвона ||
 |#
+
 ### Параметр CRM_BINDINGS{#crm_bindings}
 
 #|
@@ -82,19 +105,21 @@ callback({
 [`integer`](../../../../data-types.md) | Идентификатор объекта CRM ||
 |#
 
-## Параметры подписки на событие
+## Параметры подписки
+
+Обработчик регистрируют из виджета методом [BX24.placement.bindEvent](../../bx24-placement-bind-event.md).
 
 {% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **PLACEMENT***
+|| **event***
 [`string`](../../../../data-types.md) | Имя события интерфейса.
 
 Для данного события — `BackgroundCallCard::initialized` ||
-|| **HANDLER***
-[`string`](../../../../data-types.md) | URL обработчика события для вызова `placement.bindEvent` ||
+|| **callback***
+[`callable`](../../../../data-types.md) | Функция, которую Битрикс24 вызывает при наступлении события. Аргументы обработчика описаны выше ||
 |#
 
 ## Примеры кода
@@ -103,84 +128,58 @@ callback({
 
 {% list tabs %}
 
-- cURL (OAuth)
+- BX24.js
 
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"PLACEMENT":"BackgroundCallCard::initialized","HANDLER":"**your_handler_url_here**"}' \
-    "https://**put_your_bitrix24_address**/rest/placement.bindEvent?auth=**put_access_token_here**"
+    ```js
+    BX24.ready(function () {
+        BX24.init(function () {
+            BX24.placement.bindEvent('BackgroundCallCard::initialized', function (eventData) {
+                console.log(eventData);
+            });
+        });
+    });
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    // $b24 — инициализированный экземпляр SDK, см. руководство по началу работы
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'placement.bindEvent',
-        params: {
-          PLACEMENT: 'BackgroundCallCard::initialized',
-          HANDLER: '**your_handler_url_here**',
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('placement.bindEvent result:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
+    type CallCardData = {
+      CALL_ID: string
+      PHONE_NUMBER?: string
+      LINE_NUMBER: string
+      LINE_NAME: string
+      CRM_ENTITY_TYPE: string
+      CRM_ENTITY_ID: number
+      CRM_ACTIVITY_ID?: number | string
+      CRM_BINDINGS: Array<{ ENTITY_TYPE: string; ENTITY_ID: number }>
+      CALL_DIRECTION: string
+      CALL_STATE: string
+      CALL_LIST_MODE: boolean
     }
+
+    await $b24.placement.bindEvent('BackgroundCallCard::initialized', (eventData: CallCardData) => {
+      console.log(eventData.CALL_ID)
+    })
     ```
 
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Загрузка SDK в UMD-сборке, глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindPlacementEvent() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.bindEvent',
-            params: {
-              PLACEMENT: 'BackgroundCallCard::initialized',
-              HANDLER: '**your_handler_url_here**',
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('placement.bindEvent result:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', bindPlacementEvent)
+        await $b24.placement.bindEvent('BackgroundCallCard::initialized', (eventData) => {
+          console.log(eventData)
+        })
+      })
     </script>
     ```
 
@@ -278,7 +277,16 @@ callback({
 
 {% endlist %}
 
+## Ошибки
+
+Проверьте условия.
+
+- Виджет открыт в точке встраивания `PAGE_BACKGROUND_WORKER`. В других точках встраивания события `BackgroundCallCard::*` не зарегистрированы, и подписка молча не сработает
+- Имя события передано без опечаток и с учетом регистра. Список событий, доступных в текущей точке встраивания, возвращает [BX24.placement.getInterface](../../bx24-placement-get-interface.md)
+- Звонок поднят приложением методом [telephony.externalCall.register](../../../../telephony/telephony-external-call-register.md). Для звонков самого Битрикс24 события `BackgroundCallCard::*` не эмитятся вовсе
+
 ## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](../card.md)
+- [{#T}](../index.md)

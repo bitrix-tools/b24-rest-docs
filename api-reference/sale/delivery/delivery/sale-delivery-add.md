@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-> Scope: [`sale`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод добавляет службу доставки. 
+Метод `sale.delivery.add` добавляет службу доставки.
 
 ## Параметры метода
 
@@ -401,6 +401,53 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.add", b24.Params{
+    	"REST_CODE":   "uber",
+    	"NAME":        "Uber Taxi",
+    	"CURRENCY":    "RUB",
+    	"DESCRIPTION": "Uber Taxi Description",
+    	"SORT":        "500",
+    	"ACTIVE":      "Y",
+    	"CONFIG": []b24.Params{
+    		{
+    			"CODE":  "SETTING_1",
+    			"VALUE": "SETTING_1 string value",
+    		},
+    		{
+    			"CODE":  "SETTING_2",
+    			"VALUE": "Y",
+    		},
+    		{
+    			"CODE":  "SETTING_3",
+    			"VALUE": 199.99,
+    		},
+    		{
+    			"CODE":  "SETTING_4",
+    			"VALUE": "Option3Code",
+    		},
+    		{
+    			"CODE":  "SETTING_5",
+    			"VALUE": "10.04.2024",
+    		},
+    		{
+    			"CODE":  "SETTING_6",
+    			"VALUE": "0000144961",
+    		},
+    	},
+    	"LOGOTYPE": "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC",
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.add: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}

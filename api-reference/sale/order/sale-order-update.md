@@ -25,7 +25,7 @@
 || **id***
 [`sale_order.id`](../data-types.md) | Идентификатор заказа ||
 || **fields***
-[`object`](../data-types.md) | Значения полей для изменения заказа ||
+[`object`](../../data-types.md) | Значения полей для изменения заказа ||
 |#
 
 ## Параметр fields
@@ -519,6 +519,65 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.order.update", b24.Params{
+    	"id": 300,
+    	"fields": b24.Params{
+    		"price":           100,
+    		"discountValue":   10,
+    		"statusId":        "N",
+    		"empStatusId":     1,
+    		"dateInsert":      "2024-03-01T14:00:00",
+    		"marked":          "Y",
+    		"empMarkedId":     1,
+    		"reasonMarked":    "",
+    		"userDescription": "",
+    		"additionalInfo":  "",
+    		"comments":        "",
+    		"companyId":       1,
+    		"responsibleId":   1,
+    		"recurringId":     1,
+    		"lockedBy":        1,
+    		"recountFlag":     "N",
+    		"affiliateId":     1,
+    		"updated1c":       "N",
+    		"orderTopic":      "",
+    		"xmlId":           "",
+    		"id1c":            "",
+    		"version1c":       "",
+    		"externalOrder":   "N",
+    		"canceled":        "Y",
+    		"empCanceledId":   1,
+    		"reasonCanceled":  "",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.order.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "order".
+    raw, ok := b24.Unwrap(res.Result, "order")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа order")
+    }
+
+    var item struct {
+    	AccountNumber  string `json:"accountNumber"`
+    	AdditionalInfo string `json:"additionalInfo"`
+    	AffiliateID    b24.ID `json:"affiliateId"`
+    	Canceled       string `json:"canceled"`
+    	Comments       string `json:"comments"`
+    	CompanyID      b24.ID `json:"companyId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.AccountNumber, item.AdditionalInfo)
     ```
 
 {% endlist %}

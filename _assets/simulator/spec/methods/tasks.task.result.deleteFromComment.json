@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "tasks.task.result.deleteFromComment",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить комментарий из результата tasks.task.result.deleteFromComment",
+  "permissions": "любой пользователь с доступом к задаче",
+  "params": [
+    {
+      "name": "commentId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор комментария, для которого нужно снять фиксацию результата. Идентификатор комментария можно получить при добавлении нового комментария или методом получения списка комментариев задачи"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/result/tasks-task-result-delete-from-comment.md"
+  },
+  "resultExample": {
+    "result": null,
+    "time": {
+      "start": 1755611282.263157,
+      "finish": 1755611282.322503,
+      "duration": 0.05934619903564453,
+      "processing": 0.031157970428466797,
+      "date_start": "2025-08-19T16:48:02+03:00",
+      "date_finish": "2025-08-19T16:48:02+03:00",
+      "operating_reset_at": 1755611882,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Возвращает null в случае успешного выполнения"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/result/tasks-task-result-delete-from-comment.html",
+  "executable": false
+}

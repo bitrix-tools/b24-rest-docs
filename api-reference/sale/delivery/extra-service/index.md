@@ -37,7 +37,7 @@
 
 ## Обзор методов {#all-methods}
 
-> Scope: [`sale, delivery`](../../../scopes/permissions.md)
+> Scope: [`delivery`](../../../scopes/permissions.md)
 >
 > Кто может выполнять методы: администратор
 

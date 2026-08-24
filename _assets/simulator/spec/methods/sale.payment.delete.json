@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "sale.payment.delete",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Удалить оплату sale.payment.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": false,
+      "description": "Идентификатор оплаты"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment/sale-payment-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1713444184.23842,
+      "finish": 1713444187.320981,
+      "duration": 3.0825610160827637,
+      "processing": 2.6834518909454346,
+      "date_start": "2024-04-18T15:43:04+03:00",
+      "date_finish": "2024-04-18T15:43:07+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления оплаты"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment/sale-payment-delete.html",
+  "executable": false
+}

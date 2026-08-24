@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "lists.section.delete",
+  "scope": "lists",
+  "kind": "write",
+  "title": "Удалить раздел универсального списка lists.section.delete",
+  "permissions": "пользователь с правом «Изменение» для нужного списка",
+  "params": [
+    {
+      "name": "IBLOCK_TYPE_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+    },
+    {
+      "name": "IBLOCK_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор инфоблока. Идентификатор можно получить с помощью метода lists.get"
+    },
+    {
+      "name": "IBLOCK_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код инфоблока. Код можно получить с помощью метода lists.get Необходимо указать хотя бы один из параметров: IBLOCK_ID или IBLOCK_CODE"
+    },
+    {
+      "name": "SECTION_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор раздела. Идентификатор можно получить с помощью метода lists.section.get"
+    },
+    {
+      "name": "SECTION_CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Cимвольный код раздела. Код можно получить с помощью метода lists.section.get Необходимо указать хотя бы один из параметров: SECTION_ID или SECTION_CODE"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/lists/sections/lists-section-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1761557326,
+      "finish": 1761557326.424922,
+      "duration": 0.42492198944091797,
+      "processing": 0,
+      "date_start": "2025-10-27T12:28:46+03:00",
+      "date_finish": "2025-10-27T12:28:46+03:00",
+      "operating_reset_at": 1761557926,
+      "operating": 0.13587212562561035
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если раздел удален успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/lists/sections/lists-section-delete.html",
+  "executable": false
+}

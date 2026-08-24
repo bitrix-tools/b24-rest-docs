@@ -11,7 +11,7 @@
 
 > Scope: [`entity`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с уровнем права `X` (управление) или `W` (запись) в хранилище данных 
+> Кто может выполнять метод: пользователь с уровнем права `W` (запись) или `X` (управление) на хранилище данных
 
 Метод `entity.item.add` добавляет элемент в хранилище данных приложения.
 
@@ -24,7 +24,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -267,6 +267,30 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "entity.item.add", b24.Params{
+    	"ENTITY": "dish",
+    	"NAME":   "Hello, world!",
+    	"PROPERTY_VALUES": b24.Params{
+    		"test":  11,
+    		"test1": 22,
+    	},
+    	"SECTION": 219,
+    })
+    if err != nil {
+    	return fmt.Errorf("entity.item.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
     ```
 
 {% endlist %}

@@ -17,15 +17,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id**^*^
-[`integer`](../../data-types.md) | Идентификатор документа ||
+[`integer`](../../../data-types.md) | Идентификатор документа ||
 || **status**
-[`integer`](../../data-types.md) | Режим публичной ссылки:
+[`integer`](../../../data-types.md) | Режим публичной ссылки:
 
 - `1` — включить
 - `0` — выключить
@@ -226,6 +226,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.document.enablepublicurl", b24.Params{
+    	"id":     61,
+    	"status": 1,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.document.enablepublicurl: %w", err)
+    }
+
+    var item struct {
+    	PublicUrl string `json:"publicUrl"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.PublicUrl)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -257,9 +278,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой объект ответа. Содержит структуру [`result`](#result) ||
+[`object`](../../../data-types.md) | Корневой объект ответа. Содержит структуру [`result`](#result) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип result {#result}
@@ -268,7 +289,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **publicUrl**
-[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Публичная ссылка на документ. При `status = 0` возвращается `null` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ. При `status = 0` возвращается `null` ||
 |#
 
 ## Обработка ошибок

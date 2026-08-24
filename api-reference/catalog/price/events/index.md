@@ -17,7 +17,7 @@
 
 ## Как получать события
 
-Подписаться на события цены можно через [приложение](./../../../../settings/app-installation/index.md) и метод [event.bind](./../../../events/event-bind.md).
+Подписаться на события цены можно через [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md).
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 
@@ -25,7 +25,7 @@
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
 
-## Обзор событий
+## Обзор событий {#all-events}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
@@ -33,7 +33,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [CATALOG.PRICE.ON.ADD](catalog-price-on-add.md)| При добавлении цены вручную или методом [catalog.price.add](../catalog-price-add.md) ||
-|| [CATALOG.PRICE.ON.UPDATE](catalog-price-on-update.md)| При обновлении цены вручную или методом [catalog.price.update](../catalog-price-update.md) ||
-|| [CATALOG.PRICE.ON.DELETE](catalog-price-on-delete.md)| При удалении цены вручную или методом [catalog.price.delete](../catalog-price-delete.md) ||
+|| [CATALOG.PRICE.ON.ADD](./catalog-price-on-add.md) | При добавлении цены вручную или методом [catalog.price.add](../catalog-price-add.md) ||
+|| [CATALOG.PRICE.ON.UPDATE](./catalog-price-on-update.md) | При обновлении цены вручную или методом [catalog.price.update](../catalog-price-update.md) ||
+|| [CATALOG.PRICE.ON.DELETE](./catalog-price-on-delete.md) | При удалении цены вручную или методом [catalog.price.delete](../catalog-price-delete.md) ||
 |#

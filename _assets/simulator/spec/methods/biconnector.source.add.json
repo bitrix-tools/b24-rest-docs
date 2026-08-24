@@ -1,0 +1,101 @@
+{
+  "$v": 1,
+  "method": "biconnector.source.add",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Создать источник biconnector.source.add",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий данные для создания нового источника. Формат объекта: - field_n — название поля - value_n — значение поля Подробное описание ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название источника"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание источника"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Активность источника. По умолчанию true"
+        },
+        {
+          "name": "connectorId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор коннектора, можно получить методами biconnector.connector.list или biconnector.connector.add"
+        },
+        {
+          "name": "settings",
+          "type": "object",
+          "base": "object",
+          "required": true,
+          "description": "Список параметров для авторизации, передается объектом, где ключ — code параметра. Параметры можно получить методами biconnector.connector.list или biconnector.connector.get"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/source/biconnector-source-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 7
+    },
+    "time": {
+      "start": 1725013197.635808,
+      "finish": 1725013198.580873,
+      "duration": 0.9450650215148926,
+      "processing": 0.6822988986968994,
+      "date_start": "2024-08-30T12:19:57+02:00",
+      "date_finish": "2024-08-30T12:19:58+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит поле id с идентификатором созданного источника"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/source/biconnector-source-add.html",
+  "executable": false
+}

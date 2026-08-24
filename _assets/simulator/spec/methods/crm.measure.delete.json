@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.measure.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить единицу измерения crm.measure.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "unknown",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор единицы измерения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/measure/crm-measure-delete.md"
+  },
+  "deprecated": {
+    "successor": "catalog.measure.delete"
+  },
+  "page": "/api-reference/crm/outdated/measure/crm-measure-delete.html",
+  "executable": false
+}

@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -243,6 +243,34 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "mail.message.thread", b24.Params{
+    	"id":    15,
+    	"limit": 20,
+    })
+    if err != nil {
+    	return fmt.Errorf("mail.message.thread: %w", err)
+    }
+
+    var items []struct {
+    	ID      b24.ID `json:"id"`
+    	Subject string `json:"subject"`
+    	From    string `json:"from"`
+    	To      string `json:"to"`
+    	Cc      string `json:"cc"`
+    	Date    string `json:"date"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Subject)
+    }
     ```
 
 {% endlist %}

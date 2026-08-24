@@ -1,0 +1,48 @@
+{
+  "$v": 1,
+  "method": "crm.item.payment.delivery.setDelivery",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Перепривязать позицию доставки к другому документу crm.item.payment.delivery.setDelivery",
+  "permissions": "требуется право на изменение заказа оплаты",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор позиции доставки в оплате. Можно получить с помощью метода crm.item.payment.delivery.list"
+    },
+    {
+      "name": "deliveryId",
+      "type": "sale_order_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор доставки. Можно получить с помощью метода crm.item.delivery.list (ключ id)"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-set-delivery.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат операции"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-set-delivery.html",
+  "executable": false
+}

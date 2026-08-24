@@ -210,6 +210,27 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.userfield.types", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.userfield.types: %w", err)
+    }
+
+    var items []struct {
+    	ID    string `json:"ID"`
+    	Title string `json:"title"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -303,9 +324,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив объектов с поддерживаемыми типами [(подробное описание)](#result) ||
+[`array`](../../../data-types.md) | Массив объектов с поддерживаемыми типами [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Объект result {#result}
@@ -314,9 +335,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`string`](../../data-types.md) | Код типа пользовательского поля ||
+[`string`](../../../data-types.md) | Код типа пользовательского поля ||
 || **title**
-[`string`](../../data-types.md) | Название типа пользовательского поля ||
+[`string`](../../../data-types.md) | Название типа пользовательского поля ||
 |#
 
 ## Обработка ошибок

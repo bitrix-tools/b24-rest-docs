@@ -1,0 +1,127 @@
+{
+  "$v": 1,
+  "method": "mail.message.reply",
+  "scope": "mail",
+  "kind": "write",
+  "title": "Ответить на письмо mail.message.reply",
+  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо",
+  "params": [
+    {
+      "name": "replyToMessageId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор письма, на которое нужно ответить. Идентификатор можно получить методом mail.message.list"
+    },
+    {
+      "name": "from",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "E-mail отправителя. Доступные адреса можно получить методом mail.mailbox.senders"
+    },
+    {
+      "name": "to",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив email-адресов получателей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "subject",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тема письма"
+    },
+    {
+      "name": "body",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Текст письма: обычный текст или базовый HTML"
+    },
+    {
+      "name": "cc",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив email-адресов получателей копии",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "bcc",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив email-адресов получателей скрытой копии",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mail/message/mail-message-reply.md"
+  },
+  "resultExample": {
+    "result": {
+      "success": true,
+      "to": [
+        "client@example.com"
+      ]
+    },
+    "time": {
+      "start": 1779819678,
+      "finish": 1779819678.84803,
+      "duration": 0.8480300903320312,
+      "processing": 0,
+      "date_start": "2026-05-26T21:21:18+03:00",
+      "date_finish": "2026-05-26T21:21:18+03:00",
+      "operating_reset_at": 1779820278,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом отправки"
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак успешной отправки"
+    },
+    {
+      "name": "to",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Получатели, которым отправлено письмо"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mail/message/mail-message-reply.html",
+  "executable": false
+}

@@ -9,9 +9,9 @@
 
 {% endnote %}
 
-> Scope: [`в зависимости от места встройки`](../../scopes/permissions.md)
+> Scope: [`placement`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: администратор
 
 Метод получает список зарегистрированных приложением типов пользовательских полей. На выход отдает список типов полей с постраничной навигацией.
 
@@ -199,6 +199,35 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldtype.list", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("userfieldtype.list: %w", err)
+    }
+
+    var items []struct {
+    	UserTypeID  string `json:"USER_TYPE_ID"`
+    	Handler     string `json:"HANDLER"`
+    	Title       string `json:"TITLE"`
+    	Description string `json:"DESCRIPTION"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.UserTypeID, it.Handler)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
     ```
 
 {% endlist %}

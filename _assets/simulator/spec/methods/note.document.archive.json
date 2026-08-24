@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "note.document.archive",
+  "scope": "note",
+  "kind": "write",
+  "title": "Архивировать документ note.document.archive",
+  "permissions": "пользователь с доступом к модулю База знаний и правом «Редактирование» для базы знаний документа",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор документа. Идентификатор можно получить методом note.document.tree.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/note/document/note-document-archive.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1780391400,
+      "finish": 1780391400.229114,
+      "duration": 0.22911405563354492,
+      "processing": 0.1881120204925537,
+      "date_start": "2026-06-16T12:10:00+03:00",
+      "date_finish": "2026-06-16T12:10:00+03:00",
+      "operating_reset_at": 1780392000,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом архивации документа"
+    },
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Значение true, если документ успешно архивирован"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/note/document/note-document-archive.html",
+  "executable": false
+}

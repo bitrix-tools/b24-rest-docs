@@ -1,0 +1,375 @@
+{
+  "$v": 1,
+  "method": "catalog.product.getFieldsByFilter",
+  "scope": "catalog",
+  "kind": "write",
+  "title": "Получить поля товара по фильтру catalog.product.getFieldsByFilter",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Фильтр для получения всех полей товара",
+      "ref": "#/defs/filterFields"
+    }
+  ],
+  "defs": {
+    "filterFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "iblockId",
+          "type": "catalog_catalog.id",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор информационного блока. Для получения существующих идентификаторов информационных блоков необходимо использовать catalog.catalog.list"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product/catalog-product-get-fields-by-filter.md"
+  },
+  "resultExample": {
+    "result": {
+      "product": {
+        "active": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Активность",
+          "type": "char"
+        },
+        "available": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "name": "Доступность к покупке",
+          "type": "char"
+        },
+        "bundle": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "name": "Наличие набора",
+          "type": "char"
+        },
+        "canBuyZero": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Разрешение покупки при отсутствии товара",
+          "type": "char"
+        },
+        "code": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Символьный код",
+          "type": "string"
+        },
+        "createdBy": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Кто создал",
+          "type": "integer"
+        },
+        "dateActiveFrom": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "DATE_ACTIVE_FROM",
+          "type": "datetime"
+        },
+        "dateActiveTo": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "DATE_ACTIVE_TO",
+          "type": "datetime"
+        },
+        "dateCreate": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Дата создания",
+          "type": "datetime"
+        },
+        "detailPicture": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Детальная картинка",
+          "type": "file"
+        },
+        "detailText": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Детальное описание",
+          "type": "string"
+        },
+        "detailTextType": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Тип детального описания",
+          "type": "string"
+        },
+        "height": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Высота",
+          "type": "double"
+        },
+        "iblockId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "name": "Идентификатор инфоблока",
+          "type": "integer"
+        },
+        "iblockSectionId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Основной раздел",
+          "type": "integer"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "name": "Идентификатор",
+          "type": "integer"
+        },
+        "length": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Длина",
+          "type": "double"
+        },
+        "measure": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Единица измерения",
+          "type": "integer"
+        },
+        "modifiedBy": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Кто изменил",
+          "type": "integer"
+        },
+        "name": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "name": "Наименование",
+          "type": "string"
+        },
+        "negativeAmountTrace": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "name": "NEGATIVE_AMOUNT_TRACE",
+          "type": "char"
+        },
+        "previewPicture": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Картинка анонса",
+          "type": "file"
+        },
+        "previewText": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Описание для анонса",
+          "type": "string"
+        },
+        "previewTextType": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Тип описания для анонса",
+          "type": "string"
+        },
+        "priceType": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Тип оплаты",
+          "type": "char"
+        },
+        "property258": {
+          "isDynamic": true,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Новая строка",
+          "propertyType": "S",
+          "type": "productproperty",
+          "userType": ""
+        },
+        "property259": {
+          "isDynamic": true,
+          "isImmutable": false,
+          "isMultiple": true,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Новая строка 2",
+          "propertyType": "S",
+          "type": "productproperty",
+          "userType": ""
+        },
+        "purchasingCurrency": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Валюта закупочной цены",
+          "type": "string"
+        },
+        "purchasingPrice": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Закупочная цена",
+          "type": "string"
+        },
+        "quantity": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Доступное количество",
+          "type": "double"
+        },
+        "quantityReserved": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Зарезервированное количество",
+          "type": "double"
+        },
+        "quantityTrace": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Режим количественного учета",
+          "type": "char"
+        },
+        "sort": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Индекс сортировки",
+          "type": "integer"
+        },
+        "subscribe": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Разрешение подписки на товар",
+          "type": "char"
+        },
+        "timestampX": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Дата изменения",
+          "type": "datetime"
+        },
+        "type": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "name": "Тип товара",
+          "type": "integer"
+        },
+        "vatId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Идентификатор НДС",
+          "type": "integer"
+        },
+        "vatIncluded": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "НДС включен в цену",
+          "type": "char"
+        },
+        "weight": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Вес",
+          "type": "double"
+        },
+        "width": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Ширина",
+          "type": "double"
+        },
+        "xmlId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "name": "Внешний код",
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1717598883.81413,
+      "finish": 1717598884.460406,
+      "duration": 0.6462759971618652,
+      "processing": 0.15173888206481934,
+      "date_start": "2024-06-05T17:48:03+03:00",
+      "date_finish": "2024-06-05T17:48:04+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "product",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта catalog_product, а value — объект типа rest_field_description."
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product/catalog-product-get-fields-by-filter.html",
+  "executable": false
+}

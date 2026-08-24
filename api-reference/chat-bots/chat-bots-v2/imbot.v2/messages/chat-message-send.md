@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -221,6 +221,38 @@
     } else {
         echo 'Message ID: ' . $result['result']['id'];
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.send", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"dialogId": "chat5",
+    	"fields": b24.Params{
+    		"message": "Hello from bot!",
+    		"keyboard": []b24.Params{
+    			{
+    				"TEXT":           "Open",
+    				"LINK":           "https://example.com",
+    				"BG_COLOR_TOKEN": "primary",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.send: %w", err)
+    }
+
+    var item struct {
+    	ID b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID)
     ```
 
 {% endlist %}

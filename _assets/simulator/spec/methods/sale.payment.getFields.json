@@ -1,0 +1,352 @@
+{
+  "$v": 1,
+  "method": "sale.payment.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить поля оплаты sale.payment.getFields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "payment",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта saleorderpayment, а value — объект типа restfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment/sale-payment-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "payment": {
+        "accountNumber": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "comments": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "companyId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "currency": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "dateBill": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateMarked": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "datePaid": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "datePayBefore": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "dateResponsibleId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "empMarkedId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empPaidId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empResponsibleId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "empReturnId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "externalPayment": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "id1c": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "isReturn": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "marked": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "orderId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "paid": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "payReturnComment": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "payReturnDate": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "payReturnNum": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "paySystemId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "paySystemIsCash": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "paySystemName": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "paySystemXmlId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "payVoucherDate": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "payVoucherNum": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "priceCod": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "psCurrency": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "psInvoiceId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "psResponseDate": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "datetime"
+        },
+        "psStatus": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "psStatusCode": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "psStatusDescription": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "psStatusMessage": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "psSum": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "reasonMarked": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "responsibleId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "sum": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "double"
+        },
+        "updated1c": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "char"
+        },
+        "version1c": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "xmlId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1713446682.387006,
+      "finish": 1713446682.788821,
+      "duration": 0.40181493759155273,
+      "processing": 0.01438593864440918,
+      "date_start": "2024-04-18T16:24:42+03:00",
+      "date_finish": "2024-04-18T16:24:42+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "payment",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта saleorderpayment, а value — объект типа restfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment/sale-payment-get-fields.html",
+  "executable": false
+}

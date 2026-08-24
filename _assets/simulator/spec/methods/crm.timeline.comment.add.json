@@ -1,0 +1,91 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.comment.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить комментарий crm.timeline.comment.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для добавления нового дела типа «Комментарий» в виде структуры: Содержимое файла передается в виде base64-строки С версии crm 23.100.0 метод принимает только параметры с ключом fields в нижнем регистре. Другие недокументированные варианты (Fields, FIELDS, arFields) не принимаются.",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ENTITY_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "ID элемента, к которому привязан комментарий. Значение можно получить методом crm.item.list или при создании элемента с помощью crm.item.add"
+        },
+        {
+          "name": "ENTITY_TYPE",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Идентификатор системного или пользовательского типа объекта CRM, к элементу которого привязан комментарий. Например: lead, deal, contact, company, order, dynamic_1046"
+        },
+        {
+          "name": "COMMENT",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Текст комментария"
+        },
+        {
+          "name": "FILES",
+          "type": "attached_diskfile",
+          "base": "any",
+          "required": false,
+          "description": "Список файлов. Массив значений, описанный по правилам"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/comments/crm-timeline-comment-add.md"
+  },
+  "resultExample": {
+    "result": 999,
+    "time": {
+      "start": 1715091541.642592,
+      "finish": 1715091541.730599,
+      "duration": 0.08800697326660156,
+      "date_start": "2024-05-03T17:19:01+03:00",
+      "date_finish": "2024-05-03T17:19:01+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Возвращает целочисленный идентификатор добавленного комментария"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/comments/crm-timeline-comment-add.html",
+  "executable": false
+}

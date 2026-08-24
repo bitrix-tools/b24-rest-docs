@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "im.recent.pin",
+  "scope": "im",
+  "kind": "write",
+  "title": "Закрепить чат вверху списка im.recent.pin",
+  "permissions": "участник чата",
+  "params": [
+    {
+      "name": "DIALOG_ID",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Идентификатор чата в формате: - chatXXX — чат - sgXXX — чат группы или проекта - XXX — идентификатор пользователя личного чата Идентификатор чата можно получить с помощью метода im.chat.get. Идентификатор пользователя — с помощью методов user.get и user.search"
+    },
+    {
+      "name": "PIN",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Закрепить или открепить диалог: - Y — закрепить диалог вверху списка - N — открепить диалог По умолчанию — Y"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chats/special-operations/im-recent-pin.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772519500,
+      "finish": 1772519500.234567,
+      "duration": 0.234567165374756,
+      "processing": 0,
+      "date_start": "2026-03-03T09:31:40+03:00",
+      "date_finish": "2026-03-03T09:31:40+03:00",
+      "operating_reset_at": 1772520100,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если диалог успешно закреплен или откреплен"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/chats/special-operations/im-recent-pin.html",
+  "executable": false
+}

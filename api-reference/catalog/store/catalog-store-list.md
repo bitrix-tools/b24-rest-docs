@@ -21,7 +21,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **select** 
-[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_store](../data-types.md#catalog_store)) 
+[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_store](../data-types.md#catalog_store))
 ||
 || **filter** 
 [`object`](../../data-types.md)| Объект для фильтрации выбранных складов в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
@@ -444,6 +444,47 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.store.list", b24.Params{
+    	"select": []string{"id", "title", "active", "address", "description", "gpsN", "gpsS", "imageId", "dateModify", "dateCreate", "userId", "modifiedBy", "phone", "schedule", "xmlId", "sort", "email", "issuingCenter", "code"},
+    	"filter": b24.Params{
+    		"@userId":    []int{1, 2},
+    		"<sort":      200,
+    		"modifiedBy": 1,
+    	},
+    	"order": b24.Params{
+    		"id": "desc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.store.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "stores".
+    raw, ok := b24.Unwrap(res.Result, "stores")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа stores")
+    }
+
+    var items []struct {
+    	Active      string `json:"active"`
+    	Address     string `json:"address"`
+    	Code        string `json:"code"`
+    	DateCreate  string `json:"dateCreate"`
+    	DateModify  string `json:"dateModify"`
+    	Description string `json:"description"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.Active)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -487,7 +528,7 @@ HTTP-статус: **200**
         "duration": 0.5149741172790527,
         "processing": 0.04066300392150879,
         "date_start": "2024-10-21T18:26:28+03:00",
-        "date_finish": "2024-10-21T18:26:29+03:00",
+        "date_finish": "2024-10-21T18:26:29+03:00"
     }
 }
 ```
@@ -530,7 +571,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-store-add.md)
 - [{#T}](./catalog-store-update.md)

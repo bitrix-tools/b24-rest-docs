@@ -40,7 +40,8 @@
     "auth": {
         "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
-        "client_endpoint": "https://some-domain.bitrix24.ru/rest/"
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+        "member_id": "a223c6b3710f85df22e9377d6c4f7553"
     }
 }
 ```
@@ -61,7 +62,7 @@
 || **ts***
 [`timestamp`](../../data-types.md) | Дата и время отправки события из очереди ||
 || **auth***
-[`object`](../../data-types.md) | Данные авторизации и портала.
+[`object`](../../data-types.md) | Данные авторизации и Битрикс24.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -96,13 +97,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **domain***
-[`string`](../../data-types.md) | Адрес портала Битрикс24 ||
+[`string`](../../data-types.md) | Адрес Битрикс24, на котором произошло событие ||
 || **server_endpoint***
 [`string`](../../data-types.md) | Адрес сервера авторизации для обновления токена||
 || **client_endpoint***
-[`string`](../../data-types.md) | Общий путь для вызовов методов API портала ||
+[`string`](../../data-types.md) | Общий путь для вызовов методов API Битрикс24 ||
 || **member_id***
-[`string`](../../data-types.md) | Уникальный идентификатор портала ||
+[`string`](../../data-types.md) | Уникальный идентификатор Битрикс24 ||
 |#
 
 ## Продолжите изучение

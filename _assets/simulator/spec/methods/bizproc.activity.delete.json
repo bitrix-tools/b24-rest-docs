@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "bizproc.activity.delete",
+  "scope": "bizproc",
+  "kind": "write",
+  "title": "Удалить действие bizproc.activity.delete",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Символьный идентификатор действия приложения"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/bizproc/bizproc-activity/bizproc-activity-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1738150149.8462,
+      "finish": 1738150149.889491,
+      "duration": 0.04329109191894531,
+      "processing": 0.005368947982788086,
+      "date_start": "2025-01-29T14:29:09+03:00",
+      "date_finish": "2025-01-29T14:29:09+03:00",
+      "operating_reset_at": 1738150749,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если действие успешно удалено"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/bizproc/bizproc-activity/bizproc-activity-delete.html",
+  "executable": false
+}

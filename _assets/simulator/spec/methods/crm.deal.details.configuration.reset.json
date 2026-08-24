@@ -1,0 +1,89 @@
+{
+  "$v": 1,
+  "method": "crm.deal.details.configuration.reset",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Сбросить параметры карточки сделки crm.deal.details.configuration.reset",
+  "permissions": "> - любой пользователь может сбрасывать свои личные настройки",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+    },
+    {
+      "name": "userId",
+      "type": "user",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор пользователя. Нужен только при сбросе личных настроек другого пользователя. Если не задан, берется текущий"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры (подробное описание)",
+      "ref": "#/defs/extrasFields"
+    }
+  ],
+  "defs": {
+    "extrasFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "dealCategoryId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор воронки сделок. Можно получить с помощью crm.category.list Если не указан, используется воронка по умолчанию для сделок"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/deals/custom-form/crm-deal-details-configuration-reset.md"
+  },
+  "deprecated": {
+    "successor": "crm.item.details.configuration.reset"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773307850,
+      "finish": 1773307850.136405,
+      "duration": 0.13640499114990234,
+      "processing": 0,
+      "date_start": "2026-03-12T12:30:50+03:00",
+      "date_finish": "2026-03-12T12:30:50+03:00",
+      "operating_reset_at": 1773308450,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успешного сброса настроек"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/deals/custom-form/crm-deal-details-configuration-reset.html",
+  "executable": false
+}

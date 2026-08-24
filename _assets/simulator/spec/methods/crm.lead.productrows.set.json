@@ -1,0 +1,68 @@
+{
+  "$v": 1,
+  "method": "crm.lead.productrows.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить товары в лид crm.lead.productrows.set",
+  "permissions": "пользователь с правом «изменения» лида",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор лида. Можно получить с помощью метода получения списка лидов: crm.lead.list или при создании лида: crm.lead.add"
+    },
+    {
+      "name": "rows",
+      "type": "object[]",
+      "base": "array",
+      "required": false,
+      "description": "Товарные позиции Массив объектов, вида: где - field_n — название поля товарной позиции - value_n — значение данного поля Список доступных полей описан ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/leads/crm-lead-productrows-set.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1772549200,
+      "finish": 1772549200.281883,
+      "duration": 0.28188300132751465,
+      "processing": 0,
+      "date_start": "2026-03-03T17:46:40+03:00",
+      "date_finish": "2026-03-03T17:46:40+03:00",
+      "operating_reset_at": 1772549800,
+      "operating": 0.9811058044433594
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/leads/crm-lead-productrows-set.html",
+  "executable": false
+}

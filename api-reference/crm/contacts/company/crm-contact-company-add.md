@@ -17,18 +17,18 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор контакта.
+[`integer`](../../../data-types.md) | Идентификатор контакта.
 
 Можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md)
 ||
 || **fields***
-[`object`][1] | Объект формата:
+[`object`](../../../data-types.md) | Объект формата:
 
 ```
 {
@@ -48,17 +48,17 @@
 
 ### Параметр fields {#parameter-fields}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **COMPANY_ID***
-[`crm_entity`][2] | Идентификатор компании, который будет привязан к контакту.
+[`crm_entity`](../../data-types.md) | Идентификатор компании, который будет привязан к контакту.
 
 Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
 || **IS_PRIMARY**
-[`boolean`][1] | Является ли привязка первичной. Возможные значения:
+[`boolean`](../../../data-types.md) | Является ли привязка первичной. Возможные значения:
 - `Y` — да
 - `N` — нет
 
@@ -66,7 +66,7 @@
 
 Передача `IS_PRIMARY = Y` у новой и не первой привязки перетирает существующую первичную привязку ||
 || **SORT**
-[`integer`][1] | Индекс сортировки.
+[`integer`](../../../data-types.md) | Индекс сортировки.
 
 По умолчанию `i + 10`, где `i` — максимальный индекс сортировки у существующих привязок для текущего контакта или `0`, если таких нет ||
 |#
@@ -291,6 +291,29 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.company.add", b24.Params{
+    	"id": 54,
+    	"fields": b24.Params{
+    		"COMPANY_ID": 32,
+    		"IS_PRIMARY": "Y",
+    		"SORT":       1000,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.contact.company.add: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -317,12 +340,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`][1] | Корневой элемент ответа. Содержит:
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит:
 - `true` — в случае успеха
 - `false` — в случае неудачи (скорее всего компания, которую вы пытаетесь добавить, уже есть в привязках)
 ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -342,11 +365,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-`     | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
-|| `-`     | `The parameter 'fields' must be array` | В `fields` передан не объект ||
+|| Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
+|| Пустое значение | `The parameter 'fields' must be array` | В `fields` передан не объект ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение контактов ||
-|| `-`     | `Not found` | Контакт с переданным `id` не найден ||
-|| `-`     | `The parameter 'fields' is not valid` | Может возникать из-за нескольких причин:
+|| Пустое значение | `Not found` | Контакт с переданным `id` не найден ||
+|| Пустое значение | `The parameter 'fields' is not valid` | Может возникать из-за нескольких причин:
 - если не передан обязательный параметр `fields.COMPANY_ID`
 - если переданный параметр `fields.COMPANY_ID` меньше или равен 0 ||
 |#
@@ -360,6 +383,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-contact-company-items-get.md)
 - [{#T}](./crm-contact-company-items-set.md)
 - [{#T}](./crm-contact-company-items-delete.md)
-
-[1]: ../../../data-types.md
-[2]: ../../data-types.md

@@ -1,0 +1,142 @@
+{
+  "$v": 1,
+  "method": "socialnetwork.api.workgroup.get",
+  "scope": "socialnetwork",
+  "kind": "read",
+  "title": "Получить данные о рабочей группе socialnetwork.api.workgroup.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Параметры запроса для получения группы. Подробнее ниже",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "groupId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор группы. Значение для поля может быть получено методом sonetgroup.get"
+        },
+        {
+          "name": "select",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Список дополнительных полей для извлечения, возвращаемых в result. Подробнее ниже"
+        },
+        {
+          "name": "mode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Режим запроса. Может принимать только значение mobile, которое позволяет получить дополнительные данные в массиве result[ADDITIONAL_DATA]"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/socialnetwork-api-workgroup-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 622,
+      "ACTIVE": "Y",
+      "SITE_ID": "s1",
+      "SUBJECT_ID": 1,
+      "NAME": "Группа для демонстрации метода",
+      "DESCRIPTION": "Первая строка описания группы\r\nВторая строка описания группы",
+      "KEYWORDS": "тег группы,еще один тег группы",
+      "CLOSED": "N",
+      "VISIBLE": "Y",
+      "OPENED": "N",
+      "DATE_CREATE": "17.04.2025 19:37:55",
+      "DATE_UPDATE": "17.04.2025 19:40:48",
+      "DATE_ACTIVITY": "17.04.2025 19:40:48",
+      "IMAGE_ID": 0,
+      "AVATAR_TYPE": "folder",
+      "OWNER_ID": 1,
+      "INITIATE_PERMS": "K",
+      "NUMBER_OF_MEMBERS": 1,
+      "NUMBER_OF_MODERATORS": 1,
+      "PROJECT": "N",
+      "PROJECT_DATE_START": null,
+      "PROJECT_DATE_FINISH": null,
+      "SEARCH_INDEX": "Группа для демонстрации метода Первая строка описания группы\r\nВторая строка описания группы тег группы #тег группы еще один тег группы #еще один тег группы group@example.com",
+      "LANDING": "N",
+      "SCRUM_OWNER_ID": 0,
+      "SCRUM_SPRINT_DURATION": 0,
+      "SCRUM_TASK_RESPONSIBLE": "",
+      "TYPE": "group",
+      "MEMBERS": [
+        1,
+        10,
+        20
+      ],
+      "CHAT_ID": 1034,
+      "DIALOG_ID": "chat1034",
+      "ORDINARY_MEMBERS": [
+        10
+      ],
+      "INVITED_MEMBERS": [
+        38
+      ],
+      "MODERATOR_MEMBERS": [
+        20
+      ],
+      "SITE_IDS": [
+        "s1"
+      ],
+      "TAGS": [
+        "еще один тег группы",
+        "тег группы"
+      ],
+      "DEPARTMENTS": [
+        8
+      ],
+      "NUMBER_OF_MEMBERS_PLURAL": 0
+    },
+    "time": {
+      "start": 1744908074.244266,
+      "finish": 1744908074.279072,
+      "duration": 0.034806013107299805,
+      "processing": 0.010703086853027344,
+      "date_start": "2025-04-17T19:41:14+03:00",
+      "date_finish": "2025-04-17T19:41:14+03:00",
+      "operating_reset_at": 1744908674,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Результат выполнения запроса. Подробнее ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sonet-group/socialnetwork-api-workgroup-get.html",
+  "executable": false
+}

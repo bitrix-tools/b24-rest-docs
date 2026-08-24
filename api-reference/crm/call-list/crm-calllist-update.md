@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -256,6 +256,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.calllist.update", b24.Params{
+    	"LIST_ID":     123,
+    	"ENTITY_TYPE": "CONTACT",
+    	"ENTITIES":    []int{1, 2, 3},
+    	"WEBFORM_ID":  5,
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.calllist.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -295,8 +316,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Invalid parameters.",
-    "error_description": "Переданы некорректные параметры."
+    "error": "ENTITY_TYPE_ERROR",
+    "error_description": "EntityType is incorrect"
 }
 ```
 
@@ -305,14 +326,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `Invalid parameters` | Переданы некорректные параметры ||
-|| `400` | `Incorrect entity type` | Указан неподдерживаемый тип объекта ||
-|| `400` | `Entities is not array` | Параметр ENTITIES не является массивом ||
-|| `400` | `Incorrect entities id` | Переданы некорректные ID элементов ||
-|| `400` | `Incorrect list id or access denied` | Некорректный идентификатор списка или нет доступа ||
-|| `400` | `Discrepancy between the type of call participants and incoming type` | Несовпадение типа участников и переданного типа ||
-|| `400` | `Incorrect webform id` | Некорректный ID CRM-формы ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | `LIST_ID is not found`, `ENTITY_TYPE is not found`, `ENTITIES is not found` | Не передан обязательный параметр ||
+|| `400` | `ENTITY_TYPE_ERROR` | `EntityType is incorrect` | В параметре `ENTITY_TYPE` передано значение, отличное от `CONTACT` и `COMPANY` ||
+|| `400` | `ENTITIES_ERROR` | `Entities is not array` | В параметре `ENTITIES` передан не массив ||
+|| `400` | `ENTITIES_ERROR` | `Incorrect entities id` | В параметре `ENTITIES` есть идентификаторы, которых нет в CRM ||
+|| `400` | `LIST_ID_ERROR` | `Incorrect list id or access denied` | Обзвона с таким идентификатором нет или к нему нет доступа ||
+|| `400` | `ENTITY_TYPE_ERROR` | `Discrepancy between the type of call participants and incoming type` | Тип объектов в `ENTITY_TYPE` не совпадает с типом участников обзвона ||
+|| `400` | `WEBFORM_ERROR` | `Incorrect webform id` | В параметре `WEBFORM_ID` указана несуществующая CRM-форма ||
+|| `403` | `ACCESS_ERROR` | `Access Denied` | У пользователя нет права на чтение контактов или компаний ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

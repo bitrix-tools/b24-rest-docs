@@ -1,0 +1,44 @@
+{
+  "$v": 1,
+  "method": "imopenlines.message.quick.save",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Сохранить сообщение в качестве быстрого ответа imopenlines.message.quick.save",
+  "permissions": "администратор или оператор открытой линии",
+  "params": [
+    {
+      "name": "CHAT_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор чата открытой линии, из которого нужно сохранить сообщение. Идентификатор чата можно получить с помощью метода imopenlines.dialog.get или imopenlines.session.open"
+    },
+    {
+      "name": "MESSAGE_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор сообщения, которое нужно добавить в быстрые ответы. Идентификатор сообщения можно получить с помощью метода imopenlines.session.history.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1728626400.456,
+      "finish": 1728626400.539,
+      "duration": 0.083,
+      "processing": 0.031,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00",
+      "operating": 0
+    }
+  },
+  "page": "/api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.html",
+  "executable": false
+}

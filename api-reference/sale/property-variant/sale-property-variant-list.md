@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список вариантов значений свойств. Метод актуален только для свойств с типом `ENUM`.
+Метод `sale.propertyvariant.list` получает список вариантов значений свойств. Метод актуален только для свойств с типом `ENUM`.
 
 ## Параметры метода
 
@@ -294,6 +294,44 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertyvariant.list", b24.Params{
+    	"select": []string{"id", "name", "orderPropsId", "value"},
+    	"filter": b24.Params{
+    		">=id": 5,
+    	},
+    	"order": b24.Params{
+    		"orderPropsId": "desc",
+    		"id":           "asc",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.propertyvariant.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyVariants".
+    raw, ok := b24.Unwrap(res.Result, "propertyVariants")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyVariants")
+    }
+
+    var items []struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	OrderPropsID b24.ID `json:"orderPropsId"`
+    	Value        string `json:"value"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
     ```
 
 {% endlist %}

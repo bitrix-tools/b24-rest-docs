@@ -25,7 +25,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -232,6 +232,49 @@
     } else {
         echo 'Command ID: '. $result['result']['command']['id'];
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Command.register", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"fields": b24.Params{
+    		"command": "help",
+    		"title": b24.Params{
+    			"en": "Show help",
+    			"ru": "Показать помощь",
+    		},
+    		"params": b24.Params{
+    			"en": "query",
+    			"ru": "запрос",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Command.register: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "command".
+    raw, ok := b24.Unwrap(res.Result, "command")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа command")
+    }
+
+    var item struct {
+    	ID              b24.ID `json:"id"`
+    	BotID           b24.ID `json:"botId"`
+    	Command         string `json:"command"`
+    	Common          bool   `json:"common"`
+    	Hidden          bool   `json:"hidden"`
+    	ExtranetSupport bool   `json:"extranetSupport"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.BotID)
     ```
 
 {% endlist %}

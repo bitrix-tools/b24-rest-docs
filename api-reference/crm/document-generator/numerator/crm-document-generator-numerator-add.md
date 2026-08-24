@@ -17,13 +17,13 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Объект с параметрами нумератора формата:
+[`object`](../../../data-types.md) | Объект с параметрами нумератора формата:
 
 ```json
 {
@@ -42,17 +42,17 @@
 
 ### Параметр fields {#parameter-fields}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Название нумератора ||
+[`string`](../../../data-types.md) | Название нумератора ||
 || **template***
-[`string`](../../data-types.md) | Шаблон номера, например `{NUMBER}` ||
+[`string`](../../../data-types.md) | Шаблон номера, например `{NUMBER}` ||
 || **settings**
-[`object`](../../data-types.md) | Настройки генераторов. Описание параметров — [ниже](#parameter-settings). ||
+[`object`](../../../data-types.md) | Настройки генераторов. Описание параметров — [ниже](#parameter-settings). ||
 |#
 
 ### Параметр settings {#parameter-settings}
@@ -61,7 +61,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **Bitrix_Main_Numerator_Generator_SequentNumberGenerator**
-[`object`](../../data-types.md) | Настройки последовательной нумерации. Описание параметров — [ниже](#parameter-sequent-settings) ||
+[`object`](../../../data-types.md) | Настройки последовательной нумерации. Описание параметров — [ниже](#parameter-sequent-settings) ||
 |#
 
 #### Параметры Bitrix_Main_Numerator_Generator_SequentNumberGenerator {#parameter-sequent-settings}
@@ -70,23 +70,23 @@
 || **Название**
 `тип` | **Описание** ||
 || **start**
-[`integer`](../../data-types.md) | Начальное значение счетчика. По умолчанию `1` ||
+[`integer`](../../../data-types.md) | Начальное значение счетчика. По умолчанию `1` ||
 || **step**
-[`integer`](../../data-types.md) | Шаг увеличения счетчика. По умолчанию `1` ||
+[`integer`](../../../data-types.md) | Шаг увеличения счетчика. По умолчанию `1` ||
 || **length**
-[`integer`](../../data-types.md) | Минимальная длина номера. По умолчанию `0` ||
+[`integer`](../../../data-types.md) | Минимальная длина номера. По умолчанию `0` ||
 || **padString**
-[`string`](../../data-types.md) | Символ добивки слева при `length > 0`. По умолчанию `'0'` ||
+[`string`](../../../data-types.md) | Символ добивки слева при `length > 0`. По умолчанию `'0'` ||
 || **periodicBy**
-[`string`](../../data-types.md) | Период сброса счетчика:
+[`string`](../../../data-types.md) | Период сброса счетчика:
 - `''` — без сброса
 - `day` — ежедневно
 - `month` — ежемесячно
 - `year` — ежегодно ||
 || **timezone**
-[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса, например `Europe/Moscow` ||
+[`string`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса, например `Europe/Moscow` ||
 || **isDirectNumeration**
-[`boolean`](../../data-types.md) | Признак прямой нумерации. По умолчанию `false` ||
+[`boolean`](../../../data-types.md) | Признак прямой нумерации. По умолчанию `false` ||
 |#
 
 ## Примеры кода
@@ -379,6 +379,48 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.documentgenerator.numerator.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":     "Нумератор из REST",
+    		"template": "{NUMBER}",
+    		"settings": b24.Params{
+    			"Bitrix_Main_Numerator_Generator_SequentNumberGenerator": b24.Params{
+    				"start":              1,
+    				"step":               1,
+    				"length":             6,
+    				"padString":          "0",
+    				"periodicBy":         "",
+    				"timezone":           "",
+    				"isDirectNumeration": false,
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.documentgenerator.numerator.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "numerator".
+    raw, ok := b24.Unwrap(res.Result, "numerator")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа numerator")
+    }
+
+    var item struct {
+    	Name     string `json:"name"`
+    	Template string `json:"template"`
+    	ID       b24.ID `json:"id"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.Template)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -425,9 +467,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит объект [`numerator`](#numerator) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`numerator`](#numerator) ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Тип numerator {#numerator}
@@ -436,15 +478,15 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор нумератора ||
+[`integer`](../../../data-types.md) | Идентификатор нумератора ||
 || **name**
-[`string`](../../data-types.md) | Название нумератора ||
+[`string`](../../../data-types.md) | Название нумератора ||
 || **template**
-[`string`](../../data-types.md) | Шаблон номера ||
+[`string`](../../../data-types.md) | Шаблон номера ||
 || **code**
-[`string`](../../data-types.md) | Символьный код нумератора. Может быть `null` ||
+[`string`](../../../data-types.md) | Символьный код нумератора. Может быть `null` ||
 || **settings**
-[`object`](../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
+[`object`](../../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
 |#
 
 #### Тип settings {#settings}
@@ -453,19 +495,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **start**
-[`integer`](../../data-types.md) | Начальное значение счетчика ||
+[`integer`](../../../data-types.md) | Начальное значение счетчика ||
 || **step**
-[`integer`](../../data-types.md) | Шаг увеличения счетчика ||
+[`integer`](../../../data-types.md) | Шаг увеличения счетчика ||
 || **length**
-[`integer`](../../data-types.md) | Минимальная длина номера ||
+[`integer`](../../../data-types.md) | Минимальная длина номера ||
 || **padString**
-[`string`](../../data-types.md) | Символ добивки слева ||
+[`string`](../../../data-types.md) | Символ добивки слева ||
 || **periodicBy**
-[`string`](../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+[`string`](../../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
 || **timezone**
-[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+[`string`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
 || **isDirectNumeration**
-[`boolean`](../../data-types.md) | Признак прямой нумерации ||
+[`boolean`](../../../data-types.md) | Признак прямой нумерации ||
 |#
 
 ## Обработка ошибок

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -56,9 +56,9 @@
 || **settings**
 [`object`](../../../data-types.md) | Дополнительные настройки поля. Набор ключей зависит от `userTypeId` [(подробное описание)](#settings) ||
 || **editFormLabel**
-[`string`](../../../data-types.md)\|[`lang_map`](../../../data-types.md#lang_map) | Подпись в форме редактирования. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подпись по языкам ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись в форме редактирования. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подпись по языкам ||
 || **helpMessage**
-[`string`](../../../data-types.md)\|[`lang_map`](../../../data-types.md#lang_map) | Текст подсказки. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подсказку по языкам ||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Текст подсказки. При передаче строки используется как общее значение, при передаче `lang_map` можно задать подсказку по языкам ||
 || **enum**
 [`uf_enum_element[]`](#uf_enum_element) | Варианты значений для поля типа `enumeration` ||
 |#
@@ -160,7 +160,7 @@
     || **Название**
     `тип` | **Описание** ||
     || **DEFAULT_VALUE**
-    [`string`](../../../data-types.md) | Значение по умолчанию в формате `{VALUE}|{CURRENCY}` ||
+    [`string`](../../../data-types.md) | Значение по умолчанию в формате ```{VALUE}|{CURRENCY}``` ||
     |#
 
 - url
@@ -647,6 +647,59 @@
     echo '</pre>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.add", b24.Params{
+    	"moduleId": "crm",
+    	"field": b24.Params{
+    		"entityId":   "CRM_7",
+    		"fieldName":  "UF_CRM_7_NEW_REST_LIST_2026",
+    		"userTypeId": "enumeration",
+    		"multiple":   "Y",
+    		"editFormLabel": b24.Params{
+    			"ru": "Список характеристик",
+    			"en": "List of characteristics",
+    		},
+    		"enum": []b24.Params{
+    			{
+    				"value": "Характеристика 1",
+    				"def":   "N",
+    				"sort":  100,
+    			},
+    			{
+    				"value": "Характеристика 2",
+    				"def":   "Y",
+    				"sort":  200,
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "field".
+    raw, ok := b24.Unwrap(res.Result, "field")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа field")
+    }
+
+    var item struct {
+    	ID         b24.ID `json:"id"`
+    	EntityID   string `json:"entityId"`
+    	FieldName  string `json:"fieldName"`
+    	UserTypeID string `json:"userTypeId"`
+    	Sort       string `json:"sort"`
+    	Multiple   string `json:"multiple"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.EntityID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -787,15 +840,15 @@ HTTP-статус: **200**
 || **languageId**
 [`object`](../../../data-types.md) | Языки, для которых заданы подписи поля ||
 || **editFormLabel**
-[`lang_map`](../../../data-types.md) | Подписи в форме редактирования ||
+[`lang_map`](../../data-types.md) | Подписи в форме редактирования ||
 || **listColumnLabel**
-[`lang_map`](../../../data-types.md) | Подписи колонки в списке ||
+[`lang_map`](../../data-types.md) | Подписи колонки в списке ||
 || **listFilterLabel**
-[`lang_map`](../../../data-types.md) | Подписи в фильтре ||
+[`lang_map`](../../data-types.md) | Подписи в фильтре ||
 || **errorMessage**
-[`lang_map`](../../../data-types.md) | Текст сообщения об ошибке ||
+[`lang_map`](../../data-types.md) | Текст сообщения об ошибке ||
 || **helpMessage**
-[`lang_map`](../../../data-types.md) | Подсказка по полю ||
+[`lang_map`](../../data-types.md) | Подсказка по полю ||
 || **enum**
 [`object[]`](../../../data-types.md) | Варианты значений.
 
@@ -819,13 +872,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | Access denied | Недостаточно прав для создания пользовательского поля ||
-|| `-` | Вы не можете создавать пользовательские поля | Ошибка может возвращаться, если `field.fieldName` не начинается с `UF_{entityId}_` ||
-|| `-` | The 'USER_TYPE_ID' field is not found | Не передан обязательный `field.userTypeId` ||
-|| `-` | The 'FIELD_NAME' field is not found | Не передан обязательный `field.fieldName` ||
-|| `-` | Поле ... уже существует | Переданный `field.fieldName` уже используется для этого объекта ||
-|| `-` | Fail to create new user field | Ошибка создания поля на стороне сервера ||
-|| `-` | Fail to save enumeration field values | Ошибка сохранения значений списка для типа `enumeration` ||
+|| Пустое значение | Access denied | Недостаточно прав для создания пользовательского поля ||
+|| Пустое значение | Вы не можете создавать пользовательские поля | Ошибка может возвращаться, если `field.fieldName` не начинается с `UF_{entityId}_` ||
+|| Пустое значение | The 'USER_TYPE_ID' field is not found | Не передан обязательный `field.userTypeId` ||
+|| Пустое значение | The 'FIELD_NAME' field is not found | Не передан обязательный `field.fieldName` ||
+|| Пустое значение | Поле ... уже существует | Переданный `field.fieldName` уже используется для этого объекта ||
+|| Пустое значение | Fail to create new user field | Ошибка создания поля на стороне сервера ||
+|| Пустое значение | Fail to save enumeration field values | Ошибка сохранения значений списка для типа `enumeration` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

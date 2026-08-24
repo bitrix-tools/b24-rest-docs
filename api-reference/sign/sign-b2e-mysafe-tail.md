@@ -27,7 +27,7 @@
 || **limit**
 [`integer`](../data-types.md) | Количество записей на странице.
 
-Параметр принимает значение от 1 до 50.
+Параметр принимает значение от 1 до 1000.
 
 По умолчанию выводится 20 записей на странице ||
 || **offset**
@@ -76,7 +76,7 @@
     }
 
     try {
-      // sign.b2e.mysafe.tail returns a single page (max 50 records). For the whole result set
+      // sign.b2e.mysafe.tail returns a single page (max 1000 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
@@ -114,7 +114,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // sign.b2e.mysafe.tail returns a single page (max 50 records). For the whole result set
+          // sign.b2e.mysafe.tail returns a single page (max 1000 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
@@ -206,7 +206,7 @@
     BX24.callMethod(
         'sign.b2e.mysafe.tail',
         {
-            // Количество записей на странице. Значение от 1 до 50. По умолчанию 20.
+            // Количество записей на странице. Значение от 1 до 1000. По умолчанию 20.
             limit: 2,
             
             // Параметр для управления постраничной навигацией.
@@ -245,6 +245,34 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sign.b2e.mysafe.tail", b24.Params{
+    	"limit":  2,
+    	"offset": 0,
+    })
+    if err != nil {
+    	return fmt.Errorf("sign.b2e.mysafe.tail: %w", err)
+    }
+
+    var items []struct {
+    	ID         b24.ID `json:"id"`
+    	Title      string `json:"title"`
+    	CreateDate string `json:"create_date"`
+    	SignedDate string `json:"signed_date"`
+    	CreatorID  int    `json:"creator_id"`
+    	MemberID   int    `json:"member_id"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Title)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -262,7 +290,7 @@ HTTP-статус: **200**
             "creator_id": 1,
             "member_id": 1,
             "role": "signer",
-            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=7e34b4670000071b0075444600000037f0f1072e5aa442013dece15a3df95d26ed4873&token=sign.b2e%7CaWQ9NTkmXz1IVEVndlJnZUttZUFkeERtaVBRbkhwZkhhTEJFZklpYQ%3D%3D%7CImRvd25sb2FkfHNpZ24uYjJlfGFXUTlOVGttWHoxSVZFVm5kbEpuWlV0dFpVRmtlRVJ0YVZCUmJraHdaa2hoVEVKRlprbHBZUT09fDdlMzRiNDY3MDAwMDA3MWIwMDc1NDQ0NjAwMDAwMDM3ZjBmMTA3MmU1YWE0NDIwMTNkZWNlMTVhM2RmOTVkMjZlZDQ4NzMi.8C%2B3HpNFR5C0YkzTeVL%2FdhE6QJYN66CGoDzZG4VeR4Q%3D"
+            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=7e34b467...&token=sign.b2e..."
         },
         {
             "id": 55,
@@ -272,7 +300,7 @@ HTTP-статус: **200**
             "creator_id": 19,
             "member_id": 1,
             "role": "signer",
-            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=7e34b4670000071b0075444600000037f0f1072e5aa442013dece15a3df95d26ed4873&token=sign.b2e%7CaWQ9NTUmXz12czNjZDhyM3g2SUZYdzByRVZBbVJIYzZTY3dxZUFxbw%3D%3D%7CImRvd25sb2FkfHNpZ24uYjJlfGFXUTlOVFVtWHoxMmN6TmpaRGh5TTNnMlNVWllkekJ5UlZaQmJWSklZelpUWTNkeFpVRnhidz09fDdlMzRiNDY3MDAwMDA3MWIwMDc1NDQ0NjAwMDAwMDM3ZjBmMTA3MmU1YWE0NDIwMTNkZWNlMTVhM2RmOTVkMjZlZDQ4NzMi.r6Khc2bwTlEANXvuAptaut0Z%2F6y1nGx%2FZhRKqEGkjk0%3D"
+            "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=7e34b467...&token=sign.b2e..."
         }
     ],
     "time": {
@@ -294,7 +322,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа. Содержит информацию о подписанных документах в сейфе компании ||
+[`array`](../data-types.md) | Корневой элемент ответа. Содержит информацию о подписанных документах в сейфе компании ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -317,12 +345,16 @@ HTTP-статус: **200**
 || **member_id**
 [`integer`](../data-types.md) | Идентификатор пользователя, с которым подписан документ ||
 || **role**
-[`string`](../data-types.md) | Роль сотрудника в документе:                
+[`string`](../data-types.md) | Роль сотрудника в документе:
  - editor — заполняющий
  - reviewer — согласующий
  - assignee — представитель компании
- - signer - сотрудник
+ - signer — сотрудник
 ||
+|| **folderName**
+[`string`](../data-types.md) | Название папки документа.
+
+Возвращается, если включена группировка документов сейфа по папкам ||
 || **file_url**
 [`string`](../data-types.md) | Ссылка для скачивания подписанного документа ||
 |#

@@ -1,4 +1,4 @@
-# Получить описание полей папки disk.folder.getfields
+# Получить описание полей папки disk.folder.getFields
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `disk.folder.getfields` возвращает описание полей папки.
+Метод `disk.folder.getFields` возвращает описание полей папки.
 
 ## Параметры метода
 
@@ -32,7 +32,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.getfields
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.getFields
     ```
 
 - cURL (OAuth)
@@ -42,7 +42,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.getfields
+    https://**put_your_bitrix24_address**/rest/disk.folder.getFields
     ```
 
 - JS (TS)
@@ -66,7 +66,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<FolderFieldsResult>({
-        method: 'disk.folder.getfields',
+        method: 'disk.folder.getFields',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -96,7 +96,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.getfields',
+            method: 'disk.folder.getFields',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -148,7 +148,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.getfields',
+                'disk.folder.getFields',
                 []
             );
 
@@ -169,7 +169,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.getfields",
+        "disk.folder.getFields",
         {},
         function (result) {
             if (result.error())
@@ -186,13 +186,29 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.getfields',
+        'disk.folder.getFields',
         []
     );
 
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.getFields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("disk.folder.getFields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
     ```
 
 {% endlist %}

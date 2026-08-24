@@ -1,4 +1,4 @@
-# Удалить зарегистрированный обработчик места встраивания placement.unbind
+# Удалить обработчик виджета placement.unbind
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор, авторизованный в приложении
 
-Метод `placement.unbind` удаляет зарегистрированный обработчик места встраивания.
+Метод `placement.unbind` удаляет зарегистрированный обработчик виджета.
 
 {% note info "" %}
 
@@ -29,17 +29,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **PLACEMENT**^*^
-[`string`](../data-types.md) | Идентификатор места встраивания.
+[`string`](../data-types.md) | Код точки встраивания.
 
 `PLACEMENT` можно получить:
 - методом [placement.list](./placement-list.md)
 - методом [placement.get](./placement-get.md) в поле `placement` ||
 || **HANDLER**
-[`string`](../data-types.md) | URL обработчика места встраивания.
+[`string`](../data-types.md) | URL обработчика виджета.
 
 `HANDLER` можно получить методом [placement.get](./placement-get.md) в поле `handler`.
 
-Если параметр не передан или передан пустым, метод удаляет все обработчики указанного места встраивания, зарегистрированные приложением ||
+Если параметр не передан или передан пустым, метод удаляет все обработчики указанной точки встраивания, зарегистрированные приложением ||
 || **USER_ID**
 [`integer`](../data-types.md) | Идентификатор пользователя Битрикс24, для которого был зарегистрирован обработчик.
 
@@ -54,9 +54,9 @@
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
-Пример удаления зарегистрированного обработчика места встраивания, где:
-- `PLACEMENT` — идентификатор места встраивания
-- `HANDLER` — URL обработчика места встраивания
+Пример удаления зарегистрированного обработчика виджета, где:
+- `PLACEMENT` — код точки встраивания
+- `HANDLER` — URL обработчика виджета
 
 {% list tabs %}
 
@@ -236,6 +236,27 @@
     echo '<pre>';
     print_r($result);
     echo '</pre>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "placement.unbind", b24.Params{
+    	"PLACEMENT": "CRM_LEAD_DETAIL_TAB",
+    	"HANDLER":   "https://www.myapplicationhost.com/placement/",
+    })
+    if err != nil {
+    	return fmt.Errorf("placement.unbind: %w", err)
+    }
+
+    var item struct {
+    	Count int `json:"count"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Count)
     ```
 
 {% endlist %}

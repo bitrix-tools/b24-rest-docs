@@ -191,6 +191,28 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.line.get", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("voximplant.line.get: %w", err)
+    }
+
+    var item struct {
+    	Reg150907 string `json:"reg150907"`
+    	Sip7      string `json:"sip7"`
+    	Reg151083 string `json:"reg151083"`
+    	Sip11     string `json:"sip11"`
+    	Reg151085 string `json:"reg151085"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Reg150907, item.Sip7)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

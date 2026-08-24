@@ -1,4 +1,4 @@
-# Удалить папку и все ее содержимое навсегда disk.folder.deletetree
+# Удалить папку и все ее содержимое навсегда disk.folder.deleteTree
 
 {% note tip "" %}
 
@@ -13,13 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правом «Полный доступ» для нужной папки
 
-Метод `disk.folder.deletetree` удаляет папку и все ее содержимое навсегда.
+Метод `disk.folder.deleteTree` удаляет папку и все ее содержимое навсегда.
 
-Если вы хотите переместить папку в корзину, используйте метод [disk.folder.markdeleted](./disk-folder-mark-deleted.md).
+Если вы хотите переместить папку в корзину, используйте метод [disk.folder.markDeleted](./disk-folder-mark-deleted.md).
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -27,7 +27,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор папки.
 
-Идентификатор можно получить с помощью метода [disk.folder.getchildren](./disk-folder-get-children.md)
+Идентификатор можно получить с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md)
 ||
 |#
 
@@ -50,7 +50,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8942}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.deletetree
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.deleteTree
     ```
 
 - cURL (OAuth)
@@ -60,7 +60,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":8942,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.folder.deletetree
+    https://**put_your_bitrix24_address**/rest/disk.folder.deleteTree
     ```
 
 - JS (TS)
@@ -75,7 +75,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'disk.folder.deletetree',
+        method: 'disk.folder.deleteTree',
         params: {
           id: 8942,
         },
@@ -107,7 +107,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.folder.deletetree',
+            method: 'disk.folder.deleteTree',
             params: {
               id: 8942,
             },
@@ -163,7 +163,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.folder.deletetree',
+                'disk.folder.deleteTree',
                 [
                     'id' => 8942
                 ]
@@ -186,7 +186,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.folder.deletetree",
+        "disk.folder.deleteTree",
         {
             id: 8942
         },
@@ -205,7 +205,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.folder.deletetree',
+        'disk.folder.deleteTree',
         [
             'id' => 8942
         ]
@@ -214,6 +214,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.folder.deleteTree", b24.Params{
+    	"id": 8942,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.folder.deleteTree: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

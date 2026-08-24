@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -158,6 +158,27 @@
     } else {
         echo 'Deleted: ' . ($result['result'] ? 'true' : 'false');
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.message.delete", b24.Params{
+    	"BOT_ID":     39,
+    	"MESSAGE_ID": 19880117,
+    	"COMPLETE":   "N",
+    	"CLIENT_ID":  "**put_your_client_id_here**",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.message.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

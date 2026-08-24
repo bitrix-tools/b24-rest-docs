@@ -1,4 +1,4 @@
-# Обзор событий при работе с коннектором
+# Обзор событий при работе с коннекторами открытых линий
 
 {% note tip "" %}
 
@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-События позволяют приложениям реагировать на изменения в коннекторах открытых линий: получать уведомления о новых сообщениях, их изменении, удалении, а также о завершении диалогов и отключении линий.
+События коннекторов открытых линий уведомляют приложение о сообщениях внешнего канала, начале и завершении диалогов, отключении статуса канала и удалении линии.
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
@@ -27,17 +27,17 @@
 
 ## Обзор событий {#all-events}
 
-> Scope: [`imconnector`](../../../scopes/permissions.md), [`imopenlines`](../../../scopes/permissions.md)  
+> Scope: [`imconnector`](../../../scopes/permissions.md), [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
 #|
 || **Событие** | **Вызывается** ||
-|| [OnImConnectorMessageAdd](on-im-connector-message-add.md) | При отправке сообщений вручную ||
-|| [OnImConnectorDialogStart](on-im-connector-dialog-start.md) | При создании диалога вручную ||
-|| [OnImConnectorMessageUpdate](on-im-connector-message-update.md) | При изменении сообщения вручную ||
-|| [OnImConnectorMessageDelete](on-im-connector-message-delete.md) | При удалении сообщения вручную ||
-|| [OnImConnectorDialogFinish](on-im-connector-dialog-finish.md) | При закрытии диалога вручную ||
-|| [OnImConnectorStatusDelete](on-im-connector-status-delete.md) | При отключении открытой линии вручную ||
-|| [OnImConnectorLineDelete](on-im-connector-line-delete.md) | При удалении открытой линии вручную ||
+|| [OnImConnectorMessageAdd](on-im-connector-message-add.md) | При отправке сообщения из Битрикс24 во внешний канал ||
+|| [OnImConnectorDialogStart](on-im-connector-dialog-start.md) | При создании диалога во внешнем канале ||
+|| [OnImConnectorMessageUpdate](on-im-connector-message-update.md) | При изменении сообщения во внешнем канале ||
+|| [OnImConnectorMessageDelete](on-im-connector-message-delete.md) | При удалении сообщения во внешнем канале ||
+|| [OnImConnectorDialogFinish](on-im-connector-dialog-finish.md) | При закрытии диалога во внешнем канале ||
+|| [OnImConnectorStatusDelete](on-im-connector-status-delete.md) | При отключении статуса канала ||
+|| [OnImConnectorLineDelete](on-im-connector-line-delete.md) | При удалении открытой линии ||
 |#

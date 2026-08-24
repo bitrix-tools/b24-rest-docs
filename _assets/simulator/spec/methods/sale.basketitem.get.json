@@ -1,0 +1,116 @@
+{
+  "$v": 1,
+  "method": "sale.basketitem.get",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить информацию об элементе (позиции) корзины заказа sale.basketitem.get",
+  "permissions": "менеджер магазина",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_basket_item.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор элемента (позиции) корзины. Можно получить методом sale.basketitem.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/basket-item/sale-basket-item-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "basketItem": {
+        "basePrice": 1000,
+        "canBuy": "Y",
+        "catalogXmlId": "FUTURE-ERP-CATALOG",
+        "currency": "RUB",
+        "customPrice": "N",
+        "dateInsert": "2024-04-23T15:59:37+02:00",
+        "dateUpdate": "2024-04-23T15:59:37+02:00",
+        "dimensions": "a:3:{s:5:\"WIDTH\";N;s:6:\"HEIGHT\";N;s:6:\"LENGTH\";N;}",
+        "discountPrice": 100,
+        "id": 6801,
+        "measureCode": "163",
+        "measureName": "г",
+        "name": "Товар",
+        "orderId": 5147,
+        "price": 900,
+        "productId": 1245,
+        "productXmlId": "1245",
+        "properties": [],
+        "quantity": 1,
+        "reservations": [],
+        "sort": 100,
+        "vatIncluded": "N",
+        "vatRate": null,
+        "weight": 0,
+        "xmlId": "bx_6627bec8c4fdc"
+      }
+    },
+    "time": {
+      "start": 1713880776.108755,
+      "finish": 1713880777.704221,
+      "duration": 1.595465898513794,
+      "processing": 0.973701000213623,
+      "date_start": "2024-04-23T15:59:36+02:00",
+      "date_finish": "2024-04-23T15:59:37+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "basketItem",
+      "type": "sale_basket_item",
+      "base": "any",
+      "required": false,
+      "description": "Объект с данными элемента (позиции) корзины"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/basket-item/sale-basket-item-get.html",
+  "executable": false,
+  "entityFields": [
+    "basePrice",
+    "canBuy",
+    "catalogXmlId",
+    "currency",
+    "customPrice",
+    "dateInsert",
+    "dateUpdate",
+    "dimensions",
+    "discountPrice",
+    "id",
+    "measureCode",
+    "measureName",
+    "name",
+    "orderId",
+    "price",
+    "productId",
+    "productXmlId",
+    "productid",
+    "properties",
+    "quantity",
+    "reservations",
+    "sort",
+    "vatIncluded",
+    "vatRate",
+    "weight",
+    "xmlId"
+  ]
+}

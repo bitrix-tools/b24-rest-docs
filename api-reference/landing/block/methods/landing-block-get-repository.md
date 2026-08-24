@@ -1,4 +1,4 @@
-# Получить список блоков из репозитория `landing.block.getrepository`
+# Получить список блоков из репозитория landing.block.getrepository
 
 {% note tip "" %}
 
@@ -260,6 +260,29 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.getrepository", b24.Params{
+    	"section": "text",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.getrepository: %w", err)
+    }
+
+    var item struct {
+    	Name      string `json:"name"`
+    	New       bool   `json:"new"`
+    	Separator bool   `json:"separator"`
+    	AppCode   bool   `json:"app_code"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Name, item.New)
     ```
 
 {% endlist %}

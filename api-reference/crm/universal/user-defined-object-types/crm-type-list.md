@@ -21,7 +21,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **order**
-[`object`][1]  | Объект формата: `{ field_1: value_1, field_2: value_2, ..., field_n: value_n }`, где
+[`object`](../../../data-types.md)  | Объект формата: `{ field_1: value_1, field_2: value_2, ..., field_n: value_n }`, где
 * `field_n`: название поля по которому будет произведена сортировка выборки смарт-процессов
 * `value_n`: значение типа `string`, равное: 
   * `ASC` — сортировка по возрастанию
@@ -30,7 +30,7 @@
 Возможные значения для `field` соответствуют полям объекта [type](../../data-types.md#type)
  ||
 || **filter**
-[`object`][1]  | Объект формата: `{ field_1: value_1, field_2: value_2, ..., field_n: value_n }`, где
+[`object`](../../../data-types.md)  | Объект формата: `{ field_1: value_1, field_2: value_2, ..., field_n: value_n }`, где
 * `field_n`: название поля по которому будет отфильтрована выборка смарт-процессов
 * `value_n`: значение фильтра
 
@@ -65,7 +65,7 @@
 
  ||
 || **start**
-[`integer`][1] | Параметр используется для управления постраничной навигацией.
+[`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
 
@@ -76,7 +76,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 ## Примеры
 
@@ -638,6 +638,44 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.type.list", b24.Params{
+        	"filter": b24.Params{
+        		"isAutomationEnabled": "Y",
+        		"isBizProcEnabled":    "Y",
+        		"isCategoriesEnabled": "Y",
+        		"isClientEnabled":     "Y",
+        	},
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("crm.type.list: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "types".
+        raw, ok := b24.Unwrap(res.Result, "types")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа types")
+        }
+
+        var items []struct {
+        	ID                  b24.ID `json:"id"`
+        	Title               string `json:"title"`
+        	Code                string `json:"code"`
+        	CreatedBy           int    `json:"createdBy"`
+        	EntityTypeID        b24.ID `json:"entityTypeId"`
+        	IsCategoriesEnabled string `json:"isCategoriesEnabled"`
+        }
+        if err := json.Unmarshal(raw, &items); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        for _, it := range items {
+        	fmt.Println(it.ID)
+        }
+        ```
+
     {% endlist %}
 
 ## Обработка ответа
@@ -777,13 +815,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа. Содержит единственный ключ `types` ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `types` ||
 || **types**
 [`type[]`](../../data-types.md#type) | Список смарт-процессов, каждый из которых соответствует структуре объекта [type](../../data-types.md#type) ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 || **total**
-[`integer`][1]| Общее количество найденных записей || 
+[`integer`](../../../data-types.md)| Общее количество найденных записей || 
 |#
 
 ## Обработка ошибок
@@ -823,5 +861,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-type-fields.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
-
-[1]: ../../../data-types.md

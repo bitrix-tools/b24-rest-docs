@@ -1,0 +1,53 @@
+{
+  "$v": 1,
+  "method": "booking.v1.waitlist.delete",
+  "scope": "booking",
+  "kind": "write",
+  "title": "Удалить запись из листа ожидания booking.v1.waitlist.delete",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор записи в листе ожидания"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/booking/waitlist/booking-v1-waitlist-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1741002472.477039,
+      "finish": 1741002472.598432,
+      "duration": 0.12139296531677246,
+      "processing": 0.012734174728393555,
+      "date_start": "2025-03-03T11:47:52+00:00",
+      "date_finish": "2025-03-03T11:47:52+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/booking/waitlist/booking-v1-waitlist-delete.html",
+  "executable": false
+}

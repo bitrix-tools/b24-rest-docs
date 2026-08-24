@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Cоздание и редактирование» на нужный тип документа
+> Кто может выполнять метод: пользователь с правом «Создание и редактирование» на нужный тип документа
 
 Метод `catalog.document.add` создает новый документ складского учета. 
 
@@ -51,7 +51,7 @@
 || **siteId**
 [`char`](../../data-types.md) | Код сайта, к которому относится документ. По умолчанию — `s1`. 
 
-Параметр актуален для коробочных Битрикс, для облачных Битрикс значение стандратное — `s1` ||
+Параметр актуален для коробочных Битрикс, для облачных Битрикс значение стандартное — `s1` ||
 || **dateDocument**
 [`datetime`](../../data-types.md) | Дата проведения документа в формате ISO 8601 ||
 || **title**
@@ -316,6 +316,44 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.document.add", b24.Params{
+    	"fields": b24.Params{
+    		"docType":       "A",
+    		"currency":      "RUB",
+    		"responsibleId": 29,
+    		"docNumber":     "IN-00042",
+    		"title":         "Поступление от Поставщик-1",
+    		"commentary":    "Плановое пополнение склада",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.document.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "document".
+    raw, ok := b24.Unwrap(res.Result, "document")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа document")
+    }
+
+    var item struct {
+    	Commentary string `json:"commentary"`
+    	CreatedBy  int    `json:"createdBy"`
+    	Currency   string `json:"currency"`
+    	DateCreate string `json:"dateCreate"`
+    	DateModify string `json:"dateModify"`
+    	DateStatus string `json:"dateStatus"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Commentary, item.CreatedBy)
     ```
 
 {% endlist %}

@@ -2,6 +2,46 @@
 
 ## 2026
 
+### 20 августа, 2026
+
+- Обновили страницу [Входящие и исходящие вебхуки](./local-integrations/local-webhooks.md): добавили сценарии создания вебхуков, примеры GET-запросов для быстрой проверки методов и ограничения для рабочих интеграций
+- Добавили методы [crm.quote.contact.*](./api-reference/crm/quote/contacts/index.md) для связи контактов с коммерческим предложением
+- Добавили метод [sign.b2e.hcmlink.document.get](./api-reference/sign/sign-b2e-hcmlink-document-get.md) и событие [OnSignHcmLinkB2eDocumentSigned](./api-reference/sign/events/on-sign-hcm-link-b2e-document-signed.md) для получения подписанных документов HCM Link
+
+### 19 августа, 2026
+
+- Обновили документацию по методам [landing.role.getRights](./api-reference/landing/rights/role-model/landing-role-get-rights.md), [landing.role.setRights](./api-reference/landing/rights/role-model/landing-role-set-rights.md), [landing.role.setAccessCodes](./api-reference/landing/rights/role-model/landing-role-set-access-codes.md), [landing.role.enable](./api-reference/landing/rights/landing-role-enable.md): описали параметр `scope` и ошибку `ROLE_SCOPE_MISMATCH`
+- Обновили документацию по методам [bizproc.workflow.instances](./api-reference/bizproc/bizproc-workflow-instances.md), [bizproc.workflow.template.list](./api-reference/bizproc/template/bizproc-workflow-template-list.md), [bizproc.task.list](./api-reference/bizproc/bizproc-task/bizproc-task-list.md): описали типы фильтрации `=` и `!=`
+
+### 18 августа, 2026
+
+- Добавили туториал [Как добавить позицию в заказ с произвольной ценой](./tutorials/sale/add-basket-item-to-order.md)
+
+### 14 августа, 2026
+
+- Добавили события [onCrmTypeUserField*](./api-reference/crm/universal/userfieldconfig/events/index.md) для пользовательских полей смарт-процессов, счетов и документов на подпись
+
+### 07 августа, 2026
+
+- Добавили страницу [Интеграция КЭДО с системами кадрового учета: обзор методов](./api-reference/sign/hcm-link/index.md)
+- Добавили методы [humanresources.hcmlink.*](./api-reference/sign/hcm-link/index.md) для интеграции КЭДО с системами кадрового учета
+
+### 04 августа, 2026
+
+- Обновили туториал [Как добавить действие для создания смарт-счета на основании лида или сделки](./tutorials/bizproc/activity.md)
+- Обновили туториал [Как встроить свой UI в параметры робота](./tutorials/bizproc/setting-robot.md)
+- Обновили туториал [Как создать чат-бота для Открытых линий](./tutorials/chat-bots/open-lines-bot.md)
+- Обновили туториал [Как создать коннектор открытых линий для чата на сайте](./tutorials/openlines/example-connector.md)
+- Обновили туториал [Как сделать свою карточку редактирования контакта](./tutorials/crm/how-to-edit-crm-objects/how-to-make-contact-edit-card.md)
+- Обновили страницу [Онлайн-запись: обзор методов и событий](./api-reference/booking/index.md)
+- Обновили страницу [Бронирование: обзор методов](./api-reference/booking/booking/index.md)
+
+### 31 июля, 2026
+
+- Добавили метод [disk.file.search](./api-reference/disk/file/disk-file-search.md)
+- Обновили туториал [Как сделать свою карточку редактирования сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-deal.md)
+- Обновили туториал [Как сделать свою карточку редактирования лида](./tutorials/crm/how-to-edit-crm-objects/how-to-generate-edit-form-for-lead.md)
+
 ### 27 июля, 2026
 
 - Обновили туториал [Как создать канал поддержки через открытую линию Битрикс24 Network](./tutorials/chat-bots/support-bot.md)
@@ -58,7 +98,7 @@
 
 ### 29 июня, 2026
 
-- Обновили туториал [Как получить воронки сделок со стадиями и семантикой](./tutorials/crm/how-to-get-lists\how-to-get-deal-funnels.md)
+- Обновили туториал [Как получить воронки сделок со стадиями и семантикой](./tutorials/crm/how-to-get-lists/how-to-get-deal-funnels.md)
 
 ### 25 июня, 2026
 
@@ -1478,10 +1518,10 @@
 
 ### Август, 2024
 
-Мы полностью переделали документацию по REST API и поменяли внутренние принципы её обновления.
+Мы полностью переделали документацию по REST API и поменяли внутренние принципы ее обновления.
 
 - Все материалы переведены в формат markdown, принятый в международном сообществе разработчиков для технической документации;
-- Мы объединили отдельные существовавшие материалы и курсы в единую документацию по REST API (единственным исключением остаётся [видео-курс](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&INDEX=Y), который предназначен для быстрого ознакомления);
-- Структура материалов во многом пересмотрена. Мы постарались изложить всё обилие информации в последовательности, которая поможет решению практических вопросов. И мы продолжаем работать над улучшением структуры;
-- Многие статьи по методам, событиям и виджетам были полностью переписаны. Мы постарались сделать их как можно более понятными и при этом максимально подробными. Вместе с разработчиками Битрикс24 мы продолжаем работать над переделкой тех статей, которые пока ещё содержат неполную информацию;
+- Мы объединили отдельные существовавшие материалы и курсы в единую документацию по REST API (единственным исключением остается [видео-курс](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=266&INDEX=Y), который предназначен для быстрого ознакомления);
+- Структура материалов во многом пересмотрена. Мы постарались изложить все обилие информации в последовательности, которая поможет решению практических вопросов. И мы продолжаем работать над улучшением структуры;
+- Многие статьи по методам, событиям и виджетам были полностью переписаны. Мы постарались сделать их как можно более понятными и при этом максимально подробными. Вместе с разработчиками Битрикс24 мы продолжаем работать над переделкой тех статей, которые пока еще содержат неполную информацию;
 - Все материалы выложены на [github](https://github.com/bitrix-tools/b24-rest-docs) по MIT-лицензии. Мы надеемся на вашу помощь в улучшении документации и будем приветствовать ваши правки, статьи и примеры кода. Обещаем максимально быстро рассматривать любой pull-request и следить за issues. 

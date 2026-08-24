@@ -33,7 +33,7 @@
 
 ## Связь с другими объектами
 
-**Журнал лог-записей.** Код иконки передается в поле `fields.iconCode` метода [crm.timeline.logmessage.add](../crm-timeline-logmessage-add.md). 
+**Журнал лог-записей.** Код иконки передается в поле `fields.iconCode` метода [crm.timeline.logmessage.add](../crm-timeline-logmessage-add.md).
 
 ## Обзор методов {#all-methods}
 

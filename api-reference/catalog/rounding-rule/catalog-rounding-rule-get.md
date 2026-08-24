@@ -225,6 +225,37 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.roundingRule.get", b24.Params{
+    	"id": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.roundingRule.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "roundingRule".
+    raw, ok := b24.Unwrap(res.Result, "roundingRule")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа roundingRule")
+    }
+
+    var item struct {
+    	CatalogGroupID b24.ID `json:"catalogGroupId"`
+    	CreatedBy      int    `json:"createdBy"`
+    	DateCreate     string `json:"dateCreate"`
+    	DateModify     string `json:"dateModify"`
+    	ID             b24.ID `json:"id"`
+    	ModifiedBy     int    `json:"modifiedBy"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.CatalogGroupID, item.CreatedBy)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -300,7 +331,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-rounding-rule-add.md)
 - [{#T}](./catalog-rounding-rule-update.md)

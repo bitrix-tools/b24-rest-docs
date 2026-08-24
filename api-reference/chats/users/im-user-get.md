@@ -17,17 +17,17 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя. Если не передан, метод вернет данные текущего пользователя. 
+[`integer`](../../data-types.md) | Идентификатор пользователя. Если не передан, метод вернет данные текущего пользователя.
 
 Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.chat.user.list](../chat-users/im-chat-user-list.md) ||
 || **AVATAR_HR**
-[`string`](../../data-types.md) | Параметр для запроса поля `avatar_hr` с адресом аватара в высоком разрешении. Допустимые значения: `Y` или `N`, по умолчанию `N`. 
+[`string`](../../data-types.md) | Параметр для запроса поля `avatar_hr` с адресом аватара в высоком разрешении. Допустимые значения: `Y` или `N`, по умолчанию `N`.
 
 На текущий момент поле `avatar_hr` возвращается всегда, независимо от значения параметра ||
 |#
@@ -252,11 +252,38 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.user.get", b24.Params{
+    	"ID":        5,
+    	"AVATAR_HR": "Y",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.user.get: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Active       bool   `json:"active"`
+    	Name         string `json:"name"`
+    	FirstName    string `json:"first_name"`
+    	LastName     string `json:"last_name"`
+    	WorkPosition string `json:"work_position"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Active)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -307,20 +334,20 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с данными пользователя. 
+[`object`](../../data-types.md) | Объект с данными пользователя.
 
 Структура объекта подробно описана [ниже](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект result {#result-object}
+#### Объект result {#result-object}
 
 #|
 || **Название**
@@ -388,6 +415,8 @@ HTTP-код: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **work_phone**
+[`string`](../../data-types.md) | Рабочий телефон ||
 || **personal_mobile**
 [`string`](../../data-types.md) | Мобильный телефон ||
 || **inner_phone**
@@ -405,7 +434,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

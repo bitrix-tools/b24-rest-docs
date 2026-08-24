@@ -103,7 +103,7 @@ RIGHTS: {
 
 ### Параметр FIELDS {#parametr-fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -115,7 +115,7 @@ RIGHTS: {
 || **SORT**
 [`integer`](../../data-types.md) | Сортировка ||
 || **PICTURE**
-[`array`](../../data-types.md) | Картинка. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате [base64](../../files/how-to-update-files.md#kak-kodirovat-fajl-v-base64) ||
+[`array`](../../data-types.md) | Картинка. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате [base64](../../files/how-to-upload-files.md#kak-kodirovat-fajl-v-base64) ||
 || **BIZPROC**
 [`string`](../../data-types.md) | Включение поддержки бизнес-процессов. Возможные значения:
 - `Y` — да
@@ -436,6 +436,46 @@ RIGHTS: {
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.update", b24.Params{
+    	"IBLOCK_TYPE_ID": "lists",
+    	"IBLOCK_ID":      109,
+    	"FIELDS": b24.Params{
+    		"NAME":        "Обновленный список задач",
+    		"DESCRIPTION": "Обновленное описание: список для управления ежедневными задачами",
+    		"SORT":        600,
+    		"BIZPROC":     "N",
+    	},
+    	"MESSAGES": b24.Params{
+    		"ELEMENTS_NAME":  "Пункты",
+    		"ELEMENT_NAME":   "Пункт",
+    		"ELEMENT_ADD":    "Создать пункт",
+    		"ELEMENT_EDIT":   "Редактировать пункт",
+    		"ELEMENT_DELETE": "Удалить пункт",
+    		"SECTIONS_NAME":  "Категории",
+    		"SECTION_NAME":   "Категория",
+    		"SECTION_ADD":    "Добавить категорию",
+    		"SECTION_EDIT":   "Редактировать категорию",
+    		"SECTION_DELETE": "Удалить категорию",
+    	},
+    	"RIGHTS": b24.Params{
+    		"D15": "W",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("lists.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

@@ -269,6 +269,41 @@
     print_r($result);
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.productPropertyFeature.add", b24.Params{
+    	"fields": b24.Params{
+    		"propertyId": 901,
+    		"moduleId":   "iblock",
+    		"featureId":  "LIST_PAGE_SHOW",
+    		"isEnabled":  "Y",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.productPropertyFeature.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "productPropertyFeature".
+    raw, ok := b24.Unwrap(res.Result, "productPropertyFeature")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа productPropertyFeature")
+    }
+
+    var item struct {
+    	FeatureID  string `json:"featureId"`
+    	ID         b24.ID `json:"id"`
+    	IsEnabled  string `json:"isEnabled"`
+    	ModuleID   string `json:"moduleId"`
+    	PropertyID b24.ID `json:"propertyId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.FeatureID, item.ID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -557,6 +557,85 @@ fields:
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.configurable.update", b24.Params{
+    	"id": 999,
+    	"fields": b24.Params{
+    		"typeId":            "CONFIGURABLE",
+    		"completed":         false,
+    		"deadline":          "**put_current_date_time_here**",
+    		"pingOffsets":       []int{300},
+    		"isIncomingChannel": "Y",
+    		"responsibleId":     5,
+    		"badgeCode":         "CUSTOM",
+    	},
+    	"layout": b24.Params{
+    		"icon": b24.Params{
+    			"code": "call-completed",
+    		},
+    		"header": b24.Params{
+    			"title": "Входящий звонок",
+    		},
+    		"body": b24.Params{
+    			"logo": b24.Params{
+    				"code": "call-incoming",
+    			},
+    			"blocks": b24.Params{
+    				"responsible": b24.Params{
+    					"type": "lineOfBlocks",
+    					"properties": b24.Params{
+    						"blocks": b24.Params{
+    							"client": b24.Params{
+    								"type": "link",
+    								"properties": b24.Params{
+    									"text": "Сергей Востриков",
+    									"bold": true,
+    									"action": b24.Params{
+    										"type": "redirect",
+    										"uri":  "/crm/lead/details/789/",
+    									},
+    								},
+    							},
+    							"phone": b24.Params{
+    								"type": "text",
+    								"properties": b24.Params{
+    									"value": "+7 999 888 7777",
+    								},
+    							},
+    						},
+    					},
+    				},
+    			},
+    		},
+    		"footer": b24.Params{
+    			"buttons": b24.Params{
+    				"startCall": b24.Params{
+    					"title": "О клиенте",
+    					"action": b24.Params{
+    						"type": "openRestApp",
+    						"actionParams": b24.Params{
+    							"clientId": 456,
+    						},
+    					},
+    					"type": "primary",
+    				},
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.activity.configurable.update: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

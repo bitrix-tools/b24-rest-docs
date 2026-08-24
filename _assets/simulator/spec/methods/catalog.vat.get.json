@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "catalog.vat.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить значения полей ставки НДС catalog.vat.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "catalog_vat.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор ставки НДС"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/vat/catalog-vat-get.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "vat",
+      "type": "catalog_vat",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией о ставке НДС с заданным идентификатором"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/vat/catalog-vat-get.html",
+  "executable": false,
+  "entityFields": [
+    "active",
+    "name",
+    "rate",
+    "sort"
+  ]
+}

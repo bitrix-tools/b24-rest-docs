@@ -37,7 +37,7 @@
 
 Идентификатор блока можно получить методом [landing.block.getlist](./landing-block-get-list.md) с параметром `params.edit_mode = 1` ||
 || **selector***
-[`string`](../../../data-types.md) | Селектор карточки из [ключа cards манифеста блока](../manifest.md#ключ-cards).
+[`string`](../../../data-types.md) | Селектор карточки из [ключа cards манифеста блока](../manifest.md#cards).
 
 После селектора можно указать позицию через `@<индекс>`. `@0` копирует первую найденную карточку, `@2` — третью.
 
@@ -258,6 +258,26 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.clonecard", b24.Params{
+    	"lid":      351,
+    	"block":    6428,
+    	"selector": ".landing-block-card@0",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.clonecard: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

@@ -1,9 +1,5 @@
 # Воронки CRM: обзор методов
 
-Методы `crm.category.*` управляют воронками CRM-объектов, которые поддерживают категории: создают новые воронки, изменяют настройки, получают данные по `id` или список воронок, удаляют воронку и возвращают состав полей.
-
-Воронки используют, чтобы разделить работу по отделам или типам продаж. Чаще всего их настраивают для сделок и смарт-процессов. Например, чтобы добавить сделку в конкретную воронку, получают `id` воронки методом [crm.category.list](./crm-category-list.md) и передают его как `categoryId` в [crm.item.add](../crm-item-add.md).
-
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
@@ -13,25 +9,36 @@
 
 {% endnote %}
 
+Методы `crm.category.*` управляют воронками. Воронка — это отдельная ветка работы с объектом CRM со своим набором стадий и своими настройками карточки.
+
+Воронки используют, чтобы разделить работу по отделам или типам продаж. Чаще всего их настраивают для сделок и смарт-процессов. Например, чтобы добавить сделку в конкретную воронку, получают `id` воронки методом [crm.category.list](./crm-category-list.md) и передают его как `categoryId` в [crm.item.add](../crm-item-add.md).
+
 > Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Воронки продаж: как в CRM разделить работу по отделам](https://helpdesk.bitrix24.ru/open/20732764/)
 
+## Какие объекты поддерживают воронки
+
+Объект, для которого нужна воронка, задается параметром `entityTypeId`. Воронки поддерживают не все объекты CRM.
+
+#|
+|| **Объект** | **`entityTypeId`** ||
+|| Сделка | `2` ||
+|| Контакт | `3` ||
+|| Компания | `4` ||
+|| Счет | `31` ||
+|| Смарт-процесс | от `128` ||
+|#
+
+Идентификатор смарт-процесса возвращает метод [crm.type.list](../user-defined-object-types/crm-type-list.md), полная таблица типов — в справочнике [типов объектов CRM](../../data-types.md#object_type). Для объекта без поддержки воронок, например лида, методы `crm.category.*` вернут ошибку `ENTITY_TYPE_NOT_SUPPORTED`.
+
 ## Как начать работу
 
-1. Создайте воронку методом [crm.category.add](./crm-category-add.md)
-
-2. Привяжите воронку к нужному CRM-объекту в методах [crm.item.add](../crm-item-add.md) или [crm.item.update](../crm-item-update.md), передав `id` воронки как `categoryId`
-
-3. Чтобы проверить настройки конкретной воронки, получите ее данные по `id` методом [crm.category.get](./crm-category-get.md)
-
-4. Если нужно изменить параметры воронки, используйте метод [crm.category.update](./crm-category-update.md)
-
-5. Получить список воронок помогает метод [crm.category.list](./crm-category-list.md)
-
-6. Состав доступных полей возвращает метод [crm.category.fields](./crm-category-fields.md)
-
-7. Для удаления воронки используйте метод [crm.category.delete](./crm-category-delete.md)
+1. Определите `entityTypeId` объекта, для которого нужна воронка.
+2. Создайте воронку методом [crm.category.add](./crm-category-add.md) или найдите подходящую среди существующих методом [crm.category.list](./crm-category-list.md).
+3. Настройте стадии новой воронки группой методов [crm.status.*](../../status/index.md): у каждой воронки свой справочник стадий.
+4. Привяжите элемент к воронке: передайте `id` воронки как `categoryId` в метод [crm.item.add](../crm-item-add.md) или [crm.item.update](../crm-item-update.md).
+5. При необходимости настройте вид карточки для этой воронки группой методов [crm.item.details.configuration.*](../item-details-configuration/index.md).
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -56,7 +63,7 @@
 
 **Смарт-процессы.** Воронки в смарт-процессе работают, если у типа объекта включена опция `isCategoriesEnabled`. Проверить настройку и получить `entityTypeId` смарт-процесса можно методом [crm.type.list](../user-defined-object-types/crm-type-list.md).
 
-**Стадии.** Каждая воронка определяет свой справочник стадий с уникальным `ENTITY_ID`. Для работы со стадиями используйте методы раздела [Справочники в CRM](../../status/index.md). Идентификаторы справочников возвращает метод [crm.status.entity.types](../../status/crm-status-entity-types.md).
+**Стадии.** Каждая воронка определяет свой справочник стадий с уникальным `ENTITY_ID`. Со стадиями работает группа методов [crm.status.*](../../status/index.md). Идентификаторы справочников возвращает метод [crm.status.entity.types](../../status/crm-status-entity-types.md).
 
 **Карточки сделок.** Настройки карточек сделок зависят от воронки. Чтобы настроить карточку для конкретной воронки, передайте `id` воронки как `dealCategoryId` в методах [crm.deal.details.configuration.get](../../deals/custom-form/crm-deal-details-configuration-get.md) и [crm.deal.details.configuration.set](../../deals/custom-form/crm-deal-details-configuration-set.md).
 
@@ -75,3 +82,9 @@
 || [crm.category.delete](./crm-category-delete.md) | Удаляет воронку ||
 || [crm.category.fields](./crm-category-fields.md) | Возвращает описание полей воронки ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../index.md)
+- [{#T}](../../status/index.md)
+- [{#T}](../user-defined-object-types/index.md)

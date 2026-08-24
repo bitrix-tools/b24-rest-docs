@@ -10,8 +10,8 @@
 {% endnote %}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
-> 
-> Кто может выполнять метод: Администратор
+>
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
 {% note warning "DEPRECATED" %}
 
@@ -125,17 +125,17 @@
                 'crm.contact.details.configuration.forceCommonScopeForAll',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
             echo 'Data: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.contact.details.configuration.forceCommonScopeForAll: ' . $e->getMessage();
@@ -169,6 +169,22 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.contact.details.configuration.forceCommonScopeForAll", nil)
+    if err != nil {
+    	return fmt.Errorf("crm.contact.details.configuration.forceCommonScopeForAll: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}
@@ -229,7 +245,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-contact-details-configuration-get.md)

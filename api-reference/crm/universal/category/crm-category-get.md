@@ -17,15 +17,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`][1] | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объекта CRM у которого мы желаем получить воронку ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объекта CRM у которого мы желаем получить воронку ||
 || **id***
-[`integer`][1] | Идентификатор воронки. Можно получить методом [`crm.category.list`](./crm-category-list.md) или при создании воронки методом [`crm.category.add`](./crm-category-add.md) ||
+[`integer`](../../../data-types.md) | Идентификатор воронки. Можно получить методом [`crm.category.list`](./crm-category-list.md) или при создании воронки методом [`crm.category.add`](./crm-category-add.md) ||
 |#
 
 ## Примеры кода
@@ -239,6 +239,38 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.category.get", b24.Params{
+    	"entityTypeId": 2,
+    	"id":           1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.category.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "category".
+    raw, ok := b24.Unwrap(res.Result, "category")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа category")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	Sort         int    `json:"sort"`
+    	EntityTypeID b24.ID `json:"entityTypeId"`
+    	IsDefault    string `json:"isDefault"`
+    	OriginID     string `json:"originId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -276,9 +308,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа. Содержит объект [`category`](./crm-category-add.md#category) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`category`](./crm-category-add.md#category) ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -313,5 +345,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-category-list.md)
 - [{#T}](./crm-category-delete.md)
 - [{#T}](./crm-category-fields.md)
-
-[1]: ../../../data-types.md

@@ -1,4 +1,4 @@
-# Получить список блоков страницы `landing.block.getlist`
+# Получить список блоков страницы landing.block.getlist
 
 {% note tip "" %}
 
@@ -309,6 +309,37 @@
         echo '<pre>';
         print_r($result['result']);
         echo '</pre>';
+    }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.getlist", b24.Params{
+    	"lid": 4858,
+    	"params": b24.Params{
+    		"edit_mode":   true,
+    		"get_content": true,
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("landing.block.getlist: %w", err)
+    }
+
+    var items []struct {
+    	ID      b24.ID `json:"id"`
+    	Lid     int    `json:"lid"`
+    	Code    string `json:"code"`
+    	Name    string `json:"name"`
+    	Active  bool   `json:"active"`
+    	Content string `json:"content"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Lid)
     }
     ```
 

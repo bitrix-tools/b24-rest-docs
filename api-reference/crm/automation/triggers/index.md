@@ -59,7 +59,7 @@
 
 **Объекты CRM.** В методе [crm.automation.trigger.execute](./crm-automation-trigger-execute.md) параметры `OWNER_TYPE_ID` и `OWNER_ID` определяют тип объекта CRM и конкретный объект для запуска триггера. Значение `OWNER_TYPE_ID` можно получить методом [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md). Идентификатор `OWNER_ID` получают универсальным методом [crm.item.list](../../universal/crm-item-list.md).
 
-## Обзор методов  {#all-methods}
+## Обзор методов {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >

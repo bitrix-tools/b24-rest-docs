@@ -1,0 +1,217 @@
+{
+  "$v": 1,
+  "method": "sale.shipment.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Обновить отгрузку sale.shipment.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_shipment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор отгрузки"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей для обновления отгрузки",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "allowDelivery",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Признак разрешения доставки. Возможные значения: - Y – да (доставка разрешена) - N – нет (доставка не разрешена)"
+        },
+        {
+          "name": "deducted",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Признак того, является ли отгрузка отгруженной. Возможные значения: - Y – да (отгружена) - N – нет (не отгружена)"
+        },
+        {
+          "name": "deliveryId",
+          "type": "sale_delivery_service",
+          "base": "any",
+          "required": true,
+          "description": "Идентификатор службы доставки"
+        },
+        {
+          "name": "statusId",
+          "type": "sale_status",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор статуса доставки. Если не передан, то используется статус DN (см. таблицу статусов по умолчанию из документации по sale.status.*)"
+        },
+        {
+          "name": "deliveryDocDate",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата документа отгрузки"
+        },
+        {
+          "name": "deliveryDocNum",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Номер документа отгрузки"
+        },
+        {
+          "name": "trackingNumber",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор отправления"
+        },
+        {
+          "name": "basePriceDelivery",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Базовая стоимость доставки (без скидок / наценок). Если передана, то используется и для выставления значения priceDelivery. Переданное значение priceDelivery в этом случае игнорируется. Если не передана ни basePriceDelivery, ни priceDelivery, то обе цены выставляются в 0"
+        },
+        {
+          "name": "priceDelivery",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Стоимость доставки. Если передана и не выставлена basePriceDelivery, то используется и для выставления значения basePriceDelivery. Если не передана ни basePriceDelivery, ни priceDelivery, то обе цены выставляются в 0"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий менеджера"
+        },
+        {
+          "name": "companyId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании из модуля «Интернет-магазин». В настоящий момент не используется"
+        },
+        {
+          "name": "responsibleId",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя ответственного за отгрузку"
+        },
+        {
+          "name": "xmlId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний идентификатор отгрузки. Можно использовать для синхронизации отгрузки с внешней системой"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/shipment/sale-shipment-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "shipment": {
+        "accountNumber": "2068/19",
+        "allowDelivery": "N",
+        "basePriceDelivery": 1999.99,
+        "canceled": "N",
+        "comments": "My new comment for manager",
+        "companyId": null,
+        "currency": "RUB",
+        "customPriceDelivery": "N",
+        "dateAllowDelivery": "2024-04-12T10:01:23+03:00",
+        "dateCanceled": null,
+        "dateDeducted": "2024-04-12T10:01:23+03:00",
+        "dateInsert": "2024-04-11T14:17:52+03:00",
+        "dateMarked": null,
+        "dateResponsibleId": "2024-04-12T10:01:23+03:00",
+        "deducted": "N",
+        "deliveryDocDate": "2024-02-13T14:05:49+03:00",
+        "deliveryDocNum": "MyDocumentNumber",
+        "deliveryId": 3,
+        "deliveryName": "Самовывоз",
+        "deliveryXmlId": "",
+        "discountPrice": 0,
+        "empAllowDeliveryId": 1,
+        "empCanceledId": null,
+        "empDeductedId": 1,
+        "empMarkedId": null,
+        "empResponsibleId": 1,
+        "externalDelivery": "N",
+        "id": 2452,
+        "id1c": "",
+        "marked": "N",
+        "orderId": 2068,
+        "priceDelivery": 1999.99,
+        "reasonMarked": "",
+        "reasonUndoDeducted": "",
+        "responsibleId": 1,
+        "shipmentItems": [],
+        "statusId": "DD",
+        "statusXmlId": "",
+        "system": "N",
+        "trackingDescription": "",
+        "trackingLastCheck": "",
+        "trackingNumber": "MyTrackingNumber",
+        "trackingStatus": "",
+        "updated1c": "N",
+        "version1c": "",
+        "xmlId": "myNewXmlId"
+      }
+    },
+    "time": {
+      "start": 1712928678.417617,
+      "finish": 1712928679.68092,
+      "duration": 1.2633028030395508,
+      "processing": 1.0808379650115967,
+      "date_start": "2024-04-12T16:31:18+03:00",
+      "date_finish": "2024-04-12T16:31:19+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "shipment",
+      "type": "sale_order_shipment",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленной отгрузке"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/shipment/sale-shipment-update.html",
+  "executable": false
+}

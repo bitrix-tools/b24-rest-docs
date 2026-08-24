@@ -13,19 +13,19 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.get` возвращает список уведомлений пользователя частями. Следующая часть запрашивается через `LAST_ID` и `LAST_TYPE`. 
+Метод `im.notify.get` возвращает список уведомлений пользователя частями. Следующая часть запрашивается через `LAST_ID` и `LAST_TYPE`.
 
-Сортировка уведомлений: сначала по убыванию даты создания, затем по убыванию идентификаторов. 
+Сортировка уведомлений: сначала по убыванию даты создания, затем по убыванию идентификаторов.
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **LAST_ID**
-[`integer`](../../data-types.md) | Идентификатор последнего уведомления предыдущей страницы для загрузки следующей. Обычно берется из поля `id` последнего элемента массива `notifications` в ответе предыдущего шага выборки или в ответе [im.notify.history.search](./im-notify-history-search.md) 
+[`integer`](../../data-types.md) | Идентификатор последнего уведомления предыдущей страницы для загрузки следующей. Обычно берется из поля `id` последнего элемента массива `notifications` в ответе предыдущего шага выборки или в ответе [im.notify.history.search](./im-notify-history-search.md)
 
 Идентификатор уведомления также возвращают методы [im.notify](./im-notify.md), [im.notify.personal.add](./im-notify-personal-add.md) и [im.notify.system.add](./im-notify-system-add.md).
 
@@ -33,7 +33,7 @@
 || **LAST_TYPE**
 [`integer`](../../data-types.md) | Технический курсор пагинации.
 
-Допустимые значения: 
+Допустимые значения:
 - `1` — продолжить выборку с этапа подтверждений
 - `3` — продолжить выборку с этапа обычных уведомлений
 
@@ -309,11 +309,37 @@
         var_dump($result['result']);
     }
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.notify.get", b24.Params{
+    	"LAST_ID":      1500,
+    	"LAST_TYPE":    3,
+    	"LIMIT":        20,
+    	"CONVERT_TEXT": "Y",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.notify.get: %w", err)
+    }
+
+    var item struct {
+    	TotalCount       int `json:"total_count"`
+    	TotalUnreadCount int `json:"total_unread_count"`
+    	ChatID           int `json:"chat_id"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.TotalCount, item.TotalUnreadCount)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -388,24 +414,24 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с данными уведомлений. 
+[`object`](../../data-types.md) | Объект с данными уведомлений.
 
 Структура объекта подробно описана [ниже](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект result {#result-object}
+#### Объект result {#result-object}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **total_count**
 [`integer`](../../data-types.md) | Общее количество уведомлений ||
 || **total_unread_count**
@@ -413,7 +439,7 @@ HTTP-код: **200**
 || **chat_id**
 [`integer`](../../data-types.md) | Идентификатор системного чата уведомлений ||
 || **notifications**
-[`array`](../../data-types.md) | Список уведомлений. 
+[`array`](../../data-types.md) | Список уведомлений.
 
 Структура объекта подробно описана [ниже](#notification-object) ||
 || **users**
@@ -428,7 +454,7 @@ HTTP-код: **200**
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор уведомления ||
 || **chat_id**
@@ -458,7 +484,7 @@ HTTP-код: **200**
 || **notify_buttons**
 [`string`](../../data-types.md) | JSON клавиатуры для уведомлений типа подтверждения. Поле присутствует не всегда ||
 || **params**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`null`](../../data-types.md) | Дополнительные параметры уведомления ||
 |#
 
@@ -530,6 +556,8 @@ HTTP-код: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **work_phone**
+[`string`](../../data-types.md) | Рабочий телефон ||
 || **personal_mobile**
 [`string`](../../data-types.md) | Мобильный телефон ||
 || **inner_phone**
@@ -547,7 +575,7 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 

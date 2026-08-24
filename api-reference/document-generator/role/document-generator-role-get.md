@@ -223,6 +223,34 @@
   print_r($result);
   ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "documentgenerator.role.get", b24.Params{
+    	"id": 9,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("documentgenerator.role.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "role".
+    raw, ok := b24.Unwrap(res.Result, "role")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа role")
+    }
+
+    var item struct {
+    	ID   b24.ID `json:"id"`
+    	Name string `json:"name"`
+    	Code string `json:"code"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

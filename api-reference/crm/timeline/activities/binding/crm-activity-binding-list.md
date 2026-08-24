@@ -232,6 +232,36 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.activity.binding.list", b24.Params{
+    	"activityId": 999,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.activity.binding.list: %w", err)
+    }
+
+    var items []struct {
+    	EntityTypeID b24.ID `json:"entityTypeId"`
+    	EntityID     b24.ID `json:"entityId"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.EntityTypeID, it.EntityID)
+    }
+
+    // Total и Next заполняют списочные методы; для полного
+    // обхода списка есть client.Core().Pages и Scan.
+    if res.Total != nil {
+    	fmt.Println("всего:", *res.Total)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

@@ -15,7 +15,7 @@
 > - любой пользователь для стадий «Моего плана»
 > - любой пользователь с доступом к группе для стадий канбана
 
-Метод проверяет, может ли текущий пользователь перемещать задачи в указанном объекте.
+Метод `task.stages.canmovetask` проверяет, может ли текущий пользователь перемещать задачи в указанном объекте.
 
 ## Параметры метода
 
@@ -231,6 +231,25 @@
     } else {
         print_r($result['result']);
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "task.stages.canmovetask", b24.Params{
+    	"entityId":   1,
+    	"entityType": "U",
+    })
+    if err != nil {
+    	return fmt.Errorf("task.stages.canmovetask: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "entity.item.delete",
+  "scope": "entity",
+  "kind": "write",
+  "title": "Удалить элемент хранилища entity.item.delete",
+  "permissions": "пользователь с уровнем права W (запись) или X (управление) на хранилище данных",
+  "params": [
+    {
+      "name": "ENTITY",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Идентификатор хранилища данных приложения. Используйте значение, которое указали при создании хранилища. Получить идентификатор можно методом entity.get"
+    },
+    {
+      "name": "ID",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор элемента хранилища, который нужно удалить. Получить идентификатор элемента хранилища можно методом entity.item.get"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/entity/items/entity-item-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774437630,
+      "finish": 1774437631.335014,
+      "duration": 1.3350141048431396,
+      "processing": 1,
+      "date_start": "2026-03-25T14:20:30+03:00",
+      "date_finish": "2026-03-25T14:20:31+03:00",
+      "operating_reset_at": 1774438230,
+      "operating": 0.5981030464172363
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат удаления элемента (true — успешно)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/entity/items/entity-item-delete.html",
+  "executable": false
+}

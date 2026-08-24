@@ -1,0 +1,245 @@
+{
+  "$v": 1,
+  "method": "tasks.flow.Flow.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить поток tasks.flow.Flow.get",
+  "permissions": "команда потока; пользователь, который может ставить задачи в поток",
+  "params": [
+    {
+      "name": "flowId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор потока, данные которого нужно получить. Получить идентификатор можно методом создания нового потока tasks.flow.Flow.create или методом получения задачи tasks.task.get для задачи из потока"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/flow/tasks-flow-flow-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 517,
+      "creatorId": 1,
+      "ownerId": 1,
+      "groupId": 178,
+      "templateId": 0,
+      "efficiency": 0,
+      "active": true,
+      "plannedCompletionTime": 7200,
+      "activity": "2024-09-02T15:27:29+00:00",
+      "name": "Updated Flow Name",
+      "description": "Updated description",
+      "distributionType": "manually",
+      "responsibleList": [
+        [
+          "user",
+          "3"
+        ]
+      ],
+      "demo": false,
+      "responsibleCanChangeDeadline": true,
+      "matchWorkTime": true,
+      "taskControl": false,
+      "notifyAtHalfTime": false,
+      "notifyOnQueueOverflow": 10,
+      "notifyOnTasksInProgressOverflow": 50,
+      "notifyWhenEfficiencyDecreases": null,
+      "taskCreators": [
+        [
+          "meta-user",
+          "all-users"
+        ]
+      ],
+      "team": [
+        [
+          "user",
+          "3"
+        ]
+      ],
+      "trialFeatureEnabled": false
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными потока"
+    },
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор потока"
+    },
+    {
+      "name": "creatorId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор создателя потока. Только для чтения"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор администратора потока"
+    },
+    {
+      "name": "groupId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор группы, к которой привязан поток"
+    },
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор шаблона, по которому создаются задачи в потоке"
+    },
+    {
+      "name": "efficiency",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Эффективность потока в процентах. Только для чтения"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Статус активности потока"
+    },
+    {
+      "name": "plannedCompletionTime",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Планируемое время выполнения задачи в секундах"
+    },
+    {
+      "name": "activity",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Дата и время последней активности в потоке. Только для чтения"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Название потока"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Описание потока"
+    },
+    {
+      "name": "distributionType",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Тип распределения задач в потоке"
+    },
+    {
+      "name": "responsibleList",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список ответственных за задачи в потоке. Для ручного распределения это модератор потока"
+    },
+    {
+      "name": "demo",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Является ли поток демонстрационным. Системный параметр. Только для чтения"
+    },
+    {
+      "name": "responsibleCanChangeDeadline",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Может ли ответственный менять дедлайн задачи"
+    },
+    {
+      "name": "matchWorkTime",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Пропускать ли выходные и праздничные дни при расчете крайнего срока задачи"
+    },
+    {
+      "name": "taskControl",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Отправлять ли выполненную задачу постановщику для проверки"
+    },
+    {
+      "name": "notifyAtHalfTime",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Уведомлять ли исполнителя на половине срока задачи"
+    },
+    {
+      "name": "notifyOnQueueOverflow",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество задач в очереди, при превышении которого будет отправлено уведомление администратору потока (если null, то уведомления выключены)"
+    },
+    {
+      "name": "notifyOnTasksInProgressOverflow",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество задач в работе, при превышении которого будет отправлено уведомление администратору потока (если null, то уведомления выключены)"
+    },
+    {
+      "name": "notifyWhenEfficiencyDecreases",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Эффективность в процентах, при снижении до которой будет отправлено уведомление администратору потока (если null, то уведомления выключены)"
+    },
+    {
+      "name": "taskCreators",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Список пользователей, которые могут добавлять задачи в поток в формате {\"<тип-объекта>\": \"<идентификатор-объекта>\"}. Например, [{\"user\": 3}, {\"department\": \"17:F\"}]. Элемент {\"meta-user\": \"all-users\"} означает, что задачи могут добавлять все пользователи"
+    },
+    {
+      "name": "team",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Команда потока. Для ручного распределения это все участники проекта, к которому привязан поток, кроме модератора. Для распределения по очереди и самостоятельного распределения команда та же, что и в responsibleList"
+    },
+    {
+      "name": "trialFeatureEnabled",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Включен ли демонстрационный период для потока. Системный параметр. Только для чтения"
+    }
+  ],
+  "page": "/api-reference/tasks/flow/tasks-flow-flow-get.html",
+  "executable": false
+}

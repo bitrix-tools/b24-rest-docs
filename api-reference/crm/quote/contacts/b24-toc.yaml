@@ -1,0 +1,17 @@
+title: Контакты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить контакт
+    href: crm-quote-contact-add.md
+  - name: Удалить контакт
+    href: crm-quote-contact-delete.md
+  - name: Получить набор контактов
+    href: crm-quote-contact-items-get.md
+  - name: Установить набор контактов
+    href: crm-quote-contact-items-set.md
+  - name: Удалить набор контактов
+    href: crm-quote-contact-items-delete.md
+  - name: Получить поля связи
+    href: crm-quote-contact-fields.md

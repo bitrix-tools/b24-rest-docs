@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -231,6 +231,27 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.add", b24.Params{
+    	"botId":    456,
+    	"botToken": "my_bot_token",
+    	"fields": b24.Params{
+    		"title":   "Support Chat",
+    		"color":   "mint",
+    		"userIds": []int{1, 2},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.add: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -371,15 +392,15 @@ HTTP-статус: **200**
 || **owner**
 [`integer`](../../../../data-types.md) | ID владельца чата ||
 || **color**
-[`string\|null`](../../../../data-types.md) | Цвет чата в формате HEX ||
+[```string|null```](../../../../data-types.md) | Цвет чата в формате HEX ||
 || **avatar**
 [`string`](../../../../data-types.md) | URL аватара чата. Пустая строка, если не установлен ||
 || **role**
 [`string`](../../../../data-types.md) | Роль текущего пользователя: `owner`, `manager`, `member`, `guest`, `none` ||
 || **dateCreate**
-[`string\|null`](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
+[```string|null```](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
 || **lastMessageId**
-[`integer\|null`](../../../../data-types.md) | ID последнего сообщения ||
+[```integer|null```](../../../../data-types.md) | ID последнего сообщения ||
 || **muteList**
 [`array`](../../../../data-types.md) | Список ID пользователей, отключивших уведомления ||
 || **managerList**

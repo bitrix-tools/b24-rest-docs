@@ -1,0 +1,113 @@
+{
+  "$v": 1,
+  "method": "timeman.record.list",
+  "scope": "timeman",
+  "kind": "read",
+  "title": "Получить список записей о рабочем времени timeman.record.list",
+  "permissions": "пользователь с правом «Чтение в соответствии с настройками субординации» или «Чтение всех записей»",
+  "params": [
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Условия фильтрации записей в формате: - [\"field\", \"operator\", value] - [\"field\", value], оператор по умолчанию = Обязателен параметр userId. Доступные поля: - userId — идентификатор сотрудника - startTime — время начала рабочего интервала Для startTime поддерживаются операторы =, >, >=, <, <=, between. Подробнее о работе фильтрации в REST 3.0",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Список полей, которые нужно вернуть в ответе. Доступные поля: - id — идентификатор записи - userId — идентификатор сотрудника - startTime — время начала рабочего интервала - endTime — время завершения рабочего интервала - duration — длительность рабочего интервала в секундах - breakLength — длительность перерывов в секундах - state — состояние записи - isApproved — признак подтверждения записи",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Сортировка результатов в формате { \"field\": \"value\" }. Доступные значения: - ASC — по возрастанию - DESC — по убыванию Доступные поля для сортировки: - id — идентификатор записи - userId — идентификатор сотрудника - startTime — время начала рабочего интервала - endTime — время завершения рабочего интервала - duration — длительность рабочего интервала в секундах",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры постраничной навигации: - page — номер страницы - limit — количество записей на страницу, по умолчанию 50 - offset — смещение записей. Если переданы page и limit, смещение вычисляется автоматически",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/timeman/record/timeman-record-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "id": 177,
+          "startTime": "2026-06-02T17:38:24+03:00",
+          "endTime": "2026-06-02T17:39:06+03:00",
+          "duration": 28
+        }
+      ]
+    },
+    "time": {
+      "start": 1780411219,
+      "finish": 1780411219.167315,
+      "duration": 0.16731500625610352,
+      "processing": 0,
+      "date_start": "2026-06-02T17:40:19+03:00",
+      "date_finish": "2026-06-02T17:40:19+03:00",
+      "operating_reset_at": 1780411819,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив объектов с записями. Структура ответа зависит от select"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/timeman/record/timeman-record-list.html",
+  "executable": false,
+  "entityFields": [
+    "duration",
+    "endTime",
+    "id",
+    "startTime"
+  ]
+}

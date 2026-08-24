@@ -1,0 +1,111 @@
+{
+  "$v": 1,
+  "method": "task.checklistitem.get",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить пункт чек-листа task.checklistitem.get",
+  "permissions": "любой пользователь с правом доступа на чтение задачи или выше",
+  "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор можно получить при создании задачи или методом получения списка задач"
+    },
+    {
+      "name": "ITEMID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта можно получить при добавлении нового пункта или методом получения списка пунктов чек-листа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/checklist-item/task-checklist-item-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": "495",
+      "TASK_ID": "8017",
+      "PARENT_ID": "457",
+      "CREATED_BY": "503",
+      "TITLE": "Подготовить отчет Андрей Сергеев Светлана Иванова Андрей Карпов",
+      "SORT_INDEX": "4",
+      "IS_COMPLETE": "N",
+      "IS_IMPORTANT": "Y",
+      "TOGGLED_BY": null,
+      "TOGGLED_DATE": "",
+      "MEMBERS": [
+        {
+          "ID": "3",
+          "TYPE": "U",
+          "NAME": "Андрей Карпов",
+          "PERSONAL_PHOTO": "249",
+          "PERSONAL_GENDER": "M",
+          "IMAGE": "https://mysite.ru/b17053/resize_cache/249/c0120a8d7c10d63c83e32398d1ec4d9e/main/cd526b0644e7ff4d794ea41cb36bc423/odmin.png",
+          "IS_COLLABER": false
+        },
+        {
+          "ID": "11",
+          "TYPE": "U",
+          "NAME": "Андрей Сергеев",
+          "PERSONAL_PHOTO": "231",
+          "PERSONAL_GENDER": "M",
+          "IMAGE": "https://mysite.ru/b17053/resize_cache/231/c0120a8d7c10d63c83e32398d1ec4d9e/main/026bf59e161a0bd50f401d3796800651/66b.jpg",
+          "IS_COLLABER": false
+        },
+        {
+          "ID": "103",
+          "TYPE": "A",
+          "NAME": "Светлана Иванова",
+          "PERSONAL_PHOTO": "8644",
+          "PERSONAL_GENDER": "F",
+          "IMAGE": "https://mysite.ru/b17053/resize_cache/8644/c0120a8d7c10d63c83e32398d1ec4d9e/main/45f/45fff10d17d398a5583184c8350cd197/buh.jpg",
+          "IS_COLLABER": false
+        }
+      ],
+      "ATTACHMENTS": {
+        "1111": {
+          "ATTACHMENT_ID": 1111,
+          "NAME": "Счет для клиента.pdf",
+          "SIZE": "148238",
+          "FILE_ID": "989",
+          "DOWNLOAD_URL": "/bitrix/tools/disk/uf.php?attachedId=1111&action=download&ncc=1",
+          "VIEW_URL": "/bitrix/tools/disk/uf.php?attachedId=1111&action=show&ncc=1"
+        }
+      }
+    },
+    "time": {
+      "start": 1762755387,
+      "finish": 1762755387.104804,
+      "duration": 0.10480403900146484,
+      "processing": 0,
+      "date_start": "2025-11-10T09:16:27+03:00",
+      "date_finish": "2025-11-10T09:16:27+03:00",
+      "operating_reset_at": 1762755987,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с описанием полей пункта чек-листа"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/checklist-item/task-checklist-item-get.html",
+  "executable": false
+}

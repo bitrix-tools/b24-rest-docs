@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -25,7 +25,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор файла, находящегося в корзине.
 
-Файлы в корзине недоступны для запроса через стандартные методы. Чтобы получить идентификатор файла для восстановления, сохраните его сразу после вызова метода [disk.file.markdeleted](./disk-file-mark-deleted.md)
+Файлы в корзине недоступны для запроса через стандартные методы. Чтобы получить идентификатор файла для восстановления, сохраните его сразу после вызова метода [disk.file.markDeleted](./disk-file-mark-deleted.md)
 ||
 |#
 
@@ -237,6 +237,31 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.file.restore", b24.Params{
+    	"id": 9037,
+    })
+    if err != nil {
+    	return fmt.Errorf("disk.file.restore: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"ID"`
+    	Name        string `json:"NAME"`
+    	StorageID   b24.ID `json:"STORAGE_ID"`
+    	Type        string `json:"TYPE"`
+    	ParentID    b24.ID `json:"PARENT_ID"`
+    	DeletedType int    `json:"DELETED_TYPE"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -364,4 +389,5 @@ HTTP-статус: **400**
 - [{#T}](./disk-file-move-to.md)
 - [{#T}](./disk-file-rename.md)
 - [{#T}](./disk-file-restore-from-version.md)
+- [{#T}](./disk-file-search.md)
 - [{#T}](./disk-file-upload-version.md)

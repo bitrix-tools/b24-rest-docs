@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "landing.role.isEnabled",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Проверить, включена ли ролевая модель прав landing.role.isEnabled",
+  "permissions": "пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Признак того, включена ли ролевая модель прав. true - используется ролевая модель прав. Для настройки прав используйте landing.role.getList, landing.role.getRights, landing.role.setAccessCodes и landing.role.setRights false - используется расширенная модель прав. Для настройки прав конкретного сайта используйте landing.site.getRights и landing.site.setRights"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/rights/landing-role-is-enabled.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1774988172,
+      "finish": 1774988172.261264,
+      "duration": 0.2612640857696533,
+      "processing": 0,
+      "date_start": "2026-03-31T23:16:12+03:00",
+      "date_finish": "2026-03-31T23:16:12+03:00",
+      "operating_reset_at": 1774988772,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Признак того, включена ли ролевая модель прав. true - используется ролевая модель прав. Для настройки прав используйте landing.role.getList, landing.role.getRights, landing.role.setAccessCodes и landing.role.setRights false - используется расширенная модель прав. Для настройки прав конкретного сайта используйте landing.site.getRights и landing.site.setRights"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/rights/landing-role-is-enabled.html",
+  "executable": false
+}

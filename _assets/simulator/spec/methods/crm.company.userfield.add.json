@@ -1,0 +1,191 @@
+{
+  "$v": 1,
+  "method": "crm.company.userfield.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Создать пользовательское поле для компаний crm.company.userfield.add",
+  "permissions": "администратор CRM",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект формата: - field_n — название поля - value_n — значение поля Список доступных полей описан ниже. Некорректное поле в fields будет проигнорировано",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "USER_TYPE_ID",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Тип данных пользовательского поля. Возможные значения: - string — строка - integer — целое число - double — число - boolean — да/нет - datetime — дата/время - date — дата - money — деньги - url — ссылка - address — адрес - enumeration — список - file — файл - employee — привязка к сотруднику - crm_status — привязка к справочнику CRM - iblock_section — привязка к разделам инф.…"
+        },
+        {
+          "name": "FIELD_NAME",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Код поля. Уникальный в пределах компаний. К коду всегда добавляется префикс UF_CRM_, полное имя поля система собирает сама: - MANAGER_NOTE превращается в UF_CRM_MANAGER_NOTE - UF_MANAGER_NOTE превращается в UF_CRM_MANAGER_NOTE — префикс UF_ заменяется на UF_CRM_ - UF_CRM_MANAGER_NOTE остается без изменений Ограничение длины — до 50 символов вместе с префиксом, то есть до 43 символов на код.…"
+        },
+        {
+          "name": "LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название пользовательского поля по умолчанию. Переданное значение будет выставлено в следующие поля: LIST_FILTER_LABEL, LIST_COLUMN_LABEL, EDIT_FORM_LABEL, ERROR_MESSAGE, HELP_MESSAGE, если в них не передано значение"
+        },
+        {
+          "name": "XML_ID",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний код"
+        },
+        {
+          "name": "LIST_FILTER_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подпись фильтра в списке. При передаче строки она будет проставлена для всех идентификаторов языка. При передаче значения типа lang_map для всех непереданных языков будет проставлено значение из LABEL. По умолчанию значение, переданное в LABEL, проставляется для всех идентификаторов языка"
+        },
+        {
+          "name": "LIST_COLUMN_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Заголовок в списке. При передаче строки она будет проставлена для всех идентификаторов языка. При передаче значения типа lang_map для всех непереданных языков будет проставлено значение из LABEL. По умолчанию значение, переданное в LABEL, проставляется для всех идентификаторов языка"
+        },
+        {
+          "name": "EDIT_FORM_LABEL",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Подпись в форме редактирования. При передаче строки она будет проставлена для всех идентификаторов языка. При передаче значения типа lang_map для всех непереданных языков будет проставлено значение из LABEL. По умолчанию значение, переданное в LABEL, проставляется для всех идентификаторов языка"
+        },
+        {
+          "name": "ERROR_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Сообщение об ошибке"
+        },
+        {
+          "name": "HELP_MESSAGE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Помощь"
+        },
+        {
+          "name": "MULTIPLE",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли поле множественным. Возможные значения: - Y — да - N — нет Поля типа boolean не могут быть множественными. По умолчанию N"
+        },
+        {
+          "name": "MANDATORY",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли поле обязательным. Возможные значения: - Y — да - N — нет По умолчанию N"
+        },
+        {
+          "name": "SHOW_FILTER",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли поле в фильтре. Возможные значения: - Y — да - N — нет По умолчанию N"
+        },
+        {
+          "name": "SETTINGS",
+          "type": "object",
+          "base": "object",
+          "required": false,
+          "description": "Дополнительные параметры поля. Для каждого типа поля USER_TYPE_ID существует свой пул доступных настроек, описание ниже"
+        },
+        {
+          "name": "LIST",
+          "type": "uf_enum_element[]",
+          "base": "array",
+          "required": false,
+          "description": "Список возможных значений для пользовательского поля типа enumeration, описание ниже По умолчанию []"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки. Обязательно больше нуля. По умолчанию 100"
+        },
+        {
+          "name": "SHOW_IN_LIST",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Показывать ли пользовательское поле в списке. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет По умолчанию N"
+        },
+        {
+          "name": "EDIT_IN_LIST",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Разрешать ли редактирование пользователем. Возможные значения: - Y — да - N — нет По умолчанию Y. Значение N поддерживают не все типы полей в рамках crm"
+        },
+        {
+          "name": "IS_SEARCHABLE",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Участвуют ли значения поля в поиске. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет По умолчанию N"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/userfields/crm-company-userfield-add.md"
+  },
+  "resultExample": {
+    "result": 6997,
+    "time": {
+      "start": 1753789240.8146,
+      "finish": 1753789241.058695,
+      "duration": 0.2440950870513916,
+      "processing": 0.19217395782470703,
+      "date_start": "2025-07-29T14:40:40+03:00",
+      "date_finish": "2025-07-29T14:40:41+03:00",
+      "operating_reset_at": 1753789840,
+      "operating": 0.19216084480285645
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит идентификатор созданного пользовательского поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/userfields/crm-company-userfield-add.html",
+  "executable": false
+}

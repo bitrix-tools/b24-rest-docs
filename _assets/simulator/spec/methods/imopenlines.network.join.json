@@ -1,0 +1,54 @@
+{
+  "$v": 1,
+  "method": "imopenlines.network.join",
+  "scope": "imopenlines",
+  "kind": "write",
+  "title": "Подключить внешнюю открытую линию к порталу imopenlines.network.join",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "CODE",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Код открытой линии в виде строки из 32 символов. Найти код линии можно в карточке подключенной открытой линии Битрикс24 Network на странице Контакт-центра - Контакт-центр: Битрикс24.Network"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/openlines/imopenlines-network-join.md"
+  },
+  "resultExample": {
+    "result": 603,
+    "time": {
+      "start": 1773735146,
+      "finish": 1773735146.911103,
+      "duration": 0.9111030101776123,
+      "processing": 0,
+      "date_start": "2026-03-17T11:12:26+03:00",
+      "date_finish": "2026-03-17T11:12:26+03:00",
+      "operating_reset_at": 1773735746,
+      "operating": 0.44127893447875977
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор network-бота подключенной внешней открытой линии. Если линия была подключена ранее, метод возвращает существующий идентификатор"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/openlines/imopenlines-network-join.html",
+  "executable": false
+}

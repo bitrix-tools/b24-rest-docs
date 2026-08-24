@@ -1,0 +1,64 @@
+{
+  "$v": 1,
+  "method": "crm.item.details.configuration.forceCommonScopeForAll",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить общую карточку для всех пользователей crm.item.details.configuration.forceCommonScopeForAll",
+  "permissions": "Администратор",
+  "params": [
+    {
+      "name": "entityTypeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор системного или пользовательского типа объектов CRM"
+    },
+    {
+      "name": "extras",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Дополнительные параметры. Возможные значения и их структура описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1720687903.685834,
+      "finish": 1720687904.076471,
+      "duration": 0.3906371593475342,
+      "processing": 0.02508091926574707,
+      "date_start": "2024-07-11T10:51:43+02:00",
+      "date_finish": "2024-07-11T10:51:44+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Возвращает true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.html",
+  "executable": false
+}

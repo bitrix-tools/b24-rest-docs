@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "voximplant.sip.update",
+  "scope": "telephony",
+  "kind": "write",
+  "title": "Обновить SIP-линию voximplant.sip.update",
+  "permissions": "пользователь с правом Управление номерами — изменение",
+  "params": [
+    {
+      "name": "CONFIG_ID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор настройки SIP-линии. Получить идентификатор можно с помощью метода voximplant.sip.get"
+    },
+    {
+      "name": "TITLE",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новое название подключения"
+    },
+    {
+      "name": "SERVER",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый адрес сервера SIP-регистрации"
+    },
+    {
+      "name": "LOGIN",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый логин для подключения к серверу"
+    },
+    {
+      "name": "PASSWORD",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Новый пароль для подключения к серверу. Максимальная длина — 100 символов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/telephony/voximplant/sip/voximplant-sip-update.md"
+  },
+  "resultExample": {
+    "result": 1,
+    "time": {
+      "start": 1773657589,
+      "finish": 1773657589.659046,
+      "duration": 0.659045934677124,
+      "processing": 0,
+      "date_start": "2026-03-16T13:39:49+03:00",
+      "date_finish": "2026-03-16T13:39:49+03:00",
+      "operating_reset_at": 1773658189,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Результат обновления. 1 — обновление выполнено успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-update.html",
+  "executable": false
+}

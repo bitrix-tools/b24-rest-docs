@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет значения свойства отгрузки.
+Метод `sale.shipmentpropertyvalue.delete` удаляет значения свойства отгрузки.
 
 ## Параметры метода
 
@@ -207,9 +207,27 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.shipmentpropertyvalue.delete", b24.Params{
+    	"id": 38165,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.shipmentpropertyvalue.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 

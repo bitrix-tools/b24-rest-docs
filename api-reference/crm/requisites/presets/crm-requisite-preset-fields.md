@@ -206,6 +206,22 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.requisite.preset.fields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.requisite.preset.fields: %w", err)
+    }
+
+    keys, ok := b24.Keys(res.Result)
+    if !ok {
+    	return fmt.Errorf("ожидался объект в ответе")
+    }
+    fmt.Println("полей в ответе:", len(keys))
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -344,24 +360,24 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор реквизита. Создается автоматически и уникален в рамках портала ||
+[`integer`](../../../data-types.md) | Идентификатор шаблона. Создается автоматически и уникален в рамках Битрикс24 ||
 || **ENTITY_TYPE_ID**
 [`integer`](../../../data-types.md) | Идентификатор типа родительского объекта. Сейчас это только «Реквизит» (идентификатор `8`).
 
 Идентификаторы типов объектов CRM отдает метод [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) 
 ||
 || **COUNTRY_ID**
-[`integer`](../../../data-types.md) | Идентификатор страны, которой соответствует набор полей шаблона реквизита (для получения доступных значений смотрите метод [crm.requisite.preset.countries](./crm-requisite-preset-countries.md)) ||
+[`integer`](../../../data-types.md) | Идентификатор страны, которой соответствует набор полей шаблона реквизитов (для получения доступных значений смотрите метод [crm.requisite.preset.countries](./crm-requisite-preset-countries.md)) ||
 || **DATE_CREATE**
 [`datetime`](../../../data-types.md) | Дата создания ||
 || **DATE_MODIFY**
 [`datetime`](../../../data-types.md) | Дата изменения. Содержит пустую строку, если шаблон не менялся после создания ||
 || **CREATED_BY_ID**
-[`user`](../../../data-types.md) | Идентификатор пользователя, создавшего реквизит ||
+[`user`](../../../data-types.md) | Идентификатор пользователя, создавшего шаблон ||
 || **MODIFY_BY_ID**
-[`user`](../../../data-types.md) | Идентификатор пользователя, изменившего реквизит ||
+[`user`](../../../data-types.md) | Идентификатор пользователя, изменившего шаблон ||
 || **NAME**
-[`string`](../../../data-types.md) | Название реквизита ||
+[`string`](../../../data-types.md) | Название шаблона ||
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний ключ. Используется для операций обмена. Идентификатор объекта внешней информационной базы. 
 

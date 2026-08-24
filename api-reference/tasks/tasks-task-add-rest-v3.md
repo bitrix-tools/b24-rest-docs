@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -35,7 +35,7 @@
 
 ### Параметр fields {#fields}
 
-{% include [Сноска о параметрах](../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -297,6 +297,43 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.add", b24.Params{
+    	"fields": b24.Params{
+    		"title":         "Название задачи",
+    		"deadline":      "2025-12-31T23:59:59+02:00",
+    		"creatorId":     29,
+    		"responsibleId": 1,
+    		"crmItemIds":    []string{"L_1000959"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "item".
+    raw, ok := b24.Unwrap(res.Result, "item")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа item")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Title        string `json:"title"`
+    	Description  string `json:"description"`
+    	Deadline     string `json:"deadline"`
+    	NeedsControl bool   `json:"needsControl"`
+    	Priority     string `json:"priority"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Title)
     ```
 
 {% endlist %}

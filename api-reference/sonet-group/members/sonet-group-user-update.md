@@ -29,7 +29,7 @@
 
 Идентификатор можно получить методом [sonet_group.get](../sonet-group-get.md) ||
 || **USER_ID***
-[`integer/array`](../../data-types.md) | Идентификатор участника.
+[```integer | integer[]```](../../data-types.md#compound-types) | Идентификатор участника.
 
 Идентификатор можно получить с помощью метода [sonet_group.user.get](./sonet-group-user-get.md) ||
 || **ROLE***
@@ -242,6 +242,26 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sonet_group.user.update", b24.Params{
+    	"GROUP_ID": 69,
+    	"USER_ID":  []int{1271, 1272},
+    	"ROLE":     "E",
+    })
+    if err != nil {
+    	return fmt.Errorf("sonet_group.user.update: %w", err)
+    }
+
+    var items []b24.ID
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("получено:", len(items))
     ```
 
 {% endlist %}

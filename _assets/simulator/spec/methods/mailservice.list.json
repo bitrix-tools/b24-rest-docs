@@ -1,0 +1,56 @@
+{
+  "$v": 1,
+  "method": "mailservice.list",
+  "scope": "mailservice",
+  "kind": "read",
+  "title": "Получить список почтовых сервисов mailservice.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о почтовых сервисах. Структура объекта почтового сервиса подробно описана ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/mailservice/mailservice-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив объектов с информацией о почтовых сервисах. Структура объекта почтового сервиса подробно описана ниже"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/mailservice/mailservice-list.html",
+  "executable": false
+}

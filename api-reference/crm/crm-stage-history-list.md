@@ -26,7 +26,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId**
-[`integer`][1] | Идентификатор типа объекта. Может принимать значения:
+[`integer`](../data-types.md) | Идентификатор типа объекта. Может принимать значения:
 - `1` — лид,
 - `2` — сделка,
 - `5` — счет (старый),
@@ -34,9 +34,9 @@
 - числовой идентификатор [пользовательского типа](./universal/user-defined-object-types/index.md#id), например `130`
 ||
 || **order**
-[`object`][1]| Список для сортировки, где ключ — поле, а значение — `ASC` или `DESC` ||
+[`object`](../data-types.md)| Список для сортировки, где ключ — поле, а значение — `ASC` или `DESC` ||
 || **filter**
-[`object`][1] | Список для фильтрации. Фильтр поддерживает использование точных значений, массивов значений, а также модификаторы:
+[`object`](../data-types.md) | Список для фильтрации. Фильтр поддерживает использование точных значений, массивов значений, а также модификаторы:
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
@@ -60,9 +60,9 @@
 - `!` — не равно
 ||
 || **select**
-[`object`][1]| Список получаемых полей ||
+[`object`](../data-types.md)| Список получаемых полей ||
 || **start**
-[`integer`][1] | Сдвиг для постраничной навигации. Логика работы с постраничной навигацией стандартная для [списочных методов](../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
+[`integer`](../data-types.md) | Сдвиг для постраничной навигации. Логика работы с постраничной навигацией стандартная для [списочных методов](../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
 |#
 
 ## Примеры кода
@@ -325,6 +325,46 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.stagehistory.list", b24.Params{
+    	"entityTypeId": 2,
+    	"order": b24.Params{
+    		"ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"OWNER_ID": 1,
+    	},
+    	"select": []string{"ID", "STAGE_ID", "CREATED_TIME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.stagehistory.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID              b24.ID `json:"ID"`
+    	TypeID          b24.ID `json:"TYPE_ID"`
+    	OwnerID         b24.ID `json:"OWNER_ID"`
+    	CreatedTime     string `json:"CREATED_TIME"`
+    	CategoryID      b24.ID `json:"CATEGORY_ID"`
+    	StageSemanticID string `json:"STAGE_SEMANTIC_ID"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 Получить историю движения по стадиям для смарт-процесса с `entityTypeId=130` и элементом `OWNER_ID=29`
@@ -581,6 +621,46 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.stagehistory.list", b24.Params{
+    	"entityTypeId": 130,
+    	"order": b24.Params{
+    		"ID": "ASC",
+    	},
+    	"filter": b24.Params{
+    		"OWNER_ID": 29,
+    	},
+    	"select": []string{"ID", "STAGE_ID", "CREATED_TIME"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("crm.stagehistory.list: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "items".
+    raw, ok := b24.Unwrap(res.Result, "items")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа items")
+    }
+
+    var items []struct {
+    	ID              b24.ID `json:"ID"`
+    	TypeID          b24.ID `json:"TYPE_ID"`
+    	OwnerID         b24.ID `json:"OWNER_ID"`
+    	CreatedTime     string `json:"CREATED_TIME"`
+    	CategoryID      b24.ID `json:"CATEGORY_ID"`
+    	StageSemanticID string `json:"STAGE_SEMANTIC_ID"`
+    }
+    if err := json.Unmarshal(raw, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -632,17 +712,17 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`int`][1] | Идентификатор записи ||
+[`integer`](../data-types.md) | Идентификатор записи ||
 || **TYPE_ID**
-[`int`][1] | Тип записи. Может принимать значения:
+[`integer`](../data-types.md) | Тип записи. Может принимать значения:
 - `1` — создание элемента,
 - `2` — перевод на промежуточную стадию,
 - `3` — перевод на финальную стадию,
 - `5` — смена воронки ||
 || **OWNER_ID**
-[`int`][1] | Идентификатор объекта, в котором изменилась стадия ||
+[`integer`](../data-types.md) | Идентификатор объекта, в котором изменилась стадия ||
 || **CREATED_TIME**
-[`datetime`][1] | Идентификатор созданного элемента, равен времени перевода элемента на стадию ||
+[`datetime`](../data-types.md) | Идентификатор созданного элемента, равен времени перевода элемента на стадию ||
 |#
 
 Дополнительно есть специфичные для разных типов объектов поля:
@@ -655,12 +735,12 @@ HTTP-статус: **200**
     || **Название**
     `тип` | **Описание** ||
     || **STATUS_SEMANTIC_ID**
-    [`int`][1] | Cемантика стадии:
+    [`string`](../data-types.md) | Cемантика стадии:
     - `P` — промежуточная стадия,
     - `S` — успешная стадия,
     - `F` — провальная стадия ||
     || **STATUS_ID**
-    [`int`][1] | Идентификатор стадии ||
+    [`crm_status`](./data-types.md) | Идентификатор стадии ||
     |#
 
 - для сделок, новых счетов и смарт-процессов
@@ -669,14 +749,14 @@ HTTP-статус: **200**
     || **Название**
     `тип` | **Описание** ||
     || **CATEGORY_ID**
-    [`int`][1] | Идентификатор воронки ||
+    [`integer`](../data-types.md) | Идентификатор воронки ||
     || **STAGE_SEMANTIC_ID**
-    [`int`][1] | Семантика стадии:
+    [`string`](../data-types.md) | Семантика стадии:
     - `P` — промежуточная стадия,
     - `S` — успешная стадия,
     - `F` — провальная стадия ||
     || **STAGE_ID**
-    [`int`][1] | Идентификатор стадии ||
+    [`crm_status`](./data-types.md) | Идентификатор стадии ||
     |#
 
 {% endlist %}    
@@ -713,5 +793,3 @@ HTTP-статус: **401**, **400**
 
 - [{#T}](./index.md)
 - [{#T}](./main-entities-fields.md)
-
-[1]: ../data-types.md

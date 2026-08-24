@@ -1,4 +1,4 @@
-# Получить описание хранилища приложения disk.storage.getforapp
+# Получить описание хранилища приложения disk.storage.getForApp
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `disk.storage.getforapp` возвращает описание хранилища, привязанного к приложению. Если хранилища нет — создает его.
+Метод `disk.storage.getForApp` возвращает описание хранилища, привязанного к приложению. Если хранилища нет — создает его.
 
 {% note info "" %}
 
@@ -38,7 +38,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/disk.storage.getforapp
+    https://**put_your_bitrix24_address**/rest/disk.storage.getForApp
     ```
 
 - JS (TS)
@@ -64,7 +64,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<StorageResult>({
-        method: 'disk.storage.getforapp',
+        method: 'disk.storage.getForApp',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -94,7 +94,7 @@
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'disk.storage.getforapp',
+            method: 'disk.storage.getForApp',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -146,7 +146,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'disk.storage.getforapp',
+                'disk.storage.getForApp',
                 []
             );
 
@@ -167,7 +167,7 @@
 
     ```js
     BX24.callMethod(
-        "disk.storage.getforapp",
+        "disk.storage.getForApp",
         {},
         function (result)
         {
@@ -185,13 +185,36 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'disk.storage.getforapp',
+        'disk.storage.getForApp',
         []
     );
 
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "disk.storage.getForApp", nil)
+    if err != nil {
+    	return fmt.Errorf("disk.storage.getForApp: %w", err)
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	ModuleID     string `json:"MODULE_ID"`
+    	EntityType   string `json:"ENTITY_TYPE"`
+    	EntityID     b24.ID `json:"ENTITY_ID"`
+    	RootObjectID b24.ID `json:"ROOT_OBJECT_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

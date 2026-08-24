@@ -1,0 +1,133 @@
+{
+  "$v": 1,
+  "method": "biconnector.connector.update",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Изменить коннектор biconnector.connector.update",
+  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор коннектора, можно получить методами biconnector.connector.list и biconnector.connector.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий обновляемые данные. Формат объекта: - field_n — название поля - value_n — значение поля Подробное описание ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое название коннектора"
+        },
+        {
+          "name": "logo",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый логотип коннектора. Может передаваться ссылкой на изображение или строкой формата base64, например data:image/svg+xml;base64,PHN2ZyB3..."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новое описание коннектора"
+        },
+        {
+          "name": "urlCheck",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый эндпоинт для проверки доступности коннектора, (подробное описание)"
+        },
+        {
+          "name": "urlTableList",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый эндпоинт для получения списка таблиц, (подробное описание)"
+        },
+        {
+          "name": "urlTableDescription",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый эндпоинт для получения описания конкретной таблицы, (подробное описание)"
+        },
+        {
+          "name": "urlData",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Новый эндпоинт для получения данных по выбранной таблице, (подробное описание)"
+        },
+        {
+          "name": "settings",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Новый список параметров подключения, (подробное описание)"
+        },
+        {
+          "name": "sort",
+          "type": "int",
+          "base": "integer",
+          "required": false,
+          "description": "Новый параметр сортировки коннектора"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/connector/biconnector-connector-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725365418.056843,
+      "finish": 1725365419.671506,
+      "duration": 1.6146628856658936,
+      "processing": 1.3475170135498047,
+      "date_start": "2024-09-03T14:10:18+02:00",
+      "date_finish": "2024-09-03T14:10:19+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа, содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/connector/biconnector-connector-update.html",
+  "executable": false
+}

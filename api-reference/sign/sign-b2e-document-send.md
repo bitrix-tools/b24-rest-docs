@@ -139,7 +139,7 @@
 
 ### Параметр regionDocumentType {#region-document-type}
 
-Код типа документа зависит от региона лицензии. Список доступных кодов формируется на стороне Битрикс24 и валидация выполняется по региону портала.
+Код типа документа зависит от региона лицензии. Список доступных кодов формируется на стороне Битрикс24, валидация выполняется по региону лицензии.
 
 Если вы не знаете код, используйте значение `12.999` как безопасное значение по умолчанию. Это значение проходит проверку по умолчанию, когда список кодов для региона пустой или неизвестен.
 
@@ -484,6 +484,56 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sign.b2e.document.send", b24.Params{
+    	"fields": b24.Params{
+    		"company": b24.Params{
+    			"crmId": 12,
+    		},
+    		"members": []b24.Params{
+    			{
+    				"userId": 25,
+    				"role":   "signer",
+    			},
+    			{
+    				"userId": 42,
+    				"role":   "assignee",
+    			},
+    		},
+    		"responsible": b24.Params{
+    			"userId": 7,
+    		},
+    		"companyProviderUid": "d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b",
+    		"files": []b24.Params{
+    			{
+    				"fileName":    "contract.pdf",
+    				"fileType":    "application/pdf",
+    				"fileContent": "JVBERi0xLjQKJ...",
+    			},
+    		},
+    		"regionDocumentType": "12.999",
+    		"externalSettings": b24.Params{
+    			"externalId":         "EXT-123",
+    			"externalDateCreate": "2025-02-18T09:19:34+03:00",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sign.b2e.document.send: %w", err)
+    }
+
+    var item struct {
+    	Uid string `json:"uid"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Uid)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -661,5 +711,7 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./sign-b2e-document-get.md)
+- [{#T}](./sign-b2e-hcmlink-document-get.md)
 - [{#T}](./sign-b2e-company-provider-list.md)
+- [{#T}](./events/on-sign-hcm-link-b2e-document-signed.md)
 - [{#T}](./index.md)

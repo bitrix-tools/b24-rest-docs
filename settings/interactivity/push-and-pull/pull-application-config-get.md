@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -310,7 +310,10 @@ HTTP-статус: **200**
 || **server_enabled**
 [`boolean`](../../../api-reference/data-types.md) | Признак доступности сервера ||
 || **mode**
-[`string`](../../../api-reference/data-types.md) | Режим сервера ||
+[`string`](../../../api-reference/data-types.md) | Режим сервера:
+
+- `personal` — собственный сервер Push&Pull
+- `shared` — общий сервер Push&Pull ||
 || **hostname**
 [`string`](../../../api-reference/data-types.md) | Хост портала ||
 || **long_polling**
@@ -353,7 +356,7 @@ HTTP-статус: **200**
 
 - `shared`
 - `private` ||
-  |#
+|#
 
 ## Обработка ошибок
 

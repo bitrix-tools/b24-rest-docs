@@ -1,0 +1,39 @@
+{
+  "$v": 1,
+  "method": "rpa.item.add",
+  "scope": "rpa",
+  "kind": "write",
+  "title": "Добавить элемент процесса rpa.item.add",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "typeId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор процесса"
+    },
+    {
+      "name": "fields",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Значения пользовательских полей элемента. Все остальные поля будут проигнорированы",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/outdated/rpa/item/rpa-item-add.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/outdated/rpa/item/rpa-item-add.html",
+  "executable": false
+}

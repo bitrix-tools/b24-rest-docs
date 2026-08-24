@@ -311,10 +311,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.resource.booking.list", b24.Params{
+    	"filter": b24.Params{
+    		"resourceTypeIdList": []int{10852, 10888, 10873, 10871, 10853},
+    		"from":               "2024-06-20",
+    		"to":                 "2024-08-20",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("calendar.resource.booking.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 
-**Пример 2**. Выбрать бронирования по их идентификаторам из пользовательских полей CRM сущности.
+**Пример 2**. Выбрать бронирования по их идентификаторам из пользовательских полей CRM.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -551,6 +571,24 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "calendar.resource.booking.list", b24.Params{
+    	"filter": b24.Params{
+    		"resourceIdList": []int{10, 18, 17},
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("calendar.resource.booking.list: %w", err)
+    }
+
+    // Ответ приходит как json.RawMessage — разберите его
+    // в структуру под форму ответа, показанную ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 
@@ -703,7 +741,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list""
+    "error_description": "Не задан обязательный параметр \"filter['resourceTypeIdList']\" для метода \"calendar.resource.booking.list\""
 }
 ```
 
@@ -713,8 +751,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
-|| Пустая строка | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров: `resourceTypeIdList` или `resourceIdList`. ||
+|| Пустое значение | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
+|| Пустое значение | Не задан обязательный параметр "filter['resourceTypeIdList']" для метода "calendar.resource.booking.list" | Не передан ни один из обязательных параметров: `resourceTypeIdList` или `resourceIdList` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -1,0 +1,70 @@
+{
+  "$v": 1,
+  "method": "crm.company.contact.delete",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Удалить контакт из указанной компании crm.company.contact.delete",
+  "permissions": "пользователь с правом «Изменение» компаний",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор компании. Идентификатор можно получить с помощью методов crm.company.list или crm.company.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с информацией о том, какой контакт необходимо удалить из привязок. Содержит единственный ключ CONTACT_ID",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "fields.CONTACT_ID",
+      "type": "crm_entity",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор контакта, который необходимо удалить из привязок"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/companies/contacts/crm-company-contact-delete.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1724072653.79827,
+      "finish": 1724072717.749956,
+      "duration": 63.95168590545654,
+      "processing": 63.63148093223572,
+      "date_start": "2024-08-19T15:04:13+02:00",
+      "date_finish": "2024-08-19T15:05:17+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит: - true — в случае успеха - false — в случае неудачи, если контакт, который вы пытаетесь удалить, не привязан к компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/companies/contacts/crm-company-contact-delete.html",
+  "executable": false
+}

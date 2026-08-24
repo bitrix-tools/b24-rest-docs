@@ -20,7 +20,6 @@
 Подписаться на событие [OnExternalCallBackStart](on-external-call-back-start.md) можно через:
 
 - [исходящий вебхук](../../../local-integrations/local-webhooks.md)
-
 - [приложение](../../../settings/app-installation/index.md) и метод [event.bind](../../events/event-bind.md)
 
 Подписаться на событие [OnExternalCallStart](on-external-call-start.md) можно только через [приложение](../../../settings/app-installation/index.md) и метод [event.bind](../../events/event-bind.md).
@@ -33,7 +32,7 @@
 
 ## Обзор событий {#all-events}
 
-> Scope: [`telephony`](../../scopes/permissions.md) 
+> Scope: [`telephony`](../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 

@@ -1,0 +1,117 @@
+{
+  "$v": 1,
+  "method": "sale.payment.update",
+  "scope": "sale",
+  "kind": "write",
+  "title": "Изменить оплату sale.payment.update",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "sale_order_payment.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор оплаты"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Значения полей (подробное описание приведено ниже) для создания оплаты в виде структуры:",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/payment/sale-payment-update.md"
+  },
+  "resultExample": {
+    "result": {
+      "payment": {
+        "accountNumber": "356/1",
+        "comments": "",
+        "companyId": 1,
+        "currency": "RUB",
+        "dateBill": "2024-04-10T09:00:00+03:00",
+        "dateMarked": "2024-04-16T16:32:49+03:00",
+        "datePaid": "2024-04-10T09:00:00+03:00",
+        "datePayBefore": "2024-04-10T09:00:00+03:00",
+        "dateResponsibleId": "2024-04-16T16:32:49+03:00",
+        "empMarkedId": 1,
+        "empPaidId": 1,
+        "empResponsibleId": 1,
+        "empReturnId": 1,
+        "externalPayment": "N",
+        "id": 144,
+        "id1c": "",
+        "isReturn": "N",
+        "marked": "N",
+        "orderId": 200,
+        "paid": "Y",
+        "payReturnComment": "",
+        "payReturnDate": "2024-04-10T09:00:00+03:00",
+        "payReturnNum": "",
+        "paySystemId": 1,
+        "paySystemIsCash": "N",
+        "paySystemName": "Банковский перевод (Компании)",
+        "paySystemXmlId": "",
+        "payVoucherDate": "2024-04-10T09:00:00+03:00",
+        "payVoucherNum": "",
+        "priceCod": "100",
+        "psCurrency": "RUB",
+        "psInvoiceId": 1,
+        "psResponseDate": "2024-04-10T09:00:00+03:00",
+        "psStatus": "Y",
+        "psStatusCode": "",
+        "psStatusDescription": "",
+        "psStatusMessage": "",
+        "psSum": 100,
+        "reasonMarked": "",
+        "responsibleId": 1,
+        "sum": 100,
+        "updated1c": "N",
+        "version1c": "",
+        "xmlId": ""
+      }
+    },
+    "time": {
+      "start": 1713454774.293692,
+      "finish": 1713454778.895877,
+      "duration": 4.602184772491455,
+      "processing": 4.142766952514648,
+      "date_start": "2024-04-18T18:39:34+03:00",
+      "date_finish": "2024-04-18T18:39:38+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "payment",
+      "type": "sale_order_payment",
+      "base": "any",
+      "required": false,
+      "description": "Объект с информацией об обновленной оплате"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/payment/sale-payment-update.html",
+  "executable": false
+}

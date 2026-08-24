@@ -25,14 +25,15 @@
 || **ID***
 [`array`](../../data-types.md) | Массив идентификаторов подразделений. Можно передать строку с JSON-массивом идентификаторов.
 
-Получить идентификатор департамента можно методом [получения списка подразделений](../../departments/department-get.md) или методом [поиска подразделений по названию](../search/im-search-department-list.md) ||
+Получить идентификатор подразделения можно методом [получения списка подразделений](../../departments/department-get.md) или методом [поиска подразделений по названию](../search/im-search-department-list.md) ||
 || **USER_DATA**
-[`string`](../../data-types.md) | Возвращать подробные данные пользователей.  
+[`string`](../../data-types.md) | Возвращать подробные данные пользователей.
 
 Возможные значения:
 - `Y` — да
 - `N` — нет
-||
+
+По умолчанию: `N` ||
 |#
 
 ## Примеры кода
@@ -264,6 +265,22 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "im.department.managers.get", b24.Params{
+    	"ID":        []int{3, 7},
+    	"USER_DATA": "Y",
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("im.department.managers.get: %w", err)
+    }
+
+    // Форма ответа показана ниже на этой странице.
+    fmt.Printf("%s\n", res.Result)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -396,7 +413,7 @@ HTTP-статус: **200**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект user {#user-object}
+#### Объект user {#user-object}
 
 #|
 || **Название**
@@ -496,6 +513,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./im-department-get.md)
-- [{#T}](./im-department-managers-get.md)
 - [{#T}](./im-department-employees-get.md)
 - [{#T}](./im-department-colleagues-list.md)
+- [{#T}](./index.md)

@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -168,6 +168,29 @@
     } else {
         echo 'Reaction removed';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.Reaction.delete", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"messageId": 789,
+    	"reaction":  "like",
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.Reaction.delete: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
     ```
 
 {% endlist %}

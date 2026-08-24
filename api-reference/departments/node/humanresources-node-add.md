@@ -23,7 +23,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -475,6 +475,47 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "humanresources.node.add", b24.Params{
+    	"type":        "DEPARTMENT",
+    	"name":        "Отдел маркетинга",
+    	"parentId":    1,
+    	"description": "Отвечает за продвижение",
+    	"userIds": b24.Params{
+    		"MEMBER_HEAD":     []int{7},
+    		"MEMBER_EMPLOYEE": []int{12, 15},
+    	},
+    	"moveUsersToNode": true,
+    	"createChat":      true,
+    	"bindingChatIds":  []int{31},
+    	"createChannel":   false,
+    	"createCollab":    false,
+    	"settings": b24.Params{
+    		"BUSINESS_PROC_AUTHORITY": []string{"HEAD", "DEPUTY_HEAD"},
+    		"REPORTS_AUTHORITY":       []string{"HEAD"},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("humanresources.node.add: %w", err)
+    }
+
+    var item struct {
+    	ID          b24.ID `json:"id"`
+    	Name        string `json:"name"`
+    	Type        string `json:"type"`
+    	StructureID b24.ID `json:"structureId"`
+    	ParentID    b24.ID `json:"parentId"`
+    	Description string `json:"description"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

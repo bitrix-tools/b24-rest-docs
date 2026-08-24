@@ -1,0 +1,58 @@
+{
+  "$v": 1,
+  "method": "calendar.event.get",
+  "scope": "calendar",
+  "kind": "read",
+  "title": "Получить список событий календаря calendar.event.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "type",
+      "type": "string",
+      "base": "string",
+      "required": true,
+      "description": "Тип календаря: - user — календарь пользователя - group — календарь группы - company_calendar — календарь компании"
+    },
+    {
+      "name": "ownerId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор владельца календаря. Для календаря компании параметр ownerId имеет значение 0"
+    },
+    {
+      "name": "from",
+      "type": "date",
+      "base": "date",
+      "required": false,
+      "description": "Дата начала выборки. Значение по умолчанию — месяц до текущей даты"
+    },
+    {
+      "name": "to",
+      "type": "date",
+      "base": "date",
+      "required": false,
+      "description": "Дата окончания выборки. Значение по умолчанию — три месяца после текущей даты"
+    },
+    {
+      "name": "section",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов календарей",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/calendar/calendar-event/calendar-event-get.md"
+  },
+  "returns": [],
+  "page": "/api-reference/calendar/calendar-event/calendar-event-get.html",
+  "executable": false
+}

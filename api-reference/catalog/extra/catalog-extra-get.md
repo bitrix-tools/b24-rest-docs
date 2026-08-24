@@ -219,6 +219,34 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.extra.get", b24.Params{
+    	"id": 1,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("catalog.extra.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "extra".
+    raw, ok := b24.Unwrap(res.Result, "extra")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа extra")
+    }
+
+    var item struct {
+    	ID         b24.ID  `json:"id"`
+    	Name       string  `json:"name"`
+    	Percentage float64 `json:"percentage"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

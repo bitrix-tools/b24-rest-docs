@@ -17,15 +17,15 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`][1] | Идентификатор смарт-процесса. Можно получить с помощью методов: [`crm.type.list`](./crm-type-list.md), [`crm.type.add`](./crm-type-add.md) ||
+[`integer`](../../../data-types.md) | Идентификатор смарт-процесса. Можно получить с помощью методов: [`crm.type.list`](./crm-type-list.md), [`crm.type.add`](./crm-type-add.md) ||
 || **fields**
-[`object`][1]  | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для обновления смарт-процесса ||
+[`object`](../../../data-types.md)  | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для обновления смарт-процесса ||
 |#
 
 ### Параметр fields
@@ -34,49 +34,49 @@
 || **Название**
 `тип` | **Описание** ||
 || **title** 
-[`string`][1]  | Название смарт-процесса ||
+[`string`](../../../data-types.md)  | Название смарт-процесса ||
 || **relations**
-[`object`][1]  | Объект, содержащий в себе связи к другим сущностям CRM. Структура описана объектом [`type.relations`](../../data-types.md#typerelations)  ||
+[`object`](../../../data-types.md)  | Объект, содержащий в себе связи к другим сущностям CRM. Структура описана объектом [`type.relations`](../../data-types.md#typerelations)  ||
 || **isUseInUserfieldEnabled**
-[`boolean`][1] | Включено ли использование смарт-процесса в пользовательском поле ||
+[`boolean`](../../../data-types.md) | Включено ли использование смарт-процесса в пользовательском поле ||
 || **linkedUserFields**       
-[`object`][1]  | Набор пользовательских полей в которых должен отображаться данный смарт-процесс. Структура описана объектом [`type.linkedUserFields`](../../data-types.md#typelinkeduserfields) ||
+[`object`](../../../data-types.md)  | Набор пользовательских полей в которых должен отображаться данный смарт-процесс. Структура описана объектом [`type.linkedUserFields`](../../data-types.md#typelinkeduserfields) ||
 || **isAutomationEnabled**    
-[`boolean`][1] | Включены ли роботы и триггеры ||
+[`boolean`](../../../data-types.md) | Включены ли роботы и триггеры ||
 || **isBeginCloseDatesEnabled**
-[`boolean`][1] | Включены ли поля **Дата начала** и **Дата завершения** ||
+[`boolean`](../../../data-types.md) | Включены ли поля **Дата начала** и **Дата завершения** ||
 || **isBizProcEnabled**       
-[`boolean`][1] | Включено ли использование дизайнера бизнес процессов ||
+[`boolean`](../../../data-types.md) | Включено ли использование дизайнера бизнес процессов ||
 || **isCategoriesEnabled**    
-[`boolean`][1] | Включены ли свои воронки и туннели продаж ||
+[`boolean`](../../../data-types.md) | Включены ли свои воронки и туннели продаж ||
 || **isClientEnabled**        
-[`boolean`][1] | Включено ли поле **Клиент**. При включенной опции у смарт-процесса появляется предустановленная привязка к **Контактам** и **Компаниям** ||
+[`boolean`](../../../data-types.md) | Включено ли поле **Клиент**. При включенной опции у смарт-процесса появляется предустановленная привязка к **Контактам** и **Компаниям** ||
 || **isDocumentsEnabled**     
-[`boolean`][1] | Включена ли печать документов ||
+[`boolean`](../../../data-types.md) | Включена ли печать документов ||
 || **isLinkWithProductsEnabled**
-[`boolean`][1] | Включена ли привязка товаров каталога ||
+[`boolean`](../../../data-types.md) | Включена ли привязка товаров каталога ||
 || **isMycompanyEnabled**     
-[`boolean`][1] | Включено ли поле **Реквизиты вашей компании** ||
+[`boolean`](../../../data-types.md) | Включено ли поле **Реквизиты вашей компании** ||
 || **isObserversEnabled**     
-[`boolean`][1] | Включено ли поле **Наблюдатели** ||
+[`boolean`](../../../data-types.md) | Включено ли поле **Наблюдатели** ||
 || **isRecyclebinEnabled**    
-[`boolean`][1] | Включено ли использование корзины ||
+[`boolean`](../../../data-types.md) | Включено ли использование корзины ||
 || **isSetOpenPermissions**   
-[`boolean`][1] | Делать ли новые воронки доступными для всех ||
+[`boolean`](../../../data-types.md) | Делать ли новые воронки доступными для всех ||
 || **isSourceEnabled**        
-[`boolean`][1] | Включены ли поля **Источник** и **Дополнительно об источнике** ||
+[`boolean`](../../../data-types.md) | Включены ли поля **Источник** и **Дополнительно об источнике** ||
 || **isStagesEnabled**        
-[`boolean`][1] | Включено ли использование своих стадий и канбана ||
+[`boolean`](../../../data-types.md) | Включено ли использование своих стадий и канбана ||
 || **isExternal**
-[`boolean`][1] | Является ли смарт-процесс вынесенным из CRM (привязанным к цифровому рабочему месту)
+[`boolean`](../../../data-types.md) | Является ли смарт-процесс вынесенным из CRM (привязанным к цифровому рабочему месту)
 
 Параметр устарел. Для работы с цифровыми рабочими местами используйте методы [`crm.automatedsolution.*`](../../automated-solution/index.md) ||
 || **customSectionId**
-[`integer`][1] | Идентификатор цифрового рабочего места
+[`integer`](../../../data-types.md) | Идентификатор цифрового рабочего места
 
 Параметр устарел. Для работы с цифровыми рабочими местами используйте методы [`crm.automatedsolution.*`](../../automated-solution/index.md) ||
 || **customSections**
-[`array`][1]   | Массив цифровых рабочих мест
+[`array`](../../../data-types.md)   | Массив цифровых рабочих мест
 
 Параметр устарел. Для работы с цифровыми рабочими местами используйте методы [`crm.automatedsolution.*`](../../automated-solution/index.md) ||
 |#
@@ -311,6 +311,34 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.type.update", b24.Params{
+        	"id": 20,
+        	"fields": b24.Params{
+        		"isAutomationEnabled":      "N",
+        		"isBeginCloseDatesEnabled": "N",
+        		"isClientEnabled":          "N",
+        		"isObserversEnabled":       "N",
+        		"isSourceEnabled":          "Y",
+        		"isStagesEnabled":          "Y",
+        		"isUseInUserfieldEnabled":  "Y",
+        		"linkedUserFields": b24.Params{
+        			"TASKS_TASK|UF_CRM_TASK": "true",
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.type.update: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
+        ```
 
     {% endlist %}
 
@@ -552,6 +580,52 @@
         echo '</PRE>';
         ```
 
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "crm.type.update", b24.Params{
+        	"id": 20,
+        	"fields": b24.Params{
+        		"relations": b24.Params{
+        			"parent": []any{},
+        			"child": []b24.Params{
+        				{
+        					"entityTypeId":          1,
+        					"isChildrenListEnabled": "true",
+        				},
+        				{
+        					"entityTypeId":          2,
+        					"isChildrenListEnabled": "false",
+        				},
+        			},
+        		},
+        	},
+        })
+        if err != nil {
+        	return fmt.Errorf("crm.type.update: %w", err)
+        }
+
+        // Метод заворачивает ответ в объект с ключом "type".
+        raw, ok := b24.Unwrap(res.Result, "type")
+        if !ok {
+        	return fmt.Errorf("в ответе нет ключа type")
+        }
+
+        var item struct {
+        	ID                  b24.ID `json:"id"`
+        	Title               string `json:"title"`
+        	Code                string `json:"code"`
+        	CreatedBy           int    `json:"createdBy"`
+        	EntityTypeID        b24.ID `json:"entityTypeId"`
+        	IsCategoriesEnabled string `json:"isCategoriesEnabled"`
+        }
+        if err := json.Unmarshal(raw, &item); err != nil {
+        	return fmt.Errorf("разбор ответа: %w", err)
+        }
+        fmt.Println(item.ID, item.Title)
+        ```
+
     {% endlist %}
 
 ## Обработка ответа
@@ -628,11 +702,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`][1] | Корневой элемент ответа. Содержит единственный ключ `type` ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `type` ||
 || **type**
 [`type`](../../data-types.md#type) | Информация об обновленном смарт-процессе ||
 || **time**
-[`time`][1] | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -668,5 +742,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
-
-[1]: ../../../data-types.md

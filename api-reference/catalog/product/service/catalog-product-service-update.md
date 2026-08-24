@@ -99,7 +99,7 @@
 
 Значение указывается в формате `{valueId: valueId, value: value}` либо в формате `[{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}]`, если свойство множественное. Здесь `valueId` — идентификатор значения свойства, а `value` — значение свойства. 
 
-Если не указать `valueId`, то существующее значение будет удалено из базы данных и заменено на новое, указанное в `value`. Если свойство множественное, то все существующие значения свойства, для которых не был указан `valueId`, будут удалены.
+Если не указать `valueId`, то существующее значение будет удалено из базы данных и заменено на новое, указанное в `value`. Если свойство множественное, то все существующие значения свойства, для которых не был указан `valueId`, будут удалены. Исключение — свойства типа «файл»: их значения, не переданные в запросе, сохраняются, но `valueId` оставшихся значений после удаления меняются.
 
 `valueId` всех свойств услуги можно получить с помощью методов [catalog.product.service.get](./catalog-product-service-get.md) и [catalog.product.service.list](./catalog-product-service-list.md)
 ||
@@ -515,6 +515,76 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.product.service.update", b24.Params{
+    	"id": 1265,
+    	"fields": b24.Params{
+    		"name":           "Услуга",
+    		"active":         "Y",
+    		"code":           "service",
+    		"createdBy":      1,
+    		"dateActiveFrom": "2024-05-28T10:00:00",
+    		"dateActiveTo":   "2024-05-29T10:00:00",
+    		"dateCreate":     "2024-05-27T10:00:00",
+    		"detailPicture": b24.Params{
+    			"fileData": []string{"detailPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
+    		},
+    		"detailText":      "",
+    		"detailTextType":  "text",
+    		"iblockSectionId": 47,
+    		"modifiedBy":      1,
+    		"previewPicture": b24.Params{
+    			"fileData": []string{"previewPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
+    		},
+    		"previewText":     "",
+    		"previewTextType": "text",
+    		"sort":            100,
+    		"vatId":           1,
+    		"vatIncluded":     "Y",
+    		"xmlId":           "216",
+    		"property258": b24.Params{
+    			"value":   "test",
+    			"valueId": 9809,
+    		},
+    		"property259": []b24.Params{
+    			{
+    				"value":   "test1",
+    				"valueId": 9810,
+    			},
+    			{
+    				"value":   "test2",
+    				"valueId": 9811,
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.product.service.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "service".
+    raw, ok := b24.Unwrap(res.Result, "service")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа service")
+    }
+
+    var item struct {
+    	Active         string `json:"active"`
+    	Available      string `json:"available"`
+    	Bundle         string `json:"bundle"`
+    	Code           string `json:"code"`
+    	CreatedBy      int    `json:"createdBy"`
+    	DateActiveFrom string `json:"dateActiveFrom"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Available)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -593,7 +663,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
 || **service**
-[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с информацией о обновленной услуге ||
+[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с информацией об обновленной услуге ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#

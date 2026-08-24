@@ -230,6 +230,25 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.repo.unbind", b24.Params{
+    	"code":    "LANDING_SETTINGS",
+    	"handler": "https://your-domain.com/widgets/landing-settings-handler.php",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.repo.unbind: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -258,7 +277,10 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат успешного удаления места встраивания ||
+[`boolean`](../../data-types.md) \| [`null`](../../data-types.md) | Результат удаления места встраивания
+
+- `true` — место встраивания удалено
+- `null` — метод выполнен без ошибки, но удаление не запускалось, например если текущий вызов не связан с приложением ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

@@ -19,7 +19,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -44,9 +44,9 @@
 || **message**
 [`string`](../../../../data-types.md) | Новый текст сообщения. Максимальная длина — 20 000 символов ||
 || **attach**
-[`array`](../../../../data-types.md) | Новые вложения. Подробнее: [Как использовать вложения](../../../../chats/messages/attachments.md) ||
+[`array`](../../../../data-types.md) | Новые вложения. Подробнее: [Как использовать вложения](./attachments/index.md) ||
 || **keyboard**
-[`array`](../../../../data-types.md) | Новая клавиатура. Подробнее: [Работа с клавиатурами](../../../../chats/messages/keyboards.md). Для удаления клавиатуры передайте `"N"` ||
+[`array`](../../../../data-types.md) | Новая клавиатура. Подробнее: [Работа с клавиатурами](./message-keyboards.md). Для удаления клавиатуры передайте `"N"` ||
 || **urlPreview**
 [`string`](../../../../data-types.md) | Показывать превью ссылок. Допустимые значения: `Y`, `N`. По умолчанию `Y` ||
 |#
@@ -187,6 +187,31 @@
     } else {
         echo 'Updated';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "imbot.v2.Chat.Message.update", b24.Params{
+    	"botId":     456,
+    	"botToken":  "my_bot_token",
+    	"messageId": 789,
+    	"fields": b24.Params{
+    		"message": "Updated text",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("imbot.v2.Chat.Message.update: %w", err)
+    }
+
+    var item struct {
+    	Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result)
     ```
 
 {% endlist %}

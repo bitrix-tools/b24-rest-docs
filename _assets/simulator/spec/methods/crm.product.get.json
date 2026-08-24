@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.product.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить товар по идентификатору crm.product.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор товара"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/products/crm-product-get.md"
+  },
+  "deprecated": {
+    "successor": "catalog.product.get"
+  },
+  "page": "/api-reference/crm/outdated/products/crm-product-get.html",
+  "executable": false
+}

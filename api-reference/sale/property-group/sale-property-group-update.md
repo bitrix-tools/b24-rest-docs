@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод обновляет поля группы свойств.
+Метод `sale.propertygroup.update` обновляет поля группы свойств.
 
 ## Параметры метода
 
@@ -263,6 +263,40 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.propertygroup.update", b24.Params{
+    	"id": 10,
+    	"fields": b24.Params{
+    		"personTypeId": 3,
+    		"name":         "Обновленная группа свойств",
+    		"sort":         100,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.propertygroup.update: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "propertyGroup".
+    raw, ok := b24.Unwrap(res.Result, "propertyGroup")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа propertyGroup")
+    }
+
+    var item struct {
+    	ID           b24.ID `json:"id"`
+    	Name         string `json:"name"`
+    	PersonTypeID b24.ID `json:"personTypeId"`
+    	Sort         int    `json:"sort"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

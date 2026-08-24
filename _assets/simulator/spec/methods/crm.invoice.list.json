@@ -1,0 +1,35 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.list",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить список счетов crm.invoice.list",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "filter",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Фильтр записей. По умолчанию отдаются все записи, без фильтрации"
+    },
+    {
+      "name": "order",
+      "type": "unknown",
+      "base": "any",
+      "required": false,
+      "description": "Сортировка записей. Поддерживается сортировка по тем же полям, что и в фильтре"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-list.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-list.html",
+  "executable": false
+}

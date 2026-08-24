@@ -25,7 +25,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -224,6 +224,31 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "tasks.task.result.addFromComment", b24.Params{
+    	"commentId": 3199,
+    })
+    if err != nil {
+    	return fmt.Errorf("tasks.task.result.addFromComment: %w", err)
+    }
+
+    var item struct {
+    	ID        b24.ID `json:"id"`
+    	TaskID    b24.ID `json:"taskId"`
+    	CommentID b24.ID `json:"commentId"`
+    	CreatedBy int    `json:"createdBy"`
+    	CreatedAt string `json:"createdAt"`
+    	UpdatedAt string `json:"updatedAt"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.TaskID)
     ```
 
 {% endlist %}

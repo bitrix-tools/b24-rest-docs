@@ -1,0 +1,82 @@
+{
+  "$v": 1,
+  "method": "sign.b2e.mysafe.tail",
+  "scope": "sign.b2e",
+  "kind": "write",
+  "title": "Получить список подписанных документов в сейфе компании sign.b2e.mysafe.tail",
+  "permissions": "пользователь с доступом к разделу «Сейф компании». Доступные документы зависят от уровня права «Доступ к документам сейфа»",
+  "params": [
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Количество записей на странице. Параметр принимает значение от 1 до 1000. По умолчанию выводится 20 записей на странице"
+    },
+    {
+      "name": "offset",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Аналогичен стандартному параметру start. Размер страницы результатов зависит от параметра limit"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sign/sign-b2e-mysafe-tail.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": 59,
+        "title": "test-pdf е",
+        "create_date": "2024-06-28T19:07:03+03:00",
+        "signed_date": "2024-06-28T19:34:58+03:00",
+        "creator_id": 1,
+        "member_id": 1,
+        "role": "signer",
+        "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=7e34b467...&token=sign.b2e..."
+      },
+      {
+        "id": 55,
+        "title": "test-pdf 778484",
+        "create_date": "2024-06-28T18:37:37+03:00",
+        "signed_date": "2024-06-28T18:39:47+03:00",
+        "creator_id": 19,
+        "member_id": 1,
+        "role": "signer",
+        "file_url": "https://your-domain.bitrix24.ru/rest/download.json?auth=7e34b467...&token=sign.b2e..."
+      }
+    ],
+    "time": {
+      "start": 1739859574.555075,
+      "finish": 1739859574.595099,
+      "duration": 0.0400240421295166,
+      "processing": 0.0148630142211914,
+      "date_start": "2025-02-18T09:19:34+03:00",
+      "date_finish": "2025-02-18T09:19:34+03:00",
+      "operating_reset_at": 1739860174,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит информацию о подписанных документах в сейфе компании"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sign/sign-b2e-mysafe-tail.html",
+  "executable": false
+}

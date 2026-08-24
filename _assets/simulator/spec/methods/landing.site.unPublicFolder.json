@@ -1,0 +1,61 @@
+{
+  "$v": 1,
+  "method": "landing.site.unPublicFolder",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Снять папку сайта с публикации landing.site.unPublicFolder",
+  "permissions": "пользователь с правом «публикации» сайта",
+  "params": [
+    {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
+      "name": "folderId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор папки. Идентификатор папки можно получить методом landing.site.getFolders"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/site/landing-site-unpublic-folder.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1773286567,
+      "finish": 1773286567.497827,
+      "duration": 0.49782705307006836,
+      "processing": 0,
+      "date_start": "2026-03-12T06:36:07+03:00",
+      "date_finish": "2026-03-12T06:36:07+03:00",
+      "operating_reset_at": 1773287167,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если папка и ее цепочка родительских папок успешно сняты с публикации"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/site/landing-site-unpublic-folder.html",
+  "executable": false
+}

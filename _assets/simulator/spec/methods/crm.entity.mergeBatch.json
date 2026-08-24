@@ -1,0 +1,92 @@
+{
+  "$v": 1,
+  "method": "crm.entity.mergeBatch",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Объединить дубликаты crm.entity.mergeBatch",
+  "permissions": "пользователь с правом на изменение главного элемента и правом на удаление остальных объединяемых элементов",
+  "params": [
+    {
+      "name": "params",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с элементами для объединения (подробное описание)",
+      "ref": "#/defs/paramsFields"
+    }
+  ],
+  "defs": {
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "entityTypeId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор типа объекта CRM. Возможные значения: - 1 — лид - 2 — сделка - 3 — контакт - 4 — компания - 7 — предложение - 31 — счет - 128 — смарт-процесс. Идентификатор конкретного смарт-процесса можно узнать методами crm.enum.ownertype и crm.type.list"
+        },
+        {
+          "name": "entityIds",
+          "type": "integer[]",
+          "base": "array",
+          "required": true,
+          "description": "Массив идентификаторов элементов, которые необходимо объединить. Минимум два элемента"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/duplicates/crm-entity-merge-batch.md"
+  },
+  "resultExample": {
+    "result": {
+      "STATUS": "SUCCESS",
+      "ENTITY_IDS": [
+        101,
+        102
+      ]
+    },
+    "time": {
+      "start": 1750754639.300838,
+      "finish": 1750754641.350269,
+      "duration": 2.049431085586548,
+      "processing": 2.0271031856536865,
+      "date_start": "2025-06-24T11:43:59+03:00",
+      "date_finish": "2025-06-24T11:44:01+03:00",
+      "operating_reset_at": 1750755239,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "STATUS",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Статус выполнения операции. Возможные значения: - SUCCESS — объединение прошло успешно - CONFLICT — возник конфликт данных, автоматическое объединение невозможно - ERROR — произошла ошибка"
+    },
+    {
+      "name": "ENTITY_IDS",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов элементов, которые были удалены при объединении"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/duplicates/crm-entity-merge-batch.html",
+  "executable": false
+}

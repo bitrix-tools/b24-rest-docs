@@ -15,6 +15,8 @@
 
 Метод `sale.order.getfields` получает доступные поля заказа.
 
+## Параметры метода
+
 Без параметров.
 
 ## Примеры кода
@@ -198,6 +200,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.order.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.order.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "order".
+    raw, ok := b24.Unwrap(res.Result, "order")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа order")
+    }
+
+    fmt.Printf("%s\n", raw)
     ```
 
 {% endlist %}
@@ -517,7 +537,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./sale-order-add.md)
 - [{#T}](./sale-order-update.md)

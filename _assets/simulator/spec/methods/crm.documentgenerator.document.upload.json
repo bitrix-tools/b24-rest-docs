@@ -1,0 +1,155 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.document.upload",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Загрузить документ crm.documentgenerator.document.upload",
+  "permissions": "пользователь с правом \"изменения\" документов генератора документов",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с параметрами загрузки документа (подробнее)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "entityTypeId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор типа CRM-объекта. Типичные значения: - 1 — лид - 2 — сделка - 3 — контакт - 4 — компания - 7 — коммерческое предложение Для смарт-процессов передается их entityTypeId, например 177"
+        },
+        {
+          "name": "entityId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор CRM-объекта, к которому прикрепляется документ"
+        },
+        {
+          "name": "fileContent",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержимое DOCX-файла в формате base64. Подробнее: Как загружать файлы"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код региона шаблона, например ru"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название документа"
+        },
+        {
+          "name": "number",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Номер документа"
+        },
+        {
+          "name": "pdfContent",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержимое PDF-файла в формате base64. Подробнее: Как загружать файлы"
+        },
+        {
+          "name": "imageContent",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержимое изображения в формате base64. Подробнее: Как загружать файлы"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/documents/crm-document-generator-document-upload.md"
+  },
+  "resultExample": {
+    "result": {
+      "document": {
+        "changeStampsEnabled": false,
+        "changeStampsDisabledReason": "В шаблоне нет печатей и подписей",
+        "changeQrCodeEnabled": false,
+        "qrCodeEnabled": false,
+        "changeQrCodeDisabledReason": "В шаблоне нет QR-кода",
+        "products": {
+          "currencyId": "UAH",
+          "totalSum": "0.00",
+          "totalRows": 0
+        },
+        "downloadUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.download&SITE_ID=s1&id=63",
+        "publicUrl": null,
+        "title": "Демонстрационная реализация товара",
+        "number": "2026-001",
+        "id": "63",
+        "createTime": "2026-03-20T17:08:24+03:00",
+        "createdBy": "577",
+        "updateTime": "2026-03-20T17:08:24+03:00",
+        "updatedBy": null,
+        "stampsEnabled": false,
+        "isTransformationError": false,
+        "values": {
+          "productsTableVariant": "",
+          "_creationMethod": "rest"
+        },
+        "templateId": "55",
+        "pullTag": "TRANSFORMDOCUMENT63",
+        "emailDiskFile": 5619,
+        "entityId": "101",
+        "entityTypeId": "2",
+        "downloadUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.download.json?auth=***&token=***"
+      }
+    },
+    "time": {
+      "start": 1774015704,
+      "finish": 1774015705.08562,
+      "duration": 1.0856199264526367,
+      "processing": 1,
+      "date_start": "2026-03-20T17:08:24+03:00",
+      "date_finish": "2026-03-20T17:08:25+03:00",
+      "operating_reset_at": 1774016304,
+      "operating": 1.0284008979797363
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа. Содержит структуру result"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-upload.html",
+  "executable": false
+}

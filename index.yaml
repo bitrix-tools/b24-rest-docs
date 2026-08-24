@@ -29,7 +29,7 @@ blocks:
       - text: 'GitHub'
         theme: 'outlined'
         size: 'promo'
-        url: 'https://github.com/bitrix-tools/bitrix24-dev-hub'
+        url: 'https://github.com/bitrix-tools/b24-ai-starter'
       - text: 'Вайбкод'
         theme: 'outlined'
         size: 'promo'

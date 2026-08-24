@@ -1,0 +1,76 @@
+{
+  "$v": 1,
+  "method": "catalog.productPropertySection.get",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить секционные настройки свойства catalog.productPropertySection.get",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "propertyId",
+      "type": "catalog_product_property.id",
+      "base": "any",
+      "required": true,
+      "description": "Идентификатор свойства товара или вариации. Идентификаторы свойств можно получить методом catalog.productProperty.list"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/product-property-section/catalog-product-property-section-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "productPropertySection": {
+        "displayExpanded": "N",
+        "displayType": "F",
+        "filterHint": "Подсказка для фильтра",
+        "propertyId": 901,
+        "smartFilter": "Y"
+      }
+    },
+    "time": {
+      "start": 1774266712,
+      "finish": 1774266712.876045,
+      "duration": 0.8760449886322021,
+      "processing": 0,
+      "date_start": "2026-03-23T14:51:52+03:00",
+      "date_finish": "2026-03-23T14:51:52+03:00",
+      "operating_reset_at": 1774267312,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "productPropertySection",
+      "type": "catalog_product_property_section",
+      "base": "any",
+      "required": false,
+      "description": "Объект секционных настроек свойства"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/product-property-section/catalog-product-property-section-get.html",
+  "executable": false,
+  "entityFields": [
+    "displayExpanded",
+    "displayType",
+    "filterHint",
+    "propertyId",
+    "smartFilter"
+  ]
+}

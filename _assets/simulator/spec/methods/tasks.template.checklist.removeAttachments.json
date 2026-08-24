@@ -1,0 +1,100 @@
+{
+  "$v": 1,
+  "method": "tasks.template.checklist.removeAttachments",
+  "scope": "task",
+  "kind": "write",
+  "title": "Удалить вложения из пункта чек-листа tasks.template.checklist.removeAttachments",
+  "permissions": "пользователь с правами на изменение шаблона задачи",
+  "params": [
+    {
+      "name": "templateId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор шаблона задачи. Идентификатор шаблона задачи можно получить при создании нового шаблона"
+    },
+    {
+      "name": "checkListItemId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор пункта чек-листа. Идентификатор пункта чек-листа шаблона можно получить при создании нового пункта или методом получения списка пунктов"
+    },
+    {
+      "name": "attachmentsIds",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов прикреплений для удаления",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/template/checklist/tasks-template-checklist-remove-attachments.md"
+  },
+  "resultExample": {
+    "result": {
+      "checkListItem": {
+        "id": 37,
+        "copiedId": null,
+        "userId": 503,
+        "createdBy": null,
+        "parentId": 23,
+        "title": "4. Подготовить дашборд и отправить ссылку",
+        "sortIndex": 2,
+        "displaySortIndex": "",
+        "isComplete": false,
+        "isImportant": true,
+        "completedCount": 0,
+        "members": [
+          {
+            "id": "547",
+            "type": "A",
+            "name": "Анна Петрова",
+            "personalPhoto": "57129",
+            "personalGender": "",
+            "image": "https://mysite.ru/b17053/resize_cache/57129/c0120a8d7c10d63c83e32398d1ec4d9e/main/137/137bfa78b877be117e75f1ac8652834a/anna.png",
+            "isCollaber": false
+          }
+        ],
+        "attachments": [],
+        "nodeId": null,
+        "templateId": 139
+      }
+    },
+    "time": {
+      "start": 1773298408,
+      "finish": 1773298408.806751,
+      "duration": 0.806751012802124,
+      "processing": 0,
+      "date_start": "2026-03-12T09:53:28+03:00",
+      "date_finish": "2026-03-12T09:53:28+03:00",
+      "operating_reset_at": 1773299008,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-remove-attachments.html",
+  "executable": false
+}

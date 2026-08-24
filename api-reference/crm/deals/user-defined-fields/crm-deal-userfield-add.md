@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -43,7 +43,7 @@
 
 ### Параметр fields {#parameter-fields}
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -69,11 +69,16 @@
 - [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
 ||
 || **FIELD_NAME***
-[`string`](../../../data-types.md) | Код поля. Уникальное.
+[`string`](../../../data-types.md) | Код поля. Уникальный в пределах сделок.
 
-Системное ограничение на код поля составляет 20 знаков. К названию пользовательского поля всегда добавляется префикс `UF_CRM_`, то есть реальная длина названия 13 знаков.
+К коду всегда добавляется префикс `UF_CRM_`, полное имя поля система собирает сама:
+- `MANAGER_NOTE` превращается в `UF_CRM_MANAGER_NOTE`
+- `UF_MANAGER_NOTE` превращается в `UF_CRM_MANAGER_NOTE` — префикс `UF_` заменяется на `UF_CRM_`
+- `UF_CRM_MANAGER_NOTE` остается без изменений
 
-Допустимые символы: `A-Z`, `0-9` и `_`||
+Ограничение длины — до `50` символов вместе с префиксом, то есть до `43` символов на код. Если передать более длинное значение, метод вернет ошибку `ERROR_CORE`.
+
+Допустимые символы: `A-Z`, `0-9` и `_`. Строчные буквы приводятся к заглавным, остальные символы вызывают ошибку `ERROR_CORE`||
 || **LABEL**
 [`string`](../../../data-types.md) | Название пользовательского поля по умолчанию.
 
@@ -615,6 +620,58 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"LABEL":        "Поле 'Привет, мир!'",
+    		"USER_TYPE_ID": "string",
+    		"FIELD_NAME":   "HELLO_WORLD",
+    		"MULTIPLE":     "Y",
+    		"MANDATORY":    "Y",
+    		"SHOW_FILTER":  "Y",
+    		"SETTINGS": b24.Params{
+    			"DEFAULT_VALUE": "Привет, мир! Значение по умолчанию",
+    			"ROWS":          3,
+    		},
+    		"SORT":              1000,
+    		"EDIT_IN_LIST":      "Y",
+    		"LIST_FILTER_LABEL": "Привет, мир! Фильтр",
+    		"LIST_COLUMN_LABEL": b24.Params{
+    			"en": "Hello, World! Column",
+    			"ru": "Привет, мир! Колонка",
+    			"de": "Hallo, Welt! Spalte",
+    		},
+    		"EDIT_FORM_LABEL": b24.Params{
+    			"en": "Hello, World! Edit",
+    			"ru": "Привет, мир! Редактировать",
+    			"de": "Hallo, Welt! Bearbeiten",
+    		},
+    		"ERROR_MESSAGE": b24.Params{
+    			"en": "Hello, World! Error",
+    			"ru": "Привет, мир! Ошибка",
+    			"de": "Hallo, Welt! Fehler",
+    		},
+    		"HELP_MESSAGE": b24.Params{
+    			"en": "Hello, World! Help",
+    			"ru": "Привет, мир! Помощь",
+    			"de": "Hallo, Welt! Hilfe",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ### Пример создания пользовательского поля типа Список
@@ -804,6 +861,59 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.deal.userfield.add", b24.Params{
+    	"fields": b24.Params{
+    		"LABEL":        "Пользовательское поле (список)",
+    		"USER_TYPE_ID": "enumeration",
+    		"FIELD_NAME":   "ENUMERATION_EXAMPLE",
+    		"MULTIPLE":     "N",
+    		"MANDATORY":    "N",
+    		"SHOW_FILTER":  "Y",
+    		"LIST": []b24.Params{
+    			{
+    				"VALUE":  "Элемент списка #1",
+    				"DEF":    "Y",
+    				"XML_ID": "XML_ID_1",
+    				"SORT":   100,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #2",
+    				"XML_ID": "XML_ID_2",
+    				"SORT":   200,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #3",
+    				"XML_ID": "XML_ID_3",
+    				"SORT":   300,
+    			},
+    			{
+    				"VALUE":  "Элемент списка #4",
+    				"XML_ID": "XML_ID_4",
+    				"SORT":   400,
+    			},
+    		},
+    		"SETTINGS": b24.Params{
+    			"DISPLAY":     "UI",
+    			"LIST_HEIGHT": 2,
+    		},
+    		"SORT": 2000,
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.deal.userfield.add: %w", err)
+    }
+
+    var newID b24.ID
+    if err := json.Unmarshal(res.Result, &newID); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("идентификатор:", newID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -854,12 +964,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `400` | `The 'FIELD_NAME' field is not found` | Либо передан пустой `FIELD_NAME`, либо он не передан вовсе ||
-|| `400` | `Имя поля слишком длинное (больше 50-ти символов).` | Переданный `FIELD_NAME` содержит более 50 символов ||
-|| `400` | `Имя поля содержит недопустимые символы. Допустимыми являются: A-Z, 0-9 и _.` | Переданный `FIELD_NAME` содержит недопустимые символы ||
-|| `400` | `The 'USER_TYPE_ID' field is not found` | Либо передан пустой `USER_TYPE_ID`, либо он не передан вовсе ||
-|| `400` | `Указан неверный пользовательский тип` | Переданный `USER_TYPE_ID` не существует ||
-|| `400` | `Элемент списка со значением XML_ID='XML_ID' уже существует` | Переданные в элементы списка `XML_ID` не уникальны ||
+|| Пустое значение | `The 'FIELD_NAME' field is not found.` | Либо передан пустой `FIELD_NAME`, либо он не передан вовсе ||
+|| `ERROR_CORE` | `Имя поля слишком длинное (больше 50-ти символов).` | Полное имя поля вместе с префиксом `UF_CRM_` содержит более 50 символов, то есть в `FIELD_NAME` передано более 43 символов ||
+|| `ERROR_CORE` | `Имя поля содержит недопустимые символы. Допустимыми являются: A-Z, 0-9 и _.` | Переданный `FIELD_NAME` содержит символы, кроме `A-Z`, `0-9` и `_` ||
+|| Пустое значение | `The 'USER_TYPE_ID' field is not found.` | Либо передан пустой `USER_TYPE_ID`, либо он не передан вовсе ||
+|| `ERROR_CORE` | `Указан неверный пользовательский тип.` | Переданный `USER_TYPE_ID` не существует ||
+|| `ERROR_CORE` | `Элемент списка со значением XML_ID=xml_id уже существует.` | Переданные в элементы списка `XML_ID` не уникальны ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

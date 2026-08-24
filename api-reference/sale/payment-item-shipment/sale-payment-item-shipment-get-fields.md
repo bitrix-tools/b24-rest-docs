@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает доступные поля элементов табличной части привязки оплаты к отгрузке.
+Метод `sale.paymentItemShipment.getFields` получает доступные поля элементов табличной части привязки оплаты к отгрузке.
+
+## Параметры метода
 
 Без параметров.
 
@@ -199,6 +201,24 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.paymentitemshipment.getfields", nil, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.paymentitemshipment.getfields: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "paymentItemShipment".
+    raw, ok := b24.Unwrap(res.Result, "paymentItemShipment")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа paymentItemShipment")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -288,7 +308,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-payment-item-shipment-add.md)

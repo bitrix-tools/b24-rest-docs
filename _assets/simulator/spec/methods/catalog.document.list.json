@@ -1,0 +1,107 @@
+{
+  "$v": 1,
+  "method": "catalog.document.list",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список документов складского учета catalog.document.list",
+  "permissions": "пользователь с правом «Просмотр каталога товаров»",
+  "params": [
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив со списком полей catalogdocument, которые необходимо выбрать. Если массив не передан или передан пустой массив, то будут выбраны все доступные поля документа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для фильтрации выбранных документов в формате {\"field_1\": \"value_1\", ..., \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта catalogdocument. Ключу можно задать дополнительный префикс, уточняющий поведение фильтра.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для сортировки выбранных документов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogdocument. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания По умолчанию документы упорядочены по возрастанию id",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Параметр используется для управления постраничной навигацией. Размер страницы — 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50. Чтобы выбрать третью страницу результатов — значение 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы. Или передавайте значение из ключа next ответа"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/catalog-document-list.md"
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "documents",
+      "type": "catalog_document[]",
+      "base": "array",
+      "required": false,
+      "description": "Список документов, структура ответа зависит от параметра select"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Указатель смещения для следующей страницы. Передайте значение в параметр start, чтобы получить следующие 50 записей"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество документов"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/catalog-document-list.html",
+  "executable": false,
+  "entityFields": [
+    "commentary",
+    "createdBy",
+    "currency",
+    "dateDocument",
+    "docNumber",
+    "docType",
+    "responsibleId",
+    "siteId",
+    "title",
+    "total"
+  ]
+}

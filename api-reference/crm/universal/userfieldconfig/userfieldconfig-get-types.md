@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -213,6 +213,26 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "userfieldconfig.getTypes", b24.Params{
+    	"moduleId": "crm",
+    })
+    if err != nil {
+    	return fmt.Errorf("userfieldconfig.getTypes: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "types".
+    raw, ok := b24.Unwrap(res.Result, "types")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа types")
+    }
+
+    fmt.Printf("%s\n", raw)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -343,8 +363,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `-` | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
-|| `-` | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
+|| Пустое значение | The current method required more scopes. (crm) | У приложения нет нужного scope для модуля из `moduleId` ||
+|| Пустое значение | No settings for UserFieldAccess | Для переданного `moduleId` не настроен доступ к пользовательским полям ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -61,7 +61,7 @@
 
 ### Параметр FIELDS {#parametr-fields}
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -504,6 +504,64 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "lists.field.update", b24.Params{
+    	"IBLOCK_TYPE_ID": "lists",
+    	"IBLOCK_ID":      "123",
+    	"FIELD_ID":       "PROPERTY_1151",
+    	"FIELDS": b24.Params{
+    		"NAME":        "Статус задачи",
+    		"SORT":        "50",
+    		"IS_REQUIRED": "N",
+    		"MULTIPLE":    "N",
+    		"TYPE":        "L",
+    		"LIST": b24.Params{
+    			"1669": b24.Params{
+    				"VALUE": "Планирование",
+    				"SORT":  10,
+    			},
+    			"1671": b24.Params{
+    				"VALUE": "В активной работе",
+    				"SORT":  20,
+    			},
+    			"1673": b24.Params{
+    				"VALUE": "Тестирование",
+    				"SORT":  30,
+    			},
+    			"1675": b24.Params{
+    				"VALUE": "Завершен",
+    				"SORT":  40,
+    			},
+    			"1677": b24.Params{
+    				"VALUE": "Отложен",
+    				"SORT":  50,
+    			},
+    		},
+    		"LIST_TEXT_VALUES": "Архив",
+    		"LIST_DEF":         []string{"1671"},
+    		"SETTINGS": b24.Params{
+    			"SHOW_ADD_FORM":        "Y",
+    			"SHOW_EDIT_FORM":       "Y",
+    			"ADD_READ_ONLY_FIELD":  "N",
+    			"EDIT_READ_ONLY_FIELD": "Y",
+    			"SHOW_FIELD_PREVIEW":   "N",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("lists.field.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

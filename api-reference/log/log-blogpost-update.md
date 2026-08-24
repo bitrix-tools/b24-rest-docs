@@ -41,7 +41,10 @@
 
 Возможные значения:
 
-{% include notitle [адресаты сообщения](./_includes/log-recepients.md) %}
+- `SG<X>` — рабочие группы и проекты с идентификатором `X`. Идентификатор можно получить методом [sonet_group.get](../sonet-group/sonet-group-get.md)
+- `U<X>` — пользователи с идентификатором `X`. Идентификатор можно получить методом [user.get](../user/user-get.md)
+- `UA` — все авторизованные пользователи
+- `DR<X>` — подразделения компании с идентификатором `X`. Идентификатор можно получить методом [department.get](../departments/department-get.md)
 ||
 || **SPERM**
 [`array`](../data-types.md) | Устаревший аналог `DEST` ||
@@ -69,7 +72,7 @@
 
 По умолчанию — текущий пользователь, инициировавший вызов метода ||
 || **UF_\***
-[`mixed`](../data-types.md) | Пользовательские поля. Поддерживается определенный [набор полей](#uf-fields), который зависит от настроек портала ||
+[`any`](../data-types.md) | Пользовательские поля. Поддерживается определенный [набор полей](#uf-fields), который зависит от настроек портала ||
 |#
 
 ### Пользовательские поля{#uf-fields}
@@ -96,7 +99,7 @@
 
 Заполняется автоматически при `IMPORTANT = 'Y'` ||
 || **UF_IMPRTANT_DATE_END**
-[`datetime`](../data-types.md#datetime) | Срок действия важного сообщения.
+[`datetime`](../data-types.md#standart-types) | Срок действия важного сообщения.
 
 Заполняется автоматически при переданном `IMPORTANT_DATE_END` ||
 || **UF_BLOG_POST_URL_PRV**
@@ -340,6 +343,28 @@ UF_BLOG_POST_VOTE: 'n<ID_опроса>',
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "log.blogpost.update", b24.Params{
+    	"POST_ID":    217,
+    	"POST_TITLE": "Новый заголовок сообщения",
+    	"FILES": b24.Params{
+    		"505": "del",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("log.blogpost.update: %w", err)
+    }
+
+    var value b24.ID
+    if err := json.Unmarshal(res.Result, &value); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("результат:", value)
     ```
 
 {% endlist %}

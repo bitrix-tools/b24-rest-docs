@@ -426,6 +426,34 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.updateStyles", b24.Params{
+    	"lid":   313,
+    	"block": 6134,
+    	"data": b24.Params{
+    		".landing-block-node-text": b24.Params{
+    			"classList": []string{"landing-block-node-text", "g-color-white", "text-right"},
+    			"affect":    []string{"text-align", "color"},
+    			"style": b24.Params{
+    				"font-weight": "700",
+    			},
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.updateStyles: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -477,7 +505,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `MISSING_PARAMS` | Не передан обязательный параметр `lid`, `block` или `data` ||
-|| `ACCESS_DENIED` | Недостаточно прав для редактирования сайта||
+|| `ACCESS_DENIED` | Недостаточно прав для редактирования сайта ||
 || `LANDING_NOT_EXIST` | Страница с идентификатором `lid` не найдена или недоступна текущему пользователю ||
 || `BLOCK_NOT_FOUND` | Блок с идентификатором `block` не найден на странице `lid` или недоступен в версии страницы для редактирования ||
 || `TYPE_ERROR` | Передан неверный тип одного из параметров метода, например `data` в неподходящем формате ||

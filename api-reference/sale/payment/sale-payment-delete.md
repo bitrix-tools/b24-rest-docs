@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет оплату.
+Метод `sale.payment.delete` удаляет оплату.
 
 ## Параметры метода
 
@@ -24,7 +24,7 @@
 [`sale_order_payment.id`](../data-types.md) | Идентификатор оплаты ||
 |#
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 ## Примеры кода
 
@@ -205,6 +205,24 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.payment.delete", b24.Params{
+    	"id": 5,
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.payment.delete: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

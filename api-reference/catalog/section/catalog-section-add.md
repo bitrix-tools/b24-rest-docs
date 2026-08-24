@@ -44,27 +44,27 @@
 
 По умолчанию выбирается верхний уровень ||
 || **name***
-[`string`](../data-types.md) | Название раздела каталога ||
+[`string`](../../data-types.md) | Название раздела каталога ||
 || **xmlId**
-[`string`](../data-types.md) | Внешний идентификатор.
+[`string`](../../data-types.md) | Внешний идентификатор.
 
 Можно использовать для синхронизации текущего раздела каталога с аналогичной позицией во внешней системе ||
 || **code**
-[`string`](../data-types.md) | Код раздела каталога. Должен быть уникальным ||
+[`string`](../../data-types.md) | Код раздела каталога. Должен быть уникальным ||
 || **sort**
-[`integer`](../data-types.md) | Сортировка.
+[`integer`](../../data-types.md) | Сортировка.
 
 По умолчанию 500 ||
 || **active**
-[`string`](../data-types.md) | Индикатор активности раздела каталога:
+[`string`](../../data-types.md) | Индикатор активности раздела каталога:
 - `Y` — активен
 - `N` — неактивен
 
 По умолчанию `Y` ||
 || **description**
-[`string`](../data-types.md) | Описание ||
+[`string`](../../data-types.md) | Описание ||
 || **descriptionType**
-[`string`](../data-types.md) | Тип описания. Доступные типы: `text`, `html` ||
+[`string`](../../data-types.md) | Тип описания. Доступные типы: `text`, `html` ||
 |#
 
 ## Примеры кода
@@ -341,6 +341,47 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "catalog.section.add", b24.Params{
+    	"fields": b24.Params{
+    		"name":            "Детские игрушки",
+    		"iblockId":        14,
+    		"iblockSectionId": 13,
+    		"sort":            "100",
+    		"active":          "Y",
+    		"code":            "toys",
+    		"xmlId":           "myXmlId",
+    		"description":     "Товары для детей - игрушки",
+    		"descriptionType": "text",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("catalog.section.add: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "section".
+    raw, ok := b24.Unwrap(res.Result, "section")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа section")
+    }
+
+    var item struct {
+    	Active          string `json:"active"`
+    	Code            string `json:"code"`
+    	Description     string `json:"description"`
+    	DescriptionType string `json:"descriptionType"`
+    	IblockID        b24.ID `json:"iblockId"`
+    	IblockSectionID b24.ID `json:"iblockSectionId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Active, item.Code)
     ```
 
 {% endlist %}

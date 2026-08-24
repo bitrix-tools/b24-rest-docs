@@ -223,6 +223,24 @@
     }
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.demos.unregister", b24.Params{
+    	"code": "ftmlt",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.demos.unregister: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -278,7 +296,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `MISSING_PARAMS` | Недостаточно параметров вызова, пропущены: code | Вызов метода без `code` ||
 || `ACCESS_DENIED` | Недостаточно прав | Пользователь не прошел общие проверки доступа ||
-|| `-` | Ошибка удаления шаблона | Не удалось удалить шаблон ||
+|| Пустое значение | Ошибка удаления шаблона | Не удалось удалить шаблон ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

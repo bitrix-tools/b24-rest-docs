@@ -37,7 +37,7 @@
 
 Идентификатор блока можно получить методом [landing.block.getlist](./landing-block-get-list.md) с параметром `params.edit_mode = 1` ||
 || **selector***
-[`string`](../../../data-types.md) | Селектор карточки из [ключа `cards` манифеста блока](../manifest.md#ключ-cards)
+[`string`](../../../data-types.md) | Селектор карточки из [ключа `cards` манифеста блока](../manifest.md#cards)
 
 После селектора можно указать индекс через `@<индекс>`. Например, `@0` добавит новую карточку после первой найденной, а `@2` — после третьей.
 
@@ -47,7 +47,7 @@
 
 Если селектор отсутствует в манифесте, в блоке нет карточек по этому селектору или указан несуществующий индекс, метод вернет ошибку.
 
-Подробнее про селекторы карточек и структуру манифеста читайте в статье [Манифест блока](../manifest.md#ключ-cards) ||
+Подробнее про селекторы карточек и структуру манифеста читайте в статье [Манифест блока](../manifest.md#cards) ||
 || **content***
 [`string`](../../../data-types.md) | HTML новой карточки.
 
@@ -276,6 +276,27 @@
         print_r($result['result']);
         echo '</pre>';
     }
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "landing.block.addcard", b24.Params{
+    	"lid":      351,
+    	"block":    6428,
+    	"selector": ".landing-block-node-menu-list-item@0",
+    	"content":  "<li class=\"landing-block-node-menu-list-item nav-item\"><a href=\"#services\" class=\"landing-block-node-menu-list-item-link nav-link\">Услуги</a></li>",
+    })
+    if err != nil {
+    	return fmt.Errorf("landing.block.addcard: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

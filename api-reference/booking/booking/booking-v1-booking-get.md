@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -222,6 +222,33 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "booking.v1.booking.get", b24.Params{
+    	"id": 15,
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("booking.v1.booking.get: %w", err)
+    }
+
+    // Метод заворачивает ответ в объект с ключом "booking".
+    raw, ok := b24.Unwrap(res.Result, "booking")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа booking")
+    }
+
+    var item struct {
+    	ID   b24.ID `json:"id"`
+    	Name string `json:"name"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}

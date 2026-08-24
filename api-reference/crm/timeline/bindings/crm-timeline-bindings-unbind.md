@@ -265,6 +265,28 @@ fields: {
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "crm.timeline.bindings.unbind", b24.Params{
+    	"fields": b24.Params{
+    		"OWNER_ID":    1110,
+    		"ENTITY_ID":   10,
+    		"ENTITY_TYPE": "deal",
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("crm.timeline.bindings.unbind: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа

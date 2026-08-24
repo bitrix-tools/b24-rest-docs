@@ -1,0 +1,28 @@
+{
+  "$v": 1,
+  "method": "crm.invoice.userfield.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить пользовательское поле по идентификатору crm.invoice.userfield.get",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Идентификатор пользовательского поля"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/outdated/invoice/crm-invoice-user-field-get.md"
+  },
+  "deprecated": {
+    "successor": null
+  },
+  "page": "/api-reference/crm/outdated/invoice/crm-invoice-user-field-get.html",
+  "executable": false
+}

@@ -1,0 +1,52 @@
+{
+  "$v": 1,
+  "method": "imbot.v2.Command.unregister",
+  "scope": "imbot",
+  "kind": "write",
+  "title": "Удалить команду imbot.v2.Command.unregister",
+  "permissions": "владелец зарегистрированного бота",
+  "params": [
+    {
+      "name": "botId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID бота"
+    },
+    {
+      "name": "botToken",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+    },
+    {
+      "name": "commandId",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "ID команды"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-unregister.md"
+  },
+  "resultExample": {
+    "result": {
+      "result": true
+    },
+    "time": {
+      "start": 1728626400.123,
+      "finish": 1728626400.234,
+      "duration": 0.111,
+      "processing": 0.045,
+      "date_start": "2024-10-11T10:00:00+03:00",
+      "date_finish": "2024-10-11T10:00:00+03:00"
+    }
+  },
+  "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-unregister.html",
+  "executable": false
+}

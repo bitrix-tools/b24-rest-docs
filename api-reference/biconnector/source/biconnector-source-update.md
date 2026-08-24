@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-{% include [Сноска о параметрах](../../../_includes/required.md) %}
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -318,6 +318,33 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "biconnector.source.update", b24.Params{
+    	"id": 4,
+    	"fields": b24.Params{
+    		"title":       "Новое название источника",
+    		"description": "Обновленное описание источника",
+    		"active":      false,
+    		"settings": b24.Params{
+    			"login":    "new_admin",
+    			"password": "new_password",
+    		},
+    	},
+    })
+    if err != nil {
+    	return fmt.Errorf("biconnector.source.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}

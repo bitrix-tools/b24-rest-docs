@@ -1,0 +1,63 @@
+{
+  "$v": 1,
+  "method": "crm.documentgenerator.document.enablepublicurl",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Включить или выключить публичную ссылку на документ crm.documentgenerator.document.enablepublicurl",
+  "permissions": "пользователь с правом \"изменения\" документов генератора документов",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор документа"
+    },
+    {
+      "name": "status",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Режим публичной ссылки: - 1 — включить - 0 — выключить По умолчанию: 1"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/document-generator/documents/crm-document-generator-document-enable-public-url.md"
+  },
+  "resultExample": {
+    "result": {
+      "publicUrl": "https://bitrix.bitrix24.ru/~71q5j"
+    },
+    "time": {
+      "start": 1774011939,
+      "finish": 1774011939.899233,
+      "duration": 0.8992331027984619,
+      "processing": 0,
+      "date_start": "2026-03-20T16:05:39+03:00",
+      "date_finish": "2026-03-20T16:05:39+03:00",
+      "operating_reset_at": 1774012539,
+      "operating": 0.3236720561981201
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа. Содержит структуру result"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-enable-public-url.html",
+  "executable": false
+}

@@ -243,6 +243,30 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "voximplant.callback.start", b24.Params{
+    	"FROM_LINE":         "reg151083",
+    	"TO_NUMBER":         "79991234567",
+    	"TEXT_TO_PRONOUNCE": "Вам поступил запрос на обратный звонок",
+    	"VOICE":             "ruinternalfemale",
+    })
+    if err != nil {
+    	return fmt.Errorf("voximplant.callback.start: %w", err)
+    }
+
+    var item struct {
+    	Result bool   `json:"RESULT"`
+    	CallID string `json:"CALL_ID"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.Result, item.CallID)
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
