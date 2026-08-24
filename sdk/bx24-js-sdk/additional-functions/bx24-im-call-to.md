@@ -1,4 +1,4 @@
-# Запустить звонок на телефонный номер Messenger.startPhoneCall
+# Позвонить по внутренней связи BX24.im.callTo
 
 {% note tip "" %}
 
@@ -9,10 +9,12 @@
 
 {% endnote %}
 
-Метод `Messenger.startPhoneCall` запускает звонок на телефонный номер в Битрикс24. Метод рекомендуется использовать вместо `BX24.im.phoneTo`.
+{% include notitle [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
+
+Метод `BX24.im.callTo` отправляет команду на звонок пользователю Битрикс24 по внутренней связи.
 
 ```js
-Promise Messenger.startPhoneCall(String number[, Object params])
+void BX24.im.callTo(Integer userId[, Boolean video])
 ```
 
 ## Параметры
@@ -22,38 +24,27 @@ Promise Messenger.startPhoneCall(String number[, Object params])
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **number***
-`string` | Телефонный номер для звонка ||
-|| **params**
-`object` | Дополнительные параметры звонка. Объект параметров передается дальше в phone manager ||
+|| **userId***
+`integer` | Идентификатор пользователя Битрикс24, которому выполняется звонок ||
+|| **video**
+`boolean` | Тип звонка: `true` — видеозвонок, `false` — аудиозвонок ||
 |#
 
 ## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-Объект `Messenger` доступен после загрузки расширения `im.public.iframe`:
-
 ```js
-BX.Runtime.loadExtension('im.public.iframe').then(function (exports) {
-    exports.Messenger.startPhoneCall('88000000000');
+BX24.init(function () {
+    BX24.im.callTo(1, true);
 });
 ```
 
 ## Обработка ответа
 
-Метод возвращает `Promise`.
-
-### Возвращаемые данные
-
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **result**
-`Promise` | Promise выполнения операции запуска звонка ||
-|#
+Метод не возвращает данные (`void`).
 
 ## Продолжите изучение
 
-- [{#T}](./messenger-start-video-call.md)
-- [{#T}](./messenger-open-chat.md)
+- [{#T}](./bx24-im-phone-to.md)
+- [{#T}](./bx24-im-open-messenger.md)
