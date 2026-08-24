@@ -32,6 +32,12 @@
 
 {% endnote %}
 
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../settings/app-installation/installation-finish.md)
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
