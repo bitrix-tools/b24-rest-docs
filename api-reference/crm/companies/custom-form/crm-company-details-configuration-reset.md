@@ -397,41 +397,6 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
-    - BX24.js
-
-        ```js
-        BX24.callMethod(
-            "crm.company.details.configuration.reset",
-            {
-                scope: "C"
-            },
-            function(result)
-            {
-                if(result.error())
-                    console.error(result.error());
-                else
-                    console.dir(result.data());
-            }
-        );
-        ```
-
-    - PHP CRest
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.company.details.configuration.reset',
-            [
-                'scope' => 'C'
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     {% endlist %}
 
 ## Обработка ответа

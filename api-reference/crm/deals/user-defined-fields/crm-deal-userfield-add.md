@@ -420,7 +420,7 @@
     https://**put_your_bitrix24_address**/rest/crm.deal.userfield.add
     ```
 
-- JS
+- BX24.js
 
     ```js
     BX24.callMethod(
@@ -471,7 +471,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -580,7 +580,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-- PHP (B24PhpSdk)
+- PHP
 
     ```php
     try {
@@ -693,7 +693,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
