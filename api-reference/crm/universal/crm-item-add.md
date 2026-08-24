@@ -1482,7 +1482,7 @@
         </script>
         ```
 
-    - PHP
+    - PHP CRest
 
         ```php
         require_once('crest.php');
