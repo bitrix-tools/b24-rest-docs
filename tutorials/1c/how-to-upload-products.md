@@ -2,7 +2,11 @@
 
 > Scope: [`catalog`](../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор Битрикс24 — методы `catalog.product.add`, `catalog.product.update`, `catalog.catalog.list`, `catalog.measure.list` и `catalog.priceType.list` доступны только администратору
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — права администратора Битрикс24
+>
+> - [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md), [catalog.measure.list](../../api-reference/catalog/measure/catalog-measure-list.md), [catalog.priceType.list](../../api-reference/catalog/price-type/catalog-price-type-list.md), [catalog.product.add](../../api-reference/catalog/product/catalog-product-add.md) и [catalog.product.update](../../api-reference/catalog/product/catalog-product-update.md) — администратор
+> - [catalog.price.add](../../api-reference/catalog/price/catalog-price-add.md) и [catalog.price.update](../../api-reference/catalog/price/catalog-price-update.md) — пользователь с правом «Изменение цены продажи товара»
+> - [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md) и [catalog.price.list](../../api-reference/catalog/price/catalog-price-list.md) — пользователь с правом «Просмотр каталога товаров»
 
 {% note tip "" %}
 
@@ -451,7 +455,22 @@ GUID номенклатуры записываем в поле `xmlId` това�
 
 Функция `ПараметрыВСтрокуЗапроса` описана в туториале [Как выгрузить список объектов Битрикс24 в 1С](./how-to-get-lists.md). Разбивайте номенклатуру на порции по 50 позиций — это максимум подзапросов в одном пакете.
 
-## Что учесть
+## Ошибки и диагностика
+
+Если метод вернул ошибку, проверьте данные запроса.
+
+#|
+|| **Ошибка** | **Причина и решение** ||
+|| `200040300040` | Недостаточно прав для создания товара. Вебхук должен быть создан администратором Битрикс24 ||
+|| `200040300000` | Инфоблок с указанным `iblockId` не существует. Возьмите идентификатор из ответа [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md) ||
+|| `Required select fields: iblockId` | В параметре `select` методов `catalog.product.*` не переданы обязательные поля `id` и `iblockId` ||
+|| `200040300020` в [catalog.price.add](../../api-reference/catalog/price/catalog-price-add.md) | Недостаточно прав на изменение цены продажи товара ||
+|| `Validate price error. Catalog price group is wrong` | Неверный тип цены. Получите его идентификатор методом [catalog.priceType.list](../../api-reference/catalog/price-type/catalog-price-type-list.md) ||
+|| `Validate price error. Catalog product is allowed has only single price without ranges in price group` | Цена такого типа у товара уже есть. Обновите ее методом [catalog.price.update](../../api-reference/catalog/price/catalog-price-update.md) ||
+|| `100` | Не указан или пустой параметр `fields` ||
+|#
+
+## Что важно учитывать
 
 - **Услуги.** Поле `type` товара доступно только для чтения, задать тип при создании нельзя. Услуги добавляют отдельным методом [catalog.product.service.add](../../api-reference/catalog/product/service/catalog-product-service-add.md)
 - **Разделы каталога.** Группы номенклатуры переносят методами [catalog.section.*](../../api-reference/catalog/section/index.md) и указывают раздел в поле `iblockSectionId` товара
@@ -460,7 +479,7 @@ GUID номенклатуры записываем в поле `xmlId` това�
 - **Пометка удаления.** Товары в Битрикс24 удобнее не удалять, а деактивировать: передайте `active = "N"`. Тогда товар исчезнет из выбора, но останется в старых документах
 - **Картинки.** Изображение передают в поле `previewPicture` или `detailPicture` структурой `{"fileData": ["имя_файла.jpg", "содержимое в Base64"]}` — как файлы в [других методах](../../api-reference/files/how-to-upload-files.md)
 
-## Что дальше
+## Продолжите изучение
 
 - [Как выставить счет из 1С](./how-to-create-invoice.md) — использовать выгруженные товары в позициях счета
 - [Как выгрузить список объектов Битрикс24 в 1С](./how-to-get-lists.md) — обратная выгрузка каталога
