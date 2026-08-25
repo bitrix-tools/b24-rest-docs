@@ -320,6 +320,7 @@
     ```
 
 {% endlist %}
+
 Перемещение сделки вызывает событие [onCrmDealMoveToCategory](./events/on-crm-deal-move-to-category.md), а не [onCrmDealUpdate](./events/on-crm-deal-update.md). Пример запроса и разбор ответа есть на странице метода [crm.item.update](../universal/crm-item-update.md).
 
 ## Карточка сделки
