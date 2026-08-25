@@ -39,3 +39,7 @@ items:
     include:
       path: openlines/b24-toc.yaml
       mode: link
+  - name: 1С:Предприятие
+    include:
+      path: 1c/b24-toc.yaml
+      mode: link

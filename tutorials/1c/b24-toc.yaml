@@ -1,0 +1,17 @@
+title: Частые кейсы и сценарии интеграции с 1С
+href: index.md
+items: 
+  - name: Типовые сценарии интеграции 1С:Предприятия по REST API
+    href: index.md
+  - name: Как выполнить первый запрос к REST API из 1С
+    href: first-request.md
+  - name: Как выгрузить список объектов Битрикс24 в 1С
+    href: how-to-get-lists.md
+  - name: Как передать контрагента из 1С в CRM Битрикс24
+    href: how-to-sync-counterparty.md
+  - name: Как выставить счет из 1С и отметить оплату
+    href: how-to-create-invoice.md
+  - name: Как выгрузить номенклатуру из 1С в торговый каталог
+    href: how-to-upload-products.md
+  - name: Как прикрепить печатную форму из 1С к объекту Битрикс24
+    href: how-to-upload-file.md
