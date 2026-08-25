@@ -69,12 +69,6 @@
     const $b24 = makeClient(auth)
     ```
 
-- PHP
-
-    ```php
-    $b24 = makeServiceBuilder($request);
-    ```
-
 - Python
 
     ```python
@@ -83,6 +77,12 @@
     client, token = make_client(auth)
     ```
 
+
+- PHP
+
+    ```php
+    $b24 = makeServiceBuilder($request);
+    ```
 {% endlist %}
 
 В примере инициализации PHP-клиента указан scope `imbot,im,task`. Для сценария поддержки замените его на `imopenlines`.
@@ -114,20 +114,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $connectorCode = 'a588e1a88baaf301b9d0b0b33b1eefc2';
-
-    try {
-        $response = $b24->core->call('imopenlines.network.join', [
-            'CODE' => $connectorCode,
-        ]);
-    } catch (Throwable $e) {
-        echo $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -141,6 +127,20 @@
         print(f"Ошибка подключения открытой линии: {error}")
     ```
 
+
+- PHP
+
+    ```php
+    $connectorCode = 'a588e1a88baaf301b9d0b0b33b1eefc2';
+
+    try {
+        $response = $b24->core->call('imopenlines.network.join', [
+            'CODE' => $connectorCode,
+        ]);
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+    }
+    ```
 {% endlist %}
 
 Успешный ответ:
@@ -186,24 +186,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $connectorCode = 'a588e1a88baaf301b9d0b0b33b1eefc2';
-    $userId = (int)$request->request->all('auth')['user_id'];
-    $message = 'Спасибо за установку! Если будут вопросы — пишите в этот чат. Хорошего дня! :)';
-
-    try {
-        $response = $b24->core->call('imopenlines.network.message.add', [
-            'CODE' => $connectorCode,
-            'MESSAGE' => $message,
-            'USER_ID' => $userId,
-        ]);
-    } catch (Throwable $e) {
-        echo $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -221,6 +203,24 @@
         print(f"Ошибка отправки сообщения: {error}")
     ```
 
+
+- PHP
+
+    ```php
+    $connectorCode = 'a588e1a88baaf301b9d0b0b33b1eefc2';
+    $userId = (int)$request->request->all('auth')['user_id'];
+    $message = 'Спасибо за установку! Если будут вопросы — пишите в этот чат. Хорошего дня! :)';
+
+    try {
+        $response = $b24->core->call('imopenlines.network.message.add', [
+            'CODE' => $connectorCode,
+            'MESSAGE' => $message,
+            'USER_ID' => $userId,
+        ]);
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+    }
+    ```
 {% endlist %}
 
 Успешный ответ:

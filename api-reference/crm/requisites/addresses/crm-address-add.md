@@ -198,6 +198,44 @@
     </script>
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.address.add(
+            fields={
+                "TYPE_ID": 1,
+                "ENTITY_TYPE_ID": 8,
+                "ENTITY_ID": 7335,
+                "ADDRESS_1": "15 Main Street",
+                "ADDRESS_2": "Suite 300",
+                "CITY": "Boston",
+                "POSTAL_CODE": "02110",
+                "REGION": "Suffolk County",
+                "PROVINCE": "Massachusetts",
+                "COUNTRY": "United States",
+                "COUNTRY_CODE": "US",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -287,44 +325,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- Python
-
-    Пример
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.address.add(
-            fields={
-                "TYPE_ID": 1,
-                "ENTITY_TYPE_ID": 8,
-                "ENTITY_ID": 7335,
-                "ADDRESS_1": "15 Main Street",
-                "ADDRESS_2": "Suite 300",
-                "CITY": "Boston",
-                "POSTAL_CODE": "02110",
-                "REGION": "Suffolk County",
-                "PROVINCE": "Massachusetts",
-                "COUNTRY": "United States",
-                "COUNTRY_CODE": "US",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go

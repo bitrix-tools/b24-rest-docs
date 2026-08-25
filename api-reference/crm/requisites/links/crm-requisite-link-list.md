@@ -232,78 +232,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.requisite.link.list',
-                [
-                    'order' => ['ENTITY_ID' => 'ASC'],
-                    'filter' => ['@ENTITY_TYPE_ID' => [1, 2, 7, 31]],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        if ($result->more()) {
-            $result->next();
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching requisite links: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        "crm.requisite.link.list", {
-            order: {"ENTITY_ID": "ASC"},
-            filter: {"@ENTITY_TYPE_ID": [1, 2, 7, 31]}    // Лиды, сделки, предложения, счёта.
-        },
-        function (result)
-        {
-            if (result.error())
-            {
-                console.error(result.error());
-            }
-            else
-            {
-                console.dir(result.data());
-                if (result.more())
-                    result.next();
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.requisite.link.list',
-        [
-            'order' => ['ENTITY_ID' => 'ASC'],
-            'filter' => ['@ENTITY_TYPE_ID' => [1, 2, 7, 31]]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     Пример
@@ -409,6 +337,78 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.link.list',
+                [
+                    'order' => ['ENTITY_ID' => 'ASC'],
+                    'filter' => ['@ENTITY_TYPE_ID' => [1, 2, 7, 31]],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        if ($result->more()) {
+            $result->next();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching requisite links: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.requisite.link.list", {
+            order: {"ENTITY_ID": "ASC"},
+            filter: {"@ENTITY_TYPE_ID": [1, 2, 7, 31]}    // Лиды, сделки, предложения, счёта.
+        },
+        function (result)
+        {
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.dir(result.data());
+                if (result.more())
+                    result.next();
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.requisite.link.list',
+        [
+            'order' => ['ENTITY_ID' => 'ASC'],
+            'filter' => ['@ENTITY_TYPE_ID' => [1, 2, 7, 31]]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 - Go

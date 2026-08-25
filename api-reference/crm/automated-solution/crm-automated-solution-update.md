@@ -181,27 +181,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.update',
-            [
-                'id' => 238,
-                'fields' =>
-                [
-                    'title' => 'HR & Customer Success'
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -229,6 +208,27 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.update',
+            [
+                'id' => 238,
+                'fields' =>
+                [
+                    'title' => 'HR & Customer Success'
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go
@@ -373,27 +373,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.update',
-            [
-                'id' => 238,
-                'fields' =>
-                [
-                    'typeIds' => [14]
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -423,6 +402,27 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.update',
+            [
+                'id' => 238,
+                'fields' =>
+                [
+                    'typeIds' => [14]
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go
@@ -567,27 +567,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.update',
-            [
-                'id' => 238,
-                'fields' =>
-                [
-                    'typeIds' => []
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -615,6 +594,27 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.update',
+            [
+                'id' => 238,
+                'fields' =>
+                [
+                    'typeIds' => []
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go

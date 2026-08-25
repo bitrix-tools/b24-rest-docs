@@ -84,22 +84,6 @@
     const ownerTypes = ownerTypeResponse.getData().result
     ```
 
-- PHP
-
-    ```php
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook(getenv('B24_HOOK'));
-    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
-
-    $result = $serviceBuilder->getCRMScope()->enum()->ownerType()->getItems();
-    ```
-
 - Python
 
     ```python
@@ -116,6 +100,22 @@
     # B24_HOOK_TOKEN = 'user_id/webhook_key'
 
     result = client.crm.enum.ownertype().response.result
+    ```
+
+- PHP
+
+    ```php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
+
+    $result = $serviceBuilder->getCRMScope()->enum()->ownerType()->getItems();
     ```
 
 - Go
@@ -284,6 +284,18 @@
     const items = itemResponse.getData().result.items
     ```
 
+- Python
+
+    ```python
+    result = client.crm.item.list(
+        entity_type_id=177,
+        select=["id", "title"],
+        filter={
+            "title": "Стиральная машина",
+        },
+    ).response.result
+    ```
+
 - PHP
   
     ```php
@@ -298,18 +310,6 @@
             'title',
         ]
     )->getItems();
-    ```
-
-- Python
-
-    ```python
-    result = client.crm.item.list(
-        entity_type_id=177,
-        select=["id", "title"],
-        filter={
-            "title": "Стиральная машина",
-        },
-    ).response.result
     ```
 
 - Go
@@ -407,6 +407,20 @@ Tb1 + "_" + 29 = Tb1_29
     const task = taskResponse.getData().result.task
     ```
 
+- Python
+
+    ```python
+    result = client.tasks.task.add(
+        fields={
+            "TITLE": "task for test",
+            "RESPONSIBLE_ID": 1,
+            "UF_CRM_TASK": [
+                "Tb1_29",
+            ],
+        }
+    ).response.result
+    ```
+
 - PHP
   
     ```php
@@ -422,20 +436,6 @@ Tb1 + "_" + 29 = Tb1_29
             ]
         ]
     )->getResponseData()->getResult();
-    ```
-
-- Python
-
-    ```python
-    result = client.tasks.task.add(
-        fields={
-            "TITLE": "task for test",
-            "RESPONSIBLE_ID": 1,
-            "UF_CRM_TASK": [
-                "Tb1_29",
-            ],
-        }
-    ).response.result
     ```
 
 - Go
@@ -592,6 +592,81 @@ Tb1 + "_" + 29 = Tb1_29
     $b24.destroy();
     ```
 
+- Python
+
+    ```python
+    import os
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    smart_process_name = "название_смарт_процесса"
+    item_name = "название_элемента"
+    responsible_id = 1
+    task_title = "название_задачи"
+
+
+    def create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title):
+        try:
+            result = client.crm.enum.ownertype().response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка получения типов сущностей: {error}")
+            return
+
+        smart_process = None
+        for process in result:
+            if process["NAME"] == smart_process_name:
+                smart_process = process
+                break
+
+        if smart_process is None:
+            print("Смарт-процесс не найден")
+            return
+
+        symbol_code_short = smart_process["SYMBOL_CODE_SHORT"]
+
+        try:
+            item_result = client.crm.item.list(
+                entity_type_id=int(smart_process["ID"]),
+                select=["id", "title"],
+                filter={"title": item_name},
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка получения элементов смарт-процесса: {error}")
+            return
+
+        if len(item_result["items"]) == 0:
+            print("Элемент смарт-процесса не найден")
+            return
+
+        item_id = item_result["items"][0]["id"]
+
+        try:
+            task_result = client.tasks.task.add(
+                fields={
+                    "TITLE": task_title,
+                    "RESPONSIBLE_ID": responsible_id,
+                    "UF_CRM_TASK": [f"{symbol_code_short}_{item_id}"],
+                }
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка создания задачи: {error}")
+        else:
+            print("Задача успешно создана!")
+            print(task_result)
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
+        )
+    )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
+
+    create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title)
+    ```
+
 - PHP
   
     ```php
@@ -678,81 +753,6 @@ Tb1 + "_" + 29 = Tb1_29
 
     // Вызов функции для создания задачи
     createTaskWithSmartProcess($serviceBuilder, $smartProcessName, $itemName, $responsibleId, $taskTitle);
-    ```
-
-- Python
-
-    ```python
-    import os
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    smart_process_name = "название_смарт_процесса"
-    item_name = "название_элемента"
-    responsible_id = 1
-    task_title = "название_задачи"
-
-
-    def create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title):
-        try:
-            result = client.crm.enum.ownertype().response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка получения типов сущностей: {error}")
-            return
-
-        smart_process = None
-        for process in result:
-            if process["NAME"] == smart_process_name:
-                smart_process = process
-                break
-
-        if smart_process is None:
-            print("Смарт-процесс не найден")
-            return
-
-        symbol_code_short = smart_process["SYMBOL_CODE_SHORT"]
-
-        try:
-            item_result = client.crm.item.list(
-                entity_type_id=int(smart_process["ID"]),
-                select=["id", "title"],
-                filter={"title": item_name},
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка получения элементов смарт-процесса: {error}")
-            return
-
-        if len(item_result["items"]) == 0:
-            print("Элемент смарт-процесса не найден")
-            return
-
-        item_id = item_result["items"][0]["id"]
-
-        try:
-            task_result = client.tasks.task.add(
-                fields={
-                    "TITLE": task_title,
-                    "RESPONSIBLE_ID": responsible_id,
-                    "UF_CRM_TASK": [f"{symbol_code_short}_{item_id}"],
-                }
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка создания задачи: {error}")
-        else:
-            print("Задача успешно создана!")
-            print(task_result)
-
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token=os.environ["B24_HOOK_TOKEN"],
-        )
-    )
-    # B24_HOOK_TOKEN = 'user_id/webhook_key'
-
-    create_task_with_smart_process(client, smart_process_name, item_name, responsible_id, task_title)
     ```
 
 - Go
@@ -1049,6 +1049,15 @@ Tb1 + "_" + 29 = Tb1_29
     const checkedTask = checkResponse.getData().result.task
     ```
 
+- Python
+
+    ```python
+    result = client.tasks.task.get(
+        bitrix_id=3731,
+        select=["ID", "UF_CRM_TASK"],
+    ).response.result
+    ```
+
 - PHP
   
     ```php
@@ -1059,15 +1068,6 @@ Tb1 + "_" + 29 = Tb1_29
             'select' => ['ID', 'UF_CRM_TASK'] // выбираемые поля
         ]
     )->getResponseData()->getResult();
-    ```
-
-- Python
-
-    ```python
-    result = client.tasks.task.get(
-        bitrix_id=3731,
-        select=["ID", "UF_CRM_TASK"],
-    ).response.result
     ```
 
 - Go

@@ -123,25 +123,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
-        $result = $serviceBuilder
-            ->getCRMScope()`r`n            ->companyUserfield()
-            ->delete($userfieldId);
-
-        if ($result->isSuccess()) {
-            print("Userfield deleted successfully.");
-        } else {
-            print("Failed to delete userfield.");
-        }
-    } catch (Throwable $e) {
-        print("An error occurred: " . $e->getMessage());
-    }
-    ```
-
 - Python
 
     Пример
@@ -166,6 +147,25 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+        $result = $serviceBuilder
+            ->getCRMScope()`r`n            ->companyUserfield()
+            ->delete($userfieldId);
+
+        if ($result->isSuccess()) {
+            print("Userfield deleted successfully.");
+        } else {
+            print("Failed to delete userfield.");
+        }
+    } catch (Throwable $e) {
+        print("An error occurred: " . $e->getMessage());
+    }
     ```
 
 - BX24.js

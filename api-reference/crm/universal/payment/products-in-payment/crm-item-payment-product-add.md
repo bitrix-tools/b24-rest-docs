@@ -134,34 +134,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.item.payment.product.add',
-                [
-                    'paymentId' => 1039,
-                    'rowId'     => 17587,
-                    'quantity'  => 2
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding payment product: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -188,6 +160,34 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.payment.product.add',
+                [
+                    'paymentId' => 1039,
+                    'rowId'     => 17587,
+                    'quantity'  => 2
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding payment product: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

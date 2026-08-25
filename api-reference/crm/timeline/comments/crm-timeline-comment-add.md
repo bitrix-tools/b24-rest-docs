@@ -186,42 +186,6 @@ fields:
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.timeline.comment.add',
-                [
-                    'fields' => [
-                        'ENTITY_ID'   => 10,
-                        'ENTITY_TYPE' => 'deal',
-                        'COMMENT'     => 'New comment was added',
-                        'FILES'       => [
-                            ['1.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
-                            ['2.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
-                        ],
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding timeline comment: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -260,6 +224,42 @@ fields:
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.comment.add',
+                [
+                    'fields' => [
+                        'ENTITY_ID'   => 10,
+                        'ENTITY_TYPE' => 'deal',
+                        'COMMENT'     => 'New comment was added',
+                        'FILES'       => [
+                            ['1.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
+                            ['2.gif', 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='],
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding timeline comment: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

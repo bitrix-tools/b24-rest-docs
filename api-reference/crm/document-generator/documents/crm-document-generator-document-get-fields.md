@@ -195,6 +195,33 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.documentgenerator.document.getfields(
+            bitrix_id=101,
+            values={
+                "DocumentNumber": "2026-001",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php
@@ -223,33 +250,6 @@
         error_log($e->getMessage());
         echo 'Error getting document fields: ' . $e->getMessage();
     }
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.documentgenerator.document.getfields(
-            bitrix_id=101,
-            values={
-                "DocumentNumber": "2026-001",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - BX24.js

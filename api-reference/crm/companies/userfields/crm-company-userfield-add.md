@@ -562,56 +562,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $userfieldItemFields = [
-            'FIELD_NAME' => 'HELLO_WORLD',
-            'USER_TYPE_ID' => 'string',
-            'SORT' => 1000,
-            'MULTIPLE' => 'Y',
-            'MANDATORY' => 'Y',
-            'SHOW_FILTER' => 'Y',
-            'EDIT_IN_LIST' => 'Y',
-            'LIST_FILTER_LABEL' => 'Привет, мир! Фильтр',
-            'LIST_COLUMN_LABEL' => [
-                'en' => 'Hello, World! Column',
-                'ru' => 'Привет, мир! Колонка',
-                'de' => 'Hallo, Welt! Spalte',
-            ],
-            'EDIT_FORM_LABEL' => [
-                'en' => 'Hello, World! Edit',
-                'ru' => 'Привет, мир! Редактировать',
-                'de' => 'Hallo, Welt! Bearbeiten',
-            ],
-            'ERROR_MESSAGE' => [
-                'en' => 'Hello, World! Error',
-                'ru' => 'Привет, мир! Ошибка',
-                'de' => 'Hallo, Welt! Fehler',
-            ],
-            'HELP_MESSAGE' => [
-                'en' => 'Hello, World! Help',
-                'ru' => 'Привет, мир! Помощь',
-                'de' => 'Hallo, Welt! Hilfe',
-            ],
-            'SETTINGS' => [
-                'DEFAULT_VALUE' => 'Привет, мир! Значение по умолчанию',
-                'ROWS' => 3,
-            ],
-        ];
-
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->companyUserfield()
-            ->add($userfieldItemFields);
-
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
-    ```
-
 - Python
 
     Пример
@@ -670,6 +620,56 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $userfieldItemFields = [
+            'FIELD_NAME' => 'HELLO_WORLD',
+            'USER_TYPE_ID' => 'string',
+            'SORT' => 1000,
+            'MULTIPLE' => 'Y',
+            'MANDATORY' => 'Y',
+            'SHOW_FILTER' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'LIST_FILTER_LABEL' => 'Привет, мир! Фильтр',
+            'LIST_COLUMN_LABEL' => [
+                'en' => 'Hello, World! Column',
+                'ru' => 'Привет, мир! Колонка',
+                'de' => 'Hallo, Welt! Spalte',
+            ],
+            'EDIT_FORM_LABEL' => [
+                'en' => 'Hello, World! Edit',
+                'ru' => 'Привет, мир! Редактировать',
+                'de' => 'Hallo, Welt! Bearbeiten',
+            ],
+            'ERROR_MESSAGE' => [
+                'en' => 'Hello, World! Error',
+                'ru' => 'Привет, мир! Ошибка',
+                'de' => 'Hallo, Welt! Fehler',
+            ],
+            'HELP_MESSAGE' => [
+                'en' => 'Hello, World! Help',
+                'ru' => 'Привет, мир! Помощь',
+                'de' => 'Hallo, Welt! Hilfe',
+            ],
+            'SETTINGS' => [
+                'DEFAULT_VALUE' => 'Привет, мир! Значение по умолчанию',
+                'ROWS' => 3,
+            ],
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->companyUserfield()
+            ->add($userfieldItemFields);
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 - BX24.js
@@ -914,38 +914,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $userfieldItemFields = [
-            'LABEL' => 'Пользовательское поле (список)',
-            'USER_TYPE_ID' => 'enumeration',
-            'FIELD_NAME' => 'ENUMERATION_EXAMPLE',
-            'MULTIPLE' => 'N',
-            'MANDATORY' => 'N',
-            'SHOW_FILTER' => 'Y',
-            'LIST' => [
-                ['VALUE' => 'Элемент списка #1', 'DEF' => 'Y', 'XML_ID' => 'XML_ID_1', 'SORT' => 100],
-                ['VALUE' => 'Элемент списка #2', 'XML_ID' => 'XML_ID_2', 'SORT' => 200],
-                ['VALUE' => 'Элемент списка #3', 'XML_ID' => 'XML_ID_3', 'SORT' => 300],
-                ['VALUE' => 'Элемент списка #4', 'XML_ID' => 'XML_ID_4', 'SORT' => 400],
-            ],
-            'SETTINGS' => ['DISPLAY' => 'UI', 'LIST_HEIGHT' => 2],
-            'SORT' => 2000,
-        ];
-
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->companyUserfield()
-            ->add($userfieldItemFields);
-
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
-    ```
-
 - Python
 
     Пример
@@ -1005,6 +973,38 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $userfieldItemFields = [
+            'LABEL' => 'Пользовательское поле (список)',
+            'USER_TYPE_ID' => 'enumeration',
+            'FIELD_NAME' => 'ENUMERATION_EXAMPLE',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'N',
+            'SHOW_FILTER' => 'Y',
+            'LIST' => [
+                ['VALUE' => 'Элемент списка #1', 'DEF' => 'Y', 'XML_ID' => 'XML_ID_1', 'SORT' => 100],
+                ['VALUE' => 'Элемент списка #2', 'XML_ID' => 'XML_ID_2', 'SORT' => 200],
+                ['VALUE' => 'Элемент списка #3', 'XML_ID' => 'XML_ID_3', 'SORT' => 300],
+                ['VALUE' => 'Элемент списка #4', 'XML_ID' => 'XML_ID_4', 'SORT' => 400],
+            ],
+            'SETTINGS' => ['DISPLAY' => 'UI', 'LIST_HEIGHT' => 2],
+            'SORT' => 2000,
+        ];
+
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->companyUserfield()
+            ->add($userfieldItemFields);
+
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 - BX24.js

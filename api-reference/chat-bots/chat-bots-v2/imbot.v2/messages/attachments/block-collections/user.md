@@ -54,18 +54,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    [
-        'USER' => [
-            'NAME' => 'Иван Иванов',
-            'AVATAR' => 'https://files.shelenkov.com/bitrix/images/avatar.png',
-            'LINK' => 'https://shelenkov.com'
-        ]
-    ]
-    ```
-
 - Python
 
     ```python
@@ -78,6 +66,18 @@
     }
     ```
 
+
+- PHP
+
+    ```php
+    [
+        'USER' => [
+            'NAME' => 'Иван Иванов',
+            'AVATAR' => 'https://files.shelenkov.com/bitrix/images/avatar.png',
+            'LINK' => 'https://shelenkov.com'
+        ]
+    ]
+    ```
 {% endlist %}
 
 ## Продолжите изучение

@@ -68,18 +68,18 @@
     npm install @bitrix24/b24jssdk express
     ```
 
-- PHP
-
-    ```bash
-    composer require bitrix24/b24phpsdk:"^3.0"
-    ```
-
 - Python
 
     ```bash
     pip install b24pysdk flask
     ```
 
+
+- PHP
+
+    ```bash
+    composer require bitrix24/b24phpsdk:"^3.0"
+    ```
 {% endlist %}
 
 Перед установкой зависимостей проверьте версии Node.js, PHP и Python командами `node --version`, `php -v` и `python --version`, а список расширений PHP — командой `php -m`. `@bitrix24/b24jssdk` поддерживает Node.js 18, 20, 22 и новее. B24PhpSDK версии 3 требует PHP 8.4 или 8.5 и расширения `bcmath`, `curl`, `intl` и `json`. `b24pysdk` требует Python 3.9 или новее. После установки PHP-зависимостей выполните `composer check-platform-reqs`.
@@ -112,14 +112,6 @@
     node form.mjs
     ```
 
-- PHP
-
-    Bash и PowerShell:
-
-    ```bash
-    php -d max_execution_time=0 -S localhost:8000
-    ```
-
 - Python
 
     Bash и PowerShell:
@@ -128,6 +120,14 @@
     python app.py
     ```
 
+
+- PHP
+
+    Bash и PowerShell:
+
+    ```bash
+    php -d max_execution_time=0 -S localhost:8000
+    ```
 {% endlist %}
 
 Две команды выглядят непривычно, и вот почему. Генератор собирает форму несколькими запросами подряд, а встроенный сервер PHP успевает прервать страницу по своему ограничению в 30 секунд — параметр `max_execution_time` снимает его для локального запуска. По той же причине в примере на Python увеличен таймаут клиента: по умолчанию `b24pysdk` ждет ответ около трех секунд, и на загруженном портале запрос обрывается.
@@ -536,6 +536,301 @@
     app.listen(3000)
     ```
 
+- Python
+
+    ```python
+    from html import escape
+
+    from flask import Flask, request
+    from b24pysdk import BitrixWebhook, Client
+
+    from save_form import save_form
+
+    app = Flask(__name__)
+    ENTITY_TYPE_ID = 3
+    SKIPPED_FIELDS = {
+        "companyId", "companies", "hasPhone", "hasEmail", "hasImol",
+        "birthdaySort", "fullName", "id", "createdBy", "updatedBy",
+        "createdTime", "updatedTime", "lastCommunicationTime",
+    }
+    client = Client(BitrixWebhook(
+        domain="your-domain.bitrix24.ru",
+        webhook_token="USER_ID/TOKEN",
+    ), timeout=60)
+
+
+    def value_or_empty(value):
+        return "" if value is None else value
+
+
+    def input_field(params):
+        value = params.get("VALUE")
+        current = value if isinstance(value, list) else [value_or_empty(value)]
+        values = [*current, ""] if params.get("MULTIPLE") else current
+        html = ""
+        for index, item in enumerate(values):
+            html += f'<input class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
+            html += f' type="{escape(params.get("TYPE", "text"))}"'
+            if params.get("STEP"):
+                html += f' step="{escape(params["STEP"])}"'
+            if params.get("REQUIRED") and index == 0:
+                html += " required"
+            if params.get("CHECKED"):
+                html += " checked"
+            html += f' value="{escape(str(value_or_empty(item)))}">'
+        return html
+
+
+    def textarea_field(params):
+        required = " required" if params.get("REQUIRED") else ""
+        return (
+            f'<textarea class="form-control" name="{escape(params["NAME"])}"{required}>'
+            f'{escape(str(value_or_empty(params.get("VALUE"))))}</textarea>'
+        )
+
+
+    def select_field(params, options):
+        html = f'<select class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
+        if params.get("REQUIRED"):
+            html += " required"
+        if params.get("MULTIPLE"):
+            html += " multiple"
+        html += ">"
+        if not params.get("REQUIRED") and not params.get("MULTIPLE"):
+            html += '<option value="">-- Не выбрано --</option>'
+        value = params.get("VALUE")
+        selected_values = value if isinstance(value, list) else [value_or_empty(value)]
+        selected_values = [str(item) for item in selected_values]
+        for key, title in options.items():
+            selected = " selected" if str(key) in selected_values else ""
+            html += f'<option value="{escape(str(key))}"{selected}>{escape(str(title))}</option>'
+        return html + "</select>"
+
+
+    def multifields(values):
+        rows = list(values) if isinstance(values, list) else []
+        rows.extend(
+            {"id": "", "typeId": "PHONE", "valueType": "WORK", "value": ""}
+            for _ in range(3)
+        )
+        html = ""
+        for index, row in enumerate(rows):
+            options = "".join(
+                f'<option value="{field_type}"{" selected" if row.get("typeId") == field_type else ""}>{field_type}</option>'
+                for field_type in ("PHONE", "EMAIL", "WEB", "IM")
+            )
+            item_id = value_or_empty(row.get("id"))
+            delete = (
+                f'<label><input type="checkbox" name="fm[{index}][delete]" value="Y"> Удалить</label>'
+                if item_id != "" else ""
+            )
+            value_type = value_or_empty(row.get("valueType"))
+            if value_type == "":
+                value_type = "WORK"
+            html += f"""<div class="border rounded p-2 mb-2">
+                <input type="hidden" name="fm[{index}][id]" value="{escape(str(item_id))}">
+                <select class="form-control mb-1" name="fm[{index}][typeId]">{options}</select>
+                <input class="form-control mb-1" name="fm[{index}][valueType]" value="{escape(str(value_type))}" placeholder="WORK">
+                <input class="form-control mb-1" name="fm[{index}][value]" value="{escape(str(value_or_empty(row.get('value'))))}" placeholder="Значение">
+                {delete}
+            </div>"""
+        return html
+
+
+    PAGE = """
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <div class="container"><form id="auto_form" method="post">
+            %(hidden_id)s
+            %(diagnostics)s
+            <h2>Системные поля</h2><div class="row">%(standard)s</div>
+            <h2>Пользовательские поля</h2><div class="row">%(custom)s</div>
+            <div class="row"><div class="col-sm-10 mt-5"><input type="submit" class="btn btn-primary" value="Сохранить"></div></div>
+        </form></div>
+        <script>
+            document.getElementById('auto_form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const body = new URLSearchParams(new FormData(event.currentTarget));
+                try {
+                    const response = await fetch('/form', { method: 'POST', body });
+                    const text = await response.text();
+                    try {
+                        const json = JSON.parse(text);
+                        alert(json.message || json.error || ('Код ответа ' + response.status));
+                    } catch (parseError) {
+                        alert('Ответ сервера не в формате JSON, код ' + response.status + ': ' + text.slice(0, 200));
+                    }
+                } catch (networkError) {
+                    alert('Не удалось отправить форму: ' + networkError.message);
+                }
+            });
+        </script>
+    """
+
+
+    @app.route("/")
+    def form_page():
+        raw_id = request.args.get("ID", "0")
+        try:
+            item_id = int(raw_id)
+        except (TypeError, ValueError):
+            item_id = 0
+
+        fields = client.crm.item.fields(
+            entity_type_id=ENTITY_TYPE_ID,
+            use_original_uf_names=True,
+        ).response.result["fields"]
+        currencies = client.crm.currency.list().response.result
+        categories = client.crm.category.list(
+            entity_type_id=ENTITY_TYPE_ID,
+        ).response.result["categories"]
+        item = {}
+        if item_id > 0:
+            item = client.crm.item.get(
+                entity_type_id=ENTITY_TYPE_ID,
+                bitrix_id=item_id,
+                use_original_uf_names=True,
+            ).response.result["item"]
+        currency_options = {
+            row["CURRENCY"]: row["FULL_NAME"] for row in currencies
+        }
+        category_options = {row["id"]: row["name"] for row in categories}
+        diagnostics = []
+        standard = ""
+        custom = ""
+
+        for key, field in fields.items():
+            if field.get("isReadOnly") or field.get("isImmutable") or key in SKIPPED_FIELDS:
+                continue
+            value = item.get(key, 0) if key == "categoryId" else value_or_empty(item.get(key))
+            params = {
+                "NAME": f"form[{key}]", "VALUE": value,
+                "REQUIRED": field.get("isRequired"), "MULTIPLE": field.get("isMultiple"),
+            }
+            field_type = field.get("type")
+            control = ""
+
+            if field_type == "crm_status":
+                rows = client.crm.status.list(
+                    filter={"ENTITY_ID": field["statusType"]},
+                ).response.result
+                control = select_field(params, {
+                    row["STATUS_ID"]: row["NAME"] for row in rows
+                })
+            elif field_type == "crm_category":
+                control = select_field(params, category_options)
+            elif field_type == "crm_currency":
+                control = select_field(params, currency_options)
+            elif field_type == "enumeration":
+                control = select_field(params, {
+                    row.get("ID", row.get("id")): row.get("VALUE", row.get("value"))
+                    for row in field.get("items", [])
+                })
+            elif field_type == "crm_multifield":
+                control = multifields(value)
+            elif field_type == "crm_company":
+                control = input_field({**params, "TYPE": "number"})
+                ids = [
+                    int(company_id) for company_id in (value if isinstance(value, list) else [value])
+                    if str(company_id).isdigit() and int(company_id) > 0
+                ]
+                if ids:
+                    companies = client.crm.item.list(
+                        entity_type_id=4,
+                        filter={"@id": ids},
+                        select=["id", "title"],
+                    ).response.result["items"]
+                    title_by_id = {str(company["id"]): company["title"] for company in companies}
+                    titles = [title_by_id.get(str(company_id), f"ID {company_id}") for company_id in ids]
+                    control += f" ({escape(', '.join(titles))})"
+            elif field_type == "crm_lead":
+                control = input_field({**params, "TYPE": "number"})
+                if str(value).isdigit() and int(value) > 0:
+                    try:
+                        lead = client.crm.item.get(
+                            entity_type_id=1,
+                            bitrix_id=int(value),
+                        ).response.result["item"]
+                        control += f" ({escape(str(lead['title']))})"
+                    except Exception as error:
+                        diagnostics.append(f"Название лида ID {value} недоступно: {error}")
+            elif field_type == "user":
+                control = input_field({**params, "TYPE": "number"})
+                ids = [
+                    int(user_id) for user_id in (value if isinstance(value, list) else [value])
+                    if str(user_id).isdigit() and int(user_id) > 0
+                ]
+                if ids:
+                    users = client.user.get(filter={"ID": ids}).response.result
+                    names = [
+                        " ".join(
+                            str(part) for part in (user.get("NAME"), user.get("LAST_NAME"))
+                            if part not in (None, "")
+                        )
+                        for user in users
+                    ]
+                    control += f" ({escape(', '.join(names))})"
+            elif key == "comments":
+                control = textarea_field(params)
+            elif field_type in ("file", "resourcebooking"):
+                control = f"Тип {escape(str(field_type))} в примере не поддерживается"
+            elif field_type == "date":
+                control = input_field({
+                    **params, "VALUE": str(value)[:10] if value != "" else "", "TYPE": "date",
+                })
+            elif field_type == "datetime":
+                control = input_field({
+                    **params, "VALUE": str(value)[:19] if value != "" else "", "TYPE": "datetime-local",
+                })
+            elif field_type in ("boolean", "char"):
+                control = input_field({
+                    **params, "REQUIRED": False, "VALUE": "Y",
+                    "CHECKED": value == "Y", "TYPE": "checkbox",
+                })
+            elif field_type in ("integer", "double"):
+                control = input_field({
+                    **params, "TYPE": "number", "STEP": "any" if field_type == "double" else "",
+                })
+            elif field_type == "money":
+                amount, _, currency = str(value).partition("|")
+                control = input_field({
+                    **params, "VALUE": amount, "TYPE": "number", "STEP": "any",
+                })
+                control += select_field({
+                    **params, "NAME": f"form[{key}_CURRENCY]", "VALUE": currency,
+                }, currency_options)
+            else:
+                control = input_field({**params, "TYPE": "text"})
+
+            label = escape(str(field.get("formLabel") or field.get("title") or key))
+            block = f'<div class="col-4 mt-3">{label}: </div><div class="col-6 mt-3">{control}</div>'
+            if key.startswith("UF_"):
+                custom += block
+            else:
+                standard += block
+
+        hidden_id = (
+            f'<input type="hidden" name="form[id]" value="{escape(str(item["id"]))}">'
+            if "id" in item else ""
+        )
+        diagnostic_html = (
+            '<div class="alert alert-warning">'
+            + "<br>".join(escape(str(message)) for message in diagnostics)
+            + "</div>"
+            if diagnostics else ""
+        )
+        return PAGE % {
+            "hidden_id": hidden_id, "diagnostics": diagnostic_html,
+            "standard": standard, "custom": custom,
+        }
+
+
+    app.add_url_rule("/form", view_func=save_form, methods=["POST"])
+
+    if __name__ == "__main__":
+        app.run(port=5000)
+    ```
+
+
 - PHP
 
     ```php
@@ -872,301 +1167,6 @@
             });
         </script>
     ```
-
-- Python
-
-    ```python
-    from html import escape
-
-    from flask import Flask, request
-    from b24pysdk import BitrixWebhook, Client
-
-    from save_form import save_form
-
-    app = Flask(__name__)
-    ENTITY_TYPE_ID = 3
-    SKIPPED_FIELDS = {
-        "companyId", "companies", "hasPhone", "hasEmail", "hasImol",
-        "birthdaySort", "fullName", "id", "createdBy", "updatedBy",
-        "createdTime", "updatedTime", "lastCommunicationTime",
-    }
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",
-    ), timeout=60)
-
-
-    def value_or_empty(value):
-        return "" if value is None else value
-
-
-    def input_field(params):
-        value = params.get("VALUE")
-        current = value if isinstance(value, list) else [value_or_empty(value)]
-        values = [*current, ""] if params.get("MULTIPLE") else current
-        html = ""
-        for index, item in enumerate(values):
-            html += f'<input class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
-            html += f' type="{escape(params.get("TYPE", "text"))}"'
-            if params.get("STEP"):
-                html += f' step="{escape(params["STEP"])}"'
-            if params.get("REQUIRED") and index == 0:
-                html += " required"
-            if params.get("CHECKED"):
-                html += " checked"
-            html += f' value="{escape(str(value_or_empty(item)))}">'
-        return html
-
-
-    def textarea_field(params):
-        required = " required" if params.get("REQUIRED") else ""
-        return (
-            f'<textarea class="form-control" name="{escape(params["NAME"])}"{required}>'
-            f'{escape(str(value_or_empty(params.get("VALUE"))))}</textarea>'
-        )
-
-
-    def select_field(params, options):
-        html = f'<select class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
-        if params.get("REQUIRED"):
-            html += " required"
-        if params.get("MULTIPLE"):
-            html += " multiple"
-        html += ">"
-        if not params.get("REQUIRED") and not params.get("MULTIPLE"):
-            html += '<option value="">-- Не выбрано --</option>'
-        value = params.get("VALUE")
-        selected_values = value if isinstance(value, list) else [value_or_empty(value)]
-        selected_values = [str(item) for item in selected_values]
-        for key, title in options.items():
-            selected = " selected" if str(key) in selected_values else ""
-            html += f'<option value="{escape(str(key))}"{selected}>{escape(str(title))}</option>'
-        return html + "</select>"
-
-
-    def multifields(values):
-        rows = list(values) if isinstance(values, list) else []
-        rows.extend(
-            {"id": "", "typeId": "PHONE", "valueType": "WORK", "value": ""}
-            for _ in range(3)
-        )
-        html = ""
-        for index, row in enumerate(rows):
-            options = "".join(
-                f'<option value="{field_type}"{" selected" if row.get("typeId") == field_type else ""}>{field_type}</option>'
-                for field_type in ("PHONE", "EMAIL", "WEB", "IM")
-            )
-            item_id = value_or_empty(row.get("id"))
-            delete = (
-                f'<label><input type="checkbox" name="fm[{index}][delete]" value="Y"> Удалить</label>'
-                if item_id != "" else ""
-            )
-            value_type = value_or_empty(row.get("valueType"))
-            if value_type == "":
-                value_type = "WORK"
-            html += f"""<div class="border rounded p-2 mb-2">
-                <input type="hidden" name="fm[{index}][id]" value="{escape(str(item_id))}">
-                <select class="form-control mb-1" name="fm[{index}][typeId]">{options}</select>
-                <input class="form-control mb-1" name="fm[{index}][valueType]" value="{escape(str(value_type))}" placeholder="WORK">
-                <input class="form-control mb-1" name="fm[{index}][value]" value="{escape(str(value_or_empty(row.get('value'))))}" placeholder="Значение">
-                {delete}
-            </div>"""
-        return html
-
-
-    PAGE = """
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        <div class="container"><form id="auto_form" method="post">
-            %(hidden_id)s
-            %(diagnostics)s
-            <h2>Системные поля</h2><div class="row">%(standard)s</div>
-            <h2>Пользовательские поля</h2><div class="row">%(custom)s</div>
-            <div class="row"><div class="col-sm-10 mt-5"><input type="submit" class="btn btn-primary" value="Сохранить"></div></div>
-        </form></div>
-        <script>
-            document.getElementById('auto_form').addEventListener('submit', async (event) => {
-                event.preventDefault();
-                const body = new URLSearchParams(new FormData(event.currentTarget));
-                try {
-                    const response = await fetch('/form', { method: 'POST', body });
-                    const text = await response.text();
-                    try {
-                        const json = JSON.parse(text);
-                        alert(json.message || json.error || ('Код ответа ' + response.status));
-                    } catch (parseError) {
-                        alert('Ответ сервера не в формате JSON, код ' + response.status + ': ' + text.slice(0, 200));
-                    }
-                } catch (networkError) {
-                    alert('Не удалось отправить форму: ' + networkError.message);
-                }
-            });
-        </script>
-    """
-
-
-    @app.route("/")
-    def form_page():
-        raw_id = request.args.get("ID", "0")
-        try:
-            item_id = int(raw_id)
-        except (TypeError, ValueError):
-            item_id = 0
-
-        fields = client.crm.item.fields(
-            entity_type_id=ENTITY_TYPE_ID,
-            use_original_uf_names=True,
-        ).response.result["fields"]
-        currencies = client.crm.currency.list().response.result
-        categories = client.crm.category.list(
-            entity_type_id=ENTITY_TYPE_ID,
-        ).response.result["categories"]
-        item = {}
-        if item_id > 0:
-            item = client.crm.item.get(
-                entity_type_id=ENTITY_TYPE_ID,
-                bitrix_id=item_id,
-                use_original_uf_names=True,
-            ).response.result["item"]
-        currency_options = {
-            row["CURRENCY"]: row["FULL_NAME"] for row in currencies
-        }
-        category_options = {row["id"]: row["name"] for row in categories}
-        diagnostics = []
-        standard = ""
-        custom = ""
-
-        for key, field in fields.items():
-            if field.get("isReadOnly") or field.get("isImmutable") or key in SKIPPED_FIELDS:
-                continue
-            value = item.get(key, 0) if key == "categoryId" else value_or_empty(item.get(key))
-            params = {
-                "NAME": f"form[{key}]", "VALUE": value,
-                "REQUIRED": field.get("isRequired"), "MULTIPLE": field.get("isMultiple"),
-            }
-            field_type = field.get("type")
-            control = ""
-
-            if field_type == "crm_status":
-                rows = client.crm.status.list(
-                    filter={"ENTITY_ID": field["statusType"]},
-                ).response.result
-                control = select_field(params, {
-                    row["STATUS_ID"]: row["NAME"] for row in rows
-                })
-            elif field_type == "crm_category":
-                control = select_field(params, category_options)
-            elif field_type == "crm_currency":
-                control = select_field(params, currency_options)
-            elif field_type == "enumeration":
-                control = select_field(params, {
-                    row.get("ID", row.get("id")): row.get("VALUE", row.get("value"))
-                    for row in field.get("items", [])
-                })
-            elif field_type == "crm_multifield":
-                control = multifields(value)
-            elif field_type == "crm_company":
-                control = input_field({**params, "TYPE": "number"})
-                ids = [
-                    int(company_id) for company_id in (value if isinstance(value, list) else [value])
-                    if str(company_id).isdigit() and int(company_id) > 0
-                ]
-                if ids:
-                    companies = client.crm.item.list(
-                        entity_type_id=4,
-                        filter={"@id": ids},
-                        select=["id", "title"],
-                    ).response.result["items"]
-                    title_by_id = {str(company["id"]): company["title"] for company in companies}
-                    titles = [title_by_id.get(str(company_id), f"ID {company_id}") for company_id in ids]
-                    control += f" ({escape(', '.join(titles))})"
-            elif field_type == "crm_lead":
-                control = input_field({**params, "TYPE": "number"})
-                if str(value).isdigit() and int(value) > 0:
-                    try:
-                        lead = client.crm.item.get(
-                            entity_type_id=1,
-                            bitrix_id=int(value),
-                        ).response.result["item"]
-                        control += f" ({escape(str(lead['title']))})"
-                    except Exception as error:
-                        diagnostics.append(f"Название лида ID {value} недоступно: {error}")
-            elif field_type == "user":
-                control = input_field({**params, "TYPE": "number"})
-                ids = [
-                    int(user_id) for user_id in (value if isinstance(value, list) else [value])
-                    if str(user_id).isdigit() and int(user_id) > 0
-                ]
-                if ids:
-                    users = client.user.get(filter={"ID": ids}).response.result
-                    names = [
-                        " ".join(
-                            str(part) for part in (user.get("NAME"), user.get("LAST_NAME"))
-                            if part not in (None, "")
-                        )
-                        for user in users
-                    ]
-                    control += f" ({escape(', '.join(names))})"
-            elif key == "comments":
-                control = textarea_field(params)
-            elif field_type in ("file", "resourcebooking"):
-                control = f"Тип {escape(str(field_type))} в примере не поддерживается"
-            elif field_type == "date":
-                control = input_field({
-                    **params, "VALUE": str(value)[:10] if value != "" else "", "TYPE": "date",
-                })
-            elif field_type == "datetime":
-                control = input_field({
-                    **params, "VALUE": str(value)[:19] if value != "" else "", "TYPE": "datetime-local",
-                })
-            elif field_type in ("boolean", "char"):
-                control = input_field({
-                    **params, "REQUIRED": False, "VALUE": "Y",
-                    "CHECKED": value == "Y", "TYPE": "checkbox",
-                })
-            elif field_type in ("integer", "double"):
-                control = input_field({
-                    **params, "TYPE": "number", "STEP": "any" if field_type == "double" else "",
-                })
-            elif field_type == "money":
-                amount, _, currency = str(value).partition("|")
-                control = input_field({
-                    **params, "VALUE": amount, "TYPE": "number", "STEP": "any",
-                })
-                control += select_field({
-                    **params, "NAME": f"form[{key}_CURRENCY]", "VALUE": currency,
-                }, currency_options)
-            else:
-                control = input_field({**params, "TYPE": "text"})
-
-            label = escape(str(field.get("formLabel") or field.get("title") or key))
-            block = f'<div class="col-4 mt-3">{label}: </div><div class="col-6 mt-3">{control}</div>'
-            if key.startswith("UF_"):
-                custom += block
-            else:
-                standard += block
-
-        hidden_id = (
-            f'<input type="hidden" name="form[id]" value="{escape(str(item["id"]))}">'
-            if "id" in item else ""
-        )
-        diagnostic_html = (
-            '<div class="alert alert-warning">'
-            + "<br>".join(escape(str(message)) for message in diagnostics)
-            + "</div>"
-            if diagnostics else ""
-        )
-        return PAGE % {
-            "hidden_id": hidden_id, "diagnostics": diagnostic_html,
-            "standard": standard, "custom": custom,
-        }
-
-
-    app.add_url_rule("/form", view_func=save_form, methods=["POST"])
-
-    if __name__ == "__main__":
-        app.run(port=5000)
-    ```
-
 {% endlist %}
 
 ## 3. Сохраним данные формы
@@ -1327,138 +1327,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    <?php
-        // composer require bitrix24/b24phpsdk:"^3.0"
-        require_once 'vendor/autoload.php';
-
-        use Bitrix24\SDK\Services\ServiceBuilderFactory;
-        use Symfony\Component\EventDispatcher\EventDispatcher;
-        use Psr\Log\NullLogger;
-
-        $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-            ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-        const ENTITY_TYPE_ID = 3;
-        const SKIPPED_FIELDS = [
-            'companyId', 'companies', 'hasPhone', 'hasEmail', 'hasImol',
-            'birthdaySort', 'fullName', 'id', 'createdBy', 'updatedBy',
-            'createdTime', 'updatedTime', 'lastCommunicationTime',
-        ];
-        header('Content-Type: application/json; charset=utf-8');
-
-        function callCore($sb, string $method, array $params): array
-        {
-            return $sb->core->call($method, $params)->getResponseData()->getResult();
-        }
-
-        function buildMultifields(array $rows): array
-        {
-            $result = [];
-            $newIndex = 0;
-            foreach ($rows as $row)
-            {
-                $id = (int)($row['id'] ?? 0);
-                $value = (string)($row['value'] ?? '');
-                $shouldDelete = ($row['delete'] ?? '') === 'Y' || $value === '';
-                if ($id <= 0 && $shouldDelete) continue;
-                $key = $id > 0 ? (string)$id : 'n' . $newIndex++;
-                $result[$key] = [
-                    'typeId' => (string)($row['typeId'] ?? 'PHONE'),
-                    'valueType' => (string)($row['valueType'] ?? 'WORK'),
-                    'value' => $shouldDelete ? '' : $value,
-                ];
-            }
-            return $result;
-        }
-
-        function relationValue($value, bool $multiple)
-        {
-            $ids = array_values(array_filter(array_map('intval', (array)$value)));
-            return $multiple ? $ids : ($ids[0] ?? 0);
-        }
-
-        try
-        {
-            $submitted = is_array($_POST['form'] ?? null) ? $_POST['form'] : [];
-            $fieldResult = callCore($sb, 'crm.item.fields', [
-                'entityTypeId' => ENTITY_TYPE_ID,
-                'useOriginalUfNames' => 'Y',
-            ]);
-            $fields = [];
-
-            foreach ($fieldResult['fields'] as $key => $prop)
-            {
-                if (in_array($key, SKIPPED_FIELDS, true)
-                    || !empty($prop['isReadOnly'])
-                    || !empty($prop['isImmutable'])
-                    || in_array($prop['type'], ['file', 'resourcebooking'], true))
-                {
-                    continue;
-                }
-                if (in_array($prop['type'], ['boolean', 'char'], true))
-                {
-                    $fields[$key] = array_key_exists($key, $submitted) ? 'Y' : 'N';
-                    continue;
-                }
-                if ($prop['type'] === 'crm_multifield')
-                {
-                    $fields[$key] = buildMultifields(
-                        is_array($_POST['fm'] ?? null) ? $_POST['fm'] : []
-                    );
-                    continue;
-                }
-                if (!array_key_exists($key, $submitted))
-                {
-                    $fields[$key] = !empty($prop['isMultiple']) ? [] : '';
-                    continue;
-                }
-
-                $value = $submitted[$key];
-                if ($prop['type'] === 'money')
-                {
-                    $amount = trim((string)$value);
-                    $currency = trim((string)($submitted[$key . '_CURRENCY'] ?? ''));
-                    $value = $amount === '' ? '' : ($currency === '' ? $amount : $amount . '|' . $currency);
-                }
-                elseif (in_array($prop['type'], ['crm_company', 'crm_lead', 'user'], true))
-                {
-                    $value = relationValue($value, !empty($prop['isMultiple']));
-                }
-                elseif (!empty($prop['isMultiple']))
-                {
-                    $value = array_values(array_filter(
-                        (array)$value,
-                        static fn($item) => $item !== ''
-                    ));
-                }
-                $fields[$key] = $value;
-            }
-
-            $rawId = trim((string)($submitted['id'] ?? ''));
-            $id = preg_match('/^\d+$/D', $rawId) === 1 ? (int)$rawId : 0;
-            $method = $id > 0 ? 'crm.item.update' : 'crm.item.add';
-            $params = [
-                'entityTypeId' => ENTITY_TYPE_ID,
-                'fields' => $fields,
-                'useOriginalUfNames' => 'Y',
-            ];
-            if ($id > 0) $params['id'] = $id;
-            $result = callCore($sb, $method, $params);
-            echo json_encode(
-                ['message' => 'Контакт сохранен, ID: ' . $result['item']['id']],
-                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
-            );
-        }
-        catch (Throwable $error)
-        {
-            http_response_code(400);
-            echo json_encode(['error' => $error->getMessage()], JSON_UNESCAPED_UNICODE);
-        }
-    ```
-
 - Python
 
     ```python
@@ -1590,6 +1458,138 @@
             return jsonify(error=str(error)), 400
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+        // composer require bitrix24/b24phpsdk:"^3.0"
+        require_once 'vendor/autoload.php';
+
+        use Bitrix24\SDK\Services\ServiceBuilderFactory;
+        use Symfony\Component\EventDispatcher\EventDispatcher;
+        use Psr\Log\NullLogger;
+
+        $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+            ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+        const ENTITY_TYPE_ID = 3;
+        const SKIPPED_FIELDS = [
+            'companyId', 'companies', 'hasPhone', 'hasEmail', 'hasImol',
+            'birthdaySort', 'fullName', 'id', 'createdBy', 'updatedBy',
+            'createdTime', 'updatedTime', 'lastCommunicationTime',
+        ];
+        header('Content-Type: application/json; charset=utf-8');
+
+        function callCore($sb, string $method, array $params): array
+        {
+            return $sb->core->call($method, $params)->getResponseData()->getResult();
+        }
+
+        function buildMultifields(array $rows): array
+        {
+            $result = [];
+            $newIndex = 0;
+            foreach ($rows as $row)
+            {
+                $id = (int)($row['id'] ?? 0);
+                $value = (string)($row['value'] ?? '');
+                $shouldDelete = ($row['delete'] ?? '') === 'Y' || $value === '';
+                if ($id <= 0 && $shouldDelete) continue;
+                $key = $id > 0 ? (string)$id : 'n' . $newIndex++;
+                $result[$key] = [
+                    'typeId' => (string)($row['typeId'] ?? 'PHONE'),
+                    'valueType' => (string)($row['valueType'] ?? 'WORK'),
+                    'value' => $shouldDelete ? '' : $value,
+                ];
+            }
+            return $result;
+        }
+
+        function relationValue($value, bool $multiple)
+        {
+            $ids = array_values(array_filter(array_map('intval', (array)$value)));
+            return $multiple ? $ids : ($ids[0] ?? 0);
+        }
+
+        try
+        {
+            $submitted = is_array($_POST['form'] ?? null) ? $_POST['form'] : [];
+            $fieldResult = callCore($sb, 'crm.item.fields', [
+                'entityTypeId' => ENTITY_TYPE_ID,
+                'useOriginalUfNames' => 'Y',
+            ]);
+            $fields = [];
+
+            foreach ($fieldResult['fields'] as $key => $prop)
+            {
+                if (in_array($key, SKIPPED_FIELDS, true)
+                    || !empty($prop['isReadOnly'])
+                    || !empty($prop['isImmutable'])
+                    || in_array($prop['type'], ['file', 'resourcebooking'], true))
+                {
+                    continue;
+                }
+                if (in_array($prop['type'], ['boolean', 'char'], true))
+                {
+                    $fields[$key] = array_key_exists($key, $submitted) ? 'Y' : 'N';
+                    continue;
+                }
+                if ($prop['type'] === 'crm_multifield')
+                {
+                    $fields[$key] = buildMultifields(
+                        is_array($_POST['fm'] ?? null) ? $_POST['fm'] : []
+                    );
+                    continue;
+                }
+                if (!array_key_exists($key, $submitted))
+                {
+                    $fields[$key] = !empty($prop['isMultiple']) ? [] : '';
+                    continue;
+                }
+
+                $value = $submitted[$key];
+                if ($prop['type'] === 'money')
+                {
+                    $amount = trim((string)$value);
+                    $currency = trim((string)($submitted[$key . '_CURRENCY'] ?? ''));
+                    $value = $amount === '' ? '' : ($currency === '' ? $amount : $amount . '|' . $currency);
+                }
+                elseif (in_array($prop['type'], ['crm_company', 'crm_lead', 'user'], true))
+                {
+                    $value = relationValue($value, !empty($prop['isMultiple']));
+                }
+                elseif (!empty($prop['isMultiple']))
+                {
+                    $value = array_values(array_filter(
+                        (array)$value,
+                        static fn($item) => $item !== ''
+                    ));
+                }
+                $fields[$key] = $value;
+            }
+
+            $rawId = trim((string)($submitted['id'] ?? ''));
+            $id = preg_match('/^\d+$/D', $rawId) === 1 ? (int)$rawId : 0;
+            $method = $id > 0 ? 'crm.item.update' : 'crm.item.add';
+            $params = [
+                'entityTypeId' => ENTITY_TYPE_ID,
+                'fields' => $fields,
+                'useOriginalUfNames' => 'Y',
+            ];
+            if ($id > 0) $params['id'] = $id;
+            $result = callCore($sb, $method, $params);
+            echo json_encode(
+                ['message' => 'Контакт сохранен, ID: ' . $result['item']['id']],
+                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+            );
+        }
+        catch (Throwable $error)
+        {
+            http_response_code(400);
+            echo json_encode(['error' => $error->getMessage()], JSON_UNESCAPED_UNICODE);
+        }
+    ```
 {% endlist %}
 
 ## Проверим результат

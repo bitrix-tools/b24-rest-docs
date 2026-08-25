@@ -169,6 +169,40 @@ API требует указать значение в этом поле. Есл�
     </script>
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.requisite.preset.field.update(
+            bitrix_id=1,
+            preset={
+                "ID": 27,
+            },
+            fields={
+                "FIELD_NAME": "RQ_NAME",
+                "FIELD_TITLE": "Имя",
+                "IN_SHORT_LIST": "Y",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -203,40 +237,6 @@ API требует указать значение в этом поле. Есл�
         error_log($e->getMessage());
         echo 'Error updating preset field: ' . $e->getMessage();
     }
-    ```
-
-- Python
-
-    Пример
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.requisite.preset.field.update(
-            bitrix_id=1,
-            preset={
-                "ID": 27,
-            },
-            fields={
-                "FIELD_NAME": "RQ_NAME",
-                "FIELD_TITLE": "Имя",
-                "IN_SHORT_LIST": "Y",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - BX24.js

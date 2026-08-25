@@ -160,6 +160,42 @@ fields:
     </script>
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.activity.type.add(
+            fields={
+                "TYPE_ID": "CUSTOM_CALL",
+                "NAME": "Custom call",
+                "ICON_FILE": {
+                    "fileData": [
+                        "activity-type.svg",
+                        "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
+                    ],
+                },
+                "IS_CONFIGURABLE_TYPE": "N",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -290,42 +326,6 @@ fields:
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- Python
-
-    Пример
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.activity.type.add(
-            fields={
-                "TYPE_ID": "CUSTOM_CALL",
-                "NAME": "Custom call",
-                "ICON_FILE": {
-                    "fileData": [
-                        "activity-type.svg",
-                        "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
-                    ],
-                },
-                "IS_CONFIGURABLE_TYPE": "N",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go

@@ -230,44 +230,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.requisite.userfield.add',
-                [
-                    'fields' => [
-                        'USER_TYPE_ID'      => 'string',
-                        'ENTITY_ID'         => 'CRM_REQUISITE',
-                        'SORT'              => 100,
-                        'MULTIPLE'          => 'N',
-                        'MANDATORY'         => 'N',
-                        'SHOW_FILTER'       => 'E',
-                        'SHOW_IN_LIST'      => 'Y',
-                        'EDIT_FORM_LABEL'   => 'ПП - Строка',
-                        'LIST_COLUMN_LABEL' => 'ПП - Строка',
-                        'LIST_FILTER_LABEL' => 'ПП - Строка',
-                        'FIELD_NAME'        => 'NEWTECH_v1_STRING',
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding user field: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -304,6 +266,44 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.userfield.add',
+                [
+                    'fields' => [
+                        'USER_TYPE_ID'      => 'string',
+                        'ENTITY_ID'         => 'CRM_REQUISITE',
+                        'SORT'              => 100,
+                        'MULTIPLE'          => 'N',
+                        'MANDATORY'         => 'N',
+                        'SHOW_FILTER'       => 'E',
+                        'SHOW_IN_LIST'      => 'Y',
+                        'EDIT_FORM_LABEL'   => 'ПП - Строка',
+                        'LIST_COLUMN_LABEL' => 'ПП - Строка',
+                        'LIST_FILTER_LABEL' => 'ПП - Строка',
+                        'FIELD_NAME'        => 'NEWTECH_v1_STRING',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding user field: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

@@ -111,46 +111,6 @@
     </script>
     ```
 
-- PHP
-
-    ```html
-    <form id="form_to_crm" method="POST" action="form.php">
-        <!-- Имя (обязательное поле) -->
-        <input type="text" name="NAME" placeholder="Имя" required>
-        <!-- Фамилия -->
-        <input type="text" name="LAST_NAME" placeholder="Фамилия">
-        <!-- Название компании -->
-        <input type="text" name="COMPANY_TITLE" placeholder="Название компании">
-        <!-- Email -->
-        <input type="text" name="EMAIL" placeholder="Почта">
-        <!-- Телефон -->
-        <input type="text" name="PHONE" placeholder="Телефон">
-        <!-- Кнопка отправки -->
-        <input type="submit" value="Отправить">
-    </form>
-
-    <!-- Подключаем jQuery для AJAX-запроса -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#form_to_crm').on('submit', function(el) {
-                el.preventDefault(); // Отменяем стандартную отправку формы
-                var formData = $(this).serialize(); // Собираем данные формы
-                // Отправляем данные на сервер
-                $.ajax({
-                    'method': 'POST',
-                    'dataType': 'json',
-                    'url': 'form.php', // Файл-обработчик
-                    'data': formData,
-                    success: function(data) {
-                        alert(data.message); // Показываем результат
-                    }
-                });
-            });
-        });
-    </script>
-    ```
-
 - Python
 
     ```html
@@ -191,6 +151,46 @@
     </script>
     ```
 
+
+- PHP
+
+    ```html
+    <form id="form_to_crm" method="POST" action="form.php">
+        <!-- Имя (обязательное поле) -->
+        <input type="text" name="NAME" placeholder="Имя" required>
+        <!-- Фамилия -->
+        <input type="text" name="LAST_NAME" placeholder="Фамилия">
+        <!-- Название компании -->
+        <input type="text" name="COMPANY_TITLE" placeholder="Название компании">
+        <!-- Email -->
+        <input type="text" name="EMAIL" placeholder="Почта">
+        <!-- Телефон -->
+        <input type="text" name="PHONE" placeholder="Телефон">
+        <!-- Кнопка отправки -->
+        <input type="submit" value="Отправить">
+    </form>
+
+    <!-- Подключаем jQuery для AJAX-запроса -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#form_to_crm').on('submit', function(el) {
+                el.preventDefault(); // Отменяем стандартную отправку формы
+                var formData = $(this).serialize(); // Собираем данные формы
+                // Отправляем данные на сервер
+                $.ajax({
+                    'method': 'POST',
+                    'dataType': 'json',
+                    'url': 'form.php', // Файл-обработчик
+                    'data': formData,
+                    success: function(data) {
+                        alert(data.message); // Показываем результат
+                    }
+                });
+            });
+        });
+    </script>
+    ```
 {% endlist %}
 
 ## 2. Создаем обработчик формы
@@ -216,17 +216,6 @@
     const sEmail = String(req.body.EMAIL ?? '')
     ```
 
-- PHP
-
-    ```php
-    // Получаем и очищаем данные из формы
-    $sName = htmlspecialchars($_POST["NAME"]);
-    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
-    $sCompanyTitle = htmlspecialchars($_POST["COMPANY_TITLE"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
-    $sEmail = htmlspecialchars($_POST["EMAIL"]);
-    ```
-
 - Python
 
     ```python
@@ -238,6 +227,17 @@
     s_email = request.form.get("EMAIL", "")
     ```
 
+
+- PHP
+
+    ```php
+    // Получаем и очищаем данные из формы
+    $sName = htmlspecialchars($_POST["NAME"]);
+    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
+    $sCompanyTitle = htmlspecialchars($_POST["COMPANY_TITLE"]);
+    $sPhone = htmlspecialchars($_POST["PHONE"]);
+    $sEmail = htmlspecialchars($_POST["EMAIL"]);
+    ```
 {% endlist %}
 
 Телефон и почту система хранит как массив объектов [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield), поэтому их нужно привести к формату массива.
@@ -256,14 +256,6 @@
     const arEmail = sEmail ? [{ VALUE: sEmail, VALUE_TYPE: 'HOME' }] : []
     ```
 
-- PHP
-
-    ```php
-    // Форматируем телефон и почту для Битрикс24 в формат crm_multifield
-    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
-    $arEmail = (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array();
-    ```
-
 - Python
 
     ```python
@@ -272,6 +264,14 @@
     ar_email = [{"VALUE": s_email, "VALUE_TYPE": "HOME"}] if s_email else []
     ```
 
+
+- PHP
+
+    ```php
+    // Форматируем телефон и почту для Битрикс24 в формат crm_multifield
+    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
+    $arEmail = (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array();
+    ```
 {% endlist %}
 
 Заголовок лида сформируем из имени и фамилии. Для компаний добавим в заголовок название компании.
@@ -289,17 +289,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    // Формируем заголовок лида из имени и фамилии
-    $sTitle = 'С сайта: ' . trim($sName . ' ' . $sLastName);
-    // Если есть название компании — добавляем его через тире после имени и фамилии
-    if (!empty($sCompanyTitle)) {
-        $sTitle .= ' — ' . $sCompanyTitle;
-    }
-    ```
-
 - Python
 
     ```python
@@ -310,6 +299,17 @@
         s_title += " — " + s_company_title
     ```
 
+
+- PHP
+
+    ```php
+    // Формируем заголовок лида из имени и фамилии
+    $sTitle = 'С сайта: ' . trim($sName . ' ' . $sLastName);
+    // Если есть название компании — добавляем его через тире после имени и фамилии
+    if (!empty($sCompanyTitle)) {
+        $sTitle .= ' — ' . $sCompanyTitle;
+    }
+    ```
 {% endlist %}
 
 ### Создаем лид и получаем данные лида
@@ -360,19 +360,6 @@
     const leadId = addLead.getData().result
     ```
 
-- PHP
-
-    ```php
-    $leadId = $sb->getCRMScope()->lead()->add([
-        'TITLE' => $sTitle, // Заголовок лида
-        'NAME' => $sName, // Имя
-        'LAST_NAME' => $sLastName, // Фамилия
-        'COMPANY_TITLE' => $sCompanyTitle, // Название компании
-        'PHONE' => $arPhone, // Телефон
-        'EMAIL' => $arEmail, // Email
-    ])->getId();
-    ```
-
 - Python
 
     ```python
@@ -386,6 +373,19 @@
     }).result
     ```
 
+
+- PHP
+
+    ```php
+    $leadId = $sb->getCRMScope()->lead()->add([
+        'TITLE' => $sTitle, // Заголовок лида
+        'NAME' => $sName, // Имя
+        'LAST_NAME' => $sLastName, // Фамилия
+        'COMPANY_TITLE' => $sCompanyTitle, // Название компании
+        'PHONE' => $arPhone, // Телефон
+        'EMAIL' => $arEmail, // Email
+    ])->getId();
+    ```
 {% endlist %}
 
 Для получения данных лида используем метод [crm.lead.get](../../../api-reference/crm/leads/crm-lead-get.md). В параметр `ID` передаем идентификатор лида, полученный из результата метода [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md).
@@ -403,13 +403,6 @@
     const leadStatus = getLead.getData().result.STATUS_ID
     ```
 
-- PHP
-
-    ```php
-    $lead = $sb->getCRMScope()->lead()->get($leadId)->lead(); // ID из результата crm.lead.add
-    $leadStatus = $lead->STATUS_ID;
-    ```
-
 - Python
 
     ```python
@@ -417,6 +410,13 @@
     lead_status = lead["STATUS_ID"]
     ```
 
+
+- PHP
+
+    ```php
+    $lead = $sb->getCRMScope()->lead()->get($leadId)->lead(); // ID из результата crm.lead.add
+    $leadStatus = $lead->STATUS_ID;
+    ```
 {% endlist %}
 
 В результате метод [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md) вернет идентификатор нового лида, а метод [crm.lead.get](../../../api-reference/crm/leads/crm-lead-get.md) — данные лида, включая поле `STATUS_ID`.
@@ -476,6 +476,16 @@
     const deals = resultDeal.getData().result
     ```
 
+- Python
+
+    ```python
+    # Простой режим: ищем сделку, созданную из лида
+    deals = client.crm.deal.list(
+        filter={"LEAD_ID": lead_id}, select=["ID"],
+    ).as_list().result
+    ```
+
+
 - PHP
 
     ```php
@@ -486,16 +496,6 @@
         select: ['ID']
     )->getDeals();
     ```
-
-- Python
-
-    ```python
-    # Простой режим: ищем сделку, созданную из лида
-    deals = client.crm.deal.list(
-        filter={"LEAD_ID": lead_id}, select=["ID"],
-    ).as_list().result
-    ```
-
 {% endlist %}
 
 В результате получим массив сделок. Из одного лида получается одна сделка, поэтому берем первый элемент.
@@ -535,22 +535,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    if (!empty($deals)) {
-        $dealId = $deals[0]->ID;
-        // Привязываем дело к сделке — для crm.activity.todo.add в SDK нет обертки, вызываем напрямую
-        $sb->core->call('crm.activity.todo.add', [
-            'ownerTypeId' => 2, // тип объекта — сделка
-            'ownerId' => $dealId, // идентификатор сделки
-            'deadline' => date("Y-m-d H:i:s", time() + 3600), // текущее время + 1 час
-            'title' => 'Позвонить клиенту',
-            'description' => 'Заполнил заявку на сайте',
-        ]);
-    }
-    ```
-
 - Python
 
     ```python
@@ -569,6 +553,22 @@
         })
     ```
 
+
+- PHP
+
+    ```php
+    if (!empty($deals)) {
+        $dealId = $deals[0]->ID;
+        // Привязываем дело к сделке — для crm.activity.todo.add в SDK нет обертки, вызываем напрямую
+        $sb->core->call('crm.activity.todo.add', [
+            'ownerTypeId' => 2, // тип объекта — сделка
+            'ownerId' => $dealId, // идентификатор сделки
+            'deadline' => date("Y-m-d H:i:s", time() + 3600), // текущее время + 1 час
+            'title' => 'Позвонить клиенту',
+            'description' => 'Заполнил заявку на сайте',
+        ]);
+    }
+    ```
 {% endlist %}
 
 #### Классический режим
@@ -596,19 +596,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    // Классический режим: привязываем дело к лиду
-    $sb->core->call('crm.activity.todo.add', [
-        'ownerTypeId' => 1, // тип объекта — лид
-        'ownerId' => $leadId, // идентификатор лида
-        'deadline' => date("Y-m-d H:i:s", time() + 3600), // текущее время + 1 час
-        'title' => 'Позвонить клиенту',
-        'description' => 'Заполнил заявку на сайте',
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -625,6 +612,19 @@
     })
     ```
 
+
+- PHP
+
+    ```php
+    // Классический режим: привязываем дело к лиду
+    $sb->core->call('crm.activity.todo.add', [
+        'ownerTypeId' => 1, // тип объекта — лид
+        'ownerId' => $leadId, // идентификатор лида
+        'deadline' => date("Y-m-d H:i:s", time() + 3600), // текущее время + 1 час
+        'title' => 'Позвонить клиенту',
+        'description' => 'Заполнил заявку на сайте',
+    ]);
+    ```
 {% endlist %}
 
 Метод вернет идентификатор созданного дела.
@@ -734,75 +734,6 @@
     app.listen(3000)
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook(getenv('B24_HOOK'));
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
-    $crm = $sb->getCRMScope();
-
-    // Получаем и очищаем данные из формы
-    $sName = htmlspecialchars($_POST["NAME"]);
-    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
-    $sCompanyTitle = htmlspecialchars($_POST["COMPANY_TITLE"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
-    $sEmail = htmlspecialchars($_POST["EMAIL"]);
-
-    // Форматируем телефон и почту для Битрикс24 в формат crm_multifield
-    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
-    $arEmail = (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array();
-
-    // Формируем заголовок лида из имени и фамилии
-    $sTitle = 'С сайта: ' . trim($sName . ' ' . $sLastName);
-    if (!empty($sCompanyTitle)) {
-        $sTitle .= ' — ' . $sCompanyTitle;
-    }
-
-    try {
-        // Создаем лид
-        $leadId = $crm->lead()->add([
-            'TITLE' => $sTitle, 'NAME' => $sName, 'LAST_NAME' => $sLastName,
-            'COMPANY_TITLE' => $sCompanyTitle, 'PHONE' => $arPhone, 'EMAIL' => $arEmail,
-        ])->getId();
-
-        // Получаем данные лида
-        $leadStatus = $crm->lead()->get($leadId)->lead()->STATUS_ID;
-
-        $deadline = date("Y-m-d H:i:s", time() + 3600); // текущее время + 1 час
-
-        if ($leadStatus == 'CONVERTED') {
-            // Простой режим: ищем сделку, созданную из лида
-            $deals = $crm->deal()->list(order: [], filter: ['LEAD_ID' => $leadId], select: ['ID'])->getDeals();
-            if (!empty($deals)) {
-                // Добавляем дело в сделку — у crm.activity.todo.add нет обертки, вызываем напрямую
-                $sb->core->call('crm.activity.todo.add', [
-                    'ownerTypeId' => 2, 'ownerId' => $deals[0]->ID, 'deadline' => $deadline,
-                    'title' => 'Позвонить клиенту', 'description' => 'Заполнил заявку на сайте',
-                ]);
-            }
-        } else {
-            // Классический режим: добавляем дело в новый лид
-            $sb->core->call('crm.activity.todo.add', [
-                'ownerTypeId' => 1, 'ownerId' => $leadId, 'deadline' => $deadline,
-                'title' => 'Позвонить клиенту', 'description' => 'Заполнил заявку на сайте',
-            ]);
-        }
-
-        echo json_encode(['message' => 'Дело добавлено в лид или сделку']);
-    } catch (\Throwable $e) {
-        echo json_encode(['message' => $e->getMessage()]);
-    }
-    ```
-
 - Python
 
     ```python
@@ -873,6 +804,75 @@
             return jsonify({"message": str(e)})
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook(getenv('B24_HOOK'));
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+    $crm = $sb->getCRMScope();
+
+    // Получаем и очищаем данные из формы
+    $sName = htmlspecialchars($_POST["NAME"]);
+    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
+    $sCompanyTitle = htmlspecialchars($_POST["COMPANY_TITLE"]);
+    $sPhone = htmlspecialchars($_POST["PHONE"]);
+    $sEmail = htmlspecialchars($_POST["EMAIL"]);
+
+    // Форматируем телефон и почту для Битрикс24 в формат crm_multifield
+    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
+    $arEmail = (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array();
+
+    // Формируем заголовок лида из имени и фамилии
+    $sTitle = 'С сайта: ' . trim($sName . ' ' . $sLastName);
+    if (!empty($sCompanyTitle)) {
+        $sTitle .= ' — ' . $sCompanyTitle;
+    }
+
+    try {
+        // Создаем лид
+        $leadId = $crm->lead()->add([
+            'TITLE' => $sTitle, 'NAME' => $sName, 'LAST_NAME' => $sLastName,
+            'COMPANY_TITLE' => $sCompanyTitle, 'PHONE' => $arPhone, 'EMAIL' => $arEmail,
+        ])->getId();
+
+        // Получаем данные лида
+        $leadStatus = $crm->lead()->get($leadId)->lead()->STATUS_ID;
+
+        $deadline = date("Y-m-d H:i:s", time() + 3600); // текущее время + 1 час
+
+        if ($leadStatus == 'CONVERTED') {
+            // Простой режим: ищем сделку, созданную из лида
+            $deals = $crm->deal()->list(order: [], filter: ['LEAD_ID' => $leadId], select: ['ID'])->getDeals();
+            if (!empty($deals)) {
+                // Добавляем дело в сделку — у crm.activity.todo.add нет обертки, вызываем напрямую
+                $sb->core->call('crm.activity.todo.add', [
+                    'ownerTypeId' => 2, 'ownerId' => $deals[0]->ID, 'deadline' => $deadline,
+                    'title' => 'Позвонить клиенту', 'description' => 'Заполнил заявку на сайте',
+                ]);
+            }
+        } else {
+            // Классический режим: добавляем дело в новый лид
+            $sb->core->call('crm.activity.todo.add', [
+                'ownerTypeId' => 1, 'ownerId' => $leadId, 'deadline' => $deadline,
+                'title' => 'Позвонить клиенту', 'description' => 'Заполнил заявку на сайте',
+            ]);
+        }
+
+        echo json_encode(['message' => 'Дело добавлено в лид или сделку']);
+    } catch (\Throwable $e) {
+        echo json_encode(['message' => $e->getMessage()]);
+    }
+    ```
 {% endlist %}
 
 ## Проверим результат
@@ -898,6 +898,16 @@
     console.dir(checkResponse.getData().result)
     ```
 
+- Python
+
+    ```python
+    activities = client.crm.activity.list(
+        filter={"OWNER_TYPE_ID": 1, "OWNER_ID": lead_id},
+        select=["ID", "SUBJECT", "OWNER_TYPE_ID", "OWNER_ID"],
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -908,16 +918,6 @@
         0
     )->getActivities();
     ```
-
-- Python
-
-    ```python
-    activities = client.crm.activity.list(
-        filter={"OWNER_TYPE_ID": 1, "OWNER_ID": lead_id},
-        select=["ID", "SUBJECT", "OWNER_TYPE_ID", "OWNER_ID"],
-    ).response.result
-    ```
-
 {% endlist %}
 
 Сценарий выполнен, если:

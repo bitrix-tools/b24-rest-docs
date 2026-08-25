@@ -87,37 +87,6 @@
     </script>
     ```
 
-- PHP
-
-    ```html
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#form_to_crm').on( 'submit', function(el) {//event submit form
-            el.preventDefault();//the default action of the event will not be triggered
-            var formData = $(this).serialize();
-            $.ajax({
-                'method': 'POST',
-                'dataType': 'json',
-                'url': 'form.php', // файл для сохранения заполненных форм
-                'data': formData,
-                success: function(data){//success callback
-                    alert(data.message);
-                }
-            });
-        });
-    });
-    </script>
-
-    <form id="form_to_crm">
-        <input type="text" name="NAME" placeholder="Name" required>
-        <input type="text" name="LAST_NAME" placeholder="Last name">
-        <input type="text" name="PHONE" placeholder="Phone">
-        <input type="text" name="EMAIL" placeholder="E-mail">
-        <input type="submit" value="Submit">
-    </form>
-    ```
-
 - Python
 
     ```html
@@ -149,6 +118,37 @@
     </form>
     ```
 
+
+- PHP
+
+    ```html
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#form_to_crm').on( 'submit', function(el) {//event submit form
+            el.preventDefault();//the default action of the event will not be triggered
+            var formData = $(this).serialize();
+            $.ajax({
+                'method': 'POST',
+                'dataType': 'json',
+                'url': 'form.php', // файл для сохранения заполненных форм
+                'data': formData,
+                success: function(data){//success callback
+                    alert(data.message);
+                }
+            });
+        });
+    });
+    </script>
+
+    <form id="form_to_crm">
+        <input type="text" name="NAME" placeholder="Name" required>
+        <input type="text" name="LAST_NAME" placeholder="Last name">
+        <input type="text" name="PHONE" placeholder="Phone">
+        <input type="text" name="EMAIL" placeholder="E-mail">
+        <input type="submit" value="Submit">
+    </form>
+    ```
 {% endlist %}
 
 ## 2\. Создаем обработчик формы
@@ -170,15 +170,6 @@
     const sEmail = String(req.body.EMAIL ?? '')
     ```
 
-- PHP
-
-    ```php
-    $sName = htmlspecialchars($_POST["NAME"]);
-    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
-    $sEmail = htmlspecialchars($_POST["EMAIL"]);
-    ```
-
 - Python
 
     ```python
@@ -188,6 +179,15 @@
     s_email = request.form.get("EMAIL", "")
     ```
 
+
+- PHP
+
+    ```php
+    $sName = htmlspecialchars($_POST["NAME"]);
+    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
+    $sPhone = htmlspecialchars($_POST["PHONE"]);
+    $sEmail = htmlspecialchars($_POST["EMAIL"]);
+    ```
 {% endlist %}
 
 Формируем массив `$arFields` с данными нового лида.
@@ -206,18 +206,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $arFields = [
-        'TITLE' => 'From the site: ' . implode(' ', [$sName, $sLastName]),
-        'NAME' => (!empty($sName)) ? $sName : 'Empty name',
-        'LAST_NAME' => $sLastName,
-        'PHONE' => (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'HOME')) : array(),
-        'EMAIL' => (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array()
-    ];
-    ```
-
 - Python
 
     ```python
@@ -230,6 +218,18 @@
     }
     ```
 
+
+- PHP
+
+    ```php
+    $arFields = [
+        'TITLE' => 'From the site: ' . implode(' ', [$sName, $sLastName]),
+        'NAME' => (!empty($sName)) ? $sName : 'Empty name',
+        'LAST_NAME' => $sLastName,
+        'PHONE' => (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'HOME')) : array(),
+        'EMAIL' => (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array()
+    ];
+    ```
 {% endlist %}
 
 Заголовок лида формируем как `From the site: Имя Фамилия`.
@@ -274,22 +274,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $arLeadDuplicate = [];
-
-    if (!empty($sPhone)) {
-        $result = $sb->getCRMScope()->duplicate()->findByPhone(
-            [$sPhone],
-            \Bitrix24\SDK\Services\CRM\Duplicates\Service\EntityType::Lead
-        )->getCoreResponse()->getResponseData()->getResult();
-        if (!empty($result['LEAD'])) {
-            $arLeadDuplicate = array_merge($arLeadDuplicate, $result['LEAD']);
-        }
-    }
-    ```
-
 - Python
 
     ```python
@@ -306,6 +290,22 @@
             ar_lead_duplicate += found
     ```
 
+
+- PHP
+
+    ```php
+    $arLeadDuplicate = [];
+
+    if (!empty($sPhone)) {
+        $result = $sb->getCRMScope()->duplicate()->findByPhone(
+            [$sPhone],
+            \Bitrix24\SDK\Services\CRM\Duplicates\Service\EntityType::Lead
+        )->getCoreResponse()->getResponseData()->getResult();
+        if (!empty($result['LEAD'])) {
+            $arLeadDuplicate = array_merge($arLeadDuplicate, $result['LEAD']);
+        }
+    }
+    ```
 {% endlist %}
 
 Поиск дубликатов по электронной почте, `"type" => "EMAIL"`.
@@ -326,6 +326,19 @@
     }
     ```
 
+- Python
+
+    ```python
+    if s_email:
+        result_duplicate = client.crm.duplicate.findbycomm(
+            type="EMAIL", values=[s_email], entity_type="LEAD",
+        ).result
+        found = (result_duplicate or {}).get("LEAD")
+        if found:
+            ar_lead_duplicate += found
+    ```
+
+
 - PHP
 
     ```php
@@ -339,19 +352,6 @@
         }
     }
     ```
-
-- Python
-
-    ```python
-    if s_email:
-        result_duplicate = client.crm.duplicate.findbycomm(
-            type="EMAIL", values=[s_email], entity_type="LEAD",
-        ).result
-        found = (result_duplicate or {}).get("LEAD")
-        if found:
-            ar_lead_duplicate += found
-    ```
-
 {% endlist %}
 
 Если совпадения найдены, метод возвращает объект с ключом `LEAD` и массивом идентификаторов.
@@ -414,6 +414,24 @@
     }
     ```
 
+- Python
+
+    ```python
+    if ar_lead_duplicate:
+        ar_duplicate_lead = client.crm.lead.list(
+            filter={"=ID": ar_lead_duplicate, "STATUS_ID": "CONVERTED"},
+            select=["ID", "COMPANY_ID", "CONTACT_ID"],
+        ).as_list().result
+
+        company = next((r["COMPANY_ID"] for r in ar_duplicate_lead if int(r["COMPANY_ID"] or 0) > 0), None)
+        contact = next((r["CONTACT_ID"] for r in ar_duplicate_lead if int(r["CONTACT_ID"] or 0) > 0), None)
+        if company:
+            ar_fields["COMPANY_ID"] = company
+        if contact:
+            ar_fields["CONTACT_ID"] = contact
+    ```
+
+
 - PHP
 
     ```php
@@ -437,24 +455,6 @@
         }
     }
     ```
-
-- Python
-
-    ```python
-    if ar_lead_duplicate:
-        ar_duplicate_lead = client.crm.lead.list(
-            filter={"=ID": ar_lead_duplicate, "STATUS_ID": "CONVERTED"},
-            select=["ID", "COMPANY_ID", "CONTACT_ID"],
-        ).as_list().result
-
-        company = next((r["COMPANY_ID"] for r in ar_duplicate_lead if int(r["COMPANY_ID"] or 0) > 0), None)
-        contact = next((r["CONTACT_ID"] for r in ar_duplicate_lead if int(r["CONTACT_ID"] or 0) > 0), None)
-        if company:
-            ar_fields["COMPANY_ID"] = company
-        if contact:
-            ar_fields["CONTACT_ID"] = contact
-    ```
-
 {% endlist %}
 
 Метод возвращает идентификаторы строками, а незаполненные связи — значением `null`. Поэтому проверяем значения перед тем, как переложить их в `$arFields`.
@@ -494,18 +494,18 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $sb->getCRMScope()->lead()->add($arFields);
-    ```
-
 - Python
 
     ```python
     client.crm.lead.add(fields=ar_fields)
     ```
 
+
+- PHP
+
+    ```php
+    $sb->getCRMScope()->lead()->add($arFields);
+    ```
 {% endlist %}
 
 Если лид создан успешно, метод вернет его идентификатор. Если вы получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.lead.add](../../../api-reference/crm/leads/crm-lead-add.md).
@@ -536,18 +536,18 @@
     console.dir(checkResponse.getData().result)
     ```
 
-- PHP
-
-    ```php
-    $lead = $sb->getCRMScope()->lead()->get(3289)->lead();
-    ```
-
 - Python
 
     ```python
     lead = client.crm.lead.get(bitrix_id=3289).result
     ```
 
+
+- PHP
+
+    ```php
+    $lead = $sb->getCRMScope()->lead()->get(3289)->lead();
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в ответе:
@@ -678,6 +678,75 @@
     app.listen(3000)
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    from flask import Flask, request, jsonify
+    from b24pysdk import BitrixWebhook, Client
+
+    app = Flask(__name__)
+
+    client = Client(BitrixWebhook(
+        domain="your-domain.bitrix24.ru",
+        webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
+    ))
+
+
+    def find_lead_duplicates(comm_type: str, value: str) -> list:
+        """Возвращает идентификаторы лидов с совпадающим телефоном или почтой.
+
+        Если совпадений нет, метод возвращает пустой массив, а не объект,
+        поэтому приводим результат к словарю перед обращением по ключу.
+        """
+        result = client.crm.duplicate.findbycomm(
+            type=comm_type, values=[value], entity_type="LEAD",
+        ).result
+        return (result or {}).get("LEAD") or []
+
+
+    @app.route("/form", methods=["POST"])
+    def handle_form():
+        s_name = request.form.get("NAME", "")
+        s_last_name = request.form.get("LAST_NAME", "")
+        s_phone = request.form.get("PHONE", "")
+        s_email = request.form.get("EMAIL", "")
+
+        ar_fields = {
+            "TITLE": "From the site: " + " ".join([s_name, s_last_name]),
+            "NAME": s_name or "Empty name",
+            "LAST_NAME": s_last_name,
+            "PHONE": [{"VALUE": s_phone, "VALUE_TYPE": "HOME"}] if s_phone else [],
+            "EMAIL": [{"VALUE": s_email, "VALUE_TYPE": "HOME"}] if s_email else [],
+        }
+
+        ar_lead_duplicate = []
+        if s_phone:  # поиск дубликатов по телефону
+            ar_lead_duplicate += find_lead_duplicates("PHONE", s_phone)
+
+        if s_email:  # поиск дубликатов по email
+            ar_lead_duplicate += find_lead_duplicates("EMAIL", s_email)
+
+        if ar_lead_duplicate:  # получение дубликата лида с полями связанных контакта и компании
+            ar_duplicate_lead = client.crm.lead.list(
+                filter={"=ID": ar_lead_duplicate, "STATUS_ID": "CONVERTED"},
+                select=["ID", "COMPANY_ID", "CONTACT_ID"],
+            ).as_list().result
+            company = next((r["COMPANY_ID"] for r in ar_duplicate_lead if int(r["COMPANY_ID"] or 0) > 0), None)
+            contact = next((r["CONTACT_ID"] for r in ar_duplicate_lead if int(r["CONTACT_ID"] or 0) > 0), None)
+            if company:
+                ar_fields["COMPANY_ID"] = company
+            if contact:
+                ar_fields["CONTACT_ID"] = contact
+
+        try:
+            client.crm.lead.add(fields=ar_fields)  # создание повторного лида
+            return jsonify({"message": "Lead add"})
+        except Exception as e:
+            return jsonify({"message": f"Lead not added: {e}"})
+    ```
+
+
 - PHP
 
     ```php
@@ -749,75 +818,6 @@
         echo json_encode(['message' => 'Lead not added: ' . $e->getMessage()]);
     }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    from flask import Flask, request, jsonify
-    from b24pysdk import BitrixWebhook, Client
-
-    app = Flask(__name__)
-
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
-    ))
-
-
-    def find_lead_duplicates(comm_type: str, value: str) -> list:
-        """Возвращает идентификаторы лидов с совпадающим телефоном или почтой.
-
-        Если совпадений нет, метод возвращает пустой массив, а не объект,
-        поэтому приводим результат к словарю перед обращением по ключу.
-        """
-        result = client.crm.duplicate.findbycomm(
-            type=comm_type, values=[value], entity_type="LEAD",
-        ).result
-        return (result or {}).get("LEAD") or []
-
-
-    @app.route("/form", methods=["POST"])
-    def handle_form():
-        s_name = request.form.get("NAME", "")
-        s_last_name = request.form.get("LAST_NAME", "")
-        s_phone = request.form.get("PHONE", "")
-        s_email = request.form.get("EMAIL", "")
-
-        ar_fields = {
-            "TITLE": "From the site: " + " ".join([s_name, s_last_name]),
-            "NAME": s_name or "Empty name",
-            "LAST_NAME": s_last_name,
-            "PHONE": [{"VALUE": s_phone, "VALUE_TYPE": "HOME"}] if s_phone else [],
-            "EMAIL": [{"VALUE": s_email, "VALUE_TYPE": "HOME"}] if s_email else [],
-        }
-
-        ar_lead_duplicate = []
-        if s_phone:  # поиск дубликатов по телефону
-            ar_lead_duplicate += find_lead_duplicates("PHONE", s_phone)
-
-        if s_email:  # поиск дубликатов по email
-            ar_lead_duplicate += find_lead_duplicates("EMAIL", s_email)
-
-        if ar_lead_duplicate:  # получение дубликата лида с полями связанных контакта и компании
-            ar_duplicate_lead = client.crm.lead.list(
-                filter={"=ID": ar_lead_duplicate, "STATUS_ID": "CONVERTED"},
-                select=["ID", "COMPANY_ID", "CONTACT_ID"],
-            ).as_list().result
-            company = next((r["COMPANY_ID"] for r in ar_duplicate_lead if int(r["COMPANY_ID"] or 0) > 0), None)
-            contact = next((r["CONTACT_ID"] for r in ar_duplicate_lead if int(r["CONTACT_ID"] or 0) > 0), None)
-            if company:
-                ar_fields["COMPANY_ID"] = company
-            if contact:
-                ar_fields["CONTACT_ID"] = contact
-
-        try:
-            client.crm.lead.add(fields=ar_fields)  # создание повторного лида
-            return jsonify({"message": "Lead add"})
-        except Exception as e:
-            return jsonify({"message": f"Lead not added: {e}"})
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

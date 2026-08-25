@@ -86,6 +86,30 @@
    const rows = []
    ```
 
+- Python
+
+   ```python
+   from b24pysdk import BitrixWebhook, Client
+
+   client = Client(
+       BitrixWebhook(
+           domain="your-domain.bitrix24.com",
+           webhook_token="user_id/webhook_key",
+       )
+   )
+
+   phone = input("Введите номер телефона: ")
+   email = input("Введите email: ")
+
+   entity_ids = {
+       "LEAD": [],
+       "CONTACT": [],
+       "COMPANY": [],
+   }
+
+   rows = []
+   ```
+
 - PHP
 
    ```php
@@ -114,30 +138,6 @@
    ];
 
    $rows = [];
-   ```
-
-- Python
-
-   ```python
-   from b24pysdk import BitrixWebhook, Client
-
-   client = Client(
-       BitrixWebhook(
-           domain="your-domain.bitrix24.com",
-           webhook_token="user_id/webhook_key",
-       )
-   )
-
-   phone = input("Введите номер телефона: ")
-   email = input("Введите email: ")
-
-   entity_ids = {
-       "LEAD": [],
-       "CONTACT": [],
-       "COMPANY": [],
-   }
-
-   rows = []
    ```
 
 - Go
@@ -199,6 +199,29 @@
    }
    ```
 
+- Python
+
+   ```python
+   def merge_duplicates(data, entity_ids):
+       """Объединяет идентификаторы из ответа метода с entity_ids."""
+       if not isinstance(data, dict):
+           return
+       for key in entity_ids:
+           found = data.get(key)
+           if isinstance(found, list):
+               entity_ids[key] = list(dict.fromkeys(entity_ids[key] + found))
+
+
+   for comm_type, value in (("PHONE", phone), ("EMAIL", email)):
+       if not value:
+           continue
+       result = client.crm.duplicate.findbycomm(
+           type=comm_type,
+           values=[value],
+       ).response.result
+       merge_duplicates(result, entity_ids)
+   ```
+
 - PHP
 
    ```php
@@ -224,29 +247,6 @@
    if ($email) {
        mergeDuplicates($sb->getCRMScope()->duplicate()->findByEmail([$email]), $entityIDs);
    }
-   ```
-
-- Python
-
-   ```python
-   def merge_duplicates(data, entity_ids):
-       """Объединяет идентификаторы из ответа метода с entity_ids."""
-       if not isinstance(data, dict):
-           return
-       for key in entity_ids:
-           found = data.get(key)
-           if isinstance(found, list):
-               entity_ids[key] = list(dict.fromkeys(entity_ids[key] + found))
-
-
-   for comm_type, value in (("PHONE", phone), ("EMAIL", email)):
-       if not value:
-           continue
-       result = client.crm.duplicate.findbycomm(
-           type=comm_type,
-           values=[value],
-       ).response.result
-       merge_duplicates(result, entity_ids)
    ```
 
 - Go
@@ -361,6 +361,37 @@
    }
    ```
 
+- Python
+
+   ```python
+   SELECT = ["id", "title", "name", "lastName", "phone", "email"]
+   ENTITY_TYPES = (
+       ("LEAD", 1, "лид"),
+       ("CONTACT", 3, "контакт"),
+       ("COMPANY", 4, "компания"),
+   )
+
+   for key, entity_type_id, label in ENTITY_TYPES:
+       if not entity_ids[key]:
+           continue
+
+       items = client.crm.item.list(
+           entity_type_id=entity_type_id,
+           filter={"id": entity_ids[key]},
+           select=SELECT,
+       ).response.result["items"]
+
+       for item in items:
+           name = " ".join(filter(None, [item.get("name"), item.get("lastName")]))
+           rows.append({
+               "id": item["id"],
+               "kind": label,
+               "title": name or item.get("title") or "—",
+               "phone": item.get("phone") or "—",
+               "email": item.get("email") or "—",
+           })
+   ```
+
 - PHP
 
    ```php
@@ -394,37 +425,6 @@
            ];
        }
    }
-   ```
-
-- Python
-
-   ```python
-   SELECT = ["id", "title", "name", "lastName", "phone", "email"]
-   ENTITY_TYPES = (
-       ("LEAD", 1, "лид"),
-       ("CONTACT", 3, "контакт"),
-       ("COMPANY", 4, "компания"),
-   )
-
-   for key, entity_type_id, label in ENTITY_TYPES:
-       if not entity_ids[key]:
-           continue
-
-       items = client.crm.item.list(
-           entity_type_id=entity_type_id,
-           filter={"id": entity_ids[key]},
-           select=SELECT,
-       ).response.result["items"]
-
-       for item in items:
-           name = " ".join(filter(None, [item.get("name"), item.get("lastName")]))
-           rows.append({
-               "id": item["id"],
-               "kind": label,
-               "title": name or item.get("title") or "—",
-               "phone": item.get("phone") or "—",
-               "email": item.get("email") or "—",
-           })
    ```
 
 - Go
@@ -498,6 +498,17 @@
    }
    ```
 
+- Python
+
+   ```python
+   if not rows:
+       print("Дубликаты не найдены")
+   else:
+       print("\t".join(["Идентификатор", "Тип объекта", "Название/Имя и фамилия", "Телефон", "Email"]))
+       for row in rows:
+           print("\t".join(str(row[key]) for key in ("id", "kind", "title", "phone", "email")))
+   ```
+
 - PHP
 
    ```php
@@ -509,17 +520,6 @@
            echo implode("\t", $row) . "\n";
        }
    }
-   ```
-
-- Python
-
-   ```python
-   if not rows:
-       print("Дубликаты не найдены")
-   else:
-       print("\t".join(["Идентификатор", "Тип объекта", "Название/Имя и фамилия", "Телефон", "Email"]))
-       for row in rows:
-           print("\t".join(str(row[key]) for key in ("id", "kind", "title", "phone", "email")))
    ```
 
 - Go
@@ -674,6 +674,86 @@
    }
    ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    SELECT = ["id", "title", "name", "lastName", "phone", "email"]
+    ENTITY_TYPES = (
+        ("LEAD", 1, "лид"),
+        ("CONTACT", 3, "контакт"),
+        ("COMPANY", 4, "компания"),
+    )
+
+
+    def merge_duplicates(data, entity_ids):
+        """Объединяет идентификаторы из ответа метода с entity_ids."""
+        if not isinstance(data, dict):
+            return
+        for key in entity_ids:
+            found = data.get(key)
+            if isinstance(found, list):
+                entity_ids[key] = list(dict.fromkeys(entity_ids[key] + found))
+
+
+    phone = input("Введите номер телефона: ")
+    email = input("Введите email: ")
+
+    entity_ids = {"LEAD": [], "CONTACT": [], "COMPANY": []}
+    rows = []
+
+    try:
+        # Шаг 1: Ищем дубликаты по телефону и по email
+        for comm_type, value in (("PHONE", phone), ("EMAIL", email)):
+            if not value:
+                continue
+            result = client.crm.duplicate.findbycomm(
+                type=comm_type,
+                values=[value],
+            ).response.result
+            merge_duplicates(result, entity_ids)
+
+        # Шаг 2: Получаем данные найденных объектов
+        for key, entity_type_id, label in ENTITY_TYPES:
+            if not entity_ids[key]:
+                continue
+
+            items = client.crm.item.list(
+                entity_type_id=entity_type_id,
+                filter={"id": entity_ids[key]},
+                select=SELECT,
+            ).response.result["items"]
+
+            for item in items:
+                name = " ".join(filter(None, [item.get("name"), item.get("lastName")]))
+                rows.append({
+                    "id": item["id"],
+                    "kind": label,
+                    "title": name or item.get("title") or "—",
+                    "phone": item.get("phone") or "—",
+                    "email": item.get("email") or "—",
+                })
+    except BitrixAPIError as error:
+        print(error)
+
+    # Выводим таблицу через табуляцию
+    if not rows:
+        print("Дубликаты не найдены")
+    else:
+        print("\t".join(["Идентификатор", "Тип объекта", "Название/Имя и фамилия", "Телефон", "Email"]))
+        for row in rows:
+            print("\t".join(str(row[key]) for key in ("id", "kind", "title", "phone", "email")))
+    ```
+
 - PHP
 
    ```php
@@ -768,86 +848,6 @@
        }
    }
    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    SELECT = ["id", "title", "name", "lastName", "phone", "email"]
-    ENTITY_TYPES = (
-        ("LEAD", 1, "лид"),
-        ("CONTACT", 3, "контакт"),
-        ("COMPANY", 4, "компания"),
-    )
-
-
-    def merge_duplicates(data, entity_ids):
-        """Объединяет идентификаторы из ответа метода с entity_ids."""
-        if not isinstance(data, dict):
-            return
-        for key in entity_ids:
-            found = data.get(key)
-            if isinstance(found, list):
-                entity_ids[key] = list(dict.fromkeys(entity_ids[key] + found))
-
-
-    phone = input("Введите номер телефона: ")
-    email = input("Введите email: ")
-
-    entity_ids = {"LEAD": [], "CONTACT": [], "COMPANY": []}
-    rows = []
-
-    try:
-        # Шаг 1: Ищем дубликаты по телефону и по email
-        for comm_type, value in (("PHONE", phone), ("EMAIL", email)):
-            if not value:
-                continue
-            result = client.crm.duplicate.findbycomm(
-                type=comm_type,
-                values=[value],
-            ).response.result
-            merge_duplicates(result, entity_ids)
-
-        # Шаг 2: Получаем данные найденных объектов
-        for key, entity_type_id, label in ENTITY_TYPES:
-            if not entity_ids[key]:
-                continue
-
-            items = client.crm.item.list(
-                entity_type_id=entity_type_id,
-                filter={"id": entity_ids[key]},
-                select=SELECT,
-            ).response.result["items"]
-
-            for item in items:
-                name = " ".join(filter(None, [item.get("name"), item.get("lastName")]))
-                rows.append({
-                    "id": item["id"],
-                    "kind": label,
-                    "title": name or item.get("title") or "—",
-                    "phone": item.get("phone") or "—",
-                    "email": item.get("email") or "—",
-                })
-    except BitrixAPIError as error:
-        print(error)
-
-    # Выводим таблицу через табуляцию
-    if not rows:
-        print("Дубликаты не найдены")
-    else:
-        print("\t".join(["Идентификатор", "Тип объекта", "Название/Имя и фамилия", "Телефон", "Email"]))
-        for row in rows:
-            print("\t".join(str(row[key]) for key in ("id", "kind", "title", "phone", "email")))
-    ```
 
 - Go
 

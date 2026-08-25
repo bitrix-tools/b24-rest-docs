@@ -130,38 +130,6 @@
     </script>
     ```
 
-- PHP
-
-  ```php
-  try {
-      $response = $b24Service
-          ->core
-          ->call(
-              'im.message.add',
-              [
-                  'DIALOG_ID' => 'chat2725',
-                  'MESSAGE' => 'Выберите действие',
-                  'KEYBOARD' => [
-                      'BUTTONS' => [
-                          ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
-                          ['TYPE' => 'NEWLINE'],
-                          ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
-                      ],
-                  ],
-              ]
-          );
-
-      $result = $response
-          ->getResponseData()
-          ->getResult();
-
-      echo 'Created message ID: ' . $result;
-  } catch (Throwable $e) {
-      error_log($e->getMessage());
-      echo 'Error: ' . $e->getMessage();
-  }
-  ```
-
 - Python
 
   ```python
@@ -201,6 +169,38 @@
       print(f"Ошибка Bitrix SDK: {error.message}")
   except Exception as error:
       print(f"Непредвиденная ошибка: {error}")
+  ```
+
+- PHP
+
+  ```php
+  try {
+      $response = $b24Service
+          ->core
+          ->call(
+              'im.message.add',
+              [
+                  'DIALOG_ID' => 'chat2725',
+                  'MESSAGE' => 'Выберите действие',
+                  'KEYBOARD' => [
+                      'BUTTONS' => [
+                          ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
+                          ['TYPE' => 'NEWLINE'],
+                          ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
+                      ],
+                  ],
+              ]
+          );
+
+      $result = $response
+          ->getResponseData()
+          ->getResult();
+
+      echo 'Created message ID: ' . $result;
+  } catch (Throwable $e) {
+      error_log($e->getMessage());
+      echo 'Error: ' . $e->getMessage();
+  }
   ```
 
 - BX24.js

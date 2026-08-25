@@ -107,6 +107,30 @@ URL обработчика должен быть доступен из внеш�
     console.info('Вкладка зарегистрирована')
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    # client построен на токене приложения — см. сценарий
+    # «Как встроить виджет в лид в виде пользовательского поля»
+    from b24pysdk.errors import BitrixAPIError
+
+    try:
+        bitrix_response = client.placement.bind(
+            placement="CRM_DEAL_DETAIL_TAB",
+            handler="https://your-domain.example/deal-tab.php",
+            title="Deal data",
+            lang_all={
+                "ru": {"TITLE": "Данные сделки"},
+                "en": {"TITLE": "Deal data"},
+            },
+        ).response
+        print("Вкладка зарегистрирована:", bitrix_response.result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
+
 - PHP
 
     ```php
@@ -136,30 +160,6 @@ URL обработчика должен быть доступен из внеш�
         echo $exception->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    # client построен на токене приложения — см. сценарий
-    # «Как встроить виджет в лид в виде пользовательского поля»
-    from b24pysdk.errors import BitrixAPIError
-
-    try:
-        bitrix_response = client.placement.bind(
-            placement="CRM_DEAL_DETAIL_TAB",
-            handler="https://your-domain.example/deal-tab.php",
-            title="Deal data",
-            lang_all={
-                "ru": {"TITLE": "Данные сделки"},
-                "en": {"TITLE": "Deal data"},
-            },
-        ).response
-        print("Вкладка зарегистрирована:", bitrix_response.result)
-    except BitrixAPIError as error:
-        print(error)
-    ```
-
 {% endlist %}
 
 Если обработчик успешно зарегистрирован, метод вернет `true`.
@@ -271,6 +271,53 @@ PLACEMENT_OPTIONS={"ID":"3473"}
     </html>
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    from flask import Flask, request
+    from b24pysdk import BitrixApp, BitrixToken, Client
+    from b24pysdk.errors import BitrixAPIError
+    import json
+
+    app = Flask(__name__)
+
+    bitrix_app = BitrixApp(
+        client_id="local.xxxxxxxx.xxxxxxxx",
+        client_secret="yyyyyyyy",
+    )
+
+
+    @app.post("/deal-tab")
+    def deal_tab():
+        placement = request.form.get("PLACEMENT", "")
+        options = json.loads(request.form.get("PLACEMENT_OPTIONS", "{}") or "{}")
+        deal_id = int(options.get("ID", 0))
+
+        if placement != "CRM_DEAL_DETAIL_TAB" or deal_id <= 0:
+            return "Не удалось получить контекст вызова"
+
+        # Битрикс24 передает обработчику домен и токен пользователя
+        client = Client(
+            BitrixToken(
+                domain=request.args.get("DOMAIN", ""),
+                auth_token=request.form.get("AUTH_ID", ""),
+                bitrix_app=bitrix_app,
+            )
+        )
+
+        try:
+            deal = client.crm.item.get(
+                entity_type_id=2,
+                bitrix_id=deal_id,
+            ).response.result["item"]
+        except BitrixAPIError as error:
+            return str(error)
+
+        return f"{deal.get('title', 'Сделка без названия')} — стадия: {deal.get('stageId', '')}"
+    ```
+
+
 - PHP
 
     ```php
@@ -339,53 +386,6 @@ PLACEMENT_OPTIONS={"ID":"3473"}
         </body>
     </html>
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    from flask import Flask, request
-    from b24pysdk import BitrixApp, BitrixToken, Client
-    from b24pysdk.errors import BitrixAPIError
-    import json
-
-    app = Flask(__name__)
-
-    bitrix_app = BitrixApp(
-        client_id="local.xxxxxxxx.xxxxxxxx",
-        client_secret="yyyyyyyy",
-    )
-
-
-    @app.post("/deal-tab")
-    def deal_tab():
-        placement = request.form.get("PLACEMENT", "")
-        options = json.loads(request.form.get("PLACEMENT_OPTIONS", "{}") or "{}")
-        deal_id = int(options.get("ID", 0))
-
-        if placement != "CRM_DEAL_DETAIL_TAB" or deal_id <= 0:
-            return "Не удалось получить контекст вызова"
-
-        # Битрикс24 передает обработчику домен и токен пользователя
-        client = Client(
-            BitrixToken(
-                domain=request.args.get("DOMAIN", ""),
-                auth_token=request.form.get("AUTH_ID", ""),
-                bitrix_app=bitrix_app,
-            )
-        )
-
-        try:
-            deal = client.crm.item.get(
-                entity_type_id=2,
-                bitrix_id=deal_id,
-            ).response.result["item"]
-        except BitrixAPIError as error:
-            return str(error)
-
-        return f"{deal.get('title', 'Сделка без названия')} — стадия: {deal.get('stageId', '')}"
-    ```
-
 {% endlist %}
 
 Метод вернет объект `item` с данными сделки, доступными пользователю, чья авторизация используется в запросе.

@@ -258,47 +258,6 @@ fields: {
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.currency.add',
-            [
-                'fields' => [
-                    'CURRENCY' => 'CNY',
-                    'BASE' => 'N',
-                    'AMOUNT' => 12.2251,
-                    'AMOUNT_CNT' => 1,
-                    'SORT' => 9000,
-                    'LANG' => [
-                        'ru' => [
-                            'DECIMALS' => 2,
-                            'DEC_POINT' => '.',
-                            'FORMAT_STRING' => '# CNY',
-                            'FULL_NAME' => 'юань',
-                            'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_VARIANT' => 'S',
-                        ],
-                        'en' => [
-                            'DECIMALS' => 2,
-                            'DEC_POINT' => ',',
-                            'FORMAT_STRING' => '# CNY',
-                            'FULL_NAME' => 'yuan',
-                            'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_SEP' => '.',
-                        ],
-                    ],
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         ```python
@@ -345,6 +304,47 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.currency.add',
+            [
+                'fields' => [
+                    'CURRENCY' => 'CNY',
+                    'BASE' => 'N',
+                    'AMOUNT' => 12.2251,
+                    'AMOUNT_CNT' => 1,
+                    'SORT' => 9000,
+                    'LANG' => [
+                        'ru' => [
+                            'DECIMALS' => 2,
+                            'DEC_POINT' => '.',
+                            'FORMAT_STRING' => '# CNY',
+                            'FULL_NAME' => 'юань',
+                            'HIDE_ZERO' => 'Y',
+                            'THOUSANDS_VARIANT' => 'S',
+                        ],
+                        'en' => [
+                            'DECIMALS' => 2,
+                            'DEC_POINT' => ',',
+                            'FORMAT_STRING' => '# CNY',
+                            'FULL_NAME' => 'yuan',
+                            'HIDE_ZERO' => 'Y',
+                            'THOUSANDS_SEP' => '.',
+                        ],
+                    ],
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go
@@ -534,46 +534,6 @@ fields: {
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.currency.add',
-            [
-                'fields' => [
-                    'CURRENCY' => 'IDR',
-                    'AMOUNT' => 54.8738,
-                    'AMOUNT_CNT' => 10000,
-                    'SORT' => 8000,
-                    'LANG' => [
-                        'ru' => [
-                            'DECIMALS' => 2,
-                            'DEC_POINT' => '.',
-                            'FORMAT_STRING' => 'Rp#',
-                            'FULL_NAME' => 'рупия',
-                            'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_VARIANT' => 'C',
-                        ],
-                        'en' => [
-                            'DECIMALS' => 2,
-                            'DEC_POINT' => '.',
-                            'FORMAT_STRING' => 'Rp#',
-                            'FULL_NAME' => 'rupee',
-                            'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_VARIANT' => 'C',
-                        ]
-                    ]
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         ```python
@@ -619,6 +579,46 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.currency.add',
+            [
+                'fields' => [
+                    'CURRENCY' => 'IDR',
+                    'AMOUNT' => 54.8738,
+                    'AMOUNT_CNT' => 10000,
+                    'SORT' => 8000,
+                    'LANG' => [
+                        'ru' => [
+                            'DECIMALS' => 2,
+                            'DEC_POINT' => '.',
+                            'FORMAT_STRING' => 'Rp#',
+                            'FULL_NAME' => 'рупия',
+                            'HIDE_ZERO' => 'Y',
+                            'THOUSANDS_VARIANT' => 'C',
+                        ],
+                        'en' => [
+                            'DECIMALS' => 2,
+                            'DEC_POINT' => '.',
+                            'FORMAT_STRING' => 'Rp#',
+                            'FULL_NAME' => 'rupee',
+                            'HIDE_ZERO' => 'Y',
+                            'THOUSANDS_VARIANT' => 'C',
+                        ]
+                    ]
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go

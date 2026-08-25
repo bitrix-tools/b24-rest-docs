@@ -220,42 +220,6 @@
   }
   ```
 
-- PHP
-
-  ```php
-  try {
-      $response = $b24Service
-          ->core
-          ->call(
-              'imbot.v2.Chat.Message.send',
-              [
-                  'botId' => 456,
-                  'dialogId' => 'chat2725',
-                  'fields' => [
-                      'message' => 'Выберите действие',
-                      'keyboard' => [
-                          'BOT_ID' => 456,
-                          'BUTTONS' => [
-                              ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
-                              ['TYPE' => 'NEWLINE'],
-                              ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
-                          ],
-                      ],
-                  ],
-              ]
-          );
-
-      $result = $response
-          ->getResponseData()
-          ->getResult()['id'];
-
-      echo 'Created message ID: ' . $result;
-  } catch (Throwable $e) {
-      error_log($e->getMessage());
-      echo 'Error: ' . $e->getMessage();
-  }
-  ```
-
 - Python
 
   ```python
@@ -299,6 +263,42 @@
       print(f"Ошибка Bitrix SDK: {error.message}")
   except Exception as error:
       print(f"Непредвиденная ошибка: {error}")
+  ```
+
+- PHP
+
+  ```php
+  try {
+      $response = $b24Service
+          ->core
+          ->call(
+              'imbot.v2.Chat.Message.send',
+              [
+                  'botId' => 456,
+                  'dialogId' => 'chat2725',
+                  'fields' => [
+                      'message' => 'Выберите действие',
+                      'keyboard' => [
+                          'BOT_ID' => 456,
+                          'BUTTONS' => [
+                              ['TEXT' => 'Открыть сайт', 'LINK' => 'https://www.example.ru/'],
+                              ['TYPE' => 'NEWLINE'],
+                              ['TEXT' => 'Подставить команду', 'ACTION' => 'PUT', 'ACTION_VALUE' => '/help'],
+                          ],
+                      ],
+                  ],
+              ]
+          );
+
+      $result = $response
+          ->getResponseData()
+          ->getResult()['id'];
+
+      echo 'Created message ID: ' . $result;
+  } catch (Throwable $e) {
+      error_log($e->getMessage());
+      echo 'Error: ' . $e->getMessage();
+  }
   ```
 
 - BX24.js

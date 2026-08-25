@@ -130,34 +130,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.automation.trigger.list',
-                []
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching automation triggers: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -203,6 +175,34 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.automation.trigger.list',
+                []
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching automation triggers: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

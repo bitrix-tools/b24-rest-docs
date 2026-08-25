@@ -299,6 +299,36 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.requisite.update(
+            bitrix_id=27,
+            fields={
+                "RQ_OKPO": "80715150",
+                "RQ_OKTMO": "45381000000",
+                "UF_CRM_1707997209": "78",
+                "UF_CRM_1708012333": "Категория 3",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -383,36 +413,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.requisite.update(
-            bitrix_id=27,
-            fields={
-                "RQ_OKPO": "80715150",
-                "RQ_OKTMO": "45381000000",
-                "UF_CRM_1707997209": "78",
-                "UF_CRM_1708012333": "Категория 3",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go

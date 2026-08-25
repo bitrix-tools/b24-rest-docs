@@ -285,45 +285,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.contact.userfield.list',
-                [
-                    'filter' => [
-                        'MULTIPLE' => 'Y',
-                        'MANDATORY' => 'Y',
-                        'LANG' => 'ru',
-                    ],
-                    'order' => [
-                        'USER_TYPE_ID' => 'ASC',
-                        'SORT' => 'ASC',
-                    ],
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching user fields: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -418,6 +379,45 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.contact.userfield.list',
+                [
+                    'filter' => [
+                        'MULTIPLE' => 'Y',
+                        'MANDATORY' => 'Y',
+                        'LANG' => 'ru',
+                    ],
+                    'order' => [
+                        'USER_TYPE_ID' => 'ASC',
+                        'SORT' => 'ASC',
+                    ],
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching user fields: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

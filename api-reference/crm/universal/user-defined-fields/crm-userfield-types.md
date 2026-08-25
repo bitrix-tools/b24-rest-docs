@@ -134,27 +134,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.userfield.types',
-                []
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        print_r($result);
-    } catch (Throwable $e) {
-        echo $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -175,6 +154,27 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.userfield.types',
+                []
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        print_r($result);
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+    }
     ```
 
 - BX24.js

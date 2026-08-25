@@ -161,36 +161,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.item.delivery.list',
-                [
-                    'entityId'     => 13127,
-                    'entityTypeId' => 2,
-                    'filter'       => [
-                        '@id' => [4077, 4078]
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching delivery list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -286,6 +256,36 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.delivery.list',
+                [
+                    'entityId'     => 13127,
+                    'entityTypeId' => 2,
+                    'filter'       => [
+                        '@id' => [4077, 4078]
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching delivery list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

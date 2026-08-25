@@ -115,37 +115,6 @@
     const contactId = resultAdd.getData().result.item.id;
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $resultAdd = $sb->getCRMScope()->item()->add(
-        3, // 3 — контакт
-        [
-            'name' => 'Иван',
-            'lastName' => 'Иванов',
-            'fm' => [
-                [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'work_email@nomail.com' ],
-                [ 'typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => 'home_email@nomail.com' ],
-                [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+79991234567' ],
-                [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79997654321' ]
-            ]
-        ]
-    );
-
-    $contactId = $resultAdd->item()->id;
-    ```
-
 - Python
 
     ```python
@@ -176,6 +145,37 @@
     contact_id = item["id"]
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $resultAdd = $sb->getCRMScope()->item()->add(
+        3, // 3 — контакт
+        [
+            'name' => 'Иван',
+            'lastName' => 'Иванов',
+            'fm' => [
+                [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'work_email@nomail.com' ],
+                [ 'typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => 'home_email@nomail.com' ],
+                [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+79991234567' ],
+                [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79997654321' ]
+            ]
+        ]
+    );
+
+    $contactId = $resultAdd->item()->id;
+    ```
 {% endlist %}
 
 Метод возвращает объект `item` с полным набором полей контакта. Ответ сокращен, показаны поля, которые подтверждают результат. Сохраните `id` контакта — он нужен шагам 2 и 3. В примере `id`: `2653`.
@@ -248,12 +248,6 @@
     const multifields = resultGet.getData().result.item.fm;
     ```
 
-- PHP
-
-    ```php
-    $multifields = $sb->getCRMScope()->item()->get(3, $contactId)->item()->fm;
-    ```
-
 - Python
 
     ```python
@@ -263,6 +257,12 @@
     ).response.result["item"]["fm"]
     ```
 
+
+- PHP
+
+    ```php
+    $multifields = $sb->getCRMScope()->item()->get(3, $contactId)->item()->fm;
+    ```
 {% endlist %}
 
 В массиве `fm` найдите нужные записи по паре `typeId` и `valueType` и сохраните их `id`. В примере рабочая почта — `8553`, личная почта — `8555`, мобильный телефон — `8559`.
@@ -354,23 +354,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    $resultUpdate = $sb->getCRMScope()->item()->update(
-        3,
-        $contactId,
-        [
-            'fm' => [
-                // ключ — id записи из шага 2
-                8553 => [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'new_work_email@nomail.com' ], // меняем рабочую почту
-                8555 => [ 'typeId' => 'EMAIL', 'value' => '' ], // пустое значение удаляет личную почту
-                8559 => [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79995554433' ] // меняем мобильный телефон
-            ]
-        ]
-    );
-    ```
-
 - Python
 
     ```python
@@ -388,6 +371,23 @@
     ).response.result["item"]
     ```
 
+
+- PHP
+
+    ```php
+    $resultUpdate = $sb->getCRMScope()->item()->update(
+        3,
+        $contactId,
+        [
+            'fm' => [
+                // ключ — id записи из шага 2
+                8553 => [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'new_work_email@nomail.com' ], // меняем рабочую почту
+                8555 => [ 'typeId' => 'EMAIL', 'value' => '' ], // пустое значение удаляет личную почту
+                8559 => [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79995554433' ] // меняем мобильный телефон
+            ]
+        ]
+    );
+    ```
 {% endlist %}
 
 Метод возвращает контакт целиком уже с новым составом записей, поэтому проверять результат отдельным запросом не обязательно. Ответ сокращен.
@@ -447,18 +447,18 @@
     console.dir(checkResult.getData().result.item.fm);
     ```
 
-- PHP
-
-    ```php
-    print_r($sb->getCRMScope()->item()->get(3, $contactId)->item()->fm);
-    ```
-
 - Python
 
     ```python
     print(client.crm.item.get(3, contact_id).response.result["item"]["fm"])
     ```
 
+
+- PHP
+
+    ```php
+    print_r($sb->getCRMScope()->item()->get(3, $contactId)->item()->fm);
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в массиве `fm` три записи: у `8553` новый адрес почты, у `8559` новый номер телефона, записи `8555` нет, а `8557` не изменилась.
@@ -618,82 +618,6 @@
     changeContacts();
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $entityTypeId = 3; // 3 — контакт, компания — 4, лид — 1
-    $item = $sb->getCRMScope()->item();
-
-    // находит id записи мультиполя по типу и подтипу значения
-    $findId = static function (array $multifields, string $typeId, string $valueType) {
-        foreach ($multifields as $field) {
-            if ($field['typeId'] === $typeId && $field['valueType'] === $valueType) {
-                return $field['id'];
-            }
-        }
-        return null;
-    };
-
-    try {
-        // Шаг 1: создаем контакт с почтой и телефонами
-        $contactId = $item->add(
-            $entityTypeId,
-            [
-                'name' => 'Иван',
-                'lastName' => 'Иванов',
-                'fm' => [
-                    [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'work_email@nomail.com' ],
-                    [ 'typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => 'home_email@nomail.com' ],
-                    [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+79991234567' ],
-                    [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79997654321' ]
-                ]
-            ]
-        )->item()->id;
-        echo 'Контакт создан, id: ' . $contactId . PHP_EOL;
-
-        // Шаг 2: читаем идентификаторы записей мультиполя
-        $multifields = $item->get($entityTypeId, $contactId)->item()->fm;
-
-        $workEmailId = $findId($multifields, 'EMAIL', 'WORK');
-        $homeEmailId = $findId($multifields, 'EMAIL', 'HOME');
-        $mobilePhoneId = $findId($multifields, 'PHONE', 'MOBILE');
-        if ($workEmailId === null || $homeEmailId === null || $mobilePhoneId === null) {
-            echo 'У контакта нет нужных записей мультиполя';
-            return;
-        }
-
-        // Шаг 3: меняем одни значения и удаляем другие
-        // typeId обязателен в каждом элементе, иначе операция молча не выполнится
-        $updated = $item->update(
-            $entityTypeId,
-            $contactId,
-            [
-                'fm' => [
-                    $workEmailId => [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'new_work_email@nomail.com' ],
-                    $homeEmailId => [ 'typeId' => 'EMAIL', 'value' => '' ],
-                    $mobilePhoneId => [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79995554433' ]
-                ]
-            ]
-        );
-
-        echo 'Контактные данные обновлены:' . PHP_EOL;
-        print_r($updated->item()->fm);
-    } catch (\Throwable $e) {
-        echo 'Контактные данные не обновлены: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -770,6 +694,82 @@
         print(f"Контактные данные не обновлены: {error}")
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $entityTypeId = 3; // 3 — контакт, компания — 4, лид — 1
+    $item = $sb->getCRMScope()->item();
+
+    // находит id записи мультиполя по типу и подтипу значения
+    $findId = static function (array $multifields, string $typeId, string $valueType) {
+        foreach ($multifields as $field) {
+            if ($field['typeId'] === $typeId && $field['valueType'] === $valueType) {
+                return $field['id'];
+            }
+        }
+        return null;
+    };
+
+    try {
+        // Шаг 1: создаем контакт с почтой и телефонами
+        $contactId = $item->add(
+            $entityTypeId,
+            [
+                'name' => 'Иван',
+                'lastName' => 'Иванов',
+                'fm' => [
+                    [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'work_email@nomail.com' ],
+                    [ 'typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => 'home_email@nomail.com' ],
+                    [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+79991234567' ],
+                    [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79997654321' ]
+                ]
+            ]
+        )->item()->id;
+        echo 'Контакт создан, id: ' . $contactId . PHP_EOL;
+
+        // Шаг 2: читаем идентификаторы записей мультиполя
+        $multifields = $item->get($entityTypeId, $contactId)->item()->fm;
+
+        $workEmailId = $findId($multifields, 'EMAIL', 'WORK');
+        $homeEmailId = $findId($multifields, 'EMAIL', 'HOME');
+        $mobilePhoneId = $findId($multifields, 'PHONE', 'MOBILE');
+        if ($workEmailId === null || $homeEmailId === null || $mobilePhoneId === null) {
+            echo 'У контакта нет нужных записей мультиполя';
+            return;
+        }
+
+        // Шаг 3: меняем одни значения и удаляем другие
+        // typeId обязателен в каждом элементе, иначе операция молча не выполнится
+        $updated = $item->update(
+            $entityTypeId,
+            $contactId,
+            [
+                'fm' => [
+                    $workEmailId => [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'new_work_email@nomail.com' ],
+                    $homeEmailId => [ 'typeId' => 'EMAIL', 'value' => '' ],
+                    $mobilePhoneId => [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+79995554433' ]
+                ]
+            ]
+        );
+
+        echo 'Контактные данные обновлены:' . PHP_EOL;
+        print_r($updated->item()->fm);
+    } catch (\Throwable $e) {
+        echo 'Контактные данные не обновлены: ' . $e->getMessage();
+    }
+    ```
 {% endlist %}
 
 ## Продолжите изучение

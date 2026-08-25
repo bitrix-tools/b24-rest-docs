@@ -193,38 +193,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.status.list',
-                [
-                    'order' => ['SORT' => 'ASC'],
-                    'filter' => ['ENTITY_ID' => 'DEAL_STAGE'],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching status list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -314,6 +282,38 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.status.list',
+                [
+                    'order' => ['SORT' => 'ASC'],
+                    'filter' => ['ENTITY_ID' => 'DEAL_STAGE'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching status list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

@@ -93,33 +93,6 @@
     const numeratorId = resNum.getData().result.numerator.id;
     ```
 
-- PHP
-
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $templatePath = __DIR__ . '/template.docx'; // путь к файлу шаблона
-    $templateName = 'Демонстрационная реализация товара'; // название шаблона
-    $dealId = 8287; // идентификатор сделки
-
-    $resNum = $sb->getCRMScope()->documentgeneratorNumerator()->add(
-        [
-            'name' => 'Нумератор из REST', // Название нумератора
-            'template' => '{NUMBER}', // Шаблон номера документа
-        ]
-    );
-
-    $numeratorId = $resNum->getId();
-    ```
-
 - Python
 
     ```python
@@ -146,6 +119,33 @@
     numerator_id = numerator["id"]
     ```
 
+
+- PHP
+
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $templatePath = __DIR__ . '/template.docx'; // путь к файлу шаблона
+    $templateName = 'Демонстрационная реализация товара'; // название шаблона
+    $dealId = 8287; // идентификатор сделки
+
+    $resNum = $sb->getCRMScope()->documentgeneratorNumerator()->add(
+        [
+            'name' => 'Нумератор из REST', // Название нумератора
+            'template' => '{NUMBER}', // Шаблон номера документа
+        ]
+    );
+
+    $numeratorId = $resNum->getId();
+    ```
 {% endlist %}
 
 В ответе метод вернет объект `numerator`. Сохраните `id` — его нужно передать в шаг 2. В примере `id`: `1095`.
@@ -223,25 +223,6 @@
     const templateId = resTemplate.getData().result.template.id;
     ```
 
-- PHP
-
-    ```php
-    $fileContent = base64_encode(file_get_contents($templatePath));
-
-    $resTemplate = $sb->getCRMScope()->documentgeneratorTemplate()->add(
-        [
-            'name' => $templateName, // Название шаблона
-            'numeratorId' => $numeratorId, // Идентификатор нумератора из шага 1
-            'region' => 'ru', // Регион шаблона
-            'users' => ['UA'], // Права доступа: все авторизованные пользователи
-            'entityTypeId' => ['2'], // 2 — сделка
-            'file' => [basename($templatePath), $fileContent] // Имя файла и контент в Base64
-        ]
-    );
-
-    $templateId = $resTemplate->getId();
-    ```
-
 - Python
 
     ```python
@@ -265,6 +246,25 @@
     template_id = int(template["id"])
     ```
 
+
+- PHP
+
+    ```php
+    $fileContent = base64_encode(file_get_contents($templatePath));
+
+    $resTemplate = $sb->getCRMScope()->documentgeneratorTemplate()->add(
+        [
+            'name' => $templateName, // Название шаблона
+            'numeratorId' => $numeratorId, // Идентификатор нумератора из шага 1
+            'region' => 'ru', // Регион шаблона
+            'users' => ['UA'], // Права доступа: все авторизованные пользователи
+            'entityTypeId' => ['2'], // 2 — сделка
+            'file' => [basename($templatePath), $fileContent] // Имя файла и контент в Base64
+        ]
+    );
+
+    $templateId = $resTemplate->getId();
+    ```
 {% endlist %}
 
 В ответе метод вернет объект `template`. Сохраните `id` — его нужно передать в шаг 3. В примере `id`: `249`.
@@ -340,18 +340,6 @@
     const documentId = resDoc.getData().result.document.id;
     ```
 
-- PHP
-
-    ```php
-    $resDoc = $sb->getCRMScope()->documentgeneratorDocument()->add(
-        $templateId, // Идентификатор шаблона из шага 2
-        2, // 2 — сделка
-        $dealId // Идентификатор сделки
-    );
-
-    $documentId = $resDoc->getId();
-    ```
-
 - Python
 
     ```python
@@ -364,6 +352,18 @@
     document_id = document["id"]
     ```
 
+
+- PHP
+
+    ```php
+    $resDoc = $sb->getCRMScope()->documentgeneratorDocument()->add(
+        $templateId, // Идентификатор шаблона из шага 2
+        2, // 2 — сделка
+        $dealId // Идентификатор сделки
+    );
+
+    $documentId = $resDoc->getId();
+    ```
 {% endlist %}
 
 В ответе метод вернет объект `document`. Ответ сокращен, показаны поля, которые подтверждают результат.
@@ -415,14 +415,6 @@
     console.dir(checkResult.getData().result.document);
     ```
 
-- PHP
-
-    ```php
-    $checkResult = $sb->getCRMScope()->documentgeneratorDocument()->get($documentId);
-
-    print_r($checkResult->document());
-    ```
-
 - Python
 
     ```python
@@ -433,6 +425,14 @@
     print(check_result)
     ```
 
+
+- PHP
+
+    ```php
+    $checkResult = $sb->getCRMScope()->documentgeneratorDocument()->get($documentId);
+
+    print_r($checkResult->document());
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в ответе есть непустые поля `id` и `downloadUrl`, а `templateId` совпадает с идентификатором шаблона из шага 2. Поле `number` показывает номер, который выдал нумератор: у первого документа это `1`, у следующего — `2`.
@@ -537,6 +537,63 @@
     createDocument();
     ```
 
+- Python
+
+    ```python
+    import base64
+    from pathlib import Path
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    template_path = "template.docx"  # путь к файлу шаблона
+    template_name = "Демонстрационная реализация товара"  # название шаблона
+    deal_id = 8287  # идентификатор сделки
+
+    try:
+        with open(template_path, "rb") as file:
+            file_content = base64.b64encode(file.read()).decode("ascii")
+    except OSError as error:
+        print(f"Файл шаблона не прочитан: {error}")
+    else:
+        try:
+            numerator = client.crm.documentgenerator.numerator.add(
+                fields={
+                    "name": "Нумератор из REST",
+                    "template": "{NUMBER}",
+                },
+            ).response.result["numerator"]
+
+            template = client.crm.documentgenerator.template.add(
+                fields={
+                    "name": template_name,
+                    "numeratorId": numerator["id"],
+                    "region": "ru",
+                    "users": ["UA"],
+                    "entityTypeId": ["2"],
+                    "file": [Path(template_path).name, file_content],
+                },
+            ).response.result["template"]
+
+            document = client.crm.documentgenerator.document.add(
+                template_id=int(template["id"]),
+                entity_type_id=2,
+                entity_id=deal_id,
+            ).response.result["document"]
+        except BitrixAPIError as error:
+            print(f"Документ не создан: {error}")
+        else:
+            print(f"Документ создан: {document['title']} {document['downloadUrl']}")
+    ```
+
+
 - PHP
 
     ```php
@@ -596,63 +653,6 @@
         echo 'Документ не создан: ' . $e->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    import base64
-    from pathlib import Path
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    template_path = "template.docx"  # путь к файлу шаблона
-    template_name = "Демонстрационная реализация товара"  # название шаблона
-    deal_id = 8287  # идентификатор сделки
-
-    try:
-        with open(template_path, "rb") as file:
-            file_content = base64.b64encode(file.read()).decode("ascii")
-    except OSError as error:
-        print(f"Файл шаблона не прочитан: {error}")
-    else:
-        try:
-            numerator = client.crm.documentgenerator.numerator.add(
-                fields={
-                    "name": "Нумератор из REST",
-                    "template": "{NUMBER}",
-                },
-            ).response.result["numerator"]
-
-            template = client.crm.documentgenerator.template.add(
-                fields={
-                    "name": template_name,
-                    "numeratorId": numerator["id"],
-                    "region": "ru",
-                    "users": ["UA"],
-                    "entityTypeId": ["2"],
-                    "file": [Path(template_path).name, file_content],
-                },
-            ).response.result["template"]
-
-            document = client.crm.documentgenerator.document.add(
-                template_id=int(template["id"]),
-                entity_type_id=2,
-                entity_id=deal_id,
-            ).response.result["document"]
-        except BitrixAPIError as error:
-            print(f"Документ не создан: {error}")
-        else:
-            print(f"Документ создан: {document['title']} {document['downloadUrl']}")
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

@@ -208,43 +208,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.item.productrow.update',
-                [
-                    'id' => 17648,
-                    'fields' => [
-                        'productId'      => 9621,
-                        'price'          => 90000.000000,
-                        'quantity'       => 3,
-                        'discountTypeId' => 2,
-                        'discountRate'   => 10,
-                        'taxRate'        => 10,
-                        'taxIncluded'    => 'Y',
-                        'measureCode'    => 796,
-                        'sort'           => 20,
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating product row: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -280,6 +243,43 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.productrow.update',
+                [
+                    'id' => 17648,
+                    'fields' => [
+                        'productId'      => 9621,
+                        'price'          => 90000.000000,
+                        'quantity'       => 3,
+                        'discountTypeId' => 2,
+                        'discountRate'   => 10,
+                        'taxRate'        => 10,
+                        'taxIncluded'    => 'Y',
+                        'measureCode'    => 796,
+                        'sort'           => 20,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating product row: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

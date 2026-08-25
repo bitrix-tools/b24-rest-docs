@@ -41,17 +41,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    [
-        'DELIMITER' => [
-            'SIZE' => 200,
-            'COLOR' => '#c6c6c6'
-        ]
-    ]
-    ```
-
 - Python
 
     ```python
@@ -63,6 +52,17 @@
     }
     ```
 
+
+- PHP
+
+    ```php
+    [
+        'DELIMITER' => [
+            'SIZE' => 200,
+            'COLOR' => '#c6c6c6'
+        ]
+    ]
+    ```
 {% endlist %}
 
 ## Продолжите изучение

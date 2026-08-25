@@ -281,43 +281,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.company.userfield.list',
-                [
-                    'filter' => [
-                        'MULTIPLE' => 'Y',
-                        'MANDATORY' => 'Y',
-                        'LANG' => 'ru',
-                    ],
-                    'order' => [
-                        'USER_TYPE_ID' => 'ASC',
-                        'SORT' => 'ASC',
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching company user fields: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -414,6 +377,43 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.company.userfield.list',
+                [
+                    'filter' => [
+                        'MULTIPLE' => 'Y',
+                        'MANDATORY' => 'Y',
+                        'LANG' => 'ru',
+                    ],
+                    'order' => [
+                        'USER_TYPE_ID' => 'ASC',
+                        'SORT' => 'ASC',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Data: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching company user fields: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

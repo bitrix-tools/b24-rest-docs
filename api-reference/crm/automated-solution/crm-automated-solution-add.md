@@ -175,27 +175,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.add',
-            [
-                'fields' =>
-                [
-                    'title' => 'HR',
-                    'typeIds' => [1, 2, 3]
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -227,6 +206,27 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.add',
+            [
+                'fields' =>
+                [
+                    'title' => 'HR',
+                    'typeIds' => [1, 2, 3]
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go
@@ -367,26 +367,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.add',
-            [
-                'fields' =>
-                [
-                    'title' => 'HR'
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -413,6 +393,26 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.add',
+            [
+                'fields' =>
+                [
+                    'title' => 'HR'
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go

@@ -235,36 +235,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.documentgenerator.document.list',
-                [
-                    'select' => ['id', 'title', 'number', 'entityId', 'createTime'],
-                    'order' => ['id' => 'desc'],
-                    'filter' => ['entityTypeId' => 2, 'entityId' => 101],
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo '<pre>';
-        print_r($result);
-        echo '</pre>';
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting documents list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -377,6 +347,36 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.documentgenerator.document.list',
+                [
+                    'select' => ['id', 'title', 'number', 'entityId', 'createTime'],
+                    'order' => ['id' => 'desc'],
+                    'filter' => ['entityTypeId' => 2, 'entityId' => 101],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting documents list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

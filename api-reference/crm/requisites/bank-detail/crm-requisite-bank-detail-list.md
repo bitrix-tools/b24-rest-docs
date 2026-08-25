@@ -276,81 +276,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.requisite.bankdetail.list',
-                [
-                    'order'  => ['DATE_CREATE' => 'ASC'],
-                    'filter' => ['COUNTRY_ID' => '1'],
-                    'select' => ['ENTITY_ID', 'ID', 'NAME'],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-        if ($result->more()) {
-            $result->next();
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error listing bank details: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        "crm.requisite.bankdetail.list",
-        {
-            order: { "DATE_CREATE": "ASC" },
-            filter: { "COUNTRY_ID": "1" },
-            select: [ "ENTITY_ID", "ID", "NAME" ]
-        },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-            {
-                console.dir(result.data());
-                if(result.more())
-                    result.next();
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.requisite.bankdetail.list',
-        [
-            'order' => ['DATE_CREATE' => 'ASC'],
-            'filter' => ['COUNTRY_ID' => '1'],
-            'select' => ['ENTITY_ID', 'ID', 'NAME']
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     Пример
@@ -456,6 +381,81 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.bankdetail.list',
+                [
+                    'order'  => ['DATE_CREATE' => 'ASC'],
+                    'filter' => ['COUNTRY_ID' => '1'],
+                    'select' => ['ENTITY_ID', 'ID', 'NAME'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+        if ($result->more()) {
+            $result->next();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error listing bank details: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.requisite.bankdetail.list",
+        {
+            order: { "DATE_CREATE": "ASC" },
+            filter: { "COUNTRY_ID": "1" },
+            select: [ "ENTITY_ID", "ID", "NAME" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.requisite.bankdetail.list',
+        [
+            'order' => ['DATE_CREATE' => 'ASC'],
+            'filter' => ['COUNTRY_ID' => '1'],
+            'select' => ['ENTITY_ID', 'ID', 'NAME']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 - Go

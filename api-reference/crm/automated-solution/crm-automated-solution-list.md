@@ -189,25 +189,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.list',
-            [
-                'order' => [
-                    'id' => 'DESC'
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -289,6 +270,25 @@
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.list',
+            [
+                'order' => [
+                    'id' => 'DESC'
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go
@@ -440,25 +440,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.list',
-            [
-                'filter' => [
-                    '%=title' => 'HR%'
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -550,6 +531,25 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.list',
+            [
+                'filter' => [
+                    '%=title' => 'HR%'
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
+
     - Go
 
         ```go
@@ -715,37 +715,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.automatedsolution.list',
-            [
-                'order' => [
-                    'title' => 'ASC'
-                ],
-                'filter' => [
-                    '>id' => 100,
-                    '0' => [
-                        'logic' => 'OR',
-                        '0' => [
-                            '%=title' => 'HR%'
-                        ],
-                        '1' => [
-                            '%=title' => 'Customer%'
-                        ]
-                    ]
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         Пример
@@ -864,6 +833,37 @@
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
         ```
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.automatedsolution.list',
+            [
+                'order' => [
+                    'title' => 'ASC'
+                ],
+                'filter' => [
+                    '>id' => 100,
+                    '0' => [
+                        'logic' => 'OR',
+                        '0' => [
+                            '%=title' => 'HR%'
+                        ],
+                        '1' => [
+                            '%=title' => 'Customer%'
+                        ]
+                    ]
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
+
     - Go
 
         ```go

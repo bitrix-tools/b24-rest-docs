@@ -160,6 +160,45 @@
     </script>
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.activity.todo.add(
+            owner_type_id=2,
+            owner_id=101,
+            deadline=datetime.now() + timedelta(days=1),
+            title="Follow up with customer",
+            description="Discuss proposal details",
+            responsible_id=1,
+            parent_activity_id=998,
+            ping_offsets=[
+                0,
+                15,
+            ],
+            color_id="2",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -241,45 +280,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- Python
-
-    Пример
-
-    ```python
-    from datetime import datetime, timedelta
-
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.activity.todo.add(
-            owner_type_id=2,
-            owner_id=101,
-            deadline=datetime.now() + timedelta(days=1),
-            title="Follow up with customer",
-            description="Discuss proposal details",
-            responsible_id=1,
-            parent_activity_id=998,
-            ping_offsets=[
-                0,
-                15,
-            ],
-            color_id="2",
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go

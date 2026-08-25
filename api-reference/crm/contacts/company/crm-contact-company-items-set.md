@@ -189,6 +189,47 @@
     </script>
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.contact.company.items.set(
+            bitrix_id=82,
+            items=[
+                {
+                    "COMPANY_ID": 8,
+                    "IS_PRIMARY": "Y",
+                    "SORT": 100,
+                },
+                {
+                    "COMPANY_ID": 9,
+                    "SORT": 200,
+                },
+                {
+                    "COMPANY_ID": 10,
+                    "SORT": 400,
+                },
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -234,47 +275,6 @@
         error_log($e->getMessage());
         echo 'Error setting company items for contact: ' . $e->getMessage();
     }
-    ```
-
-- Python
-
-    Пример
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.contact.company.items.set(
-            bitrix_id=82,
-            items=[
-                {
-                    "COMPANY_ID": 8,
-                    "IS_PRIMARY": "Y",
-                    "SORT": 100,
-                },
-                {
-                    "COMPANY_ID": 9,
-                    "SORT": 200,
-                },
-                {
-                    "COMPANY_ID": 10,
-                    "SORT": 400,
-                },
-            ],
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - BX24.js

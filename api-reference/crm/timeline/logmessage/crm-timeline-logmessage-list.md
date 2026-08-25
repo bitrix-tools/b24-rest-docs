@@ -171,64 +171,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.timeline.logmessage.list',
-                [
-                    'entityTypeId' => 1,
-                    'entityId'     => 1,
-                    'order'        => ['created' => 'desc'],
-                    'start'        => 0,
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error listing log messages: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        "crm.timeline.logmessage.list",
-        {
-            entityTypeId: 1,
-            entityId: 1,
-            order: { created: "desc" },
-        },
-        result => {
-            if (result.error()) {
-                console.error(result.error());
-                return;
-            }
-
-            console.dir(result.data());
-
-            if (result.more()) {
-                result.next();
-            }
-        }
-    );
-    ```
-
 - Python
 
     Пример
@@ -318,6 +260,64 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.timeline.logmessage.list',
+                [
+                    'entityTypeId' => 1,
+                    'entityId'     => 1,
+                    'order'        => ['created' => 'desc'],
+                    'start'        => 0,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error listing log messages: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.timeline.logmessage.list",
+        {
+            entityTypeId: 1,
+            entityId: 1,
+            order: { created: "desc" },
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            console.dir(result.data());
+
+            if (result.more()) {
+                result.next();
+            }
+        }
+    );
     ```
 
 - PHP CRest

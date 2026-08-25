@@ -543,6 +543,46 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.user.userfield.add(
+            fields={
+                "FIELD_NAME": "UF_USER_DEALS",
+                "USER_TYPE_ID": "crm",
+                "XML_ID": "UF_CRM_DEALS",
+                "SORT": 100,
+                "MULTIPLE": "Y",
+                "MANDATORY": "N",
+                "SHOW_FILTER": "N",
+                "SHOW_IN_LIST": "Y",
+                "EDIT_IN_LIST": "Y",
+                "SETTINGS": {
+                    "DEAL": "Y",
+                },
+                "LABEL": "Привязка к сделкам CRM",
+                "EDIT_FORM_LABEL": {
+                    "ru": "Привязка к сделкам CRM",
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php
@@ -656,46 +696,6 @@
     ```
 
 
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.user.userfield.add(
-            fields={
-                "FIELD_NAME": "UF_USER_DEALS",
-                "USER_TYPE_ID": "crm",
-                "XML_ID": "UF_CRM_DEALS",
-                "SORT": 100,
-                "MULTIPLE": "Y",
-                "MANDATORY": "N",
-                "SHOW_FILTER": "N",
-                "SHOW_IN_LIST": "Y",
-                "EDIT_IN_LIST": "Y",
-                "SETTINGS": {
-                    "DEAL": "Y",
-                },
-                "LABEL": "Привязка к сделкам CRM",
-                "EDIT_FORM_LABEL": {
-                    "ru": "Привязка к сделкам CRM",
-                },
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
 - Go
 
     ```go

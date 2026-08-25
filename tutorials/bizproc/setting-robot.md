@@ -71,6 +71,29 @@
     const $b24 = await initializeB24Frame()
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from flask import request
+    from b24pysdk import BitrixApp, BitrixToken, Client
+
+    APP = BitrixApp(client_id="local.xxxxxxxx.xxxxxxxx", client_secret="yyyyyyyy")
+
+    def make_client(auth: dict) -> tuple[Client, BitrixToken]:
+        token = BitrixToken(
+            domain=auth["domain"],
+            auth_token=auth["access_token"],
+            refresh_token=auth.get("refresh_token", ""),
+            bitrix_app=APP,
+        )
+        return Client(token), token
+
+    auth = request.json["auth"]  # словарь auth из тела запроса обработчика
+    client, token = make_client(auth)
+    ```
+
+
 - PHP
 
     ```php
@@ -103,29 +126,6 @@
     $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
         ->init($appProfile, $authToken, $domain, DefaultOAuthServerUrl::default());
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from flask import request
-    from b24pysdk import BitrixApp, BitrixToken, Client
-
-    APP = BitrixApp(client_id="local.xxxxxxxx.xxxxxxxx", client_secret="yyyyyyyy")
-
-    def make_client(auth: dict) -> tuple[Client, BitrixToken]:
-        token = BitrixToken(
-            domain=auth["domain"],
-            auth_token=auth["access_token"],
-            refresh_token=auth.get("refresh_token", ""),
-            bitrix_app=APP,
-        )
-        return Client(token), token
-
-    auth = request.json["auth"]  # словарь auth из тела запроса обработчика
-    client, token = make_client(auth)
-    ```
-
 {% endlist %}
 
 ## 1. Зарегистрируйте робота
@@ -169,6 +169,27 @@
     console.log(response.getData().result)
     ```
 
+- Python
+
+    ```python
+    # client построен на токене приложения
+    result = client.bizproc.robot.add(
+        code="robot",
+        handler="https://your-domain.example/handler.php",
+        name="Пример робота-встройки",
+        auth_user_id=1,
+        use_placement=True,
+        placement_handler="https://your-domain.example/handler.php",
+        properties={
+            "string": {"Name": "Параметр 1", "Type": "string"},
+            "stringm": {"Name": "Параметр 2", "Type": "string", "Multiple": "Y", "Default": ["value 1", "value 2"]},
+        },
+    ).response
+
+    print(result.result)
+    ```
+
+
 - PHP
 
     ```php
@@ -192,27 +213,6 @@
 
     var_dump($response->getResponseData()->getResult());
     ```
-
-- Python
-
-    ```python
-    # client построен на токене приложения
-    result = client.bizproc.robot.add(
-        code="robot",
-        handler="https://your-domain.example/handler.php",
-        name="Пример робота-встройки",
-        auth_user_id=1,
-        use_placement=True,
-        placement_handler="https://your-domain.example/handler.php",
-        properties={
-            "string": {"Name": "Параметр 1", "Type": "string"},
-            "stringm": {"Name": "Параметр 2", "Type": "string", "Multiple": "Y", "Default": ["value 1", "value 2"]},
-        },
-    ).response
-
-    print(result.result)
-    ```
-
 {% endlist %}
 
 Успешный вызов вернет `true`.
@@ -298,16 +298,6 @@ await $b24.placement.call('setPropertyValue', {
     })
     ```
 
-- PHP
-
-    ```php
-    // Список роботов приложения
-    $codes = $b24->getBizProcScope()->robot()->list()->getRobots();
-
-    // Удалить робота по коду
-    $b24->getBizProcScope()->robot()->delete('robot');
-    ```
-
 - Python
 
     ```python
@@ -319,6 +309,16 @@ await $b24.placement.call('setPropertyValue', {
     client.bizproc.robot.delete(code="robot").response
     ```
 
+
+- PHP
+
+    ```php
+    // Список роботов приложения
+    $codes = $b24->getBizProcScope()->robot()->list()->getRobots();
+
+    // Удалить робота по коду
+    $b24->getBizProcScope()->robot()->delete('robot');
+    ```
 {% endlist %}
 
 Метод `bizproc.robot.list` вернет массив кодов роботов приложения.
@@ -370,42 +370,6 @@ await $b24.placement.call('setPropertyValue', {
     document.body.appendChild(form)
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // Сервер отдает HTML-страницу обработчика. PLACEMENT_OPTIONS приходит JSON-строкой.
-    $options = json_decode($_POST['PLACEMENT_OPTIONS'] ?? '{}', true) ?: [];
-    ?>
-    <!DOCTYPE html>
-    <html>
-        <body>
-            <form name="props">
-            <?php foreach (($options['properties'] ?? []) as $id => $property):
-                $multiple = ($property['Multiple'] ?? false) === true || ($property['Multiple'] ?? '') === 'Y' || ($property['MULTIPLE'] ?? '') === 'Y';
-                $values = (array)($options['current_values'][$id] ?? '');
-                $name = $multiple ? $id . '[]' : $id; ?>
-                <label><?=htmlspecialchars($property['Name'] ?? $property['NAME'])?>:</label>
-                <?php foreach ($values as $v): ?>
-                    <input name="<?=$name?>" value="<?=htmlspecialchars((string)$v)?>"
-                           onchange="setPropertyValue('<?=$id?>', this.name, <?=(int)$multiple?>)">
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-            </form>
-            <script type="module">
-                // b24jssdk подключается ESM-сборкой или собирается сборщиком
-                import { initializeB24Frame } from 'https://esm.sh/@bitrix24/b24jssdk'
-                const $b24 = await initializeB24Frame()
-                window.setPropertyValue = (id, inputName, multiple) => {
-                    const data = new FormData(document.forms.props)
-                    const value = multiple ? data.getAll(inputName) : data.get(inputName)
-                    $b24.placement.call('setPropertyValue', { [id]: value })
-                }
-            </script>
-        </body>
-    </html>
-    ```
-
 - Python
 
     ```python
@@ -443,6 +407,42 @@ await $b24.placement.call('setPropertyValue', {
     page = f"<!DOCTYPE html><html><body>\n{form_html}\n" + script + "</body></html>"
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // Сервер отдает HTML-страницу обработчика. PLACEMENT_OPTIONS приходит JSON-строкой.
+    $options = json_decode($_POST['PLACEMENT_OPTIONS'] ?? '{}', true) ?: [];
+    ?>
+    <!DOCTYPE html>
+    <html>
+        <body>
+            <form name="props">
+            <?php foreach (($options['properties'] ?? []) as $id => $property):
+                $multiple = ($property['Multiple'] ?? false) === true || ($property['Multiple'] ?? '') === 'Y' || ($property['MULTIPLE'] ?? '') === 'Y';
+                $values = (array)($options['current_values'][$id] ?? '');
+                $name = $multiple ? $id . '[]' : $id; ?>
+                <label><?=htmlspecialchars($property['Name'] ?? $property['NAME'])?>:</label>
+                <?php foreach ($values as $v): ?>
+                    <input name="<?=$name?>" value="<?=htmlspecialchars((string)$v)?>"
+                           onchange="setPropertyValue('<?=$id?>', this.name, <?=(int)$multiple?>)">
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+            </form>
+            <script type="module">
+                // b24jssdk подключается ESM-сборкой или собирается сборщиком
+                import { initializeB24Frame } from 'https://esm.sh/@bitrix24/b24jssdk'
+                const $b24 = await initializeB24Frame()
+                window.setPropertyValue = (id, inputName, multiple) => {
+                    const data = new FormData(document.forms.props)
+                    const value = multiple ? data.getAll(inputName) : data.get(inputName)
+                    $b24.placement.call('setPropertyValue', { [id]: value })
+                }
+            </script>
+        </body>
+    </html>
+    ```
 {% endlist %}
 
 ## Проверим результат

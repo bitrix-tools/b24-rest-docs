@@ -68,6 +68,31 @@
     });
     ```
 
+- Python
+
+    ```python
+    import os
+
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
+        )
+    )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
+
+    result = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 1,
+            "OWNER_ID": 1000977,
+        },
+        select=["ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION"],
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -97,31 +122,6 @@
         0
     )->getActivities();
     ```
-
-- Python
-
-    ```python
-    import os
-
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token=os.environ["B24_HOOK_TOKEN"],
-        )
-    )
-    # B24_HOOK_TOKEN = 'user_id/webhook_key'
-
-    result = client.crm.activity.list(
-        filter={
-            "OWNER_TYPE_ID": 1,
-            "OWNER_ID": 1000977,
-        },
-        select=["ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION"],
-    ).response.result
-    ```
-
 {% endlist %}
 
 В результате получим все дела, связанные с указанным элементом.
@@ -182,20 +182,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    $newLeadId = $serviceBuilder->getCRMScope()->lead()->add(
-        [
-            'TITLE' => 'Второй лид',
-            'ASSIGNED_BY_ID' => 1,
-        ],
-        [
-            'REGISTER_SONET_EVENT' => 'Y',
-        ]
-    )->getId();
-    ```
-
 - Python
 
     ```python
@@ -210,6 +196,20 @@
     ).response.result
     ```
 
+
+- PHP
+
+    ```php
+    $newLeadId = $serviceBuilder->getCRMScope()->lead()->add(
+        [
+            'TITLE' => 'Второй лид',
+            'ASSIGNED_BY_ID' => 1,
+        ],
+        [
+            'REGISTER_SONET_EVENT' => 'Y',
+        ]
+    )->getId();
+    ```
 {% endlist %}
 
 В результате получим ID созданного лида. Это значение передадим в параметр `targetEntityId` на шаге 3.
@@ -253,6 +253,19 @@
     });
     ```
 
+- Python
+
+    ```python
+    result = client.crm.activity.binding.move(
+        activity_id=7687,
+        source_entity_type_id=1,
+        source_entity_id=1000977,
+        target_entity_type_id=1,
+        target_entity_id=1000979,
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -268,19 +281,6 @@
         ]
     );
     ```
-
-- Python
-
-    ```python
-    result = client.crm.activity.binding.move(
-        activity_id=7687,
-        source_entity_type_id=1,
-        source_entity_id=1000977,
-        target_entity_type_id=1,
-        target_entity_id=1000979,
-    ).response.result
-    ```
-
 {% endlist %}
 
 В результате получим `true`, перенос дела прошел успешно.
@@ -368,6 +368,84 @@
         console.error(error.message);
     }
     ```
+
+- Python
+
+    ```python
+    import os
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def transfer_activity(client, first_lead_id, search_phrase):
+        try:
+            activities = client.crm.activity.list(
+                filter={
+                    "OWNER_TYPE_ID": 1,
+                    "OWNER_ID": first_lead_id,
+                },
+                select=["ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION"],
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+            return
+
+        target_activity = None
+        for activity in activities:
+            if search_phrase in str(activity.get("DESCRIPTION") or ""):
+                target_activity = activity
+                break
+
+        if target_activity is None:
+            print(f"Дело с описанием, содержащим '{search_phrase}', не найдено.")
+            return
+
+        activity_id = int(target_activity["ID"])
+
+        try:
+            new_lead_id = client.crm.lead.add(
+                fields={
+                    "TITLE": "Второй лид",
+                    "ASSIGNED_BY_ID": 1,
+                },
+                params={
+                    "REGISTER_SONET_EVENT": "Y",
+                },
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+            return
+
+        try:
+            result = client.crm.activity.binding.move(
+                activity_id=activity_id,
+                source_entity_type_id=1,
+                source_entity_id=first_lead_id,
+                target_entity_type_id=1,
+                target_entity_id=new_lead_id,
+            ).response.result
+        except BitrixAPIError as error:
+            print(f"Ошибка: {error}")
+        else:
+            if result:
+                print("Дело успешно перенесено.")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token=os.environ["B24_HOOK_TOKEN"],
+        )
+    )
+    # B24_HOOK_TOKEN = 'user_id/webhook_key'
+
+    first_lead_id = int(input("Введите ID первого лида: "))
+    search_phrase = input("Введите фразу для поиска по телу письма: ")
+
+    transfer_activity(client, first_lead_id, search_phrase)
+    ```
+
 
 - PHP
 
@@ -458,84 +536,6 @@
     // Запускаем функцию
     transferActivity($serviceBuilder, $firstLeadId, $searchPhrase);
     ```
-
-- Python
-
-    ```python
-    import os
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-
-    def transfer_activity(client, first_lead_id, search_phrase):
-        try:
-            activities = client.crm.activity.list(
-                filter={
-                    "OWNER_TYPE_ID": 1,
-                    "OWNER_ID": first_lead_id,
-                },
-                select=["ID", "OWNER_TYPE_ID", "OWNER_ID", "SUBJECT", "DESCRIPTION"],
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка: {error}")
-            return
-
-        target_activity = None
-        for activity in activities:
-            if search_phrase in str(activity.get("DESCRIPTION") or ""):
-                target_activity = activity
-                break
-
-        if target_activity is None:
-            print(f"Дело с описанием, содержащим '{search_phrase}', не найдено.")
-            return
-
-        activity_id = int(target_activity["ID"])
-
-        try:
-            new_lead_id = client.crm.lead.add(
-                fields={
-                    "TITLE": "Второй лид",
-                    "ASSIGNED_BY_ID": 1,
-                },
-                params={
-                    "REGISTER_SONET_EVENT": "Y",
-                },
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка: {error}")
-            return
-
-        try:
-            result = client.crm.activity.binding.move(
-                activity_id=activity_id,
-                source_entity_type_id=1,
-                source_entity_id=first_lead_id,
-                target_entity_type_id=1,
-                target_entity_id=new_lead_id,
-            ).response.result
-        except BitrixAPIError as error:
-            print(f"Ошибка: {error}")
-        else:
-            if result:
-                print("Дело успешно перенесено.")
-
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token=os.environ["B24_HOOK_TOKEN"],
-        )
-    )
-    # B24_HOOK_TOKEN = 'user_id/webhook_key'
-
-    first_lead_id = int(input("Введите ID первого лида: "))
-    search_phrase = input("Введите фразу для поиска по телу письма: ")
-
-    transfer_activity(client, first_lead_id, search_phrase)
-    ```
-
 {% endlist %}
 
 ## Проверим результат

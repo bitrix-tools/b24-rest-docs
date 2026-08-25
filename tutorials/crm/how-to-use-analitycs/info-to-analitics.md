@@ -105,39 +105,6 @@ b24Tracker.guest.getTrace()
     $b24.destroy()
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
-
-    $log = new Logger('b24');
-    $log->pushHandler(new StreamHandler('php://stdout'));
-
-    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
-
-    // Метода crm.tracking.* нет среди типизированных сервисов SDK,
-    // поэтому вызываем его напрямую через ядро: $b24->core->call(...)
-    $response = $b24->core->call('crm.tracking.trace.add', [
-        'TRACE' => $trace,
-        'ENTITIES' => [
-            ['TYPE' => 'CONTACT', 'ID' => $contactId],
-            ['TYPE' => 'DEAL', 'ID' => $dealId],
-        ],
-    ]);
-
-    // Скалярный результат (ID трейса) ядро оборачивает в массив
-    $traceId = $response->getResponseData()->getResult()[0];
-    echo 'Trace ID: ' . $traceId;
-    ```
-
 - Python
 
     ```python
@@ -173,6 +140,39 @@ b24Tracker.guest.getTrace()
         print(f"Unexpected error: {error}")
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+
+    // Метода crm.tracking.* нет среди типизированных сервисов SDK,
+    // поэтому вызываем его напрямую через ядро: $b24->core->call(...)
+    $response = $b24->core->call('crm.tracking.trace.add', [
+        'TRACE' => $trace,
+        'ENTITIES' => [
+            ['TYPE' => 'CONTACT', 'ID' => $contactId],
+            ['TYPE' => 'DEAL', 'ID' => $dealId],
+        ],
+    ]);
+
+    // Скалярный результат (ID трейса) ядро оборачивает в массив
+    $traceId = $response->getResponseData()->getResult()[0];
+    echo 'Trace ID: ' . $traceId;
+    ```
 {% endlist %}
 
 Этот способ подходит и для объектов, созданных универсальным методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md): трейс к ним можно привязать после создания.
@@ -207,6 +207,15 @@ b24Tracker.guest.getTrace()
     }
     ```
 
+- Python
+
+    ```python
+    bitrix_response = client.crm.tracking.trace.delete(traceId).response
+    result = bitrix_response.result
+    print(result)
+    ```
+
+
 - PHP
 
     ```php
@@ -216,13 +225,4 @@ b24Tracker.guest.getTrace()
 
     $isDeleted = $response->getResponseData()->getResult()[0];
     ```
-
-- Python
-
-    ```python
-    bitrix_response = client.crm.tracking.trace.delete(traceId).response
-    result = bitrix_response.result
-    print(result)
-    ```
-
 {% endlist %}

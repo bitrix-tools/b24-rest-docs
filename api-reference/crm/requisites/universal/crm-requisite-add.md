@@ -344,6 +344,48 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.requisite.add(
+            fields={
+                "ENTITY_TYPE_ID": 4,
+                "ENTITY_ID": 1,
+                "PRESET_ID": 1,
+                "NAME": "Организация",
+                "ACTIVE": "Y",
+                "ADDRESS_ONLY": "N",
+                "SORT": 500,
+                "RQ_COMPANY_NAME": 'ООО "1С-БИТРИКС"',
+                "RQ_COMPANY_FULL_NAME": 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "1С-БИТРИКС"',
+                "RQ_COMPANY_REG_DATE": "06.04.2007",
+                "RQ_DIRECTOR": "РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ",
+                "RQ_INN": "7717586110",
+                "RQ_KPP": "770501001",
+                "RQ_OGRN": "5077746476209",
+                "UF_CRM_1707997209": "56",
+                "UF_CRM_1708012333": "Категория 1",
+                "XML_ID": "5e4641fd-1dd9-11e6-b2f2-005056c00008",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -458,48 +500,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.requisite.add(
-            fields={
-                "ENTITY_TYPE_ID": 4,
-                "ENTITY_ID": 1,
-                "PRESET_ID": 1,
-                "NAME": "Организация",
-                "ACTIVE": "Y",
-                "ADDRESS_ONLY": "N",
-                "SORT": 500,
-                "RQ_COMPANY_NAME": 'ООО "1С-БИТРИКС"',
-                "RQ_COMPANY_FULL_NAME": 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "1С-БИТРИКС"',
-                "RQ_COMPANY_REG_DATE": "06.04.2007",
-                "RQ_DIRECTOR": "РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ",
-                "RQ_INN": "7717586110",
-                "RQ_KPP": "770501001",
-                "RQ_OGRN": "5077746476209",
-                "UF_CRM_1707997209": "56",
-                "UF_CRM_1708012333": "Категория 1",
-                "XML_ID": "5e4641fd-1dd9-11e6-b2f2-005056c00008",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go

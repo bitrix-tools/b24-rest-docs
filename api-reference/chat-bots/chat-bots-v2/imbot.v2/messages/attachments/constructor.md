@@ -131,101 +131,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'imbot.v2.Chat.Message.send',
-                [
-                    'botId' => 456,
-                    'dialogId' => 'chat20921',
-                    'fields' => [
-                        'message' => 'Карточка задачи',
-                        'attach' => [
-                        [
-                            'USER' => [
-                                'NAME' => 'Уведомления Mantis',
-                                'AVATAR' => 'https://files.shelenkov.com/bitrix/images/mantis2.jpg',
-                                'LINK' => 'https://shelenkov.com/'
-                            ]
-                        ],
-                        [
-                            'LINK' => [
-                                'NAME' => 'Открыть Mantis из внешней сети',
-                                'LINK' => 'https://shelenkov.com/'
-                            ]
-                        ],
-                        [
-                            'DELIMITER' => [
-                                'SIZE' => 200,
-                                'COLOR' => '#c6c6c6'
-                            ]
-                        ],
-                        [
-                            'GRID' => [
-                                [
-                                    'NAME' => 'Проект',
-                                    'VALUE' => 'BUGS',
-                                    'DISPLAY' => 'LINE',
-                                    'WIDTH' => 100
-                                ],
-                                [
-                                    'NAME' => 'Категория',
-                                    'VALUE' => 'im',
-                                    'DISPLAY' => 'LINE',
-                                    'WIDTH' => 100
-                                ],
-                                [
-                                    'NAME' => 'Сводка',
-                                    'VALUE' => 'Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.',
-                                    'DISPLAY' => 'BLOCK'
-                                ]
-                            ]
-                        ],
-                        [
-                            'DELIMITER' => [
-                                'SIZE' => 200,
-                                'COLOR' => '#c6c6c6'
-                            ]
-                        ],
-                        [
-                            'GRID' => [
-                                [
-                                    'NAME' => 'Новое обращение',
-                                    'VALUE' => '',
-                                    'DISPLAY' => 'ROW',
-                                    'WIDTH' => 100
-                                ],
-                                [
-                                    'NAME' => 'Назначено',
-                                    'VALUE' => 'Шеленков Евгений',
-                                    'DISPLAY' => 'ROW',
-                                    'WIDTH' => 100
-                                ],
-                                [
-                                    'NAME' => 'Дедлайн',
-                                    'VALUE' => '04.11.2015 17:50:43',
-                                    'DISPLAY' => 'ROW',
-                                    'WIDTH' => 100
-                                ]
-                            ]
-                        ]
-                        ]
-                    ]
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult()['id'];
-        echo 'Created message ID: ' . $result;
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding message: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -322,6 +227,101 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.v2.Chat.Message.send',
+                [
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'Карточка задачи',
+                        'attach' => [
+                        [
+                            'USER' => [
+                                'NAME' => 'Уведомления Mantis',
+                                'AVATAR' => 'https://files.shelenkov.com/bitrix/images/mantis2.jpg',
+                                'LINK' => 'https://shelenkov.com/'
+                            ]
+                        ],
+                        [
+                            'LINK' => [
+                                'NAME' => 'Открыть Mantis из внешней сети',
+                                'LINK' => 'https://shelenkov.com/'
+                            ]
+                        ],
+                        [
+                            'DELIMITER' => [
+                                'SIZE' => 200,
+                                'COLOR' => '#c6c6c6'
+                            ]
+                        ],
+                        [
+                            'GRID' => [
+                                [
+                                    'NAME' => 'Проект',
+                                    'VALUE' => 'BUGS',
+                                    'DISPLAY' => 'LINE',
+                                    'WIDTH' => 100
+                                ],
+                                [
+                                    'NAME' => 'Категория',
+                                    'VALUE' => 'im',
+                                    'DISPLAY' => 'LINE',
+                                    'WIDTH' => 100
+                                ],
+                                [
+                                    'NAME' => 'Сводка',
+                                    'VALUE' => 'Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.',
+                                    'DISPLAY' => 'BLOCK'
+                                ]
+                            ]
+                        ],
+                        [
+                            'DELIMITER' => [
+                                'SIZE' => 200,
+                                'COLOR' => '#c6c6c6'
+                            ]
+                        ],
+                        [
+                            'GRID' => [
+                                [
+                                    'NAME' => 'Новое обращение',
+                                    'VALUE' => '',
+                                    'DISPLAY' => 'ROW',
+                                    'WIDTH' => 100
+                                ],
+                                [
+                                    'NAME' => 'Назначено',
+                                    'VALUE' => 'Шеленков Евгений',
+                                    'DISPLAY' => 'ROW',
+                                    'WIDTH' => 100
+                                ],
+                                [
+                                    'NAME' => 'Дедлайн',
+                                    'VALUE' => '04.11.2015 17:50:43',
+                                    'DISPLAY' => 'ROW',
+                                    'WIDTH' => 100
+                                ]
+                            ]
+                        ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding message: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js
@@ -569,39 +569,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'imbot.v2.Chat.Message.send',
-                [
-                    'botId' => 456,
-                    'dialogId' => 'chat20921',
-                    'fields' => [
-                        'message' => 'У вас новое уведомление',
-                        'attach' => [
-                            'ID' => 1,
-                            'COLOR' => '#29619b',
-                            'BLOCKS' => [
-                                ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
-                                ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
-                            ]
-                        ]
-                    ]
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult()['id'];
-        echo 'Created message ID: ' . $result;
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding message: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -642,6 +609,39 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.v2.Chat.Message.send',
+                [
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'У вас новое уведомление',
+                        'attach' => [
+                            'ID' => 1,
+                            'COLOR' => '#29619b',
+                            'BLOCKS' => [
+                                ['MESSAGE' => 'Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.'],
+                                ['IMAGE' => ['LINK' => 'https://files.shelenkov.com/bitrix/images/win.jpg']]
+                            ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding message: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

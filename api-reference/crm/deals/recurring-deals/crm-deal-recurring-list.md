@@ -216,78 +216,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.deal.recurring.list',
-                [
-                    'order' => ['deal_id' => 'ASC'],
-                    'filter' => ['>COUNTER_REPEAT' => 0],
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching recurring deals: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'crm.deal.recurring.list',
-        {
-            order: { deal_id: 'ASC' },
-            filter: { '>COUNTER_REPEAT': 0 }
-        },
-        function(result)
-        {
-            if (result.error())
-                console.error(result.error());
-            else
-            {
-                console.info(result.data());
-                if (result.more())
-                    result.next();
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.deal.recurring.list',
-        [
-            'order' => ['deal_id' => 'ASC'],
-            'filter' => ['>COUNTER_REPEAT' => 0],
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     Пример
@@ -386,6 +314,78 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.deal.recurring.list',
+                [
+                    'order' => ['deal_id' => 'ASC'],
+                    'filter' => ['>COUNTER_REPEAT' => 0],
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching recurring deals: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'crm.deal.recurring.list',
+        {
+            order: { deal_id: 'ASC' },
+            filter: { '>COUNTER_REPEAT': 0 }
+        },
+        function(result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+            {
+                console.info(result.data());
+                if (result.more())
+                    result.next();
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.deal.recurring.list',
+        [
+            'order' => ['deal_id' => 'ASC'],
+            'filter' => ['>COUNTER_REPEAT' => 0],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 - Go

@@ -127,6 +127,76 @@
    }
    ```
 
+- Python
+
+   ```python
+   from b24pysdk import BitrixWebhook, Client
+   from b24pysdk.errors import BitrixAPIError
+
+
+   token = BitrixWebhook(
+       domain="your-domain.bitrix24.com",
+       webhook_token="user_id/webhook_key",
+   )
+   client = Client(token)
+
+   try:
+       response = client.sale.cashbox.handler.add(
+           code="my_rest_cashbox",
+           name="Моя REST-касса",
+           sort=100,
+           settings={
+               "PRINT_URL": "https://example.ru/rest_print.php",
+               "CHECK_URL": "https://example.ru/rest_check.php",
+               "CONFIG": {
+                   "AUTH": {
+                       "LABEL": "Авторизация",
+                       "ITEMS": {
+                           "LOGIN": {
+                               "TYPE": "STRING",
+                               "REQUIRED": "Y",
+                               "LABEL": "Логин",
+                           },
+                           "PASSWORD": {
+                               "TYPE": "STRING",
+                               "REQUIRED": "Y",
+                               "LABEL": "Пароль",
+                           },
+                       },
+                   },
+                   "COMPANY": {
+                       "LABEL": "Данные об организации",
+                       "ITEMS": {
+                           "INN": {
+                               "TYPE": "STRING",
+                               "REQUIRED": "Y",
+                               "LABEL": "ИНН организации",
+                           }
+                       },
+                   },
+                   "INTERACTION": {
+                       "LABEL": "Настройки взаимодействия с кассой",
+                       "ITEMS": {
+                           "MODE": {
+                               "TYPE": "ENUM",
+                               "REQUIRED": "N",
+                               "LABEL": "Режим работы с кассой",
+                               "OPTIONS": {
+                                   "ACTIVE": "боевой",
+                                   "TEST": "тестовый",
+                               },
+                           }
+                       },
+                   },
+               },
+           },
+       ).response
+       print(response.result)
+   except BitrixAPIError as error:
+       print(error)
+   ```
+
+
 - PHP
 
    ```php
@@ -200,76 +270,6 @@
    print_r($result->getId());
    echo '</PRE>';
    ```
-
-- Python
-
-   ```python
-   from b24pysdk import BitrixWebhook, Client
-   from b24pysdk.errors import BitrixAPIError
-
-
-   token = BitrixWebhook(
-       domain="your-domain.bitrix24.com",
-       webhook_token="user_id/webhook_key",
-   )
-   client = Client(token)
-
-   try:
-       response = client.sale.cashbox.handler.add(
-           code="my_rest_cashbox",
-           name="Моя REST-касса",
-           sort=100,
-           settings={
-               "PRINT_URL": "https://example.ru/rest_print.php",
-               "CHECK_URL": "https://example.ru/rest_check.php",
-               "CONFIG": {
-                   "AUTH": {
-                       "LABEL": "Авторизация",
-                       "ITEMS": {
-                           "LOGIN": {
-                               "TYPE": "STRING",
-                               "REQUIRED": "Y",
-                               "LABEL": "Логин",
-                           },
-                           "PASSWORD": {
-                               "TYPE": "STRING",
-                               "REQUIRED": "Y",
-                               "LABEL": "Пароль",
-                           },
-                       },
-                   },
-                   "COMPANY": {
-                       "LABEL": "Данные об организации",
-                       "ITEMS": {
-                           "INN": {
-                               "TYPE": "STRING",
-                               "REQUIRED": "Y",
-                               "LABEL": "ИНН организации",
-                           }
-                       },
-                   },
-                   "INTERACTION": {
-                       "LABEL": "Настройки взаимодействия с кассой",
-                       "ITEMS": {
-                           "MODE": {
-                               "TYPE": "ENUM",
-                               "REQUIRED": "N",
-                               "LABEL": "Режим работы с кассой",
-                               "OPTIONS": {
-                                   "ACTIVE": "боевой",
-                                   "TEST": "тестовый",
-                               },
-                           }
-                       },
-                   },
-               },
-           },
-       ).response
-       print(response.result)
-   except BitrixAPIError as error:
-       print(error)
-   ```
-
 {% endlist %}
 
 Если обработчик успешно добавлен, метод вернет его идентификатор. Сохраните значение `result`: оно пригодится для поиска обработчика в списке.
@@ -348,36 +348,6 @@
    }
    ```
 
-- PHP
-
-   ```php
-   $result = $sb->getSaleScope()->cashbox()->add([
-       'REST_CODE' => 'my_rest_cashbox',
-       'NAME' => 'REST касса',
-       'NUMBER_KKM' => '1',
-       'OFD' => 'bx_firstofd',
-       'EMAIL' => 'owner@example.ru',
-       'USE_OFFLINE' => 'Y',
-       'ACTIVE' => 'Y',
-       'SETTINGS' => [
-           'AUTH' => [
-               'LOGIN' => 'rest_login',
-               'PASSWORD' => 'rest_password'
-           ],
-           'COMPANY' => [
-               'INN' => '1234567890'
-           ],
-           'INTERACTION' => [
-               'MODE' => 'ACTIVE'
-           ]
-       ]
-   ]);
-
-   echo '<PRE>';
-   print_r($result->getId());
-   echo '</PRE>';
-   ```
-
 - Python
 
    ```python
@@ -408,6 +378,36 @@
        print(error)
    ```
 
+
+- PHP
+
+   ```php
+   $result = $sb->getSaleScope()->cashbox()->add([
+       'REST_CODE' => 'my_rest_cashbox',
+       'NAME' => 'REST касса',
+       'NUMBER_KKM' => '1',
+       'OFD' => 'bx_firstofd',
+       'EMAIL' => 'owner@example.ru',
+       'USE_OFFLINE' => 'Y',
+       'ACTIVE' => 'Y',
+       'SETTINGS' => [
+           'AUTH' => [
+               'LOGIN' => 'rest_login',
+               'PASSWORD' => 'rest_password'
+           ],
+           'COMPANY' => [
+               'INN' => '1234567890'
+           ],
+           'INTERACTION' => [
+               'MODE' => 'ACTIVE'
+           ]
+       ]
+   ]);
+
+   echo '<PRE>';
+   print_r($result->getId());
+   echo '</PRE>';
+   ```
 {% endlist %}
 
 Если касса успешно добавлена, метод вернет ее идентификатор. Сохраните значение `result`: оно понадобится для проверки кассы в списке.
@@ -645,25 +645,6 @@ app.post('/rest_check.php', async (req, res) => {
    }
    ```
 
-- PHP
-
-   ```php
-   $result = $sb->getSaleScope()->cashbox()->checkApply([
-       'UUID' => '00112233-4455-6677-8899-aabbccddeeff',
-       'PRINT_END_TIME' => '1609459200',
-       'REG_NUMBER_KKT' => '000111222333',
-       'FISCAL_DOC_ATTR' => '33445500',
-       'FISCAL_DOC_NUMBER' => '123',
-       'FISCAL_RECEIPT_NUMBER' => '10',
-       'FN_NUMBER' => '0011223344556677',
-       'SHIFT_NUMBER' => '12'
-   ]);
-
-   echo '<PRE>';
-   print_r($result->isSuccess());
-   echo '</PRE>';
-   ```
-
 - Python
 
     ```python
@@ -683,6 +664,25 @@ app.post('/rest_check.php', async (req, res) => {
         print(error)
     ```
 
+
+- PHP
+
+   ```php
+   $result = $sb->getSaleScope()->cashbox()->checkApply([
+       'UUID' => '00112233-4455-6677-8899-aabbccddeeff',
+       'PRINT_END_TIME' => '1609459200',
+       'REG_NUMBER_KKT' => '000111222333',
+       'FISCAL_DOC_ATTR' => '33445500',
+       'FISCAL_DOC_NUMBER' => '123',
+       'FISCAL_RECEIPT_NUMBER' => '10',
+       'FN_NUMBER' => '0011223344556677',
+       'SHIFT_NUMBER' => '12'
+   ]);
+
+   echo '<PRE>';
+   print_r($result->isSuccess());
+   echo '</PRE>';
+   ```
 {% endlist %}
 
 Если чек успешно сохранен, метод вернет `true`.
@@ -723,20 +723,6 @@ app.post('/rest_check.php', async (req, res) => {
     console.log(cashboxResponse.getData().result)
     ```
 
-- PHP
-
-    ```php
-    $handlerResponse = $sb->core->call('sale.cashbox.handler.list', []);
-
-    $cashboxResponse = $sb->core->call('sale.cashbox.list', [
-        'SELECT' => ['ID', 'NAME', 'ACTIVE', 'EMAIL'],
-        'FILTER' => ['=NAME' => 'REST касса'],
-    ]);
-
-    print_r($handlerResponse->getResponseData()->getResult());
-    print_r($cashboxResponse->getResponseData()->getResult());
-    ```
-
 - Python
 
     ```python
@@ -753,6 +739,20 @@ app.post('/rest_check.php', async (req, res) => {
     print(cashboxes)
     ```
 
+
+- PHP
+
+    ```php
+    $handlerResponse = $sb->core->call('sale.cashbox.handler.list', []);
+
+    $cashboxResponse = $sb->core->call('sale.cashbox.list', [
+        'SELECT' => ['ID', 'NAME', 'ACTIVE', 'EMAIL'],
+        'FILTER' => ['=NAME' => 'REST касса'],
+    ]);
+
+    print_r($handlerResponse->getResponseData()->getResult());
+    print_r($cashboxResponse->getResponseData()->getResult());
+    ```
 {% endlist %}
 
 Успешное выполнение сценария подтверждают три результата:

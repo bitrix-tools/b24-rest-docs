@@ -84,6 +84,34 @@
     );
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.ru",
+            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
+        )
+    )
+
+    fields = client.crm.item.fields(
+        2,  # 2 — сделка
+    ).response.result["fields"]
+
+    field_name = next(
+        (
+            key
+            for key, settings in fields.items()
+            if settings["title"] == "Дата оплаты" and settings["type"] in ("date", "datetime")
+        ),
+        None,
+    )
+    ```
+
+
 - PHP
 
     ```php
@@ -114,34 +142,6 @@
         }
     }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.ru",
-            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
-        )
-    )
-
-    fields = client.crm.item.fields(
-        2,  # 2 — сделка
-    ).response.result["fields"]
-
-    field_name = next(
-        (
-            key
-            for key, settings in fields.items()
-            if settings["title"] == "Дата оплаты" and settings["type"] in ("date", "datetime")
-        ),
-        None,
-    )
-    ```
-
 {% endlist %}
 
 Сохраните найденный идентификатор — он нужен на шаге 3. В примере это `ufCrm_1746431727372`. Ответ сокращен до одного поля — метод возвращает весь состав полей сделки.
@@ -201,6 +201,16 @@
     const payments = resultPayments.getData().result;
     ```
 
+- Python
+
+    ```python
+    payments = client.crm.item.payment.list(
+        entity_type_id=2,
+        entity_id=6917,
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -215,16 +225,6 @@
 
     $payments = $resultPayments->getResponseData()->getResult();
     ```
-
-- Python
-
-    ```python
-    payments = client.crm.item.payment.list(
-        entity_type_id=2,
-        entity_id=6917,
-    ).response.result
-    ```
-
 {% endlist %}
 
 Метод возвращает массив оплат сделки. Дату платежа возьмите из поля `datePaid`, а по полю `paid` проверьте, что оплата действительно проведена: у неоплаченного документа `paid` равно `N`, а `datePaid` пустое.
@@ -276,19 +276,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    $resultUpdate = $sb->getCRMScope()->item()->update(
-        2,
-        6917,
-        [
-            // ключ — идентификатор поля из шага 1, значение — datePaid из шага 2
-            $fieldName => $payments[0]['datePaid']
-        ]
-    );
-    ```
-
 - Python
 
     ```python
@@ -302,6 +289,19 @@
     ).response.result["item"]
     ```
 
+
+- PHP
+
+    ```php
+    $resultUpdate = $sb->getCRMScope()->item()->update(
+        2,
+        6917,
+        [
+            // ключ — идентификатор поля из шага 1, значение — datePaid из шага 2
+            $fieldName => $payments[0]['datePaid']
+        ]
+    );
+    ```
 {% endlist %}
 
 Метод возвращает сделку целиком уже с новым значением поля, поэтому проверять запись отдельным запросом не обязательно. Ответ сокращен до полей, которые подтверждают запись.
@@ -352,18 +352,18 @@
     console.log(checkResult.getData().result.item[fieldName]);
     ```
 
-- PHP
-
-    ```php
-    echo $sb->getCRMScope()->item()->get(2, 6917)->item()->{$fieldName};
-    ```
-
 - Python
 
     ```python
     print(client.crm.item.get(2, 6917).response.result["item"][field_name])
     ```
 
+
+- PHP
+
+    ```php
+    echo $sb->getCRMScope()->item()->get(2, 6917)->item()->{$fieldName};
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в ответе у поля `ufCrm_1746431727372` стоит дата оплаты, а не `null` и не пустая строка.
@@ -497,6 +497,77 @@
     setPaidDate();
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.ru",
+            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
+        )
+    )
+
+    ENTITY_TYPE_ID = 2  # 2 — сделка
+    DEAL_ID = 6917  # укажите свою сделку
+    FIELD_TITLE = "Дата оплаты"  # название поля в карточке сделки
+
+    try:
+        # Шаг 1: находим идентификатор поля по его названию и типу
+        fields = client.crm.item.fields(
+            ENTITY_TYPE_ID,
+        ).response.result["fields"]
+
+        field_name = next(
+            (
+                key
+                for key, settings in fields.items()
+                if settings["title"] == FIELD_TITLE and settings["type"] in ("date", "datetime")
+            ),
+            None,
+        )
+
+        if field_name is None:
+            print(f"Поле «{FIELD_TITLE}» с типом «Дата» не найдено в карточке сделки")
+        else:
+            print(f"Идентификатор поля: {field_name}")
+
+            # Шаг 2: читаем дату проведенной оплаты
+            payments = client.crm.item.payment.list(
+                entity_type_id=ENTITY_TYPE_ID,
+                entity_id=DEAL_ID,
+            ).response.result
+
+            dates = [
+                payment["datePaid"]
+                for payment in payments
+                if payment["paid"] == "Y" and payment["datePaid"]
+            ]
+
+            if not dates:
+                print(f"По сделке {DEAL_ID} нет проведенных оплат")
+            else:
+                # берем последнюю по времени оплату, а не первую из массива
+                date_paid = max(dates)
+                print(f"Дата оплаты: {date_paid}")
+
+                # Шаг 3: записываем дату в поле сделки
+                updated = client.crm.item.update(
+                    ENTITY_TYPE_ID,
+                    DEAL_ID,
+                    {field_name: date_paid},
+                ).response.result["item"]
+
+                # поле типа «Дата» отбрасывает время, поэтому сверяем значение в ответе
+                print(f"Записано в сделку: {updated[field_name]}")
+    except BitrixAPIError as error:
+        print(f"Дата оплаты не записана: {error}")
+    ```
+
+
 - PHP
 
     ```php
@@ -576,77 +647,6 @@
         echo 'Дата оплаты не записана: ' . $e->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.ru",
-            webhook_token="USER_ID/TOKEN",  # только user_id/token, без https://
-        )
-    )
-
-    ENTITY_TYPE_ID = 2  # 2 — сделка
-    DEAL_ID = 6917  # укажите свою сделку
-    FIELD_TITLE = "Дата оплаты"  # название поля в карточке сделки
-
-    try:
-        # Шаг 1: находим идентификатор поля по его названию и типу
-        fields = client.crm.item.fields(
-            ENTITY_TYPE_ID,
-        ).response.result["fields"]
-
-        field_name = next(
-            (
-                key
-                for key, settings in fields.items()
-                if settings["title"] == FIELD_TITLE and settings["type"] in ("date", "datetime")
-            ),
-            None,
-        )
-
-        if field_name is None:
-            print(f"Поле «{FIELD_TITLE}» с типом «Дата» не найдено в карточке сделки")
-        else:
-            print(f"Идентификатор поля: {field_name}")
-
-            # Шаг 2: читаем дату проведенной оплаты
-            payments = client.crm.item.payment.list(
-                entity_type_id=ENTITY_TYPE_ID,
-                entity_id=DEAL_ID,
-            ).response.result
-
-            dates = [
-                payment["datePaid"]
-                for payment in payments
-                if payment["paid"] == "Y" and payment["datePaid"]
-            ]
-
-            if not dates:
-                print(f"По сделке {DEAL_ID} нет проведенных оплат")
-            else:
-                # берем последнюю по времени оплату, а не первую из массива
-                date_paid = max(dates)
-                print(f"Дата оплаты: {date_paid}")
-
-                # Шаг 3: записываем дату в поле сделки
-                updated = client.crm.item.update(
-                    ENTITY_TYPE_ID,
-                    DEAL_ID,
-                    {field_name: date_paid},
-                ).response.result["item"]
-
-                # поле типа «Дата» отбрасывает время, поэтому сверяем значение в ответе
-                print(f"Записано в сделку: {updated[field_name]}")
-    except BitrixAPIError as error:
-        print(f"Дата оплаты не записана: {error}")
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

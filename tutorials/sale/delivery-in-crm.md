@@ -119,6 +119,59 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+    client = Client(token)
+
+    try:
+        response = client.sale.delivery.handler.add(
+            code="uber",
+            name="Uber",
+            settings={
+                "CALCULATE_URL": "https://gateway.bx/calculate.php",
+                "CREATE_DELIVERY_REQUEST_URL": "https://gateway.bx/create_delivery_request.php",
+                "CANCEL_DELIVERY_REQUEST_URL": "https://gateway.bx/cancel_delivery_request.php",
+                "HAS_CALLBACK_TRACKING_SUPPORT": "Y",
+                "CONFIG": [
+                    {
+                        "TYPE": "STRING",
+                        "CODE": "MY_FIRST_SETTING",
+                        "NAME": "My first setting",
+                    },
+                    {
+                        "TYPE": "STRING",
+                        "CODE": "MY_SECOND_SETTING",
+                        "NAME": "My second setting",
+                    },
+                ],
+            },
+            profiles=[
+                {
+                    "NAME": "Taxi",
+                    "CODE": "TAXI",
+                    "DESCRIPTION": "Taxi Delivery",
+                },
+                {
+                    "NAME": "Cargo",
+                    "CODE": "CARGO",
+                    "DESCRIPTION": "Cargo Delivery",
+                },
+            ],
+        ).response
+        print(response.result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
+
 - PHP
 
     ```php
@@ -176,59 +229,6 @@
     print_r($result->getId());
     echo '</PRE>';
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
-    client = Client(token)
-
-    try:
-        response = client.sale.delivery.handler.add(
-            code="uber",
-            name="Uber",
-            settings={
-                "CALCULATE_URL": "https://gateway.bx/calculate.php",
-                "CREATE_DELIVERY_REQUEST_URL": "https://gateway.bx/create_delivery_request.php",
-                "CANCEL_DELIVERY_REQUEST_URL": "https://gateway.bx/cancel_delivery_request.php",
-                "HAS_CALLBACK_TRACKING_SUPPORT": "Y",
-                "CONFIG": [
-                    {
-                        "TYPE": "STRING",
-                        "CODE": "MY_FIRST_SETTING",
-                        "NAME": "My first setting",
-                    },
-                    {
-                        "TYPE": "STRING",
-                        "CODE": "MY_SECOND_SETTING",
-                        "NAME": "My second setting",
-                    },
-                ],
-            },
-            profiles=[
-                {
-                    "NAME": "Taxi",
-                    "CODE": "TAXI",
-                    "DESCRIPTION": "Taxi Delivery",
-                },
-                {
-                    "NAME": "Cargo",
-                    "CODE": "CARGO",
-                    "DESCRIPTION": "Cargo Delivery",
-                },
-            ],
-        ).response
-        print(response.result)
-    except BitrixAPIError as error:
-        print(error)
-    ```
-
 {% endlist %}
 
 Если обработчик успешно добавлен, метод вернет его идентификатор.
@@ -286,31 +286,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getSaleScope()->delivery()->add([
-        'REST_CODE' => 'uber',
-        'NAME' => 'Uber Taxi',
-        'CURRENCY' => 'RUB',
-        'ACTIVE' => 'Y',
-        'CONFIG' => [
-            [
-                'CODE' => 'MY_FIRST_SETTING',
-                'VALUE' => 'My first setting value',
-            ],
-            [
-                'CODE' => 'MY_SECOND_SETTING',
-                'VALUE' => 'My second setting value',
-            ],
-        ]
-    ]);
-
-    echo '<PRE>';
-    print_r($result->getParent()->ID);
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -336,6 +311,31 @@
         print(error)
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getSaleScope()->delivery()->add([
+        'REST_CODE' => 'uber',
+        'NAME' => 'Uber Taxi',
+        'CURRENCY' => 'RUB',
+        'ACTIVE' => 'Y',
+        'CONFIG' => [
+            [
+                'CODE' => 'MY_FIRST_SETTING',
+                'VALUE' => 'My first setting value',
+            ],
+            [
+                'CODE' => 'MY_SECOND_SETTING',
+                'VALUE' => 'My second setting value',
+            ],
+        ]
+    ]);
+
+    echo '<PRE>';
+    print_r($result->getParent()->ID);
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Если служба доставки успешно создана, метод вернет объект родительской службы и массив профилей. Сохраните идентификаторы профилей из массива `profiles`: они понадобятся для привязки свойств отгрузки и дополнительных услуг.
@@ -423,25 +423,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getSaleScope()->shipmentProperty()->add([
-        'personTypeId' => 3,
-        'propsGroupId' => 6,
-        'name' => 'Address From',
-        'active' => 'Y',
-        'sort' => '100',
-        'type' => 'ADDRESS',
-        'required' => 'Y',
-        'isAddressFrom' => 'Y'
-    ]);
-
-    echo '<PRE>';
-    print_r($result->getId());
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -463,6 +444,25 @@
         print(error)
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getSaleScope()->shipmentProperty()->add([
+        'personTypeId' => 3,
+        'propsGroupId' => 6,
+        'name' => 'Address From',
+        'active' => 'Y',
+        'sort' => '100',
+        'type' => 'ADDRESS',
+        'required' => 'Y',
+        'isAddressFrom' => 'Y'
+    ]);
+
+    echo '<PRE>';
+    print_r($result->getId());
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Сохраните значение `property.id`: оно понадобится для привязки свойства к профилям доставки.
@@ -514,25 +514,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getSaleScope()->shipmentProperty()->add([
-        'personTypeId' => 3,
-        'propsGroupId' => 6,
-        'name' => 'Address To',
-        'active' => 'Y',
-        'sort' => '100',
-        'type' => 'ADDRESS',
-        'required' => 'Y',
-        'isAddressTo' => 'Y'
-    ]);
-
-    echo '<PRE>';
-    print_r($result->getId());
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -554,6 +535,25 @@
         print(error)
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getSaleScope()->shipmentProperty()->add([
+        'personTypeId' => 3,
+        'propsGroupId' => 6,
+        'name' => 'Address To',
+        'active' => 'Y',
+        'sort' => '100',
+        'type' => 'ADDRESS',
+        'required' => 'Y',
+        'isAddressTo' => 'Y'
+    ]);
+
+    echo '<PRE>';
+    print_r($result->getId());
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Если свойство успешно добавлено, метод вернет объект `property` с идентификатором свойства. Сохраните значение `property.id`: оно понадобится для привязки свойства к профилям доставки.
@@ -608,16 +608,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getSaleScope()->propertyRelation()->add([
-        'entityId' => 227,
-        'entityType' => 'D',
-        'propertyId' => 102
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -634,6 +624,16 @@
         print(error)
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getSaleScope()->propertyRelation()->add([
+        'entityId' => 227,
+        'entityType' => 'D',
+        'propertyId' => 102
+    ]);
+    ```
 {% endlist %}
 
 Вызываем метод [sale.propertyRelation.add](../../api-reference/sale/property-relation/sale-property-relation-add.md) по очереди.
@@ -707,23 +707,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getSaleScope()->deliveryExtraService()->add([
-        'DELIVERY_ID' => 227,
-        'ACTIVE' => 'Y',
-        'CODE' => 'door_delivery',
-        'NAME' => 'Door Delivery',
-        'TYPE' => 'checkbox',
-        'PRICE' => 1000,
-    ]);
-
-    echo '<PRE>';
-    print_r($result->getId());
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -741,6 +724,23 @@
         print(error)
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getSaleScope()->deliveryExtraService()->add([
+        'DELIVERY_ID' => 227,
+        'ACTIVE' => 'Y',
+        'CODE' => 'door_delivery',
+        'NAME' => 'Door Delivery',
+        'TYPE' => 'checkbox',
+        'PRICE' => 1000,
+    ]);
+
+    echo '<PRE>';
+    print_r($result->getId());
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Если услуга добавлена, метод вернет идентификатор в параметре `result`.
@@ -801,34 +801,6 @@
     console.log(extraServiceResponse.getData().result)
     ```
 
-- PHP
-
-    ```php
-    $deliveryResponse = $sb->core->call('sale.delivery.getlist', [
-        'SELECT' => ['ID', 'NAME', 'PARENT_ID', 'ACTIVE'],
-        'FILTER' => ['=NAME' => 'Uber Taxi'],
-    ]);
-
-    $propertyResponse = $sb->core->call('sale.shipmentproperty.list', [
-        'select' => ['id', 'name', 'isAddressFrom', 'isAddressTo'],
-        'filter' => ['=name' => ['Address From', 'Address To']],
-    ]);
-
-    $relationResponse = $sb->core->call('sale.propertyRelation.list', [
-        'select' => ['entityId', 'entityType', 'propertyId'],
-        'filter' => ['entityId' => 227, 'entityType' => 'D'],
-    ]);
-
-    $extraServiceResponse = $sb->core->call('sale.delivery.extra.service.get', [
-        'DELIVERY_ID' => 227,
-    ]);
-
-    print_r($deliveryResponse->getResponseData()->getResult());
-    print_r($propertyResponse->getResponseData()->getResult());
-    print_r($relationResponse->getResponseData()->getResult());
-    print_r($extraServiceResponse->getResponseData()->getResult());
-    ```
-
 - Python
 
     ```python
@@ -864,6 +836,34 @@
     print(extra_services)
     ```
 
+
+- PHP
+
+    ```php
+    $deliveryResponse = $sb->core->call('sale.delivery.getlist', [
+        'SELECT' => ['ID', 'NAME', 'PARENT_ID', 'ACTIVE'],
+        'FILTER' => ['=NAME' => 'Uber Taxi'],
+    ]);
+
+    $propertyResponse = $sb->core->call('sale.shipmentproperty.list', [
+        'select' => ['id', 'name', 'isAddressFrom', 'isAddressTo'],
+        'filter' => ['=name' => ['Address From', 'Address To']],
+    ]);
+
+    $relationResponse = $sb->core->call('sale.propertyRelation.list', [
+        'select' => ['entityId', 'entityType', 'propertyId'],
+        'filter' => ['entityId' => 227, 'entityType' => 'D'],
+    ]);
+
+    $extraServiceResponse = $sb->core->call('sale.delivery.extra.service.get', [
+        'DELIVERY_ID' => 227,
+    ]);
+
+    print_r($deliveryResponse->getResponseData()->getResult());
+    print_r($propertyResponse->getResponseData()->getResult());
+    print_r($relationResponse->getResponseData()->getResult());
+    print_r($extraServiceResponse->getResponseData()->getResult());
+    ```
 {% endlist %}
 
 Успешное выполнение сценария подтверждают данные из ответов методов:

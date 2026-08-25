@@ -62,6 +62,13 @@
     }, {})
     ```
 
+- Python
+
+    ```python
+    categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
+    category_map = {item["id"]: item["name"] for item in categories}
+    ```
+
 - PHP
 
     ```php
@@ -71,13 +78,6 @@
         ->getResult();
 
     $arCategory = array_column($result['categories'] ?? [], 'name', 'id');
-    ```
-
-- Python
-
-    ```python
-    categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
-    category_map = {item["id"]: item["name"] for item in categories}
     ```
 
 - Go
@@ -186,6 +186,25 @@
     }
     ```
 
+- Python
+
+    ```python
+    for category_id, category_name in category_map.items():
+        entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
+        result_deal = client.crm.status.list(
+            order={"SORT": "ASC"},
+            filter={"ENTITY_ID": entity_id},
+        ).response.result
+
+        for item in result_deal:
+            print(
+                category_name,
+                item.get("STATUS_ID", ""),
+                item.get("NAME", ""),
+                (item.get("EXTRA") or {}).get("SEMANTICS", ""),
+            )
+    ```
+
 - PHP
 
     ```php
@@ -204,25 +223,6 @@
                 . ' - ' . ($item->EXTRA['SEMANTICS'] ?? '') . PHP_EOL;
         }
     }
-    ```
-
-- Python
-
-    ```python
-    for category_id, category_name in category_map.items():
-        entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
-        result_deal = client.crm.status.list(
-            order={"SORT": "ASC"},
-            filter={"ENTITY_ID": entity_id},
-        ).response.result
-
-        for item in result_deal:
-            print(
-                category_name,
-                item.get("STATUS_ID", ""),
-                item.get("NAME", ""),
-                (item.get("EXTRA") or {}).get("SEMANTICS", ""),
-            )
     ```
 
 - Go
@@ -383,6 +383,46 @@
     $b24.destroy()
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
+        category_map = {item["id"]: item["name"] for item in categories}
+
+        for category_id, category_name in category_map.items():
+            entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
+            result_deal = client.crm.status.list(
+                order={"SORT": "ASC"},
+                filter={"ENTITY_ID": entity_id},
+            ).response.result
+
+            print(category_name)
+            print("STATUS ID\tNAME\tSEMANTICS")
+            for item in result_deal:
+                print(
+                    "\t".join(
+                        [
+                            str(item.get("STATUS_ID", "")),
+                            str(item.get("NAME", "")),
+                            str((item.get("EXTRA") or {}).get("SEMANTICS", "")),
+                        ]
+                    )
+                )
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
 - PHP
 
     ```php
@@ -446,46 +486,6 @@
             </table>
         <?php endif; ?>
     <?php endforeach; ?>
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    try:
-        categories = client.crm.category.list(entity_type_id=2).response.result.get("categories", [])
-        category_map = {item["id"]: item["name"] for item in categories}
-
-        for category_id, category_name in category_map.items():
-            entity_id = f"DEAL_STAGE_{category_id}" if int(category_id) > 0 else "DEAL_STAGE"
-            result_deal = client.crm.status.list(
-                order={"SORT": "ASC"},
-                filter={"ENTITY_ID": entity_id},
-            ).response.result
-
-            print(category_name)
-            print("STATUS ID\tNAME\tSEMANTICS")
-            for item in result_deal:
-                print(
-                    "\t".join(
-                        [
-                            str(item.get("STATUS_ID", "")),
-                            str(item.get("NAME", "")),
-                            str((item.get("EXTRA") or {}).get("SEMANTICS", "")),
-                        ]
-                    )
-                )
-    except BitrixAPIError as error:
-        print(error)
     ```
 
 - Go

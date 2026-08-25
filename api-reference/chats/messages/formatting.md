@@ -117,31 +117,6 @@ BB-коды позволяют форматировать текст сообщ�
     </script>
     ```
 
-- PHP
-
-  ```php
-  try {
-      $response = $b24Service
-          ->core
-          ->call(
-              'im.message.add',
-              [
-                  'DIALOG_ID' => 'chat2725',
-                  'MESSAGE' => '[B]Важное[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
-              ]
-          );
-
-      $result = $response
-          ->getResponseData()
-          ->getResult();
-
-      echo 'Created message ID: ' . $result;
-  } catch (Throwable $e) {
-      error_log($e->getMessage());
-      echo 'Error: ' . $e->getMessage();
-  }
-  ```
-
 - Python
 
   ```python
@@ -165,6 +140,31 @@ BB-коды позволяют форматировать текст сообщ�
       print(f"Ошибка Bitrix SDK: {error.message}")
   except Exception as error:
       print(f"Непредвиденная ошибка: {error}")
+  ```
+
+- PHP
+
+  ```php
+  try {
+      $response = $b24Service
+          ->core
+          ->call(
+              'im.message.add',
+              [
+                  'DIALOG_ID' => 'chat2725',
+                  'MESSAGE' => '[B]Важное[/B][BR]Откройте [URL=https://bitrix24.ru]сайт[/URL][BR][SEND=/help]Помощь[/SEND]',
+              ]
+          );
+
+      $result = $response
+          ->getResponseData()
+          ->getResult();
+
+      echo 'Created message ID: ' . $result;
+  } catch (Throwable $e) {
+      error_log($e->getMessage());
+      echo 'Error: ' . $e->getMessage();
+  }
   ```
 
 - BX24.js

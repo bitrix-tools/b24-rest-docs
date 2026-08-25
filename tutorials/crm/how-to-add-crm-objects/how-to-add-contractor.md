@@ -92,6 +92,32 @@
     const categoryId = categories.length ? categories[0].id : null;
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    # обертка b24pysdk принимает только entity_type_id, поэтому отбираем воронку по коду в ответе
+    categories = client.crm.category.list(
+        entity_type_id=3,  # 3 — контакт
+    ).response.result["categories"]
+
+    contractor_categories = [
+        category
+        for category in categories
+        if category["code"] == "CATALOG_CONTRACTOR_CONTACT"
+    ]
+    category_id = contractor_categories[0]["id"] if contractor_categories else None
+    ```
+
+
 - PHP
 
     ```php
@@ -119,32 +145,6 @@
     $categories = $result->getResponseData()->getResult()['categories'] ?? [];
     $categoryId = $categories[0]['id'] ?? null;
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    # обертка b24pysdk принимает только entity_type_id, поэтому отбираем воронку по коду в ответе
-    categories = client.crm.category.list(
-        entity_type_id=3,  # 3 — контакт
-    ).response.result["categories"]
-
-    contractor_categories = [
-        category
-        for category in categories
-        if category["code"] == "CATALOG_CONTRACTOR_CONTACT"
-    ]
-    category_id = contractor_categories[0]["id"] if contractor_categories else None
-    ```
-
 {% endlist %}
 
 В ответе метод вернет массив `categories`. Сохраните `id` первого элемента — его нужно передать в шаг 2. В примере `id`: `15`.
@@ -225,27 +225,6 @@
     const contractorId = resultItem.getData().result.item.id;
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getCRMScope()->item()->add(
-        3, // 3 — контакт
-        [
-            'name' => 'Иван', // Имя
-            'lastName' => 'Иванов', // Фамилия
-            'categoryId' => $categoryId, // Идентификатор воронки из шага 1
-            'fm' => [ // Телефоны и почта
-                [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+7 900 000 00 00' ],
-                [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+7 495 111 22 33' ],
-                [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'supplier@example.ru' ]
-            ],
-            'comments' => 'Поставщик электроники' // Комментарий
-        ]
-    );
-
-    $contractorId = $result->item()->id;
-    ```
-
 - Python
 
     ```python
@@ -267,6 +246,27 @@
     contractor_id = item["id"]
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getCRMScope()->item()->add(
+        3, // 3 — контакт
+        [
+            'name' => 'Иван', // Имя
+            'lastName' => 'Иванов', // Фамилия
+            'categoryId' => $categoryId, // Идентификатор воронки из шага 1
+            'fm' => [ // Телефоны и почта
+                [ 'typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => '+7 900 000 00 00' ],
+                [ 'typeId' => 'PHONE', 'valueType' => 'MOBILE', 'value' => '+7 495 111 22 33' ],
+                [ 'typeId' => 'EMAIL', 'valueType' => 'WORK', 'value' => 'supplier@example.ru' ]
+            ],
+            'comments' => 'Поставщик электроники' // Комментарий
+        ]
+    );
+
+    $contractorId = $result->item()->id;
+    ```
 {% endlist %}
 
 В ответе метод вернет объект `item` с полным набором полей контакта. Ответ сокращен, показаны поля, которые подтверждают результат.
@@ -343,19 +343,6 @@
     console.dir(checkResult.getData().result.items);
     ```
 
-- PHP
-
-    ```php
-    $checkResult = $sb->getCRMScope()->item()->list(
-        3,
-        [],
-        ['categoryId' => $categoryId, 'id' => $contractorId],
-        ['id', 'name', 'lastName', 'categoryId']
-    );
-
-    print_r($checkResult->getItems());
-    ```
-
 - Python
 
     ```python
@@ -368,6 +355,19 @@
     print(check_result)
     ```
 
+
+- PHP
+
+    ```php
+    $checkResult = $sb->getCRMScope()->item()->list(
+        3,
+        [],
+        ['categoryId' => $categoryId, 'id' => $contractorId],
+        ['id', 'name', 'lastName', 'categoryId']
+    );
+
+    print_r($checkResult->getItems());
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в массиве `items` есть элемент с `id` из шага 2, а его `categoryId` совпадает с идентификатором системной воронки.
@@ -483,6 +483,57 @@
     createContractor();
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    entity_type_id = 3  # 3 — контакт, для компании укажите 4
+    category_code = "CATALOG_CONTRACTOR_CONTACT"  # для компании укажите CATALOG_CONTRACTOR_COMPANY
+    name_fields = {"name": "Иван", "lastName": "Иванов"}  # для компании укажите {"title": "ООО Электроника"}
+
+    try:
+        # обертка b24pysdk принимает только entity_type_id, поэтому отбираем воронку по коду в ответе
+        categories = client.crm.category.list(
+            entity_type_id=entity_type_id,
+        ).response.result["categories"]
+
+        contractor_categories = [
+            category
+            for category in categories
+            if category["code"] == category_code
+        ]
+        if not contractor_categories:
+            print("Воронка поставщиков не найдена: проверьте складской учет и доступ пользователя вебхука")
+        else:
+            item = client.crm.item.add(
+                entity_type_id,
+                {
+                    **name_fields,
+                    "categoryId": contractor_categories[0]["id"],
+                    "fm": [
+                        {"typeId": "PHONE", "valueType": "WORK", "value": "+7 900 000 00 00"},
+                        {"typeId": "PHONE", "valueType": "MOBILE", "value": "+7 495 111 22 33"},
+                        {"typeId": "EMAIL", "valueType": "WORK", "value": "supplier@example.ru"},
+                    ],
+                    "comments": "Поставщик электроники",
+                },
+            ).response.result["item"]
+
+            print(f"Поставщик создан, id: {item['id']}")
+    except BitrixAPIError as error:
+        print(f"Поставщик не создан: {error}")
+    ```
+
+
 - PHP
 
     ```php
@@ -539,57 +590,6 @@
         echo 'Поставщик не создан: ' . $e->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    entity_type_id = 3  # 3 — контакт, для компании укажите 4
-    category_code = "CATALOG_CONTRACTOR_CONTACT"  # для компании укажите CATALOG_CONTRACTOR_COMPANY
-    name_fields = {"name": "Иван", "lastName": "Иванов"}  # для компании укажите {"title": "ООО Электроника"}
-
-    try:
-        # обертка b24pysdk принимает только entity_type_id, поэтому отбираем воронку по коду в ответе
-        categories = client.crm.category.list(
-            entity_type_id=entity_type_id,
-        ).response.result["categories"]
-
-        contractor_categories = [
-            category
-            for category in categories
-            if category["code"] == category_code
-        ]
-        if not contractor_categories:
-            print("Воронка поставщиков не найдена: проверьте складской учет и доступ пользователя вебхука")
-        else:
-            item = client.crm.item.add(
-                entity_type_id,
-                {
-                    **name_fields,
-                    "categoryId": contractor_categories[0]["id"],
-                    "fm": [
-                        {"typeId": "PHONE", "valueType": "WORK", "value": "+7 900 000 00 00"},
-                        {"typeId": "PHONE", "valueType": "MOBILE", "value": "+7 495 111 22 33"},
-                        {"typeId": "EMAIL", "valueType": "WORK", "value": "supplier@example.ru"},
-                    ],
-                    "comments": "Поставщик электроники",
-                },
-            ).response.result["item"]
-
-            print(f"Поставщик создан, id: {item['id']}")
-    except BitrixAPIError as error:
-        print(f"Поставщик не создан: {error}")
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

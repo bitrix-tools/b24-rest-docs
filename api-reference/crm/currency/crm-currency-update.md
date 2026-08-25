@@ -220,26 +220,6 @@ fields: {
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.currency.update',
-            [
-                'ID' => 'CNY',
-                'fields' => [
-                    'AMOUNT' => 15.3449,
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         ```python
@@ -265,6 +245,26 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.currency.update',
+            [
+                'ID' => 'CNY',
+                'fields' => [
+                    'AMOUNT' => 15.3449,
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go
@@ -429,43 +429,6 @@ fields: {
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.currency.update',
-            [
-                'ID' => 'USD',
-                'fields' => [
-                    'LANG' => [
-                        'en' => [
-                            'DECIMALS' => 2,
-                            'DEC_POINT' => '.',
-                            'FORMAT_STRING' => '$#',
-                            'FULL_NAME' => 'доллар США',
-                            'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_VARIANT' => 'S',
-                        ],
-                        'de' => [
-                            'DECIMALS' => 2,
-                            'DEC_POINT' => '.',
-                            'FORMAT_STRING' => '# $',
-                            'FULL_NAME' => 'US-Dollar',
-                            'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_VARIANT' => 'C',
-                        ]
-                    ]
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         ```python
@@ -508,6 +471,43 @@ fields: {
             print(f"Ошибка Bitrix SDK: {error.message}")
         except Exception as error:
             print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.currency.update',
+            [
+                'ID' => 'USD',
+                'fields' => [
+                    'LANG' => [
+                        'en' => [
+                            'DECIMALS' => 2,
+                            'DEC_POINT' => '.',
+                            'FORMAT_STRING' => '$#',
+                            'FULL_NAME' => 'доллар США',
+                            'HIDE_ZERO' => 'Y',
+                            'THOUSANDS_VARIANT' => 'S',
+                        ],
+                        'de' => [
+                            'DECIMALS' => 2,
+                            'DEC_POINT' => '.',
+                            'FORMAT_STRING' => '# $',
+                            'FULL_NAME' => 'US-Dollar',
+                            'HIDE_ZERO' => 'Y',
+                            'THOUSANDS_VARIANT' => 'C',
+                        ]
+                    ]
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
         ```
 
     - Go

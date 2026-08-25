@@ -71,6 +71,30 @@
     const result = response.getData().result
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+    client = Client(token)
+
+    result = client.disk.folder.uploadfile(
+        bitrix_id=1739,
+        data={
+            "NAME": "ava555.jpg",
+        },
+        file_content=[
+            "avatar.jpg",
+            "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q==",
+        ],
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -95,30 +119,6 @@
     print_r($result->getFile());
     echo '</PRE>';
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
-    client = Client(token)
-
-    result = client.disk.folder.uploadfile(
-        bitrix_id=1739,
-        data={
-            "NAME": "ava555.jpg",
-        },
-        file_content=[
-            "avatar.jpg",
-            "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q==",
-        ],
-    ).response.result
-    ```
-
 {% endlist %}
 
 В результате загрузки файла на Диск получили два разных значения ID файла:
@@ -169,6 +169,16 @@
     const result = response.getData().result
     ```
 
+- Python
+
+    ```python
+    result = client.tasks.task.files.attach(
+        task_id=3709,
+        file_id=6687,
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -184,16 +194,6 @@
     print_r($result);
     echo '</PRE>';
     ```
-
-- Python
-
-    ```python
-    result = client.tasks.task.files.attach(
-        task_id=3709,
-        file_id=6687,
-    ).response.result
-    ```
-
 {% endlist %}
 
 Мы загрузили файл в задачу и в ответ получили ID связи между файлом Диска и задачей `423`. Чтобы проверить прикрепление файла к задаче по ID связи, используем метод [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md).
@@ -230,19 +230,6 @@
     console.log(checkResponse.getData().result)
     ```
 
-- PHP
-
-    ```php
-    $file = $serviceBuilder->core->call(
-        'disk.attachedObject.get',
-        [
-            'id' => $result['attachmentId']
-        ]
-    )->getResponseData()->getResult();
-
-    print_r($file);
-    ```
-
 - Python
 
     ```python
@@ -256,6 +243,19 @@
     print(file)
     ```
 
+
+- PHP
+
+    ```php
+    $file = $serviceBuilder->core->call(
+        'disk.attachedObject.get',
+        [
+            'id' => $result['attachmentId']
+        ]
+    )->getResponseData()->getResult();
+
+    print_r($file);
+    ```
 {% endlist %}
 
 Метод вернет данные прикрепленного файла. Сценарий выполнен успешно, если:

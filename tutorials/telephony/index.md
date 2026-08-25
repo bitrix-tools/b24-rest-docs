@@ -82,6 +82,13 @@
     })
     ```
 
+- Python
+
+    ```python
+    client.telephony.external_line.add(number="line-1", name="Внешняя линия").response
+    ```
+
+
 - PHP
 
     ```php
@@ -90,13 +97,6 @@
         'NAME' => 'Внешняя линия',
     ]);
     ```
-
-- Python
-
-    ```python
-    client.telephony.external_line.add(number="line-1", name="Внешняя линия").response
-    ```
-
 {% endlist %}
 
 Успешный ответ содержит идентификатор созданной линии.
@@ -126,15 +126,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $b24->core->call('event.bind', [
-        'event' => 'ONEXTERNALCALLSTART',
-        'handler' => 'https://your-domain.example/events',
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -144,6 +135,15 @@
     ).response
     ```
 
+
+- PHP
+
+    ```php
+    $b24->core->call('event.bind', [
+        'event' => 'ONEXTERNALCALLSTART',
+        'handler' => 'https://your-domain.example/events',
+    ]);
+    ```
 {% endlist %}
 
 Успешная подписка возвращает `true`.
@@ -188,21 +188,6 @@
     const callId = response.getData().result.CALL_ID
     ```
 
-- PHP
-
-    ```php
-    $response = $b24->core->call('telephony.externalCall.register', [
-        'USER_ID' => 1269,
-        'PHONE_NUMBER' => '79062195047',
-        'TYPE' => 2,
-        'LINE_NUMBER' => 'line-1',
-        'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441',
-        'SHOW' => 1,
-    ]);
-
-    $callId = $response->getResponseData()->getResult()['CALL_ID'];
-    ```
-
 - Python
 
     ```python
@@ -217,6 +202,21 @@
     call_id = bitrix_response.result["CALL_ID"]
     ```
 
+
+- PHP
+
+    ```php
+    $response = $b24->core->call('telephony.externalCall.register', [
+        'USER_ID' => 1269,
+        'PHONE_NUMBER' => '79062195047',
+        'TYPE' => 2,
+        'LINE_NUMBER' => 'line-1',
+        'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441',
+        'SHOW' => 1,
+    ]);
+
+    $callId = $response->getResponseData()->getResult()['CALL_ID'];
+    ```
 {% endlist %}
 
 Успешный ответ содержит `CALL_ID`. Сохраните его: этот идентификатор нужен для показа, скрытия, завершения звонка и прикрепления записи.
@@ -262,6 +262,18 @@
     })
     ```
 
+- Python
+
+    ```python
+    queue = [1269, 1270, 1271]
+    client.telephony.external_call.show(call_id=call_id, user_id=queue).response
+
+    answered_user_id = 1270
+    users_to_hide = [uid for uid in queue if uid != answered_user_id]
+    client.telephony.external_call.hide(call_id=call_id, user_id=users_to_hide).response
+    ```
+
+
 - PHP
 
     ```php
@@ -281,18 +293,6 @@
         'USER_ID' => $usersToHide,
     ]);
     ```
-
-- Python
-
-    ```python
-    queue = [1269, 1270, 1271]
-    client.telephony.external_call.show(call_id=call_id, user_id=queue).response
-
-    answered_user_id = 1270
-    users_to_hide = [uid for uid in queue if uid != answered_user_id]
-    client.telephony.external_call.hide(call_id=call_id, user_id=users_to_hide).response
-    ```
-
 {% endlist %}
 
 Методы `show` и `hide` возвращают `true`, если команда показа или скрытия карточки отправлена.
@@ -360,34 +360,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $crmEntities = $b24->core->call('telephony.externalCall.searchCrmEntities', [
-        'PHONE_NUMBER' => '79062195047',
-    ])->getResponseData()->getResult();
-
-    if (empty($crmEntities)) {
-        throw new \RuntimeException('Клиент с таким телефоном не найден в CRM');
-    }
-
-    $assignedById = (int)$crmEntities[0]['ASSIGNED_BY_ID'];
-
-    $reg = $b24->core->call('telephony.externalCall.register', [
-        'USER_ID' => $assignedById,
-        'PHONE_NUMBER' => '79062195047',
-        'TYPE' => 2,
-        'LINE_NUMBER' => 'line-1',
-        'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441-manager',
-        'SHOW' => 0,
-    ])->getResponseData()->getResult();
-
-    $b24->core->call('telephony.externalCall.show', [
-        'CALL_ID' => $reg['CALL_ID'],
-        'USER_ID' => $assignedById,
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -415,6 +387,34 @@
     ).response
     ```
 
+
+- PHP
+
+    ```php
+    $crmEntities = $b24->core->call('telephony.externalCall.searchCrmEntities', [
+        'PHONE_NUMBER' => '79062195047',
+    ])->getResponseData()->getResult();
+
+    if (empty($crmEntities)) {
+        throw new \RuntimeException('Клиент с таким телефоном не найден в CRM');
+    }
+
+    $assignedById = (int)$crmEntities[0]['ASSIGNED_BY_ID'];
+
+    $reg = $b24->core->call('telephony.externalCall.register', [
+        'USER_ID' => $assignedById,
+        'PHONE_NUMBER' => '79062195047',
+        'TYPE' => 2,
+        'LINE_NUMBER' => 'line-1',
+        'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441-manager',
+        'SHOW' => 0,
+    ])->getResponseData()->getResult();
+
+    $b24->core->call('telephony.externalCall.show', [
+        'CALL_ID' => $reg['CALL_ID'],
+        'USER_ID' => $assignedById,
+    ]);
+    ```
 {% endlist %}
 
 В ответе `register` сохраните `CALL_ID`. Он нужен для завершения звонка и прикрепления записи.
@@ -449,23 +449,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // Обработчик события ONEXTERNALCALLSTART
-    if (($_REQUEST['event'] ?? '') === 'ONEXTERNALCALLSTART') {
-        $data = $_REQUEST['data'];
-        // ... инициировать вызов на АТС по $data['PHONE_NUMBER'] ...
-        $b24->core->call('telephony.externalCall.finish', [
-            'CALL_ID' => $data['CALL_ID'],
-            'USER_ID' => $data['USER_ID'],
-            'DURATION' => 95,
-            'STATUS_CODE' => '200',
-        ]);
-    }
-    ```
-
 - Python
 
     ```python
@@ -486,6 +469,23 @@
         return "ok"
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // Обработчик события ONEXTERNALCALLSTART
+    if (($_REQUEST['event'] ?? '') === 'ONEXTERNALCALLSTART') {
+        $data = $_REQUEST['data'];
+        // ... инициировать вызов на АТС по $data['PHONE_NUMBER'] ...
+        $b24->core->call('telephony.externalCall.finish', [
+            'CALL_ID' => $data['CALL_ID'],
+            'USER_ID' => $data['USER_ID'],
+            'DURATION' => 95,
+            'STATUS_CODE' => '200',
+        ]);
+    }
+    ```
 {% endlist %}
 
 Обработчик должен вернуть HTTP-ответ `200`. После этого Битрикс24 считает событие доставленным.
@@ -515,19 +515,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $finishResponse = $b24->core->call('telephony.externalCall.finish', [
-        'CALL_ID' => $callId, 'USER_ID' => 1270, 'DURATION' => 95, 'STATUS_CODE' => '200', 'ADD_TO_CHAT' => 1,
-    ]);
-
-    // позже, когда запись готова
-    $b24->core->call('telephony.externalCall.attachRecord', [
-        'CALL_ID' => $callId, 'FILENAME' => 'record.mp3', 'RECORD_URL' => 'https://your-domain.example/record.mp3',
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -541,6 +528,19 @@
     ).response
     ```
 
+
+- PHP
+
+    ```php
+    $finishResponse = $b24->core->call('telephony.externalCall.finish', [
+        'CALL_ID' => $callId, 'USER_ID' => 1270, 'DURATION' => 95, 'STATUS_CODE' => '200', 'ADD_TO_CHAT' => 1,
+    ]);
+
+    // позже, когда запись готова
+    $b24->core->call('telephony.externalCall.attachRecord', [
+        'CALL_ID' => $callId, 'FILENAME' => 'record.mp3', 'RECORD_URL' => 'https://your-domain.example/record.mp3',
+    ]);
+    ```
 {% endlist %}
 
 Успешный ответ `finish` содержит запись статистики звонка. Поля `CALL_STATUS`, `CALL_FAILED_CODE`, `CRM_ACTIVITY_ID`, `CRM_ENTITY_TYPE` и `CRM_ENTITY_ID` помогают проверить, что звонок завершен и связан с CRM.
@@ -602,23 +602,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $callId = $b24->core->call('telephony.externalCall.register', [
-        'USER_ID' => 1269,
-        'PHONE_NUMBER' => '79062195047',
-        'TYPE' => 2,
-        'LINE_NUMBER' => 'line-1',
-        'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441-offline',
-        'SHOW' => 0,
-    ])->getResponseData()->getResult()['CALL_ID'];
-
-    $b24->core->call('telephony.externalCall.finish', [
-        'CALL_ID' => $callId, 'USER_ID' => 1269, 'DURATION' => 0, 'STATUS_CODE' => '304',
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -636,6 +619,23 @@
     ).response
     ```
 
+
+- PHP
+
+    ```php
+    $callId = $b24->core->call('telephony.externalCall.register', [
+        'USER_ID' => 1269,
+        'PHONE_NUMBER' => '79062195047',
+        'TYPE' => 2,
+        'LINE_NUMBER' => 'line-1',
+        'EXTERNAL_CALL_ID' => 'asterisk-1773130778.18441-offline',
+        'SHOW' => 0,
+    ])->getResponseData()->getResult()['CALL_ID'];
+
+    $b24->core->call('telephony.externalCall.finish', [
+        'CALL_ID' => $callId, 'USER_ID' => 1269, 'DURATION' => 0, 'STATUS_CODE' => '304',
+    ]);
+    ```
 {% endlist %}
 
 ## Проверим результат
@@ -669,19 +669,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $finishResult = $finishResponse->getResponseData()->getResult();
-
-    echo 'ID: ' . $finishResult['ID'] . PHP_EOL;
-    echo 'CALL_STATUS: ' . $finishResult['CALL_STATUS'] . PHP_EOL;
-    echo 'CALL_FAILED_CODE: ' . $finishResult['CALL_FAILED_CODE'] . PHP_EOL;
-    echo 'CRM_ACTIVITY_ID: ' . $finishResult['CRM_ACTIVITY_ID'] . PHP_EOL;
-    echo 'CRM_ENTITY_TYPE: ' . $finishResult['CRM_ENTITY_TYPE'] . PHP_EOL;
-    echo 'CRM_ENTITY_ID: ' . $finishResult['CRM_ENTITY_ID'] . PHP_EOL;
-    ```
-
 - Python
 
     ```python
@@ -698,6 +685,19 @@
         print(field, finish_result.get(field))
     ```
 
+
+- PHP
+
+    ```php
+    $finishResult = $finishResponse->getResponseData()->getResult();
+
+    echo 'ID: ' . $finishResult['ID'] . PHP_EOL;
+    echo 'CALL_STATUS: ' . $finishResult['CALL_STATUS'] . PHP_EOL;
+    echo 'CALL_FAILED_CODE: ' . $finishResult['CALL_FAILED_CODE'] . PHP_EOL;
+    echo 'CRM_ACTIVITY_ID: ' . $finishResult['CRM_ACTIVITY_ID'] . PHP_EOL;
+    echo 'CRM_ENTITY_TYPE: ' . $finishResult['CRM_ENTITY_TYPE'] . PHP_EOL;
+    echo 'CRM_ENTITY_ID: ' . $finishResult['CRM_ENTITY_ID'] . PHP_EOL;
+    ```
 {% endlist %}
 
 ## Ошибки и диагностика

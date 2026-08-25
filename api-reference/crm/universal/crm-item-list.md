@@ -331,34 +331,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php        
-    try {
-        $entityTypeId = 1; // Replace with actual entity type ID
-        $order = []; // Replace with actual order array
-        $filter = []; // Replace with actual filter array
-        $select = []; // Replace with actual select array
-        $startItem = 0; // Optional, can be adjusted as needed
-        $itemsResult = $serviceBuilder
-            ->getCRMScope()
-            ->item()
-            ->list($entityTypeId, $order, $filter, $select, $startItem);
-        foreach ($itemsResult->getItems() as $item) {
-            print("ID: " . $item->id . PHP_EOL);
-            print("XML ID: " . $item->xmlId . PHP_EOL);
-            print("Title: " . $item->title . PHP_EOL);
-            print("Created By: " . $item->createdBy . PHP_EOL);
-            print("Updated By: " . $item->updatedBy . PHP_EOL);
-            print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
-            print("Updated Time: " . $item->updatedTime->format(DATE_ATOM) . PHP_EOL);
-            // Add more fields as necessary
-        }
-    } catch (Throwable $e) {
-        print("Error: " . $e->getMessage() . PHP_EOL);
-    }
-    ```
-
 - Python
 
     Пример
@@ -556,6 +528,34 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php        
+    try {
+        $entityTypeId = 1; // Replace with actual entity type ID
+        $order = []; // Replace with actual order array
+        $filter = []; // Replace with actual filter array
+        $select = []; // Replace with actual select array
+        $startItem = 0; // Optional, can be adjusted as needed
+        $itemsResult = $serviceBuilder
+            ->getCRMScope()
+            ->item()
+            ->list($entityTypeId, $order, $filter, $select, $startItem);
+        foreach ($itemsResult->getItems() as $item) {
+            print("ID: " . $item->id . PHP_EOL);
+            print("XML ID: " . $item->xmlId . PHP_EOL);
+            print("Title: " . $item->title . PHP_EOL);
+            print("Created By: " . $item->createdBy . PHP_EOL);
+            print("Updated By: " . $item->updatedBy . PHP_EOL);
+            print("Created Time: " . $item->createdTime->format(DATE_ATOM) . PHP_EOL);
+            print("Updated Time: " . $item->updatedTime->format(DATE_ATOM) . PHP_EOL);
+            // Add more fields as necessary
+        }
+    } catch (Throwable $e) {
+        print("Error: " . $e->getMessage() . PHP_EOL);
+    }
     ```
 
 - BX24.js
@@ -868,6 +868,47 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.item.list(
+            entity_type_id=2,
+            select=[
+                "id",
+                "title",
+                "createdTime",
+            ],
+            filter={
+                "0": {
+                    "logic": "OR",
+                    "0": {
+                        ">=createdTime": "2025-10-31T00:00:00+02:00",
+                        "<createdTime": "2025-11-01T00:00:00+02:00",
+                    },
+                    "1": {
+                        ">=createdTime": "2025-02-28T00:00:00+02:00",
+                        "<createdTime": "2025-03-01T00:00:00+02:00",
+                    },
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php
@@ -978,47 +1019,6 @@
     ```
 
 
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.item.list(
-            entity_type_id=2,
-            select=[
-                "id",
-                "title",
-                "createdTime",
-            ],
-            filter={
-                "0": {
-                    "logic": "OR",
-                    "0": {
-                        ">=createdTime": "2025-10-31T00:00:00+02:00",
-                        "<createdTime": "2025-11-01T00:00:00+02:00",
-                    },
-                    "1": {
-                        ">=createdTime": "2025-02-28T00:00:00+02:00",
-                        "<createdTime": "2025-03-01T00:00:00+02:00",
-                    },
-                },
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
 - Go
 
     ```go

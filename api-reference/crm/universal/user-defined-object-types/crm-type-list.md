@@ -246,36 +246,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.type.list',
-            [
-                'filter' => [
-                    [
-                        'logic' => 'OR',
-                        [
-                            '%title' => '5',
-                        ],
-                        [
-                            '%title' => '0',
-                        ],
-                    ],
-                ],
-                'order' => [
-                    'id' => 'DESC',
-                ],
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         ```python
@@ -372,6 +342,36 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.type.list',
+            [
+                'filter' => [
+                    [
+                        'logic' => 'OR',
+                        [
+                            '%title' => '5',
+                        ],
+                        [
+                            '%title' => '0',
+                        ],
+                    ],
+                ],
+                'order' => [
+                    'id' => 'DESC',
+                ],
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
     {% endlist %}
 
 2. Получить список смарт-процессов, у которых:

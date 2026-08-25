@@ -163,40 +163,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.requisite.preset.field.add',
-                [
-                    'preset' => [
-                        'ID' => 27, // Идентификатор шаблона
-                    ],
-                    'fields' => [ // Объект с описанием настраиваемого поля
-                        'FIELD_NAME'    => 'RQ_NAME',
-                        'FIELD_TITLE'   => 'TEST',
-                        'IN_SHORT_LIST' => 'N',
-                        'SORT'          => 580,
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'В шаблон добавлено настраиваемое поле с ID ' . $result;
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Ошибка при добавлении настраиваемого поля: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -229,6 +195,40 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.requisite.preset.field.add',
+                [
+                    'preset' => [
+                        'ID' => 27, // Идентификатор шаблона
+                    ],
+                    'fields' => [ // Объект с описанием настраиваемого поля
+                        'FIELD_NAME'    => 'RQ_NAME',
+                        'FIELD_TITLE'   => 'TEST',
+                        'IN_SHORT_LIST' => 'N',
+                        'SORT'          => 580,
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'В шаблон добавлено настраиваемое поле с ID ' . $result;
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Ошибка при добавлении настраиваемого поля: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

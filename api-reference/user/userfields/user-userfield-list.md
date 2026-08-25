@@ -201,84 +201,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'user.userfield.list',
-                [
-                    'order' => [
-                        'id' => 'desc',
-                    ],
-                    'filter' => [
-                        'id' => 13
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching user fields: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        "user.userfield.list",
-        {
-            order: {
-                id: 'desc',
-            },
-            filter: {
-                id: 13
-            },
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'user.userfield.list',
-        [
-            'order' => [
-                'id' => 'desc',
-            ]
-            'filter' => [
-                'id' => 13,
-            ],
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     Пример
@@ -379,6 +301,84 @@
         print("Bitrix SDK error", error.message, sep="\n")
     except Exception as error:
         print("Unexpected error", error, sep="\n")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'user.userfield.list',
+                [
+                    'order' => [
+                        'id' => 'desc',
+                    ],
+                    'filter' => [
+                        'id' => 13
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching user fields: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "user.userfield.list",
+        {
+            order: {
+                id: 'desc',
+            },
+            filter: {
+                id: 13
+            },
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'user.userfield.list',
+        [
+            'order' => [
+                'id' => 'desc',
+            ]
+            'filter' => [
+                'id' => 13,
+            ],
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 - Go

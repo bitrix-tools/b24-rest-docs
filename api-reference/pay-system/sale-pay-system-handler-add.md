@@ -1211,6 +1211,72 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.paysystem.handler.add(
+            name='Обработчик.Rest CHECKOUT',
+            code='resthandlercheckout',
+            settings={
+                "CURRENCY": [
+                    "RUB",
+                ],
+                "CLIENT_TYPE": "b2c",
+                "CHECKOUT_DATA": {
+                    "ACTION_URI": 'http://example.com/payment_checkout.php',
+                    "FIELDS": {
+                        "serviceKey": {
+                            "CODE": 'REST_SERVICE_KEY_CHECKOUT',
+                        },
+                        "serviceid": {
+                            "CODE": 'REST_SERVICE_ID_CHECKOUT',
+                        },
+                    },
+                },
+                "CODES": {
+                    'REST_SERVICE_ID_CHECKOUT': {
+                        "NAME": "Ключ сервиса",
+                        "DESCRIPTION": "Ключ сервиса",
+                        "SORT": "100",
+                    },
+                    'REST_SERVICE_KEY_CHECKOUT': {
+                        "NAME": "Идентификатор",
+                        "DESCRIPTION": "Идентификатор",
+                        "SORT": "300",
+                    },
+                    'PS_WORK_MODE_CHECKOUT': {
+                        "NAME": "Режим работы платежной системы",
+                        "SORT": "1100",
+                        "INPUT": {
+                            "TYPE": "ENUM",
+                            "OPTIONS": {
+                                "TEST": "Тестовый",
+                                "REGULAR": "Реальный",
+                            },
+                        },
+                    },
+                },
+            },
+            sort=100,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -1398,72 +1464,6 @@
     echo '</PRE>';
     ```
 
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.sale.paysystem.handler.add(
-            name='Обработчик.Rest CHECKOUT',
-            code='resthandlercheckout',
-            settings={
-                "CURRENCY": [
-                    "RUB",
-                ],
-                "CLIENT_TYPE": "b2c",
-                "CHECKOUT_DATA": {
-                    "ACTION_URI": 'http://example.com/payment_checkout.php',
-                    "FIELDS": {
-                        "serviceKey": {
-                            "CODE": 'REST_SERVICE_KEY_CHECKOUT',
-                        },
-                        "serviceid": {
-                            "CODE": 'REST_SERVICE_ID_CHECKOUT',
-                        },
-                    },
-                },
-                "CODES": {
-                    'REST_SERVICE_ID_CHECKOUT': {
-                        "NAME": "Ключ сервиса",
-                        "DESCRIPTION": "Ключ сервиса",
-                        "SORT": "100",
-                    },
-                    'REST_SERVICE_KEY_CHECKOUT': {
-                        "NAME": "Идентификатор",
-                        "DESCRIPTION": "Идентификатор",
-                        "SORT": "300",
-                    },
-                    'PS_WORK_MODE_CHECKOUT': {
-                        "NAME": "Режим работы платежной системы",
-                        "SORT": "1100",
-                        "INPUT": {
-                            "TYPE": "ENUM",
-                            "OPTIONS": {
-                                "TEST": "Тестовый",
-                                "REGULAR": "Реальный",
-                            },
-                        },
-                    },
-                },
-            },
-            sort=100,
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
 {% endlist %}
 
 ## Режим работы IFrame {#iframe}
@@ -1726,6 +1726,72 @@ document.addEventListener("DOMContentLoaded", function() {
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.paysystem.handler.add(
+            name='Обработчик.Rest IFrame',
+            code='resthandleriframe',
+            settings={
+                "CURRENCY": [
+                    "RUB",
+                ],
+                "CLIENT_TYPE": "b2c",
+                "IFRAME_DATA": {
+                    "ACTION_URI": 'http://example.com/payment_iframe.php',
+                    "FIELDS": {
+                        "serviceKey": {
+                            "CODE": 'REST_SERVICE_KEY_IFRAME',
+                        },
+                        "serviceid": {
+                            "CODE": 'REST_SERVICE_ID_IFRAME',
+                        },
+                    },
+                },
+                "CODES": {
+                    'REST_SERVICE_ID_IFRAME': {
+                        "NAME": "Ключ сервиса",
+                        "DESCRIPTION": "Ключ сервиса",
+                        "SORT": "100",
+                    },
+                    'REST_SERVICE_KEY_IFRAME': {
+                        "NAME": "Идентификатор",
+                        "DESCRIPTION": "Идентификатор",
+                        "SORT": "300",
+                    },
+                    'PS_WORK_MODE_IFRAME': {
+                        "NAME": "Режим работы платежной системы",
+                        "SORT": "1100",
+                        "INPUT": {
+                            "TYPE": "ENUM",
+                            "OPTIONS": {
+                                "TEST": "Тестовый",
+                                "REGULAR": "Реальный",
+                            },
+                        },
+                    },
+                },
+            },
+            sort=100,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 
@@ -1913,72 +1979,6 @@ document.addEventListener("DOMContentLoaded", function() {
     echo '</PRE>';
     ```
 
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.sale.paysystem.handler.add(
-            name='Обработчик.Rest IFrame',
-            code='resthandleriframe',
-            settings={
-                "CURRENCY": [
-                    "RUB",
-                ],
-                "CLIENT_TYPE": "b2c",
-                "IFRAME_DATA": {
-                    "ACTION_URI": 'http://example.com/payment_iframe.php',
-                    "FIELDS": {
-                        "serviceKey": {
-                            "CODE": 'REST_SERVICE_KEY_IFRAME',
-                        },
-                        "serviceid": {
-                            "CODE": 'REST_SERVICE_ID_IFRAME',
-                        },
-                    },
-                },
-                "CODES": {
-                    'REST_SERVICE_ID_IFRAME': {
-                        "NAME": "Ключ сервиса",
-                        "DESCRIPTION": "Ключ сервиса",
-                        "SORT": "100",
-                    },
-                    'REST_SERVICE_KEY_IFRAME': {
-                        "NAME": "Идентификатор",
-                        "DESCRIPTION": "Идентификатор",
-                        "SORT": "300",
-                    },
-                    'PS_WORK_MODE_IFRAME': {
-                        "NAME": "Режим работы платежной системы",
-                        "SORT": "1100",
-                        "INPUT": {
-                            "TYPE": "ENUM",
-                            "OPTIONS": {
-                                "TEST": "Тестовый",
-                                "REGULAR": "Реальный",
-                            },
-                        },
-                    },
-                },
-            },
-            sort=100,
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
 {% endlist %}
 
 ## Обработка ответа

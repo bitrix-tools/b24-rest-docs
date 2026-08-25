@@ -75,6 +75,26 @@
     const entityTypeId = types.length ? types[0].entityTypeId : null;
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    types = client.crm.type.list(
+        filter={"title": "Закупка оборудования"},  # Название смарт-процесса
+    ).response.result["types"]
+
+    entity_type_id = int(types[0]["entityTypeId"]) if types else None
+    ```
+
+
 - PHP
 
     ```php
@@ -95,26 +115,6 @@
 
     $entityTypeId = $types[0]->entityTypeId ?? null;
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    types = client.crm.type.list(
-        filter={"title": "Закупка оборудования"},  # Название смарт-процесса
-    ).response.result["types"]
-
-    entity_type_id = int(types[0]["entityTypeId"]) if types else None
-    ```
-
 {% endlist %}
 
 В ответе метод вернет массив `types`. Сохраните `entityTypeId` — его нужно передать в шаги 2, 3 и 5. В примере `entityTypeId`: `177`.
@@ -195,6 +195,21 @@
     const categoryId = result.getData().result.category.id;
     ```
 
+- Python
+
+    ```python
+    category = client.crm.category.add(
+        entity_type_id=entity_type_id,  # Идентификатор типа из шага 1
+        fields={
+            "name": "Новая воронка",  # Название воронки
+            "sort": 100,  # Индекс сортировки
+        },
+    ).response.result["category"]
+
+    category_id = int(category["id"])
+    ```
+
+
 - PHP
 
     ```php
@@ -212,21 +227,6 @@
 
     $categoryId = $result->getResponseData()->getResult()['category']['id'];
     ```
-
-- Python
-
-    ```python
-    category = client.crm.category.add(
-        entity_type_id=entity_type_id,  # Идентификатор типа из шага 1
-        fields={
-            "name": "Новая воронка",  # Название воронки
-            "sort": 100,  # Индекс сортировки
-        },
-    ).response.result["category"]
-
-    category_id = int(category["id"])
-    ```
-
 {% endlist %}
 
 В ответе метод вернет объект `category`. Сохраните `id` — его нужно передать в шаги 3 и 5. В примере `id`: `87`.
@@ -283,19 +283,6 @@
     const firstStageId = stages[0].ID; // Первая стадия группы «В работе»
     ```
 
-- PHP
-
-    ```php
-    $entityId = "DYNAMIC_{$entityTypeId}_STAGE_{$categoryId}";
-
-    $stages = $sb->getCRMScope()->status()->list(
-        order: ['SORT' => 'ASC'], // Стадии по возрастанию индекса сортировки
-        filter: ['ENTITY_ID' => $entityId] // Справочник стадий этой воронки
-    )->getStatuses();
-
-    $firstStageId = $stages[0]->ID; // Первая стадия группы «В работе»
-    ```
-
 - Python
 
     ```python
@@ -309,6 +296,19 @@
     first_stage_id = int(stages[0]["ID"])  # Первая стадия группы «В работе»
     ```
 
+
+- PHP
+
+    ```php
+    $entityId = "DYNAMIC_{$entityTypeId}_STAGE_{$categoryId}";
+
+    $stages = $sb->getCRMScope()->status()->list(
+        order: ['SORT' => 'ASC'], // Стадии по возрастанию индекса сортировки
+        filter: ['ENTITY_ID' => $entityId] // Справочник стадий этой воронки
+    )->getStatuses();
+
+    $firstStageId = $stages[0]->ID; // Первая стадия группы «В работе»
+    ```
 {% endlist %}
 
 В ответе метод вернет массив стадий, отсортированный по полю `SORT`. Сохраните `ID` первой стадии — его нужно передать в шаг 4. В примере `ID`: `1073`. Как и в шаге 1, до следующего вызова проверьте, что массив не пустой.
@@ -420,17 +420,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getCRMScope()->status()->update(
-        $firstStageId, // Идентификатор стадии из шага 3
-        [
-            'NAME' => 'Первая стадия' // Новое название стадии
-        ]
-    );
-    ```
-
 - Python
 
     ```python
@@ -442,6 +431,17 @@
     ).response
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getCRMScope()->status()->update(
+        $firstStageId, // Идентификатор стадии из шага 3
+        [
+            'NAME' => 'Первая стадия' // Новое название стадии
+        ]
+    );
+    ```
 {% endlist %}
 
 В ответе метод вернет `true` — стадия переименована.
@@ -490,6 +490,21 @@
     const newStageId = result.getData().result;
     ```
 
+- Python
+
+    ```python
+    new_stage_id = client.crm.status.add(
+        fields={
+            "ENTITY_ID": entity_id,  # Справочник стадий из шага 3
+            "STATUS_ID": f"DT{entity_type_id}_{category_id}:MY_STAGE",  # Код стадии
+            "NAME": "Моя стадия",  # Название стадии
+            "SORT": 60,  # Индекс сортировки
+            "SEMANTICS": "F",  # Группа «Провал»
+        },
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -505,21 +520,6 @@
 
     $newStageId = $result->getId();
     ```
-
-- Python
-
-    ```python
-    new_stage_id = client.crm.status.add(
-        fields={
-            "ENTITY_ID": entity_id,  # Справочник стадий из шага 3
-            "STATUS_ID": f"DT{entity_type_id}_{category_id}:MY_STAGE",  # Код стадии
-            "NAME": "Моя стадия",  # Название стадии
-            "SORT": 60,  # Индекс сортировки
-            "SEMANTICS": "F",  # Группа «Провал»
-        },
-    ).response.result
-    ```
-
 {% endlist %}
 
 В ответе метод вернет идентификатор созданной стадии. В примере `1083`.
@@ -557,19 +557,6 @@
     })));
     ```
 
-- PHP
-
-    ```php
-    $checkResult = $sb->getCRMScope()->status()->list(
-        order: ['SORT' => 'ASC'],
-        filter: ['ENTITY_ID' => $entityId]
-    )->getStatuses();
-
-    foreach ($checkResult as $stage) {
-        echo $stage->NAME . ' | ' . $stage->SORT . ' | ' . $stage->SEMANTICS . PHP_EOL;
-    }
-    ```
-
 - Python
 
     ```python
@@ -582,6 +569,19 @@
         print(stage["NAME"], stage["SORT"], stage["SEMANTICS"])
     ```
 
+
+- PHP
+
+    ```php
+    $checkResult = $sb->getCRMScope()->status()->list(
+        order: ['SORT' => 'ASC'],
+        filter: ['ENTITY_ID' => $entityId]
+    )->getStatuses();
+
+    foreach ($checkResult as $stage) {
+        echo $stage->NAME . ' | ' . $stage->SORT . ' | ' . $stage->SEMANTICS . PHP_EOL;
+    }
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в ответе шесть стадий: у стадии с `SORT`: `10` поле `NAME` равно `Первая стадия`, а в массиве есть стадия с `STATUS_ID`: `DT177_87:MY_STAGE` и `SEMANTICS`: `F`.
@@ -782,6 +782,100 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    process_title = "Закупка оборудования"  # Название вашего смарт-процесса
+
+
+    def print_stages_table(stages):
+        columns = {"В работе": [], "Успех": [], "Провал": []}
+
+        for stage in stages:
+            if stage["SEMANTICS"] == "S":
+                columns["Успех"].append(stage["NAME"])
+            elif stage["SEMANTICS"] == "F":
+                columns["Провал"].append(stage["NAME"])
+            else:
+                columns["В работе"].append(stage["NAME"])
+
+        max_rows = max(len(column) for column in columns.values())
+
+        print("Таблица стадий:")
+        for index in range(max_rows):
+            row = [
+                columns[group][index] if index < len(columns[group]) else ""
+                for group in ("В работе", "Успех", "Провал")
+            ]
+            print(f"В работе: {row[0]} | Успех: {row[1]} | Провал: {row[2]}")
+
+
+    try:
+        # 1. Получаем entityTypeId по названию смарт-процесса
+        types = client.crm.type.list(
+            filter={"title": process_title},
+        ).response.result["types"]
+        if not types:
+            raise SystemExit(f"Смарт-процесс «{process_title}» не найден")
+        entity_type_id = int(types[0]["entityTypeId"])
+
+        # 2. Создаем воронку
+        category_id = int(
+            client.crm.category.add(
+                entity_type_id=entity_type_id,
+                fields={"name": "Новая воронка", "sort": 100},
+            ).response.result["category"]["id"]
+        )
+        entity_id = f"DYNAMIC_{entity_type_id}_STAGE_{category_id}"
+
+        # 3. Получаем предустановленные стадии
+        stages = client.crm.status.list(
+            filter={"ENTITY_ID": entity_id},
+            order={"SORT": "ASC"},
+        ).response.result
+
+        if not stages:
+            raise SystemExit(f"Стадии не найдены: проверьте справочник {entity_id}")
+
+        # 4. Переименовываем первую стадию
+        client.crm.status.update(
+            int(stages[0]["ID"]),
+            fields={"NAME": "Первая стадия"},
+        ).response
+
+        # 5. Добавляем свою стадию в группу «Провал»
+        client.crm.status.add(
+            fields={
+                "ENTITY_ID": entity_id,
+                "STATUS_ID": f"DT{entity_type_id}_{category_id}:MY_STAGE",
+                "NAME": "Моя стадия",
+                "SORT": 60,
+                "SEMANTICS": "F",
+            },
+        ).response
+
+        # Проверяем результат
+        final_stages = client.crm.status.list(
+            filter={"ENTITY_ID": entity_id},
+            order={"SORT": "ASC"},
+        ).response.result
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        print_stages_table(final_stages)
+    ```
+
+
 - PHP
 
     ```php
@@ -878,100 +972,6 @@
             . ' | Провал: ' . ($columns['Провал'][$i] ?? '') . "\n";
     }
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    process_title = "Закупка оборудования"  # Название вашего смарт-процесса
-
-
-    def print_stages_table(stages):
-        columns = {"В работе": [], "Успех": [], "Провал": []}
-
-        for stage in stages:
-            if stage["SEMANTICS"] == "S":
-                columns["Успех"].append(stage["NAME"])
-            elif stage["SEMANTICS"] == "F":
-                columns["Провал"].append(stage["NAME"])
-            else:
-                columns["В работе"].append(stage["NAME"])
-
-        max_rows = max(len(column) for column in columns.values())
-
-        print("Таблица стадий:")
-        for index in range(max_rows):
-            row = [
-                columns[group][index] if index < len(columns[group]) else ""
-                for group in ("В работе", "Успех", "Провал")
-            ]
-            print(f"В работе: {row[0]} | Успех: {row[1]} | Провал: {row[2]}")
-
-
-    try:
-        # 1. Получаем entityTypeId по названию смарт-процесса
-        types = client.crm.type.list(
-            filter={"title": process_title},
-        ).response.result["types"]
-        if not types:
-            raise SystemExit(f"Смарт-процесс «{process_title}» не найден")
-        entity_type_id = int(types[0]["entityTypeId"])
-
-        # 2. Создаем воронку
-        category_id = int(
-            client.crm.category.add(
-                entity_type_id=entity_type_id,
-                fields={"name": "Новая воронка", "sort": 100},
-            ).response.result["category"]["id"]
-        )
-        entity_id = f"DYNAMIC_{entity_type_id}_STAGE_{category_id}"
-
-        # 3. Получаем предустановленные стадии
-        stages = client.crm.status.list(
-            filter={"ENTITY_ID": entity_id},
-            order={"SORT": "ASC"},
-        ).response.result
-
-        if not stages:
-            raise SystemExit(f"Стадии не найдены: проверьте справочник {entity_id}")
-
-        # 4. Переименовываем первую стадию
-        client.crm.status.update(
-            int(stages[0]["ID"]),
-            fields={"NAME": "Первая стадия"},
-        ).response
-
-        # 5. Добавляем свою стадию в группу «Провал»
-        client.crm.status.add(
-            fields={
-                "ENTITY_ID": entity_id,
-                "STATUS_ID": f"DT{entity_type_id}_{category_id}:MY_STAGE",
-                "NAME": "Моя стадия",
-                "SORT": 60,
-                "SEMANTICS": "F",
-            },
-        ).response
-
-        # Проверяем результат
-        final_stages = client.crm.status.list(
-            filter={"ENTITY_ID": entity_id},
-            order={"SORT": "ASC"},
-        ).response.result
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    else:
-        print_stages_table(final_stages)
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

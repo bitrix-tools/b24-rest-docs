@@ -67,25 +67,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $result = $sb->getCRMScope()->type()->list(
-        order: [],
-        filter: ['title' => 'Закупка оборудования'] // название смарт-процесса
-    );
-    ```
-
 - Python
 
     ```python
@@ -105,6 +86,25 @@
     ).response.result
     ```
 
+
+- PHP
+
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getCRMScope()->type()->list(
+        order: [],
+        filter: ['title' => 'Закупка оборудования'] // название смарт-процесса
+    );
+    ```
 {% endlist %}
 
 В результате получим `id` — это порядковый номер смарт-процесса в Битрикс24. В примере `id`: `7`.
@@ -203,6 +203,37 @@
     });
     ```
 
+- Python
+
+    ```python
+    field = client.userfieldconfig.add(
+        module_id="crm",  # Идентификатор модуля
+        field={
+            "entityId": "CRM_7",  # Идентификатор объекта
+            "fieldName": "UF_CRM_7_NEW_REST_LIST",  # Код поля
+            "userTypeId": "enumeration",  # Идентификатор типа поля
+            "multiple": "Y",  # Флаг множественности
+            "editFormLabel": {
+                "ru": "Список характеристик",  # Название поля на русском
+                "en": "List of characteristics",  # Название поля на английском
+            },
+            "enum": [  # Значения списочного поля
+                {
+                    "value": "Характеристика 1",  # Значение варианта
+                    "def": "N",  # Флаг значения по умолчанию
+                    "sort": 100,  # Индекс сортировки
+                },
+                {
+                    "value": "Характеристика 2",
+                    "def": "Y",  # Этот вариант будет значением по умолчанию
+                    "sort": 200,
+                },
+            ],
+        },
+    ).response.result["field"]
+    ```
+
+
 - PHP
 
     ```php
@@ -236,37 +267,6 @@
         ]
     );
     ```
-
-- Python
-
-    ```python
-    field = client.userfieldconfig.add(
-        module_id="crm",  # Идентификатор модуля
-        field={
-            "entityId": "CRM_7",  # Идентификатор объекта
-            "fieldName": "UF_CRM_7_NEW_REST_LIST",  # Код поля
-            "userTypeId": "enumeration",  # Идентификатор типа поля
-            "multiple": "Y",  # Флаг множественности
-            "editFormLabel": {
-                "ru": "Список характеристик",  # Название поля на русском
-                "en": "List of characteristics",  # Название поля на английском
-            },
-            "enum": [  # Значения списочного поля
-                {
-                    "value": "Характеристика 1",  # Значение варианта
-                    "def": "N",  # Флаг значения по умолчанию
-                    "sort": 100,  # Индекс сортировки
-                },
-                {
-                    "value": "Характеристика 2",
-                    "def": "Y",  # Этот вариант будет значением по умолчанию
-                    "sort": 200,
-                },
-            ],
-        },
-    ).response.result["field"]
-    ```
-
 {% endlist %}
 
 В результате получим данные созданного поля. Сохраните `id` — он понадобится, чтобы изменить поле методом [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) или удалить его методом [userfieldconfig.delete](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md).
@@ -367,6 +367,16 @@
     console.dir(checkResult.getData().result.fields);
     ```
 
+- Python
+
+    ```python
+    fields = client.userfieldconfig.list(
+        module_id="crm",
+        filter={"entityId": "CRM_7"},
+    ).response.result["fields"]
+    ```
+
+
 - PHP
 
     ```php
@@ -379,16 +389,6 @@
         ]
     )->getResponseData()->getResult();
     ```
-
-- Python
-
-    ```python
-    fields = client.userfieldconfig.list(
-        module_id="crm",
-        filter={"entityId": "CRM_7"},
-    ).response.result["fields"]
-    ```
-
 {% endlist %}
 
 Сценарий выполнен, если в массиве `fields` есть объект с `fieldName`: `UF_CRM_7_NEW_REST_LIST`, а его `userTypeId` равен `enumeration` и `multiple` равен `Y`.
@@ -496,6 +496,73 @@
     getCrmTypeAndAddUserField();
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def get_crm_type_and_add_user_field(client):
+        process_title = input("Введите название смарт-процесса для поиска: ")
+
+        try:
+            resp = client.crm.type.list(
+                filter={"title": process_title},
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка при получении смарт-процесса: {error}")
+            return
+
+        print("Смарт-процесс успешно получен:")
+        print(resp.result)
+
+        types = resp.result.get("types") or []
+        if types:
+            spa_id = int(types[0]["id"])  # используем id, а не entityTypeId
+            add_user_field(client, spa_id)
+        else:
+            print("Смарт-процесс не найден.")
+
+
+    def add_user_field(client, spa_id):
+        try:
+            result = client.userfieldconfig.add(
+                module_id="crm",
+                field={
+                    "entityId": f"CRM_{spa_id}",
+                    # код поля начинается с UF_ + идентификатор объекта
+                    "fieldName": f"UF_CRM_{spa_id}_NEW_REST_LIST",
+                    "userTypeId": "enumeration",
+                    "multiple": "Y",
+                    "editFormLabel": {
+                        "ru": "Список характеристик",
+                        "en": "List of characteristics",
+                    },
+                    "enum": [
+                        {"value": "Характеристика 1", "def": "N", "sort": 100},
+                        {"value": "Характеристика 2", "def": "Y", "sort": 200},
+                    ],
+                },
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка создания пользовательского поля: {error}")
+        else:
+            print("Пользовательское поле успешно создано:")
+            print(result.result)
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    get_crm_type_and_add_user_field(client)
+    ```
+
+
 - PHP
 
     ```php
@@ -570,73 +637,6 @@
     $processTitle = readline("Введите название смарт-процесса для поиска: ");
     getCrmTypeAndAddUserField($sb, $processTitle);
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-
-    def get_crm_type_and_add_user_field(client):
-        process_title = input("Введите название смарт-процесса для поиска: ")
-
-        try:
-            resp = client.crm.type.list(
-                filter={"title": process_title},
-            ).response
-        except BitrixAPIError as error:
-            print(f"Ошибка при получении смарт-процесса: {error}")
-            return
-
-        print("Смарт-процесс успешно получен:")
-        print(resp.result)
-
-        types = resp.result.get("types") or []
-        if types:
-            spa_id = int(types[0]["id"])  # используем id, а не entityTypeId
-            add_user_field(client, spa_id)
-        else:
-            print("Смарт-процесс не найден.")
-
-
-    def add_user_field(client, spa_id):
-        try:
-            result = client.userfieldconfig.add(
-                module_id="crm",
-                field={
-                    "entityId": f"CRM_{spa_id}",
-                    # код поля начинается с UF_ + идентификатор объекта
-                    "fieldName": f"UF_CRM_{spa_id}_NEW_REST_LIST",
-                    "userTypeId": "enumeration",
-                    "multiple": "Y",
-                    "editFormLabel": {
-                        "ru": "Список характеристик",
-                        "en": "List of characteristics",
-                    },
-                    "enum": [
-                        {"value": "Характеристика 1", "def": "N", "sort": 100},
-                        {"value": "Характеристика 2", "def": "Y", "sort": 200},
-                    ],
-                },
-            ).response
-        except BitrixAPIError as error:
-            print(f"Ошибка создания пользовательского поля: {error}")
-        else:
-            print("Пользовательское поле успешно создано:")
-            print(result.result)
-
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    get_crm_type_and_add_user_field(client)
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

@@ -76,6 +76,27 @@ https://your-domain.example/handler.php
     // в конце работы страницы: $b24.destroy()
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixApp, BitrixToken, Client
+
+    bitrix_app = BitrixApp(
+        client_id="local.xxxxxxxx.xxxxxxxx",
+        client_secret="yyyyyyyy",
+    )
+
+    # auth приходит в запросе установки или вызова приложения
+    client = Client(BitrixToken(
+        domain=auth["domain"],
+        auth_token=auth["access_token"],
+        refresh_token=auth["refresh_token"],
+        bitrix_app=bitrix_app,
+    ))
+    ```
+
+
 - PHP
 
     ```php
@@ -99,27 +120,6 @@ https://your-domain.example/handler.php
         $appProfile
     );
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixApp, BitrixToken, Client
-
-    bitrix_app = BitrixApp(
-        client_id="local.xxxxxxxx.xxxxxxxx",
-        client_secret="yyyyyyyy",
-    )
-
-    # auth приходит в запросе установки или вызова приложения
-    client = Client(BitrixToken(
-        domain=auth["domain"],
-        auth_token=auth["access_token"],
-        refresh_token=auth["refresh_token"],
-        bitrix_app=bitrix_app,
-    ))
-    ```
-
 {% endlist %}
 
 ## 1\. Зарегистрируем тип поля
@@ -165,6 +165,20 @@ https://your-domain.example/handler.php
     console.info('User field type registered')
     ```
 
+- Python
+
+    ```python
+    bitrix_response = client.userfieldtype.add(
+        "phone_data",
+        "https://your-domain.example/handler.php",
+        title="Phone data",
+        description="Lead phone data field",
+        options={"height": 60},
+    ).response
+    print("User field type registered" if bitrix_response.result else "Error")
+    ```
+
+
 - PHP
 
     ```php
@@ -187,20 +201,6 @@ https://your-domain.example/handler.php
     $isRegistered = $response->getResponseData()->getResult()[0];
     echo $isRegistered ? 'User field type registered' : 'Error';
     ```
-
-- Python
-
-    ```python
-    bitrix_response = client.userfieldtype.add(
-        "phone_data",
-        "https://your-domain.example/handler.php",
-        title="Phone data",
-        description="Lead phone data field",
-        options={"height": 60},
-    ).response
-    print("User field type registered" if bitrix_response.result else "Error")
-    ```
-
 {% endlist %}
 
 Если тип поля успешно зарегистрирован, метод вернет `true`. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [userfieldtype.add](../../../api-reference/widgets/user-field/userfieldtype-add.md).
@@ -247,6 +247,21 @@ https://your-domain.example/handler.php
     console.info('Full user type ID: ' + fullUserTypeId)
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError
+
+    try:
+        application_id = client.app.info().response.result["ID"]
+        full_user_type_id = f"rest_{application_id}_phone_data"
+
+        print("Full user type ID:", full_user_type_id)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
+
 - PHP
 
     ```php
@@ -265,21 +280,6 @@ https://your-domain.example/handler.php
         echo $exception->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError
-
-    try:
-        application_id = client.app.info().response.result["ID"]
-        full_user_type_id = f"rest_{application_id}_phone_data"
-
-        print("Full user type ID:", full_user_type_id)
-    except BitrixAPIError as error:
-        print(error)
-    ```
-
 {% endlist %}
 
 Для приложения с `ID = 123` полный код типа будет `rest_123_phone_data`.
@@ -354,6 +354,36 @@ https://your-domain.example/handler.php
     console.info('Lead field created, ID: ' + response.getData().result)
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError
+
+    application_id = 123
+    registered_user_type_id = "phone_data"
+    user_type_id = f"rest_{application_id}_{registered_user_type_id}"
+    field_name = "PHONE_DATA"
+
+    try:
+        bitrix_response = client.crm.lead.userfield.add(
+            fields={
+                "USER_TYPE_ID": user_type_id,
+                "FIELD_NAME": field_name,
+                "XML_ID": field_name,
+                "MANDATORY": "N",
+                "SHOW_IN_LIST": "Y",
+                "EDIT_IN_LIST": "Y",
+                "EDIT_FORM_LABEL": "Phone data",
+                "LIST_COLUMN_LABEL": "Phone data",
+                "SETTINGS": {},
+            },
+        ).response
+        print("Lead field created, ID:", bitrix_response.result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
+
 - PHP
 
     ```php
@@ -386,36 +416,6 @@ https://your-domain.example/handler.php
         echo $exception->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError
-
-    application_id = 123
-    registered_user_type_id = "phone_data"
-    user_type_id = f"rest_{application_id}_{registered_user_type_id}"
-    field_name = "PHONE_DATA"
-
-    try:
-        bitrix_response = client.crm.lead.userfield.add(
-            fields={
-                "USER_TYPE_ID": user_type_id,
-                "FIELD_NAME": field_name,
-                "XML_ID": field_name,
-                "MANDATORY": "N",
-                "SHOW_IN_LIST": "Y",
-                "EDIT_IN_LIST": "Y",
-                "EDIT_FORM_LABEL": "Phone data",
-                "LIST_COLUMN_LABEL": "Phone data",
-                "SETTINGS": {},
-            },
-        ).response
-        print("Lead field created, ID:", bitrix_response.result)
-    except BitrixAPIError as error:
-        print(error)
-    ```
-
 {% endlist %}
 
 Если поле успешно создано, метод вернет его идентификатор. Если получили ошибку `error`, изучите описание возможных ошибок в документации метода [crm.lead.userfield.add](../../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md).
@@ -535,6 +535,97 @@ https://your-domain.example/handler.php
     </html>
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    from flask import Flask, request
+    from b24pysdk import BitrixApp, BitrixToken, Client
+    from b24pysdk.errors import BitrixAPIError
+    from markupsafe import escape
+    import json
+
+    app = Flask(__name__)
+
+    bitrix_app = BitrixApp(
+        client_id="local.xxxxxxxx.xxxxxxxx",
+        client_secret="yyyyyyyy",
+    )
+
+
+    @app.post("/handler")
+    def handler():
+        placement = request.form.get("PLACEMENT", "")
+        options = json.loads(request.form.get("PLACEMENT_OPTIONS", "{}") or "{}")
+
+        if placement != "USERFIELD_TYPE":
+            return ""
+
+        value = options.get("VALUE") or ""
+        error_message = ""
+        lead_id = int(options.get("ENTITY_VALUE_ID", 0))
+
+        if value == "" and options.get("ENTITY_ID") == "CRM_LEAD" and lead_id > 0:
+            # Битрикс24 передает обработчику домен и токен пользователя
+            client = Client(
+                BitrixToken(
+                    domain=request.args.get("DOMAIN", ""),
+                    auth_token=request.form.get("AUTH_ID", ""),
+                    bitrix_app=bitrix_app,
+                )
+            )
+
+            try:
+                item = client.crm.item.get(
+                    entity_type_id=1,
+                    bitrix_id=lead_id,
+                ).response.result["item"]
+
+                phone = next(
+                    (
+                        field["value"].strip()
+                        for field in item.get("fm") or []
+                        if field.get("typeId") == "PHONE" and (field.get("value") or "").strip()
+                    ),
+                    (item.get("phone") or "").strip(),
+                )
+
+                value = f"Lead phone: {phone}" if phone else "Phone is empty"
+            except BitrixAPIError as error:
+                error_message = str(error)
+
+        background = "#fff" if options.get("MODE") == "edit" else "#f9fafb"
+
+        if options.get("MODE") == "edit":
+            # Значение в форму карточки записывает код внутри iframe поля
+            script = """<script type="module">
+                    import { initializeB24Frame } from '@bitrix24/b24jssdk'
+
+                    const $b24 = await initializeB24Frame()
+                    const input = document.getElementById('phone-data')
+
+                    input.addEventListener('keyup', () => $b24.placement.setValue(input.value))
+                    $b24.placement.setValue(input.value)
+                </script>"""
+
+            body = f"""
+                <input id="phone-data" type="text" style="width: 90%;" value="{escape(value)}">
+                {script}
+            """
+        else:
+            body = escape(value)
+
+        return f"""<!DOCTYPE html>
+    <html lang="ru">
+        <head><meta charset="UTF-8"><title>Phone data</title></head>
+        <body style="margin: 0; padding: 0; background-color: {background};">
+            {f'<div>{escape(error_message)}</div>' if error_message else ''}
+            {body}
+        </body>
+    </html>"""
+    ```
+
+
 - PHP
 
     ```php
@@ -644,97 +735,6 @@ https://your-domain.example/handler.php
         </body>
     </html>
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    from flask import Flask, request
-    from b24pysdk import BitrixApp, BitrixToken, Client
-    from b24pysdk.errors import BitrixAPIError
-    from markupsafe import escape
-    import json
-
-    app = Flask(__name__)
-
-    bitrix_app = BitrixApp(
-        client_id="local.xxxxxxxx.xxxxxxxx",
-        client_secret="yyyyyyyy",
-    )
-
-
-    @app.post("/handler")
-    def handler():
-        placement = request.form.get("PLACEMENT", "")
-        options = json.loads(request.form.get("PLACEMENT_OPTIONS", "{}") or "{}")
-
-        if placement != "USERFIELD_TYPE":
-            return ""
-
-        value = options.get("VALUE") or ""
-        error_message = ""
-        lead_id = int(options.get("ENTITY_VALUE_ID", 0))
-
-        if value == "" and options.get("ENTITY_ID") == "CRM_LEAD" and lead_id > 0:
-            # Битрикс24 передает обработчику домен и токен пользователя
-            client = Client(
-                BitrixToken(
-                    domain=request.args.get("DOMAIN", ""),
-                    auth_token=request.form.get("AUTH_ID", ""),
-                    bitrix_app=bitrix_app,
-                )
-            )
-
-            try:
-                item = client.crm.item.get(
-                    entity_type_id=1,
-                    bitrix_id=lead_id,
-                ).response.result["item"]
-
-                phone = next(
-                    (
-                        field["value"].strip()
-                        for field in item.get("fm") or []
-                        if field.get("typeId") == "PHONE" and (field.get("value") or "").strip()
-                    ),
-                    (item.get("phone") or "").strip(),
-                )
-
-                value = f"Lead phone: {phone}" if phone else "Phone is empty"
-            except BitrixAPIError as error:
-                error_message = str(error)
-
-        background = "#fff" if options.get("MODE") == "edit" else "#f9fafb"
-
-        if options.get("MODE") == "edit":
-            # Значение в форму карточки записывает код внутри iframe поля
-            script = """<script type="module">
-                    import { initializeB24Frame } from '@bitrix24/b24jssdk'
-
-                    const $b24 = await initializeB24Frame()
-                    const input = document.getElementById('phone-data')
-
-                    input.addEventListener('keyup', () => $b24.placement.setValue(input.value))
-                    $b24.placement.setValue(input.value)
-                </script>"""
-
-            body = f"""
-                <input id="phone-data" type="text" style="width: 90%;" value="{escape(value)}">
-                {script}
-            """
-        else:
-            body = escape(value)
-
-        return f"""<!DOCTYPE html>
-    <html lang="ru">
-        <head><meta charset="UTF-8"><title>Phone data</title></head>
-        <body style="margin: 0; padding: 0; background-color: {background};">
-            {f'<div>{escape(error_message)}</div>' if error_message else ''}
-            {body}
-        </body>
-    </html>"""
-    ```
-
 {% endlist %}
 
 Метод `crm.item.get` возвращает объект `item` с полями лида. В примере телефон берется из массива `fm`, который содержит множественные поля: телефоны, e-mail, сайты и мессенджеры.

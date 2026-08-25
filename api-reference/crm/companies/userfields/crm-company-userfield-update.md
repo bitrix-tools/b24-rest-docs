@@ -457,34 +457,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->companyUserfield()
-            ->update(
-                536,
-                [
-                    'MANDATORY' => 'N',
-                    'SHOW_FILTER' => 'N',
-                    'SETTINGS' => [
-                        'DEFAULT_VALUE' => 'Привет, мир! Значение по умолчанию (изменено)',
-                        'ROWS' => 10,
-                    ],
-                    'SORT' => 2000,
-                    'EDIT_IN_LIST' => 'N',
-                    'LIST_FILTER_LABEL' => 'Привет, мир! Фильтр (изменено)',
-                ]
-            );
-
-        print($result->isSuccess() ? 'Updated' : 'Failed');
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
-    ```
-
 - Python
 
     Пример
@@ -540,6 +512,34 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->companyUserfield()
+            ->update(
+                536,
+                [
+                    'MANDATORY' => 'N',
+                    'SHOW_FILTER' => 'N',
+                    'SETTINGS' => [
+                        'DEFAULT_VALUE' => 'Привет, мир! Значение по умолчанию (изменено)',
+                        'ROWS' => 10,
+                    ],
+                    'SORT' => 2000,
+                    'EDIT_IN_LIST' => 'N',
+                    'LIST_FILTER_LABEL' => 'Привет, мир! Фильтр (изменено)',
+                ]
+            );
+
+        print($result->isSuccess() ? 'Updated' : 'Failed');
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 - BX24.js

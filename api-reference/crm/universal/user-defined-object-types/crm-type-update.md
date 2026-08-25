@@ -243,35 +243,6 @@
         </script>
         ```
 
-    - PHP
-
-        ```php
-        require_once('crest.php');
-
-        $result = CRest::call(
-            'crm.type.update',
-            [
-                'id' => 20,
-                'fields' => [
-                    'isAutomationEnabled' => "N",
-                    'isBeginCloseDatesEnabled' => "N",
-                    'isClientEnabled' => "N",
-                    'isObserversEnabled' => "N",
-                    'isSourceEnabled' => "Y",
-                    'isStagesEnabled' => "Y",
-                    'isUseInUserfieldEnabled' => "Y",
-                    'linkedUserFields' => [
-                        "TASKS_TASK|UF_CRM_TASK" => "true",
-                    ],
-                ]
-            ]
-        );
-
-        echo '<PRE>';
-        print_r($result);
-        echo '</PRE>';
-        ```
-
     - Python
 
         ```python
@@ -311,6 +282,35 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.type.update',
+            [
+                'id' => 20,
+                'fields' => [
+                    'isAutomationEnabled' => "N",
+                    'isBeginCloseDatesEnabled' => "N",
+                    'isClientEnabled' => "N",
+                    'isObserversEnabled' => "N",
+                    'isSourceEnabled' => "Y",
+                    'isStagesEnabled' => "Y",
+                    'isUseInUserfieldEnabled' => "Y",
+                    'linkedUserFields' => [
+                        "TASKS_TASK|UF_CRM_TASK" => "true",
+                    ],
+                ]
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
 
     - Go
 

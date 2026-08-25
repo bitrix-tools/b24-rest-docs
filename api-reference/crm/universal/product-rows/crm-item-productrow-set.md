@@ -225,47 +225,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.item.productrow.set',
-                [
-                    'ownerType'   => 'D',
-                    'ownerId'     => 13143,
-                    'productRows' => [
-                        [
-                            'productId' => 9621,
-                            'price'     => 99999.99,
-                            'quantity'  => 1,
-                            'sort'      => 10,
-                        ],
-                        [
-                            'productId' => 9623,
-                            'price'     => 15900.00,
-                            'quantity'  => 2,
-                            'sort'      => 10,
-                        ],
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error setting product rows: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -305,6 +264,47 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.productrow.set',
+                [
+                    'ownerType'   => 'D',
+                    'ownerId'     => 13143,
+                    'productRows' => [
+                        [
+                            'productId' => 9621,
+                            'price'     => 99999.99,
+                            'quantity'  => 1,
+                            'sort'      => 10,
+                        ],
+                        [
+                            'productId' => 9623,
+                            'price'     => 15900.00,
+                            'quantity'  => 2,
+                            'sort'      => 10,
+                        ],
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error setting product rows: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

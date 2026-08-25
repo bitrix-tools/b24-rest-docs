@@ -91,6 +91,50 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    deal_id = 18
+
+    activities = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 2,
+            "OWNER_ID": deal_id,
+            "COMPLETED": "N",
+        },
+        select=[
+            "ID",
+            "OWNER_TYPE_ID",
+            "OWNER_ID",
+            "SUBJECT",
+            "DEADLINE",
+            "COMPLETED",
+            "RESPONSIBLE_ID",
+        ],
+    ).response.result
+
+    if not activities:
+        print("Незакрытые дела не найдены")
+        raise SystemExit
+
+    activity = activities[0]
+    activity_id = int(activity["ID"])
+    owner_type_id = int(activity["OWNER_TYPE_ID"])
+    owner_id = int(activity["OWNER_ID"])
+    current_deadline = activity["DEADLINE"]
+    responsible_id = int(activity["RESPONSIBLE_ID"])
+    ```
+
+
 - PHP
 
     ```php
@@ -145,50 +189,6 @@
     $currentDeadline = $activity->DEADLINE;
     $responsibleId = $activity->RESPONSIBLE_ID;
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    deal_id = 18
-
-    activities = client.crm.activity.list(
-        filter={
-            "OWNER_TYPE_ID": 2,
-            "OWNER_ID": deal_id,
-            "COMPLETED": "N",
-        },
-        select=[
-            "ID",
-            "OWNER_TYPE_ID",
-            "OWNER_ID",
-            "SUBJECT",
-            "DEADLINE",
-            "COMPLETED",
-            "RESPONSIBLE_ID",
-        ],
-    ).response.result
-
-    if not activities:
-        print("Незакрытые дела не найдены")
-        raise SystemExit
-
-    activity = activities[0]
-    activity_id = int(activity["ID"])
-    owner_type_id = int(activity["OWNER_TYPE_ID"])
-    owner_id = int(activity["OWNER_ID"])
-    current_deadline = activity["DEADLINE"]
-    responsible_id = int(activity["RESPONSIBLE_ID"])
-    ```
-
 {% endlist %}
 
 Из первого элемента массива `result` возьмите значения для обновления дела. Поле `ID` — идентификатор найденного дела.
@@ -275,6 +275,46 @@
     }
     ```
 
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    activity_id = 555
+    owner_type_id = 2
+    owner_id = 18
+    responsible_id = 1
+    current_deadline = datetime.fromisoformat("2026-08-14T10:00:00+03:00")
+    tomorrow = datetime.now(current_deadline.tzinfo).date() + timedelta(days=1)
+    deadline = datetime.combine(tomorrow, current_deadline.timetz())
+
+    try:
+        response = client.crm.activity.todo.update(
+            bitrix_id=activity_id,
+            owner_type_id=owner_type_id,
+            owner_id=owner_id,
+            deadline=deadline,
+            title="Связаться с клиентом",
+            responsible_id=responsible_id,
+            ping_offsets=[0, 15],
+            color_id="2",
+        ).response
+        print(f"Дело обновлено: {response.result['id']}")
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    ```
+
+
 - PHP
 
     ```php
@@ -332,46 +372,6 @@
         echo 'Ошибка: ' . $exception->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    from datetime import datetime, timedelta
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    activity_id = 555
-    owner_type_id = 2
-    owner_id = 18
-    responsible_id = 1
-    current_deadline = datetime.fromisoformat("2026-08-14T10:00:00+03:00")
-    tomorrow = datetime.now(current_deadline.tzinfo).date() + timedelta(days=1)
-    deadline = datetime.combine(tomorrow, current_deadline.timetz())
-
-    try:
-        response = client.crm.activity.todo.update(
-            bitrix_id=activity_id,
-            owner_type_id=owner_type_id,
-            owner_id=owner_id,
-            deadline=deadline,
-            title="Связаться с клиентом",
-            responsible_id=responsible_id,
-            ping_offsets=[0, 15],
-            color_id="2",
-        ).response
-        print(f"Дело обновлено: {response.result['id']}")
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    ```
-
 {% endlist %}
 
 Если дело обновлено успешно, метод вернет идентификатор дела.

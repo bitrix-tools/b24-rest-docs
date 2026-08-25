@@ -101,6 +101,37 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        result = client.sale.basketitem.add(
+            fields={
+                "orderId": 891,
+                "productId": 7075,
+                "quantity": 4,
+                "currency": "RUB",
+                "customPrice": "Y",  # цену задаем сами, каталожная не применяется
+                "basePrice": 1030,  # цена товара в каталоге
+                "price": 1100,  # цена продажи
+                "discountPrice": -70,  # наценка, поэтому значение отрицательное
+            },
+        ).response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
 - PHP
 
     ```php
@@ -133,37 +164,6 @@
     echo '<PRE>';
     print_r($result->getId());
     echo '</PRE>';
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    try:
-        result = client.sale.basketitem.add(
-            fields={
-                "orderId": 891,
-                "productId": 7075,
-                "quantity": 4,
-                "currency": "RUB",
-                "customPrice": "Y",  # цену задаем сами, каталожная не применяется
-                "basePrice": 1030,  # цена товара в каталоге
-                "price": 1100,  # цена продажи
-                "discountPrice": -70,  # наценка, поэтому значение отрицательное
-            },
-        ).response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(error)
     ```
 
 - Go
@@ -485,6 +485,49 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        result = client.sale.basketitem.add(
+            fields={
+                "orderId": 891,
+                "productId": 0,  # позиции нет в каталоге
+                "name": "Настройка оборудования",
+                "quantity": 2,
+                "currency": "RUB",
+                "customPrice": "Y",
+                "basePrice": 1000,  # цена без скидки
+                "price": 900,  # цена продажи
+                "discountPrice": 100,  # скидка, поэтому значение положительное
+                "canBuy": "Y",
+                "weight": 40,
+                "measureCode": "796",
+                "measureName": "шт",
+                "sort": 400,
+                "xmlId": "service-setup-1",
+                "dimensions": 'a:3:{s:5:"WIDTH";i:244;s:6:"HEIGHT";i:100;s:6:"LENGTH";i:31;}',  # сериализованный массив
+                "vatRate": 0.1,  # ставка 10 %
+                "vatIncluded": "Y",
+                "productXmlId": "service-setup",
+            },
+        ).response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
+
 - PHP
 
     ```php
@@ -529,49 +572,6 @@
     print_r($result->getId());
     echo '</PRE>';
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    try:
-        result = client.sale.basketitem.add(
-            fields={
-                "orderId": 891,
-                "productId": 0,  # позиции нет в каталоге
-                "name": "Настройка оборудования",
-                "quantity": 2,
-                "currency": "RUB",
-                "customPrice": "Y",
-                "basePrice": 1000,  # цена без скидки
-                "price": 900,  # цена продажи
-                "discountPrice": 100,  # скидка, поэтому значение положительное
-                "canBuy": "Y",
-                "weight": 40,
-                "measureCode": "796",
-                "measureName": "шт",
-                "sort": 400,
-                "xmlId": "service-setup-1",
-                "dimensions": 'a:3:{s:5:"WIDTH";i:244;s:6:"HEIGHT";i:100;s:6:"LENGTH";i:31;}',  # сериализованный массив
-                "vatRate": 0.1,  # ставка 10 %
-                "vatIncluded": "Y",
-                "productXmlId": "service-setup",
-            },
-        ).response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(error)
-    ```
-
 {% endlist %}
 
 Ответ:
@@ -647,19 +647,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getSaleScope()->basketItem()->list(
-        ['id', 'productId', 'name', 'quantity', 'basePrice', 'price', 'discountPrice', 'customPrice'],
-        ['=orderId' => 891]
-    );
-
-    echo '<PRE>';
-    print_r($result->getBasketItems());
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -673,6 +660,19 @@
         print(error)
     ```
 
+
+- PHP
+
+    ```php
+    $result = $sb->getSaleScope()->basketItem()->list(
+        ['id', 'productId', 'name', 'quantity', 'basePrice', 'price', 'discountPrice', 'customPrice'],
+        ['=orderId' => 891]
+    );
+
+    echo '<PRE>';
+    print_r($result->getBasketItems());
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Ответ:

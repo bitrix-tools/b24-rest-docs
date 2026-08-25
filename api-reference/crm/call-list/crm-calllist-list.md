@@ -188,36 +188,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.calllist.list',
-                [
-                    'SELECT' => ['ID', 'CREATED_BY_ID'],
-                    'FILTER' => ['ENTITY_TYPE_ID' => 3],
-                    'ORDER'  => ['ID' => 'DESC'],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching call list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -353,6 +323,36 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.calllist.list',
+                [
+                    'SELECT' => ['ID', 'CREATED_BY_ID'],
+                    'FILTER' => ['ENTITY_TYPE_ID' => 3],
+                    'ORDER'  => ['ID' => 'DESC'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching call list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

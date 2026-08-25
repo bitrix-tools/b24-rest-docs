@@ -228,39 +228,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.item.productrow.list',
-                [
-                    'filter' => [
-                        "=ownerType" => 'D',
-                        "=ownerId"   => 13142,
-                        ">price"     => 5000,
-                    ],
-                    'order'  => [
-                        'price' => "desc"
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error listing product rows: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -356,6 +323,39 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.productrow.list',
+                [
+                    'filter' => [
+                        "=ownerType" => 'D',
+                        "=ownerId"   => 13142,
+                        ">price"     => 5000,
+                    ],
+                    'order'  => [
+                        'price' => "desc"
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error listing product rows: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

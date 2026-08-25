@@ -70,23 +70,6 @@
     let resultContact = response.getData().result
     ```
 
-- PHP
-
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $contactID = 1;
-    $resultContact = $sb->getCRMScope()->contact()->get($contactID)->contact();
-    ```
-
 - Python
 
     ```python
@@ -105,6 +88,23 @@
     ).response.result
     ```
 
+
+- PHP
+
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $contactID = 1;
+    $resultContact = $sb->getCRMScope()->contact()->get($contactID)->contact();
+    ```
 {% endlist %}
 
 В результате получим данные клиента. Для следующих шагов сохраните два значения:
@@ -156,15 +156,6 @@
     let resultUser = responseUser.getData().result
     ```
 
-- PHP
-
-    ```php
-    $resultUser = $sb->getUserScope()->user()->get(
-        [],
-        ['ID' => $resultContact->ASSIGNED_BY_ID]
-    )->getUsers();
-    ```
-
 - Python
 
     ```python
@@ -175,6 +166,15 @@
     ).response.result
     ```
 
+
+- PHP
+
+    ```php
+    $resultUser = $sb->getUserScope()->user()->get(
+        [],
+        ['ID' => $resultContact->ASSIGNED_BY_ID]
+    )->getUsers();
+    ```
 {% endlist %}
 
 Метод возвращает список, даже когда фильтр отбирает одного пользователя. Из первого элемента понадобятся три поля — `NAME`, `LAST_NAME` и `EMAIL`: из них соберется поле «От кого». Поле `EMAIL` у пользователя — обычная строка, а не мультиполе, как у контакта.
@@ -210,14 +210,6 @@
     let staff = resultUser[0];
     ```
 
-- PHP
-
-    ```php
-    $emails = $resultContact->EMAIL;
-    $contactEmail = reset($emails);
-    $staff = reset($resultUser);
-    ```
-
 - Python
 
     ```python
@@ -225,6 +217,14 @@
     staff = result_user[0]
     ```
 
+
+- PHP
+
+    ```php
+    $emails = $resultContact->EMAIL;
+    $contactEmail = reset($emails);
+    $staff = reset($resultUser);
+    ```
 {% endlist %}
 
 Чтобы добавить дело и отправить письмо, используем метод [crm.activity.add](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-add.md) с параметрами:
@@ -305,39 +305,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    $resultActivity = $sb->getCRMScope()->activity()->add(
-        [
-            "SUBJECT" => "subject email now",
-            "DESCRIPTION" => "body email now",
-            "DESCRIPTION_TYPE" => 3,// тип текста (crm.enum.contenttype): обычный, HTML, BB-код
-            "COMPLETED" => "Y",// отправить сейчас
-            "DIRECTION" => 2,// crm.enum.activitydirection
-            "OWNER_ID" => $contactID,
-            "OWNER_TYPE_ID" => 3, // crm.enum.ownertype
-            "TYPE_ID" => 4, // crm.enum.activitytype
-            "COMMUNICATIONS" => [
-                [
-                    'VALUE' => $contactEmail->VALUE,
-                    'ENTITY_ID' => $contactID,
-                    'ENTITY_TYPE_ID' => 3// crm.enum.ownertype
-                ]
-            ],
-            "START_TIME" => date("Y-m-d H:i:s", time()),
-            "END_TIME" => date("Y-m-d H:i:s", time() + 3600),
-            "RESPONSIBLE_ID" => $staff->ID,
-            'SETTINGS' => [
-                'MESSAGE_FROM' => implode(
-                    ' ',
-                    [$staff->NAME, $staff->LAST_NAME, '<' . $staff->EMAIL . '>']
-                ),
-            ],
-        ]
-    )->getId();
-    ```
-
 - Python
 
     ```python
@@ -372,6 +339,39 @@
     ).response.result
     ```
 
+
+- PHP
+
+    ```php
+    $resultActivity = $sb->getCRMScope()->activity()->add(
+        [
+            "SUBJECT" => "subject email now",
+            "DESCRIPTION" => "body email now",
+            "DESCRIPTION_TYPE" => 3,// тип текста (crm.enum.contenttype): обычный, HTML, BB-код
+            "COMPLETED" => "Y",// отправить сейчас
+            "DIRECTION" => 2,// crm.enum.activitydirection
+            "OWNER_ID" => $contactID,
+            "OWNER_TYPE_ID" => 3, // crm.enum.ownertype
+            "TYPE_ID" => 4, // crm.enum.activitytype
+            "COMMUNICATIONS" => [
+                [
+                    'VALUE' => $contactEmail->VALUE,
+                    'ENTITY_ID' => $contactID,
+                    'ENTITY_TYPE_ID' => 3// crm.enum.ownertype
+                ]
+            ],
+            "START_TIME" => date("Y-m-d H:i:s", time()),
+            "END_TIME" => date("Y-m-d H:i:s", time() + 3600),
+            "RESPONSIBLE_ID" => $staff->ID,
+            'SETTINGS' => [
+                'MESSAGE_FROM' => implode(
+                    ' ',
+                    [$staff->NAME, $staff->LAST_NAME, '<' . $staff->EMAIL . '>']
+                ),
+            ],
+        ]
+    )->getId();
+    ```
 {% endlist %}
 
 Мы создали дело и в ответ получили его идентификатор `3165`. Обертки в ответе нет: `result` — это сразу число. Идентификатор можно использовать в методах [изменения](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-update.md) и [удаления](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-delete.md) дела.
@@ -411,6 +411,20 @@
     console.dir(checkResponse.getData().result);
     ```
 
+- Python
+
+    ```python
+    activities = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 3,
+            "OWNER_ID": contact_id,
+        },
+        select=["*", "COMMUNICATIONS"],
+        order={"ID": "DESC"},
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -427,20 +441,6 @@
         ]
     )->getResponseData()->getResult();
     ```
-
-- Python
-
-    ```python
-    activities = client.crm.activity.list(
-        filter={
-            "OWNER_TYPE_ID": 3,
-            "OWNER_ID": contact_id,
-        },
-        select=["*", "COMMUNICATIONS"],
-        order={"ID": "DESC"},
-    ).response.result
-    ```
-
 {% endlist %}
 
 Сценарий выполнен, если в ответе есть объект с `ID` из шага 3, у него `TYPE_ID` равен `4`, `DIRECTION` — `2`, `COMPLETED` — `Y`, а в `COMMUNICATIONS` лежит адрес клиента с типом `EMAIL`.
@@ -594,6 +594,73 @@
     createEmailActivityForContact();
     ```
 
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    contact_id = 1
+
+    try:
+        contact = client.crm.contact.get(bitrix_id=contact_id).response.result
+        result_activity = None
+
+        if contact.get("ASSIGNED_BY_ID") and contact.get("EMAIL"):
+            result_user = client.user.get(
+                filter={"ID": contact["ASSIGNED_BY_ID"]},
+            ).response.result
+
+            if result_user:
+                contact_email = contact["EMAIL"][0]
+                staff = result_user[0]
+
+                if contact_email.get("VALUE") and staff.get("EMAIL"):
+                    now = datetime.now()
+                    result_activity = client.crm.activity.add(
+                        fields={
+                            "SUBJECT": "subject email now",
+                            "DESCRIPTION": "body email now",
+                            "DESCRIPTION_TYPE": 3,
+                            "COMPLETED": "Y",
+                            "DIRECTION": 2,
+                            "OWNER_ID": contact_id,
+                            "OWNER_TYPE_ID": 3,
+                            "TYPE_ID": 4,
+                            "COMMUNICATIONS": [
+                                {
+                                    "VALUE": contact_email["VALUE"],
+                                    "ENTITY_ID": contact_id,
+                                    "ENTITY_TYPE_ID": 3,
+                                }
+                            ],
+                            "START_TIME": now.isoformat(timespec="seconds"),
+                            "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
+                            "RESPONSIBLE_ID": staff["ID"],
+                            "SETTINGS": {
+                                "MESSAGE_FROM": f"{staff['NAME']} {staff['LAST_NAME']} <{staff['EMAIL']}>"
+                            },
+                        }
+                    ).response.result
+
+        if result_activity:
+            print({"message": "Activity add"})
+        else:
+            print({"message": "Activity not added"})
+    except BitrixAPIError as error:
+        print({"message": f"Activity not added: {error}"})
+    ```
+
+
 - PHP
 
     ```php
@@ -668,73 +735,6 @@
         echo json_encode(['message' => 'Activity not added: ' . $e->getMessage()]);
     }
     ```
-
-- Python
-
-    ```python
-    from datetime import datetime, timedelta
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    contact_id = 1
-
-    try:
-        contact = client.crm.contact.get(bitrix_id=contact_id).response.result
-        result_activity = None
-
-        if contact.get("ASSIGNED_BY_ID") and contact.get("EMAIL"):
-            result_user = client.user.get(
-                filter={"ID": contact["ASSIGNED_BY_ID"]},
-            ).response.result
-
-            if result_user:
-                contact_email = contact["EMAIL"][0]
-                staff = result_user[0]
-
-                if contact_email.get("VALUE") and staff.get("EMAIL"):
-                    now = datetime.now()
-                    result_activity = client.crm.activity.add(
-                        fields={
-                            "SUBJECT": "subject email now",
-                            "DESCRIPTION": "body email now",
-                            "DESCRIPTION_TYPE": 3,
-                            "COMPLETED": "Y",
-                            "DIRECTION": 2,
-                            "OWNER_ID": contact_id,
-                            "OWNER_TYPE_ID": 3,
-                            "TYPE_ID": 4,
-                            "COMMUNICATIONS": [
-                                {
-                                    "VALUE": contact_email["VALUE"],
-                                    "ENTITY_ID": contact_id,
-                                    "ENTITY_TYPE_ID": 3,
-                                }
-                            ],
-                            "START_TIME": now.isoformat(timespec="seconds"),
-                            "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
-                            "RESPONSIBLE_ID": staff["ID"],
-                            "SETTINGS": {
-                                "MESSAGE_FROM": f"{staff['NAME']} {staff['LAST_NAME']} <{staff['EMAIL']}>"
-                            },
-                        }
-                    ).response.result
-
-        if result_activity:
-            print({"message": "Activity add"})
-        else:
-            print({"message": "Activity not added"})
-    except BitrixAPIError as error:
-        print({"message": f"Activity not added: {error}"})
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

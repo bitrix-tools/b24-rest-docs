@@ -232,36 +232,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.documentgenerator.template.list',
-                [
-                    'select' => ['id', 'name', 'region', 'entityTypeId', 'users'],
-                    'order' => ['id' => 'desc'],
-                    'filter' => ['region' => 'ru', 'active' => 'Y'],
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo '<pre>';
-        print_r($result);
-        echo '</pre>';
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting templates list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -374,6 +344,36 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.documentgenerator.template.list',
+                [
+                    'select' => ['id', 'name', 'region', 'entityTypeId', 'users'],
+                    'order' => ['id' => 'desc'],
+                    'filter' => ['region' => 'ru', 'active' => 'Y'],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting templates list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

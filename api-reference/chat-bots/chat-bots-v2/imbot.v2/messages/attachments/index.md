@@ -64,20 +64,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    'ATTACH' => [
-        'ID' => 1,
-        'COLOR_TOKEN' => 'secondary',
-        'COLOR' => '#29619b',
-        'BLOCKS' => [
-            [...],
-            [...]
-        ]
-    ]
-    ```
-
 - Python
 
     ```python
@@ -92,6 +78,20 @@
     }
     ```
 
+
+- PHP
+
+    ```php
+    'ATTACH' => [
+        'ID' => 1,
+        'COLOR_TOKEN' => 'secondary',
+        'COLOR' => '#29619b',
+        'BLOCKS' => [
+            [...],
+            [...]
+        ]
+    ]
+    ```
 {% endlist %}
 
 ### Поля полной формы
@@ -166,41 +166,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'imbot.v2.Chat.Message.send',
-                [
-                    'botId' => 456,
-                    'dialogId' => 'chat20921',
-                    'fields' => [
-                        'message' => 'Вложение с цветом primary',
-                        'attach' => [
-                            'ID' => 1,
-                            'COLOR_TOKEN' => 'primary',
-                            'COLOR' => '#29619b',
-                            'BLOCKS' => [
-                                [
-                                    'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult()['id'];
-        echo 'Created message ID: ' . $result;
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -237,6 +202,41 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.v2.Chat.Message.send',
+                [
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'Вложение с цветом primary',
+                        'attach' => [
+                            'ID' => 1,
+                            'COLOR_TOKEN' => 'primary',
+                            'COLOR' => '#29619b',
+                            'BLOCKS' => [
+                                [
+                                    'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js
@@ -321,15 +321,6 @@
     ]
     ```
 
-- PHP
-
-    ```php
-    'ATTACH' => [
-        [...],
-        [...]
-    ]
-    ```
-
 - Python
 
     ```python
@@ -339,6 +330,15 @@
     ]
     ```
 
+
+- PHP
+
+    ```php
+    'ATTACH' => [
+        [...],
+        [...]
+    ]
+    ```
 {% endlist %}
 
 ![Краткая версия ATTACH](./_images/short_attach.png){width=520}
@@ -393,36 +393,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'imbot.v2.Chat.Message.send',
-                [
-                    'botId' => 456,
-                    'dialogId' => 'chat20921',
-                    'fields' => [
-                        'message' => 'Блок текста',
-                        'attach' => [
-                            [
-                                'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                            ]
-                        ]
-                    ]
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult()['id'];
-        echo 'Created message ID: ' . $result;
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -454,6 +424,36 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'imbot.v2.Chat.Message.send',
+                [
+                    'botId' => 456,
+                    'dialogId' => 'chat20921',
+                    'fields' => [
+                        'message' => 'Блок текста',
+                        'attach' => [
+                            [
+                                'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
+                            ]
+                        ]
+                    ]
+                ]
+            );
+
+        $result = $response->getResponseData()->getResult()['id'];
+        echo 'Created message ID: ' . $result;
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

@@ -437,84 +437,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.stagehistory.list',
-                [
-                    'entityTypeId' => 130,
-                    'order' => ['ID' => 'ASC'],
-                    'filter' => ['OWNER_ID' => 29],
-                    'select' => ['ID', 'STAGE_ID', 'CREATED_TIME'],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        
-        if ($result->more()) {
-            $result->next();
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error listing stage history: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        "crm.stagehistory.list",
-        {
-            entityTypeId: 130,
-            order: { "ID": "ASC" },
-            filter: { "OWNER_ID": 29 },
-            select: [ "ID", "STAGE_ID", "CREATED_TIME" ]
-        },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error());
-            else
-            {
-                console.dir(result.data());
-                if(result.more())
-                    result.next();
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.stagehistory.list',
-        [
-            'entityTypeId' => 130,
-            'order' => ['ID' => 'ASC'],
-            'filter' => ['OWNER_ID' => 29],
-            'select' => ['ID', 'STAGE_ID', 'CREATED_TIME']
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-
 - Python
 
     ```python
@@ -621,6 +543,84 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.stagehistory.list',
+                [
+                    'entityTypeId' => 130,
+                    'order' => ['ID' => 'ASC'],
+                    'filter' => ['OWNER_ID' => 29],
+                    'select' => ['ID', 'STAGE_ID', 'CREATED_TIME'],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        
+        if ($result->more()) {
+            $result->next();
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error listing stage history: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.stagehistory.list",
+        {
+            entityTypeId: 130,
+            order: { "ID": "ASC" },
+            filter: { "OWNER_ID": 29 },
+            select: [ "ID", "STAGE_ID", "CREATED_TIME" ]
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+            {
+                console.dir(result.data());
+                if(result.more())
+                    result.next();
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.stagehistory.list',
+        [
+            'entityTypeId' => 130,
+            'order' => ['ID' => 'ASC'],
+            'filter' => ['OWNER_ID' => 29],
+            'select' => ['ID', 'STAGE_ID', 'CREATED_TIME']
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+
 - Go
 
     ```go

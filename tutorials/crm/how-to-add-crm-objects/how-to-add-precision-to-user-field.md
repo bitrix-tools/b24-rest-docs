@@ -59,20 +59,6 @@
     // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
     ```
 
-- PHP
-  
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-    ```
-
 - Python
 
     ```python
@@ -85,6 +71,20 @@
             webhook_token="user_id/webhook_key",
         )
     )
+    ```
+
+- PHP
+  
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
     ```
 
 - Go
@@ -158,6 +158,31 @@
     console.log(createdField.id, createdField.settings.PRECISION);
     ```
 
+- Python
+
+    ```python
+    try:
+        created_field = client.userfieldconfig.add(
+            module_id="crm",
+            field={
+                "entityId": "CRM_DEAL",
+                "fieldName": "UF_CRM_DEAL_NEW_DOUBLE_FIELD",
+                "userTypeId": "double",
+                "editFormLabel": {
+                    "ru": "Число с округлением",
+                    "en": "PRECISION double",
+                },
+                "settings": {
+                    "PRECISION": 3,
+                },
+            },
+        ).response.result["field"]
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        print(created_field["id"], created_field["settings"]["PRECISION"])
+    ```
+
 - PHP
   
     ```php
@@ -182,31 +207,6 @@
     )->getResponseData()->getResult()['field'];
 
     echo $createdField['id'] . ': ' . $createdField['settings']['PRECISION'];
-    ```
-
-- Python
-
-    ```python
-    try:
-        created_field = client.userfieldconfig.add(
-            module_id="crm",
-            field={
-                "entityId": "CRM_DEAL",
-                "fieldName": "UF_CRM_DEAL_NEW_DOUBLE_FIELD",
-                "userTypeId": "double",
-                "editFormLabel": {
-                    "ru": "Число с округлением",
-                    "en": "PRECISION double",
-                },
-                "settings": {
-                    "PRECISION": 3,
-                },
-            },
-        ).response.result["field"]
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    else:
-        print(created_field["id"], created_field["settings"]["PRECISION"])
     ```
 
 - Go
@@ -358,6 +358,26 @@
     }
     ```
 
+- Python
+
+    ```python
+    fields = client.crm.deal.userfield.list(
+        filter={
+            "LANG": "ru",
+            "USER_TYPE_ID": "double",
+        }
+    ).response.result
+
+    # Выбираем нужное поле по названию — замените на название своего поля
+    target_field = next(
+        (field for field in fields if field["EDIT_FORM_LABEL"] == "Сумма к возврату"),
+        None,
+    )
+
+    if target_field is None:
+        raise RuntimeError("Поле с указанным названием не найдено")
+    ```
+
 - PHP
   
     ```php
@@ -381,26 +401,6 @@
     if ($targetField === null) {
         throw new \RuntimeException('Поле с указанным названием не найдено');
     }
-    ```
-
-- Python
-
-    ```python
-    fields = client.crm.deal.userfield.list(
-        filter={
-            "LANG": "ru",
-            "USER_TYPE_ID": "double",
-        }
-    ).response.result
-
-    # Выбираем нужное поле по названию — замените на название своего поля
-    target_field = next(
-        (field for field in fields if field["EDIT_FORM_LABEL"] == "Сумма к возврату"),
-        None,
-    )
-
-    if target_field is None:
-        raise RuntimeError("Поле с указанным названием не найдено")
     ```
 
 - Go
@@ -558,6 +558,23 @@
     console.log(updatedField.id, updatedField.settings.PRECISION);
     ```
 
+- Python
+
+    ```python
+    updated_field = client.userfieldconfig.update(
+        module_id="crm",
+        bitrix_id=int(target_field["ID"]),
+        field={
+            "settings": {
+                **target_field["SETTINGS"],  # Переносим текущие настройки из шага 1
+                "PRECISION": 3,
+            }
+        },
+    ).response.result["field"]
+
+    print(updated_field["id"], updated_field["settings"]["PRECISION"])
+    ```
+
 - PHP
   
     ```php
@@ -577,23 +594,6 @@
     )->getResponseData()->getResult()['field'];
 
     echo $updatedField['id'] . ': ' . $updatedField['settings']['PRECISION'];
-    ```
-
-- Python
-
-    ```python
-    updated_field = client.userfieldconfig.update(
-        module_id="crm",
-        bitrix_id=int(target_field["ID"]),
-        field={
-            "settings": {
-                **target_field["SETTINGS"],  # Переносим текущие настройки из шага 1
-                "PRECISION": 3,
-            }
-        },
-    ).response.result["field"]
-
-    print(updated_field["id"], updated_field["settings"]["PRECISION"])
     ```
 
 - Go
@@ -752,6 +752,64 @@
     updateUserField();
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    FIELD_LABEL = "Сумма к возврату"  # Название поля, которое нужно изменить
+    PRECISION = 3  # Количество знаков после запятой
+
+
+    def update_user_field(client, field_label: str, precision: int) -> None:
+        try:
+            # Шаг 1: получаем пользовательские поля сделок типа double
+            fields = client.crm.deal.userfield.list(
+                filter={
+                    "LANG": "ru",
+                    "USER_TYPE_ID": "double",
+                }
+            ).response.result
+
+            # Ответ crm.deal.userfield.list приходит в UPPER_SNAKE
+            target_field = next(
+                (field for field in fields if field["EDIT_FORM_LABEL"] == field_label),
+                None,
+            )
+
+            if target_field is None:
+                raise RuntimeError("Поле с указанным названием не найдено")
+
+            # Шаг 2: обновляем настройки найденного поля
+            updated_field = client.userfieldconfig.update(
+                module_id="crm",
+                bitrix_id=int(target_field["ID"]),
+                field={
+                    "settings": {
+                        **target_field["SETTINGS"],  # Переносим текущие настройки поля
+                        "PRECISION": precision,
+                    }
+                },
+            ).response.result["field"]
+        except (BitrixAPIError, RuntimeError) as error:
+            print(f"Ошибка: {error}")
+        else:
+            # Ответ userfieldconfig.update приходит в camelCase
+            print("Точность поля:", updated_field["settings"]["PRECISION"])
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    update_user_field(client, FIELD_LABEL, PRECISION)
+    ```
+
 - PHP
   
     ```php
@@ -818,64 +876,6 @@
     }
 
     updateUserField($sb, FIELD_LABEL, PRECISION);
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-
-    FIELD_LABEL = "Сумма к возврату"  # Название поля, которое нужно изменить
-    PRECISION = 3  # Количество знаков после запятой
-
-
-    def update_user_field(client, field_label: str, precision: int) -> None:
-        try:
-            # Шаг 1: получаем пользовательские поля сделок типа double
-            fields = client.crm.deal.userfield.list(
-                filter={
-                    "LANG": "ru",
-                    "USER_TYPE_ID": "double",
-                }
-            ).response.result
-
-            # Ответ crm.deal.userfield.list приходит в UPPER_SNAKE
-            target_field = next(
-                (field for field in fields if field["EDIT_FORM_LABEL"] == field_label),
-                None,
-            )
-
-            if target_field is None:
-                raise RuntimeError("Поле с указанным названием не найдено")
-
-            # Шаг 2: обновляем настройки найденного поля
-            updated_field = client.userfieldconfig.update(
-                module_id="crm",
-                bitrix_id=int(target_field["ID"]),
-                field={
-                    "settings": {
-                        **target_field["SETTINGS"],  # Переносим текущие настройки поля
-                        "PRECISION": precision,
-                    }
-                },
-            ).response.result["field"]
-        except (BitrixAPIError, RuntimeError) as error:
-            print(f"Ошибка: {error}")
-        else:
-            # Ответ userfieldconfig.update приходит в camelCase
-            print("Точность поля:", updated_field["settings"]["PRECISION"])
-
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    update_user_field(client, FIELD_LABEL, PRECISION)
     ```
 
 - Go

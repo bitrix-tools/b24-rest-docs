@@ -100,54 +100,6 @@
     </script>
     ```
 
-- PHP
-
-    ```html
-    <form id="form_to_crm" method="POST" action="form.php" enctype="multipart/form-data">
-        <!-- Имя (обязательное поле) -->
-        <input type="text" name="NAME" placeholder="Имя" required>
-        <!-- Фамилия -->
-        <input type="text" name="LAST_NAME" placeholder="Фамилия">
-        <!-- Название компании -->
-        <input type="text" name="COMPANY_TITLE" placeholder="Название компании">
-        <!-- Email -->
-        <input type="text" name="EMAIL" placeholder="Почта">
-        <!-- Телефон -->
-        <input type="text" name="PHONE" placeholder="Телефон">
-        <!-- Поле для одного файла -->
-        <input type="file" name="FILE">
-        <!-- Поле для нескольких файлов -->
-        <input type="file" name="FILES" multiple>
-        <!-- Кнопка отправки -->
-        <input type="submit" value="Отправить">
-    </form>
-
-    <!-- Подключаем jQuery для AJAX-запроса -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#form_to_crm').on('submit', function(el) {
-                el.preventDefault();
-                var formData = new FormData(this); // Собираем данные формы с файлами
-                $.ajax({
-                    method: 'POST',
-                    url: 'form.php',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        alert(data.message);
-                    },
-                    error: function() {
-                        alert('Ошибка при отправке формы');
-                    }
-                });
-            });
-        });
-    </script>
-    ```
-
 - Python
 
     ```html
@@ -196,6 +148,54 @@
     </script>
     ```
 
+
+- PHP
+
+    ```html
+    <form id="form_to_crm" method="POST" action="form.php" enctype="multipart/form-data">
+        <!-- Имя (обязательное поле) -->
+        <input type="text" name="NAME" placeholder="Имя" required>
+        <!-- Фамилия -->
+        <input type="text" name="LAST_NAME" placeholder="Фамилия">
+        <!-- Название компании -->
+        <input type="text" name="COMPANY_TITLE" placeholder="Название компании">
+        <!-- Email -->
+        <input type="text" name="EMAIL" placeholder="Почта">
+        <!-- Телефон -->
+        <input type="text" name="PHONE" placeholder="Телефон">
+        <!-- Поле для одного файла -->
+        <input type="file" name="FILE">
+        <!-- Поле для нескольких файлов -->
+        <input type="file" name="FILES" multiple>
+        <!-- Кнопка отправки -->
+        <input type="submit" value="Отправить">
+    </form>
+
+    <!-- Подключаем jQuery для AJAX-запроса -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#form_to_crm').on('submit', function(el) {
+                el.preventDefault();
+                var formData = new FormData(this); // Собираем данные формы с файлами
+                $.ajax({
+                    method: 'POST',
+                    url: 'form.php',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(data) {
+                        alert(data.message);
+                    },
+                    error: function() {
+                        alert('Ошибка при отправке формы');
+                    }
+                });
+            });
+        });
+    </script>
+    ```
 {% endlist %}
 
 ## 2. Создаем обработчик формы
@@ -223,17 +223,6 @@
     const sEmail = String(req.body.EMAIL ?? '')
     ```
 
-- PHP
-
-    ```php
-    // Получаем и очищаем данные из формы
-    $sName = htmlspecialchars($_POST["NAME"]);
-    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
-    $sCompanyTitle = htmlspecialchars($_POST["COMPANY_TITLE"]);
-    $sPhone = htmlspecialchars($_POST["PHONE"]);
-    $sEmail = htmlspecialchars($_POST["EMAIL"]);
-    ```
-
 - Python
 
     ```python
@@ -245,6 +234,17 @@
     s_email = request.form.get("EMAIL", "")
     ```
 
+
+- PHP
+
+    ```php
+    // Получаем и очищаем данные из формы
+    $sName = htmlspecialchars($_POST["NAME"]);
+    $sLastName = htmlspecialchars($_POST["LAST_NAME"]);
+    $sCompanyTitle = htmlspecialchars($_POST["COMPANY_TITLE"]);
+    $sPhone = htmlspecialchars($_POST["PHONE"]);
+    $sEmail = htmlspecialchars($_POST["EMAIL"]);
+    ```
 {% endlist %}
 
 #### Подготавливаем файлы
@@ -296,6 +296,37 @@
     }
     ```
 
+- Python
+
+    ```python
+    import base64
+
+    # Создаем переменные для массивов с файлами
+    ar_files = []
+    ar_single_file = []
+
+    # Обрабатываем поле FILES с несколькими файлами
+    for file in request.files.getlist("FILES"):
+        if file and file.filename:
+            ar_files.append({
+                "fileData": [
+                    file.filename,  # название файла
+                    base64.b64encode(file.read()).decode(),  # контент файла, закодированный в base64
+                ]
+            })
+
+    # Обрабатываем поле FILE с одним файлом
+    single = request.files.get("FILE")
+    if single and single.filename:
+        ar_single_file = {
+            "fileData": [
+                single.filename,  # название файла
+                base64.b64encode(single.read()).decode(),  # контент файла, закодированный в base64
+            ]
+        }
+    ```
+
+
 - PHP
 
     ```php
@@ -327,37 +358,6 @@
         ];
     }
     ```
-
-- Python
-
-    ```python
-    import base64
-
-    # Создаем переменные для массивов с файлами
-    ar_files = []
-    ar_single_file = []
-
-    # Обрабатываем поле FILES с несколькими файлами
-    for file in request.files.getlist("FILES"):
-        if file and file.filename:
-            ar_files.append({
-                "fileData": [
-                    file.filename,  # название файла
-                    base64.b64encode(file.read()).decode(),  # контент файла, закодированный в base64
-                ]
-            })
-
-    # Обрабатываем поле FILE с одним файлом
-    single = request.files.get("FILE")
-    if single and single.filename:
-        ar_single_file = {
-            "fileData": [
-                single.filename,  # название файла
-                base64.b64encode(single.read()).decode(),  # контент файла, закодированный в base64
-            ]
-        }
-    ```
-
 {% endlist %}
 
 #### Форматируем телефон и почту
@@ -378,14 +378,6 @@
     const arEmail = sEmail ? [{ VALUE: sEmail, VALUE_TYPE: 'HOME' }] : []
     ```
 
-- PHP
-
-    ```php
-    // Форматируем телефон и почту для Битрикс24 в формат crm_multifield
-    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
-    $arEmail = (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array();
-    ```
-
 - Python
 
     ```python
@@ -394,6 +386,14 @@
     ar_email = [{"VALUE": s_email, "VALUE_TYPE": "HOME"}] if s_email else []
     ```
 
+
+- PHP
+
+    ```php
+    // Форматируем телефон и почту для Битрикс24 в формат crm_multifield
+    $arPhone = (!empty($sPhone)) ? array(array('VALUE' => $sPhone, 'VALUE_TYPE' => 'WORK')) : array();
+    $arEmail = (!empty($sEmail)) ? array(array('VALUE' => $sEmail, 'VALUE_TYPE' => 'HOME')) : array();
+    ```
 {% endlist %}
 
 #### Формируем заголовок лида
@@ -413,17 +413,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    // Формируем заголовок лида из имени и фамилии
-    $sTitle = 'С сайта: ' . trim($sName . ' ' . $sLastName);
-    // Если есть название компании — добавляем его через тире после имени и фамилии
-    if (!empty($sCompanyTitle)) {
-        $sTitle .= ' — ' . $sCompanyTitle;
-    }
-    ```
-
 - Python
 
     ```python
@@ -434,6 +423,17 @@
         s_title += " — " + s_company_title
     ```
 
+
+- PHP
+
+    ```php
+    // Формируем заголовок лида из имени и фамилии
+    $sTitle = 'С сайта: ' . trim($sName . ' ' . $sLastName);
+    // Если есть название компании — добавляем его через тире после имени и фамилии
+    if (!empty($sCompanyTitle)) {
+        $sTitle .= ' — ' . $sCompanyTitle;
+    }
+    ```
 {% endlist %}
 
 ### Создаем лид
@@ -487,21 +487,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $sb->getCRMScope()->lead()->add([
-        'TITLE' => $sTitle, // Заголовок лида
-        'NAME' => $sName, // Имя
-        'LAST_NAME' => $sLastName, // Фамилия
-        'COMPANY_TITLE' => $sCompanyTitle, // Название компании
-        'PHONE' => $arPhone, // Телефон
-        'EMAIL' => $arEmail, // Email
-        'UF_CRM_LEAD_FILES' => $arFiles, // Поле для добавления нескольких файлов
-        'UF_CRM_LEAD_FILE' => $arSingleFile, // Поле для файла
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -517,6 +502,21 @@
     })
     ```
 
+
+- PHP
+
+    ```php
+    $sb->getCRMScope()->lead()->add([
+        'TITLE' => $sTitle, // Заголовок лида
+        'NAME' => $sName, // Имя
+        'LAST_NAME' => $sLastName, // Фамилия
+        'COMPANY_TITLE' => $sCompanyTitle, // Название компании
+        'PHONE' => $arPhone, // Телефон
+        'EMAIL' => $arEmail, // Email
+        'UF_CRM_LEAD_FILES' => $arFiles, // Поле для добавления нескольких файлов
+        'UF_CRM_LEAD_FILE' => $arSingleFile, // Поле для файла
+    ]);
+    ```
 {% endlist %}
 
 Если лид создан успешно, метод вернет его идентификатор. Сохраните это значение: по нему можно открыть лид и проверить результат.
@@ -618,6 +618,84 @@
     app.listen(3000)
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    import base64
+    import os
+    from flask import Flask, request, jsonify
+    from b24pysdk import BitrixWebhook, Client
+
+    app = Flask(__name__)
+
+    client = Client(BitrixWebhook(
+        domain="your-domain.bitrix24.ru",
+        webhook_token=os.environ["B24_HOOK_TOKEN"],
+    ))
+    # B24_HOOK_TOKEN = 'USER_ID/TOKEN' — только user_id и токен, без https://
+
+
+    @app.route("/form", methods=["POST"])
+    def handle_form():
+        # Получаем данные из формы
+        s_name = request.form.get("NAME", "")
+        s_last_name = request.form.get("LAST_NAME", "")
+        s_company_title = request.form.get("COMPANY_TITLE", "")
+        s_phone = request.form.get("PHONE", "")
+        s_email = request.form.get("EMAIL", "")
+
+        # Создаем переменные для массивов с файлами
+        ar_files = []
+        ar_single_file = []
+
+        # Обрабатываем поле FILES с несколькими файлами
+        for file in request.files.getlist("FILES"):
+            if file and file.filename:
+                ar_files.append({
+                    "fileData": [
+                        file.filename,  # название файла
+                        base64.b64encode(file.read()).decode(),  # контент файла, закодированный в base64
+                    ]
+                })
+
+        # Обрабатываем поле FILE с одним файлом
+        single = request.files.get("FILE")
+        if single and single.filename:
+            ar_single_file = {
+                "fileData": [
+                    single.filename,  # название файла
+                    base64.b64encode(single.read()).decode(),  # контент файла, закодированный в base64
+                ]
+            }
+
+        # Форматируем телефон и почту для Битрикс24 в формат crm_multifield
+        ar_phone = [{"VALUE": s_phone, "VALUE_TYPE": "WORK"}] if s_phone else []
+        ar_email = [{"VALUE": s_email, "VALUE_TYPE": "HOME"}] if s_email else []
+
+        # Формируем заголовок лида из имени и фамилии
+        s_title = "С сайта: " + f"{s_name} {s_last_name}".strip()
+        if s_company_title:
+            s_title += " — " + s_company_title
+
+        # Отправляем данные в Битрикс24
+        try:
+            client.crm.lead.add(fields={
+                "TITLE": s_title,  # Заголовок лида
+                "NAME": s_name,  # Имя
+                "LAST_NAME": s_last_name,  # Фамилия
+                "COMPANY_TITLE": s_company_title,  # Название компании
+                "PHONE": ar_phone,  # Телефон
+                "EMAIL": ar_email,  # Email
+                "UF_CRM_LEAD_FILES": ar_files,  # Поле для добавления нескольких файлов
+                "UF_CRM_LEAD_FILE": ar_single_file,  # Поле для файла
+            })
+            return jsonify({"message": "Лид добавлен успешно"})
+        except Exception as e:
+            return jsonify({"message": f"Лид не добавлен: {e}"})
+    ```
+
+
 - PHP
 
     ```php
@@ -700,84 +778,6 @@
         echo json_encode(['message' => 'Лид не добавлен: ' . $e->getMessage()]);
     }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    import base64
-    import os
-    from flask import Flask, request, jsonify
-    from b24pysdk import BitrixWebhook, Client
-
-    app = Flask(__name__)
-
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token=os.environ["B24_HOOK_TOKEN"],
-    ))
-    # B24_HOOK_TOKEN = 'USER_ID/TOKEN' — только user_id и токен, без https://
-
-
-    @app.route("/form", methods=["POST"])
-    def handle_form():
-        # Получаем данные из формы
-        s_name = request.form.get("NAME", "")
-        s_last_name = request.form.get("LAST_NAME", "")
-        s_company_title = request.form.get("COMPANY_TITLE", "")
-        s_phone = request.form.get("PHONE", "")
-        s_email = request.form.get("EMAIL", "")
-
-        # Создаем переменные для массивов с файлами
-        ar_files = []
-        ar_single_file = []
-
-        # Обрабатываем поле FILES с несколькими файлами
-        for file in request.files.getlist("FILES"):
-            if file and file.filename:
-                ar_files.append({
-                    "fileData": [
-                        file.filename,  # название файла
-                        base64.b64encode(file.read()).decode(),  # контент файла, закодированный в base64
-                    ]
-                })
-
-        # Обрабатываем поле FILE с одним файлом
-        single = request.files.get("FILE")
-        if single and single.filename:
-            ar_single_file = {
-                "fileData": [
-                    single.filename,  # название файла
-                    base64.b64encode(single.read()).decode(),  # контент файла, закодированный в base64
-                ]
-            }
-
-        # Форматируем телефон и почту для Битрикс24 в формат crm_multifield
-        ar_phone = [{"VALUE": s_phone, "VALUE_TYPE": "WORK"}] if s_phone else []
-        ar_email = [{"VALUE": s_email, "VALUE_TYPE": "HOME"}] if s_email else []
-
-        # Формируем заголовок лида из имени и фамилии
-        s_title = "С сайта: " + f"{s_name} {s_last_name}".strip()
-        if s_company_title:
-            s_title += " — " + s_company_title
-
-        # Отправляем данные в Битрикс24
-        try:
-            client.crm.lead.add(fields={
-                "TITLE": s_title,  # Заголовок лида
-                "NAME": s_name,  # Имя
-                "LAST_NAME": s_last_name,  # Фамилия
-                "COMPANY_TITLE": s_company_title,  # Название компании
-                "PHONE": ar_phone,  # Телефон
-                "EMAIL": ar_email,  # Email
-                "UF_CRM_LEAD_FILES": ar_files,  # Поле для добавления нескольких файлов
-                "UF_CRM_LEAD_FILE": ar_single_file,  # Поле для файла
-            })
-            return jsonify({"message": "Лид добавлен успешно"})
-        except Exception as e:
-            return jsonify({"message": f"Лид не добавлен: {e}"})
-    ```
-
 {% endlist %}
 
 ## Проверим результат
@@ -800,18 +800,18 @@
     console.dir(checkResponse.getData().result)
     ```
 
-- PHP
-
-    ```php
-    $lead = $sb->getCRMScope()->lead()->get(5)->lead();
-    ```
-
 - Python
 
     ```python
     lead = client.crm.lead.get(bitrix_id=5).result
     ```
 
+
+- PHP
+
+    ```php
+    $lead = $sb->getCRMScope()->lead()->get(5)->lead();
+    ```
 {% endlist %}
 
 Сценарий выполнен, если в ответе:

@@ -84,18 +84,18 @@
     npm install @bitrix24/b24jssdk express
     ```
 
-- PHP
-
-    ```bash
-    composer require bitrix24/b24phpsdk:"^3.0"
-    ```
-
 - Python
 
     ```bash
     pip install b24pysdk flask
     ```
 
+
+- PHP
+
+    ```bash
+    composer require bitrix24/b24phpsdk:"^3.0"
+    ```
 {% endlist %}
 
 Перед установкой зависимостей проверьте версии Node.js, PHP и Python командами `node --version`, `php -v` и `python --version`, а список расширений PHP — командой `php -m`. `@bitrix24/b24jssdk` поддерживает Node.js 18, 20, 22 и новее. B24PhpSDK версии 3 также требует расширения `bcmath`, `curl`, `intl` и `json`. `b24pysdk` требует Python 3.9 или новее. После установки выполните `composer check-platform-reqs`.
@@ -126,14 +126,6 @@
     node form.mjs
     ```
 
-- PHP
-
-    Bash и PowerShell:
-
-    ```bash
-    php -S localhost:8000
-    ```
-
 - Python
 
     Bash и PowerShell:
@@ -142,6 +134,14 @@
     python app.py
     ```
 
+
+- PHP
+
+    Bash и PowerShell:
+
+    ```bash
+    php -S localhost:8000
+    ```
 {% endlist %}
 
 Страницы формы будут доступны по адресам:
@@ -505,6 +505,226 @@
     app.listen(3000)
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    import json
+    from html import escape
+
+    from flask import Flask, request
+    from b24pysdk import BitrixWebhook, Client
+
+    from save_form import save_form
+
+    app = Flask(__name__)
+    ENTITY_TYPE_ID = 2
+    SKIPPED_FIELDS = {"contactId", "contacts"}
+    client = Client(BitrixWebhook(
+        domain="your-domain.bitrix24.ru",
+        webhook_token="USER_ID/TOKEN",
+    ))
+
+
+    def value_or_empty(value):
+        return "" if value is None else value
+
+
+    def input_field(params):
+        value = params.get("VALUE")
+        values = (
+            [*(value if isinstance(value, list) else [value_or_empty(value)]), ""]
+            if params.get("MULTIPLE") else [value_or_empty(value)]
+        )
+        html = ""
+        for index, value in enumerate(values):
+            html += f'<input class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
+            html += f' type="{escape(params.get("TYPE", "text"))}"'
+            if params.get("STEP"):
+                html += f' step="{escape(params["STEP"])}"'
+            if params.get("REQUIRED") and index == 0:
+                html += " required"
+            if params.get("DISABLE"):
+                html += " disabled"
+            if params.get("CHECKED"):
+                html += " checked"
+            html += f' value="{escape(str(value))}">'
+        return html
+
+
+    def select_field(params, options):
+        html = f'<select class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
+        if params.get("ID"):
+            html += f' id="{escape(params["ID"])}"'
+        if params.get("REQUIRED"):
+            html += " required"
+        if params.get("DISABLE"):
+            html += " disabled"
+        if params.get("MULTIPLE"):
+            html += " multiple"
+        html += ">"
+        if not params.get("REQUIRED") and not params.get("MULTIPLE"):
+            html += '<option value="">-- Не выбрано --</option>'
+        value = params.get("VALUE")
+        selected_values = value if isinstance(value, list) else [value_or_empty(value)]
+        selected_values = [str(value) for value in selected_values]
+        for key, title in options.items():
+            selected = " selected" if str(key) in selected_values else ""
+            html += f'<option value="{escape(str(key))}"{selected}>{escape(str(title))}</option>'
+        return html + "</select>"
+
+
+    PAGE = """
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <div class="container"><form id="auto_form" method="post">
+            %(hidden_id)s
+            <h2>Системные поля</h2><div class="row">%(standard)s</div>
+            <h2>Пользовательские поля</h2><div class="row">%(custom)s</div>
+            <div class="row"><div class="col-sm-10 mt-5"><input type="submit" class="btn btn-primary" value="Сохранить"></div></div>
+        </form></div>
+        <script>
+            const stagesByCategory = %(stages)s;
+            const categoryField = document.getElementById('category-id');
+            const stageField = document.getElementById('stage-id');
+            categoryField?.addEventListener('change', () => {
+                stageField.innerHTML = '';
+                const emptyOption = document.createElement('option'); emptyOption.value = ''; emptyOption.textContent = '-- Выберите стадию --'; emptyOption.disabled = true; emptyOption.selected = true; stageField.appendChild(emptyOption);
+                for (const [stageId, stageName] of Object.entries(stagesByCategory[categoryField.value] || {})) {
+                    const option = document.createElement('option'); option.value = stageId; option.textContent = stageName; stageField.appendChild(option);
+                }
+            });
+            document.getElementById('auto_form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const body = new URLSearchParams(new FormData(event.currentTarget));
+                const response = await fetch('/form', { method: 'POST', body });
+                const json = await response.json();
+                alert(json.message || json.error);
+            });
+        </script>
+    """
+
+
+    @app.route("/")
+    def form_page():
+        raw_id = request.args.get("ID", "0")
+        try:
+            item_id = int(raw_id)
+        except ValueError:
+            return "Параметр ID должен быть целым числом", 400
+
+        fields = client.crm.item.fields(
+            entity_type_id=ENTITY_TYPE_ID,
+            use_original_uf_names=True,
+        ).response.result["fields"]
+        currencies = client.crm.currency.list().response.result
+        item = {}
+        if item_id > 0:
+            item = client.crm.item.get(entity_type_id=ENTITY_TYPE_ID, bitrix_id=item_id, use_original_uf_names=True).response.result["item"]
+        categories = client.crm.category.list(entity_type_id=ENTITY_TYPE_ID).response.result["categories"]
+        default_category = next((row for row in categories if row["isDefault"] == "Y"), None)
+        category_id = int(item["categoryId"]) if "categoryId" in item else (int(default_category["id"]) if default_category else None)
+        if category_id is None:
+            raise RuntimeError("Не найдена воронка по умолчанию")
+        category_options = {row["id"]: row["name"] for row in categories}
+        stages_by_category = {}
+        for category in categories:
+            current_category_id = int(category["id"])
+            status_type = "DEAL_STAGE" if current_category_id == 0 else f"DEAL_STAGE_{current_category_id}"
+            rows = client.crm.status.list(filter={"ENTITY_ID": status_type}).response.result
+            stages_by_category[str(current_category_id)] = {row["STATUS_ID"]: row["NAME"] for row in rows}
+
+        standard = ""
+        custom = ""
+        for key, field in fields.items():
+            if key in SKIPPED_FIELDS:
+                continue
+            value = category_id if key == "categoryId" else value_or_empty(item.get(key))
+            params = {
+                "NAME": f"form[{key}]", "VALUE": value,
+                "REQUIRED": field.get("isRequired"), "DISABLE": field.get("isReadOnly"), "MULTIPLE": field.get("isMultiple"),
+                "ID": "category-id" if key == "categoryId" else ("stage-id" if key == "stageId" else ""),
+            }
+            field_type = field.get("type")
+            control = ""
+
+            if key == "stageId":
+                control = select_field({**params, "REQUIRED": True}, stages_by_category.get(str(category_id), {}))
+            elif field_type == "crm_status":
+                rows = client.crm.status.list(filter={"ENTITY_ID": field["statusType"]}).response.result
+                control = select_field(params, {row["STATUS_ID"]: row["NAME"] for row in rows})
+            elif field_type == "crm_category":
+                control = select_field(params, category_options)
+            elif field_type == "crm_currency":
+                control = select_field(params, {row["CURRENCY"]: row["FULL_NAME"] for row in currencies})
+            elif field_type == "enumeration":
+                options = {
+                    row.get("ID", row.get("id")): row.get("VALUE", row.get("value"))
+                    for row in field.get("items", [])
+                }
+                control = select_field(params, options)
+            elif field_type == "crm_company":
+                control = input_field({**params, "TYPE": "number"})
+                if value:
+                    company = client.crm.item.get(entity_type_id=4, bitrix_id=int(value)).response.result["item"]
+                    control += f" ({escape(company['title'])})"
+            elif field_type == "crm_contact":
+                control = input_field({**params, "TYPE": "number"})
+                ids = [int(contact_id) for contact_id in (value if isinstance(value, list) else [value]) if contact_id]
+                if ids:
+                    contacts = client.crm.item.list(
+                        entity_type_id=3,
+                        filter={"@id": ids},
+                        select=["id", "name", "lastName"],
+                    ).response.result["items"]
+                    names = [" ".join(filter(None, [row.get("name"), row.get("lastName")])) for row in contacts]
+                    control += f" ({escape(', '.join(names))})"
+            elif field_type == "user":
+                control = input_field({**params, "TYPE": "number"})
+                if value:
+                    users = client.user.get(filter={"ID": value}).response.result
+                    names = [" ".join(filter(None, [row.get("NAME"), row.get("LAST_NAME")])) for row in users]
+                    control += f" ({escape(', '.join(names))})"
+            elif field_type in ("file", "resourcebooking", "crm_product_row"):
+                control = f"Тип {escape(field_type)} в примере не поддерживается"
+            elif field_type == "date":
+                control = input_field({**params, "VALUE": str(value)[:10] if value else "", "TYPE": "date"})
+            elif field_type == "datetime":
+                control = input_field({**params, "VALUE": str(value)[:19] if value else "", "TYPE": "datetime-local"})
+            elif field_type in ("boolean", "char"):
+                control = input_field({**params, "REQUIRED": False, "VALUE": "Y", "CHECKED": value == "Y", "TYPE": "checkbox"})
+            elif field_type in ("integer", "double"):
+                control = input_field({**params, "TYPE": "number", "STEP": "any" if field_type == "double" else ""})
+            elif field_type == "money":
+                amount, _, currency = str(value).partition("|")
+                control = input_field({**params, "VALUE": amount, "TYPE": "number", "STEP": "any"})
+                control += select_field(
+                    {**params, "NAME": f"form[{key}_CURRENCY]", "VALUE": currency},
+                    {row["CURRENCY"]: row["FULL_NAME"] for row in currencies},
+                )
+            else:
+                control = input_field({**params, "TYPE": "text"})
+
+            label = escape(str(field.get("formLabel") or field.get("title") or key))
+            block = f'<div class="col-4 mt-3">{label}: </div><div class="col-6 mt-3">{control}</div>'
+            if key.startswith("UF_"):
+                custom += block
+            else:
+                standard += block
+
+        hidden_id = f'<input type="hidden" name="form[id]" value="{escape(str(item["id"]))}">' if item.get("id") else ""
+        return PAGE % {
+            "hidden_id": hidden_id, "standard": standard, "custom": custom,
+            "stages": json.dumps(stages_by_category, ensure_ascii=False).replace("<", "\\u003c"),
+        }
+
+
+    app.add_url_rule("/form", view_func=save_form, methods=["POST"])
+
+    if __name__ == "__main__":
+        app.run(port=5000)
+    ```
+
+
 - PHP
 
     ```php
@@ -759,226 +979,6 @@
             });
         </script>
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    import json
-    from html import escape
-
-    from flask import Flask, request
-    from b24pysdk import BitrixWebhook, Client
-
-    from save_form import save_form
-
-    app = Flask(__name__)
-    ENTITY_TYPE_ID = 2
-    SKIPPED_FIELDS = {"contactId", "contacts"}
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",
-    ))
-
-
-    def value_or_empty(value):
-        return "" if value is None else value
-
-
-    def input_field(params):
-        value = params.get("VALUE")
-        values = (
-            [*(value if isinstance(value, list) else [value_or_empty(value)]), ""]
-            if params.get("MULTIPLE") else [value_or_empty(value)]
-        )
-        html = ""
-        for index, value in enumerate(values):
-            html += f'<input class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
-            html += f' type="{escape(params.get("TYPE", "text"))}"'
-            if params.get("STEP"):
-                html += f' step="{escape(params["STEP"])}"'
-            if params.get("REQUIRED") and index == 0:
-                html += " required"
-            if params.get("DISABLE"):
-                html += " disabled"
-            if params.get("CHECKED"):
-                html += " checked"
-            html += f' value="{escape(str(value))}">'
-        return html
-
-
-    def select_field(params, options):
-        html = f'<select class="form-control" name="{escape(params["NAME"])}{"[]" if params.get("MULTIPLE") else ""}"'
-        if params.get("ID"):
-            html += f' id="{escape(params["ID"])}"'
-        if params.get("REQUIRED"):
-            html += " required"
-        if params.get("DISABLE"):
-            html += " disabled"
-        if params.get("MULTIPLE"):
-            html += " multiple"
-        html += ">"
-        if not params.get("REQUIRED") and not params.get("MULTIPLE"):
-            html += '<option value="">-- Не выбрано --</option>'
-        value = params.get("VALUE")
-        selected_values = value if isinstance(value, list) else [value_or_empty(value)]
-        selected_values = [str(value) for value in selected_values]
-        for key, title in options.items():
-            selected = " selected" if str(key) in selected_values else ""
-            html += f'<option value="{escape(str(key))}"{selected}>{escape(str(title))}</option>'
-        return html + "</select>"
-
-
-    PAGE = """
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        <div class="container"><form id="auto_form" method="post">
-            %(hidden_id)s
-            <h2>Системные поля</h2><div class="row">%(standard)s</div>
-            <h2>Пользовательские поля</h2><div class="row">%(custom)s</div>
-            <div class="row"><div class="col-sm-10 mt-5"><input type="submit" class="btn btn-primary" value="Сохранить"></div></div>
-        </form></div>
-        <script>
-            const stagesByCategory = %(stages)s;
-            const categoryField = document.getElementById('category-id');
-            const stageField = document.getElementById('stage-id');
-            categoryField?.addEventListener('change', () => {
-                stageField.innerHTML = '';
-                const emptyOption = document.createElement('option'); emptyOption.value = ''; emptyOption.textContent = '-- Выберите стадию --'; emptyOption.disabled = true; emptyOption.selected = true; stageField.appendChild(emptyOption);
-                for (const [stageId, stageName] of Object.entries(stagesByCategory[categoryField.value] || {})) {
-                    const option = document.createElement('option'); option.value = stageId; option.textContent = stageName; stageField.appendChild(option);
-                }
-            });
-            document.getElementById('auto_form').addEventListener('submit', async (event) => {
-                event.preventDefault();
-                const body = new URLSearchParams(new FormData(event.currentTarget));
-                const response = await fetch('/form', { method: 'POST', body });
-                const json = await response.json();
-                alert(json.message || json.error);
-            });
-        </script>
-    """
-
-
-    @app.route("/")
-    def form_page():
-        raw_id = request.args.get("ID", "0")
-        try:
-            item_id = int(raw_id)
-        except ValueError:
-            return "Параметр ID должен быть целым числом", 400
-
-        fields = client.crm.item.fields(
-            entity_type_id=ENTITY_TYPE_ID,
-            use_original_uf_names=True,
-        ).response.result["fields"]
-        currencies = client.crm.currency.list().response.result
-        item = {}
-        if item_id > 0:
-            item = client.crm.item.get(entity_type_id=ENTITY_TYPE_ID, bitrix_id=item_id, use_original_uf_names=True).response.result["item"]
-        categories = client.crm.category.list(entity_type_id=ENTITY_TYPE_ID).response.result["categories"]
-        default_category = next((row for row in categories if row["isDefault"] == "Y"), None)
-        category_id = int(item["categoryId"]) if "categoryId" in item else (int(default_category["id"]) if default_category else None)
-        if category_id is None:
-            raise RuntimeError("Не найдена воронка по умолчанию")
-        category_options = {row["id"]: row["name"] for row in categories}
-        stages_by_category = {}
-        for category in categories:
-            current_category_id = int(category["id"])
-            status_type = "DEAL_STAGE" if current_category_id == 0 else f"DEAL_STAGE_{current_category_id}"
-            rows = client.crm.status.list(filter={"ENTITY_ID": status_type}).response.result
-            stages_by_category[str(current_category_id)] = {row["STATUS_ID"]: row["NAME"] for row in rows}
-
-        standard = ""
-        custom = ""
-        for key, field in fields.items():
-            if key in SKIPPED_FIELDS:
-                continue
-            value = category_id if key == "categoryId" else value_or_empty(item.get(key))
-            params = {
-                "NAME": f"form[{key}]", "VALUE": value,
-                "REQUIRED": field.get("isRequired"), "DISABLE": field.get("isReadOnly"), "MULTIPLE": field.get("isMultiple"),
-                "ID": "category-id" if key == "categoryId" else ("stage-id" if key == "stageId" else ""),
-            }
-            field_type = field.get("type")
-            control = ""
-
-            if key == "stageId":
-                control = select_field({**params, "REQUIRED": True}, stages_by_category.get(str(category_id), {}))
-            elif field_type == "crm_status":
-                rows = client.crm.status.list(filter={"ENTITY_ID": field["statusType"]}).response.result
-                control = select_field(params, {row["STATUS_ID"]: row["NAME"] for row in rows})
-            elif field_type == "crm_category":
-                control = select_field(params, category_options)
-            elif field_type == "crm_currency":
-                control = select_field(params, {row["CURRENCY"]: row["FULL_NAME"] for row in currencies})
-            elif field_type == "enumeration":
-                options = {
-                    row.get("ID", row.get("id")): row.get("VALUE", row.get("value"))
-                    for row in field.get("items", [])
-                }
-                control = select_field(params, options)
-            elif field_type == "crm_company":
-                control = input_field({**params, "TYPE": "number"})
-                if value:
-                    company = client.crm.item.get(entity_type_id=4, bitrix_id=int(value)).response.result["item"]
-                    control += f" ({escape(company['title'])})"
-            elif field_type == "crm_contact":
-                control = input_field({**params, "TYPE": "number"})
-                ids = [int(contact_id) for contact_id in (value if isinstance(value, list) else [value]) if contact_id]
-                if ids:
-                    contacts = client.crm.item.list(
-                        entity_type_id=3,
-                        filter={"@id": ids},
-                        select=["id", "name", "lastName"],
-                    ).response.result["items"]
-                    names = [" ".join(filter(None, [row.get("name"), row.get("lastName")])) for row in contacts]
-                    control += f" ({escape(', '.join(names))})"
-            elif field_type == "user":
-                control = input_field({**params, "TYPE": "number"})
-                if value:
-                    users = client.user.get(filter={"ID": value}).response.result
-                    names = [" ".join(filter(None, [row.get("NAME"), row.get("LAST_NAME")])) for row in users]
-                    control += f" ({escape(', '.join(names))})"
-            elif field_type in ("file", "resourcebooking", "crm_product_row"):
-                control = f"Тип {escape(field_type)} в примере не поддерживается"
-            elif field_type == "date":
-                control = input_field({**params, "VALUE": str(value)[:10] if value else "", "TYPE": "date"})
-            elif field_type == "datetime":
-                control = input_field({**params, "VALUE": str(value)[:19] if value else "", "TYPE": "datetime-local"})
-            elif field_type in ("boolean", "char"):
-                control = input_field({**params, "REQUIRED": False, "VALUE": "Y", "CHECKED": value == "Y", "TYPE": "checkbox"})
-            elif field_type in ("integer", "double"):
-                control = input_field({**params, "TYPE": "number", "STEP": "any" if field_type == "double" else ""})
-            elif field_type == "money":
-                amount, _, currency = str(value).partition("|")
-                control = input_field({**params, "VALUE": amount, "TYPE": "number", "STEP": "any"})
-                control += select_field(
-                    {**params, "NAME": f"form[{key}_CURRENCY]", "VALUE": currency},
-                    {row["CURRENCY"]: row["FULL_NAME"] for row in currencies},
-                )
-            else:
-                control = input_field({**params, "TYPE": "text"})
-
-            label = escape(str(field.get("formLabel") or field.get("title") or key))
-            block = f'<div class="col-4 mt-3">{label}: </div><div class="col-6 mt-3">{control}</div>'
-            if key.startswith("UF_"):
-                custom += block
-            else:
-                standard += block
-
-        hidden_id = f'<input type="hidden" name="form[id]" value="{escape(str(item["id"]))}">' if item.get("id") else ""
-        return PAGE % {
-            "hidden_id": hidden_id, "standard": standard, "custom": custom,
-            "stages": json.dumps(stages_by_category, ensure_ascii=False).replace("<", "\\u003c"),
-        }
-
-
-    app.add_url_rule("/form", view_func=save_form, methods=["POST"])
-
-    if __name__ == "__main__":
-        app.run(port=5000)
-    ```
-
 {% endlist %}
 
 ## 3. Сохраним данные формы
@@ -1089,6 +1089,82 @@
     }
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    import re
+
+    from flask import jsonify, request
+    from b24pysdk import BitrixWebhook, Client
+
+    ENTITY_TYPE_ID = 2
+    SKIPPED_FIELDS = {"contactId", "contacts"}
+    client = Client(BitrixWebhook(
+        domain="your-domain.bitrix24.ru",
+        webhook_token="USER_ID/TOKEN",
+    ))
+
+
+    def values_for(name):
+        return request.form.getlist(name) or request.form.getlist(f"{name}[]")
+
+
+    def save_form():
+        try:
+            submitted = {}
+            for full_key in request.form:
+                match = re.match(r"^form\[([^]]+)](\[\])?$", full_key)
+                if match:
+                    submitted[match.group(1)] = values_for(full_key) if match.group(2) else request.form[full_key]
+
+            field_result = client.crm.item.fields(
+                entity_type_id=ENTITY_TYPE_ID,
+                use_original_uf_names=True,
+            ).response.result
+            fields = {}
+            for key, prop in field_result["fields"].items():
+                if key in SKIPPED_FIELDS or prop.get("isReadOnly") or prop.get("type") in ("file", "resourcebooking", "crm_product_row"):
+                    continue
+                field_type = prop.get("type")
+                if field_type in ("boolean", "char"):
+                    fields[key] = "Y" if key in submitted else "N"
+                    continue
+                if key not in submitted:
+                    fields[key] = [] if prop.get("isMultiple") else ""
+                    continue
+
+                value = submitted[key]
+                if field_type == "money":
+                    value = f"{value}|{submitted.get(f'{key}_CURRENCY', '')}"
+                elif field_type == "crm_company":
+                    value = int(value or 0)
+                elif field_type == "crm_contact":
+                    value = [int(item_id) for item_id in (value if isinstance(value, list) else [value]) if item_id]
+                elif prop.get("isMultiple"):
+                    value = [item for item in (value if isinstance(value, list) else [value]) if item != ""]
+                fields[key] = value
+
+            item_id = int(submitted.get("id") or 0)
+            if item_id > 0:
+                result = client.crm.item.update(
+                    entity_type_id=ENTITY_TYPE_ID,
+                    bitrix_id=item_id,
+                    fields=fields,
+                    use_original_uf_names=True,
+                ).response.result
+            else:
+                result = client.crm.item.add(
+                    entity_type_id=ENTITY_TYPE_ID,
+                    fields=fields,
+                    use_original_uf_names=True,
+                ).response.result
+            return jsonify(message=f"Сделка сохранена, ID: {result['item']['id']}")
+        except Exception as error:
+            return jsonify(error=str(error)), 400
+    ```
+
+
 - PHP
 
     ```php
@@ -1174,82 +1250,6 @@
             echo json_encode(['error' => $error->getMessage()], JSON_UNESCAPED_UNICODE);
         }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    import re
-
-    from flask import jsonify, request
-    from b24pysdk import BitrixWebhook, Client
-
-    ENTITY_TYPE_ID = 2
-    SKIPPED_FIELDS = {"contactId", "contacts"}
-    client = Client(BitrixWebhook(
-        domain="your-domain.bitrix24.ru",
-        webhook_token="USER_ID/TOKEN",
-    ))
-
-
-    def values_for(name):
-        return request.form.getlist(name) or request.form.getlist(f"{name}[]")
-
-
-    def save_form():
-        try:
-            submitted = {}
-            for full_key in request.form:
-                match = re.match(r"^form\[([^]]+)](\[\])?$", full_key)
-                if match:
-                    submitted[match.group(1)] = values_for(full_key) if match.group(2) else request.form[full_key]
-
-            field_result = client.crm.item.fields(
-                entity_type_id=ENTITY_TYPE_ID,
-                use_original_uf_names=True,
-            ).response.result
-            fields = {}
-            for key, prop in field_result["fields"].items():
-                if key in SKIPPED_FIELDS or prop.get("isReadOnly") or prop.get("type") in ("file", "resourcebooking", "crm_product_row"):
-                    continue
-                field_type = prop.get("type")
-                if field_type in ("boolean", "char"):
-                    fields[key] = "Y" if key in submitted else "N"
-                    continue
-                if key not in submitted:
-                    fields[key] = [] if prop.get("isMultiple") else ""
-                    continue
-
-                value = submitted[key]
-                if field_type == "money":
-                    value = f"{value}|{submitted.get(f'{key}_CURRENCY', '')}"
-                elif field_type == "crm_company":
-                    value = int(value or 0)
-                elif field_type == "crm_contact":
-                    value = [int(item_id) for item_id in (value if isinstance(value, list) else [value]) if item_id]
-                elif prop.get("isMultiple"):
-                    value = [item for item in (value if isinstance(value, list) else [value]) if item != ""]
-                fields[key] = value
-
-            item_id = int(submitted.get("id") or 0)
-            if item_id > 0:
-                result = client.crm.item.update(
-                    entity_type_id=ENTITY_TYPE_ID,
-                    bitrix_id=item_id,
-                    fields=fields,
-                    use_original_uf_names=True,
-                ).response.result
-            else:
-                result = client.crm.item.add(
-                    entity_type_id=ENTITY_TYPE_ID,
-                    fields=fields,
-                    use_original_uf_names=True,
-                ).response.result
-            return jsonify(message=f"Сделка сохранена, ID: {result['item']['id']}")
-        except Exception as error:
-            return jsonify(error=str(error)), 400
-    ```
-
 {% endlist %}
 
 ## Проверим результат

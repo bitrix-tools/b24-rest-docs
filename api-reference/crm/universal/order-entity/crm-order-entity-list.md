@@ -214,44 +214,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.orderentity.list',
-                [
-                    'select' => [
-                        'orderId',
-                        'ownerId',
-                    ],
-                    'filter' => [
-                        '=ownerTypeId' => 2,
-                        '@ownerId'    => [6938, 6937, 6933],
-                    ],
-                    'order'  => [
-                        'orderId' => 'asc',
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching order entities: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -357,6 +319,44 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.orderentity.list',
+                [
+                    'select' => [
+                        'orderId',
+                        'ownerId',
+                    ],
+                    'filter' => [
+                        '=ownerTypeId' => 2,
+                        '@ownerId'    => [6938, 6937, 6933],
+                    ],
+                    'order'  => [
+                        'orderId' => 'asc',
+                    ],
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error fetching order entities: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

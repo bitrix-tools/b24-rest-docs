@@ -94,26 +94,6 @@ URL обработчика из параметра `HANDLER` должен быт
     );
     ```
 
-- PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'messageservice.sender.add',
-        [
-            'CODE' => 'provider1',
-            'TYPE' => 'SMS',
-            'HANDLER' => 'https://provider.example/api/handler',
-            'NAME' => 'СМС-провайдер',
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -138,6 +118,26 @@ URL обработчика из параметра `HANDLER` должен быт
     print(result["result"])
     ```
 
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'messageservice.sender.add',
+        [
+            'CODE' => 'provider1',
+            'TYPE' => 'SMS',
+            'HANDLER' => 'https://provider.example/api/handler',
+            'NAME' => 'СМС-провайдер',
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Если провайдер успешно зарегистрирован, метод вернет `true`.
@@ -245,25 +245,6 @@ URL обработчика из параметра `HANDLER` должен быт
     );
     ```
 
-- PHP
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'messageservice.message.status.update',
-        [
-            'CODE' => 'provider1',
-            'MESSAGE_ID' => '65575980fa531ac284c2ee68f81ebebd',
-            'STATUS' => 'delivered',
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     ```python
@@ -287,6 +268,25 @@ URL обработчика из параметра `HANDLER` должен быт
     print(result["result"])
     ```
 
+
+- PHP
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'messageservice.message.status.update',
+        [
+            'CODE' => 'provider1',
+            'MESSAGE_ID' => '65575980fa531ac284c2ee68f81ebebd',
+            'STATUS' => 'delivered',
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
 {% endlist %}
 
 Если статус успешно обновлен, метод вернет `true`.

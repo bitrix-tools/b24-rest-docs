@@ -87,6 +87,31 @@
     console.log(result.getData().result);
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    # обертка b24pysdk принимает только entity_type_id, поэтому отбираем воронку по коду в ответе
+    result = client.crm.category.list(
+        entity_type_id=3,  # 3 — контакт
+    ).response.result
+    categories = [
+        category
+        for category in result.get("categories", [])
+        if category.get("code") == "CATALOG_CONTRACTOR_CONTACT"
+    ]
+    print(categories)
+    ```
+
+
 - PHP
 
     ```php
@@ -115,31 +140,6 @@
         ]
     );
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    # обертка b24pysdk принимает только entity_type_id, поэтому отбираем воронку по коду в ответе
-    result = client.crm.category.list(
-        entity_type_id=3,  # 3 — контакт
-    ).response.result
-    categories = [
-        category
-        for category in result.get("categories", [])
-        if category.get("code") == "CATALOG_CONTRACTOR_CONTACT"
-    ]
-    print(categories)
-    ```
-
 {% endlist %}
 
 В результате получим идентификатор воронки. В примере `id`: `15`. На вашем Битрикс24 значение будет другим — не переносите `15` в рабочий код, запрашивайте идентификатор этим шагом.
@@ -200,19 +200,6 @@
     console.log(result.getData().result);
     ```
 
-- PHP
-
-    ```php
-    $result = $serviceBuilder->getCRMScope()->item()->list(
-        3,
-        [],
-        [
-            'categoryId' => 15
-        ],
-        ['id', 'name', 'lastName', 'categoryId']
-    );
-    ```
-
 - Python
 
     ```python
@@ -225,6 +212,19 @@
     ).response.result
     ```
 
+
+- PHP
+
+    ```php
+    $result = $serviceBuilder->getCRMScope()->item()->list(
+        3,
+        [],
+        [
+            'categoryId' => 15
+        ],
+        ['id', 'name', 'lastName', 'categoryId']
+    );
+    ```
 {% endlist %}
 
 В результате получим список контактов-поставщиков.
@@ -348,6 +348,56 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    entity_type_id = 3  # 3 — контакт; для компании укажите 4
+
+    category_code = (
+        "CATALOG_CONTRACTOR_CONTACT"
+        if entity_type_id == 3
+        else "CATALOG_CONTRACTOR_COMPANY"
+    )
+
+    try:
+        categories_response = client.crm.category.list(
+            entity_type_id=entity_type_id,
+        ).response.result.get("categories", [])
+        categories = [
+            category
+            for category in categories_response
+            if category.get("code") == category_code
+        ]
+    except BitrixAPIError as error:
+        print(error)
+    else:
+        if not categories:
+            print("Воронка поставщиков не найдена")
+        else:
+            try:
+                items_result = client.crm.item.list(
+                    entity_type_id=entity_type_id,
+                    select=["id", "name", "lastName", "categoryId"],
+                    filter={"categoryId": categories[0]["id"]},
+                    order={"id": "DESC"},
+                ).response.result
+            except BitrixAPIError as error:
+                print(error)
+            else:
+                print(items_result)
+    ```
+
+
 - PHP
 
     ```php
@@ -404,56 +454,6 @@
         echo $e->getMessage();
     }
     ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    entity_type_id = 3  # 3 — контакт; для компании укажите 4
-
-    category_code = (
-        "CATALOG_CONTRACTOR_CONTACT"
-        if entity_type_id == 3
-        else "CATALOG_CONTRACTOR_COMPANY"
-    )
-
-    try:
-        categories_response = client.crm.category.list(
-            entity_type_id=entity_type_id,
-        ).response.result.get("categories", [])
-        categories = [
-            category
-            for category in categories_response
-            if category.get("code") == category_code
-        ]
-    except BitrixAPIError as error:
-        print(error)
-    else:
-        if not categories:
-            print("Воронка поставщиков не найдена")
-        else:
-            try:
-                items_result = client.crm.item.list(
-                    entity_type_id=entity_type_id,
-                    select=["id", "name", "lastName", "categoryId"],
-                    filter={"categoryId": categories[0]["id"]},
-                    order={"id": "DESC"},
-                ).response.result
-            except BitrixAPIError as error:
-                print(error)
-            else:
-                print(items_result)
-    ```
-
 {% endlist %}
 
 ## Продолжите изучение

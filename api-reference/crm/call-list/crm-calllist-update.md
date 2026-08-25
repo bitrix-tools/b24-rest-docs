@@ -150,39 +150,6 @@
     </script>
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.calllist.update',
-                [
-                    'LIST_ID'     => 123,
-                    'ENTITY_TYPE' => 'CONTACT',
-                    'ENTITIES'    => [1, 2, 3],
-                    'WEBFORM_ID'  => 5,
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating call list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     Пример
@@ -214,6 +181,39 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.calllist.update',
+                [
+                    'LIST_ID'     => 123,
+                    'ENTITY_TYPE' => 'CONTACT',
+                    'ENTITIES'    => [1, 2, 3],
+                    'WEBFORM_ID'  => 5,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating call list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

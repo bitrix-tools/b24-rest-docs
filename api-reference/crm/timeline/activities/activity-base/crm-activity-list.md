@@ -231,98 +231,6 @@ Cм. описание [списочных методов](../../../../../setting
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.activity.list',
-                [
-                    'order' => [
-                        'ID' => 'DESC',
-                    ],
-                    'filter' => [
-                        'OWNER_TYPE_ID' => 3,
-                        'OWNER_ID' => 102,
-                    ],
-                    'select' => [
-                        '*',
-                        'COMMUNICATIONS',
-                    ],
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activities: ' . print_r($result->data(), true);
-        }
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity list: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```javascript
-    BX24.callMethod(
-        'crm.activity.list',
-        {
-            order: {
-                ID: 'DESC',
-            },
-            filter: {
-                OWNER_TYPE_ID: 3,
-                OWNER_ID: 102,
-            },
-            select: [
-                '*',
-                'COMMUNICATIONS',
-            ],
-            start: 0,
-        },
-        result => {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.dir(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.activity.list',
-        [
-            'order' => [ 'ID' => 'DESC' ],
-            'filter' => [
-                'OWNER_TYPE_ID' => 3,
-                'OWNER_ID' => 102
-            ],
-            'select' => [ '*', 'COMMUNICATIONS' ],
-            'start' => 0
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     Пример
@@ -438,6 +346,98 @@ Cм. описание [списочных методов](../../../../../setting
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'order' => [
+                        'ID' => 'DESC',
+                    ],
+                    'filter' => [
+                        'OWNER_TYPE_ID' => 3,
+                        'OWNER_ID' => 102,
+                    ],
+                    'select' => [
+                        '*',
+                        'COMMUNICATIONS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activities: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            order: {
+                ID: 'DESC',
+            },
+            filter: {
+                OWNER_TYPE_ID: 3,
+                OWNER_ID: 102,
+            },
+            select: [
+                '*',
+                'COMMUNICATIONS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'order' => [ 'ID' => 'DESC' ],
+            'filter' => [
+                'OWNER_TYPE_ID' => 3,
+                'OWNER_ID' => 102
+            ],
+            'select' => [ '*', 'COMMUNICATIONS' ],
+            'start' => 0
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 - Go
@@ -713,113 +713,6 @@ HTTP-статус: **400**, **403**
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.activity.list',
-                [
-                    'order' => [
-                        'ID' => 'DESC',
-                    ],
-                    'filter' => [
-                        'BINDINGS' => [
-                            [
-                                'OWNER_TYPE_ID' => 2,
-                            ],
-                            [
-                                'OWNER_TYPE_ID' => 3,
-                            ],
-                        ],
-                    ],
-                    'select' => [
-                        '*',
-                        'COMMUNICATIONS',
-                    ],
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activities: ' . print_r($result->data(), true);
-        }
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity list: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```javascript
-    BX24.callMethod(
-        'crm.activity.list',
-        {
-            order: {
-                ID: 'DESC',
-            },
-            filter: {
-                BINDINGS: [
-                    {
-                        OWNER_TYPE_ID: 2,
-                    },
-                    {
-                        OWNER_TYPE_ID: 3,
-                    },
-                ],
-            },
-            select: [
-                '*',
-                'COMMUNICATIONS',
-            ],
-            start: 0,
-        },
-        result => {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.dir(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.activity.list',
-        [
-            'order' => ['ID' => 'DESC'],
-            'filter' => [
-                'BINDINGS' => [
-                    ['OWNER_TYPE_ID' => 2],
-                    ['OWNER_TYPE_ID' => 3]
-                ]
-            ],
-            'select' => ['*', 'COMMUNICATIONS'],
-            'start' => 0
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-
 - Python
 
     ```python
@@ -941,6 +834,113 @@ HTTP-статус: **400**, **403**
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'order' => [
+                        'ID' => 'DESC',
+                    ],
+                    'filter' => [
+                        'BINDINGS' => [
+                            [
+                                'OWNER_TYPE_ID' => 2,
+                            ],
+                            [
+                                'OWNER_TYPE_ID' => 3,
+                            ],
+                        ],
+                    ],
+                    'select' => [
+                        '*',
+                        'COMMUNICATIONS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activities: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity list: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            order: {
+                ID: 'DESC',
+            },
+            filter: {
+                BINDINGS: [
+                    {
+                        OWNER_TYPE_ID: 2,
+                    },
+                    {
+                        OWNER_TYPE_ID: 3,
+                    },
+                ],
+            },
+            select: [
+                '*',
+                'COMMUNICATIONS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'order' => ['ID' => 'DESC'],
+            'filter' => [
+                'BINDINGS' => [
+                    ['OWNER_TYPE_ID' => 2],
+                    ['OWNER_TYPE_ID' => 3]
+                ]
+            ],
+            'select' => ['*', 'COMMUNICATIONS'],
+            'start' => 0
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+
 - Go
 
     ```go
@@ -1112,89 +1112,6 @@ HTTP-статус: **400**, **403**
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.activity.list',
-                [
-                    'filter' => [
-                        'ID' => '20',
-                    ],
-                    'select' => [
-                        '*',
-                        'COMMUNICATIONS',
-                    ],
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activity communications: ' . print_r($result->data(), true);
-        }
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity communications: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```javascript
-    BX24.callMethod(
-        'crm.activity.list',
-        {
-            filter: {
-                ID: '20',
-            },
-            select: [
-                '*',
-                'COMMUNICATIONS',
-            ],
-            start: 0,
-        },
-        result => {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.dir(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.activity.list',
-        [
-            'filter' => [
-                'ID' => '20'
-            ],
-            'select' => ['*', 'COMMUNICATIONS'],
-            'start' => 0
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-
 - Python
 
     ```python
@@ -1286,6 +1203,89 @@ HTTP-статус: **400**, **403**
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'filter' => [
+                        'ID' => '20',
+                    ],
+                    'select' => [
+                        '*',
+                        'COMMUNICATIONS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activity communications: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity communications: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            filter: {
+                ID: '20',
+            },
+            select: [
+                '*',
+                'COMMUNICATIONS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'filter' => [
+                'ID' => '20'
+            ],
+            'select' => ['*', 'COMMUNICATIONS'],
+            'start' => 0
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+
 - Go
 
     ```go
@@ -1484,89 +1484,6 @@ HTTP-статус: **200**
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.activity.list',
-                [
-                    'filter' => [
-                        'ID' => '101121',
-                    ],
-                    'select' => [
-                        '*',
-                        'STORAGE_ELEMENT_IDS',
-                    ],
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activity files: ' . print_r($result->data(), true);
-        }
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity files: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```javascript
-    BX24.callMethod(
-        'crm.activity.list',
-        {
-            filter: {
-                ID: '101121',
-            },
-            select: [
-                '*',
-                'STORAGE_ELEMENT_IDS',
-            ],
-            start: 0,
-        },
-        result => {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.dir(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.activity.list',
-        [
-            'filter' => [
-                'ID' => '101121'
-            ],
-            'select' => ['*', 'STORAGE_ELEMENT_IDS'],
-            'start' => 0
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-
 - Python
 
     ```python
@@ -1658,6 +1575,89 @@ HTTP-статус: **200**
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.activity.list',
+                [
+                    'filter' => [
+                        'ID' => '101121',
+                    ],
+                    'select' => [
+                        '*',
+                        'STORAGE_ELEMENT_IDS',
+                    ],
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+        } else {
+            echo 'Activity files: ' . print_r($result->data(), true);
+        }
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting activity files: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```javascript
+    BX24.callMethod(
+        'crm.activity.list',
+        {
+            filter: {
+                ID: '101121',
+            },
+            select: [
+                '*',
+                'STORAGE_ELEMENT_IDS',
+            ],
+            start: 0,
+        },
+        result => {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.dir(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.activity.list',
+        [
+            'filter' => [
+                'ID' => '101121'
+            ],
+            'select' => ['*', 'STORAGE_ELEMENT_IDS'],
+            'start' => 0
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+
 - Go
 
     ```go

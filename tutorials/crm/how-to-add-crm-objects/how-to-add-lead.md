@@ -172,32 +172,6 @@
     app.listen(3000)
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // composer require bitrix24/b24phpsdk:"^3.3"
-    // form.php и form.html лежат в публичном каталоге, vendor — выше него
-    // Локальный запуск: php -S localhost:3000 -t public
-    require_once __DIR__ . '/../vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-
-    header('Content-Type: application/json; charset=utf-8');
-
-    // Ограничение длины значений: форма публичная
-    const MAX_LENGTH = 100;
-
-    // Обработчик принимает только POST-запросы
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        http_response_code(405);
-        echo json_encode(['message' => 'Метод не поддерживается']);
-        exit;
-    }
-
-    $sb = ServiceBuilderFactory::createServiceBuilderFromWebhook(getenv('B24_HOOK'));
-    ```
-
 - Python
 
     ```python
@@ -231,6 +205,32 @@
     # Запуск: python handler.py
     if __name__ == "__main__":
         app.run(port=3000)
+    ```
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.3"
+    // form.php и form.html лежат в публичном каталоге, vendor — выше него
+    // Локальный запуск: php -S localhost:3000 -t public
+    require_once __DIR__ . '/../vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+
+    header('Content-Type: application/json; charset=utf-8');
+
+    // Ограничение длины значений: форма публичная
+    const MAX_LENGTH = 100;
+
+    // Обработчик принимает только POST-запросы
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo json_encode(['message' => 'Метод не поддерживается']);
+        exit;
+    }
+
+    $sb = ServiceBuilderFactory::createServiceBuilderFromWebhook(getenv('B24_HOOK'));
     ```
 
 - Go
@@ -308,6 +308,27 @@
     }
     ```
 
+- Python
+
+    ```python
+    # Получаем данные из формы
+    s_name = request.form.get("NAME", "").strip()
+    s_last_name = request.form.get("LAST_NAME", "").strip()
+    s_company_title = request.form.get("COMPANY_TITLE", "").strip()
+    s_phone = request.form.get("PHONE", "").strip()
+    s_email = request.form.get("EMAIL", "").strip()
+
+    # Проверяем данные до вызова метода
+    if not s_name:
+        return jsonify({"message": "Заполните имя"}), 400
+
+    if s_email and not EMAIL_PATTERN.fullmatch(s_email):
+        return jsonify({"message": "Проверьте адрес электронной почты"}), 400
+
+    if any(len(value) > MAX_LENGTH for value in (s_name, s_last_name, s_company_title, s_phone, s_email)):
+        return jsonify({"message": "Одно из полей слишком длинное"}), 400
+    ```
+
 - PHP
 
     ```php
@@ -338,27 +359,6 @@
             exit;
         }
     }
-    ```
-
-- Python
-
-    ```python
-    # Получаем данные из формы
-    s_name = request.form.get("NAME", "").strip()
-    s_last_name = request.form.get("LAST_NAME", "").strip()
-    s_company_title = request.form.get("COMPANY_TITLE", "").strip()
-    s_phone = request.form.get("PHONE", "").strip()
-    s_email = request.form.get("EMAIL", "").strip()
-
-    # Проверяем данные до вызова метода
-    if not s_name:
-        return jsonify({"message": "Заполните имя"}), 400
-
-    if s_email and not EMAIL_PATTERN.fullmatch(s_email):
-        return jsonify({"message": "Проверьте адрес электронной почты"}), 400
-
-    if any(len(value) > MAX_LENGTH for value in (s_name, s_last_name, s_company_title, s_phone, s_email)):
-        return jsonify({"message": "Одно из полей слишком длинное"}), 400
     ```
 
 - Go
@@ -432,6 +432,19 @@
     }
     ```
 
+- Python
+
+    ```python
+    # Собираем телефон и почту в мультиполя
+    ar_fm = []
+
+    if s_phone:
+        ar_fm.append({"typeId": "PHONE", "valueType": "WORK", "value": s_phone})
+
+    if s_email:
+        ar_fm.append({"typeId": "EMAIL", "valueType": "HOME", "value": s_email})
+    ```
+
 - PHP
 
     ```php
@@ -445,19 +458,6 @@
     if ($sEmail !== '') {
         $arFm[] = ['typeId' => 'EMAIL', 'valueType' => 'HOME', 'value' => $sEmail];
     }
-    ```
-
-- Python
-
-    ```python
-    # Собираем телефон и почту в мультиполя
-    ar_fm = []
-
-    if s_phone:
-        ar_fm.append({"typeId": "PHONE", "valueType": "WORK", "value": s_phone})
-
-    if s_email:
-        ar_fm.append({"typeId": "EMAIL", "valueType": "HOME", "value": s_email})
     ```
 
 - Go
@@ -496,6 +496,18 @@
     }
     ```
 
+- Python
+
+    ```python
+    # Формируем название лида из имени и фамилии
+    s_title = "С сайта: " + f"{s_name} {s_last_name}".strip()
+
+    # Если есть название компании — добавляем его через тире после имени и фамилии
+
+    if s_company_title:
+        s_title += " — " + s_company_title
+    ```
+
 - PHP
 
     ```php
@@ -507,18 +519,6 @@
     if ($sCompanyTitle !== '') {
         $sTitle .= ' — ' . $sCompanyTitle;
     }
-    ```
-
-- Python
-
-    ```python
-    # Формируем название лида из имени и фамилии
-    s_title = "С сайта: " + f"{s_name} {s_last_name}".strip()
-
-    # Если есть название компании — добавляем его через тире после имени и фамилии
-
-    if s_company_title:
-        s_title += " — " + s_company_title
     ```
 
 - Go
@@ -578,30 +578,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    // Отправляем данные в Битрикс24
-    try {
-        $result = $sb->getCRMScope()->item()->add(1, [ // 1 — тип объекта CRM «Лид»
-            'title' => $sTitle, // Название лида
-            'name' => $sName, // Имя
-            'lastName' => $sLastName, // Фамилия
-            'companyTitle' => $sCompanyTitle, // Название компании
-            'fm' => $arFm, // Телефон и почта
-        ]);
-
-        $leadId = $result->item()->id; // Идентификатор созданного лида
-        error_log('Создан лид с ID ' . $leadId);
-        echo json_encode(['message' => 'Лид создан', 'id' => $leadId]);
-    } catch (\Throwable $e) {
-        // Подробности ошибки пишем в лог, посетителю их не показываем
-        error_log($e->getMessage());
-        http_response_code(502);
-        echo json_encode(['message' => 'Не удалось создать лид, попробуйте позже']);
-    }
-    ```
-
 - Python
 
     ```python
@@ -624,6 +600,30 @@
         # Подробности ошибки пишем в лог, посетителю их не показываем
         app.logger.error(error)
         return jsonify({"message": "Не удалось создать лид, попробуйте позже"}), 502
+    ```
+
+- PHP
+
+    ```php
+    // Отправляем данные в Битрикс24
+    try {
+        $result = $sb->getCRMScope()->item()->add(1, [ // 1 — тип объекта CRM «Лид»
+            'title' => $sTitle, // Название лида
+            'name' => $sName, // Имя
+            'lastName' => $sLastName, // Фамилия
+            'companyTitle' => $sCompanyTitle, // Название компании
+            'fm' => $arFm, // Телефон и почта
+        ]);
+
+        $leadId = $result->item()->id; // Идентификатор созданного лида
+        error_log('Создан лид с ID ' . $leadId);
+        echo json_encode(['message' => 'Лид создан', 'id' => $leadId]);
+    } catch (\Throwable $e) {
+        // Подробности ошибки пишем в лог, посетителю их не показываем
+        error_log($e->getMessage());
+        http_response_code(502);
+        echo json_encode(['message' => 'Не удалось создать лид, попробуйте позже']);
+    }
     ```
 
 - Go
@@ -795,6 +795,91 @@
     app.listen(3000)
     ```
 
+- Python
+
+    ```python
+    # pip install flask b24pysdk
+    import os
+    import re
+
+    from flask import Flask, request, jsonify
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    # Страницу form.html кладем в папку static
+    app = Flask(__name__)
+
+    client = Client(BitrixWebhook(
+        domain=os.environ["B24_DOMAIN"],  # your-domain.bitrix24.ru
+        webhook_token=os.environ["B24_WEBHOOK_TOKEN"],  # только user_id/token, без https://
+    ))
+
+    # Шаблон для проверки адреса электронной почты
+    EMAIL_PATTERN = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
+    # Ограничение длины значений: форма публичная
+    MAX_LENGTH = 100
+
+
+    @app.route("/form", methods=["POST"])
+    def handle_form():
+        # Получаем данные из формы
+        s_name = request.form.get("NAME", "").strip()
+        s_last_name = request.form.get("LAST_NAME", "").strip()
+        s_company_title = request.form.get("COMPANY_TITLE", "").strip()
+        s_phone = request.form.get("PHONE", "").strip()
+        s_email = request.form.get("EMAIL", "").strip()
+
+        # Проверяем данные до вызова метода
+        if not s_name:
+            return jsonify({"message": "Заполните имя"}), 400
+
+        if s_email and not EMAIL_PATTERN.fullmatch(s_email):
+            return jsonify({"message": "Проверьте адрес электронной почты"}), 400
+
+        if any(len(value) > MAX_LENGTH for value in (s_name, s_last_name, s_company_title, s_phone, s_email)):
+            return jsonify({"message": "Одно из полей слишком длинное"}), 400
+
+        # Собираем телефон и почту в мультиполя
+        ar_fm = []
+
+        if s_phone:
+            ar_fm.append({"typeId": "PHONE", "valueType": "WORK", "value": s_phone})
+
+        if s_email:
+            ar_fm.append({"typeId": "EMAIL", "valueType": "HOME", "value": s_email})
+
+        # Формируем название лида из имени и фамилии
+        s_title = "С сайта: " + f"{s_name} {s_last_name}".strip()
+        # Если есть название компании — добавляем его через тире после имени и фамилии
+        if s_company_title:
+            s_title += " — " + s_company_title
+
+        # Отправляем данные в Битрикс24
+        try:
+            bitrix_response = client.crm.item.add(
+                entity_type_id=1,  # Тип объекта CRM — лид
+                fields={
+                    "title": s_title,  # Название лида
+                    "name": s_name,  # Имя
+                    "lastName": s_last_name,  # Фамилия
+                    "companyTitle": s_company_title,  # Название компании
+                    "fm": ar_fm,  # Телефон и почта
+                },
+            ).response
+            lead_id = bitrix_response.result["item"]["id"]  # Идентификатор созданного лида
+            app.logger.info("Создан лид с ID %s", lead_id)
+            return jsonify({"message": "Лид создан", "id": lead_id})
+        except (BitrixAPIError, BitrixSDKException) as error:
+            # Подробности ошибки пишем в лог, посетителю их не показываем
+            app.logger.error(error)
+            return jsonify({"message": "Не удалось создать лид, попробуйте позже"}), 502
+
+
+    # Запуск: python handler.py
+    if __name__ == "__main__":
+        app.run(port=3000)
+    ```
+
 - PHP
 
     ```php
@@ -885,91 +970,6 @@
         http_response_code(502);
         echo json_encode(['message' => 'Не удалось создать лид, попробуйте позже']);
     }
-    ```
-
-- Python
-
-    ```python
-    # pip install flask b24pysdk
-    import os
-    import re
-
-    from flask import Flask, request, jsonify
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    # Страницу form.html кладем в папку static
-    app = Flask(__name__)
-
-    client = Client(BitrixWebhook(
-        domain=os.environ["B24_DOMAIN"],  # your-domain.bitrix24.ru
-        webhook_token=os.environ["B24_WEBHOOK_TOKEN"],  # только user_id/token, без https://
-    ))
-
-    # Шаблон для проверки адреса электронной почты
-    EMAIL_PATTERN = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
-    # Ограничение длины значений: форма публичная
-    MAX_LENGTH = 100
-
-
-    @app.route("/form", methods=["POST"])
-    def handle_form():
-        # Получаем данные из формы
-        s_name = request.form.get("NAME", "").strip()
-        s_last_name = request.form.get("LAST_NAME", "").strip()
-        s_company_title = request.form.get("COMPANY_TITLE", "").strip()
-        s_phone = request.form.get("PHONE", "").strip()
-        s_email = request.form.get("EMAIL", "").strip()
-
-        # Проверяем данные до вызова метода
-        if not s_name:
-            return jsonify({"message": "Заполните имя"}), 400
-
-        if s_email and not EMAIL_PATTERN.fullmatch(s_email):
-            return jsonify({"message": "Проверьте адрес электронной почты"}), 400
-
-        if any(len(value) > MAX_LENGTH for value in (s_name, s_last_name, s_company_title, s_phone, s_email)):
-            return jsonify({"message": "Одно из полей слишком длинное"}), 400
-
-        # Собираем телефон и почту в мультиполя
-        ar_fm = []
-
-        if s_phone:
-            ar_fm.append({"typeId": "PHONE", "valueType": "WORK", "value": s_phone})
-
-        if s_email:
-            ar_fm.append({"typeId": "EMAIL", "valueType": "HOME", "value": s_email})
-
-        # Формируем название лида из имени и фамилии
-        s_title = "С сайта: " + f"{s_name} {s_last_name}".strip()
-        # Если есть название компании — добавляем его через тире после имени и фамилии
-        if s_company_title:
-            s_title += " — " + s_company_title
-
-        # Отправляем данные в Битрикс24
-        try:
-            bitrix_response = client.crm.item.add(
-                entity_type_id=1,  # Тип объекта CRM — лид
-                fields={
-                    "title": s_title,  # Название лида
-                    "name": s_name,  # Имя
-                    "lastName": s_last_name,  # Фамилия
-                    "companyTitle": s_company_title,  # Название компании
-                    "fm": ar_fm,  # Телефон и почта
-                },
-            ).response
-            lead_id = bitrix_response.result["item"]["id"]  # Идентификатор созданного лида
-            app.logger.info("Создан лид с ID %s", lead_id)
-            return jsonify({"message": "Лид создан", "id": lead_id})
-        except (BitrixAPIError, BitrixSDKException) as error:
-            # Подробности ошибки пишем в лог, посетителю их не показываем
-            app.logger.error(error)
-            return jsonify({"message": "Не удалось создать лид, попробуйте позже"}), 502
-
-
-    # Запуск: python handler.py
-    if __name__ == "__main__":
-        app.run(port=3000)
     ```
 
 - Go
@@ -1235,24 +1235,6 @@
     console.info(response.getData().result.item)
     ```
 
-- PHP
-
-    ```php
-    <?php
-    // Сохраните в файл check.php в корне проекта рядом с каталогом vendor
-    // Запуск: B24_HOOK='https://your-domain.bitrix24.ru/rest/1/TOKEN/' php check.php
-    require_once __DIR__ . '/vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-
-    $sb = ServiceBuilderFactory::createServiceBuilderFromWebhook(getenv('B24_HOOK'));
-    $leadId = 3465; // Идентификатор из ответа обработчика
-
-    $result = $sb->getCRMScope()->item()->get(1, $leadId);
-
-    print_r($result->item());
-    ```
-
 - Python
 
     ```python
@@ -1271,6 +1253,24 @@
     bitrix_response = client.crm.item.get(entity_type_id=1, bitrix_id=lead_id).response
 
     print(bitrix_response.result["item"])
+    ```
+
+- PHP
+
+    ```php
+    <?php
+    // Сохраните в файл check.php в корне проекта рядом с каталогом vendor
+    // Запуск: B24_HOOK='https://your-domain.bitrix24.ru/rest/1/TOKEN/' php check.php
+    require_once __DIR__ . '/vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+
+    $sb = ServiceBuilderFactory::createServiceBuilderFromWebhook(getenv('B24_HOOK'));
+    $leadId = 3465; // Идентификатор из ответа обработчика
+
+    $result = $sb->getCRMScope()->item()->get(1, $leadId);
+
+    print_r($result->item());
     ```
 
 - Go

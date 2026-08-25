@@ -252,6 +252,44 @@
     </script>
     ```
 
+- Python
+
+    Пример
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    try:
+        bitrix_response = client.crm.deal.recurring.add(fields={
+            "TITLE": "Monthly Retainer Renewal",
+            "CATEGORY_ID": 0,
+            "STAGE_ID": "NEW",
+            "IS_ACTIVE": "Y",
+            "CURRENCY_ID": "USD",
+            "OPPORTUNITY": 5000,
+            "DEAL_ID": 45,
+            "IS_LIMIT": "D",
+            "LIMIT_DATE": "2027-03-04",
+            "START_DATE": "2026-04-04",
+            "PARAMS": {
+                "MODE": "multiple",
+                "MULTIPLE_TYPE": "month",
+                "MULTIPLE_INTERVAL": 1,
+                "OFFSET_BEGINDATE_TYPE": "day",
+                "OFFSET_BEGINDATE_VALUE": 1,
+                "OFFSET_CLOSEDATE_TYPE": "month",
+                "OFFSET_CLOSEDATE_VALUE": 2,
+            },
+        }).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php
@@ -364,44 +402,6 @@
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
-    ```
-
-- Python
-
-    Пример
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-    try:
-        bitrix_response = client.crm.deal.recurring.add(fields={
-            "TITLE": "Monthly Retainer Renewal",
-            "CATEGORY_ID": 0,
-            "STAGE_ID": "NEW",
-            "IS_ACTIVE": "Y",
-            "CURRENCY_ID": "USD",
-            "OPPORTUNITY": 5000,
-            "DEAL_ID": 45,
-            "IS_LIMIT": "D",
-            "LIMIT_DATE": "2027-03-04",
-            "START_DATE": "2026-04-04",
-            "PARAMS": {
-                "MODE": "multiple",
-                "MULTIPLE_TYPE": "month",
-                "MULTIPLE_INTERVAL": 1,
-                "OFFSET_BEGINDATE_TYPE": "day",
-                "OFFSET_BEGINDATE_VALUE": 1,
-                "OFFSET_CLOSEDATE_TYPE": "month",
-                "OFFSET_CLOSEDATE_VALUE": 2,
-            },
-        }).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - Go

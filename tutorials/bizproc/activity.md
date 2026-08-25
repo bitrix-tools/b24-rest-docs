@@ -82,6 +82,28 @@
     const $b24 = makeClient(req.body.auth)
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixApp, BitrixToken, Client
+
+    APP = BitrixApp(client_id="local.xxxxxxxx.xxxxxxxx", client_secret="yyyyyyyy")
+
+    def make_client(auth: dict) -> tuple[Client, BitrixToken]:
+        token = BitrixToken(
+            domain=auth["domain"],
+            auth_token=auth["access_token"],
+            refresh_token=auth.get("refresh_token", ""),
+            bitrix_app=APP,
+        )
+        return Client(token), token
+
+    auth = request.json["auth"]  # словарь auth из тела запроса обработчика
+    client, token = make_client(auth)
+    ```
+
+
 - PHP
 
     ```php
@@ -114,28 +136,6 @@
     $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
         ->init($appProfile, $authToken, $domain, DefaultOAuthServerUrl::default());
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixApp, BitrixToken, Client
-
-    APP = BitrixApp(client_id="local.xxxxxxxx.xxxxxxxx", client_secret="yyyyyyyy")
-
-    def make_client(auth: dict) -> tuple[Client, BitrixToken]:
-        token = BitrixToken(
-            domain=auth["domain"],
-            auth_token=auth["access_token"],
-            refresh_token=auth.get("refresh_token", ""),
-            bitrix_app=APP,
-        )
-        return Client(token), token
-
-    auth = request.json["auth"]  # словарь auth из тела запроса обработчика
-    client, token = make_client(auth)
-    ```
-
 {% endlist %}
 
 ## 1. Зарегистрируйте действие
@@ -196,6 +196,44 @@
     console.info(response.getData().result) // true
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+
+    # client построен на токене установленного приложения.
+    result = client.bizproc.activity.add(
+        code="create_smart_invoice",
+        handler="https://your-domain.example/bp-handler",
+        auth_user_id=1,
+        name="Создать смарт-счет",
+        description="Создает смарт-счет по данным лида или сделки",
+        properties={
+            "invoice_title": {
+                "Name": "Название счета",
+                "Type": "string",
+                "Required": "Y",
+                "Default": "Счет по документу CRM",
+            },
+            "mycompany_id": {
+                "Name": "Идентификатор вашей компании",
+                "Type": "int",
+                "Required": "Y",
+                "Default": "1",
+            },
+        },
+        filter={
+            "INCLUDE": [
+                ["crm", "CCrmDocumentDeal"],
+                ["crm", "CCrmDocumentLead"],
+            ],
+        },
+    ).response.result
+
+    print(result)  # True
+    ```
+
+
 - PHP
 
     ```php
@@ -236,44 +274,6 @@
 
     print_r($response->getResponseData()->getResult()); // true
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-
-    # client построен на токене установленного приложения.
-    result = client.bizproc.activity.add(
-        code="create_smart_invoice",
-        handler="https://your-domain.example/bp-handler",
-        auth_user_id=1,
-        name="Создать смарт-счет",
-        description="Создает смарт-счет по данным лида или сделки",
-        properties={
-            "invoice_title": {
-                "Name": "Название счета",
-                "Type": "string",
-                "Required": "Y",
-                "Default": "Счет по документу CRM",
-            },
-            "mycompany_id": {
-                "Name": "Идентификатор вашей компании",
-                "Type": "int",
-                "Required": "Y",
-                "Default": "1",
-            },
-        },
-        filter={
-            "INCLUDE": [
-                ["crm", "CCrmDocumentDeal"],
-                ["crm", "CCrmDocumentLead"],
-            ],
-        },
-    ).response.result
-
-    print(result)  # True
-    ```
-
 {% endlist %}
 
 Если нужно добавить робота для CRM-автоматизации, замените метод `bizproc.activity.add` на [bizproc.robot.add](../../api-reference/bizproc/bizproc-robot/bizproc-robot-add.md). Параметры `CODE`, `HANDLER`, `AUTH_USER_ID`, `NAME`, `DESCRIPTION`, `PROPERTIES` и `FILTER` используются так же.
@@ -323,6 +323,25 @@
     const properties = req.body.properties || {}
     ```
 
+- Python
+
+    ```python
+    def parse_document_id(document_id: list[str]) -> dict:
+        for value in document_id:
+            if value.startswith("DEAL_"):
+                return {"entityTypeId": 2, "ownerType": "D", "id": int(value[5:])}
+
+            if value.startswith("LEAD_"):
+                return {"entityTypeId": 1, "ownerType": "L", "id": int(value[5:])}
+
+        raise ValueError("Действие запущено не из лида и не из сделки")
+
+    payload = request.json
+    source = parse_document_id(payload.get("document_id", []))
+    properties = payload.get("properties", {})
+    ```
+
+
 - PHP
 
     ```php
@@ -345,25 +364,6 @@
     $source = parseDocumentId((array)($_REQUEST['document_id'] ?? []));
     $properties = $_REQUEST['properties'] ?? [];
     ```
-
-- Python
-
-    ```python
-    def parse_document_id(document_id: list[str]) -> dict:
-        for value in document_id:
-            if value.startswith("DEAL_"):
-                return {"entityTypeId": 2, "ownerType": "D", "id": int(value[5:])}
-
-            if value.startswith("LEAD_"):
-                return {"entityTypeId": 1, "ownerType": "L", "id": int(value[5:])}
-
-        raise ValueError("Действие запущено не из лида и не из сделки")
-
-    payload = request.json
-    source = parse_document_id(payload.get("document_id", []))
-    properties = payload.get("properties", {})
-    ```
-
 {% endlist %}
 
 ## 3. Получите CRM-объект и товары
@@ -406,6 +406,23 @@
     const sourceRows = sourceRowsResult.productRows
     ```
 
+- Python
+
+    ```python
+    source_item = token.call_method("crm.item.get", {
+        "entityTypeId": source["entityTypeId"],
+        "id": source["id"],
+    })["result"]["item"]
+
+    source_rows = token.call_method("crm.item.productrow.list", {
+        "filter": {
+            "=ownerType": source["ownerType"],
+            "=ownerId": source["id"],
+        },
+    })["result"]["productRows"]
+    ```
+
+
 - PHP
 
     ```php
@@ -428,23 +445,6 @@
         ->getResponseData()
         ->getResult()['productRows'];
     ```
-
-- Python
-
-    ```python
-    source_item = token.call_method("crm.item.get", {
-        "entityTypeId": source["entityTypeId"],
-        "id": source["id"],
-    })["result"]["item"]
-
-    source_rows = token.call_method("crm.item.productrow.list", {
-        "filter": {
-            "=ownerType": source["ownerType"],
-            "=ownerId": source["id"],
-        },
-    })["result"]["productRows"]
-    ```
-
 {% endlist %}
 
 В ответе `crm.item.get` сохраните `item.companyId`, `item.contactId` или `item.contactIds`. Эти поля нужны для клиента смарт-счета. В ответе `crm.item.productrow.list` сохраните массив `productRows`: его нужно подготовить и передать в смарт-счет.
@@ -514,6 +514,54 @@
     console.info(`Создан смарт-счет ${invoiceId}`)
     ```
 
+- Python
+
+    ```python
+    def prepare_product_rows(rows: list[dict]) -> list[dict]:
+        return [
+            {
+                "productId": row.get("productId"),
+                "productName": row.get("productName"),
+                "price": row.get("price"),
+                "quantity": row.get("quantity", 1),
+                "discountTypeId": row.get("discountTypeId"),
+                "discountRate": row.get("discountRate"),
+                "discountSum": row.get("discountSum"),
+                "taxRate": row.get("taxRate"),
+                "taxIncluded": row.get("taxIncluded"),
+                "measureCode": row.get("measureCode"),
+                "sort": row.get("sort", (index + 1) * 10),
+            }
+            for index, row in enumerate(rows)
+        ]
+
+    fields = {
+        "title": properties.get("invoice_title", "Счет по документу CRM"),
+        "companyId": int(source_item.get("companyId") or 0),
+        "contactId": int(source_item.get("contactId") or 0),
+        "contactIds": source_item.get("contactIds") or [],
+        "mycompanyId": int(properties.get("mycompany_id") or 0),
+    }
+
+    if source["entityTypeId"] == 2:
+        fields["parentId2"] = source["id"]
+
+    invoice = token.call_method("crm.item.add", {
+        "entityTypeId": 31,
+        "fields": fields,
+    })["result"]["item"]
+
+    if source_rows:
+        token.call_method("crm.item.productrow.set", {
+            "ownerType": "SI",
+            "ownerId": invoice["id"],
+            "productRows": prepare_product_rows(source_rows),
+        })
+
+    print(f"Создан смарт-счет {invoice['id']}")
+    ```
+
+
 - PHP
 
     ```php
@@ -571,54 +619,6 @@
 
     echo 'Создан смарт-счет ' . $invoice['id'];
     ```
-
-- Python
-
-    ```python
-    def prepare_product_rows(rows: list[dict]) -> list[dict]:
-        return [
-            {
-                "productId": row.get("productId"),
-                "productName": row.get("productName"),
-                "price": row.get("price"),
-                "quantity": row.get("quantity", 1),
-                "discountTypeId": row.get("discountTypeId"),
-                "discountRate": row.get("discountRate"),
-                "discountSum": row.get("discountSum"),
-                "taxRate": row.get("taxRate"),
-                "taxIncluded": row.get("taxIncluded"),
-                "measureCode": row.get("measureCode"),
-                "sort": row.get("sort", (index + 1) * 10),
-            }
-            for index, row in enumerate(rows)
-        ]
-
-    fields = {
-        "title": properties.get("invoice_title", "Счет по документу CRM"),
-        "companyId": int(source_item.get("companyId") or 0),
-        "contactId": int(source_item.get("contactId") or 0),
-        "contactIds": source_item.get("contactIds") or [],
-        "mycompanyId": int(properties.get("mycompany_id") or 0),
-    }
-
-    if source["entityTypeId"] == 2:
-        fields["parentId2"] = source["id"]
-
-    invoice = token.call_method("crm.item.add", {
-        "entityTypeId": 31,
-        "fields": fields,
-    })["result"]["item"]
-
-    if source_rows:
-        token.call_method("crm.item.productrow.set", {
-            "ownerType": "SI",
-            "ownerId": invoice["id"],
-            "productRows": prepare_product_rows(source_rows),
-        })
-
-    print(f"Создан смарт-счет {invoice['id']}")
-    ```
-
 {% endlist %}
 
 Пример успешного ответа `crm.item.add`:

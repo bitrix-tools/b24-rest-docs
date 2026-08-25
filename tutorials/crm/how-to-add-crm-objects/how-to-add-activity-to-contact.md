@@ -63,23 +63,6 @@
     const resultContact = response.getData().result;
     ```
 
-- PHP
-
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $contactID = 1;
-    $resultContact = $sb->getCRMScope()->contact()->get($contactID)->contact();
-    ```
-
 - Python
 
     ```python
@@ -97,6 +80,23 @@
     result_contact = client.crm.contact.get(
         bitrix_id=contact_id,
     ).response.result
+    ```
+
+- PHP
+
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $contactID = 1;
+    $resultContact = $sb->getCRMScope()->contact()->get($contactID)->contact();
     ```
 
 - Go
@@ -279,6 +279,33 @@
     });
     ```
 
+- Python
+
+    ```python
+    contact_phone = result_contact["PHONE"][0]
+
+    response = client.crm.activity.add(
+        fields={
+            "SUBJECT": "calendar title",
+            "DESCRIPTION": "calendar body",
+            "DESCRIPTION_TYPE": 3,
+            "OWNER_ID": contact_id,
+            "OWNER_TYPE_ID": 3,
+            "TYPE_ID": 1,
+            "COMMUNICATIONS": [
+                {
+                    "VALUE": contact_phone["VALUE"],
+                    "ENTITY_ID": contact_id,
+                    "ENTITY_TYPE_ID": 3,
+                }
+            ],
+            "START_TIME": "2025-05-20T14:00:00",
+            "END_TIME": "2025-05-20T15:00:00",
+            "RESPONSIBLE_ID": result_contact["ASSIGNED_BY_ID"],
+        }
+    ).response
+    ```
+
 - PHP
 
     ```php
@@ -305,33 +332,6 @@
             "RESPONSIBLE_ID" => $resultContact->ASSIGNED_BY_ID,
         ]
     );
-    ```
-
-- Python
-
-    ```python
-    contact_phone = result_contact["PHONE"][0]
-
-    response = client.crm.activity.add(
-        fields={
-            "SUBJECT": "calendar title",
-            "DESCRIPTION": "calendar body",
-            "DESCRIPTION_TYPE": 3,
-            "OWNER_ID": contact_id,
-            "OWNER_TYPE_ID": 3,
-            "TYPE_ID": 1,
-            "COMMUNICATIONS": [
-                {
-                    "VALUE": contact_phone["VALUE"],
-                    "ENTITY_ID": contact_id,
-                    "ENTITY_TYPE_ID": 3,
-                }
-            ],
-            "START_TIME": "2025-05-20T14:00:00",
-            "END_TIME": "2025-05-20T15:00:00",
-            "RESPONSIBLE_ID": result_contact["ASSIGNED_BY_ID"],
-        }
-    ).response
     ```
 
 - Go
@@ -412,6 +412,20 @@
     console.dir(checkResponse.getData().result);
     ```
 
+- Python
+
+    ```python
+    activities = client.crm.activity.list(
+        filter={
+            "OWNER_TYPE_ID": 3,
+            "OWNER_ID": contact_id,
+        },
+        select=["*", "COMMUNICATIONS"],
+        order={"ID": "DESC"},
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -428,20 +442,6 @@
         ]
     )->getResponseData()->getResult();
     ```
-
-- Python
-
-    ```python
-    activities = client.crm.activity.list(
-        filter={
-            "OWNER_TYPE_ID": 3,
-            "OWNER_ID": contact_id,
-        },
-        select=["*", "COMMUNICATIONS"],
-        order={"ID": "DESC"},
-    ).response.result
-    ```
-
 {% endlist %}
 
 Сценарий выполнен, если в ответе есть объект с `ID` из шага 2, у него `TYPE_ID` равен `1`, а в `COMMUNICATIONS` лежит телефон клиента.
@@ -581,6 +581,60 @@
     createCalendarActivity();
     ```
 
+- Python
+
+    ```python
+    from datetime import datetime, timedelta
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    contact_id = 1
+    result_activity = None
+
+    try:
+        contact = client.crm.contact.get(bitrix_id=contact_id).response.result
+
+        if contact.get("ASSIGNED_BY_ID") and contact.get("PHONE"):
+            contact_phone = contact["PHONE"][0]
+            staff_id = contact["ASSIGNED_BY_ID"]
+            now = datetime.now()
+            result_activity = client.crm.activity.add(
+                fields={
+                    "SUBJECT": "calendar title",
+                    "DESCRIPTION": "calendar body",
+                    "DESCRIPTION_TYPE": 3,
+                    "OWNER_ID": contact_id,
+                    "OWNER_TYPE_ID": 3,
+                    "TYPE_ID": 1,
+                    "COMMUNICATIONS": [
+                        {
+                            "VALUE": contact_phone["VALUE"],
+                            "ENTITY_ID": contact_id,
+                            "ENTITY_TYPE_ID": 3,
+                        }
+                    ],
+                    "START_TIME": now.isoformat(timespec="seconds"),
+                    "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
+                    "RESPONSIBLE_ID": staff_id,
+                }
+            ).response
+    except BitrixAPIError as error:
+        print({"message": f"Activity not added: {error}"})
+    else:
+        if result_activity and result_activity.result:
+            print({"message": "Activity add"})
+        else:
+            print({"message": "Activity not added"})
+    ```
+
 - PHP
 
     ```php
@@ -636,60 +690,6 @@
     } catch (\Throwable $e) {
         echo json_encode(['message' => 'Activity not added: ' . $e->getMessage()]);
     }
-    ```
-
-- Python
-
-    ```python
-    from datetime import datetime, timedelta
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    contact_id = 1
-    result_activity = None
-
-    try:
-        contact = client.crm.contact.get(bitrix_id=contact_id).response.result
-
-        if contact.get("ASSIGNED_BY_ID") and contact.get("PHONE"):
-            contact_phone = contact["PHONE"][0]
-            staff_id = contact["ASSIGNED_BY_ID"]
-            now = datetime.now()
-            result_activity = client.crm.activity.add(
-                fields={
-                    "SUBJECT": "calendar title",
-                    "DESCRIPTION": "calendar body",
-                    "DESCRIPTION_TYPE": 3,
-                    "OWNER_ID": contact_id,
-                    "OWNER_TYPE_ID": 3,
-                    "TYPE_ID": 1,
-                    "COMMUNICATIONS": [
-                        {
-                            "VALUE": contact_phone["VALUE"],
-                            "ENTITY_ID": contact_id,
-                            "ENTITY_TYPE_ID": 3,
-                        }
-                    ],
-                    "START_TIME": now.isoformat(timespec="seconds"),
-                    "END_TIME": (now + timedelta(hours=1)).isoformat(timespec="seconds"),
-                    "RESPONSIBLE_ID": staff_id,
-                }
-            ).response
-    except BitrixAPIError as error:
-        print({"message": f"Activity not added: {error}"})
-    else:
-        if result_activity and result_activity.result:
-            print({"message": "Activity add"})
-        else:
-            print({"message": "Activity not added"})
     ```
 
 - Go

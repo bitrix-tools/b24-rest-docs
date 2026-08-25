@@ -169,6 +169,101 @@
     }
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    iblock_id = 23
+
+
+    def add_property(fields):
+        return client.catalog.product_property.add(fields=fields).response.result["productProperty"]
+
+
+    def add_property_enum(property_id, value, xml_id, sort):
+        return client.catalog.product_property_enum.add(
+            fields={
+                "propertyId": property_id,
+                "value": value,
+                "xmlId": xml_id,
+                "sort": sort,
+            },
+        ).response.result["productPropertyEnum"]
+
+
+    try:
+        color_property = add_property({
+            "iblockId": iblock_id,
+            "name": "Цвет",
+            "code": "COLOR",
+            "propertyType": "L",
+            "listType": "L",
+            "multiple": "N",
+            "active": "Y",
+            "sort": 100,
+        })
+
+        size_property = add_property({
+            "iblockId": iblock_id,
+            "name": "Размеры",
+            "code": "SIZES",
+            "propertyType": "L",
+            "listType": "C",
+            "multiple": "Y",
+            "active": "Y",
+            "sort": 200,
+        })
+
+        certificate_property = add_property({
+            "iblockId": iblock_id,
+            "name": "Сертификат",
+            "code": "CERTIFICATE",
+            "propertyType": "F",
+            "multiple": "N",
+            "active": "Y",
+            "sort": 300,
+        })
+
+        gallery_property = add_property({
+            "iblockId": iblock_id,
+            "name": "Галерея",
+            "code": "GALLERY",
+            "propertyType": "F",
+            "multiple": "Y",
+            "active": "Y",
+            "sort": 400,
+        })
+
+        color_blue = add_property_enum(color_property["id"], "Синий", "BLUE", 100)
+        color_red = add_property_enum(color_property["id"], "Красный", "RED", 200)
+        size_m = add_property_enum(size_property["id"], "M", "M", 100)
+        size_l = add_property_enum(size_property["id"], "L", "L", 200)
+
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+
+    else:
+        print({
+            "colorPropertyId": color_property["id"],
+            "colorBlueId": color_blue["id"],
+            "colorRedId": color_red["id"],
+            "sizePropertyId": size_property["id"],
+            "sizeValueIds": [size_m["id"], size_l["id"]],
+            "certificatePropertyId": certificate_property["id"],
+            "galleryPropertyId": gallery_property["id"],
+        })
+    ```
+
 - PHP
 
     ```php
@@ -279,101 +374,6 @@
         echo 'Ошибка: '.$exception->getMessage();
     }
     ?>
-    ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    iblock_id = 23
-
-
-    def add_property(fields):
-        return client.catalog.product_property.add(fields=fields).response.result["productProperty"]
-
-
-    def add_property_enum(property_id, value, xml_id, sort):
-        return client.catalog.product_property_enum.add(
-            fields={
-                "propertyId": property_id,
-                "value": value,
-                "xmlId": xml_id,
-                "sort": sort,
-            },
-        ).response.result["productPropertyEnum"]
-
-
-    try:
-        color_property = add_property({
-            "iblockId": iblock_id,
-            "name": "Цвет",
-            "code": "COLOR",
-            "propertyType": "L",
-            "listType": "L",
-            "multiple": "N",
-            "active": "Y",
-            "sort": 100,
-        })
-
-        size_property = add_property({
-            "iblockId": iblock_id,
-            "name": "Размеры",
-            "code": "SIZES",
-            "propertyType": "L",
-            "listType": "C",
-            "multiple": "Y",
-            "active": "Y",
-            "sort": 200,
-        })
-
-        certificate_property = add_property({
-            "iblockId": iblock_id,
-            "name": "Сертификат",
-            "code": "CERTIFICATE",
-            "propertyType": "F",
-            "multiple": "N",
-            "active": "Y",
-            "sort": 300,
-        })
-
-        gallery_property = add_property({
-            "iblockId": iblock_id,
-            "name": "Галерея",
-            "code": "GALLERY",
-            "propertyType": "F",
-            "multiple": "Y",
-            "active": "Y",
-            "sort": 400,
-        })
-
-        color_blue = add_property_enum(color_property["id"], "Синий", "BLUE", 100)
-        color_red = add_property_enum(color_property["id"], "Красный", "RED", 200)
-        size_m = add_property_enum(size_property["id"], "M", "M", 100)
-        size_l = add_property_enum(size_property["id"], "L", "L", 200)
-
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-
-    else:
-        print({
-            "colorPropertyId": color_property["id"],
-            "colorBlueId": color_blue["id"],
-            "colorRedId": color_red["id"],
-            "sizePropertyId": size_property["id"],
-            "sizeValueIds": [size_m["id"], size_l["id"]],
-            "certificatePropertyId": certificate_property["id"],
-            "galleryPropertyId": gallery_property["id"],
-        })
     ```
 
 - Go
@@ -523,6 +523,70 @@
     }
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    import base64
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    iblock_id = 23
+    color_property_id = 431
+    color_blue_id = 1739
+    size_property_id = 432
+    size_value_ids = [1741, 1742]
+    certificate_property_id = 433
+    gallery_property_id = 434
+
+
+    def encode_file(path):
+        with open(path, "rb") as file:
+            return [path.split("/")[-1], base64.b64encode(file.read()).decode()]
+
+
+    fields = {
+        "iblockId": iblock_id,
+        "name": "Футболка с принтом",
+        "active": "Y",
+        "sort": 100,
+        f"property{color_property_id}": color_blue_id,
+        f"property{size_property_id}": size_value_ids,
+        f"property{certificate_property_id}": {
+            "value": {
+                "fileData": encode_file("pictures/certificate.pdf"),
+            },
+        },
+        f"property{gallery_property_id}": [
+            {
+                "value": {
+                    "fileData": encode_file("pictures/gallery-1.jpg"),
+                },
+            },
+            {
+                "value": {
+                    "fileData": encode_file("pictures/gallery-2.jpg"),
+                },
+            },
+        ],
+    }
+
+    try:
+        element = client.catalog.product.add(fields=fields).response.result["element"]
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        print(f"Товар добавлен: {element['id']}")
+    ```
+
 - PHP
 
     ```php
@@ -600,70 +664,6 @@
         echo 'Ошибка: '.$exception->getMessage();
     }
     ?>
-    ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    import base64
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    iblock_id = 23
-    color_property_id = 431
-    color_blue_id = 1739
-    size_property_id = 432
-    size_value_ids = [1741, 1742]
-    certificate_property_id = 433
-    gallery_property_id = 434
-
-
-    def encode_file(path):
-        with open(path, "rb") as file:
-            return [path.split("/")[-1], base64.b64encode(file.read()).decode()]
-
-
-    fields = {
-        "iblockId": iblock_id,
-        "name": "Футболка с принтом",
-        "active": "Y",
-        "sort": 100,
-        f"property{color_property_id}": color_blue_id,
-        f"property{size_property_id}": size_value_ids,
-        f"property{certificate_property_id}": {
-            "value": {
-                "fileData": encode_file("pictures/certificate.pdf"),
-            },
-        },
-        f"property{gallery_property_id}": [
-            {
-                "value": {
-                    "fileData": encode_file("pictures/gallery-1.jpg"),
-                },
-            },
-            {
-                "value": {
-                    "fileData": encode_file("pictures/gallery-2.jpg"),
-                },
-            },
-        ],
-    }
-
-    try:
-        element = client.catalog.product.add(fields=fields).response.result["element"]
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    else:
-        print(f"Товар добавлен: {element['id']}")
     ```
 
 - Go
@@ -814,6 +814,38 @@
     }
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    product_id = 1267
+    catalog_group_id = 1
+
+    try:
+        price = client.catalog.price.add(
+            fields={
+                "productId": product_id,
+                "catalogGroupId": catalog_group_id,
+                "price": 4900,
+                "currency": "RUB",
+            },
+        ).response.result["price"]
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        print(f"Цена добавлена: {price['id']}")
+    ```
+
 - PHP
 
     ```php
@@ -857,38 +889,6 @@
         echo 'Ошибка: '.$exception->getMessage();
     }
     ?>
-    ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    product_id = 1267
-    catalog_group_id = 1
-
-    try:
-        price = client.catalog.price.add(
-            fields={
-                "productId": product_id,
-                "catalogGroupId": catalog_group_id,
-                "price": 4900,
-                "currency": "RUB",
-            },
-        ).response.result["price"]
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    else:
-        print(f"Цена добавлена: {price['id']}")
     ```
 
 - Go

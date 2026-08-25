@@ -147,33 +147,6 @@
     </script>
     ```
 
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.documentgenerator.numerator.list',
-                [
-                    'start' => 0,
-                ]
-            );
-
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-
-        echo '<pre>';
-        print_r($result);
-        echo '</pre>';
-
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting numerators list: ' . $e->getMessage();
-    }
-    ```
-
 - Python
 
     ```python
@@ -240,6 +213,33 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.documentgenerator.numerator.list',
+                [
+                    'start' => 0,
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting numerators list: ' . $e->getMessage();
+    }
     ```
 
 - BX24.js

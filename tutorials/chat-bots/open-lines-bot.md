@@ -52,6 +52,22 @@
     const botToken = process.env.BOT_TOKEN
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk
+    import os
+    from b24pysdk import BitrixWebhook, Client
+
+    token = BitrixWebhook(
+        domain=os.environ["B24_DOMAIN"],
+        webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
+    )
+    client = Client(token)
+    bot_token = os.environ["BOT_TOKEN"]
+    ```
+
+
 - PHP
 
     ```php
@@ -71,22 +87,6 @@
 
     $botToken = getenv('BOT_TOKEN');
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk
-    import os
-    from b24pysdk import BitrixWebhook, Client
-
-    token = BitrixWebhook(
-        domain=os.environ["B24_DOMAIN"],
-        webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
-    )
-    client = Client(token)
-    bot_token = os.environ["BOT_TOKEN"]
-    ```
-
 {% endlist %}
 
 ## 1. Зарегистрируйте бота для Открытых линий
@@ -124,27 +124,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    // Для imbot.v2 нет типизированной обертки, поэтому используется прямой вызов через ядро SDK.
-    $b24->core->call('imbot.v2.Bot.register', [
-        'fields' => [
-            'code' => 'open_line_bot',
-            'botToken' => $botToken,
-            'type' => 'bot',
-            'isSupportOpenline' => true,
-            'eventMode' => 'webhook',
-            'webhookUrl' => $handlerUrl,
-            'properties' => [
-                'name' => 'Линия поддержки',
-                'workPosition' => 'Первая линия',
-                'color' => 'GREEN',
-            ],
-        ],
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -169,6 +148,27 @@
     )
     ```
 
+
+- PHP
+
+    ```php
+    // Для imbot.v2 нет типизированной обертки, поэтому используется прямой вызов через ядро SDK.
+    $b24->core->call('imbot.v2.Bot.register', [
+        'fields' => [
+            'code' => 'open_line_bot',
+            'botToken' => $botToken,
+            'type' => 'bot',
+            'isSupportOpenline' => true,
+            'eventMode' => 'webhook',
+            'webhookUrl' => $handlerUrl,
+            'properties' => [
+                'name' => 'Линия поддержки',
+                'workPosition' => 'Первая линия',
+                'color' => 'GREEN',
+            ],
+        ],
+    ]);
+    ```
 {% endlist %}
 
 В успешном ответе сохраните `result.bot.id`. Он понадобится, если приложение работает с несколькими ботами.
@@ -221,15 +221,6 @@
     }
     ```
 
-- PHP
-
-    ```php
-    if (($event['data']['chat']['entityType'] ?? '') === 'LINES') {
-        $chatId = (int)$event['data']['message']['chatId'];
-        // сообщение из Открытой линии
-    }
-    ```
-
 - Python
 
     ```python
@@ -239,6 +230,15 @@
         ...
     ```
 
+
+- PHP
+
+    ```php
+    if (($event['data']['chat']['entityType'] ?? '') === 'LINES') {
+        $chatId = (int)$event['data']['message']['chatId'];
+        // сообщение из Открытой линии
+    }
+    ```
 {% endlist %}
 
 ## 3. Управляйте сессией
@@ -278,21 +278,6 @@
     })
     ```
 
-- PHP
-
-    ```php
-    $b24->core->call('imopenlines.bot.session.operator', ['CHAT_ID' => $chatId]);
-    $b24->core->call('imopenlines.bot.session.transfer', [
-        'CHAT_ID' => $chatId,
-        'USER_ID' => $operatorId,
-        'CLIENT_ID' => $botToken,
-    ]);
-    $b24->core->call('imopenlines.bot.session.finish', [
-        'CHAT_ID' => $chatId,
-        'CLIENT_ID' => $botToken,
-    ]);
-    ```
-
 - Python
 
     ```python
@@ -307,6 +292,21 @@
     )
     ```
 
+
+- PHP
+
+    ```php
+    $b24->core->call('imopenlines.bot.session.operator', ['CHAT_ID' => $chatId]);
+    $b24->core->call('imopenlines.bot.session.transfer', [
+        'CHAT_ID' => $chatId,
+        'USER_ID' => $operatorId,
+        'CLIENT_ID' => $botToken,
+    ]);
+    $b24->core->call('imopenlines.bot.session.finish', [
+        'CHAT_ID' => $chatId,
+        'CLIENT_ID' => $botToken,
+    ]);
+    ```
 {% endlist %}
 
 Успешный ответ каждого метода управления сессией:

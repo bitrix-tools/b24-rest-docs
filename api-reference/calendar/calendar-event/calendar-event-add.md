@@ -835,6 +835,72 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.calendar.event.add(
+            type="company_calendar",
+            owner_id="",
+            from_date="2025-01-31T18:00:00",
+            to="2025-01-31T20:00:00",
+            section=1,
+            name="Важная встреча",
+            attendees=[
+                29,
+                93,
+            ],
+            host=1,
+            skip_time="N",
+            timezone_from="Europe/Moscow",
+            timezone_to="Europe/Moscow",
+            description="Описание события",
+            color="#FF0000",
+            text_color="#000000",
+            accessibility="busy",
+            importance="high",
+            private_event="N",
+            is_meeting="Y",
+            location="Конференц-зал",
+            remind=[
+                {
+                    "type": "min",
+                    "count": 30,
+                },
+            ],
+            meeting={
+                "notify": True,
+                "reinvite": False,
+                "allow_invite": True,
+                "hide_guests": False,
+            },
+            rrule={
+                "FREQ": "WEEKLY",
+                "COUNT": 10,
+                "INTERVAL": 1,
+                "BYDAY": [
+                    "MO",
+                    "WE",
+                    "FR",
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
 
@@ -996,72 +1062,6 @@
     ```
 
 
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.calendar.event.add(
-            type="company_calendar",
-            owner_id="",
-            from_date="2025-01-31T18:00:00",
-            to="2025-01-31T20:00:00",
-            section=1,
-            name="Важная встреча",
-            attendees=[
-                29,
-                93,
-            ],
-            host=1,
-            skip_time="N",
-            timezone_from="Europe/Moscow",
-            timezone_to="Europe/Moscow",
-            description="Описание события",
-            color="#FF0000",
-            text_color="#000000",
-            accessibility="busy",
-            importance="high",
-            private_event="N",
-            is_meeting="Y",
-            location="Конференц-зал",
-            remind=[
-                {
-                    "type": "min",
-                    "count": 30,
-                },
-            ],
-            meeting={
-                "notify": True,
-                "reinvite": False,
-                "allow_invite": True,
-                "hide_guests": False,
-            },
-            rrule={
-                "FREQ": "WEEKLY",
-                "COUNT": 10,
-                "INTERVAL": 1,
-                "BYDAY": [
-                    "MO",
-                    "WE",
-                    "FR",
-                ],
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
 - Go
 
     ```go

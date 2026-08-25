@@ -62,6 +62,25 @@
     const workflowIds = instances.map((instance) => instance.ID)
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+
+    token = BitrixWebhook(
+        domain="your-domain.bitrix24.com",
+        webhook_token="user_id/webhook_key",
+    )
+    client = Client(token)
+
+    instances = client.bizproc.workflow.instances(
+        select=["ID", "STARTED"],
+        filter={"<STARTED": "2025-01-01T00:00:00Z"},
+    ).response.result
+
+    workflow_ids = [instance["ID"] for instance in instances]
+    ```
+
 - PHP
 
     ```php
@@ -82,25 +101,6 @@
 
     $instances = $response->getResponseData()->getResult();
     $workflowIds = array_column($instances, 'ID');
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
-    client = Client(token)
-
-    instances = client.bizproc.workflow.instances(
-        select=["ID", "STARTED"],
-        filter={"<STARTED": "2025-01-01T00:00:00Z"},
-    ).response.result
-
-    workflow_ids = [instance["ID"] for instance in instances]
     ```
 
 - Go
@@ -182,14 +182,6 @@
     const isKilled = response.getData().result
     ```
 
-- PHP
-
-    ```php
-    $isKilled = $b24->getBizProcScope()->workflow()
-        ->kill($workflowIds[0])
-        ->isSuccess();
-    ```
-
 - Python
 
     ```python
@@ -197,6 +189,14 @@
         "bizproc.workflow.kill",
         {"ID": workflow_ids[0]},
     )
+    ```
+
+- PHP
+
+    ```php
+    $isKilled = $b24->getBizProcScope()->workflow()
+        ->kill($workflowIds[0])
+        ->isSuccess();
     ```
 
 - Go
@@ -291,67 +291,6 @@
     $b24.destroy()
     ```
 
-- PHP
-
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $userDateInput = readline('Введите дату в формате дд.мм.гггг: ');
-    if (!preg_match('/^\d{2}\.\d{2}\.\d{4}$/', $userDateInput)) {
-        throw new InvalidArgumentException('Введите дату в формате дд.мм.гггг');
-    }
-
-    [$day, $month, $year] = explode('.', $userDateInput);
-    $isoDate = "{$year}-{$month}-{$day}T00:00:00Z";
-    $confirmed = in_array('--confirm', $argv, true);
-    $workflowIds = [];
-    $start = 0;
-
-    do {
-        $response = $b24->core->call('bizproc.workflow.instances', [
-            'select' => ['ID', 'STARTED'],
-            'filter' => ['<STARTED' => $isoDate],
-            'start' => $start,
-        ]);
-
-        foreach ($response->getResponseData()->getResult() as $instance) {
-            $workflowIds[] = $instance['ID'];
-        }
-
-        $start = $response->getResponseData()->getPagination()->getNextItem();
-    } while ($start !== null);
-
-    if ($workflowIds === []) {
-        echo "Процессы не найдены\n";
-        exit;
-    }
-
-    echo "Найдено процессов: " . count($workflowIds) . "\n";
-    foreach ($workflowIds as $workflowId) {
-        echo "Процесс к удалению: {$workflowId}\n";
-    }
-
-    if (!$confirmed) {
-        echo "Проверьте список и запустите пример с аргументом --confirm для удаления\n";
-        exit;
-    }
-
-    foreach ($workflowIds as $workflowId) {
-        $isKilled = $b24->getBizProcScope()->workflow()->kill($workflowId)->isSuccess();
-        echo $isKilled
-            ? "Процесс {$workflowId} удален\n"
-            : "Ошибка при удалении процесса {$workflowId}\n";
-    }
-    ```
-
 - Python
 
     ```python
@@ -411,6 +350,67 @@
             print(f"Ошибка при удалении процесса {workflow_id}: {error}")
         else:
             print(f"Процесс {workflow_id} удален")
+    ```
+
+- PHP
+
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $userDateInput = readline('Введите дату в формате дд.мм.гггг: ');
+    if (!preg_match('/^\d{2}\.\d{2}\.\d{4}$/', $userDateInput)) {
+        throw new InvalidArgumentException('Введите дату в формате дд.мм.гггг');
+    }
+
+    [$day, $month, $year] = explode('.', $userDateInput);
+    $isoDate = "{$year}-{$month}-{$day}T00:00:00Z";
+    $confirmed = in_array('--confirm', $argv, true);
+    $workflowIds = [];
+    $start = 0;
+
+    do {
+        $response = $b24->core->call('bizproc.workflow.instances', [
+            'select' => ['ID', 'STARTED'],
+            'filter' => ['<STARTED' => $isoDate],
+            'start' => $start,
+        ]);
+
+        foreach ($response->getResponseData()->getResult() as $instance) {
+            $workflowIds[] = $instance['ID'];
+        }
+
+        $start = $response->getResponseData()->getPagination()->getNextItem();
+    } while ($start !== null);
+
+    if ($workflowIds === []) {
+        echo "Процессы не найдены\n";
+        exit;
+    }
+
+    echo "Найдено процессов: " . count($workflowIds) . "\n";
+    foreach ($workflowIds as $workflowId) {
+        echo "Процесс к удалению: {$workflowId}\n";
+    }
+
+    if (!$confirmed) {
+        echo "Проверьте список и запустите пример с аргументом --confirm для удаления\n";
+        exit;
+    }
+
+    foreach ($workflowIds as $workflowId) {
+        $isKilled = $b24->getBizProcScope()->workflow()->kill($workflowId)->isSuccess();
+        echo $isKilled
+            ? "Процесс {$workflowId} удален\n"
+            : "Ошибка при удалении процесса {$workflowId}\n";
+    }
     ```
 
 - Go
@@ -567,6 +567,17 @@
     console.log(checkResponse.getData().result.map((instance) => instance.ID))
     ```
 
+- Python
+
+    ```python
+    check_result = client.bizproc.workflow.instances(
+        select=["ID"],
+        filter={"<STARTED": "2025-01-01T00:00:00Z"},
+    ).response.result
+
+    print([instance["ID"] for instance in check_result])
+    ```
+
 - PHP
 
     ```php
@@ -578,17 +589,6 @@
     foreach ($checkResponse->getResponseData()->getResult() as $instance) {
         echo $instance['ID'] . PHP_EOL;
     }
-    ```
-
-- Python
-
-    ```python
-    check_result = client.bizproc.workflow.instances(
-        select=["ID"],
-        filter={"<STARTED": "2025-01-01T00:00:00Z"},
-    ).response.result
-
-    print([instance["ID"] for instance in check_result])
     ```
 
 - Go

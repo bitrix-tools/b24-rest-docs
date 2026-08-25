@@ -77,25 +77,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    // composer require bitrix24/b24phpsdk:"^3.0"
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Psr\Log\NullLogger;
-
-    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
-
-    $result = $sb->getCRMScope()->type()->list(
-        order: [],
-        filter: ['title' => 'Закупка оборудования']
-    );
-    ```
-
 - Python
 
     ```python
@@ -114,6 +95,25 @@
             "title": "Закупка оборудования",
         }
     ).response
+    ```
+
+- PHP
+
+    ```php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Psr\Log\NullLogger;
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $result = $sb->getCRMScope()->type()->list(
+        order: [],
+        filter: ['title' => 'Закупка оборудования']
+    );
     ```
 
 - Go
@@ -224,18 +224,6 @@
     });
     ```
 
-- PHP
-
-    ```php
-    $result = $sb->getCRMScope()->timelineComment()->add(
-        [
-            'ENTITY_ID' => 19,
-            'ENTITY_TYPE' => 'DYNAMIC_177',
-            'COMMENT' => 'Подтвердить закупку по почте!',
-        ]
-    );
-    ```
-
 - Python
 
     ```python
@@ -246,6 +234,18 @@
             "COMMENT": "Подтвердить закупку по почте!",
         }
     ).response
+    ```
+
+- PHP
+
+    ```php
+    $result = $sb->getCRMScope()->timelineComment()->add(
+        [
+            'ENTITY_ID' => 19,
+            'ENTITY_TYPE' => 'DYNAMIC_177',
+            'COMMENT' => 'Подтвердить закупку по почте!',
+        ]
+    );
     ```
 
 - Go
@@ -310,6 +310,19 @@
     console.dir(checkResponse.getData().result);
     ```
 
+- Python
+
+    ```python
+    comments = client.crm.timeline.comment.list(
+        filter={
+            "ENTITY_ID": 19,
+            "ENTITY_TYPE": "DYNAMIC_177",
+        },
+        order={"ID": "DESC"},
+    ).response.result
+    ```
+
+
 - PHP
 
     ```php
@@ -325,19 +338,6 @@
         ]
     )->getResponseData()->getResult();
     ```
-
-- Python
-
-    ```python
-    comments = client.crm.timeline.comment.list(
-        filter={
-            "ENTITY_ID": 19,
-            "ENTITY_TYPE": "DYNAMIC_177",
-        },
-        order={"ID": "DESC"},
-    ).response.result
-    ```
-
 {% endlist %}
 
 Сценарий выполнен, если в ответе есть объект с `ID` из шага 2, а его поле `COMMENT` совпадает с отправленным текстом.
@@ -458,6 +458,61 @@
     findSPA();
     ```
 
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+
+    def find_spa(client):
+        spa_title = "название_вашего_смарт_процесса"
+
+        try:
+            resp = client.crm.type.list(
+                filter={"title": spa_title},
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка при поиске смарт-процесса: {error}")
+            return
+
+        types = resp.result["types"]
+        if types:
+            spa_id = types[0]["entityTypeId"]
+            print(f"Смарт-процесс найден: {spa_id}")
+            create_comment(client, spa_id)
+        else:
+            print("Смарт-процесс не найден или данные пусты")
+
+
+    def create_comment(client, spa_id):
+        element_id = "ваш_ID_элемента"
+        comment_text = "ваш_комментарий"
+
+        try:
+            client.crm.timeline.comment.add(
+                fields={
+                    "ENTITY_ID": element_id,
+                    "ENTITY_TYPE": f"DYNAMIC_{spa_id}",
+                    "COMMENT": comment_text,
+                },
+            ).response
+        except BitrixAPIError as error:
+            print(f"Ошибка при создании комментария: {error}")
+        else:
+            print("Комментарий добавлен")
+
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    find_spa(client)
+    ```
+
 - PHP
 
     ```php
@@ -521,61 +576,6 @@
 
     // Вызов функции для поиска смарт-процесса и добавления комментария
     findSPA($sb);
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-
-    def find_spa(client):
-        spa_title = "название_вашего_смарт_процесса"
-
-        try:
-            resp = client.crm.type.list(
-                filter={"title": spa_title},
-            ).response
-        except BitrixAPIError as error:
-            print(f"Ошибка при поиске смарт-процесса: {error}")
-            return
-
-        types = resp.result["types"]
-        if types:
-            spa_id = types[0]["entityTypeId"]
-            print(f"Смарт-процесс найден: {spa_id}")
-            create_comment(client, spa_id)
-        else:
-            print("Смарт-процесс не найден или данные пусты")
-
-
-    def create_comment(client, spa_id):
-        element_id = "ваш_ID_элемента"
-        comment_text = "ваш_комментарий"
-
-        try:
-            client.crm.timeline.comment.add(
-                fields={
-                    "ENTITY_ID": element_id,
-                    "ENTITY_TYPE": f"DYNAMIC_{spa_id}",
-                    "COMMENT": comment_text,
-                },
-            ).response
-        except BitrixAPIError as error:
-            print(f"Ошибка при создании комментария: {error}")
-        else:
-            print("Комментарий добавлен")
-
-
-    client = Client(
-        BitrixWebhook(
-            domain="your-domain.bitrix24.com",
-            webhook_token="user_id/webhook_key",
-        )
-    )
-
-    find_spa(client)
     ```
 
 - Go

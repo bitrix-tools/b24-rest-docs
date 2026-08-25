@@ -120,6 +120,35 @@ SDK выполняют исходящие вызовы REST. Входящие с
     }
     ```
 
+- Python
+
+    ```python
+    # pip install b24pysdk flask
+    import os
+
+    from b24pysdk import BitrixApp, BitrixToken, Client
+
+    APP = BitrixApp(
+        client_id=os.environ["B24_CLIENT_ID"],
+        client_secret=os.environ["B24_CLIENT_SECRET"],
+    )
+
+    # store — ваше хранилище: база данных, файл или менеджер секретов
+
+
+    # auth — словарь авторизации из тела события установки
+    def make_client(auth: dict) -> tuple:
+        token = BitrixToken(
+            domain=auth["domain"],
+            auth_token=auth["access_token"],
+            refresh_token=auth["refresh_token"],
+            expires_in=int(auth["expires_in"]),
+            bitrix_app=APP,
+        )
+        return Client(token), token
+    ```
+
+
 - PHP
 
     ```php
@@ -159,35 +188,6 @@ SDK выполняют исходящие вызовы REST. Входящие с
             ->init($appProfile, $authToken, (string)$auth['domain'], DefaultOAuthServerUrl::default());
     }
     ```
-
-- Python
-
-    ```python
-    # pip install b24pysdk flask
-    import os
-
-    from b24pysdk import BitrixApp, BitrixToken, Client
-
-    APP = BitrixApp(
-        client_id=os.environ["B24_CLIENT_ID"],
-        client_secret=os.environ["B24_CLIENT_SECRET"],
-    )
-
-    # store — ваше хранилище: база данных, файл или менеджер секретов
-
-
-    # auth — словарь авторизации из тела события установки
-    def make_client(auth: dict) -> tuple:
-        token = BitrixToken(
-            domain=auth["domain"],
-            auth_token=auth["access_token"],
-            refresh_token=auth["refresh_token"],
-            expires_in=int(auth["expires_in"]),
-            bitrix_app=APP,
-        )
-        return Client(token), token
-    ```
-
 {% endlist %}
 
 ## Примите событие в обработчике
@@ -237,41 +237,6 @@ SDK выполняют исходящие вызовы REST. Входящие с
     })
 
     app.listen(3000)
-    ```
-
-- PHP
-
-    ```php
-    <?php
-    // handler.php
-    require_once 'vendor/autoload.php';
-
-    $event = (string)($_POST['event'] ?? '');
-    $data = (array)($_POST['data'] ?? []);
-    $auth = (array)($_POST['auth'] ?? []);
-
-    $handlerUrl = getenv('HANDLER_URL');
-    $botCode = 'overdue_tasks_bot';
-
-    if ($event !== 'ONAPPINSTALL' && $store->loadAuth($auth['application_token'] ?? '') === null) {
-        http_response_code(403);
-        exit;
-    }
-
-    try {
-        match ($event) {
-            'ONAPPINSTALL' => handleInstall($auth),
-            'ONIMBOTV2JOINCHAT' => handleJoinChat($auth, $data),
-            'ONIMBOTV2MESSAGEADD' => handleMessage($auth, $data),
-            'ONIMBOTV2DELETE' => handleBotDelete($auth, $data),
-            default => null,
-        };
-    } catch (Throwable $exception) {
-        error_log($event . ': ' . $exception->getMessage());
-    }
-
-    // Платформа ждет ответ 200, повторная доставка события не гарантируется
-    http_response_code(200);
     ```
 
 - Python
@@ -326,6 +291,41 @@ SDK выполняют исходящие вызовы REST. Входящие с
         return "", 200
     ```
 
+
+- PHP
+
+    ```php
+    <?php
+    // handler.php
+    require_once 'vendor/autoload.php';
+
+    $event = (string)($_POST['event'] ?? '');
+    $data = (array)($_POST['data'] ?? []);
+    $auth = (array)($_POST['auth'] ?? []);
+
+    $handlerUrl = getenv('HANDLER_URL');
+    $botCode = 'overdue_tasks_bot';
+
+    if ($event !== 'ONAPPINSTALL' && $store->loadAuth($auth['application_token'] ?? '') === null) {
+        http_response_code(403);
+        exit;
+    }
+
+    try {
+        match ($event) {
+            'ONAPPINSTALL' => handleInstall($auth),
+            'ONIMBOTV2JOINCHAT' => handleJoinChat($auth, $data),
+            'ONIMBOTV2MESSAGEADD' => handleMessage($auth, $data),
+            'ONIMBOTV2DELETE' => handleBotDelete($auth, $data),
+            default => null,
+        };
+    } catch (Throwable $exception) {
+        error_log($event . ': ' . $exception->getMessage());
+    }
+
+    // Платформа ждет ответ 200, повторная доставка события не гарантируется
+    http_response_code(200);
+    ```
 {% endlist %}
 
 Функции шагов из примеров ниже разместите в этом же файле — обработчик вызывает их по имени события.
@@ -377,6 +377,34 @@ SDK выполняют исходящие вызовы REST. Входящие с
     }
     ```
 
+- Python
+
+    ```python
+    def handle_install(auth: dict) -> None:
+        store.save_auth(auth["application_token"], auth)
+
+        _, token = make_client(auth)
+        # Типизированной обертки для imbot.v2 нет, поэтому вызываем метод через ядро SDK
+        response = token.call_method(
+            "imbot.v2.Bot.register",
+            {
+                "fields": {
+                    "code": BOT_CODE,
+                    "type": "bot",
+                    "eventMode": "webhook",
+                    "webhookUrl": HANDLER_URL,
+                    "properties": {
+                        "name": "Докладун",
+                        "workPosition": "Докладываю о просроченных задачах",
+                        "color": "aqua",
+                    },
+                },
+            },
+        )
+        store.save_bot(response["result"]["bot"]["id"])
+    ```
+
+
 - PHP
 
     ```php
@@ -405,34 +433,6 @@ SDK выполняют исходящие вызовы REST. Входящие с
         $store->saveBot((int)$result['bot']['id']);
     }
     ```
-
-- Python
-
-    ```python
-    def handle_install(auth: dict) -> None:
-        store.save_auth(auth["application_token"], auth)
-
-        _, token = make_client(auth)
-        # Типизированной обертки для imbot.v2 нет, поэтому вызываем метод через ядро SDK
-        response = token.call_method(
-            "imbot.v2.Bot.register",
-            {
-                "fields": {
-                    "code": BOT_CODE,
-                    "type": "bot",
-                    "eventMode": "webhook",
-                    "webhookUrl": HANDLER_URL,
-                    "properties": {
-                        "name": "Докладун",
-                        "workPosition": "Докладываю о просроченных задачах",
-                        "color": "aqua",
-                    },
-                },
-            },
-        )
-        store.save_bot(response["result"]["bot"]["id"])
-    ```
-
 {% endlist %}
 
 Успешный ответ содержит объект бота. Сохраните `result.bot.id` — он понадобится, если приложение регистрирует несколько ботов.
@@ -496,25 +496,6 @@ SDK выполняют исходящие вызовы REST. Входящие с
     }
     ```
 
-- PHP
-
-    ```php
-    function handleJoinChat(array $auth, array $data): void
-    {
-        global $store;
-
-        $b24 = makeServiceBuilder($store->loadAuth((string)$auth['application_token']));
-
-        $b24->core->call('imbot.v2.Chat.Message.send', [
-            'botId' => (int)$data['bot']['id'],
-            'dialogId' => (string)$data['dialogId'],
-            'fields' => [
-                'message' => 'Привет! Я Докладун. Спросите [send=что горит]Что горит?[/send]',
-            ],
-        ]);
-    }
-    ```
-
 - Python
 
     ```python
@@ -533,6 +514,25 @@ SDK выполняют исходящие вызовы REST. Входящие с
         )
     ```
 
+
+- PHP
+
+    ```php
+    function handleJoinChat(array $auth, array $data): void
+    {
+        global $store;
+
+        $b24 = makeServiceBuilder($store->loadAuth((string)$auth['application_token']));
+
+        $b24->core->call('imbot.v2.Chat.Message.send', [
+            'botId' => (int)$data['bot']['id'],
+            'dialogId' => (string)$data['dialogId'],
+            'fields' => [
+                'message' => 'Привет! Я Докладун. Спросите [send=что горит]Что горит?[/send]',
+            ],
+        ]);
+    }
+    ```
 {% endlist %}
 
 Успешный ответ содержит идентификатор отправленного сообщения:
@@ -625,46 +625,6 @@ SDK выполняют исходящие вызовы REST. Входящие с
     }
     ```
 
-- PHP
-
-    ```php
-    function handleMessage(array $auth, array $data): void
-    {
-        global $store;
-
-        $b24 = makeServiceBuilder($store->loadAuth((string)$auth['application_token']));
-
-        $text = mb_strtolower(trim((string)($data['message']['text'] ?? '')));
-        $message = 'Не соображу, что вы хотите узнать. Спросите [send=что горит]Что горит?[/send]';
-
-        if ($text === 'что горит') {
-            $result = $b24->core->call('tasks.task.list', [
-                'filter' => [
-                    'RESPONSIBLE_ID' => (int)$data['user']['id'],
-                    '<DEADLINE' => date('c'),
-                    '!REAL_STATUS' => [4, 5],
-                ],
-                'select' => ['ID', 'TITLE', 'DEADLINE'],
-                'order' => ['DEADLINE' => 'asc'],
-            ])->getResponseData()->getResult();
-
-            $tasks = $result['tasks'] ?? [];
-            $message = $tasks
-                ? 'Просроченные задачи:[br]' . implode('[br]', array_map(
-                    static fn(array $task): string => '- ' . $task['title'],
-                    $tasks,
-                ))
-                : 'Шикарно работаете! Ни одной просроченной задачи.';
-        }
-
-        $b24->core->call('imbot.v2.Chat.Message.send', [
-            'botId' => (int)$data['bot']['id'],
-            'dialogId' => (string)$data['chat']['dialogId'],
-            'fields' => ['message' => $message],
-        ]);
-    }
-    ```
-
 - Python
 
     ```python
@@ -704,6 +664,46 @@ SDK выполняют исходящие вызовы REST. Входящие с
         )
     ```
 
+
+- PHP
+
+    ```php
+    function handleMessage(array $auth, array $data): void
+    {
+        global $store;
+
+        $b24 = makeServiceBuilder($store->loadAuth((string)$auth['application_token']));
+
+        $text = mb_strtolower(trim((string)($data['message']['text'] ?? '')));
+        $message = 'Не соображу, что вы хотите узнать. Спросите [send=что горит]Что горит?[/send]';
+
+        if ($text === 'что горит') {
+            $result = $b24->core->call('tasks.task.list', [
+                'filter' => [
+                    'RESPONSIBLE_ID' => (int)$data['user']['id'],
+                    '<DEADLINE' => date('c'),
+                    '!REAL_STATUS' => [4, 5],
+                ],
+                'select' => ['ID', 'TITLE', 'DEADLINE'],
+                'order' => ['DEADLINE' => 'asc'],
+            ])->getResponseData()->getResult();
+
+            $tasks = $result['tasks'] ?? [];
+            $message = $tasks
+                ? 'Просроченные задачи:[br]' . implode('[br]', array_map(
+                    static fn(array $task): string => '- ' . $task['title'],
+                    $tasks,
+                ))
+                : 'Шикарно работаете! Ни одной просроченной задачи.';
+        }
+
+        $b24->core->call('imbot.v2.Chat.Message.send', [
+            'botId' => (int)$data['bot']['id'],
+            'dialogId' => (string)$data['chat']['dialogId'],
+            'fields' => ['message' => $message],
+        ]);
+    }
+    ```
 {% endlist %}
 
 Ответ `tasks.task.list` сокращен до полей, которые использует бот:
@@ -738,6 +738,14 @@ SDK выполняют исходящие вызовы REST. Входящие с
     }
     ```
 
+- Python
+
+    ```python
+    def handle_bot_delete(auth: dict, data: dict) -> None:
+        store.remove_bot(int(data["bot"]["id"]))
+    ```
+
+
 - PHP
 
     ```php
@@ -748,14 +756,6 @@ SDK выполняют исходящие вызовы REST. Входящие с
         $store->removeBot((int)$data['bot']['id']);
     }
     ```
-
-- Python
-
-    ```python
-    def handle_bot_delete(auth: dict, data: dict) -> None:
-        store.remove_bot(int(data["bot"]["id"]))
-    ```
-
 {% endlist %}
 
 ## Проверим результат

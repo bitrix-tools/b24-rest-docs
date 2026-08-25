@@ -115,74 +115,6 @@
     }
     ```
 
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'department.get',
-                [
-                    'sort'   => 'NAME',
-                    'order'  => 'DESC',
-                    'PARENT' => 1,
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting departments: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        "department.get", {
-            "sort": "NAME",
-            "order": "DESC",
-            "PARENT": 1
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'department.get',
-        [
-            'sort' => 'NAME',
-            'order' => 'DESC',
-            'PARENT' => 1,
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
 - Python
 
     Пример
@@ -265,6 +197,74 @@
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- PHP
+
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'department.get',
+                [
+                    'sort'   => 'NAME',
+                    'order'  => 'DESC',
+                    'PARENT' => 1,
+                ]
+            );
+    
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+    
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
+    
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error getting departments: ' . $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "department.get", {
+            "sort": "NAME",
+            "order": "DESC",
+            "PARENT": 1
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'department.get',
+        [
+            'sort' => 'NAME',
+            'order' => 'DESC',
+            'PARENT' => 1,
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
     ```
 
 - Go

@@ -78,6 +78,36 @@
     });
     ```
 
+- Python
+
+    ```python
+    import os
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain=os.environ["B24_DOMAIN"],
+            webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
+        )
+    )
+    # B24_DOMAIN = 'your-domain.bitrix24.com'
+    # B24_WEBHOOK_TOKEN = 'user_id/webhook_key'
+
+    result = client.crm.requisite.list(
+        filter={
+            "ENTITY_TYPE_ID": 3,
+            "ENTITY_ID": 2429,
+        },
+        select=[
+            "ID",
+            "ENTITY_TYPE_ID",
+            "ENTITY_ID",
+        ],
+    ).response.result
+    ```
+
 - PHP
 
     ```php
@@ -110,36 +140,6 @@
     )->getRequisites();
 
     print_r($requisites);
-    ```
-
-- Python
-
-    ```python
-    import os
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain=os.environ["B24_DOMAIN"],
-            webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
-        )
-    )
-    # B24_DOMAIN = 'your-domain.bitrix24.com'
-    # B24_WEBHOOK_TOKEN = 'user_id/webhook_key'
-
-    result = client.crm.requisite.list(
-        filter={
-            "ENTITY_TYPE_ID": 3,
-            "ENTITY_ID": 2429,
-        },
-        select=[
-            "ID",
-            "ENTITY_TYPE_ID",
-            "ENTITY_ID",
-        ],
-    ).response.result
     ```
 
 - Go
@@ -214,6 +214,17 @@
     });
     ```
 
+- Python
+
+    ```python
+    result = client.crm.address.list(
+        filter={
+            "ENTITY_TYPE_ID": 8,
+            "ENTITY_ID": 361,
+        }
+    ).response.result
+    ```
+
 - PHP
 
     ```php
@@ -227,17 +238,6 @@
     )->getAddresses();
 
     print_r($addresses);
-    ```
-
-- Python
-
-    ```python
-    result = client.crm.address.list(
-        filter={
-            "ENTITY_TYPE_ID": 8,
-            "ENTITY_ID": 361,
-        }
-    ).response.result
     ```
 
 - Go
@@ -326,6 +326,18 @@
     });
     ```
 
+- Python
+
+    ```python
+    result = client.crm.address.list(
+        filter={
+            "ENTITY_TYPE_ID": 8,
+            "ENTITY_ID": 361,
+            "TYPE_ID": 11,
+        }
+    ).response.result
+    ```
+
 - PHP
 
     ```php
@@ -340,18 +352,6 @@
     )->getAddresses();
 
     print_r($addresses);
-    ```
-
-- Python
-
-    ```python
-    result = client.crm.address.list(
-        filter={
-            "ENTITY_TYPE_ID": 8,
-            "ENTITY_ID": 361,
-            "TYPE_ID": 11,
-        }
-    ).response.result
     ```
 
 - Go
@@ -460,6 +460,85 @@
     ```
 
 
+- Python
+
+    ```python
+    import os
+
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain=os.environ["B24_DOMAIN"],
+            webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
+        )
+    )
+    # B24_DOMAIN = 'your-domain.bitrix24.com'
+    # B24_WEBHOOK_TOKEN = 'user_id/webhook_key'
+
+    # Идентификатор клиента, получить его можно методом crm.contact.list
+    contact_id = 2429
+    # Тип объекта CRM: 3 — контакт, 4 — компания
+    entity_type_id = 3
+    # Тип адреса из crm.enum.addresstype, например 11 — адрес доставки.
+    # Оставьте None, чтобы получить все адреса клиента
+    address_type_id = None
+
+    try:
+        requisites = client.crm.requisite.list(
+            filter={
+                "ENTITY_TYPE_ID": entity_type_id,
+                "ENTITY_ID": contact_id,
+            },
+            select=["ID"],
+        ).response.result
+    except BitrixAPIError as error:
+        print(f"Ошибка: {error}")
+    else:
+        if not requisites:
+            print("У клиента нет реквизитов, адрес хранить негде.")
+        else:
+            rows = []
+
+            # У клиента может быть несколько реквизитов, обходим каждый
+            for requisite in requisites:
+                address_filter = {
+                    "ENTITY_TYPE_ID": 8,
+                    "ENTITY_ID": requisite["ID"],
+                }
+
+                if address_type_id is not None:
+                    address_filter["TYPE_ID"] = address_type_id
+
+                try:
+                    addresses = client.crm.address.list(
+                        filter=address_filter,
+                    ).response.result
+                except BitrixAPIError as error:
+                    print(f"Ошибка: {error}")
+                    continue
+
+                for address in addresses:
+                    rows.append(
+                        [
+                            str(requisite["ID"]),
+                            str(address.get("TYPE_ID") or "Не указано"),
+                            str(address.get("ADDRESS_1") or "Не указано"),
+                            str(address.get("CITY") or "Не указано"),
+                            str(address.get("POSTAL_CODE") or "Не указано"),
+                            str(address.get("COUNTRY") or "Не указано"),
+                        ]
+                    )
+
+            if not rows:
+                print("У реквизитов клиента нет адресов.")
+            else:
+                print("Реквизит\tТип адреса\tАдрес\tГород\tИндекс\tСтрана")
+                for row in rows:
+                    print("\t".join(row))
+    ```
+
 - PHP
 
     ```php
@@ -552,85 +631,6 @@
     } catch (\Throwable $e) {
         echo 'Error: ' . $e->getMessage();
     }
-    ```
-
-- Python
-
-    ```python
-    import os
-
-    from b24pysdk import BitrixWebhook, Client
-    from b24pysdk.errors import BitrixAPIError
-
-    client = Client(
-        BitrixWebhook(
-            domain=os.environ["B24_DOMAIN"],
-            webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
-        )
-    )
-    # B24_DOMAIN = 'your-domain.bitrix24.com'
-    # B24_WEBHOOK_TOKEN = 'user_id/webhook_key'
-
-    # Идентификатор клиента, получить его можно методом crm.contact.list
-    contact_id = 2429
-    # Тип объекта CRM: 3 — контакт, 4 — компания
-    entity_type_id = 3
-    # Тип адреса из crm.enum.addresstype, например 11 — адрес доставки.
-    # Оставьте None, чтобы получить все адреса клиента
-    address_type_id = None
-
-    try:
-        requisites = client.crm.requisite.list(
-            filter={
-                "ENTITY_TYPE_ID": entity_type_id,
-                "ENTITY_ID": contact_id,
-            },
-            select=["ID"],
-        ).response.result
-    except BitrixAPIError as error:
-        print(f"Ошибка: {error}")
-    else:
-        if not requisites:
-            print("У клиента нет реквизитов, адрес хранить негде.")
-        else:
-            rows = []
-
-            # У клиента может быть несколько реквизитов, обходим каждый
-            for requisite in requisites:
-                address_filter = {
-                    "ENTITY_TYPE_ID": 8,
-                    "ENTITY_ID": requisite["ID"],
-                }
-
-                if address_type_id is not None:
-                    address_filter["TYPE_ID"] = address_type_id
-
-                try:
-                    addresses = client.crm.address.list(
-                        filter=address_filter,
-                    ).response.result
-                except BitrixAPIError as error:
-                    print(f"Ошибка: {error}")
-                    continue
-
-                for address in addresses:
-                    rows.append(
-                        [
-                            str(requisite["ID"]),
-                            str(address.get("TYPE_ID") or "Не указано"),
-                            str(address.get("ADDRESS_1") or "Не указано"),
-                            str(address.get("CITY") or "Не указано"),
-                            str(address.get("POSTAL_CODE") or "Не указано"),
-                            str(address.get("COUNTRY") or "Не указано"),
-                        ]
-                    )
-
-            if not rows:
-                print("У реквизитов клиента нет адресов.")
-            else:
-                print("Реквизит\tТип адреса\tАдрес\tГород\tИндекс\tСтрана")
-                for row in rows:
-                    print("\t".join(row))
     ```
 
 - Go
@@ -976,6 +976,23 @@
     }
     ```
 
+- Python
+
+    ```python
+    try:
+        fields = client.crm.contact.userfield.list(
+            filter={"USER_TYPE_ID": "address"},
+        ).response.result
+
+        contact = client.crm.contact.get(bitrix_id=2429).response.result
+    except BitrixAPIError as error:
+        # crm.contact.userfield.list доступен только администратору
+        print(f"Ошибка: {error}")
+    else:
+        for field in fields:
+            print(field["FIELD_NAME"], contact.get(field["FIELD_NAME"]))
+    ```
+
 - PHP
 
     ```php
@@ -1001,23 +1018,6 @@
         // crm.contact.userfield.list доступен только администратору
         echo 'Error: ' . $e->getMessage();
     }
-    ```
-
-- Python
-
-    ```python
-    try:
-        fields = client.crm.contact.userfield.list(
-            filter={"USER_TYPE_ID": "address"},
-        ).response.result
-
-        contact = client.crm.contact.get(bitrix_id=2429).response.result
-    except BitrixAPIError as error:
-        # crm.contact.userfield.list доступен только администратору
-        print(f"Ошибка: {error}")
-    else:
-        for field in fields:
-            print(field["FIELD_NAME"], contact.get(field["FIELD_NAME"]))
     ```
 
 - Go
