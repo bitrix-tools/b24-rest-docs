@@ -189,9 +189,9 @@
         }
         ```
 
-   - BX24.js
+    - BX24.js
 
-       ```js
+        ```js
         BX24.callMethod(
             'crm.company.details.configuration.get',
             {
@@ -205,11 +205,11 @@
                 ;
             },
         );
-       ```
+        ```
 
-   - PHP CRest
+    - PHP CRest
 
-       ```php
+        ```php
         require_once('crest.php');
 
         $result = CRest::call(
@@ -223,7 +223,7 @@
         echo '<PRE>';
         print_r($result);
         echo '</PRE>';
-       ```
+        ```
 
     - Go
 
