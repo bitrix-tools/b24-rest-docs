@@ -103,7 +103,7 @@
 || **numberOfReminders**
 [`integer`](../data-types.md) | Количество напоминаний по задаче. Поле изменяется автоматически ||
 || **chatId**
-[`integer`](../data-types.md) | Идентификатор чата задачи. Для работы с чатом задачи используйте методы [im.message.*](./tasks-new.md#comments) ||
+[`integer`](../data-types.md) | Идентификатор чата задачи. Для работы с чатом задачи используйте [методы сообщений](../chats/messages/index.md), подробнее — [{#T}](./tasks-new.md) ||
 || **chat**
 [`object`](#task-chat) | Чат задачи. Объект типа [чат задачи](#task-chat). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **plannedDuration**
@@ -382,7 +382,7 @@
 || **auditors**
 [`array`](../data-types.md) | Наблюдатели ||
 || **parent**
-[`object`](#template) | Родительский шаблон. Объект типа [шаблон задачи]{#template} ||
+[`object`](#template) | Родительский шаблон. Объект типа [шаблон задачи](#template) ||
 || **replicateParams**
 [`object`](#template-replicate-params) | Объект [параметров повторения](#template-replicate-params). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 |#
