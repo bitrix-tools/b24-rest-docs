@@ -51,8 +51,6 @@
 
 2. Передайте `ID` дела из результата в метод удаления [crm.activity.delete](../timeline/activities/activity-base/crm-activity-delete.md)
 
-## Права доступа
-
 {% list tabs %}
 
 - JS (TS)
@@ -385,6 +383,8 @@
     ```
 
 {% endlist %}
+
+## Права доступа
 
 Права зависят от операции:
 
