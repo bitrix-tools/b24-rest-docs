@@ -150,8 +150,6 @@ https://mydomain.bitrix24.com/rest/1/not_var{{PASSWORD}}/crm.automation.trigger/
 
 - Python
 
-    Пример
-
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 

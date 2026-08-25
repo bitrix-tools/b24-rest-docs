@@ -166,8 +166,6 @@
 
 - Python
 
-    Пример
-
     ```python
     from datetime import datetime, timedelta
 

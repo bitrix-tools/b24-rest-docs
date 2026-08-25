@@ -165,8 +165,6 @@ fields:
 
 - Python
 
-    Пример
-
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 

@@ -217,8 +217,6 @@ fields:
 
 - Python
 
-    Пример
-
     ```python
     from datetime import datetime, timedelta
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
