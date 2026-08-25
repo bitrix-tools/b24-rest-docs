@@ -289,6 +289,44 @@
     </script>
     ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  try:
+      bitrix_response = client.documentgenerator.numerator.update(
+          bitrix_id=55,
+          fields={
+              "name": "REST Invoice Numerator Updated",
+              "template": "INV-UPD-{NUMBER}",
+              "settings": {
+                  "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+                      "start": 2000,
+                      "step": 10,
+                      "length": 8,
+                      "padString": "0",
+                      "periodicBy": "",
+                      "timezone": "Europe/Moscow",
+                  },
+              },
+          },
+      ).response
+      result = bitrix_response.result
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - PHP
 
   ```php

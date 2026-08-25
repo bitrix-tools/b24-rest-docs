@@ -227,16 +227,15 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.payment.delivery.list(
             payment_id=1040,
             filter={
-                "@id": [1201],
+                "@id": [
+                    1201,
+                ],
                 ">=quantity": 1,
             },
         ).response
@@ -258,16 +257,15 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.payment.delivery.list(
             payment_id=1040,
             filter={
-                "@id": [1201],
+                "@id": [
+                    1201,
+                ],
                 ">=quantity": 1,
             },
         ).as_list().response
@@ -290,16 +288,15 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.payment.delivery.list(
             payment_id=1040,
             filter={
-                "@id": [1201],
+                "@id": [
+                    1201,
+                ],
                 ">=quantity": 1,
             },
         ).as_list_fast(descending=True).response

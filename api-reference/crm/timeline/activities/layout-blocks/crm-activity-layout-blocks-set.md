@@ -430,47 +430,74 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
-
     try:
-        bitrix_response = client.crm.activity.layout.blocks.set(
-            entity_type_id=2,
-            entity_id=101,
-            activity_id=999,
-            layout={
-                "blocks": {
-                    "summary": {
-                        "type": "text",
-                        "properties": {
-                            "value": "Proposal is ready",
-                            "multiline": True,
-                            "bold": True,
-                            "color": "base_90",
+        bitrix_response = client.crm.activity.layout.blocks.set(entity_type_id=2, entity_id=101, activity_id=999, layout={
+            "blocks": {
+                "summary": {
+                    "type": "text",
+                    "properties": {
+                        "value": "Proposal is ready",
+                        "multiline": True,
+                        "bold": True,
+                        "color": "base_90",
+                    },
+                },
+                "dealLink": {
+                    "type": "link",
+                    "properties": {
+                        "text": "Open deal",
+                        "bold": True,
+                        "action": {
+                            "type": "redirect",
+                            "uri": "/crm/deal/details/101/",
                         },
                     },
-                    "dealLink": {
-                        "type": "link",
-                        "properties": {
-                            "text": "Open deal",
-                            "bold": True,
-                            "action": {"type": "redirect", "uri": "/crm/deal/details/101/"},
+                },
+                "block_1": {
+                    "type": "text",
+                    "properties": {
+                        "value": "Здравствуйте!\nМы начинаем.",
+                        "multiline": True,
+                        "bold": True,
+                        "color": "base_90",
+                    },
+                },
+                "block_2": {
+                    "type": "largeText",
+                    "properties": {
+                        "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания.",
+                    },
+                },
+                "block_3": {
+                    "type": "link",
+                    "properties": {
+                        "text": "Открыть сделку",
+                        "bold": True,
+                        "action": {
+                            "type": "redirect",
+                            "uri": "/crm/deal/details/123/",
+                        },
+                    },
+                },
+                "block_4": {
+                    "type": "withTitle",
+                    "properties": {
+                        "title": "Заголовок",
+                        "block": {
+                            "type": "text",
+                            "properties": {
+                                "value": "Какое-то значение",
+                            },
                         },
                     },
                 },
             },
-        ).response
+        }).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
+        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
     except BitrixSDKException as error:
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:

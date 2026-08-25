@@ -403,8 +403,8 @@
                 "ACTIVE": "Y",
                 "ADDRESS_ONLY": "N",
                 "SORT": 500,
-                "RQ_COMPANY_NAME": "ООО \"1С-БИТРИКС\"",
-                "RQ_COMPANY_FULL_NAME": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"1С-БИТРИКС\"",
+                "RQ_COMPANY_NAME": 'ООО "1С-БИТРИКС"',
+                "RQ_COMPANY_FULL_NAME": 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "1С-БИТРИКС"',
                 "RQ_COMPANY_REG_DATE": "06.04.2007",
                 "RQ_DIRECTOR": "РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ",
                 "RQ_INN": "7717586110",
@@ -463,10 +463,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.requisite.add(
@@ -478,8 +475,8 @@
                 "ACTIVE": "Y",
                 "ADDRESS_ONLY": "N",
                 "SORT": 500,
-                "RQ_COMPANY_NAME": "ООО \"1С-БИТРИКС\"",
-                "RQ_COMPANY_FULL_NAME": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"1С-БИТРИКС\"",
+                "RQ_COMPANY_NAME": 'ООО "1С-БИТРИКС"',
+                "RQ_COMPANY_FULL_NAME": 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "1С-БИТРИКС"',
                 "RQ_COMPANY_REG_DATE": "06.04.2007",
                 "RQ_DIRECTOR": "РЫЖИКОВ СЕРГЕЙ ВЛАДИМИРОВИЧ",
                 "RQ_INN": "7717586110",

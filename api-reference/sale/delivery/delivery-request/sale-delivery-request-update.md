@@ -238,6 +238,60 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    status = {
+        "TEXT": "Performer found",
+        "SEMANTIC": "process",
+    }
+
+    properties = [
+        {
+            "NAME": "Car",
+            "VALUE": "Gray Skoda Octavia, a777zn",
+        },
+        {
+            "NAME": "Driver",
+            "VALUE": "John Smith",
+        },
+        {
+            "NAME": "Phone Number",
+            "VALUE": "+11111111111",
+            "TAGS": [
+                "phone",
+            ],
+        },
+        {
+            "NAME": "Something else",
+            "VALUE": "Some value",
+        },
+    ]
+
+    try:
+        bitrix_response = client.sale.delivery.request.update(
+            delivery_id=225,
+            request_id='4757aca4931a4f029f49c0db4374d13d',
+            status=status,
+            properties=properties,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

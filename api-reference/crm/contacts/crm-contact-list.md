@@ -368,7 +368,6 @@
         echo 'Error fetching contact list: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

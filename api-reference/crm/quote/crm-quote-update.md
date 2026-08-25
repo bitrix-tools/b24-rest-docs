@@ -277,7 +277,6 @@
         echo 'Error updating quote: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

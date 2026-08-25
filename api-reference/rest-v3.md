@@ -70,13 +70,14 @@ https://**put_your_bitrix24_address**/rest/api/tasks.task.chat.message.send
 #|
 || **SDK** | **Поддержка REST 3.0** ||
 || [b24gosdk](../sdk/b24gosdk/index.md), Go | Есть. Передайте базовый адрес с сегментом `/rest/api/`, больше ничего настраивать не нужно ||
+|| [b24pysdk](../sdk/b24pysdk/index.md), Python | Есть. Передайте параметр `prefer_version=3` при создании клиента: `Client(..., prefer_version=3)` ||
 || [b24jssdk](../sdk/b24jssdk/index.md), JS и TS | Есть. Вызывайте методы через пространство имен `$b24.actions.v3` вместо `$b24.actions.v2` ||
 || b24phpsdk, BX24.js, PHP CRest | Нет. Используйте прямые HTTP-запросы, например через `curl` или `fetch` ||
 |#
 
 {% note warning "" %}
 
-Постраничный обход и `batch` в b24gosdk работают только со старой версией REST. На REST 3.0 вызывайте эти методы обычным вызовом.
+Постраничный обход и `batch` в b24gosdk и b24pysdk работают только со старой версией REST. На REST 3.0 вызывайте эти методы обычным вызовом.
 
 {% endnote %}
 

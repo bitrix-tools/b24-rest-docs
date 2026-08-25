@@ -421,11 +421,7 @@ fields:
 
     ```python
     from datetime import datetime, timedelta
-
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.activity.add(

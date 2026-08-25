@@ -95,6 +95,231 @@
 - `categoryId` — идентификатор воронки, куда перемещаете сделку. Получить можно методом [crm.category.list](../universal/category/crm-category-list.md)
 - `stageId` — идентификатор стадии в новой воронке. Получить можно методом [crm.status.list](../status/crm-status-list.md)
 
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"id":233,"fields":{"STAGE_ID":"EXECUTING","categoryId":0}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.update
+    ```
+
+- cURL (OAuth)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"entityTypeId":2,"id":233,"fields":{"STAGE_ID":"EXECUTING","categoryId":0},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.item.update
+    ```
+
+- JS (TS)
+
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+
+    declare const $b24: B24Frame
+
+    // crm.item.update (rest-v2) returns the updated element under `item`; fields per
+    // ../universal/crm-item-update.md
+    // Shape of the payload returned in result (the `item` object below)
+    type CrmItemUpdateResult = {
+      item: {
+        id: number
+        entityTypeId: number
+        title: string
+        categoryId: number
+        stageId: string
+        assignedById: number
+        opened: string
+        opportunity: number
+        currencyId: string
+        createdTime: ISODate
+        updatedTime: ISODate
+      }
+    }
+
+    try {
+      const response = await $b24.actions.v2.call.make<CrmItemUpdateResult>({
+        method: 'crm.item.update',
+        params: {
+          entityTypeId: 2,
+          id: 233,
+          fields: {
+            STAGE_ID: 'EXECUTING',
+            categoryId: 0,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated item:', result.item.id, result.item.stageId)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateDealStage() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'crm.item.update',
+            params: {
+              entityTypeId: 2,
+              id: 233,
+              fields: {
+                STAGE_ID: 'EXECUTING',
+                categoryId: 0,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated item:', result.item.id, result.item.stageId)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateDealStage)
+    </script>
+    ```
+
+- PHP
+
+    ```php  
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.item.update',
+                [
+                    'entityTypeId' => 2,
+                    'id' => 233,
+                    'fields' => [
+                        'STAGE_ID' => 'EXECUTING',
+                        'categoryId' => 0
+                    ]
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        echo 'Success: ' . print_r($result, true);
+        processData($result);
+
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error updating item: ' . $e->getMessage();
+    }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.item.update(
+            bitrix_id=233,
+            fields={
+                "STAGE_ID": "EXECUTING",
+                "categoryId": 0,
+            },
+            entity_type_id=2,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        "crm.item.update",
+        {
+            entityTypeId: 2,
+            id: 233,
+            fields:
+            {
+                "STAGE_ID": "EXECUTING",
+                "categoryId": 0
+            },
+        },
+        (result) => {
+            result.error()
+                ? console.error(result.error())
+                : console.info(result.data());
+        }
+    );
+    ```	
+
+- PHP CRest
+
+    ```php
+    require_once('crest.php');
+
+    $result = CRest::call(
+        'crm.item.update',
+        [
+            'entityTypeId' => 2,
+            'id' => 233,
+            'fields' => [
+                'STAGE_ID' => 'EXECUTING',
+                'categoryId' => 0
+            ]
+        ]
+    );
+
+    echo '<PRE>';
+    print_r($result);
+    echo '</PRE>';
+    ```
+
+{% endlist %}
 Перемещение сделки вызывает событие [onCrmDealMoveToCategory](./events/on-crm-deal-move-to-category.md), а не [onCrmDealUpdate](./events/on-crm-deal-update.md). Пример запроса и разбор ответа есть на странице метода [crm.item.update](../universal/crm-item-update.md).
 
 ## Карточка сделки

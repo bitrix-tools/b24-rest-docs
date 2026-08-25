@@ -291,6 +291,54 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    settings = {
+        "REST_SERVICE_ID": {
+            "TYPE": "VALUE",
+            "VALUE": "SERVICE ID VALUE",
+        },
+        "REST_SERVICE_KEY": {
+            "TYPE": "VALUE",
+            "VALUE": "KEY ID VALUE",
+        },
+        "PAYMENT_ID": {
+            "TYPE": "PAYMENT",
+            "VALUE": "ACCOUNT_NUMBER",
+        },
+    }
+
+    try:
+        bitrix_response = client.sale.paysystem.add(
+            name="Card payment",
+            description="Pay for your purchases easily by card.",
+            xml_id="my_ps_id",
+            person_type_id=1,
+            bx_rest_handler="resthandlercode",
+            active=True,
+            entity_registry_type="ORDER",
+            logotype="/* base64 image */",
+            new_window=False,
+            settings=settings,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

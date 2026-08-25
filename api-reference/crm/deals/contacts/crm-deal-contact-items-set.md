@@ -301,17 +301,22 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.deal.contact.items.set(
             bitrix_id=123,
             items=[
-                {"CONTACT_ID": 456, "SORT": 10, "IS_PRIMARY": "Y"},
-                {"CONTACT_ID": 789, "SORT": 20, "IS_PRIMARY": "N"},
+                {
+                    "CONTACT_ID": 456,
+                    "SORT": 10,
+                    "IS_PRIMARY": "Y",
+                },
+                {
+                    "CONTACT_ID": 789,
+                    "SORT": 20,
+                    "IS_PRIMARY": "N",
+                },
             ],
         ).response
         result = bitrix_response.result

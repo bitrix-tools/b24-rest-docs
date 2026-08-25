@@ -225,6 +225,51 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    settings = {
+        "AUTH": {
+            "KEYWORD": "top_secret!",
+            "PREFERENCE": "SECOND",
+        },
+        "INTERACTION": {
+            "MODE": "ACTIVE",
+        },
+    }
+
+    try:
+        bitrix_response = client.sale.cashbox.add(
+            name="Rest-касса",
+            rest_code="restcashbox01",
+            email="user@example.com",
+            number_kkm="123",
+            active=True,
+            sort=100,
+            ofd="bx_ofdruofd",
+            ofd_settings={
+                "OFD_MODE": {
+                    "IS_TEST": "N",
+                },
+            },
+            settings=settings,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
 

@@ -265,15 +265,20 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.template.list(
-            select=["id", "name", "region", "entityTypeId", "users"],
-            order={"id": "desc"},
+            select=[
+                "id",
+                "name",
+                "region",
+                "entityTypeId",
+                "users",
+            ],
+            order={
+                "id": "desc",
+            },
             filter={
                 "region": "ru",
                 "active": "Y",
@@ -298,15 +303,20 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.template.list(
-            select=["id", "name", "region", "entityTypeId", "users"],
-            order={"id": "desc"},
+            select=[
+                "id",
+                "name",
+                "region",
+                "entityTypeId",
+                "users",
+            ],
+            order={
+                "id": "desc",
+            },
             filter={
                 "region": "ru",
                 "active": "Y",
@@ -331,15 +341,20 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.template.list(
-            select=["id", "name", "region", "entityTypeId", "users"],
-            order={"id": "desc"},
+            select=[
+                "id",
+                "name",
+                "region",
+                "entityTypeId",
+                "users",
+            ],
+            order={
+                "id": "desc",
+            },
             filter={
                 "region": "ru",
                 "active": "Y",

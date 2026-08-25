@@ -274,21 +274,25 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.documentgenerator.template.update(
             bitrix_id=41,
             fields={
                 "name": "Шаблон из файла (обновлен)",
-                "file": ["template-updated.docx", "**base64_encoded_content**"],
+                "file": [
+                    "template-updated.docx",
+                    "**base64_encoded_content**",
+                ],
                 "numeratorId": 49,
                 "region": "ru",
-                "entityTypeId": ["2"],
-                "users": ["UA"],
+                "entityTypeId": [
+                    "2",
+                ],
+                "users": [
+                    "UA",
+                ],
                 "active": "Y",
                 "withStamps": "N",
                 "sort": 500,

@@ -242,10 +242,7 @@ fields:
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.timeline.logmessage.add(
@@ -254,10 +251,10 @@ fields:
                 "entityId": 1,
                 "title": "Test title",
                 "text": "Test text message",
-                "iconCode": "info"
+                "iconCode": "info",
             },
-        )
-        result = bitrix_response.response.result
+        ).response
+        result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
         print(

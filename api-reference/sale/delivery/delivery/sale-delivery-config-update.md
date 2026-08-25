@@ -156,6 +156,58 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    config = [
+        {
+            "CODE": "SETTING_1",
+            "VALUE": "New SETTING_1 string value",
+        },
+        {
+            "CODE": "SETTING_2",
+            "VALUE": "N",
+        },
+        {
+            "CODE": "SETTING_3",
+            "VALUE": 999.99,
+        },
+        {
+            "CODE": "SETTING_4",
+            "VALUE": "Option2Code",
+        },
+        {
+            "CODE": "SETTING_5",
+            "VALUE": "25.03.2023",
+        },
+        {
+            "CODE": "SETTING_6",
+            "VALUE": "0000144962",
+        },
+    ]
+
+    try:
+        bitrix_response = client.sale.delivery.config.update(
+            bitrix_id=196,
+            config=config,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

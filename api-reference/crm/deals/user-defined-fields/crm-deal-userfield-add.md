@@ -476,41 +476,6 @@
     );
     ```
 
-- PHP
-
-    ```php
-    try {
-        $userfieldItemFields = [
-            'FIELD_NAME' => 'Test Field',
-            'USER_TYPE_ID' => 'string',
-            'XML_ID' => 'test_field_1',
-            'SORT' => '100',
-            'MULTIPLE' => 'N',
-            'MANDATORY' => 'N',
-            'SHOW_FILTER' => 'Y',
-            'SHOW_IN_LIST' => 'Y',
-            'EDIT_IN_LIST' => 'Y',
-            'IS_SEARCHABLE' => 'Y',
-            'EDIT_FORM_LABEL' => 'Test Field Label',
-            'LIST_COLUMN_LABEL' => 'Test Field List Label',
-            'LIST_FILTER_LABEL' => 'Test Field Filter Label',
-            'ERROR_MESSAGE' => 'Error occurred',
-            'HELP_MESSAGE' => 'Help message for Test Field',
-            'LIST' => '',
-            'SETTINGS' => '',
-        ];
-
-        $result = $serviceBuilder
-            ->getCRMScope()
-            ->dealUserfield()
-            ->add($userfieldItemFields);
-
-        print($result->getId());
-    } catch (Throwable $e) {
-        print('Error: ' . $e->getMessage());
-    }
-    ```
-
 - PHP CRest
 
     ```php
@@ -565,10 +530,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.deal.userfield.add(
@@ -623,42 +585,39 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-- Python
+- PHP
 
-    ```python
-    from b24pysdk.client import BaseClient
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    ```php
+    try {
+        $userfieldItemFields = [
+            'FIELD_NAME' => 'Test Field',
+            'USER_TYPE_ID' => 'string',
+            'XML_ID' => 'test_field_1',
+            'SORT' => '100',
+            'MULTIPLE' => 'N',
+            'MANDATORY' => 'N',
+            'SHOW_FILTER' => 'Y',
+            'SHOW_IN_LIST' => 'Y',
+            'EDIT_IN_LIST' => 'Y',
+            'IS_SEARCHABLE' => 'Y',
+            'EDIT_FORM_LABEL' => 'Test Field Label',
+            'LIST_COLUMN_LABEL' => 'Test Field List Label',
+            'LIST_FILTER_LABEL' => 'Test Field Filter Label',
+            'ERROR_MESSAGE' => 'Error occurred',
+            'HELP_MESSAGE' => 'Help message for Test Field',
+            'LIST' => '',
+            'SETTINGS' => '',
+        ];
 
-    client: BaseClient
+        $result = $serviceBuilder
+            ->getCRMScope()
+            ->dealUserfield()
+            ->add($userfieldItemFields);
 
-    try:
-        bitrix_response = client.crm.deal.userfield.add(
-            fields={
-                "FIELD_NAME": "UF_CRM_DEAL_COMMENT_TEXT",
-                "USER_TYPE_ID": "string",
-                "XML_ID": "deal_comment_text",
-                "SORT": 100,
-                "MULTIPLE": "N",
-                "MANDATORY": "N",
-                "SHOW_FILTER": "Y",
-                "EDIT_FORM_LABEL": {"ru": "Комментарий к сделке"},
-                "LIST_COLUMN_LABEL": {"ru": "Комментарий к сделке"},
-                "LIST_FILTER_LABEL": {"ru": "Комментарий к сделке"},
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
+        print($result->getId());
+    } catch (Throwable $e) {
+        print('Error: ' . $e->getMessage());
+    }
     ```
 
 - Go
@@ -846,10 +805,7 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.deal.userfield.add(

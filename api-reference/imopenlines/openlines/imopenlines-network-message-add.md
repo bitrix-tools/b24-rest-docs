@@ -317,6 +317,72 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imopenlines.network.message.add(
+            code="ab515f5d85a8b844d484f6ea75a2e494",
+            user_id=2,
+            message="We have prepared materials on connecting open lines",
+            attach={
+                "ID": 1,
+                "COLOR_TOKEN": "primary",
+                "BLOCKS": [
+                    {
+                        "MESSAGE": "Attached are the checklist and connection diagram",
+                    },
+                    {
+                        "FILE": [
+                            {
+                                "NAME": "checklist-openlines.pdf",
+                                "LINK": "https://cdn.example.com/docs/checklist-openlines.pdf",
+                                "SIZE": 428736,
+                            },
+                        ],
+                    },
+                    {
+                        "IMAGE": [
+                            {
+                                "NAME": "Connection diagram",
+                                "LINK": "https://cdn.example.com/images/openlines-setup.png",
+                                "PREVIEW": "https://cdn.example.com/images/openlines-setup-preview.png",
+                                "WIDTH": 1280,
+                                "HEIGHT": 720,
+                            },
+                        ],
+                    },
+                ],
+            },
+            keyboard={
+                "BUTTONS": [
+                    {
+                        "TEXT": "Open instructions",
+                        "LINK": "https://help.example.com/openlines/setup",
+                        "DISPLAY": "LINE",
+                        "BG_COLOR_TOKEN": "primary",
+                    },
+                ],
+            },
+            url_preview=False,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

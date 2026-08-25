@@ -184,7 +184,6 @@
         echo 'Error getting quote: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

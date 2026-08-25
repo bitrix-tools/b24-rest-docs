@@ -313,6 +313,73 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    settings = {
+        "PRINT_URL": "http://example.com/rest_print.php",
+        "CHECK_URL": "http://example.com/rest_check.php",
+        "HTTP_VERSION": "1.1",
+        "CONFIG": {
+            "AUTH": {
+                "LABEL": "Авторизация",
+                "ITEMS": {
+                    "KEYWORD": {
+                        "TYPE": "STRING",
+                        "LABEL": "Кодовое слово",
+                    },
+                    "PREFERENCE": {
+                        "TYPE": "ENUM",
+                        "LABEL": "Множественный выбор",
+                        "REQUIRED": "Y",
+                        "OPTIONS": {
+                            "FIRST": "Первый",
+                            "SECOND": "Второй",
+                            "THIRD": "Третий",
+                        },
+                    },
+                },
+            },
+            "INTERACTION": {
+                "LABEL": "Настройки взаимодействия с кассой",
+                "ITEMS": {
+                    "MODE": {
+                        "TYPE": "ENUM",
+                        "LABEL": "Режим работы с кассой",
+                        "OPTIONS": {
+                            "ACTIVE": "боевой",
+                            "TEST": "тестовый",
+                        },
+                    },
+                },
+            },
+        },
+    }
+
+    try:
+        bitrix_response = client.sale.cashbox.handler.add(
+            code="restcashbox01",
+            name="REST-касса 01",
+            sort=100,
+            supports_ffd105=True,
+            settings=settings,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
 

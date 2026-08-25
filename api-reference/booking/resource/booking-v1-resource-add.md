@@ -283,6 +283,54 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.booking.v1.resource.add(
+            fields={
+                "name": "Name",
+                "description": "Description",
+                "typeId": 1,
+                "isMain": "N",
+                "isInfoNotificationOn": "Y",
+                "templateTypeInfo": "inanimate",
+                "isConfirmationNotificationOn": "Y",
+                "templateTypeConfirmation": "animate",
+                "isReminderNotificationOn": "N",
+                "templateTypeReminder": "base",
+                "isFeedbackNotificationOn": "Y",
+                "templateTypeFeedback": "inanimate",
+                "isDelayedNotificationOn": "Y",
+                "templateTypeDelayed": "inanimate",
+                "infoDelay": 60,
+                "reminderDelay": -1,
+                "delayedDelay": 300,
+                "delayedCounterDelay": 7200,
+                "confirmationDelay": 86400,
+                "confirmationRepetitions": 1,
+                "confirmationRepetitionsInterval": 3600,
+                "confirmationCounterDelay": 7200,
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+
 - PHP
 
 

@@ -221,8 +221,46 @@
     </script>
     ```
 
-- PHP
+- Python
 
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.landing.landing.remove_entities(
+            lid=648,
+            data={
+                "blocks": [
+                    12167,
+                    123,
+                ],
+                "images": [
+                    {
+                        "block": 12269,
+                        "image": 6866,
+                    },
+                    {
+                        "block": 12268,
+                        "image": 6861,
+                    },
+                ],
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+- PHP
     ```php
     try {
         $response = $b24Service

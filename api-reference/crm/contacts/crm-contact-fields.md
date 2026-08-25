@@ -156,7 +156,6 @@
         echo 'Error fetching contact fields: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

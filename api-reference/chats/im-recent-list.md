@@ -237,6 +237,42 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.im.recent.list(
+            last_message_date="2026-02-25T18:30:00+03:00",
+            skip_openlines=False,
+            skip_dialog=False,
+            skip_chat=False,
+            unread_only=True,
+            parse_text=True,
+            get_original_text=False,
+            skip_undistributed_openlines=True,
+            only_copilot=False,
+            only_channel=False,
+            can_manage_messages=True,
+            offset=0,
+            limit=20,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

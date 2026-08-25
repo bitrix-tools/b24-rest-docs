@@ -381,15 +381,19 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.quote.userfield.list(
-            filter={"MULTIPLE": "Y", "MANDATORY": "Y", "LANG": "ru"},
-            order={"USER_TYPE_ID": "ASC", "SORT": "ASC"},
+            filter={
+                "MULTIPLE": "Y",
+                "MANDATORY": "Y",
+                "LANG": "ru",
+            },
+            order={
+                "USER_TYPE_ID": "ASC",
+                "SORT": "ASC",
+            },
         ).response
         result = bitrix_response.result
         print(result)
@@ -409,15 +413,19 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.quote.userfield.list(
-            filter={"MULTIPLE": "Y", "MANDATORY": "Y", "LANG": "ru"},
-            order={"USER_TYPE_ID": "ASC", "SORT": "ASC"},
+            filter={
+                "MULTIPLE": "Y",
+                "MANDATORY": "Y",
+                "LANG": "ru",
+            },
+            order={
+                "USER_TYPE_ID": "ASC",
+                "SORT": "ASC",
+            },
         ).as_list().response
         result = bitrix_response.result
         for item in result:
@@ -438,15 +446,18 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.quote.userfield.list(
-            filter={"MULTIPLE": "Y", "MANDATORY": "Y", "LANG": "ru"},
-            order={"ID": "DESC"},
+            filter={
+                "MULTIPLE": "Y",
+                "MANDATORY": "Y",
+                "LANG": "ru",
+            },
+            order={
+                "ID": "DESC",
+            },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:

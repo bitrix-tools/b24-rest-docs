@@ -82,6 +82,21 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "LINK": {
+            "PREVIEW": "https://api.bitrix24.com/bitrix/templates/1c-bitrix-new/images/logo.png",
+            "WIDTH": 1000,
+            "HEIGHT": 638,
+            "NAME": 'Тикет #12345: новое API для модуля "Веб-мессенджер"',
+            "DESC": "Необходимо реализовать к релизу!",
+            "LINK": "https://api.bitrix24.com/",
+        },
+    }
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

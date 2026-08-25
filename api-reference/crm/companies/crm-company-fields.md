@@ -155,7 +155,6 @@
         echo 'Error fetching company fields: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

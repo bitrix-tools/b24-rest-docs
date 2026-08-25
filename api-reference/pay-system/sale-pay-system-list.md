@@ -266,6 +266,189 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.paysystem.list(
+            select=[
+                "ID",
+                "PERSON_TYPE_ID",
+                "NAME",
+                "PSA_NAME",
+                "SORT",
+                "DESCRIPTION",
+                "ACTION_FILE",
+                "RESULT_FILE",
+                "NEW_WINDOW",
+                "TARIF",
+                "PS_MODE",
+                "HAVE_PAYMENT",
+                "HAVE_ACTION",
+                "HAVE_RESULT",
+                "HAVE_PREPAY",
+                "HAVE_PRICE",
+                "HAVE_RESULT_RECEIVE",
+                "ENCODING",
+                "ACTIVE",
+                "ALLOW_EDIT_PAYMENT",
+                "IS_CASH",
+                "AUTO_CHANGE_1C",
+                "CAN_PRINT_CHECK",
+                "ENTITY_REGISTRY_TYPE",
+                "XML_ID",
+            ],
+            filter={
+                "@ID": [
+                    117,
+                    118,
+                ],
+            },
+            order={
+                "SORT": "ASC",
+                "ID": "DESC",
+            },
+            start=0,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+    Пример `as_list`
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.paysystem.list(
+            select=[
+                "ID",
+                "PERSON_TYPE_ID",
+                "NAME",
+                "PSA_NAME",
+                "SORT",
+                "DESCRIPTION",
+                "ACTION_FILE",
+                "RESULT_FILE",
+                "NEW_WINDOW",
+                "TARIF",
+                "PS_MODE",
+                "HAVE_PAYMENT",
+                "HAVE_ACTION",
+                "HAVE_RESULT",
+                "HAVE_PREPAY",
+                "HAVE_PRICE",
+                "HAVE_RESULT_RECEIVE",
+                "ENCODING",
+                "ACTIVE",
+                "ALLOW_EDIT_PAYMENT",
+                "IS_CASH",
+                "AUTO_CHANGE_1C",
+                "CAN_PRINT_CHECK",
+                "ENTITY_REGISTRY_TYPE",
+                "XML_ID",
+            ],
+            filter={
+                "@ID": [
+                    117,
+                    118,
+                ],
+            },
+            order={
+                "SORT": "ASC",
+                "ID": "DESC",
+            },
+        ).as_list().response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+    Пример `as_list_fast`
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.sale.paysystem.list(
+            select=[
+                "ID",
+                "PERSON_TYPE_ID",
+                "NAME",
+                "PSA_NAME",
+                "SORT",
+                "DESCRIPTION",
+                "ACTION_FILE",
+                "RESULT_FILE",
+                "NEW_WINDOW",
+                "TARIF",
+                "PS_MODE",
+                "HAVE_PAYMENT",
+                "HAVE_ACTION",
+                "HAVE_RESULT",
+                "HAVE_PREPAY",
+                "HAVE_PRICE",
+                "HAVE_RESULT_RECEIVE",
+                "ENCODING",
+                "ACTIVE",
+                "ALLOW_EDIT_PAYMENT",
+                "IS_CASH",
+                "AUTO_CHANGE_1C",
+                "CAN_PRINT_CHECK",
+                "ENTITY_REGISTRY_TYPE",
+                "XML_ID",
+            ],
+            filter={
+                "@ID": [
+                    117,
+                    118,
+                ],
+            },
+            order={
+                "SORT": "ASC",
+                "ID": "DESC",
+            },
+        ).as_list_fast(descending=True).response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

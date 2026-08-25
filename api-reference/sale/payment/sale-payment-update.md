@@ -404,6 +404,49 @@ fields: {
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "paySystemId": 1,
+        "paid": "Y",
+        "datePaid": "2024-04-10T10:00:00",
+        "empPaidId": 1,
+        "psStatus": "Y",
+        "psSum": 100,
+        "psCurrency": "RUB",
+        "psResponseDate": "2024-04-10T10:00:00",
+        "sum": 100,
+        "companyId": 1,
+        "responsibleId": 1,
+        "empResponsibleId": 1,
+        "isReturn": "N",
+        "externalPayment": "N",
+        "psInvoiceId": 1,
+        "marked": "N",
+    }
+
+    try:
+        bitrix_response = client.sale.payment.update(
+            bitrix_id=144,
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
 

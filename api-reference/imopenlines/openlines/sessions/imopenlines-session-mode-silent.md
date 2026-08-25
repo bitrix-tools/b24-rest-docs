@@ -132,7 +132,6 @@
       document.addEventListener('DOMContentLoaded', setSilentMode)
     </script>
     ```
-
 - PHP
 
     ```php

@@ -202,8 +202,36 @@
     </script>
     ```
 
-- PHP
+- Python
 
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.landing.landing.update(
+            lid=349,
+            fields={
+                "TITLE": "Spring Promo 2026",
+                "CODE": "spring-sale-2026",
+                "DESCRIPTION": "Updated promo page description",
+                "XML_ID": "promo-2026-landing",
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+- PHP
     ```php
     try {
         $response = $b24Service

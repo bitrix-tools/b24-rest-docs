@@ -240,6 +240,70 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    content = '<div class="my-app-w-container"><!-- Vue template --></div>'
+
+    try:
+        bitrix_response = client.landing.repowidget.register(
+            code="my_widget",
+            fields={
+                "NAME": "My widget",
+                "PREVIEW": "https://my-app.com/vibe_preview.jpg",
+                "CONTENT": content,
+                "SECTIONS": "widgets_company_life",
+                "WIDGET_PARAMS": {
+                    "rootNode": ".my-app-w-container",
+                    "lang": {
+                        "ru": {
+                            "W_TITLE": "People and their ages",
+                            "W_EMPTY": "No data",
+                        },
+                        "en": {
+                            "W_TITLE": "People and their ages",
+                            "W_EMPTY": "Empty",
+                        },
+                    },
+                    "handler": "https://my-app.com/vibe.php",
+                    "style": "https://my-app.com/vibe.css",
+                    "demoData": {
+                        "desc": "Some people...",
+                        "persons": [
+                            {
+                                "name": "Person 1",
+                                "age": 21,
+                            },
+                            {
+                                "name": "Person 2",
+                                "age": 42,
+                            },
+                            {
+                                "name": "Person 3",
+                                "age": 123,
+                            },
+                        ],
+                    },
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

@@ -184,16 +184,16 @@
 - Python
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.duplicate.findbycomm(
             entity_type="CONTACT",
             type="PHONE",
-            values=["8976543", "11223355"],
+            values=[
+                "8976543",
+                "11223355",
+            ],
         ).response
         result = bitrix_response.result
         print(result)

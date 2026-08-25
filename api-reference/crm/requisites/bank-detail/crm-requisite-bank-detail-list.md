@@ -356,16 +356,21 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.requisite.bankdetail.list(
-            order={"DATE_CREATE": "ASC"},
-            filter={"COUNTRY_ID": "1"},
-            select=["ENTITY_ID", "ID", "NAME"],
+            order={
+                "DATE_CREATE": "ASC",
+            },
+            filter={
+                "COUNTRY_ID": "1",
+            },
+            select=[
+                "ENTITY_ID",
+                "ID",
+                "NAME",
+            ],
             start=0,
         ).response
         result = bitrix_response.result
@@ -386,16 +391,21 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.requisite.bankdetail.list(
-            order={"DATE_CREATE": "ASC"},
-            filter={"COUNTRY_ID": "1"},
-            select=["ENTITY_ID", "ID", "NAME"],
+            order={
+                "DATE_CREATE": "ASC",
+            },
+            filter={
+                "COUNTRY_ID": "1",
+            },
+            select=[
+                "ENTITY_ID",
+                "ID",
+                "NAME",
+            ],
         ).as_list().response
         result = bitrix_response.result
         for item in result:
@@ -416,16 +426,21 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.requisite.bankdetail.list(
-            filter={"COUNTRY_ID": "1"},
-            select=["ENTITY_ID", "ID", "NAME"],
-            order={"ID": "DESC"},
+            filter={
+                "COUNTRY_ID": "1",
+            },
+            select=[
+                "ENTITY_ID",
+                "ID",
+                "NAME",
+            ],
+            order={
+                "ID": "DESC",
+            },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:

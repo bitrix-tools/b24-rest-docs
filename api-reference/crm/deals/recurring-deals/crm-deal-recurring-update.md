@@ -361,30 +361,32 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
-
     try:
-        bitrix_response = client.crm.deal.recurring.update(
-            bitrix_id=77,
-            fields={
-                "TITLE": "Monthly Retainer Renewal - Updated",
-                "IS_ACTIVE": "Y",
-                "OPPORTUNITY": 6500,
-                "STAGE_ID": "PREPARATION",
+        bitrix_response = client.crm.deal.recurring.update(bitrix_id=77, fields={
+            "TITLE": "Monthly Retainer Renewal - Updated",
+            "IS_ACTIVE": "Y",
+            "OPPORTUNITY": 6500,
+            "STAGE_ID": "PREPARATION",
+            "ACTIVE": "Y",
+            "CATEGORY_ID": "2",
+            "IS_LIMIT": "D",
+            "LIMIT_DATE": "2027-03-05",
+            "START_DATE": "2026-04-05",
+            "PARAMS": {
+                "MODE": "multiple",
+                "MULTIPLE_TYPE": "month",
+                "MULTIPLE_INTERVAL": 1,
+                "OFFSET_BEGINDATE_TYPE": "day",
+                "OFFSET_BEGINDATE_VALUE": 1,
+                "OFFSET_CLOSEDATE_TYPE": "month",
+                "OFFSET_CLOSEDATE_VALUE": 2,
             },
-        ).response
+        }).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
+        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
     except BitrixSDKException as error:
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:

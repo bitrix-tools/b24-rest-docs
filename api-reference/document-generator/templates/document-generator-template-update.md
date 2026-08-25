@@ -218,6 +218,41 @@
     </script>
     ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  template_fields = {
+      "name": "SUPPLY_CONTRACT_NEW Template",
+      "numeratorId": 3,
+      "code": "REST_TEMPLATE",
+      "users": [
+          "U503",
+      ],
+      "sort": 700,
+  }
+
+  try:
+      bitrix_response = client.documentgenerator.template.update(
+          bitrix_id=57,
+          fields=template_fields,
+      ).response
+      result = bitrix_response.result
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - PHP
 
   ```php

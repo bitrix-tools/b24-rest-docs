@@ -141,7 +141,6 @@
         echo 'Error calling crm.contact.details.configuration.forceCommonScopeForAll: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

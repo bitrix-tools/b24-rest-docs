@@ -216,6 +216,46 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.catalog.document.list(
+            select=[
+                "id",
+                "docType",
+                "docNumber",
+                "title",
+                "status",
+                "dateDocument",
+                "total",
+            ],
+            filter={
+                ">=dateCreate": "2025-10-01T00:00:00+03:00",
+                "<=dateCreate": "2025-10-15T23:59:59+03:00",
+            },
+            order={
+                "id": "ASC",
+            },
+            start=50,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

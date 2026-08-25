@@ -560,56 +560,91 @@ fields:
 
     ```python
     from datetime import datetime, timedelta
-
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
-
     try:
-        bitrix_response = client.crm.activity.configurable.add(
-            owner_type_id=2,
-            owner_id=101,
-            fields={
-                "typeId": "CONFIGURABLE",
-                "completed": False,
-                "deadline": (datetime.now() + timedelta(hours=2)).isoformat(timespec="seconds"),
-                "pingOffsets": [15, 60],
-                "isIncomingChannel": "N",
-                "responsibleId": 1,
-                "badgeCode": "CUSTOM_STATUS",
+        bitrix_response = client.crm.activity.configurable.add(owner_type_id=2, owner_id=101, fields={
+            "typeId": "CONFIGURABLE",
+            "completed": False,
+            "deadline": (datetime.now() + timedelta(hours=2)).isoformat(timespec='seconds'),
+            "pingOffsets": [
+                15,
+                60,
+            ],
+            "isIncomingChannel": "N",
+            "responsibleId": 1,
+            "badgeCode": "CUSTOM_STATUS",
+        }, layout={
+            "icon": {
+                "code": "call-completed",
             },
-            layout={
-                "icon": {"code": "call-completed"},
-                "header": {"title": "Customer follow-up"},
-                "body": {
-                    "blocks": {
-                        "summary": {
-                            "type": "text",
-                            "properties": {"value": "Prepare proposal", "multiline": False},
+            "header": {
+                "title": "Customer follow-up",
+            },
+            "body": {
+                "blocks": {
+                    "summary": {
+                        "type": "text",
+                        "properties": {
+                            "value": "Prepare proposal",
+                            "multiline": False,
+                        },
+                    },
+                    "responsible": {
+                        "type": "lineOfBlocks",
+                        "properties": {
+                            "blocks": {
+                                "client": {
+                                    "type": "link",
+                                    "properties": {
+                                        "text": "Сергей Востриков",
+                                        "bold": True,
+                                        "action": {
+                                            "type": "redirect",
+                                            "uri": "/crm/lead/details/789/",
+                                        },
+                                    },
+                                },
+                                "phone": {
+                                    "type": "text",
+                                    "properties": {
+                                        "value": "+7 999 888 7777",
+                                    },
+                                },
+                            },
                         },
                     },
                 },
-                "footer": {
-                    "buttons": {
-                        "openDeal": {
-                            "title": "Open deal",
-                            "action": {"type": "redirect", "uri": "/crm/deal/details/101/"},
-                            "type": "primary",
+                "logo": {
+                    "code": "call-incoming",
+                },
+            },
+            "footer": {
+                "buttons": {
+                    "openDeal": {
+                        "title": "Open deal",
+                        "action": {
+                            "type": "redirect",
+                            "uri": "/crm/deal/details/101/",
                         },
+                        "type": "primary",
+                    },
+                    "startCall": {
+                        "title": "О клиенте",
+                        "action": {
+                            "type": "openRestApp",
+                            "actionParams": {
+                                "clientId": 456,
+                            },
+                        },
+                        "type": "primary",
                     },
                 },
             },
-        ).response
+        }).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
+        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
     except BitrixSDKException as error:
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:

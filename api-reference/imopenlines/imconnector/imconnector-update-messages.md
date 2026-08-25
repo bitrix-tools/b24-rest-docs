@@ -312,6 +312,57 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imconnector.update.messages(
+            connector="myconnector",
+            line=107,
+            messages=[
+                {
+                    "user": {
+                        "id": "ext-user-42",
+                        "last_name": "Ivanov",
+                        "name": "Ivan",
+                        "picture": {
+                            "url": "https://example.com/u42.png",
+                        },
+                        "url": "https://example.com/users/42",
+                        "gender": "male",
+                        "email": "ivan@example.com",
+                        "phone": "+79990000000",
+                    },
+                    "message": {
+                        "id": "ext-msg-1001",
+                        "date": 1773266050,
+                        "text": "Good afternoon, details clarified",
+                    },
+                    "chat": {
+                        "id": "channel-123",
+                        "name": "Support channel",
+                        "url": "https://example.com/chats/123",
+                    },
+                },
+            ],
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

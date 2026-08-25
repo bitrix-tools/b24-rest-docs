@@ -211,6 +211,43 @@
     </script>
     ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  try:
+      bitrix_response = client.documentgenerator.role.fillaccesses(
+          accesses=[
+              {
+                  "roleId": 9,
+                  "accessCode": "U1",
+              },
+              {
+                  "roleId": 9,
+                  "accessCode": "D1",
+              },
+              {
+                  "roleId": 9,
+                  "accessCode": "UA",
+              },
+          ],
+      ).response
+      result = bitrix_response.result
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - PHP
 
   ```php

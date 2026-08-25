@@ -379,7 +379,6 @@
         print('Error: ' . $e->getMessage());
     }
     ```
-
 - BX24.js
 
     ```js

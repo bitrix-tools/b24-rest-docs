@@ -254,9 +254,145 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.tasks.api.scrum.epic.list(
+            filter={
+                "GROUP_ID": 143,
+                ">=ID": 1,
+                "<=ID": 50,
+                "NAME": "%epic%",
+                "!=DESCRIPTION": "old epic",
+                "CREATED_BY": 1,
+                "MODIFIED_BY": 3,
+                "COLOR": "#69dafc",
+            },
+            order={
+                "ID": "asc",
+                "NAME": "desc",
+            },
+            select=[
+                "ID",
+                "NAME",
+                "DESCRIPTION",
+                "CREATED_BY",
+                "MODIFIED_BY",
+                "COLOR",
+            ],
+            start=0,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+    Пример `as_list`
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.tasks.api.scrum.epic.list(
+            filter={
+                "GROUP_ID": 143,
+                ">=ID": 1,
+                "<=ID": 50,
+                "NAME": "%epic%",
+                "!=DESCRIPTION": "old epic",
+                "CREATED_BY": 1,
+                "MODIFIED_BY": 3,
+                "COLOR": "#69dafc",
+            },
+            order={
+                "ID": "asc",
+                "NAME": "desc",
+            },
+            select=[
+                "ID",
+                "NAME",
+                "DESCRIPTION",
+                "CREATED_BY",
+                "MODIFIED_BY",
+                "COLOR",
+            ],
+        ).as_list().response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
+    Пример `as_list_fast`
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.tasks.api.scrum.epic.list(
+            filter={
+                "GROUP_ID": 143,
+                ">=ID": 1,
+                "<=ID": 50,
+                "NAME": "%epic%",
+                "!=DESCRIPTION": "old epic",
+                "CREATED_BY": 1,
+                "MODIFIED_BY": 3,
+                "COLOR": "#69dafc",
+            },
+            order={
+                "ID": "asc",
+                "NAME": "desc",
+            },
+            select=[
+                "ID",
+                "NAME",
+                "DESCRIPTION",
+                "CREATED_BY",
+                "MODIFIED_BY",
+                "COLOR",
+            ],
+        ).as_list_fast(descending=True).response
+        result = bitrix_response.result
+        for item in result:
+            print(item)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
-
-
     ```php
     try {
         $response = $b24Service

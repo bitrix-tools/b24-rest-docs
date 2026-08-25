@@ -179,15 +179,14 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.company.contact.delete(
             bitrix_id=32,
-            fields={"CONTACT_ID": 54},
+            fields={
+                "CONTACT_ID": 54,
+            },
         ).response
         result = bitrix_response.result
         print(result)

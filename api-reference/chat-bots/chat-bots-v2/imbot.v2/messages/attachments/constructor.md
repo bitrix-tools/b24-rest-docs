@@ -226,6 +226,104 @@
     }
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imbot.v2.chat.message.send(
+            bot_id=456,
+            dialog_id="chat20921",
+            fields={
+                "message": "Карточка задачи",
+                "attach": [
+                    {
+                        "USER": {
+                            "NAME": "Уведомления Mantis",
+                            "AVATAR": "https://files.shelenkov.com/bitrix/images/mantis2.jpg",
+                            "LINK": "https://shelenkov.com/",
+                        },
+                    },
+                    {
+                        "LINK": {
+                            "NAME": "Открыть Mantis из внешней сети",
+                            "LINK": "https://shelenkov.com/",
+                        },
+                    },
+                    {
+                        "DELIMITER": {
+                            "SIZE": 200,
+                            "COLOR": "#c6c6c6",
+                        },
+                    },
+                    {
+                        "GRID": [
+                            {
+                                "NAME": "Проект",
+                                "VALUE": "BUGS",
+                                "DISPLAY": "LINE",
+                                "WIDTH": 100,
+                            },
+                            {
+                                "NAME": "Категория",
+                                "VALUE": "im",
+                                "DISPLAY": "LINE",
+                                "WIDTH": 100,
+                            },
+                            {
+                                "NAME": "Сводка",
+                                "VALUE": "Требуется реализовать возможность добавлять структурированные сущности в сообщения и уведомления мессенджера.",
+                                "DISPLAY": "BLOCK",
+                            },
+                        ],
+                    },
+                    {
+                        "DELIMITER": {
+                            "SIZE": 200,
+                            "COLOR": "#c6c6c6",
+                        },
+                    },
+                    {
+                        "GRID": [
+                            {
+                                "NAME": "Новое обращение",
+                                "VALUE": "",
+                                "DISPLAY": "ROW",
+                                "WIDTH": 100,
+                            },
+                            {
+                                "NAME": "Назначено",
+                                "VALUE": "Шеленков Евгений",
+                                "DISPLAY": "ROW",
+                                "WIDTH": 100,
+                            },
+                            {
+                                "NAME": "Дедлайн",
+                                "VALUE": "04.11.2015 17:50:43",
+                                "DISPLAY": "ROW",
+                                "WIDTH": 100,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ).response
+        result = bitrix_response.result["id"]
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - BX24.js
 
     ```js
@@ -502,6 +600,48 @@
         error_log($e->getMessage());
         echo 'Error adding message: ' . $e->getMessage();
     }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.imbot.v2.chat.message.send(
+            bot_id=456,
+            dialog_id="chat20921",
+            fields={
+                "message": "У вас новое уведомление",
+                "attach": {
+                    "ID": 1,
+                    "COLOR": "#29619b",
+                    "BLOCKS": [
+                        {
+                            "MESSAGE": "Коллеги, обновление im 16.0.0 проверено и готово к выгрузке. Необходимо поставить тег. В обновление больше не подкладываем.",
+                        },
+                        {
+                            "IMAGE": {
+                                "LINK": "https://files.shelenkov.com/bitrix/images/win.jpg",
+                            },
+                        },
+                    ],
+                },
+            },
+        ).response
+        result = bitrix_response.result["id"]
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - BX24.js

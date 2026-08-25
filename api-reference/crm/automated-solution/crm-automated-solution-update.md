@@ -207,10 +207,7 @@
         Пример
 
         ```python
-        from b24pysdk.client import BaseClient
         from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-        client: BaseClient
 
         try:
             bitrix_response = client.crm.automatedsolution.update(
@@ -402,16 +399,15 @@
         Пример
 
         ```python
-        from b24pysdk.client import BaseClient
         from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-        client: BaseClient
 
         try:
             bitrix_response = client.crm.automatedsolution.update(
                 bitrix_id=238,
                 fields={
-                    "typeIds": [14],
+                    "typeIds": [
+                        14,
+                    ],
                 },
             ).response
             result = bitrix_response.result
@@ -597,10 +593,7 @@
         Пример
 
         ```python
-        from b24pysdk.client import BaseClient
         from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-        client: BaseClient
 
         try:
             bitrix_response = client.crm.automatedsolution.update(

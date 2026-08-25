@@ -488,11 +488,8 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
     from datetime import datetime
-
-    client: BaseClient
 
     lead_birthdate = datetime(1989, 7, 14).date().isoformat()
 

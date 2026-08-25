@@ -364,10 +364,7 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.list(
@@ -393,9 +390,18 @@
                         "!=lastName": "",
                     },
                 },
-                "@stageId": ["NEW", "IN_PROCESS"],
-                "@sourceId": ["WEB", "ADVERTISING"],
-                "@assignedById": [1, 6],
+                "@stageId": [
+                    "NEW",
+                    "IN_PROCESS",
+                ],
+                "@sourceId": [
+                    "WEB",
+                    "ADVERTISING",
+                ],
+                "@assignedById": [
+                    1,
+                    6,
+                ],
                 ">=opportunity": 5000,
                 "<=opportunity": 20000,
                 "isManualOpportunity": "Y",
@@ -423,10 +429,7 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.list(
@@ -452,9 +455,18 @@
                         "!=lastName": "",
                     },
                 },
-                "@stageId": ["NEW", "IN_PROCESS"],
-                "@sourceId": ["WEB", "ADVERTISING"],
-                "@assignedById": [1, 6],
+                "@stageId": [
+                    "NEW",
+                    "IN_PROCESS",
+                ],
+                "@sourceId": [
+                    "WEB",
+                    "ADVERTISING",
+                ],
+                "@assignedById": [
+                    1,
+                    6,
+                ],
                 ">=opportunity": 5000,
                 "<=opportunity": 20000,
                 "isManualOpportunity": "Y",
@@ -483,10 +495,7 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.item.list(
@@ -512,9 +521,18 @@
                         "!=lastName": "",
                     },
                 },
-                "@stageId": ["NEW", "IN_PROCESS"],
-                "@sourceId": ["WEB", "ADVERTISING"],
-                "@assignedById": [1, 6],
+                "@stageId": [
+                    "NEW",
+                    "IN_PROCESS",
+                ],
+                "@sourceId": [
+                    "WEB",
+                    "ADVERTISING",
+                ],
+                "@assignedById": [
+                    1,
+                    6,
+                ],
                 ">=opportunity": 5000,
                 "<=opportunity": 20000,
                 "isManualOpportunity": "Y",
@@ -959,6 +977,48 @@
     echo '</PRE>';
     ```
 
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.crm.item.list(
+            entity_type_id=2,
+            select=[
+                "id",
+                "title",
+                "createdTime",
+            ],
+            filter={
+                "0": {
+                    "logic": "OR",
+                    "0": {
+                        ">=createdTime": "2025-10-31T00:00:00+02:00",
+                        "<createdTime": "2025-11-01T00:00:00+02:00",
+                    },
+                    "1": {
+                        ">=createdTime": "2025-02-28T00:00:00+02:00",
+                        "<createdTime": "2025-03-01T00:00:00+02:00",
+                    },
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - Go
 
     ```go

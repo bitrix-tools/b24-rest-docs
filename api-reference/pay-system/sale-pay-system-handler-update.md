@@ -266,6 +266,99 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "CODE": "newresthandlercode",
+        "NAME": "New handler name",
+        "SORT": 200,
+        "SETTINGS": {
+            "CURRENCY": [
+                "RUB",
+                "BYN",
+            ],
+            "FORM_DATA": {
+                "ACTION_URI": "http://example.com/payment_form.php",
+                "METHOD": "POST",
+                "PARAMS": {
+                    "serviceid": "REST_SERVICE_ID_2",
+                    "invoiceNumber": "PAYMENT_ID_2",
+                    "Sum": "PAYMENT_SHOULD_PAY_2",
+                    "customer": "PAYMENT_BUYER_ID_2",
+                },
+            },
+            "CODES": {
+                "REST_SERVICE_ID_2": {
+                    "NAME": "Store number",
+                    "DESCRIPTION": "Store number",
+                    "SORT": "100",
+                },
+                "REST_SERVICE_KEY_2": {
+                    "NAME": "Secret key",
+                    "DESCRIPTION": "Secret key",
+                    "SORT": "300",
+                },
+                "PAYMENT_ID_2": {
+                    "NAME": "Payment number",
+                    "SORT": "400",
+                    "GROUP": "PAYMENT",
+                    "DEFAULT": {
+                        "PROVIDER_KEY": "PAYMENT",
+                        "PROVIDER_VALUE": "ACCOUNT_NUMBER",
+                    },
+                },
+                "PAYMENT_SHOULD_PAY_2": {
+                    "NAME": "Payment amount",
+                    "SORT": "600",
+                    "GROUP": "PAYMENT",
+                    "DEFAULT": {
+                        "PROVIDER_KEY": "PAYMENT",
+                        "PROVIDER_VALUE": "SUM",
+                    },
+                },
+                "PS_CHANGE_STATUS_PAY_2": {
+                    "NAME": "Automatic payment status change",
+                    "SORT": "700",
+                    "INPUT": {
+                        "TYPE": "Y/N",
+                    },
+                },
+                "PAYMENT_BUYER_ID_2": {
+                    "NAME": "Customer code",
+                    "SORT": "1000",
+                    "GROUP": "PAYMENT",
+                    "DEFAULT": {
+                        "PROVIDER_KEY": "ORDER",
+                        "PROVIDER_VALUE": "USER_ID",
+                    },
+                },
+            },
+        },
+    }
+
+    try:
+        bitrix_response = client.sale.paysystem.handler.update(
+            bitrix_id=3,
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
 

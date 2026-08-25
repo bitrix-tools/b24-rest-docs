@@ -219,6 +219,41 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    fields = {
+        "NAME": "Документы отдела маркетинга",
+        "EXTERNAL_ID": "ext_marketing_docs_001",
+        "XML_ID": "xml_marketing_docs_001",
+        "SORT": 500,
+        "ACTIVE": "Y",
+    }
+
+    try:
+        bitrix_response = client.lists.section.add(
+            iblock_type_id='lists',
+            iblock_id=95,
+            iblock_section_id=0,
+            section_code='marketing_documents',
+            fields=fields,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php

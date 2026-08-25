@@ -219,6 +219,58 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    select = [
+        "id",
+        "title",
+        "responsibleId",
+        "deadline",
+        "status",
+    ]
+
+    filter = [
+        [
+            "id",
+            ">",
+            1000,
+        ],
+    ]
+
+    order = {
+        "id": "ASC",
+    }
+
+    pagination = {
+        "page": 1,
+        "limit": 20,
+        "offset": 0,
+    }
+
+    try:
+        bitrix_response = client.tasks.task.list(
+            select=select,
+            filter=filter,
+            order=order,
+            pagination=pagination,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.

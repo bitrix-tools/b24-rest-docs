@@ -257,17 +257,22 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.lead.contact.items.set(
             bitrix_id=1201,
             items=[
-            {"CONTACT_ID": 3401, "SORT": 10, "IS_PRIMARY": "Y"},
-            {"CONTACT_ID": 3402, "SORT": 20, "IS_PRIMARY": "N"},
+                {
+                    "CONTACT_ID": 3401,
+                    "SORT": 10,
+                    "IS_PRIMARY": "Y",
+                },
+                {
+                    "CONTACT_ID": 3402,
+                    "SORT": 20,
+                    "IS_PRIMARY": "N",
+                },
             ],
         ).response
         result = bitrix_response.result

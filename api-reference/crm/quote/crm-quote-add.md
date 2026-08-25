@@ -312,7 +312,6 @@
         echo 'Error creating quote: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

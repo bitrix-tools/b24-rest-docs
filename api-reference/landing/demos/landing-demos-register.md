@@ -452,6 +452,72 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.landing.demos.register(
+            data={
+                "charset": "UTF-8",
+                "code": "ftmlt",
+                "site_code": "/ftmlt/",
+                "name": "Business",
+                "description": None,
+                "type": "page",
+                "fields": {
+                    "TITLE": "Business",
+                    "LANDING_ID_INDEX": "0",
+                    "LANDING_ID_404": "0",
+                    "ADDITIONAL_FIELDS": {},
+                },
+                "folders": [],
+                "items": {
+                    "ftmlt": {
+                        "old_id": "16",
+                        "code": "ftmlt",
+                        "name": "Business",
+                        "description": None,
+                        "preview": "",
+                        "preview2x": "",
+                        "preview3x": "",
+                        "preview_url": "",
+                        "show_in_list": "Y",
+                        "type": "page",
+                        "version": 3,
+                        "fields": {
+                            "TITLE": "Business",
+                        },
+                        "layout": [],
+                        "items": {},
+                    },
+                },
+                "layout": [],
+                "preview": "",
+                "preview2x": "",
+                "preview3x": "",
+                "preview_url": "",
+                "show_in_list": "Y",
+                "syspages": [],
+                "version": 3,
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     ```php

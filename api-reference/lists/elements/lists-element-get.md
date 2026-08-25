@@ -304,6 +304,55 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    select = [
+        "ID",
+        "CODE",
+        "NAME",
+        "IBLOCK_SECTION_ID",
+        "DATE_CREATE",
+        "PROPERTY_951",
+        "PROPERTY_1003",
+    ]
+
+    filter = {
+        "NAME": "%Тестовый%",
+        "<=DATE_CREATE": "2025-12-31",
+        ">=DATE_CREATE": "2025-01-01",
+    }
+
+    element_order = {
+        "NAME": "asc",
+    }
+
+    try:
+        bitrix_response = client.lists.element.get(
+            iblock_type_id='lists',
+            iblock_id=47,
+            element_id=6999,
+            select=select,
+            filter=filter,
+            element_order=element_order,
+            start=0,
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
 - PHP
 
     ```php

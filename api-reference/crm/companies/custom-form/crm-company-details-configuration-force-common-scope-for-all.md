@@ -142,7 +142,6 @@
         echo 'Error setting common company card for all users: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

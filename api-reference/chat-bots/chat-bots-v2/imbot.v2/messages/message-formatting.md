@@ -237,6 +237,34 @@
   }
   ```
 
+- Python
+
+  ```python
+  from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+  try:
+      bitrix_response = client.imbot.v2.chat.message.send(
+          bot_id=456,
+          dialog_id="chat2725",
+          fields={
+              "message": "[b]Важное сообщение[/b][br]Откройте [url=https://bitrix24.com]сайт[/url][br][send=/help]Помощь[/send]",
+          },
+      ).response
+      result = bitrix_response.result["id"]
+      print(result)
+  except BitrixAPIError as error:
+      print(
+          "Ошибка Bitrix API",
+          f"error: {error.error}",
+          f"error_description: {error.error_description}",
+          sep="\n",
+      )
+  except BitrixSDKException as error:
+      print(f"Ошибка Bitrix SDK: {error.message}")
+  except Exception as error:
+      print(f"Непредвиденная ошибка: {error}")
+  ```
+
 - BX24.js
 
   ```js

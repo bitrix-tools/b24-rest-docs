@@ -276,7 +276,6 @@
         echo 'Error fetching company list: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

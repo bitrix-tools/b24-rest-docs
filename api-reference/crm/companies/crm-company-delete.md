@@ -157,7 +157,6 @@
         echo 'Error deleting company: ' . $e->getMessage();
     }
     ```
-
 - BX24.js
 
     ```js

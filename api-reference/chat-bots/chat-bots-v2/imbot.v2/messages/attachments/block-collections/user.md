@@ -66,6 +66,18 @@
     ]
     ```
 
+- Python
+
+    ```python
+    attach = {
+        "USER": {
+            "NAME": "Иван Иванов",
+            "AVATAR": "https://files.shelenkov.com/bitrix/images/avatar.png",
+            "LINK": "https://shelenkov.com",
+        },
+    }
+    ```
+
 {% endlist %}
 
 ## Продолжите изучение

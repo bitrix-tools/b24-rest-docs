@@ -283,8 +283,51 @@
     </script>
     ```
 
-- PHP
+- Python
 
+    ```python
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.landing.block.updatenodes(
+            lid=311,
+            block=6058,
+            data={
+                ".landing-block-node-text": "New block text",
+                ".landing-block-node-img": {
+                    "src": "https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img12.jpg",
+                    "alt": "New banner",
+                },
+                ".landing-block-node-link": {
+                    "text": "Learn more",
+                    "href": "https://www.bitrix24.com",
+                    "target": "_blank",
+                },
+                ".landing-block-node-icon": [
+                    "fa",
+                    "fa-telegram",
+                ],
+                ".landing-block-node-embed": {
+                    "src": "//www.youtube.com/embed/q4d8g9Dn3ww?autoplay=1&controls=0&loop=1&mute=1&rel=0",
+                    "source": "https://www.youtube.com/watch?v=q4d8g9Dn3ww",
+                },
+            },
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+- PHP
     ```php
     try {
         $response = $b24Service

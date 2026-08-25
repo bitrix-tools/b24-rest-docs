@@ -181,14 +181,11 @@
     Пример
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
-    client: BaseClient
-
     try:
-        bitrix_response = client.crm.timeline.icon.list()
-        result = bitrix_response.response.result
+        bitrix_response = client.crm.timeline.icon.list().response
+        result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
         print(
@@ -206,10 +203,7 @@
     Пример `as_list`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.timeline.icon.list().as_list().response
@@ -232,10 +226,7 @@
     Пример `as_list_fast`
 
     ```python
-    from b24pysdk.client import BaseClient
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    client: BaseClient
 
     try:
         bitrix_response = client.crm.timeline.icon.list().as_list_fast(descending=True).response
