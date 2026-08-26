@@ -25,6 +25,8 @@ items:
     href: tasks-task-list.md
   - name: Получить список задач v 3.0
     href: tasks-task-list-rest-v3.md
+  - name: Получить список Gantt-связей задачи
+    href: tasks-task-gantt-link-list.md
   - name: Удалить задачу
     href: tasks-task-delete.md
   - name: Удалить задачу v 3.0

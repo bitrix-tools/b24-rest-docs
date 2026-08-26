@@ -221,6 +221,7 @@
     || [tasks.task.get](./tasks-task-get-rest-v3.md) | Получает информацию о задаче по `id` v 3.0 ||
     || [tasks.task.list](./tasks-task-list.md) | Получает список задач ||
     || [tasks.task.list](./tasks-task-list-rest-v3.md) | Получает список задач v 3.0 ||
+    || [tasks.task.gantt.link.list](./tasks-task-gantt-link-list.md) | Получает список Gantt-связей задачи ||
     || [tasks.task.delete](./tasks-task-delete.md) | Удаляет задачу ||
     || [tasks.task.delete](./tasks-task-delete-rest-v3.md) | Удаляет задачу v 3.0 ||
     || [tasks.task.getFields](./tasks-task-get-fields.md) | Получает список полей задачи ||
