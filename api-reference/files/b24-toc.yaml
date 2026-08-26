@@ -7,4 +7,5 @@ items:
     href: how-to-upload-files.md
   - name: Как обновить и удалить файлы
     href: how-to-update-files.md
-
+  - name: Как скачать файлы
+    href: how-to-download-files.md
