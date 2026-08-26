@@ -62,7 +62,7 @@
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/event.unbind
-        ```
+    ```
 
 - JS (TS)
 
@@ -170,7 +170,7 @@
 
 - PHP
 
-    ```php        
+    ```php
     try {
         $eventCode = 'your_event_code'; // Replace with your actual event code
         $handlerUrl = 'https://your.handler.url'; // Replace with your actual handler URL

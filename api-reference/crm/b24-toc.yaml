@@ -7,6 +7,8 @@ items:
     href: data-types.md 
   - name: Поля основных объектов CRM
     href: main-entities-fields.md
+  - name: Ограничения длины полей CRM
+    href: field-length-limits.md
   - name: Частые кейсы и туториалы
     href: tutorials.md
   - name: Сквозная аналитика

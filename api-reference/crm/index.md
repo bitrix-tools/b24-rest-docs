@@ -44,7 +44,7 @@ CRM работает в классическом режиме с лидами и
 
 Карточка CRM объединяет данные объекта, этап работы с ним и историю взаимодействий.
 
-**Поля.** В карточке хранятся данные объекта, состав которых зависит от его типа. Список доступных полей можно получить методом [crm.item.fields](./universal/crm-item-fields.md). Общие поля описаны в статье [Поля основных объектов CRM](./main-entities-fields.md). Пользовательские поля настраивают методами [userfieldconfig.add](./universal/userfieldconfig/userfieldconfig-add.md) или [userfieldconfig.update](./universal/userfieldconfig/userfieldconfig-update.md) — им нужны scope `userfieldconfig` и scope модуля из `moduleId`, для CRM это `crm`, а также право «Разрешить изменять настройки».
+**Поля.** В карточке хранятся данные объекта, состав которых зависит от его типа. Список доступных полей можно получить методом [crm.item.fields](./universal/crm-item-fields.md). Общие поля описаны в статье [Поля основных объектов CRM](./main-entities-fields.md), ограничения длины — в статье [Ограничения длины полей CRM](./field-length-limits.md). Пользовательские поля настраивают методами [userfieldconfig.add](./universal/userfieldconfig/userfieldconfig-add.md) или [userfieldconfig.update](./universal/userfieldconfig/userfieldconfig-update.md) — им нужны scope `userfieldconfig` и scope модуля из `moduleId`, для CRM это `crm`, а также право «Разрешить изменять настройки».
 
 **Воронка и стадия.** Для сделок и смарт-процессов карточка показывает, в какой воронке находится объект и на каком этапе. Для работы с воронками нужен `categoryId` — его возвращает [crm.category.list](./universal/category/crm-category-list.md). Стадии возвращает [crm.status.list](./status/crm-status-list.md) с фильтром по справочнику `ENTITY_ID`: `DEAL_STAGE` — стадии основной воронки сделок, `DEAL_STAGE_1` — стадии воронки с `categoryId = 1`. Код стадии приходит в поле `STATUS_ID`: у основной воронки это `NEW` или `PREPARATION`, у дополнительной — с префиксом воронки, например `C1:NEW`. Этот код передают в поле `stageId` универсальных методов или `STAGE_ID` методов объекта.
 
@@ -122,6 +122,7 @@ CRM работает в классическом режиме с лидами и
 || **Статья** | **Описание** ||
 || [Типы данных и структура объектов в REST API CRM](./data-types.md) | Что такое `entityTypeId`, какие бывают идентификаторы и как устроены объекты CRM ||
 || [Поля основных объектов CRM](./main-entities-fields.md) | Поля ключевых объектов CRM в одном месте ||
+|| [Ограничения длины полей CRM](./field-length-limits.md) | Максимальная длина стандартных полей CRM и способ получить лимиты пользовательских полей ||
 || [Частые кейсы и туториалы](./tutorials.md) | Прикладные сценарии и примеры использования CRM ||
 |#
 
