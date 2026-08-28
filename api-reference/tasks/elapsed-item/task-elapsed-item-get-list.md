@@ -20,25 +20,25 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **TASKID**
+|| **taskId**
 [`integer`](../../data-types.md) | Идентификатор задачи.
 
 Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
-|| **ORDER**
+|| **order**
 [`object`](../../data-types.md) | Объект для сортировки результата (подробное описание приведено ниже) ||
-|| **FILTER**
+|| **filter**
 [`object`](../../data-types.md) | Объект для фильтрации результата (подробное описание приведено ниже) ||
-|| **SELECT**
+|| **select**
 [`array`](../../data-types.md) | Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение `"*"`, то будут возвращены все доступные поля. 
 
 По умолчанию будут возвращены все поля основной таблицы запроса ||
-|| **PARAMS**
+|| **params**
 [`object`](../../data-types.md) | Объект для опций вызова. Элементом является объект `NAV_PARAMS` вида `{'опция вызова': 'значение' [, ...]}` (подробное описание приведено ниже) в виде структуры ||
 |#
 
 {% note warning %}
 
-Соблюдать указанный в таблице порядок следования параметров в запросе — обязательно. Иначе запрос выполнится с ошибками.
+Метод принимает параметры позиционно. Соблюдайте порядок из таблицы: `taskId`, `order`, `filter`, `select`, `params`. Если передать `order`, `filter`, `select` и `params` как именованные поля одного объекта, запрос выполнится с ошибкой.
 
 {% endnote %}
 
@@ -52,7 +52,7 @@
 
 {% endnote %}
 
-### Параметр ORDER
+### Параметр order
 
 #|
 || **Название**
@@ -88,7 +88,7 @@
 |#
 
 
-### Параметр FILTER
+### Параметр filter
 
 #|
 || **Название**
@@ -137,7 +137,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '[{"ID": "desc"},{">=CREATED_DATE": "2024-02-16"}]' \
+    -d '[3839,{"ID":"asc"},{"USER_ID":1},["ID","TASK_ID","USER_ID","SECONDS","MINUTES","COMMENT_TEXT","CREATED_DATE"],{"NAV_PARAMS":{"nPageSize":2,"iNumPage":1}}]' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.elapseditem.getlist
     ```
 
@@ -147,8 +147,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{[{"ID": "desc"},{">=CREATED_DATE": "2024-02-16"}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/task.elapseditem.getlist
+    -d '[3839,{"ID":"asc"},{"USER_ID":1},["ID","TASK_ID","USER_ID","SECONDS","MINUTES","COMMENT_TEXT","CREATED_DATE"],{"NAV_PARAMS":{"nPageSize":2,"iNumPage":1}}]' \
+    https://**put_your_bitrix24_address**/rest/task.elapseditem.getlist?auth=**put_access_token_here**
     ```
 
 - JS (TS)
@@ -179,16 +179,16 @@
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // passing it is a TS error) — keep this call.make variant when sort matters.
       const response = await $b24.actions.v2.call.make<ElapsedItem[]>({
         method: 'task.elapseditem.getlist',
-        params: {
-          TASKID: 1,
-          ORDER: { ID: 'desc' },
-          FILTER: { '>=CREATED_DATE': '2024-02-16' },
-          SELECT: ['ID', 'TASK_ID'],
-          PARAMS: { NAV_PARAMS: { nPageSize: 2 } },
-        },
+        params: [
+          3839,
+          { ID: 'asc' },
+          { USER_ID: 1 },
+          ['ID', 'TASK_ID', 'USER_ID', 'SECONDS', 'MINUTES', 'COMMENT_TEXT', 'CREATED_DATE'],
+          { NAV_PARAMS: { nPageSize: 2, iNumPage: 1 } },
+        ],
         requestId: Text.getUuidRfc4122()
       })
 
@@ -220,16 +220,16 @@
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // passing it is a TS error) — keep this call.make variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'task.elapseditem.getlist',
-            params: {
-              TASKID: 1,
-              ORDER: { ID: 'desc' },
-              FILTER: { '>=CREATED_DATE': '2024-02-16' },
-              SELECT: ['ID', 'TASK_ID'],
-              PARAMS: { NAV_PARAMS: { nPageSize: 2 } },
-            },
+            params: [
+              3839,
+              { ID: 'asc' },
+              { USER_ID: 1 },
+              ['ID', 'TASK_ID', 'USER_ID', 'SECONDS', 'MINUTES', 'COMMENT_TEXT', 'CREATED_DATE'],
+              { NAV_PARAMS: { nPageSize: 2, iNumPage: 1 } },
+            ],
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -257,17 +257,25 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     order = {
-        "ID": "desc",
+        "ID": "asc",
     }
 
     filter = {
-        ">=CREATED_DATE": "2024-02-16",
+        "USER_ID": 1,
     }
 
     try:
         bitrix_response = client.task.elapseditem.getlist(
+            taskid=3839,
             order=order,
             filter=filter,
+            select=["ID", "TASK_ID", "USER_ID", "SECONDS", "MINUTES", "COMMENT_TEXT", "CREATED_DATE"],
+            params={
+                "NAV_PARAMS": {
+                    "nPageSize": 2,
+                    "iNumPage": 1,
+                },
+            },
         ).response
         result = bitrix_response.result
         print(result)
@@ -288,53 +296,29 @@
 
     ```php
     try {
-        // Получить все записи о затраченном времени с сортировкой по ID в нисходящем порядке.
-        // Будут отфильтрованы только те записи, ID которых имеет значение меньше 50.
-        $response1 = $b24Service
+        $response = $b24Service
             ->core
             ->call(
                 'task.elapseditem.getlist',
                 [
-                    1,
-                    ['ID' => 'desc'],
-                    ['<ID' => 50],
-                ]
-            );
-    
-        $result1 = $response1
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result1, true);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting elapsed time records: ' . $e->getMessage();
-    }
-    
-    try {
-        // Получение выборки по затраченному времени на основании общих условий фильтрации. Например, выбрать данные о трудозатратах с указанной даты:
-        $response2 = $b24Service
-            ->core
-            ->call(
-                'task.elapseditem.getlist',
-                [
-                    ['ID' => 'desc'],
-                    ['>=CREATED_DATE' => '2024-02-16'],
-                    ['ID', 'TASK_ID'],
+                    3839,
+                    ['ID' => 'asc'],
+                    ['USER_ID' => 1],
+                    ['ID', 'TASK_ID', 'USER_ID', 'SECONDS', 'MINUTES', 'COMMENT_TEXT', 'CREATED_DATE'],
                     [
                         'NAV_PARAMS' => [
                             'nPageSize' => 2,
+                            'iNumPage' => 1,
                         ],
                     ],
                 ]
             );
     
-        $result2 = $response2
+        $result = $response
             ->getResponseData()
             ->getResult();
     
-        echo 'Success: ' . print_r($result2, true);
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -345,32 +329,16 @@
 - BX24.js
 
     ```js
-    // Получить все записи о затраченном времени с сортировкой по ID в нисходящем порядке.
-    // Будут отфильтрованы только те записи, ID которых имеет значение меньше 50.
     BX24.callMethod(
         'task.elapseditem.getlist',
         [
-            1, 
-            {'ID': 'desc'},
-            {'<ID': 50}
-        ],
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
-    // Получение выборки по затраченному времени на основании общих условий фильтрации. Например, выбрать данные о трудозатратах с указанной даты:
-    BX24.callMethod(
-        'task.elapseditem.getlist',
-        [
-            {'ID': 'desc'}, 
-            {'>=CREATED_DATE': '2024-02-16'},
-            ['ID', 'TASK_ID'],
+            3839,
+            {'ID': 'asc'},
+            {'USER_ID': 1},
+            ['ID', 'TASK_ID', 'USER_ID', 'SECONDS', 'MINUTES', 'COMMENT_TEXT', 'CREATED_DATE'],
             {"NAV_PARAMS":{
-                    "nPageSize":2
+                    "nPageSize":2,
+                    "iNumPage":1
                 }
             },
         ],
@@ -392,13 +360,15 @@
     $result = CRest::call(
         'task.elapseditem.getlist',
         [
-            "ORDER" => ["ID" => "DESC"],            // Сортировка по ID - по убыванию
-            "FILTER" => [">ID" => 1],               // Фильтр
-            "SELECT" => ['ID', 'TASK_ID'],          // Выборка - только ID записи и задачи
-            "PARAMS" => ['NAV_PARAMS' => [          // Постраничка
-                    "nPageSize" => 2,                   // по 2 элемента на странице
-                    'iNumPage' => 2                     // страница номер 2
-                ]
+            3839,
+            ['ID' => 'asc'],
+            ['USER_ID' => 1],
+            ['ID', 'TASK_ID', 'USER_ID', 'SECONDS', 'MINUTES', 'COMMENT_TEXT', 'CREATED_DATE'],
+            [
+                'NAV_PARAMS' => [
+                    'nPageSize' => 2,
+                    'iNumPage' => 1,
+                ],
             ],
         ]
     );
@@ -412,13 +382,21 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "task.elapseditem.getlist", []b24.Params{
-    	{
-    		"ID": "desc",
-    	},
-    	{
-    		">=CREATED_DATE": "2024-02-16",
-    	},
+    res, err := client.Core().Call(ctx, "task.elapseditem.getlist", []any{
+        3839,
+        b24.Params{
+            "ID": "asc",
+        },
+        b24.Params{
+            "USER_ID": 1,
+        },
+        []string{"ID", "TASK_ID", "USER_ID", "SECONDS", "MINUTES", "COMMENT_TEXT", "CREATED_DATE"},
+        b24.Params{
+            "NAV_PARAMS": b24.Params{
+                "nPageSize": 2,
+                "iNumPage": 1,
+            },
+        },
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("task.elapseditem.getlist: %w", err)
@@ -450,26 +428,34 @@ HTTP-статус: **200**
 {
     "result":[
         {
-            "ID": "1",
-            "TASK_ID": "691",
+            "ID": "153",
+            "TASK_ID": "3839",
             "USER_ID": "1",
-            "COMMENT_TEXT": "1",
-            "SECONDS": "3600",
-            "MINUTES": "60",
-            "SOURCE": "2",
-            "CREATED_DATE": "2024-05-16T10:33:00+02:00",
-            "DATE_START": "2024-05-16T10:33:15+02:00",
-            "DATE_STOP": "2024-05-16T10:33:15+02:00"
+            "COMMENT_TEXT": "",
+            "SECONDS": "5100",
+            "MINUTES": "85",
+            "CREATED_DATE": "2025-12-18T14:16:51+03:00"
+        },
+        {
+            "ID": "155",
+            "TASK_ID": "3839",
+            "USER_ID": "1",
+            "COMMENT_TEXT": "",
+            "SECONDS": "23",
+            "MINUTES": "0",
+            "CREATED_DATE": "2025-12-18T14:16:37+03:00"
         }
     ],
-    "total": 1,
+    "total": 2,
     "time":{
-        "start":1712137817.343984,
-        "finish":1712137817.605804,
-        "duration":0.26182007789611816,
-        "processing":0.018325090408325195,
-        "date_start":"2024-04-03T12:50:17+03:00",
-        "date_finish":"2024-04-03T12:50:17+03:00"
+        "start":1787829762,
+        "finish":1787829762.985642,
+        "duration":0.9856419563293457,
+        "processing":0,
+        "date_start":"2026-08-27T14:22:42+03:00",
+        "date_finish":"2026-08-27T14:22:42+03:00",
+        "operating_reset_at":1787830362,
+        "operating":0.11980605125427246
     }
 }
 ```
@@ -508,11 +494,12 @@ HTTP-статус: **400**
 || `0x000004` | Действие не разрешено ||
 || `0x000040` | Неизвестная ошибка ||
 || `0x000100` | Переданы неверные параметры метода ||
+|| `ERROR_CORE` | Ошибка выполнения действия. Проверьте доступ к задаче и порядок позиционных параметров метода ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-elapsed-item-add.md)

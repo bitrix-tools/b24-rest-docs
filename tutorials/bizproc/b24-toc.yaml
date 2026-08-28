@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Как добавить действие для создания счета на основании
     href: activity.md
+  - name: Как создать свое действие для бизнес-процесса
+    href: how-to-create-custom-activity.md
   - name: Как встроить свой UI в параметры робота 
     href: setting-robot.md
   - name: Как завершить бизнес-процессы уволенного сотрудника

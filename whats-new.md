@@ -5,6 +5,8 @@
 ### 28 августа, 2026
 
 - Обновили документацию: [Виджеты, встраиваемые в интерфейс объектов пользовательских типов CRM](./api-reference/crm/universal/widgets.md), [Локальные приложения](./local-integrations/local-apps.md), [Типовые кейсы использования REST API в CRM и туториалы](./api-reference/crm/tutorials.md), [Компоненты и шаблоны](./api-reference/widgets/ui-kit/components.md), [Установка отраслевых CRM](./settings/app-installation/vertical-crm-installation.md)
+- Добавили туториал [Как создать свое действие для бизнес-процесса](./tutorials/bizproc/how-to-create-custom-activity.md)
+- Добавили туториал [Как посчитать затраченное время по задачам для каждого сотрудника](./tutorials/tasks/how-to-calculate-employee-time-by-tasks.md)
 
 ### 26 августа, 2026
 
