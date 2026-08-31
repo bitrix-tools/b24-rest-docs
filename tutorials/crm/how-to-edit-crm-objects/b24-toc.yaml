@@ -15,6 +15,8 @@ items:
     href: how-to-generate-edit-form-for-deal.md
   - name: Как изменить или удалить номера телефонов и email
     href: how-to-change-email-or-phone.md
+  - name: Как автоматически заполнить зависимое поле CRM после изменения основного поля
+    href: how-to-autofill-dependent-field.md
   - name: Как перенести дело между элементами одного типа
     href: how-to-move-activity.md
   - name: Как перенести дело из одного типа объекта в другой
