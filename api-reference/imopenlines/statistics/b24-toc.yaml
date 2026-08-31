@@ -1,0 +1,19 @@
+title: Статистика открытых линий
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Типы данных
+    href: data-types.md
+  - name: Получить агрегированную статистику
+    href: imopenlines-v2-stat-get.md
+  - name: Получить список операторов с нагрузкой
+    href: imopenlines-v2-operator-list.md
+  - name: Получить список сессий
+    href: imopenlines-v2-session-list.md
+  - name: Получить метрики сессий
+    href: imopenlines-v2-session-stat-get.md
+  - name: Получить список оценок
+    href: imopenlines-v2-session-rating-list.md
+  - name: Получить историю переводов
+    href: imopenlines-v2-session-transfer-list.md

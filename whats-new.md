@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 31 августа, 2026
+
+- Добавили методы [imopenlines.v2.*](./api-reference/imopenlines/statistics/index.md) для статистики открытых линий: агрегаты, список сессий, метрики сессий, оценки, переводы и нагрузка операторов
+
 ### 28 августа, 2026
 
 - Обновили документацию: [Виджеты, встраиваемые в интерфейс объектов пользовательских типов CRM](./api-reference/crm/universal/widgets.md), [Локальные приложения](./local-integrations/local-apps.md), [Типовые кейсы использования REST API в CRM и туториалы](./api-reference/crm/tutorials.md), [Компоненты и шаблоны](./api-reference/widgets/ui-kit/components.md), [Установка отраслевых CRM](./settings/app-installation/vertical-crm-installation.md)

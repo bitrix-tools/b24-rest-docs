@@ -9,10 +9,11 @@
 
 {% endnote %}
 
-Открытые линии объединяют обращения клиентов из сайтов, мессенджеров и социальных сетей в единый поток обработки. Для интеграций доступны два связанных направления API:
+Открытые линии объединяют обращения клиентов из сайтов, мессенджеров и социальных сетей в единый поток обработки. Для интеграций доступны три связанные группы методов:
 
 - [Открытые линии](./openlines/index.md) — настройка линий, очередей операторов, сессий, сообщений, чат-ботов, событий и связи с CRM
 - [Коннекторы](./imconnector/index.md) — подключение и обслуживание внешних каналов связи, через которые клиенты пишут в открытые линии
+- [Статистика открытых линий](./statistics/index.md) — получение агрегатов, сессий, оценок, переводов и текущей нагрузки операторов
 
 > Быстрый переход: [все методы и события](#all-methods)
 >
@@ -24,6 +25,7 @@
 || **Сценарий** | **Что использовать** ||
 || Настроить линию, очереди операторов и правила обработки обращений | Группа методов [Открытые линии](./openlines/index.md) ||
 || Подключить собственный внешний канал связи к Битрикс24 | Группа методов [Коннекторы открытых линий](./imconnector/index.md) ||
+|| Построить внешний дашборд или выгрузить данные для аналитики | Группа методов [Статистика открытых линий](./statistics/index.md) ||
 || Подключить внешнюю открытую линию с другого Битрикс24 | Метод [imopenlines.network.join](./openlines/imopenlines-network-join.md) ||
 || Подписаться на события сообщений, диалогов и статусов | События из разделов [События коннекторов](./imconnector/events/index.md) и [События открытых линий](./openlines/events/index.md) ||
 |#
@@ -50,16 +52,19 @@
 
 **Универсальные списки.** Быстрые ответы связаны с идентификатором `QUICK_ANSWERS_IBLOCK_ID`. Получить его можно методом [imopenlines.config.get](./openlines/imopenlines-config-get.md), а задать при создании или обновлении линии — методами [imopenlines.config.add](./openlines/imopenlines-config-add.md) и [imopenlines.config.update](./openlines/imopenlines-config-update.md).
 
+**Данные статистики.** Накопленные данные по сессиям, оценкам, переводам и нагрузке операторов доступны через группу методов [Статистика открытых линий](./statistics/index.md). Структуры объектов ответа описаны в [типах данных статистики открытых линий](./statistics/data-types.md).
+
 ## Ключевые идентификаторы
 
 #|
 || **Идентификатор** | **Описание** | **Как получить** ||
 || `CHAT_ID` | Идентификатор чата открытой линии. Нужен для действий с диалогом, сообщениями, операторами и чат-ботами | [imopenlines.session.open](./openlines/sessions/imopenlines-session-open.md), [imopenlines.dialog.get](./openlines/sessions/imopenlines-dialog-get.md) ||
-|| `SESSION_ID` | Идентификатор сессии внутри чата. Нужен для чтения истории и управления ходом обработки обращения | [imopenlines.session.history.get](./openlines/sessions/imopenlines-session-history-get.md) ||
+|| `SESSION_ID` | Идентификатор сессии внутри чата. Нужен для чтения истории, управления ходом обработки обращения и получения детальной статистики | [imopenlines.session.history.get](./openlines/sessions/imopenlines-session-history-get.md), [imopenlines.v2.Session.list](./statistics/imopenlines-v2-session-list.md) ||
 || `USER_CODE` | Внешний код пользователя канала связи. Нужен, чтобы однозначно связать внешнего клиента с чатом и сессией в линии | Формируется внешним каналом, используется в [imopenlines.session.open](./openlines/sessions/imopenlines-session-open.md) ||
 || `USER_ID` | Идентификатор пользователя Битрикс24. Нужен для маршрутизации диалога между операторами и операторских действий | [user.get](../user/user-get.md), [user.search](../user/user-search.md) ||
-|| `LINE`/`CONFIG_ID` | Идентификатор открытой линии. В методах `imconnector.*` обычно используется параметр `LINE`, в методах `imopenlines.config.*` — `CONFIG_ID`. Идентификатор нужен, чтобы получать данные линии, изменять настройки и связывать с ней сообщения коннектора | [imopenlines.config.get](./openlines/imopenlines-config-get.md), [imopenlines.config.list.get](./openlines/imopenlines-config-list-get.md), [imopenlines.config.update](./openlines/imopenlines-config-update.md) ||
+|| `LINE`/`CONFIG_ID` | Идентификатор открытой линии. В методах `imconnector.*` обычно используется параметр `LINE`, в методах `imopenlines.config.*` — `CONFIG_ID`, в методах статистики — `configId` и `configIdList`. Идентификатор нужен, чтобы получать данные линии, изменять настройки, связывать с ней сообщения коннектора и фильтровать статистику | [imopenlines.config.get](./openlines/imopenlines-config-get.md), [imopenlines.config.list.get](./openlines/imopenlines-config-list-get.md), [imopenlines.config.update](./openlines/imopenlines-config-update.md) ||
 || `CONNECTOR` | Идентификатор коннектора. Нужен, чтобы методы `imconnector.*` работали с правильным подключенным коннектором | Задается при регистрации в [imconnector.register](./imconnector/imconnector-register.md) в параметре `ID`, затем передается, например, в [imconnector.activate](./imconnector/imconnector-activate.md) и [imconnector.send.messages](./imconnector/imconnector-send-messages.md) ||
+|| `source` | Код канала открытой линии. Нужен, чтобы фильтровать статистику по каналу обращения | [imconnector.list](./imconnector/imconnector-list.md) ||
 |#
 
 ## Как начать работу
@@ -76,6 +81,13 @@
 2. Проверьте обработку диалога: [imopenlines.session.open](./openlines/sessions/imopenlines-session-open.md), [imopenlines.operator.answer](./openlines/operators/imopenlines-operator-answer.md), [imopenlines.crm.message.add](./openlines/messages/imopenlines-crm-message-add.md)
 
 Для автоматизации подключите события: [События открытых линий](./openlines/events/index.md), [События коннекторов](./imconnector/events/index.md)
+
+### Построить внешний отчет по открытым линиям
+
+1. Получите агрегированные показатели методом [imopenlines.v2.Stat.get](./statistics/imopenlines-v2-stat-get.md)
+2. Получите список сессий методом [imopenlines.v2.Session.list](./statistics/imopenlines-v2-session-list.md)
+3. Для детализации по выбранным сессиям используйте [imopenlines.v2.Session.Stat.get](./statistics/imopenlines-v2-session-stat-get.md) или [imopenlines.v2.Session.Transfer.list](./statistics/imopenlines-v2-session-transfer-list.md)
+4. Для мониторинга текущей нагрузки операторов используйте [imopenlines.v2.Operator.list](./statistics/imopenlines-v2-operator-list.md)
 
 ## Обзор методов и событий {#all-methods}
 
@@ -94,6 +106,13 @@
 || [Чаты CRM](./openlines/chats/index.md) | Методы поиска CRM-чатов и управления участниками ||
 || [Чат-боты в открытых линиях](./openlines/chat-bots/index.md) | Методы автоматизации диалогов с помощью чат-ботов ||
 || [События открытых линий](./openlines/events/index.md) | События сообщений и сессий открытых линий ||
+|#
+
+### Статистика открытых линий
+
+#|
+|| **Раздел** | **Описание** ||
+|| [Статистика открытых линий](./statistics/index.md) | Методы получения агрегатов, сессий, оценок, переводов и нагрузки операторов ||
 |#
 
 ### Коннекторы открытых линий
