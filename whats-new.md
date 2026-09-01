@@ -7,6 +7,7 @@
 - Добавили туториал [Как перенести файл из поля CRM в задачу](./tutorials/tasks/how-to-transfer-file-from-crm-to-task.md)
 - Добавили туториал [Как отправить письмо из подключенного ящика](./tutorials/mail/how-to-send-email-from-mailbox.md)
 - Добавили туториал [Как создать дело CRM из входящего письма](./tutorials/mail/how-to-create-crm-activity-from-email.md)
+- Добавили туториал [Как работать с полем Привязка к элементам CRM](./tutorials/crm/how-to-add-crm-objects/how-to-use-crm-binding-field.md)
 
 ### 31 августа, 2026
 
