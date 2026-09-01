@@ -11,7 +11,7 @@
 
 > Scope: [`mail`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находится письмо
+> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находится письмо, и доступом к CRM
 
 {% note info "" %}
 
@@ -79,7 +79,7 @@
     declare const $b24: B24Frame
 
     try {
-      const response = await $b24.actions.v3.call.make<boolean>({
+      const response = await $b24.actions.v3.call.make<{result: boolean}>({
         method: 'mail.message.createcrmactivity',
         params: {
           messageId: 15,
@@ -234,11 +234,13 @@
     	return fmt.Errorf("mail.message.createcrmactivity: %w", err)
     }
 
-    var ok bool
-    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    var item struct {
+        Result bool `json:"result"`
+    }
+    if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println("выполнено:", ok)
+    fmt.Println("выполнено:", item.Result)
     ```
 
 {% endlist %}
@@ -249,7 +251,9 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": true,
+    "result": {
+        "result": true
+    },
     "time": {
         "start": 1779819678,
         "finish": 1779819678.84803,
@@ -269,6 +273,8 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
+[`object`](../../data-types.md) | Объект с результатом создания дела CRM ||
+|| **result.result**
 [`boolean`](../../data-types.md) | `true`, если дело CRM создано успешно ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -315,7 +321,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| `-` | Доступ запрещен | Проверьте права пользователя, доступ к CRM и scope `mail` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

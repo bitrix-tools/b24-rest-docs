@@ -5,6 +5,8 @@
 ### 01 сентября, 2026
 
 - Добавили туториал [Как перенести файл из поля CRM в задачу](./tutorials/tasks/how-to-transfer-file-from-crm-to-task.md)
+- Добавили туториал [Как отправить письмо из подключенного ящика](./tutorials/mail/how-to-send-email-from-mailbox.md)
+- Добавили туториал [Как создать дело CRM из входящего письма](./tutorials/mail/how-to-create-crm-activity-from-email.md)
 
 ### 31 августа, 2026
 
@@ -1088,7 +1090,7 @@
 ### 24 марта, 2025
 
 - Добавили статью [Рабочие группы и проекты: обзор методов](./api-reference/sonet-group/index.md)
-- Дополнили описание событий: на добавление новой рабочей группы [onSonetGroupAdd](./api-reference/sonet-group/events/on-sonet-group-add.md), на изменение рабочей группы [onSonetGroupUpdate](./api-reference/sonet-group/events/on-sonet-group-update.md), на удаление рабочей группы [onSonetGroupDelete](./api-reference/sonet-group/events/on-sonet-group-delete.md).
+- Дополнили описание событий: на добавление новой рабочей группы [onSonetGroupAdd](./api-reference/sonet-group/events/on-sonet-group-add.md), на изменение рабочей группы [onSonetGroupUpdate](./api-reference/sonet-group/events/on-sonet-group-update.md), на удаление рабочей группы [onSonetGroupDelete](./api-reference/sonet-group/events/on-sonet-group-delete.md).
 
 ### 20 марта, 2025
 

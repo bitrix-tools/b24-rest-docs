@@ -1,0 +1,9 @@
+title: Частые кейсы и сценарии в почте
+href: index.md
+items:
+  - name: Типовые кейсы использования REST API в почте
+    href: index.md
+  - name: Как отправить письмо из подключенного ящика
+    href: how-to-send-email-from-mailbox.md
+  - name: Как создать дело CRM из входящего письма
+    href: how-to-create-crm-activity-from-email.md
