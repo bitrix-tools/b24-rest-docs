@@ -9,45 +9,36 @@
 
 {% endnote %}
 
-{% if build == 'dev' %}
+Политика безопасности компании может ограничивать доступ к внутренним и внешним сетевым ресурсам. Из-за этого приложения на REST для Битрикс24 не всегда могут подключиться к коробочному Битрикс24 или внешним облачным сервисам. Альтернативная схема авторизации позволяет разрабатывать приложения на стандартном REST API для Битрикс24 в изолированной инфраструктуре.
 
-{% note alert "TO-DO _не выгружается на prod_" %}
+{% note alert "" %}
 
-- что делать со ссылкой в последнем примечании? [собственном модуле](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=101&LESSON_ID=2902)
-
-{% endnote %}
-
-{% endif %}
-
-Политика безопасности компаний может иметь самые разные ограничения для внутренних и внешних сетевых ресурсов, из-за чего приложения на REST для Битрикс24 не всегда могут «достучатся» до коробочного Битрикс24 или внешних облачных сервисов. Тем не менее, существует решение, которое позволяет разрабатывать приложения на стандартном REST API для Битрикс24 даже в таких случаях.
-
-{% note alert %}
-
-Описанное ниже решение (исключение из процесса авторизации сервера oauth.bitrix24.tech) рекомендуется к использованию только в крайнем случае, поскольку в этом случае вы самостоятельно должны будете решать вопросы безопасного использования приложений и управления авторизацией
+Описанное ниже решение исключает сервер `oauth.bitrix24.tech` из процесса авторизации. Используйте его только в крайнем случае: вы самостоятельно отвечаете за безопасность приложений, хранение секретов и управление авторизацией
 
 {% endnote %}
+
+Решение подходит для коробочной версии Битрикс24, если:
+
+- администратор имеет доступ к файлам Битрикс24 на сервере
+- можно создать собственный модуль в папке `local/modules/`
+- приложение должно работать только для заранее разрешенных `client_id`
+- секреты и токены хранятся в защищенном хранилище, а не в системных файлах продукта
 
 ## Обращения к внешним ресурсам
 
-В работе Rest-приложения есть три момента, когда происходит обращение из портала вовне:
+Во время работы приложения на REST обращения из Битрикс24 к внешним ресурсам выполняют три компонента:
 
 1. валидатор авторизации
-2. провайдер авторизации
-3. провайдер событий
+2. провайдер событий
+3. провайдер авторизации
 
 ![Три момента](./_images/provider_1.png)
 
-Рассмотрим способы, которые позволят избежать обращений к внешним ресурсам.
-
-{% note info %}
-
-В примере рассматривается ситуация, когда необходимо только какое-то одно конкретное приложение пустить в обход основной цепочки.
-
-{% endnote %}
+Ниже показано, как заменить эти обращения локальными обработчиками для одного конкретного приложения, которому нужно обойти основную цепочку.
 
 ## Валидатор авторизации
 
-Создадим свой обработчик событий
+Создайте валидатор авторизации. Он проверяет запрос по параметру `secret_word` и авторизует пользователя во время текущего запроса.
 
 ```php
 <?php
@@ -58,12 +49,34 @@ class AuthSimple
     const AUTH_TYPE = 'demo_simple';
 
     const AUTH_PARAM_NAME = 'secret_word';
-    const AUTH_PARAM_VALUE = 'MySuperSecurePassword123456';
+    const AUTH_PARAM_VALUE = 'change_this_secret';
 
     public static function onRestCheckAuth(array $query, $scope, &$res)
     {
         if(array_key_exists(static::AUTH_PARAM_NAME, $query))
         {
+            if($query[static::AUTH_PARAM_NAME] === static::AUTH_PARAM_VALUE)
+            {
+                $error = false;
+                $res = array(
+                    'user_id' => 1,
+                    'scope' => implode(',', \CRestUtil::getScopeList()),
+                    'parameters_clear' => array(static::AUTH_PARAM_NAME),
+                    'auth_type' => static::AUTH_TYPE,
+                );
+
+                if(!\CRestUtil::makeAuth($res))
+                {
+                    $res = array(
+                        'error' => 'authorization_error',
+                        'error_description' => 'Unable to authorize user'
+                    );
+                    $error = true;
+                }
+
+                return !$error;
+            }
+
             $res = array(
                 'error' => 'INVALID_CREDENTIALS',
                 'error_description' => 'Invalid request credentials'
@@ -77,13 +90,30 @@ class AuthSimple
 }
 ```
 
-На вход валидатор получает все полные данные запроса приложения. Если в запросе нет параметра `secret_word`, то он отвечает `return null`, то есть «не мой запрос». Если этот параметр в запросе присутствует, то обработчик проверяет запрос по значению. Если значение существует, но не соответствует сохраненному, то в ответ сообщается: «да, запрос мой, но неверное значение». Если значение верное, то он сообщает `ID` пользователя, список доступных скоупов, указывает, какие параметры нужно удалить, прежде чем отдавать запрос разработчику, и сообщает идентификатор типа авторизации, так как некоторые методы имеют ограничение по типам авторизации.
+Валидатор получает все данные запроса приложения. Если в запросе нет параметра `secret_word`, он возвращает `return null`, чтобы запрос проверил другой валидатор. Если параметр есть, обработчик проверяет его значение.
 
-После этого обработчиком вызывается метод модуля REST, который авторизует на данном хите пользователя. Если все прошло хорошо, то возвращается *true*.
+Если значение не совпадает с сохраненным, валидатор возвращает ошибку `INVALID_CREDENTIALS`. Если значение верное, он передает `ID` пользователя, список доступных скоупов, параметры, которые нужно удалить из запроса, и идентификатор типа авторизации. Тип авторизации нужен методам, которые ограничивают доступ по способу авторизации.
+
+В примере значение `AUTH_PARAM_VALUE` указано в коде для демонстрации. В рабочем модуле храните секрет в защищенном хранилище и не передавайте его в репозиторий.
+
+После этого обработчик вызывает метод модуля REST, который авторизует пользователя во время текущего запроса. Если авторизация прошла успешно, возвращается `true`.
+
+Зарегистрируйте валидатор при установке модуля:
+
+```php
+\Bitrix\Main\EventManager::getInstance()->registerEventHandler(
+    'rest',
+    'onRestCheckAuth',
+    'demo.authprovider',
+    '\\Demo\\AuthProvider\\AuthSimple',
+    'onRestCheckAuth',
+    80
+);
+```
 
 ## Провайдер событий
 
-Отнаследуем оригинальный класс провайдера событий и укажем что он реализует интерфейс провайдера событий. В своем классе мы переопределим только одну функцию *send*, которая и занимается отправкой. В данном примере покажем, как мы вместо обращения к внешней очереди событий, будем выполнять прямой http-запрос обработчика (`$http->post(...)`), в случае необходимости вызвать внешний обработчик
+Создайте класс провайдера событий. Он наследует стандартный провайдер `Bitrix\Rest\Event\ProviderOAuth` и реализует интерфейс `Bitrix\Rest\Event\ProviderInterface`. В примере переопределяется метод PHP-класса `send`: вместо обращения к внешней очереди событий он выполняет прямой HTTP-запрос к обработчику приложения через `$http->post(...)`.
 
 ```php
 <?php
@@ -107,6 +137,16 @@ class EventProvider extends ProviderOAuth implements ProviderInterface
         {
             if($this->checkItem($item))
             {
+                if($item['additional']['sendAuth'])
+                {
+                    $item['query']['QUERY_DATA']['auth'] = AuthProvider::instance()->get(
+                        $item['client_id'],
+                        '',
+                        $item['auth'],
+                        $item['auth'][AuthFull::PARAM_LOCAL_USER]
+                    );
+                }
+
                 $http->post($item['query']['QUERY_URL'], $item['query']['QUERY_DATA']);
                 unset($queryData[$key]);
             }
@@ -125,13 +165,11 @@ class EventProvider extends ProviderOAuth implements ProviderInterface
 }
 ```
 
-В обработчике проверяется весь массив вызова событий на предмет того, наше ли это приложение и наш ли обработчик. Если это не наше приложение, то запрос будет переадресован родительскому классу, если наше, то на этом же хите будет совершен *post* запрос к приложению. Затем зарегистрируем новый провайдер событий в качестве основного и вызовем событие.
+Провайдер проверяет каждый элемент массива событий. Если событие относится к разрешенному приложению, провайдер добавляет данные авторизации и выполняет POST-запрос к обработчику приложения. Если событие относится к другому приложению, запрос передается стандартному провайдеру.
 
 ## Провайдер авторизации
 
-Самая сложная часть.
-
-Принцип прежний: отнаследуется оригинальный класс провайдера и создастся свой класс провайдера, реализующий нужный нам альтернативный интерфейс провайдера авторизации.
+Создайте класс провайдера авторизации. Он наследует стандартный провайдер `Bitrix\Rest\OAuth\Provider` и реализует интерфейс `Bitrix\Rest\AuthProviderInterface`.
 
 ```php
 <?php
@@ -143,6 +181,7 @@ use Bitrix\Main\Security\Random;
 use Bitrix\Rest\Application;
 use Bitrix\Rest\AppTable;
 use Bitrix\Rest\AuthProviderInterface;
+use Bitrix\Rest\AuthStorageInterface;
 use Bitrix\Rest\OAuth\Provider;
 use Bitrix\Rest\RestException;
 class AuthProvider extends Provider implements AuthProviderInterface
@@ -264,20 +303,84 @@ class AuthProvider extends Provider implements AuthProviderInterface
 }
 ```
 
-Основной метод — метод *get*, который служит для выдачи авторизации приложению. Метод получает на вход приложение, которое «затребовало» авторизацию и проверяет, является ли это приложение тем самым, которое мы хотим «пустить в обход» стандартного механизма авторизации. Далее получаются данные о приложении и формируется структура, схожая со структурой, которую получают все приложения от стандартного OAuth-сервера Битрикс24. В массиве:
+Основной метод PHP-класса — `get`. Он выдает авторизационные данные приложению. Метод получает `client_id`, проверяет, входит ли приложение в список разрешенных, получает данные приложения и формирует структуру, похожую на ответ стандартного OAuth-сервера Битрикс24. В массиве авторизации:
 
-- **access_token** — созданный токен
-- **user_id** — пользователь, для которого нужно дать авторизацию
-- **client_id** — приложение. Обратите внимание, что можно указать любое время жизни токена, а не только час времени, используемый по умолчанию в обычной авторизации
-- **expires** — дата истечения токена
-- **scope** — требуемые скоупы
-- служебные данные
+- `access_token` — созданный токен
+- `user_id` — пользователь, для которого нужно дать авторизацию
+- `client_id` — приложение. В провайдере можно указать любое время жизни токена, а не только час, который используется по умолчанию в обычной авторизации
+- `expires` — дата истечения токена
+- `scope` — требуемые скоупы
+- `domain` — адрес Битрикс24
+- `status` — статус локального приложения
+- `client_endpoint` — адрес REST endpoint
+- `member_id` — идентификатор Битрикс24
 
-Далее эти данные сохраняются на портале. Сформированная структура возвращается.
+Далее эти данные сохраняются в хранилище токенов. Сформированная структура возвращается приложению.
+
+Для сохранения и восстановления токенов нужен класс хранилища. Он должен реализовывать интерфейс `Bitrix\Rest\AuthStorageInterface`. Методы PHP-класса хранилища выполняют такие действия: `store` сохраняет новый токен, `rewrite` обновляет параметры существующего токена, `restore` возвращает сохраненные данные по `access_token`.
+
+```php
+<?php
+namespace Demo\AuthProvider;
+
+use Bitrix\Main\Application;
+use Bitrix\Rest\AuthStorageInterface;
+
+class AuthStorage implements AuthStorageInterface
+{
+    const CACHE_TTL = 3600;
+    const CACHE_PREFIX = 'demo_auth_';
+
+    public function store(array $authResult)
+    {
+        $cache = $this->getCache();
+        $cache->read(static::CACHE_TTL, $this->getCacheId($authResult['access_token']));
+        $cache->set($this->getCacheId($authResult['access_token']), $authResult);
+    }
+
+    public function rewrite(array $authResult)
+    {
+        $cache = $this->getCache();
+        $cache->clean($this->getCacheId($authResult['access_token']));
+        $cache->read(static::CACHE_TTL, $this->getCacheId($authResult['access_token']));
+        $cache->set($this->getCacheId($authResult['access_token']), $authResult);
+    }
+
+    public function restore($accessToken)
+    {
+        $cache = $this->getCache();
+
+        if($cache->read(static::CACHE_TTL, $this->getCacheId($accessToken)))
+        {
+            return $cache->get($this->getCacheId($accessToken));
+        }
+
+        return false;
+    }
+
+    protected function getCacheId($accessToken)
+    {
+        return static::CACHE_PREFIX.$accessToken;
+    }
+
+    protected function getCache()
+    {
+        return Application::getInstance()->getManagedCache();
+    }
+}
+```
+
+Перед выдачей токена передайте хранилище провайдеру:
+
+```php
+AuthProvider::instance()
+    ->setStorage(new AuthStorage())
+    ->addApplication('local.demo.application');
+```
 
 {% cut "Дополнительные методы" %}
 
-Метод сохранения куда либо.
+Метод сохранения данных.
 
 ```php
 protected function store(array $authResult)
@@ -286,7 +389,7 @@ protected function store(array $authResult)
 }
 ```
 
-Метод генерации токена. Берется строка случайных 32-х символов, снабжается префиксом.
+Метод генерации токена добавляет префикс к случайной строке из 32 символов.
 
 ```php
 protected function generateToken()
@@ -308,7 +411,7 @@ public function checkToken($token)
 }
 ```
 
-Метод проверки клиента (приложения), где проверяется, что приложение входит в некий разрешенный список.
+Метод `checkClient` проверяет, что `client_id` приложения есть в списке разрешенных приложений.
 
 ```php
 public function checkClient($clientId)
@@ -322,7 +425,7 @@ public function checkClient($clientId)
 
 {% endcut %}
 
-Далее регистрируем наш провайдер в качестве текущего провайдера авторизации:
+Зарегистрируйте провайдер как текущий провайдер авторизации:
 
 ```php
 \Bitrix\Rest\Application::setAuthProvider(
@@ -330,11 +433,9 @@ public function checkClient($clientId)
 );
 ```
 
-Если теперь совершить запрос с этим авторизационным токеном и вызвать метод [`\Bitrix\Rest\AppInfo`](../../../api-reference/common/system/app-info.md), то мы получим данные приложения в текущем Битрикс24:
+После регистрации провайдер становится текущим провайдером авторизации для разрешенного приложения.
 
-![Изображение данных приложения](./_images/provider_2.png)
-
-Делаем свой валидатор авторизации.
+Создайте валидатор полного токена.
 
 ```php
 <?php
@@ -367,11 +468,11 @@ class AuthFull extends Auth
 }
 ```
 
-В валидаторе достаточно отнаследоваться от оригинального валидатора авторизации и переопределить у него функцию *check*, которая и занимается проверкой `accessToken`. Если проверка прошла, то происходит восстановление приложения из хранилища. Затем регистрируем обработчик события, выполнив код на портале один раз:
+В валидаторе нужно наследовать стандартный валидатор авторизации и переопределить метод PHP-класса `check`. Метод проверяет `accessToken`: если токен создан вашим провайдером, данные приложения восстанавливаются из хранилища. Затем зарегистрируйте обработчик события при установке модуля:
 
 ```php
-\Bitrix\Main\EventHandler::getInstance()
-    ->registerEventHadler(
+\Bitrix\Main\EventManager::getInstance()
+    ->registerEventHandler(
         "rest",
         "onRestCheckAuth",
         "demo.authprovider",
@@ -381,79 +482,131 @@ class AuthFull extends Auth
     );
 ```
 
-Последний параметр — сортировка. Необходимо встроиться до того, как сработает оригинальный обработчик.
+Последний параметр — сортировка. Значение `90` позволяет выполнить ваш обработчик раньше стандартного обработчика.
 
-Если теперь совершить запрос с этим авторизационным токеном и вызвать метод [`\Bitrix\Rest\AppInfo`](../../../api-reference/common/system/app-info.md), то можно получить данные приложения на этом портале.
+После регистрации полного валидатора выполните запрос с авторизационным токеном и вызовите метод [`app.info`](../../../api-reference/common/system/app-info.md). Битрикс24 вернет данные приложения. Обработчик события также получит структуру авторизации, которую добавляет `EventProvider`.
 
-Осталось только дополнить провайдер событий, чтобы передавать приложению авторизационные данные в обработчики событий:
-
-```php
-if($item['additional']['sendAuth'])
-{
-    $item['query']['QUERY_DATA']['auth'] = AuthProvider::instance()->get(
-        $item['client_id'],
-        '',
-        $item['auth'],
-        $item['auth'][AuthFull::PARAM_LOCAL_USER]
-    );
-}
+```text
+Array
+(
+    [install] => 0
+    [DOMAIN] => example.bitrix24.ru
+    [PROTOCOL] => 1
+    [LANG] => ru
+    [APP_SID] => [redacted]
+    [AUTH_ID] => demo.[redacted]
+    [AUTH_EXPIRES] => 3600
+    [REFRESH_ID] =>
+    [member_id] => [redacted]
+    [status] => L
+    [PLACEMENT] => DEFAULT
+)
 ```
 
-Полный код провайдера событий:
+{% note warning "" %}
+
+Код провайдера событий выполняется непосредственно в обработчике события. Пример содержит POST-запрос к стороннему серверу. При медленном ответе стороннего сервера выполнение события в Битрикс24 замедляется. При массовых операциях, например импорте данных в CRM, такой код может заметно увеличить время обработки.
+
+{% endnote %}
+
+Снизить риск замедления можно двумя способами:
+
+- Построить очередь. Вместо отправки POST-запроса сохранять данные в таблицу и обрабатывать их отдельным агентом или фоновым процессом
+- Использовать механизм [офлайн событий](../../../api-reference/events/offline-events.md)
+
+## Где хранить код
+
+Разместите код в [собственном модуле](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=101&LESSON_ID=2902), а не в системных файлах продукта. Так изменения не будут потеряны при обновлении Битрикс24. Ниже приведен пример раскладки для модуля `demo.authprovider` в папке `local/modules/demo.authprovider/`:
+
+```text
+local/
+`-- modules/
+    `-- demo.authprovider/
+        |-- include.php
+        |-- install/
+        |   `-- index.php
+        `-- lib/
+            |-- authprovider.php
+            |-- authstorage.php
+            |-- authsimple.php
+            |-- authfull.php
+            `-- eventprovider.php
+```
+
+Назначение файлов:
+
+| Файл | Что хранит |
+|---|---|
+| `local/modules/demo.authprovider/include.php` | Подключает модуль и настраивает провайдер: `AuthProvider::instance()->setStorage(new AuthStorage())->addApplication('local.demo.application')` |
+| `local/modules/demo.authprovider/lib/authprovider.php` | Класс `Demo\AuthProvider\AuthProvider`, который реализует `Bitrix\Rest\AuthProviderInterface` и выдает авторизационные данные приложению |
+| `local/modules/demo.authprovider/lib/authstorage.php` | Класс `Demo\AuthProvider\AuthStorage`, который реализует `Bitrix\Rest\AuthStorageInterface` и хранит токены |
+| `local/modules/demo.authprovider/lib/authsimple.php` | Класс `Demo\AuthProvider\AuthSimple` для проверки запроса по параметру `secret_word` |
+| `local/modules/demo.authprovider/lib/authfull.php` | Класс `Demo\AuthProvider\AuthFull`, который наследует `Bitrix\Rest\OAuth\Auth` и восстанавливает данные приложения по токену |
+| `local/modules/demo.authprovider/lib/eventprovider.php` | Класс `Demo\AuthProvider\EventProvider`, который наследует `Bitrix\Rest\Event\ProviderOAuth` и отправляет события без внешней очереди OAuth |
+
+В `include.php` подключите модуль REST и настройте провайдер:
 
 ```php
 <?php
-namespace Demo\AuthProvider;
-class AuthSimple
+use Bitrix\Main\Loader;
+use Demo\AuthProvider\AuthProvider;
+use Demo\AuthProvider\AuthStorage;
+
+if(Loader::includeModule('rest'))
 {
-    const AUTH_TYPE = 'demo_simple';
-    const AUTH_PARAM_NAME = 'secret_word';
-    const AUTH_PARAM_VALUE = 'MySuperSecurePassword123456';
-    public static function onRestCheckAuth(array $query, $scope, &$res)
-    {
-        if(array_key_exists(static::AUTH_PARAM_NAME, $query))
-        {
-            if($query[static::AUTH_PARAM_NAME] === static::AUTH_PARAM_VALUE)
-            {
-                $error = false;
-                $res = array(
-                    'user_id' => 1,
-                    'scope' => implode(',', \CRestUtil::getScopeList()),
-                    'parameters_clear' => array(static::AUTH_PARAM_NAME),
-                    'auth_type' => static::AUTH_TYPE,
-                );
-                if(!\CRestUtil::makeAuth($res))
-                {
-                    $res = array(
-                        'error' => 'authorization_error',
-                        'error_description' => 'Unable to authorize user'
-                    );
-                    $error = true;
-                }
-                return !$error;
-            }
-            $res = array(
-                'error' => 'INVALID_CREDENTIALS',
-                'error_description' => 'Invalid request credentials'
-            );
-            return false;
-        }
-        return null;
-    }
+    AuthProvider::instance()
+        ->setStorage(new AuthStorage())
+        ->addApplication('local.demo.application');
 }
 ```
 
-В результате обработчик получит полную структуру данных, которые ему требуются для работы.
+Замените `local.demo.application` на `client_id` приложения, которому разрешен обход стандартной цепочки авторизации.
 
-**Небольшое замечание по поводу производительности.** Код, добавленный в провайдер событий в нашем примере выше, выполняется непосредственно в обработчике события. В коде есть *post* запрос к стороннему серверу. Следовательно, если сторонний сервер «тормозит», то будет «тормозить» и весь портал. Если производится какая-то массовая операция, например: импорт данных в CRM, то этот код серьезно может замедлить работу портала.
+Регистрацию обработчиков выполняйте при установке модуля в `local/modules/demo.authprovider/install/index.php`. Добавьте вызовы в метод установки модуля после `RegisterModule('demo.authprovider')`:
 
-Обойти эту проблему производительности можно двумя способами:
+```php
+\Bitrix\Main\EventManager::getInstance()->registerEventHandler(
+    'rest',
+    'onRestCheckAuth',
+    'demo.authprovider',
+    '\\Demo\\AuthProvider\\AuthSimple',
+    'onRestCheckAuth',
+    80
+);
 
-- Построение очереди. Вместо отправки *post* запроса складывать данные в какую-то таблицу и какими-то дополнительными процессами выбирать из нее данные. По сути — кастомная реализация очереди
-- Воспользоваться механизмом [офлайн событий](../../../api-reference/events/offline-events.md)
+\Bitrix\Main\EventManager::getInstance()->registerEventHandler(
+    'rest',
+    'onRestCheckAuth',
+    'demo.authprovider',
+    '\\Demo\\AuthProvider\\AuthFull',
+    'onRestCheckAuth',
+    90
+);
 
-{% note info %}
+\Bitrix\Main\EventManager::getInstance()->registerEventHandler(
+    'rest',
+    'onApplicationManagerInitialize',
+    'demo.authprovider',
+    '\\Demo\\AuthProvider\\AuthProvider',
+    'onApplicationManagerInitialize'
+);
 
-Файл с провайдером лучше разместить в [собственном модуле](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=101&LESSON_ID=2902).
+\Bitrix\Main\EventManager::getInstance()->registerEventHandler(
+    'rest',
+    'onEventManagerInitialize',
+    'demo.authprovider',
+    '\\Demo\\AuthProvider\\EventProvider',
+    'onEventManagerInitialize'
+);
+```
 
-{% endnote %}
+Подключайте код в таком порядке:
+
+1. Создайте модуль `demo.authprovider` в папке `local/modules/demo.authprovider/`
+2. Разложите классы по файлам в папке `lib/`
+3. Настройте провайдер и список разрешенных `client_id` в `include.php`
+4. Зарегистрируйте обработчики `AuthSimple::onRestCheckAuth`, `AuthFull::onRestCheckAuth`, `onApplicationManagerInitialize` и `onEventManagerInitialize` в `install/index.php`
+5. Установите модуль в административной части Битрикс24
+6. Выполните запрос с авторизационным токеном и проверьте результат методом [`app.info`](../../../api-reference/common/system/app-info.md)
+
+Если код не оформлен как модуль, его нужно подключать вручную до обращения к REST. Для рабочей коробочной установки оформите код как модуль: он дает автозагрузку классов из `lib/` и сохраняет регистрацию обработчиков после обновлений.

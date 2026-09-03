@@ -38,8 +38,8 @@
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
-- 
- Список полей для сортировки можно узнать методом [crm.status.fields](./crm-status-fields.md) ||
+
+Список полей для сортировки можно узнать методом [crm.status.fields](./crm-status-fields.md) ||
 || **filter** 
 [`object`](../../data-types.md) | Объект формата:
 
@@ -54,6 +54,8 @@
 
 - `field_n` — название поля, по которому будет отфильтрована выборка элементов
 - `value_n` — значение фильтра
+
+Для полей `ENTITY_ID`, `STATUS_ID`, `SORT`, `SEMANTICS` передавайте строку. Массивы в этих полях не поддерживаются.
 
 Список полей для фильтрации можно узнать методом [crm.status.fields](./crm-status-fields.md) ||
 |#
@@ -113,11 +115,6 @@
     }
 
     try {
-      // crm.status.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<CrmStatusListItem[]>({
         method: 'crm.status.list',
         params: {
@@ -127,7 +124,6 @@
           filter: {
             ENTITY_ID: 'DEAL_STAGE',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -156,11 +152,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.status.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.status.list',
             params: {
@@ -170,7 +161,6 @@
               filter: {
                 ENTITY_ID: 'DEAL_STAGE',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -369,12 +359,20 @@
     }
 
     var items []struct {
-    	ID       b24.ID `json:"ID"`
-    	EntityID string `json:"ENTITY_ID"`
-    	StatusID string `json:"STATUS_ID"`
-    	Name     string `json:"NAME"`
-    	NameInit string `json:"NAME_INIT"`
-    	Sort     string `json:"SORT"`
+        ID         string  `json:"ID"`
+        EntityID   string  `json:"ENTITY_ID"`
+        StatusID   string  `json:"STATUS_ID"`
+        Name       string  `json:"NAME"`
+        NameInit   string  `json:"NAME_INIT"`
+        Sort       string  `json:"SORT"`
+        System     string  `json:"SYSTEM"`
+        CategoryID *string `json:"CATEGORY_ID"`
+        Color      string  `json:"COLOR"`
+        Semantics  *string `json:"SEMANTICS"`
+        Extra      struct {
+            Semantics string `json:"SEMANTICS"`
+            Color     string `json:"COLOR"`
+        } `json:"EXTRA"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -548,11 +546,58 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив объектов с информацией об элементах справочника ||
+[`array`](../../data-types.md) | Массив объектов с информацией об элементах справочника [(подробное описание)](#result) ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных элементов ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля объекта result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор элемента справочника ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор объекта, к которому относится справочник ||
+|| **STATUS_ID**
+[`string`](../../data-types.md) | Код значения статуса ||
+|| **NAME**
+[`string`](../../data-types.md) | Название ||
+|| **NAME_INIT**
+[`string`](../../data-types.md) | Изначальное название ||
+|| **SORT**
+[`string`](../../data-types.md) | Сортировка ||
+|| **SYSTEM**
+[`string`](../../data-types.md) | Признак системного значения:
+
+- `Y` — системное значение
+- `N` — пользовательское значение ||
+|| **CATEGORY_ID**
+[`string`](../../data-types.md) | Идентификатор воронки, к которой относится статус. Для статусов без воронки возвращает `null` ||
+|| **COLOR**
+[`string`](../../data-types.md) | Цвет статуса для канбана в формате HEX ||
+|| **SEMANTICS**
+[`string`](../../data-types.md) | Группа стадий:
+
+- `S` — успешная стадия
+- `F` — провальная стадия
+- `null` — стадия в работе ||
+|| **EXTRA**
+[`object`](../../data-types.md) | Дополнительные поля статуса [(подробное описание)](#extra) ||
+|#
+
+#### Объект EXTRA {#extra}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **SEMANTICS**
+[`string`](../../data-types.md) | Семантика стадии для интерфейса. Возможные значения: `process`, `success`, `failure`, `apology` ||
+|| **COLOR**
+[`string`](../../data-types.md) | Цвет стадии для интерфейса в формате HEX ||
 |#
 
 ## Обработка ошибок
@@ -561,8 +606,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Invalid parameters.",
-    "error_description": "Переданы некорректные параметры."
+    "error": "",
+    "error_description": "Filter by ENTITY_ID must be a string"
 }
 ```
 
@@ -571,9 +616,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400`     | `Access denied.` | Нет прав на выполнение операции ||
-|| `400`     | `Invalid parameters.` | Переданы некорректные параметры ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | Нет прав на выполнение операции ||
+|| `400` | Пустое значение | `Filter by ENTITY_ID must be a string` | В фильтре `ENTITY_ID` передан массив ||
+|| `400` | Пустое значение | `Filter by STATUS_ID must be a string` | В фильтре `STATUS_ID` передан массив ||
+|| `400` | Пустое значение | `Filter by SORT must be a string` | В фильтре `SORT` передан массив ||
+|| `400` | Пустое значение | `Filter by SEMANTICS must be a string` | В фильтре `SEMANTICS` передан массив ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
