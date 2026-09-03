@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 03 сентября, 2026
+
+- Добавили событие [ONAPPUSERREADY](./api-reference/common/events/on-app-user-ready.md) для получения долгоживущей авторизации системного пользователя приложения после установки
+
 ### 01 сентября, 2026
 
 - Добавили туториал [Как перенести файл из поля CRM в задачу](./tutorials/tasks/how-to-transfer-file-from-crm-to-task.md)
