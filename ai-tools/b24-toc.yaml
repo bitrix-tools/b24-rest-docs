@@ -10,6 +10,8 @@ items:
         href: vibecode-create-app.md
       - name: Инструменты Вайбкод
         href: vibecode-tools.md
+      - name: Совместная работа над приложением
+        href: vibecode-collaboration.md
       - name: Битрикс24 Вайбкод в коробочной версии
         href: vibecode-onpremise.md
   - name: MCP-сервер для AI
