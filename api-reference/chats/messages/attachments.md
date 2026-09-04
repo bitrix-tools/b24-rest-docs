@@ -9,14 +9,78 @@
 
 {% endnote %}
 
-`ATTACH` позволяет отправлять структурированный контент в сообщении: текстовые блоки, ссылки, изображения, файлы, разделители и таблицы.
+`ATTACH` — структурированное вложение сообщения: карточка из блоков с текстом, ссылками, изображениями, файлами, таблицами и разделителями. Вложение передают в параметре `ATTACH` методов [im.message.add](./im-message-add.md) и [im.message.update](./im-message-update.md).
 
-Вложения передаются в параметре `ATTACH` метода [im.message.add](./im-message-add.md) и [im.message.update](./im-message-update.md).
+Полное описание полей вложения и всех типов блоков — в справочнике [Вложения в сообщениях ATTACH](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/index.md).
 
-## Форматы ATTACH
+## Когда использовать ATTACH
 
-- полная форма: объект с `BLOCKS`
-- сокращенная форма: массив блоков без обертки
+- нужна карточка из нескольких видов содержимого: заголовок, ссылка, изображение, файл, таблица значений. Форматированного текста в `MESSAGE` для этого не хватает — BB-коды описаны в статье [Форматирование](./formatting.md)
+- содержимое только для чтения, реагировать на него нажатием не нужно. Кнопки под сообщением добавляет `KEYBOARD` — [Работа с клавиатурами](./keyboards.md), пункты в меню сообщения добавляет `MENU` — [Работа с контекстным меню](./menu.md)
+
+Выбор не исключающий: `im.message.add` принимает `MESSAGE`, `ATTACH`, `KEYBOARD` и `MENU` в одном вызове.
+
+## Что нужно перед началом
+
+- скоуп [`im`](../../scopes/permissions.md)
+- право отправлять сообщения в чат, куда адресовано сообщение
+- вложение короче 60 000 символов в сериализованном виде
+
+Битрикс24 переводит вложение в JSON целиком, вместе с полями `ID`, `COLOR_TOKEN` и `COLOR`, и сравнивает с лимитом длину получившейся строки. Если условие не выполнено, сообщение не отправляется, а метод возвращает ошибку — коды собраны в разделе «Обработка ошибок» страницы [im.message.add](./im-message-add.md).
+
+## Как собрать вложение
+
+1. Соберите массив блоков. Каждый элемент — объект с одним ключом верхнего уровня, и этот ключ задает тип блока.
+2. Оберните массив в объект с полями `ID`, `COLOR_TOKEN` и `COLOR`, если нужны метаданные карточки. Без метаданных передавайте массив как есть.
+3. Передайте результат в параметре `ATTACH` метода [im.message.add](./im-message-add.md). Чтобы заменить вложение в отправленном сообщении, вызовите [im.message.update](./im-message-update.md) с новым значением `ATTACH`.
+
+`ID` задает номер вложения внутри сообщения, `COLOR_TOKEN` — цветовую схему карточки, `COLOR` — явный HEX-цвет.
+
+После успешного вызова `im.message.add` карточка появляется в чате, а метод возвращает идентификатор созданного сообщения. Заменить вложение методом `im.message.update` можно, пока не истек срок на редактирование сообщения.
+
+### Типы блоков
+
+- [`MESSAGE`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/text.md) — абзац текста с BB-кодами
+- [`LINK`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/links.md) — ссылка с подписью
+- [`USER`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/user.md) — карточка сотрудника
+- [`GRID`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/grid.md) — строки «название — значение»
+- [`IMAGE`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/images.md) — изображения
+- [`FILE`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/files.md) — файл со ссылкой на скачивание
+- [`DELIMITER`](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/delimiter.md) — разделитель между частями карточки
+
+Параметры каждого блока — в [коллекции блоков ATTACH](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/index.md).
+
+## Две формы ATTACH
+
+### Полная форма
+
+```js
+ATTACH: {
+    ID: 1,
+    COLOR_TOKEN: 'primary',
+    BLOCKS: [
+        { MESSAGE: 'Новая заявка' },
+        { LINK: { NAME: 'Открыть', LINK: 'https://example.com' } }
+    ]
+}
+```
+
+### Краткая форма
+
+Если метаданные вложения не нужны, передайте сразу массив блоков:
+
+```js
+ATTACH: [
+    { MESSAGE: 'Новая заявка' },
+    { LINK: { NAME: 'Открыть', LINK: 'https://example.com' } }
+]
+```
+
+{% note warning "" %}
+
+В методах `im.message.*` вложение передают в параметре `ATTACH` на верхнем уровне запроса. В методах чат-ботов `imbot.v2.*` тот же объект лежит в `fields.attach`. Пример из справочника не заработает в `im.message.*`, если не убрать эту обертку.
+
+{% endnote %}
 
 ## Пример отправки сообщения с ATTACH
 
@@ -283,24 +347,17 @@
     }
 
     // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // в структуру под форму ответа со страницы метода im.message.add.
     fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
 
-{% note warning "" %}
-
-Актуальная документация по вложениям находится в разделе Чат-боты 2.0:
-
-- [Вложения в сообщениях (Attach)](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/index.md)
-
-{% endnote %}
-
 ## Продолжите изучение
 
-- [{#T}](../../chat-bots/chat-bots-v2/imbot.v2/messages/index.md)
-- [{#T}](../../chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-send.md)
-
-
-
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./formatting.md)
+- [{#T}](./index.md)
+- [{#T}](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/index.md)
+- [{#T}](../../chat-bots/chat-bots-v2/imbot.v2/messages/attachments/block-collections/index.md)

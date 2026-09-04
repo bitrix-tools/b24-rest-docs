@@ -15,7 +15,7 @@ items:
     href: installation-finish.md     
   - name: Установка отраслевых CRM
     href: vertical-crm-installation.md
-  - name: Установка "умных сценариев"
+  - name: Установка умных сценариев
     href: smart-scripts-installation.md
   - name: Установка шаблонов сайтов
     href: site-templates-installation.md

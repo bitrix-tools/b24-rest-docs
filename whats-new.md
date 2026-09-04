@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 04 сентября, 2026
+
+- Обновили документацию: [Доступные скоупы Битрикс24](./api-reference/scopes/permissions.md), [Вложения в сообщениях](./api-reference/chats/messages/attachments.md), [Интеграция UI Kit с REST API и бизнес-логикой](./api-reference/widgets/ui-kit/app-logic.md), [Работа в контексте текущего пользователя](./sdk/crest-php-sdk/using-in-users-context.md), [Установка умных сценариев](./settings/app-installation/smart-scripts-installation.md), [Callback установки](./settings/app-installation/mass-market-apps/installation-callback.md)
+
 ### 03 сентября, 2026
 
 - Добавили событие [ONAPPUSERREADY](./api-reference/common/events/on-app-user-ready.md) для получения долгоживущей авторизации системного пользователя приложения после установки
