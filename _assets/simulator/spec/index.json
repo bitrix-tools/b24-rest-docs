@@ -1,7 +1,7 @@
 {
   "$v": 1,
   "generator": "simulator/generate-spec.js",
-  "count": 1562,
+  "count": 1579,
   "methods": [
     {
       "method": "access.name",
@@ -299,6 +299,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Удалить зарегистрированного робота bizproc.robot.delete"
+    },
+    {
+      "method": "bizproc.robot.list",
+      "scope": "bizproc",
+      "kind": "read",
+      "page": "/api-reference/bizproc/bizproc-robot/bizproc-robot-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список зарегистрированных приложением роботов bizproc.robot.list"
     },
     {
       "method": "bizproc.robot.update",
@@ -1066,6 +1075,15 @@
       "title": "Удалить товар из документа складского учета catalog.document.element.delete"
     },
     {
+      "method": "catalog.document.element.fields",
+      "scope": "catalog",
+      "kind": "read",
+      "page": "/api-reference/catalog/document/outdated/catalog-document-element-fields.html",
+      "executable": false,
+      "deprecated": true,
+      "title": "Получить список полей товаров документа складского учета catalog.document.element.fields"
+    },
+    {
       "method": "catalog.document.element.getFields",
       "scope": "catalog",
       "kind": "read",
@@ -1091,6 +1109,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Обновить товар в документе складского учета catalog.document.element.update"
+    },
+    {
+      "method": "catalog.document.fields",
+      "scope": "catalog",
+      "kind": "read",
+      "page": "/api-reference/catalog/document/outdated/catalog-document-fields.html",
+      "executable": false,
+      "deprecated": true,
+      "title": "Получить список полей документа catalog.document.fields"
     },
     {
       "method": "catalog.document.getFields",
@@ -4666,6 +4693,60 @@
       "title": "Добавить коммерческое предложение crm.quote.add"
     },
     {
+      "method": "crm.quote.contact.add",
+      "scope": "crm",
+      "kind": "write",
+      "page": "/api-reference/crm/quote/contacts/crm-quote-contact-add.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Добавить контакт к предложению crm.quote.contact.add"
+    },
+    {
+      "method": "crm.quote.contact.delete",
+      "scope": "crm",
+      "kind": "write",
+      "page": "/api-reference/crm/quote/contacts/crm-quote-contact-delete.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Удалить контакт из указанного предложения crm.quote.contact.delete"
+    },
+    {
+      "method": "crm.quote.contact.fields",
+      "scope": "crm",
+      "kind": "read",
+      "page": "/api-reference/crm/quote/contacts/crm-quote-contact-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить поля для связи предложение-контакт crm.quote.contact.fields"
+    },
+    {
+      "method": "crm.quote.contact.items.delete",
+      "scope": "crm",
+      "kind": "write",
+      "page": "/api-reference/crm/quote/contacts/crm-quote-contact-items-delete.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Удалить набор контактов, связанных с указанным предложением crm.quote.contact.items.delete"
+    },
+    {
+      "method": "crm.quote.contact.items.get",
+      "scope": "crm",
+      "kind": "read",
+      "page": "/api-reference/crm/quote/contacts/crm-quote-contact-items-get.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить набор контактов, связанных с указанным предложением crm.quote.contact.items.get"
+    },
+    {
+      "method": "crm.quote.contact.items.set",
+      "scope": "crm",
+      "kind": "write",
+      "page": "/api-reference/crm/quote/contacts/crm-quote-contact-items-set.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Установить набор контактов, связанных с указанным предложением crm.quote.contact.items.set"
+    },
+    {
       "method": "crm.quote.delete",
       "scope": "crm",
       "kind": "write",
@@ -8065,7 +8146,7 @@
       "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить Id последнего чата imopenlines.crm.chat.getLastId"
+      "title": "Получить идентификатор последнего чата imopenlines.crm.chat.getLastId"
     },
     {
       "method": "imopenlines.crm.chat.user.add",
@@ -8300,6 +8381,60 @@
       "executable": false,
       "deprecated": false,
       "title": "Начать новый диалог imopenlines.session.start"
+    },
+    {
+      "method": "imopenlines.v2.Operator.list",
+      "scope": "imopenlines",
+      "kind": "read",
+      "page": "/api-reference/imopenlines/statistics/imopenlines-v2-operator-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список операторов imopenlines.v2.Operator.list"
+    },
+    {
+      "method": "imopenlines.v2.Session.list",
+      "scope": "imopenlines",
+      "kind": "read",
+      "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список сессий imopenlines.v2.Session.list"
+    },
+    {
+      "method": "imopenlines.v2.Session.Rating.list",
+      "scope": "imopenlines",
+      "kind": "read",
+      "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-rating-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список оценок imopenlines.v2.Session.Rating.list"
+    },
+    {
+      "method": "imopenlines.v2.Session.Stat.get",
+      "scope": "imopenlines",
+      "kind": "read",
+      "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-stat-get.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить метрики сессий imopenlines.v2.Session.Stat.get"
+    },
+    {
+      "method": "imopenlines.v2.Session.Transfer.list",
+      "scope": "imopenlines",
+      "kind": "read",
+      "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-transfer-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить историю переводов imopenlines.v2.Session.Transfer.list"
+    },
+    {
+      "method": "imopenlines.v2.Stat.get",
+      "scope": "imopenlines",
+      "kind": "read",
+      "page": "/api-reference/imopenlines/statistics/imopenlines-v2-stat-get.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить агрегированную статистику imopenlines.v2.Stat.get"
     },
     {
       "method": "landing.block.addcard",
@@ -9415,7 +9550,7 @@
       "page": "/api-reference/log/blogcomment/log-blogcomment-delete.html",
       "executable": false,
       "deprecated": false,
-      "title": "Удалить комментарий из сообщению log.blogcomment.delete"
+      "title": "Удалить комментарий к сообщению log.blogcomment.delete"
     },
     {
       "method": "log.blogcomment.user.get",
@@ -11740,6 +11875,15 @@
       "title": "Отправить документ на подписание sign.b2e.document.send"
     },
     {
+      "method": "sign.b2e.hcmlink.document.get",
+      "scope": "sign.b2e",
+      "kind": "read",
+      "page": "/api-reference/sign/sign-b2e-hcmlink-document-get.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить подписанный документ HCM Link sign.b2e.hcmlink.document.get"
+    },
+    {
       "method": "sign.b2e.mysafe.tail",
       "scope": "sign.b2e",
       "kind": "write",
@@ -12989,6 +13133,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Прикрепить файлы к задаче tasks.task.files.attach"
+    },
+    {
+      "method": "tasks.task.gantt.link.list",
+      "scope": "tasks",
+      "kind": "read",
+      "page": "/api-reference/tasks/tasks-task-gantt-link-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список связей Ганта задачи tasks.task.gantt.link.list"
     },
     {
       "method": "tasks.task.get",

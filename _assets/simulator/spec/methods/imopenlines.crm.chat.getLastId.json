@@ -3,7 +3,7 @@
   "method": "imopenlines.crm.chat.getLastId",
   "scope": "imopenlines",
   "kind": "write",
-  "title": "Получить Id последнего чата imopenlines.crm.chat.getLastId",
+  "title": "Получить идентификатор последнего чата imopenlines.crm.chat.getLastId",
   "permissions": "любой пользователь с доступом к объекту CRM",
   "params": [
     {

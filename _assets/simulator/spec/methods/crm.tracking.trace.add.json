@@ -11,14 +11,14 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "JSON-строка с данными трейса. Для получения корректного значения смотрите туториал"
+      "description": "JSON-строка с данными трейса. Готовое значение можно получить на сайте через b24Tracker.guest.getTrace(). Практический сценарий описан в туториале. Если формируете TRACE вручную, передайте UTM-метки в объекте tags.list: В этом примере в трейс передается только одна UTM-метка: utm_source со значением yandex-maps.…"
     },
     {
       "name": "ENTITIES",
       "type": "object[]",
       "base": "array",
       "required": false,
-      "description": "Массив объектов, которые нужно связать с трейсом подробнее",
+      "description": "Массив объектов, которые нужно связать с трейсом (подробное описание) Если не передать ENTITIES, метод создаст трейс без привязки к объектам CRM",
       "ref": "#/defs/ENTITIESFields"
     }
   ],
@@ -35,14 +35,14 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип объекта. Возможные значения: - COMPANY - CONTACT - DEAL - LEAD - QUOTE"
+          "description": "Тип объекта CRM. Возможные значения: - COMPANY — компания, entityTypeId = 4 - CONTACT — контакт, entityTypeId = 3 - DEAL — сделка, entityTypeId = 2 - LEAD — лид, entityTypeId = 1 - QUOTE — коммерческое предложение, entityTypeId = 7"
         },
         {
           "name": "ID",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Идентификатор элемента. Для указанного объекта у пользователя должны быть права на изменение"
+          "description": "Идентификатор элемента CRM. Идентификатор можно получить методом crm.item.list с entityTypeId нужного типа объекта. Для указанного объекта у пользователя должны быть права на изменение"
         }
       ]
     }
@@ -53,15 +53,15 @@
     "file": "api-reference/crm/tracking/crm-tracking-trace-add.md"
   },
   "resultExample": {
-    "result": 341,
+    "result": 1581,
     "time": {
-      "start": 1775117366,
-      "finish": 1775117367.080829,
-      "duration": 1.0808289051055908,
+      "start": 1786711683,
+      "finish": 1786711683.296598,
+      "duration": 0.296597957611084,
       "processing": 0,
-      "date_start": "2026-04-02T11:09:26+03:00",
-      "date_finish": "2026-04-02T11:09:27+03:00",
-      "operating_reset_at": 1775117967,
+      "date_start": "2026-08-14T15:48:03+03:00",
+      "date_finish": "2026-08-14T15:48:03+03:00",
+      "operating_reset_at": 1786712283,
       "operating": 0
     }
   },

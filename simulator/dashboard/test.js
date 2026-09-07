@@ -8,6 +8,24 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
+// Песочница тянет схемы и датасет с домена документации. В тестах это
+// значило бы зависеть от публичного сайта: медленно и падает без сети.
+// Поднимаем свою раздачу тех же файлов из репозитория.
+const http = require('http');
+
+const ASSETS = path.resolve(__dirname, '..', '..', '_assets', 'simulator');
+const assetsServer = http.createServer((req, res) => {
+    const file = path.join(ASSETS, decodeURIComponent(req.url.split('?')[0]));
+    if (!file.startsWith(ASSETS) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+        res.writeHead(404).end('{}');
+        return;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    fs.createReadStream(file).pipe(res);
+});
+assetsServer.listen(0);
+process.env.SIMULATOR_ASSETS = 'http://127.0.0.1:' + assetsServer.address().port;
+
 const DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'b24stat-'));
 process.env.DATA_DIR = DATA_DIR;
 process.env.INGEST_TOKEN = 'test-token';
@@ -431,6 +449,7 @@ async function main() {
     failures.forEach((line) => console.log('  ✗ ' + line));
     app.store.close();
     app.server.close();
+    assetsServer.close();
     fs.rmSync(DATA_DIR, { recursive: true, force: true });
     process.exit(failures.length ? 1 : 0);
 }

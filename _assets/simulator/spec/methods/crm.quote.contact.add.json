@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "crm.quote.contact.add",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Добавить контакт к предложению crm.quote.contact.add",
+  "permissions": "пользователь с правом «изменения» коммерческих предложений",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор коммерческого предложения Идентификатор можно получить с помощью методов crm.quote.list или crm.quote.add"
+    },
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект с информацией о том, какой контакт нужно привязать к предложению (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "CONTACT_ID",
+          "type": "crm_entity",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор контакта, который будет привязан к предложению Идентификатор можно получить с помощью методов crm.contact.list или crm.contact.add"
+        },
+        {
+          "name": "IS_PRIMARY",
+          "type": "char",
+          "base": "char",
+          "required": false,
+          "description": "Является ли привязка первичной. Возможные значения: - Y — да - N — нет Если у предложения еще нет первичной привязки, добавляемая станет первичной независимо от переданного значения. Если первичная привязка уже есть и передать Y, первичной станет добавляемая, а прежняя получит N"
+        },
+        {
+          "name": "SORT",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Индекс сортировки По умолчанию — максимальный SORT среди уже привязанных контактов плюс 10. У первой привязки предложения SORT = 10"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/contacts/crm-quote-contact-add.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1787206092,
+      "finish": 1787206092.837103,
+      "duration": 0.8371028900146484,
+      "processing": 0,
+      "date_start": "2026-08-20T09:08:12+03:00",
+      "date_finish": "2026-08-20T09:08:12+03:00",
+      "operating_reset_at": 1787206692,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит: - true — связь добавлена - false — связь не добавлена, контакт уже связан с предложением"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/contacts/crm-quote-contact-add.html",
+  "executable": false
+}

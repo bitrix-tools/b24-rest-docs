@@ -22,7 +22,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Объект для фильтрации списка заданий в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле задания для фильтра - value_N — значение поля Если в фильтре присутствует USER_ID, то проверяется субординация пользователей: - руководитель может запросить список заданий своих подчиненных - администратор может запрашивать задания любых пользователей без ограничений Если метод выз…",
+      "description": "Объект для фильтрации списка заданий в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле задания для фильтра - value_N — значение поля Перед названием фильтруемого поля можно указать тип фильтрации: - = — равно - ! или != — не равно - < — меньше - <= — меньше либо равно - > — больше - >= — больше либо равно Без префикса фильтр сравнивает значение на равенство.…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -53,11 +53,119 @@
   "source": {
     "file": "api-reference/bizproc/bizproc-task/bizproc-task-list.md"
   },
+  "resultExample": {
+    "result": [
+      {
+        "ENTITY": "BizprocDocument",
+        "DOCUMENT_ID": "2249",
+        "ID": "1477",
+        "WORKFLOW_ID": "67a2ffdb2c57a3.35276854",
+        "DOCUMENT_NAME": "Партнерская конференция",
+        "DESCRIPTION": "",
+        "NAME": "Добавить информацию о подрядчике",
+        "MODIFIED": "2025-02-05T09:06:19+03:00",
+        "WORKFLOW_STARTED": "2025-02-05T09:06:19+03:00",
+        "WORKFLOW_STARTED_BY": "1",
+        "OVERDUE_DATE": null,
+        "WORKFLOW_TEMPLATE_ID": "565",
+        "WORKFLOW_TEMPLATE_NAME": "Организация мероприятия",
+        "WORKFLOW_STATE": "Ожидание дополнительной информации",
+        "STATUS": "0",
+        "USER_ID": "1",
+        "USER_STATUS": "0",
+        "MODULE_ID": "lists",
+        "ACTIVITY": "RequestInformationActivity",
+        "ACTIVITY_NAME": "A3651_68033_56029_16413",
+        "PARAMETERS": {
+          "CommentLabel": "Комментарий",
+          "CommentRequired": "Y",
+          "ShowComment": "Y",
+          "StatusOkLabel": "Сохранить результат",
+          "Fields": [
+            {
+              "Id": "contractor",
+              "Type": "E:ECrm",
+              "Name": "Подрядчик",
+              "Description": "Кто выполняет работы",
+              "Multiple": false,
+              "Required": true,
+              "Options": {
+                "LEAD": "N",
+                "CONTACT": "Y",
+                "COMPANY": "Y",
+                "DEAL": "N",
+                "SMART_INVOICE": "N",
+                "DYNAMIC_136": "N",
+                "DYNAMIC_1038": "N"
+              },
+              "Settings": null,
+              "Default": [
+                "C_607"
+              ]
+            },
+            {
+              "Id": "phone_number",
+              "Type": "string",
+              "Name": "Номер телефона",
+              "Description": "",
+              "Multiple": false,
+              "Required": true,
+              "Options": null,
+              "Settings": null,
+              "Default": ""
+            }
+          ]
+        },
+        "DOCUMENT_URL": "/bizproc/processes/?livefeed=y&list_id=171&element_id=2249"
+      },
+      {
+        "ENTITY": "BizprocDocument",
+        "DOCUMENT_ID": "2237",
+        "ID": "1471",
+        "WORKFLOW_ID": "67a2fda6732f98.84769464",
+        "DOCUMENT_NAME": "Партнерская конференция",
+        "DESCRIPTION": "",
+        "NAME": "Утвердить подрядчика",
+        "MODIFIED": "2025-02-05T08:58:14+03:00",
+        "WORKFLOW_STARTED": "2025-02-05T08:58:14+03:00",
+        "WORKFLOW_STARTED_BY": "1",
+        "OVERDUE_DATE": null,
+        "WORKFLOW_TEMPLATE_ID": "565",
+        "WORKFLOW_TEMPLATE_NAME": "Организация мероприятия",
+        "WORKFLOW_STATE": "Ожидание утверждения",
+        "STATUS": "0",
+        "USER_ID": "1",
+        "USER_STATUS": "0",
+        "MODULE_ID": "lists",
+        "ACTIVITY": "ApproveActivity",
+        "ACTIVITY_NAME": "A3651_68033_56029_16414",
+        "PARAMETERS": {
+          "CommentLabel": "Комментарий",
+          "CommentRequired": "N",
+          "ShowComment": "Y",
+          "StatusYesLabel": "Утвердить",
+          "StatusNoLabel": "Отклонить"
+        },
+        "DOCUMENT_URL": "/bizproc/processes/?livefeed=y&list_id=171&element_id=2237"
+      }
+    ],
+    "total": 2,
+    "time": {
+      "start": 1738735796.473023,
+      "finish": 1738735796.510215,
+      "duration": 0.03719210624694824,
+      "processing": 0.00804591178894043,
+      "date_start": "2025-02-05T09:09:56+03:00",
+      "date_finish": "2025-02-05T09:09:56+03:00",
+      "operating_reset_at": 1738736396,
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
+      "type": "array",
+      "base": "array",
       "required": false,
       "description": "Корневой элемент ответа. Содержит массив объектов с информацией о заданиях бизнес-процессов. Каждый объект содержит поля задания, указанные в параметре SELECT"
     },
@@ -77,5 +185,29 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-task/bizproc-task-list.html",
-  "executable": false
+  "executable": false,
+  "entityFields": [
+    "ACTIVITY",
+    "ACTIVITY_NAME",
+    "DESCRIPTION",
+    "DOCUMENT_ID",
+    "DOCUMENT_NAME",
+    "DOCUMENT_URL",
+    "ENTITY",
+    "ID",
+    "MODIFIED",
+    "MODULE_ID",
+    "NAME",
+    "OVERDUE_DATE",
+    "PARAMETERS",
+    "STATUS",
+    "USER_ID",
+    "USER_STATUS",
+    "WORKFLOW_ID",
+    "WORKFLOW_STARTED",
+    "WORKFLOW_STARTED_BY",
+    "WORKFLOW_STATE",
+    "WORKFLOW_TEMPLATE_ID",
+    "WORKFLOW_TEMPLATE_NAME"
+  ]
 }

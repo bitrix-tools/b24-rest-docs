@@ -4,7 +4,7 @@
   "scope": "landing",
   "kind": "read",
   "title": "Получить список пользовательских блоков landing.repo.getList",
-  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "permissions": "пользователь с правом «Просмотр» в разделе «Сайты и Магазины»",
   "params": [
     {
       "name": "params",

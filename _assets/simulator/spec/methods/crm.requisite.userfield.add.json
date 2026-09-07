@@ -53,7 +53,7 @@
         },
         {
           "name": "SORT",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Сортировка"

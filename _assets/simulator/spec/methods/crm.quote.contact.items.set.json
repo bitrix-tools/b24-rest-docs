@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "crm.quote.contact.items.set",
+  "scope": "crm",
+  "kind": "write",
+  "title": "Установить набор контактов, связанных с указанным предложением crm.quote.contact.items.set",
+  "permissions": "пользователь с правом «изменения» коммерческих предложений",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор коммерческого предложения Идентификатор можно получить с помощью методов crm.quote.list или crm.quote.add"
+    },
+    {
+      "name": "items",
+      "type": "object[]",
+      "base": "array",
+      "required": true,
+      "description": "Набор объектов, которые описывают привязанные к предложению контакты (подробное описание) Если передать пустой массив, все привязки контактов будут удалены",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/contacts/crm-quote-contact-items-set.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1787206096,
+      "finish": 1787206096.073034,
+      "duration": 0.07303404808044434,
+      "processing": 0,
+      "date_start": "2026-08-20T09:08:16+03:00",
+      "date_finish": "2026-08-20T09:08:16+03:00",
+      "operating_reset_at": 1787206696,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит true в случае успеха"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/contacts/crm-quote-contact-items-set.html",
+  "executable": false
+}

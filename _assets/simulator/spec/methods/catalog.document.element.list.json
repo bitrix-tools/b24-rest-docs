@@ -96,11 +96,18 @@
       "description": "Корневой элемент ответа"
     },
     {
-      "name": "documentElement",
+      "name": "documentElements",
       "type": "catalog_document_element[]",
       "base": "array",
       "required": false,
-      "description": "Объект с информацией о товарах документа, структура ответа зависит от параметра select"
+      "description": "Массив объектов с информацией о товарах документа, структура ответа зависит от параметра select"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Значение для получения следующей страницы"
     },
     {
       "name": "total",

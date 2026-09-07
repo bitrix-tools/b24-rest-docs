@@ -103,7 +103,7 @@
       "name": "PLACEMENT_HANDLER",
       "type": "string",
       "base": "string",
-      "required": true,
+      "required": false,
       "description": "URL обработчика встройки на стороне приложения. Обязательное, если USE_PLACEMENT = 'Y'"
     }
   ],

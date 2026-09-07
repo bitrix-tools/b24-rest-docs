@@ -59,7 +59,7 @@
   "returns": [
     {
       "name": "result",
-      "type": "item",
+      "type": "object",
       "base": "object",
       "required": false,
       "description": "Корневой элемент ответа. Содержит информацию о полях коннектора. Описание полей в статье Коннектор: обзор методов"

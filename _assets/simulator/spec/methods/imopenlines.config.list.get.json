@@ -88,6 +88,13 @@
           "base": "char",
           "required": false,
           "description": "Возвращать очередь линии. Каждый элемент очереди содержит ENTITY_TYPE и ENTITY_ID. Возможные значения: - Y — да - N — нет"
+        },
+        {
+          "name": "CHECK_PERMISSION",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Проверять доступ к линиям по указанному действию из карты прав открытых линий"
         }
       ]
     }

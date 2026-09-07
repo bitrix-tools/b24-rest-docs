@@ -32,7 +32,7 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Значения: online\\|offline. По умолчанию event_type=online, и поведение метода не меняется. Если вызывается event_type=offline, то метод работает с офлайн-событиями"
+      "description": "Значения: . По умолчанию event_type=online, и поведение метода не меняется. Если вызывается event_type=offline, то метод работает с офлайн-событиями"
     }
   ],
   "defs": {},

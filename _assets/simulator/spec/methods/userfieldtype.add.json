@@ -15,7 +15,7 @@
     },
     {
       "name": "HANDLER",
-      "type": "URL",
+      "type": "string",
       "base": "string",
       "required": true,
       "description": "Адрес обработчика пользовательского типа"

@@ -1,0 +1,97 @@
+{
+  "$v": 1,
+  "method": "crm.quote.contact.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля для связи предложение-контакт crm.quote.contact.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате: где: - field_n — поле объекта - value_n — информация о поле в формате crmrestfielddescription",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/contacts/crm-quote-contact-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "SORT": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Сортировка"
+      },
+      "IS_PRIMARY": {
+        "type": "char",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Первичный"
+      },
+      "CONTACT_ID": {
+        "type": "integer",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Контакт"
+      }
+    },
+    "time": {
+      "start": 1787206053,
+      "finish": 1787206053.302384,
+      "duration": 0.3023838996887207,
+      "processing": 0,
+      "date_start": "2026-08-20T09:07:33+03:00",
+      "date_finish": "2026-08-20T09:07:33+03:00",
+      "operating_reset_at": 1787206653,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате: где: - field_n — поле объекта - value_n — информация о поле в формате crmrestfielddescription"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/contacts/crm-quote-contact-fields.html",
+  "executable": false
+}

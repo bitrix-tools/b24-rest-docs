@@ -53,22 +53,6 @@
       "operating": 0
     }
   },
-  "returns": [
-    {
-      "name": "result",
-      "type": "array",
-      "base": "array",
-      "required": false,
-      "description": "Список объектов чатов (подробное описание). Возвращает пустой массив \"result\":[], если объекта с указанным CRM_ENTITY не существует"
-    },
-    {
-      "name": "time",
-      "type": "time",
-      "base": "object",
-      "required": false,
-      "description": "Информация о времени выполнения запроса"
-    }
-  ],
   "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get.html",
   "executable": false,
   "entityFields": [

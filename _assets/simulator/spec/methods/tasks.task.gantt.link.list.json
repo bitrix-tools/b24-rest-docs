@@ -1,0 +1,95 @@
+{
+  "$v": 1,
+  "method": "tasks.task.gantt.link.list",
+  "scope": "tasks",
+  "kind": "read",
+  "title": "Получить список связей Ганта задачи tasks.task.gantt.link.list",
+  "permissions": "любой пользователь с доступом к задаче",
+  "params": [
+    {
+      "name": "filter",
+      "type": "array",
+      "base": "array",
+      "required": true,
+      "description": "Фильтр для выбора связей Ганта задачи. Передайте обязательное условие по полю taskId в формате [\"taskId\", 101]. Доступное поле фильтра: - taskId — идентификатор задачи. Метод проверяет право на чтение этой задачи",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "select",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив полей, которые нужно вернуть. Если параметр не передан, метод вернет все поля связи Ганта. Доступные поля: - taskId — идентификатор задачи - dependentId — идентификатор задачи, с которой связана задача taskId - type — тип связи Ганта - creatorId — идентификатор пользователя, который создал связь",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект для управления постраничной навигацией. Параметры постраничной навигации: - page — номер страницы. Если значение меньше единицы, используется первая страница - limit — количество элементов на странице. По умолчанию 50, максимальное значение 1000 - offset — смещение от начала списка. По умолчанию 0 Если переданы page и offset, применяется смещение, рассчитанное по page.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/tasks/tasks-task-gantt-link-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "items": [
+        {
+          "taskId": 101,
+          "dependentId": 205,
+          "type": "finish_start",
+          "creatorId": 1
+        }
+      ]
+    },
+    "time": {
+      "start": 1787754442,
+      "finish": 1787754442.612709,
+      "duration": 0.6127090454101562,
+      "processing": 0,
+      "date_start": "2026-08-26T17:27:22+03:00",
+      "date_finish": "2026-08-26T17:27:22+03:00",
+      "operating_reset_at": 1787755042,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с данными ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/tasks/tasks-task-gantt-link-list.html",
+  "executable": false,
+  "entityFields": [
+    "creatorId",
+    "dependentId",
+    "taskId",
+    "type"
+  ]
+}
