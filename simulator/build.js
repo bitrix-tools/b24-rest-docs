@@ -14,6 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
+const { TELEMETRY } = require('./lib/config');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, '_assets', 'simulator');
@@ -39,5 +40,21 @@ copy(path.join(__dirname, 'widget', 'boot.js'), path.join(OUT, 'boot.js'));
 copy(path.join(__dirname, 'lib', 'core.js'), path.join(OUT, 'core.js'));
 copy(path.join(__dirname, 'widget', 'widget.js'), path.join(OUT, 'widget.js'));
 copy(path.join(__dirname, 'widget', 'widget.css'), path.join(OUT, 'widget.css'));
+
+// Телеметрия собирается с конфигом впереди: так виджет узнаёт адрес
+// дашборда без лишнего запроса за настройками на каждой странице.
+const telemetryOut = path.join(OUT, 'telemetry.js');
+const browserConfig = {
+    endpoint: TELEMETRY.endpoint,
+    enabled: TELEMETRY.enabled,
+    sampling: TELEMETRY.sampling,
+    respectDoNotTrack: TELEMETRY.respectDoNotTrack,
+};
+fs.writeFileSync(
+    telemetryOut,
+    'window.B24SimTelemetryConfig = ' + JSON.stringify(browserConfig) + ';\n'
+        + fs.readFileSync(path.join(__dirname, 'lib', 'telemetry.js'), 'utf8')
+);
+console.log('  ' + path.relative(ROOT, telemetryOut) + '  (сбор ' + (TELEMETRY.enabled ? 'включён' : 'выключен') + ')');
 
 console.log('\nГотово.');
