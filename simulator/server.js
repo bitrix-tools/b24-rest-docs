@@ -109,6 +109,12 @@ async function flushStats() {
         if (!response.ok) {
             throw new Error('HTTP ' + response.status);
         }
+        // Закрытая политика доступа сервера отвечает страницей входа со
+        // статусом 200: без этой проверки пачка считалась бы доставленной.
+        const type = response.headers.get('content-type') || '';
+        if (!type.includes('application/json')) {
+            throw new Error('приёмник закрыт: ответ не JSON');
+        }
         if (statsDropped) {
             console.error('статистика: потеряно событий из-за переполнения очереди: ' + statsDropped);
             statsDropped = 0;

@@ -132,6 +132,12 @@ window.B24SimTelemetryConfig = {"endpoint":"https://app-f23b8f256bfb.vibecode.bi
 
     var buffer = [];
     var timer = null;
+    // Шлюз Битрикс24 Вайбкод на закрытой политике доступа отвечает на POST
+    // страницей входа со статусом 200. Для fetch это выглядит успехом, а для
+    // sendBeacon вообще неразличимо — события молча пропадали, считаясь
+    // доставленными. Как только подмену заметили, маяком больше не
+    // пользуемся: он не даёт проверить ответ.
+    var endpointHealthy = true;
 
     // Сбор разрешён в принципе: включён, есть адрес, нет запрета на
     // отслеживание. Проверяется и при записи, и при отправке — иначе
@@ -181,7 +187,8 @@ window.B24SimTelemetryConfig = {"endpoint":"https://app-f23b8f256bfb.vibecode.bi
     // и браузер не делает предварительный OPTIONS. Тело всё равно JSON.
     function post(events, viaBeacon) {
         var payload = JSON.stringify({ events: events });
-        if (viaBeacon && typeof navigator !== 'undefined' && navigator.sendBeacon) {
+
+        if (viaBeacon && endpointHealthy && typeof navigator !== 'undefined' && navigator.sendBeacon) {
             try {
                 return navigator.sendBeacon(CONFIG.endpoint, new Blob([payload], { type: 'text/plain' }));
             } catch (error) {
@@ -191,6 +198,7 @@ window.B24SimTelemetryConfig = {"endpoint":"https://app-f23b8f256bfb.vibecode.bi
         if (typeof fetch !== 'function') {
             return false;
         }
+
         fetch(CONFIG.endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' },
@@ -202,7 +210,16 @@ window.B24SimTelemetryConfig = {"endpoint":"https://app-f23b8f256bfb.vibecode.bi
             if (!response.ok) {
                 throw new Error('HTTP ' + response.status);
             }
+            // Приёмник обязан ответить JSON. Страница входа приезжает со
+            // статусом 200 и типом text/html — считать её успехом значит
+            // потерять события и не узнать об этом.
+            var type = response.headers && response.headers.get ? (response.headers.get('content-type') || '') : '';
+            if (type.indexOf('application/json') === -1) {
+                throw new Error('приёмник закрыт: ответ не JSON');
+            }
+            endpointHealthy = true;
         }).catch(function () {
+            endpointHealthy = false;
             // Не дошло — оставляем на следующий заход, но не бесконечно.
             writeStored(readStored().concat(events));
         });
