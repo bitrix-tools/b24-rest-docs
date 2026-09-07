@@ -594,7 +594,10 @@
                 })
                 .then(function (dataset) {
                     run.disabled = false;
-                    output.appendChild(renderResult(spec, params, window.B24Sim.call(spec, params, dataset)));
+                    var started = now();
+                    var response = window.B24Sim.call(spec, params, dataset);
+                    reportRun(spec, response, now() - started);
+                    output.appendChild(renderResult(spec, params, response));
                 });
         });
 
@@ -607,6 +610,32 @@
         });
 
         return details;
+    }
+
+    function now() {
+        return window.performance && window.performance.now ? window.performance.now() : Date.now();
+    }
+
+    // Обезличенная отметка о запуске: какой метод, чем закончилось, сколько
+    // заняло и с какой страницы. Ни параметров, ни ответа наружу не уходит.
+    // Сбор статистики не имеет права ломать виджет, поэтому всё в try.
+    function reportRun(spec, response, elapsed) {
+        var telemetry = window.B24SimTelemetry;
+        if (!telemetry) {
+            return;
+        }
+        try {
+            telemetry.record(telemetry.shape({
+                channel: 'widget',
+                method: spec.method,
+                ms: elapsed,
+                page: window.location.pathname,
+                session: telemetry.sessionId(),
+                response: response,
+            }));
+        } catch (error) {
+            /* молча: витрина статистики не стоит сломанного виджета */
+        }
     }
 
     function renderResult(spec, params, response) {

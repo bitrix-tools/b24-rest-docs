@@ -65,6 +65,7 @@
             return;
         }
         loading = true;
+        addScript(ASSETS_ROOT + 'telemetry.js');
         addScript(ASSETS_ROOT + 'core.js', function () {
             addScript(ASSETS_ROOT + 'widget.js');
         });
