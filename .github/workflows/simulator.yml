@@ -1,0 +1,78 @@
+# Проверки симулятора REST API.
+#
+# Обязательные шаги — тесты и совпадение собранных ассетов с исходниками:
+# они ловят поломки, которые иначе уезжают на боевой сайт молча.
+#
+# Отчётные шаги — линтер схем и сверка примеров документации. Они пока не
+# роняют сборку: на момент включения в документации уже накоплены
+# расхождения, и красный пайплайн с первого дня блокировал бы работу тем,
+# кто к ним непричастен. Как только счётчик новых расхождений дойдёт до
+# нуля, снимите continue-on-error — ратчет начнёт держать планку.
+
+name: Симулятор
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'simulator/**'
+      - '_assets/simulator/**'
+      - 'api-reference/**'
+      - 'ai-tools/simulator.md'
+      - '.github/workflows/simulator.yml'
+
+jobs:
+  checks:
+    name: Тесты и качество схем
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Тесты ядра и валидатора
+        run: node simulator/test.js
+
+      - name: Тесты HTTP-endpoint
+        run: node simulator/test-server.js
+
+      - name: Тесты дашборда и песочницы
+        run: node simulator/dashboard/test.js
+
+      # Правку в simulator/lib или simulator/widget легко забыть пересобрать,
+      # и тогда сайт продолжает отдавать старый код. Здесь это видно сразу.
+      - name: Собранные ассеты совпадают с исходниками
+        run: |
+          set -e
+          diff simulator/widget/widget.js _assets/simulator/widget.js
+          diff simulator/widget/boot.js   _assets/simulator/boot.js
+          diff simulator/lib/core.js      _assets/simulator/core.js
+          diff <(tail -n +2 _assets/simulator/telemetry.js) simulator/lib/telemetry.js
+          echo "Ассеты пересобраны."
+
+      - name: Линтер схем — какие таблицы не разбираются
+        run: node simulator/generate-spec.js --lint
+        continue-on-error: true
+
+      - name: Сверка примеров документации со схемами
+        run: node simulator/check-examples.js --strict
+        continue-on-error: true
+
+      # Схемы коммитятся в репозиторий, а страницы методов правятся отдельно.
+      # Если после правок никто не выполнил build.js, сайт отдаёт схемы,
+      # не соответствующие тексту документации.
+      - name: Схемы не отстали от документации
+        run: |
+          node simulator/generate-spec.js
+          if git diff --quiet -- _assets/simulator/spec; then
+            echo "Схемы актуальны."
+          else
+            echo "Схемы отстали от документации, выполните: node simulator/build.js"
+            git diff --stat -- _assets/simulator/spec | tail -1
+            exit 1
+          fi
+        continue-on-error: true
