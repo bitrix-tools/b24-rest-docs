@@ -50,6 +50,7 @@ function emptyCounters() {
         ok: 0,
         err: 0,
         service: 0,
+        fetched: 0,
         executed: 0,
         human: 0,
         agent: 0,
@@ -70,7 +71,7 @@ function emptyCounters() {
 // кто вызывал и сколько это заняло. Ключи короткие — свёртка лежит на
 // диске и читается целиком при старте.
 function emptyBreakdown() {
-    return { t: 0, ok: 0, err: 0, ag: 0, hu: 0, ex: 0, ms: 0, mc: 0 };
+    return { t: 0, ok: 0, err: 0, ag: 0, hu: 0, ex: 0, fe: 0, ms: 0, mc: 0 };
 }
 
 function bumpBreakdown(map, key, event, limit) {
@@ -80,10 +81,27 @@ function bumpBreakdown(map, key, event, limit) {
     let row = map[key];
     if (!row) {
         if (limit && Object.keys(map).length >= limit) {
-            return;
+            // Тот же Space-Saving, что и в bump: вытесняем самую редкую
+            // строку и наследуем её счётчик вызовов, чтобы лидер дня не
+            // остался за бортом из-за длинного хвоста, пришедшего раньше.
+            const weakest = weakestKey(map, (value) => value.t);
+            if (weakest.key === null) {
+                return;
+            }
+            delete map[weakest.key];
+            row = emptyBreakdown();
+            row.t = weakest.count;
+            map[key] = row;
+        } else {
+            row = emptyBreakdown();
+            map[key] = row;
         }
-        row = emptyBreakdown();
-        map[key] = row;
+    }
+    // Скачивания считаем отдельной колонкой: смешать их с вызовами значит
+    // выдать интерес к методу за его использование.
+    if (event.outcome === 'fetched') {
+        row.fe += 1;
+        return;
     }
     row.t += 1;
     if (event.service) {
@@ -117,22 +135,45 @@ function emptyDay() {
     day.outcomes = Object.create(null);
     day.errors = Object.create(null);
     day.errorParams = Object.create(null);
-    day.sessions = Object.create(null); // id -> 1, размер = уникальные за сутки
+    day.sessions = Object.create(null); // id -> 1, размер = уникальные с момента старта
+    day.sessionsBase = 0;                // уникальные, накопленные до перезапуска
     return day;
 }
 
+// Наименьший счётчик в карте. Нужен для вытеснения на потолке.
+function weakestKey(map, valueOf) {
+    let weakest = null;
+    let min = Infinity;
+    for (const key of Object.keys(map)) {
+        const value = valueOf(map[key]);
+        if (value < min) {
+            min = value;
+            weakest = key;
+        }
+    }
+    return { key: weakest, count: min };
+}
+
+// Space-Saving: на потолке новый ключ не отбрасывается, а вытесняет самый
+// редкий, унаследовав его счётчик. Отказ новым ключам, как было раньше,
+// заполняет карту тем, что пришло первым: в справочнике полторы тысячи
+// методов, и после четырёхсот редких настоящий лидер дня уже не попадал в
+// свёртку вообще. Здесь топ сохраняется точно, а хвост слегка завышается.
 function bump(map, key, limit) {
     if (!key) {
         return;
     }
     if (map[key] === undefined) {
-        // Потолок держим мягко: пока не упёрлись — пишем, после — только
-        // обновляем уже известные ключи. Топ от этого не страдает, потому
-        // что популярное попадает в свёртку задолго до потолка.
         if (limit && Object.keys(map).length >= limit) {
-            return;
+            const weakest = weakestKey(map, (value) => value);
+            if (weakest.key === null) {
+                return;
+            }
+            delete map[weakest.key];
+            map[key] = weakest.count;
+        } else {
+            map[key] = 0;
         }
-        map[key] = 0;
     }
     map[key] += 1;
 }
@@ -148,6 +189,9 @@ function addEvent(counters, event) {
         counters.err += 1;
     }
 
+    if (event.outcome === 'fetched') {
+        counters.fetched += 1;
+    }
     if (event.executed) {
         counters.executed += 1;
     }
@@ -336,7 +380,13 @@ class Store {
         }
         const days = {};
         for (const [key, day] of this.days) {
-            days[key] = Object.assign({}, day, { sessions: Object.keys(day.sessions).length });
+            // В файл уходит база плюс то, что набрали после старта. Раньше
+            // писался только размер живого множества, и каждый перезапуск
+            // затирал накопленное меньшим числом.
+            days[key] = Object.assign({}, day, {
+                sessions: (day.sessionsBase || 0) + Object.keys(day.sessions).length,
+                sessionsBase: undefined,
+            });
         }
         return { $v: ROLLUP_VERSION, savedAt: new Date().toISOString(), hours, days };
     }
@@ -371,9 +421,11 @@ class Store {
             }
             for (const [key, day] of Object.entries(data.days || {})) {
                 const restored = Object.assign(emptyDay(), day);
-                // sessions сохраняли как число: восстанавливаем счётчик, а не
-                // множество — точные id за прошлые сутки уже не нужны.
-                restored.sessionsCount = typeof day.sessions === 'number' ? day.sessions : Object.keys(day.sessions || {}).length;
+                // Точные id за прошлые сутки не нужны — нужна их сумма. Она
+                // становится базой, поверх которой копится новое множество.
+                restored.sessionsBase = typeof day.sessions === 'number'
+                    ? day.sessions
+                    : Object.keys(day.sessions || {}).length;
                 restored.sessions = Object.create(null);
                 this.days.set(key, restored);
             }

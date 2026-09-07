@@ -19,6 +19,7 @@
     --err: #d03b3b;
     --ok: #2a78d6;
     --bar: #2a78d6;
+    --bar-hover: #1c5cab;
     --bar-soft: #cde2fb;
 
     --radius: 10px;
@@ -41,6 +42,7 @@
         --err: #d03b3b;
         --ok: #3987e5;
         --bar: #3987e5;
+        --bar-hover: #6da7ec;
         --bar-soft: #184f95;
     }
 }
@@ -60,6 +62,7 @@
     --err: #d03b3b;
     --ok: #3987e5;
     --bar: #3987e5;
+    --bar-hover: #6da7ec;
     --bar-soft: #184f95;
 }
 
@@ -128,8 +131,12 @@ h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
 .chart { position: relative; width: 100%; }
 .chart svg { display: block; width: 100%; overflow: visible; }
 .axis-label { fill: var(--muted); font-size: 11px; }
+.empty-note { fill: var(--muted); font-size: 12px; }
 .gridline { stroke: var(--grid); stroke-width: 1; }
 .baseline { stroke: var(--axis); stroke-width: 1; }
+.cursor { stroke: var(--axis); stroke-width: 1; }
+.bar { fill: var(--bar); transition: fill .1s; }
+.bar.on { fill: var(--bar-hover); }
 
 .tip {
     position: absolute; pointer-events: none; opacity: 0; transition: opacity .1s;
@@ -195,7 +202,17 @@ td.method { font-variant-numeric: normal; }
 
 .empty { color: var(--muted); font-size: 13px; padding: 26px 0; text-align: center; }
 
+.pager { display: flex; align-items: center; gap: 10px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+.pager span { font-variant-numeric: tabular-nums; }
+.pager button {
+    appearance: none; border: 1px solid var(--ring); background: var(--surface); color: var(--ink-2);
+    font: inherit; font-size: 13px; line-height: 1; width: 26px; height: 24px; border-radius: 6px; cursor: pointer;
+}
+.pager button:hover:not(:disabled) { color: var(--ink); border-color: var(--axis); }
+.pager button:disabled { opacity: .4; cursor: default; }
+
 footer { color: var(--muted); font-size: 12px; margin-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; }
+footer .alarm { color: var(--err); font-weight: 500; }
 
 /* ------------------------------------------------------------- вход */
 

@@ -251,6 +251,172 @@ async function main() {
         assert.ok(data.tables.methods.length > 0, 'разбивка по методам не восстановилась');
     });
 
+    await check('уникальные сессии переживают перезапуск и не затираются', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b24sess-'));
+        const { Store } = require('./lib/store');
+        const { build } = require('./lib/aggregate');
+        const { normalize } = require('./lib/classify');
+        const now = Date.now();
+
+        const event = (session) => normalize(
+            { channel: 'widget', method: 'crm.deal.list', outcome: 'valid', session, ms: 5 },
+            { now, userAgent: 'Mozilla/5.0 Chrome' }
+        );
+
+        const first = new Store({ dir });
+        first.init();
+        for (let i = 0; i < 100; i += 1) {
+            first.add(event('s' + i), null);
+        }
+        assert.strictEqual(build(first, '24h', now).totals.sessions, 100, 'до перезапуска');
+        first.dirty = true;
+        first.close();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        const second = new Store({ dir });
+        second.init();
+        assert.strictEqual(build(second, '24h', now).totals.sessions, 100, 'сразу после перезапуска');
+        for (let i = 100; i < 150; i += 1) {
+            second.add(event('s' + i), null);
+        }
+        assert.strictEqual(build(second, '24h', now).totals.sessions, 150, 'новые сессии после перезапуска не учтены');
+        second.dirty = true;
+        second.close();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        const third = new Store({ dir });
+        third.init();
+        assert.strictEqual(build(third, '24h', now).totals.sessions, 150, 'после второго перезапуска число уменьшилось');
+
+        fs.rmSync(dir, { recursive: true, force: true });
+    });
+
+    await check('лидер дня попадает в топ даже после длинного хвоста', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b24cap-'));
+        const { Store } = require('./lib/store');
+        const { build } = require('./lib/aggregate');
+        const { normalize } = require('./lib/classify');
+        const now = Date.now();
+        const store = new Store({ dir });
+        store.init();
+
+        // Сначала длинный хвост, забивающий потолок в 400 ключей…
+        for (let i = 0; i < 400; i += 1) {
+            store.add(normalize(
+                { channel: 'widget', method: 'rare' + i + '.method', outcome: 'valid', page: '/p' + i + '.html' },
+                { now, userAgent: 'Mozilla/5.0 Chrome' }
+            ), null);
+        }
+        // …и только потом настоящий лидер.
+        for (let i = 0; i < 5000; i += 1) {
+            store.add(normalize(
+                { channel: 'widget', method: 'crm.deal.list', outcome: 'valid', page: '/hit.html' },
+                { now, userAgent: 'Mozilla/5.0 Chrome' }
+            ), null);
+        }
+
+        const data = build(store, '24h', now);
+        assert.strictEqual(data.totals.attempted, 5400, 'всего: ' + data.totals.attempted);
+
+        const top = data.top.methods[0];
+        assert.strictEqual(top.key, 'crm.deal.list', 'лидер топа: ' + top.key);
+        assert.ok(top.count >= 5000, 'счётчик лидера занижен: ' + top.count);
+
+        const row = data.tables.methods[0];
+        assert.strictEqual(row.key, 'crm.deal.list', 'лидер таблицы: ' + row.key);
+        assert.ok(row.total >= 5000, 'вызовов у лидера: ' + row.total);
+
+        assert.ok(data.top.pages.some((p) => p.key === '/hit.html'), 'страница-лидер потерялась');
+
+        store.close();
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        fs.rmSync(dir, { recursive: true, force: true });
+    });
+
+    await check('уборка удаляет журнал старше срока хранения', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b24prune-'));
+        fs.mkdirSync(path.join(dir, 'events'), { recursive: true });
+        const old = new Date(Date.now() - 200 * 86400000).toISOString().slice(0, 10);
+        const fresh = new Date().toISOString().slice(0, 10);
+        fs.writeFileSync(path.join(dir, 'events', old + '.ndjson'), '{}\n');
+        fs.writeFileSync(path.join(dir, 'events', fresh + '.ndjson'), '{}\n');
+
+        const { Store } = require('./lib/store');
+        const store = new Store({ dir });
+        store.init();
+        store.prune(Date.now());
+
+        const left = fs.readdirSync(path.join(dir, 'events'));
+        assert.ok(!left.includes(old + '.ndjson'), 'старый журнал не удалён');
+        assert.ok(left.includes(fresh + '.ndjson'), 'свежий журнал удалён по ошибке');
+
+        store.close();
+        fs.rmSync(dir, { recursive: true, force: true });
+    });
+
+    await check('песочница отдаёт список методов', async () => {
+        const response = await call('GET', '/ai/v1/methods?scope=crm&q=deal');
+        const body = await response.json();
+        assert.strictEqual(response.status, 200);
+        assert.ok(body.count > 0, 'методов не найдено');
+        assert.ok(body.methods.every((m) => m.scope === 'crm'), 'скоуп не отфильтрован');
+        assert.ok(body.methods.some((m) => m.method === 'crm.deal.list'));
+    });
+
+    await check('песочница отдаёт схему метода', async () => {
+        const response = await call('GET', '/ai/v1/spec/crm.deal.list');
+        const spec = await response.json();
+        assert.strictEqual(response.status, 200);
+        assert.strictEqual(spec.method, 'crm.deal.list');
+        assert.ok(Array.isArray(spec.params) && spec.params.length > 0);
+    });
+
+    await check('несуществующий метод даёт UNKNOWN_METHOD', async () => {
+        const response = await call('GET', '/ai/v1/spec/crm.deal.listt');
+        assert.strictEqual(response.status, 404);
+        assert.strictEqual((await response.json()).error, 'UNKNOWN_METHOD');
+    });
+
+    await check('корректный вызов исполняется на датасете', async () => {
+        const response = await call('POST', '/ai/v1/call/crm.deal.list', {
+            body: { select: ['ID', 'TITLE'], filter: { '>=OPPORTUNITY': 1000000 }, order: { ID: 'DESC' } },
+        });
+        const body = await response.json();
+        assert.strictEqual(response.status, 200);
+        assert.ok(Array.isArray(body.result), 'result не массив');
+        assert.ok(typeof body.total === 'number', 'нет total');
+        assert.strictEqual(body.simulator.mode, 'simulated');
+        assert.strictEqual(body.simulator.executed, true);
+    });
+
+    await check('ошибка валидации возвращает класс и параметр', async () => {
+        const response = await call('POST', '/ai/v1/call/crm.deal.add', {
+            body: { fields: { TITLLE: 'Тест' } },
+        });
+        const body = await response.json();
+        assert.strictEqual(response.status, 400);
+        assert.strictEqual(body.error, 'SIMULATOR_VALIDATION');
+        const errors = body.simulator.validation.errors;
+        assert.ok(errors.some((e) => e.param === 'fields.TITLLE' && e.class === 'unknown_param'), JSON.stringify(errors));
+    });
+
+    await check('вебхук в адресе отклоняется', async () => {
+        const response = await fetch(base + '/ai/v1/call/crm.deal.list?auth=9f2a1c7e0b4d5a6f8e3c2b1a0d9e8f7c', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+        });
+        const body = await response.json();
+        assert.strictEqual(response.status, 400);
+        assert.strictEqual(body.error, 'SECURITY_REJECTED');
+    });
+
+    await check('вызовы песочницы попадают в статистику как агенты', async () => {
+        const response = await call('GET', '/api/stats?range=24h');
+        const data = await response.json();
+        assert.ok(data.totals.agent >= 3, 'агентских вызовов: ' + data.totals.agent);
+        assert.ok(data.tables.methods.some((r) => r.key === 'crm.deal.list'), 'метода нет в таблице');
+        assert.ok(data.tables.errorParams.some((p) => p.key === 'fields.TITLLE'), 'параметр с опечаткой не попал в статистику');
+    });
+
     await check('тело сверх лимита отклоняется', async () => {
         const big = 'x'.repeat(300 * 1024);
         const response = await fetch(base + '/collect', {

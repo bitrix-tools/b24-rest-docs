@@ -1,0 +1,44 @@
+{
+  "$v": 1,
+  "name": "Симулятор REST API Битрикс24",
+  "docs": "https://apidocs.bitrix24.ru/ai-tools/simulator.html",
+  "generatedAt": "2026-09-07",
+  "methods": 1562,
+  "static": {
+    "index": "/_assets/simulator/spec/index.json",
+    "method": "/_assets/simulator/spec/methods/{method}.json",
+    "pages": "/_assets/simulator/spec/pages.json",
+    "dataset": "/_assets/simulator/fixtures/dataset.json",
+    "core": "/_assets/simulator/core.js",
+    "note": "Ядро — CommonJS-модуль: скачайте файлом и подключите через require. Вызов: B24Sim.call(spec, params, dataset)."
+  },
+  "service": {
+    "base": "https://app-f23b8f256bfb.vibecode.bitrix24.tech",
+    "methods": "https://app-f23b8f256bfb.vibecode.bitrix24.tech/ai/v1/methods?scope={scope}&q={query}",
+    "spec": "https://app-f23b8f256bfb.vibecode.bitrix24.tech/ai/v1/spec/{method}",
+    "call": "https://app-f23b8f256bfb.vibecode.bitrix24.tech/ai/v1/call/{method}",
+    "status": "pilot",
+    "note": "Постоянный адрес на домене документации появится позже. Статические артефакты доступны всегда."
+  },
+  "executable": [
+    "crm.deal.list",
+    "crm.deal.get",
+    "crm.lead.list",
+    "crm.lead.get",
+    "crm.contact.list",
+    "crm.contact.get",
+    "crm.company.list",
+    "crm.company.get",
+    "crm.status.list",
+    "crm.category.list",
+    "tasks.task.list",
+    "tasks.task.get",
+    "user.get"
+  ],
+  "confidence": "parsed — схемы выведены из текста документации и не сверялись с реальным порталом",
+  "rules": [
+    "Никогда не передавайте в симулятор вебхуки и токены: такие запросы отклоняются с SECURITY_REJECTED.",
+    "Реальные вызовы выполняйте напрямую на своём портале.",
+    "Ответ повторяет форму реального REST API, метаданные симуляции лежат в ключе simulator."
+  ]
+}

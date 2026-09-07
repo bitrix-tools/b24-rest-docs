@@ -14,7 +14,15 @@ class RateLimiter {
     check(key) {
         const now = Date.now();
         const bucket = (this.hits.get(key) || []).filter((time) => now - time < this.windowMs);
-        bucket.push(now);
+        // Отметки сверх лимита не нужны — решение уже принято, а копить их
+        // значит позволять нарушителю растить наш расход памяти запросами,
+        // которые мы и так отклоняем.
+        if (bucket.length <= this.limit) {
+            bucket.push(now);
+        } else {
+            bucket.push(now);
+            bucket.length = this.limit + 1;
+        }
         this.hits.set(key, bucket);
 
         if (this.hits.size > this.maxKeys) {

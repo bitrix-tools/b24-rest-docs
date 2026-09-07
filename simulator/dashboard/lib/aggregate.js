@@ -70,10 +70,11 @@ function tableOf(map, limit) {
             agent: row.ag,
             human: row.hu,
             executed: row.ex,
+            fetched: row.fe,
             errorRate: row.ok + row.err ? row.err / (row.ok + row.err) : null,
             avgMs: row.mc ? Math.round(row.ms / row.mc) : null,
         }))
-        .sort((a, b) => b.total - a.total)
+        .sort((a, b) => (b.total + b.fetched) - (a.total + a.fetched))
         .slice(0, limit);
 }
 
@@ -147,24 +148,114 @@ function resolveRange(rangeKey, now, store, custom) {
         // «Всё время» — от самых ранних суток, по которым есть свёртка.
         return { from: earliestDay(store, now - 7 * DAY_MS), to: now, bucket: 'day', key: 'all' };
     }
-    return { from: now - range.ms, to: now, bucket: range.bucket, key: rangeKey };
+    // Готовый период начинается с начала суток, а не «столько-то часов
+    // назад». Сводные цифры считаются по дневным свёрткам, и скользящее
+    // окно захватывало вчерашние сутки целиком: плитка показывала вдвое
+    // больше, чем сумма точек на графике.
+    const days = Math.max(1, Math.round(range.ms / DAY_MS));
+    return {
+        from: Math.floor((now - (days - 1) * DAY_MS) / DAY_MS) * DAY_MS,
+        to: now,
+        bucket: range.bucket,
+        key: rangeKey,
+    };
 }
 
-function buildSeries(store, from, to, bucket) {
-    const rows = bucket === 'hour' ? store.hourSeries(from, to) : store.daySeries(from, to);
-    return rows.map((row) => {
-        const c = row.counters;
-        return {
-            ts: row.ts,
-            total: c ? c.total : 0,
-            ok: c ? c.ok : 0,
-            err: c ? c.err : 0,
-            service: c ? c.service : 0,
-            human: c ? c.human : 0,
-            agent: c ? c.agent : 0,
-            unknown: c ? c.unknown : 0,
-        };
+// Шаг графика подбирается так, чтобы точек было около тридцати. Часовые
+// точки на недельном разрезе — это сто семьдесят столбиков по одному-два
+// вызова: график выглядит рваным, а доля ошибок скачет от нуля до ста
+// процентов, потому что считается от двух вызовов. Укрупнение шага — это
+// не косметика, а единственный способ получить осмысленный знаменатель.
+const STEPS_MS = [
+    HOUR_MS, 2 * HOUR_MS, 3 * HOUR_MS, 6 * HOUR_MS, 12 * HOUR_MS,
+    DAY_MS, 2 * DAY_MS, 3 * DAY_MS, 7 * DAY_MS, 14 * DAY_MS, 28 * DAY_MS,
+];
+const TARGET_POINTS = 34;
+
+function pickStep(from, to, finest) {
+    const span = Math.max(HOUR_MS, to - from);
+    for (const step of STEPS_MS) {
+        if (step < finest) {
+            continue;
+        }
+        if (span / step <= TARGET_POINTS) {
+            return step;
+        }
+    }
+    return STEPS_MS[STEPS_MS.length - 1];
+}
+
+function emptyPoint(ts) {
+    return { ts, total: 0, ok: 0, err: 0, service: 0, human: 0, agent: 0, unknown: 0 };
+}
+
+function addCounters(point, counters) {
+    if (!counters) {
+        return;
+    }
+    point.total += counters.total;
+    point.ok += counters.ok;
+    point.err += counters.err;
+    point.service += counters.service;
+    point.human += counters.human;
+    point.agent += counters.agent;
+    point.unknown += counters.unknown;
+}
+
+// Доля ошибок по одной корзине — величина без смысла: при двух вызовах
+// одна ошибка даёт сразу пятьдесят процентов, а разрывы там, где вызовов
+// не набралось, разваливают линию на огрызки. Поэтому считаем не среднее
+// долей, а долю от накопленных сумм: окно расширяется назад, пока не
+// наберётся достаточная выборка, и на плотном трафике сжимается до одной
+// корзины.
+const RATE_MIN_SAMPLE = 20;
+const RATE_MIN_PLOT = 4;
+
+function withErrorRate(points) {
+    const maxWindow = Math.max(3, Math.round(points.length / 4));
+
+    return points.map((point, i) => {
+        let err = 0;
+        let attempted = 0;
+        let width = 0;
+
+        while (width < maxWindow && i - width >= 0 && attempted < RATE_MIN_SAMPLE) {
+            const source = points[i - width];
+            err += source.err;
+            attempted += source.ok + source.err;
+            width += 1;
+        }
+
+        point.rate = attempted >= RATE_MIN_PLOT ? err / attempted : null;
+        point.rateWindow = width;
+        point.rateSample = attempted;
+        return point;
     });
+}
+
+function buildSeries(store, from, to, stepMs) {
+    // Шаг меньше суток собирается из часовых свёрток, шаг от суток и
+    // больше — из дневных: они есть за всю историю, а часовые за 400 дней.
+    const rows = stepMs < DAY_MS ? store.hourSeries(from, to) : store.daySeries(from, to);
+    const start = Math.floor(from / stepMs) * stepMs;
+    const points = [];
+    const index = new Map();
+
+    for (let ts = start; ts <= to; ts += stepMs) {
+        const point = emptyPoint(ts);
+        points.push(point);
+        index.set(ts, point);
+    }
+
+    for (const row of rows) {
+        const key = Math.floor(row.ts / stepMs) * stepMs;
+        const point = index.get(key);
+        if (point) {
+            addCounters(point, row.counters);
+        }
+    }
+
+    return withErrorRate(points);
 }
 
 // Профиль активности по часам суток: показывает, когда песочницей
@@ -181,6 +272,7 @@ function hourOfDayProfile(store, from, to) {
 
 function build(store, rangeKey, now, custom) {
     const range = resolveRange(rangeKey, now, store, custom);
+    const stepMs = pickStep(range.from, range.to, range.bucket === 'hour' ? HOUR_MS : DAY_MS);
     const days = store.daysInRange(range.from, range.to);
 
     const totals = emptyCounters();
@@ -207,16 +299,17 @@ function build(store, rangeKey, now, custom) {
         // Уникальные сессии складываем по суткам: один человек, заходивший
         // два дня подряд, считается дважды. Точное объединение потребовало бы
         // хранить все id, а это персональные данные без нужды.
-        sessions += entry.day.sessionsCount !== undefined
-            ? entry.day.sessionsCount
-            : Object.keys(entry.day.sessions).length;
+        sessions += (entry.day.sessionsBase || 0) + Object.keys(entry.day.sessions).length;
     }
 
     const attempted = totals.ok + totals.err; // без служебных обращений
     const avgMs = totals.msCount ? Math.round(totals.msSum / totals.msCount) : null;
 
     return {
-        range: { key: range.key, from: range.from, to: range.to, bucket: range.bucket, custom: Boolean(range.custom) },
+        range: {
+            key: range.key, from: range.from, to: range.to, bucket: range.bucket,
+            custom: Boolean(range.custom), stepMs, stepHours: Math.round(stepMs / HOUR_MS),
+        },
         generatedAt: now,
         totals: {
             requests: totals.total,
@@ -224,6 +317,7 @@ function build(store, rangeKey, now, custom) {
             ok: totals.ok,
             err: totals.err,
             service: totals.service,
+            fetched: totals.fetched,
             executed: totals.executed,
             agent: totals.agent,
             human: totals.human,
@@ -240,7 +334,7 @@ function build(store, rangeKey, now, custom) {
             p50Ms: percentile(totals.msHist, 0.5),
             p95Ms: percentile(totals.msHist, 0.95),
         },
-        series: buildSeries(store, range.from, range.to, range.bucket),
+        series: buildSeries(store, range.from, range.to, stepMs),
         hourOfDay: hourOfDayProfile(store, range.from, range.to),
         top: {
             methods: topOf(methods, 15),
@@ -260,7 +354,7 @@ function build(store, rangeKey, now, custom) {
             edge: edge === Infinity ? null : edge,
             count: totals.msHist[i],
         })),
-        recent: store.recentEvents(40).map((event) => ({
+        recent: store.recentEvents(50).map((event) => ({
             ts: event.ts,
             method: event.method,
             outcome: event.outcome,
