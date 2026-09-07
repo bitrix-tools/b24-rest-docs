@@ -19,6 +19,13 @@
       "base": "integer",
       "required": true,
       "description": "Идентификатор сайта. Идентификатор сайта можно получить с помощью метода landing.site.getList или из результата метода landing.site.add"
+    },
+    {
+      "name": "mark",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак пометки сайта как удаленного. По умолчанию true. Если передать false, метод восстановит сайт из корзины. Для такого сценария обычно используют landing.site.markUnDelete"
     }
   ],
   "defs": {},

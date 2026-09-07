@@ -19,10 +19,7 @@
       "base": "object",
       "required": true,
       "description": "Объект формата: - field_n — название поля - value_n — значение поля Для мультиполей, например PHONE, EMAIL передавайте данные по структуре crmmultifield: - field_name — название поля, например PHONE - VALUE — значение поля, например номер телефона - VALUE_TYPE — тип значения, например WORK У каждого объекта CRM свой набор полей.…",
-      "dynamic": {
-        "allowed": true,
-        "note": "Состав полей не описан подтаблицей на этой странице"
-      }
+      "ref": "#/defs/fieldsFields"
     },
     {
       "name": "useOriginalUfNames",
@@ -32,7 +29,241 @@
       "description": "Параметр для управления форматом имен пользовательских полей в запросе и ответе. Возможные значения: - Y — оригинальные имена пользовательских полей, например UF_CRM_2_1639669411830 - N — имена пользовательских полей в camelCase, например ufCrm2_1639669411830 По умолчанию — N"
     }
   ],
-  "defs": {},
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название элемента. По умолчанию генерируется по шаблону {entityTypeName} #{id}, где - entityTypeName — название сущности - id — идентификатор элемента Например для лида с id = 13 — 'Лид #13'"
+        },
+        {
+          "name": "honorific",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор обращения лида (например 'HNR_RU_1' = 'г-н'). Список доступных обращений можно узнать с помощью crm.status.list применив фильтр { ENTITY_ID: \"HONOFIRIC\" }. По умолчанию — null"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Имя. По умолчанию — null"
+        },
+        {
+          "name": "secondName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Отчество. По умолчанию — null"
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Фамилия. По умолчанию — null"
+        },
+        {
+          "name": "birthdate",
+          "type": "date",
+          "base": "date",
+          "required": false,
+          "description": "Дата рождения. По умолчанию — null"
+        },
+        {
+          "name": "companyTitle",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название компании. По умолчанию — null"
+        },
+        {
+          "name": "sourceId",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор источника. Например 'CALL' = 'Звонок'. Список доступных источников можно узнать с помощью crm.status.list применив фильтр { ENTITY_ID: \"SOURCE\" }. По умолчанию имеет значение первого доступного источника"
+        },
+        {
+          "name": "sourceDescription",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительно об источнике. По умолчанию — null"
+        },
+        {
+          "name": "stageId",
+          "type": "crm_status",
+          "base": "string",
+          "required": false,
+          "description": "Строковый идентификатор стадии элемента. Например 'NEW' = 'Не обработан'. Список доступных стадий можно узнать с помощью crm.status.list применив фильтр { ENTITY_ID: \"STATUS\" } По умолчанию имеет значение первой доступной стадии"
+        },
+        {
+          "name": "statusDescription",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Дополнительно о стадии. По умолчанию — null"
+        },
+        {
+          "name": "post",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Должность. По умолчанию — null"
+        },
+        {
+          "name": "currencyId",
+          "type": "crm_currency",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор валюты элемента По умолчанию имеет значение валюты по умолчанию"
+        },
+        {
+          "name": "isManualOpportunity",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Режим расчета суммы. Возможные значения: - Y — ручной - N — автоматический По умолчанию — N"
+        },
+        {
+          "name": "opportunity",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Сумма. По умолчанию — null"
+        },
+        {
+          "name": "opened",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Является ли элемент доступным для всех. Возможные значения: - Y — да - N — нет По умолчанию — Y. Значение по умолчанию может быть изменено в настройках CRM"
+        },
+        {
+          "name": "comments",
+          "type": "text",
+          "base": "string",
+          "required": false,
+          "description": "Комментарий. По умолчанию — null"
+        },
+        {
+          "name": "assignedById",
+          "type": "user",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор ответственного за элемент. По умолчанию это идентификатор пользователя, который вызывает метод"
+        },
+        {
+          "name": "companyId",
+          "type": "crm_company",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор компании привязанный к элементу. Список компании можно получить с помощью метода crm.item.list по entityTypeId = 4. По умолчанию — null"
+        },
+        {
+          "name": "contactId",
+          "type": "crm_contact",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор контакта привязанный к элементу. Список контактов можно получить с помощью метода crm.item.list по entityTypeId = 3. По умолчанию — null"
+        },
+        {
+          "name": "contactIds",
+          "type": "crm_contact[]",
+          "base": "array",
+          "required": false,
+          "description": "Список идентификаторов контакта привязанных к элементу. Список контактов можно получить с помощью метода crm.item.list по entityTypeId = 3. По умолчанию — null"
+        },
+        {
+          "name": "originatorId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Внешний источник. По умолчанию — null"
+        },
+        {
+          "name": "originId",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Идентификатор элемента во внешнем источнике. По умолчанию — null"
+        },
+        {
+          "name": "webformId",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор CRM Формы. По умолчанию — null"
+        },
+        {
+          "name": "observers",
+          "type": "user[]",
+          "base": "array",
+          "required": false,
+          "description": "Массив идентификаторов пользователей, которые будут являться Наблюдателями в элементе. По умолчанию — null"
+        },
+        {
+          "name": "utmSource",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Рекламная система. Например: Yandex-Direct, Google-Adwords и другие. По умолчанию — null"
+        },
+        {
+          "name": "utmMedium",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры По умолчанию — null"
+        },
+        {
+          "name": "utmCampaign",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Обозначение рекламной кампании. По умолчанию — null"
+        },
+        {
+          "name": "utmContent",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Содержание кампании. Например, для контекстных объявлений. По умолчанию — null"
+        },
+        {
+          "name": "utmTerm",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Условие поиска кампании. Например, ключевые слова контекстной рекламы. По умолчанию равенnull"
+        },
+        {
+          "name": "ufCrm...",
+          "type": "crm_userfield",
+          "base": "object",
+          "required": false,
+          "description": "Пользовательское поле. О пользовательских полях читайте раздел {#T} Значения множественных полей передаются в виде массива. Чтобы загрузить файл, в качестве значения пользовательского поля необходимо передать массив, где первый элемент — это имя файла, а второй — это закодированный в base64 контент файла."
+        },
+        {
+          "name": "parentId...",
+          "type": "crm_entity",
+          "base": "integer",
+          "required": false,
+          "description": "Поле-родитель. Элемент другого типа объекта CRM, который привязан к данному элементу. Каждое такое поле имеет код parentId + {parentEntityTypeId}"
+        }
+      ]
+    }
+  },
   "requiredConvention": true,
   "confidence": "parsed",
   "source": {
@@ -71,7 +302,7 @@
     },
     {
       "name": "id",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Идентификатор созданного элемента"

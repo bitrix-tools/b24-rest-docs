@@ -8,15 +8,15 @@
   "params": [
     {
       "name": "typeId",
-      "type": "number",
-      "base": "number",
+      "type": "integer",
+      "base": "integer",
       "required": true,
       "description": "Идентификатор процесса"
     },
     {
       "name": "stageId",
-      "type": "number",
-      "base": "number",
+      "type": "integer",
+      "base": "integer",
       "required": false,
       "description": "Идентификатор стадии. По умолчанию имеет значение 0, то есть — общие настройки"
     },

@@ -15,21 +15,21 @@
     },
     {
       "name": "SORT",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Поле сортировки подразделения"
     },
     {
       "name": "PARENT",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": true,
       "description": "Идентификатор родительского подразделения"
     },
     {
       "name": "UF_HEAD",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Идентификатор пользователя, который станет руководителем подразделения"
@@ -56,7 +56,7 @@
   "returns": [
     {
       "name": "result",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Идентификатор созданного отдела"

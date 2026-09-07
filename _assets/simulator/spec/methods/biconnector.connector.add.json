@@ -81,7 +81,7 @@
         },
         {
           "name": "sort",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Параметр сортировки коннекторов. Значение по умолчанию 100"

@@ -22,7 +22,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для фильтрации списка шаблонов бизнес-процессов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле шаблона для фильтра - value_N — значение поля Перед названием фильтруемого поля можно указать тип фильтрации: - ! — не равно - < — меньше - <= — меньше либо равно - > — больше - >= — больше либо равно",
+      "description": "Объект для фильтрации списка шаблонов бизнес-процессов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле шаблона для фильтра - value_N — значение поля Перед названием фильтруемого поля можно указать тип фильтрации: - = — равно - ! или != — не равно - < — меньше - <= — меньше либо равно - > — больше - >= — больше либо равно Без префикса фильтр сравнивает значение на р…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -53,13 +53,40 @@
   "source": {
     "file": "api-reference/bizproc/template/bizproc-workflow-template-list.md"
   },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "525",
+        "NAME": "Вывести время",
+        "USER_ID": "503",
+        "SYSTEM_CODE": "rest_app_5"
+      },
+      {
+        "ID": "379",
+        "NAME": "App template",
+        "USER_ID": "503",
+        "SYSTEM_CODE": "rest_app_5"
+      }
+    ],
+    "total": 34,
+    "time": {
+      "start": 1737535822.539526,
+      "finish": 1737535822.564579,
+      "duration": 0.025053024291992188,
+      "processing": 0.001973867416381836,
+      "date_start": "2025-01-22T11:50:22+03:00",
+      "date_finish": "2025-01-22T11:50:22+03:00",
+      "operating_reset_at": 1737536422,
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
+      "type": "array",
+      "base": "array",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о шаблонах бизнес-процессов. Каждый объект содержит поля шаблона, указанные в параметре SELECT"
+      "description": "Корневой элемент ответа. Содержит массив объектов с информацией о шаблонах бизнес-процессов. Каждый объект содержит поля шаблона, указанные в параметре SELECT"
     },
     {
       "name": "total",
@@ -77,5 +104,11 @@
     }
   ],
   "page": "/api-reference/bizproc/template/bizproc-workflow-template-list.html",
-  "executable": false
+  "executable": false,
+  "entityFields": [
+    "ID",
+    "NAME",
+    "SYSTEM_CODE",
+    "USER_ID"
+  ]
 }

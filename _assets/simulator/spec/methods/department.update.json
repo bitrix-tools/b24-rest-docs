@@ -8,7 +8,7 @@
   "params": [
     {
       "name": "ID",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": true,
       "description": "Иидентификатор подразделения"
@@ -22,21 +22,21 @@
     },
     {
       "name": "SORT",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Поле сортировки подразделения"
     },
     {
       "name": "PARENT",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Идентификатор родительского подразделения"
     },
     {
       "name": "UF_HEAD",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Идентификатор пользователя, который будет руководителем подразделения"

@@ -15,10 +15,14 @@
     },
     {
       "name": "fileIds",
-      "type": "array<integer>",
-      "base": "any",
+      "type": "integer[]",
+      "base": "array",
       "required": true,
-      "description": "Массив идентификаторов файлов Диска. Получить идентификаторы файлов можно двумя способами. Использовать один из методов загрузки файла: - disk.storage.uploadfile - disk.folder.uploadfile Использовать один из методов получения списка файлов: - disk.storage.getchildren - disk.folder.getchildren"
+      "description": "Массив идентификаторов файлов Диска. Получить идентификаторы файлов можно двумя способами. Использовать один из методов загрузки файла: - disk.storage.uploadfile - disk.folder.uploadfile Использовать один из методов получения списка файлов: - disk.storage.getchildren - disk.folder.getchildren",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     }
   ],
   "defs": {},

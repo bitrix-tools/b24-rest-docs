@@ -88,7 +88,7 @@
         },
         {
           "name": "sort",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Новый параметр сортировки коннектора"

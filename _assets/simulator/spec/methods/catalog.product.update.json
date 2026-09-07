@@ -291,7 +291,7 @@
         },
         {
           "name": "propertyN",
-          "type": "object / array",
+          "type": "object | array",
           "base": "any",
           "required": false,
           "description": "Значение свойства товара, где N — идентификатор свойства. Свойств может быть несколько. Значение указывается в формате: - {valueId: valueId, value: value} — для обычного свойства - [{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}] — для множественного свойства Здесь valueId — идентификатор значения свойства, а value — значение свойства.…"

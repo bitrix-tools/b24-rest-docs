@@ -22,7 +22,7 @@
     },
     {
       "name": "ID",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Фильтр по идентификатору подразделения"
@@ -36,21 +36,21 @@
     },
     {
       "name": "SORT",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Фильтр по полю сортировки"
     },
     {
       "name": "PARENT",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Фильтр по идентификатору родительского подразделения"
     },
     {
       "name": "UF_HEAD",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Фильтр по идентификатору руководителя подразделения"

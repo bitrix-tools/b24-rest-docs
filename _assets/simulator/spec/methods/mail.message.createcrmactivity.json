@@ -4,7 +4,7 @@
   "scope": "mail",
   "kind": "write",
   "title": "Создать дело CRM из письма mail.message.createcrmactivity",
-  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо",
+  "permissions": "пользователь с доступом к почтовому ящику, где находится письмо, и доступом к CRM",
   "params": [
     {
       "name": "messageId",
@@ -21,7 +21,9 @@
     "file": "api-reference/mail/message/mail-message-createcrmactivity.md"
   },
   "resultExample": {
-    "result": true,
+    "result": {
+      "result": true
+    },
     "time": {
       "start": 1779819678,
       "finish": 1779819678.84803,
@@ -36,6 +38,13 @@
   "returns": [
     {
       "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Объект с результатом создания дела CRM"
+    },
+    {
+      "name": "result.result",
       "type": "boolean",
       "base": "boolean",
       "required": false,

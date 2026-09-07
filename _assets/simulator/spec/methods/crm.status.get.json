@@ -4,7 +4,7 @@
   "scope": "crm",
   "kind": "read",
   "title": "Получить элемент справочника по идентификатору crm.status.get",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правом на чтение хотя бы одного объекта CRM",
   "params": [
     {
       "name": "id",

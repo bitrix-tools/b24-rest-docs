@@ -7,6 +7,13 @@
   "permissions": "администратор или пользователь с правом «полный доступ» к разделу «Сайты и магазины»",
   "params": [
     {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Раздел, к которому относится роль. Параметр не связан с REST-скоупом landing в названии метода. Значения GROUP, KNOWLEDGE и MAINPAGE соответствуют типам сайтов из статьи Работа с типами сайтов и скоупами.…"
+    },
+    {
       "name": "id",
       "type": "integer",
       "base": "integer",

@@ -3,7 +3,7 @@
   "method": "log.blogcomment.delete",
   "scope": "log",
   "kind": "write",
-  "title": "Удалить комментарий из сообщению log.blogcomment.delete",
+  "title": "Удалить комментарий к сообщению log.blogcomment.delete",
   "permissions": "автор комментария или пользователь с полными правами на запись",
   "params": [
     {

@@ -15,8 +15,8 @@
     },
     {
       "name": "LINE",
-      "type": "string",
-      "base": "string",
+      "type": "integer",
+      "base": "integer",
       "required": false,
       "description": "Идентификатор открытой линии"
     }
@@ -46,39 +46,11 @@
   },
   "returns": [
     {
-      "name": "LINE",
-      "type": "integer",
-      "base": "integer",
+      "name": "result",
+      "type": "object",
+      "base": "object",
       "required": false,
-      "description": "Идентификатор открытой линии"
-    },
-    {
-      "name": "CONNECTOR",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Идентификатор коннектора"
-    },
-    {
-      "name": "ERROR",
-      "type": "boolean",
-      "base": "boolean",
-      "required": false,
-      "description": "Признак ошибки состояния коннектора"
-    },
-    {
-      "name": "CONFIGURED",
-      "type": "boolean",
-      "base": "boolean",
-      "required": false,
-      "description": "Признак завершенной настройки коннектора"
-    },
-    {
-      "name": "STATUS",
-      "type": "boolean",
-      "base": "boolean",
-      "required": false,
-      "description": "Итоговый статус доступности коннектора"
+      "description": "Объект статуса коннектора (подробное описание)"
     },
     {
       "name": "time",

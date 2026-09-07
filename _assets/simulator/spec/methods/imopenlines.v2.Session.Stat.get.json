@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "imopenlines.v2.Session.Stat.get",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить метрики сессий imopenlines.v2.Session.Stat.get",
+  "permissions": "пользователь с доступом к отчетам открытых линий",
+  "params": [
+    {
+      "name": "sessionId",
+      "type": "integer[]",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов сессий. Идентификаторы можно получить методом imopenlines.v2.Session.list. Максимум: 100 уникальных идентификаторов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/statistics/imopenlines-v2-session-stat-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "sessions": [
+        {
+          "sessionId": 1024,
+          "waitAnswer": 65,
+          "waitClose": 1330,
+          "messagesCount": 14,
+          "messagesOperatorCount": 6,
+          "messagesClientCount": 8,
+          "transfersCount": 1,
+          "kpiFirstAnswer": true,
+          "vote": "like",
+          "voteHead": 5
+        },
+        {
+          "sessionId": 999999,
+          "waitAnswer": null,
+          "waitClose": null,
+          "messagesCount": null,
+          "messagesOperatorCount": null,
+          "messagesClientCount": null,
+          "transfersCount": null,
+          "kpiFirstAnswer": null,
+          "vote": null,
+          "voteHead": null
+        }
+      ]
+    },
+    "time": {
+      "start": 1782810000,
+      "finish": 1782810000.2,
+      "duration": 0.2,
+      "processing": 0,
+      "date_start": "2026-06-30T10:00:00+03:00",
+      "date_finish": "2026-06-30T10:00:00+03:00",
+      "operating_reset_at": 1782810600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "result.sessions",
+      "type": "sessionStat[]",
+      "base": "array",
+      "required": false,
+      "description": "Метрики сессий. Все поля типа sessionStat смотрите в разделе Типы данных статистики открытых линий"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-stat-get.html",
+  "executable": false,
+  "entityFields": [
+    "kpiFirstAnswer",
+    "messagesClientCount",
+    "messagesCount",
+    "messagesOperatorCount",
+    "sessionId",
+    "transfersCount",
+    "vote",
+    "voteHead",
+    "waitAnswer",
+    "waitClose"
+  ]
+}

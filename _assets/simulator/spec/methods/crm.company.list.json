@@ -87,7 +87,7 @@
   "returns": [
     {
       "name": "result",
-      "type": "array[]",
+      "type": "object[]",
       "base": "array",
       "required": false,
       "description": "Массив компаний, соответствующих фильтру. Формат возвращаемых данных зависит от параметра select"

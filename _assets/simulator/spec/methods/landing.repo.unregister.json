@@ -4,7 +4,7 @@
   "scope": "landing",
   "kind": "write",
   "title": "Удалить пользовательский блок landing.repo.unregister",
-  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "permissions": "пользователь с правом «Просмотр» в разделе «Сайты и Магазины»",
   "params": [
     {
       "name": "code",

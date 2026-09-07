@@ -34,7 +34,7 @@
           "name": "HANDLER",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "URL, на который робот будет отправлять данные через сервер очередей bitrix24. В ссылке должен быть тот же домен, на котором установлено приложение"
         },
         {
@@ -55,7 +55,7 @@
           "name": "NAME",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "Название робота. Может быть строкой или ассоциативным массивом локализированных строк вида:"
         },
         {
@@ -104,8 +104,8 @@
           "name": "PLACEMENT_HANDLER",
           "type": "string",
           "base": "string",
-          "required": true,
-          "description": "URL обработчика встройки на стороне приложения. Обязательное, если USE_PLACEMENT = 'Y'"
+          "required": false,
+          "description": "URL обработчика встройки на стороне приложения"
         }
       ]
     }

@@ -86,7 +86,7 @@
     },
     {
       "name": "id",
-      "type": "int",
+      "type": "integer",
       "base": "integer",
       "required": false,
       "description": "Идентификатор созданного элемента"

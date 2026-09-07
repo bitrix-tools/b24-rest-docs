@@ -32,7 +32,7 @@
       "type": "integer",
       "base": "integer",
       "required": false,
-      "description": "Идентификатор чата. По умолчанию используется последний чат, привязанный к объекту CRM. Получить идентификаторы чатов, привязанных к объекту CRM можно методом imopenlines.crm.chat.get"
+      "description": "Идентификатор чата. По умолчанию используется последний чат, привязанный к объекту CRM. Получить идентификаторы чатов, привязанных к объекту CRM, можно методом imopenlines.crm.chat.get"
     }
   ],
   "defs": {},
@@ -54,22 +54,6 @@
       "operating": 0.16756796836853027
     }
   },
-  "returns": [
-    {
-      "name": "result",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор чата, в который добавлен пользователь. Если CHAT_ID не передан и чат для объекта CRM не найден или не существует, метод вернет \"result\":0"
-    },
-    {
-      "name": "time",
-      "type": "time",
-      "base": "object",
-      "required": false,
-      "description": "Информация о времени выполнения запроса"
-    }
-  ],
   "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.html",
   "executable": false
 }

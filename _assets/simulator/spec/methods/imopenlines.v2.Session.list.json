@@ -1,0 +1,295 @@
+{
+  "$v": 1,
+  "method": "imopenlines.v2.Session.list",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить список сессий imopenlines.v2.Session.list",
+  "permissions": "пользователь с доступом к отчетам открытых линий",
+  "params": [
+    {
+      "name": "configId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методом imopenlines.config.list.get"
+    },
+    {
+      "name": "configIdList",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Список идентификаторов открытых линий. Идентификаторы можно получить методом imopenlines.config.list.get. Если переданы configIdList и configId, используется configIdList. Максимум: 1000 элементов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "operatorId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор оператора. Идентификатор можно получить методом user.get или user.search"
+    },
+    {
+      "name": "operatorIdList",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Список идентификаторов операторов. Идентификаторы можно получить методом user.get или user.search. Если переданы operatorIdList и operatorId, используется operatorIdList. Максимум: 1000 элементов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Код канала. Код можно получить методом imconnector.list"
+    },
+    {
+      "name": "sourceList",
+      "type": "string[]",
+      "base": "array",
+      "required": false,
+      "description": "Список кодов каналов. Коды можно получить методом imconnector.list. Если переданы sourceList и source, используется sourceList. Максимум: 1000 элементов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Статус сессии. Возможные значения: - new — сессия в очереди или пропущена - answered — оператор ведет диалог - closed — сессия закрыта - spam — сессия помечена как спам - paused — сессия на паузе"
+    },
+    {
+      "name": "closeReason",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Причина закрытия. Нельзя передавать вместе со status. Возможные значения: - operator — сессию закрыл оператор - auto — сессия закрыта автоматически по таймауту - spam — сессия закрыта как спам - client — сессия закрыта по неактивности клиента - replyLimit — сессия закрыта после истечения окна ответа канала"
+    },
+    {
+      "name": "dateCreateFrom",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Начало периода создания в формате ISO 8601"
+    },
+    {
+      "name": "dateCreateTo",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Конец периода создания в формате ISO 8601. Максимальный период: 366 дней"
+    },
+    {
+      "name": "dateCloseFrom",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Начало периода закрытия в формате ISO 8601"
+    },
+    {
+      "name": "dateCloseTo",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Конец периода закрытия в формате ISO 8601. Максимальный период: 366 дней"
+    },
+    {
+      "name": "vote",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Клиентская оценка. Возможные значения: - like — клиент поставил лайк - dislike — клиент поставил дизлайк - none — оценки нет - any — есть любая клиентская оценка"
+    },
+    {
+      "name": "hasVoteHead",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Фильтр по наличию оценки руководителя. Возможные значения: - true, Y, 1 — есть оценка руководителя - false, N, 0 — оценки руководителя нет"
+    },
+    {
+      "name": "kpiFirstAnswer",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Фильтр по выполнению KPI первого ответа. Требует полного периода dateCreateFrom и dateCreateTo или dateCloseFrom и dateCloseTo. Возможные значения: - true, Y, 1 — KPI первого ответа выполнен - false, N, 0 — KPI первого ответа не выполнен"
+    },
+    {
+      "name": "hasCrm",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Фильтр по наличию доступной связи с CRM. Возможные значения: - true, Y, 1 — есть доступная связь с CRM - false, N, 0 — доступной связи с CRM нет"
+    },
+    {
+      "name": "waitAnswerFrom",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Минимальное время до первого ответа, секунды"
+    },
+    {
+      "name": "waitAnswerTo",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Максимальное время до первого ответа, секунды"
+    },
+    {
+      "name": "waitCloseFrom",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Минимальное время до закрытия, секунды"
+    },
+    {
+      "name": "waitCloseTo",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Максимальное время до закрытия, секунды"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Поле сортировки. Возможные значения: - dateCreate — дата создания сессии - dateClose — дата закрытия сессии - waitAnswer — время до первого ответа - waitClose — время до закрытия По умолчанию: dateCreate"
+    },
+    {
+      "name": "orderDirection",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Направление сортировки. Возможные значения: - asc — по возрастанию - desc — по убыванию По умолчанию: desc"
+    },
+    {
+      "name": "offset",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для пагинации. По умолчанию: 0"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер страницы. Возможные значения: от 1 до 200. По умолчанию: 50"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/statistics/imopenlines-v2-session-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "sessions": [
+        {
+          "id": 1024,
+          "configId": 3,
+          "source": "livechat",
+          "operatorId": 42,
+          "userId": 501,
+          "userCode": "site_visitor_88a1",
+          "chatId": 2048,
+          "dateCreate": "2026-06-15T14:30:00+03:00",
+          "dateClose": "2026-06-15T14:52:10+03:00",
+          "dateFirstAnswer": "2026-06-15T14:31:05+03:00",
+          "dateOperatorAnswer": "2026-06-15T14:31:05+03:00",
+          "status": "closed",
+          "closeReason": "operator",
+          "vote": "like",
+          "voteHead": 5,
+          "commentHead": "Хорошая работа",
+          "crmEntityType": "deal",
+          "crmEntityId": 771,
+          "queueTransfers": 1,
+          "waitAnswer": 65,
+          "waitClose": 1330,
+          "kpiFirstAnswer": true,
+          "messageCount": 14
+        }
+      ],
+      "hasNextPage": false
+    },
+    "time": {
+      "start": 1782810000,
+      "finish": 1782810000.4,
+      "duration": 0.4,
+      "processing": 0,
+      "date_start": "2026-06-30T10:00:00+03:00",
+      "date_finish": "2026-06-30T10:00:00+03:00",
+      "operating_reset_at": 1782810600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "result.sessions",
+      "type": "session[]",
+      "base": "array",
+      "required": false,
+      "description": "Список сессий. Все поля типа session смотрите в разделе Типы данных статистики открытых линий"
+    },
+    {
+      "name": "result.hasNextPage",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак следующей страницы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-list.html",
+  "executable": false,
+  "entityFields": [
+    "chatId",
+    "closeReason",
+    "commentHead",
+    "configId",
+    "crmEntityId",
+    "crmEntityType",
+    "dateClose",
+    "dateCreate",
+    "dateFirstAnswer",
+    "dateOperatorAnswer",
+    "id",
+    "kpiFirstAnswer",
+    "messageCount",
+    "operatorId",
+    "queueTransfers",
+    "source",
+    "status",
+    "userCode",
+    "userId",
+    "vote",
+    "voteHead",
+    "waitAnswer",
+    "waitClose"
+  ]
+}

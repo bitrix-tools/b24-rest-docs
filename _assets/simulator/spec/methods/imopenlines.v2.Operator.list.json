@@ -1,0 +1,147 @@
+{
+  "$v": 1,
+  "method": "imopenlines.v2.Operator.list",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить список операторов imopenlines.v2.Operator.list",
+  "permissions": "пользователь с доступом к отчетам открытых линий",
+  "params": [
+    {
+      "name": "configId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методом imopenlines.config.list.get"
+    },
+    {
+      "name": "configIdList",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Список идентификаторов открытых линий. Идентификаторы можно получить методом imopenlines.config.list.get. Если переданы configIdList и configId, используется configIdList. Максимум: 1000 элементов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "userId",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор оператора. Идентификатор можно получить методом user.get или user.search"
+    },
+    {
+      "name": "userIdList",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Список идентификаторов операторов. Идентификаторы можно получить методом user.get или user.search. Если переданы userIdList и userId, используется userIdList. Максимум: 1000 элементов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Статус оператора. Возможные значения: - online — оператор онлайн и не на паузе - offline — оператор не в сети - pause — оператор поставил себя на паузу"
+    },
+    {
+      "name": "hasFreeSlots",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Фильтр по наличию свободных слотов. Возможные значения: - true, Y, 1 — есть свободные слоты - false, N, 0 — свободных слотов нет"
+    },
+    {
+      "name": "offset",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Смещение для пагинации. По умолчанию: 0"
+    },
+    {
+      "name": "limit",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Размер страницы. Возможные значения: от 1 до 200. По умолчанию: 50"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/statistics/imopenlines-v2-operator-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "operators": [
+        {
+          "userId": 42,
+          "configId": 3,
+          "status": "online",
+          "activeSessions": 2,
+          "maxChat": 5,
+          "freeSlots": 3,
+          "lastActivityDate": "2026-06-15T15:01:00+03:00"
+        }
+      ],
+      "hasNextPage": false
+    },
+    "time": {
+      "start": 1782810000,
+      "finish": 1782810000.2,
+      "duration": 0.2,
+      "processing": 0,
+      "date_start": "2026-06-30T10:00:00+03:00",
+      "date_finish": "2026-06-30T10:00:00+03:00",
+      "operating_reset_at": 1782810600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "result.operators",
+      "type": "operatorLoad[]",
+      "base": "array",
+      "required": false,
+      "description": "Список операторов. Все поля типа operatorLoad смотрите в разделе Типы данных статистики открытых линий"
+    },
+    {
+      "name": "result.hasNextPage",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак следующей страницы"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/statistics/imopenlines-v2-operator-list.html",
+  "executable": false,
+  "entityFields": [
+    "activeSessions",
+    "configId",
+    "freeSlots",
+    "lastActivityDate",
+    "maxChat",
+    "status",
+    "userId"
+  ]
+}

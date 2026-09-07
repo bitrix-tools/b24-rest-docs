@@ -28,7 +28,7 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Название (код) поля. Дополняется префиксом UF_USR_"
+          "description": "Название (код) поля. Битрикс24 приводит его к верхнему регистру и дополняет префиксом UF_USR_: - DEALS и UF_DEALS превратятся в UF_USR_DEALS - UF_USR_DEALS останется без изменений Итоговый код поля возвращает метод user.userfield.list"
         },
         {
           "name": "USER_TYPE_ID",

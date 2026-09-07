@@ -26,6 +26,13 @@
       "base": "integer",
       "required": true,
       "description": "Идентификатор блока. Для восстановления удаленного блока запросите его методом landing.block.getList с параметрами params.edit_mode = 1 и params.deleted = 1. Если передать идентификатор блока другой страницы или несуществующий идентификатор, метод вернет ошибку"
+    },
+    {
+      "name": "preventHistory",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Если true, метод не добавляет действие в историю изменений страницы. По умолчанию false"
     }
   ],
   "defs": {},

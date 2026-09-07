@@ -19,6 +19,13 @@
       "base": "integer",
       "required": true,
       "description": "Идентификатор папки. Идентификатор папки можно получить методом landing.site.getFolders"
+    },
+    {
+      "name": "mark",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак пометки папки как удаленной. По умолчанию true. Если передать false, метод восстановит папку из корзины. Для такого сценария обычно используют landing.site.markFolderUnDelete"
     }
   ],
   "defs": {},
