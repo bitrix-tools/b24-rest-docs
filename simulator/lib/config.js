@@ -40,6 +40,17 @@ const METHOD_ENTITY = {
     'user.get': 'users',
 };
 
+// Телеметрия песочницы: куда виджет и endpoint шлют обезличенные события.
+// Адрес приходит из окружения, чтобы стенд и продакшен не мешались, а
+// значение по умолчанию — рабочий дашборд статистики.
+const TELEMETRY = {
+    endpoint: process.env.B24SIM_STATS_URL || 'https://app-f23b8f256bfb.vibecode.bitrix24.tech/collect',
+    enabled: process.env.B24SIM_STATS_ENABLED !== '0',
+    // Доля отправляемых событий: 1 — все. Снизить, если трафик вырастет.
+    sampling: Number(process.env.B24SIM_STATS_SAMPLING || 1),
+    respectDoNotTrack: true,
+};
+
 const PAGE_SIZE = 50;
 
-module.exports = { PILOT_DIRS, READ_EXECUTABLE, METHOD_ENTITY, PAGE_SIZE };
+module.exports = { PILOT_DIRS, READ_EXECUTABLE, METHOD_ENTITY, PAGE_SIZE, TELEMETRY };

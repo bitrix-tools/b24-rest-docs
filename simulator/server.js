@@ -18,6 +18,8 @@ const path = require('path');
 const crypto = require('crypto');
 
 const B24Sim = require('./lib/core.js');
+const Telemetry = require('./lib/telemetry.js');
+const { TELEMETRY } = require('./lib/config.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const SPEC_DIR = path.join(ROOT, '_assets', 'simulator', 'spec');
@@ -60,6 +62,62 @@ function loadSpec(method) {
     return spec;
 }
 
+// ------------------------------------------------------- отправка статистики
+
+// События уходят в дашборд пачками: по одному запросу на вызов симулятора
+// означало бы вторую сеть на каждый вызов. Очередь ограничена — если
+// дашборд недоступен, песочница продолжает работать, теряя статистику,
+// а не запросы.
+const STATS_URL = process.env.B24SIM_STATS_INGEST_URL || TELEMETRY.endpoint.replace(/\/collect$/, '/ingest');
+const STATS_TOKEN = process.env.B24SIM_STATS_TOKEN || '';
+const STATS_ENABLED = TELEMETRY.enabled && Boolean(STATS_TOKEN);
+const STATS_FLUSH_MS = 5000;
+const STATS_MAX_QUEUE = 500;
+
+const statsQueue = [];
+let statsDropped = 0;
+
+function queueEvent(event) {
+    if (!STATS_ENABLED) {
+        return;
+    }
+    if (statsQueue.length >= STATS_MAX_QUEUE) {
+        statsQueue.shift();
+        statsDropped += 1;
+        return;
+    }
+    statsQueue.push(event);
+}
+
+async function flushStats() {
+    if (!STATS_ENABLED || !statsQueue.length) {
+        return;
+    }
+    const batch = statsQueue.splice(0, 100);
+    try {
+        const response = await fetch(STATS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Ingest-Token': STATS_TOKEN },
+            body: JSON.stringify({ events: batch }),
+            signal: AbortSignal.timeout(10000),
+        });
+        if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+        }
+        if (statsDropped) {
+            console.error('статистика: потеряно событий из-за переполнения очереди: ' + statsDropped);
+            statsDropped = 0;
+        }
+    } catch (error) {
+        // Возвращаем пачку в начало очереди — но только если есть куда.
+        if (statsQueue.length + batch.length <= STATS_MAX_QUEUE) {
+            statsQueue.unshift(...batch);
+        } else {
+            statsDropped += batch.length;
+        }
+    }
+}
+
 // ------------------------------------------------------------ rate limit и логи
 
 const hits = new Map();
@@ -77,7 +135,15 @@ function rateLimited(ip) {
     return bucket.length > RATE_LIMIT;
 }
 
-const IP_SALT = crypto.randomBytes(16).toString('hex');
+// Соль хеша адреса берётся из окружения и должна пережить перезапуск:
+// со случайной солью один и тот же агент после рестарта считается новым,
+// и «уникальных» в статистике становится тем больше, чем чаще
+// перезапускали сервис.
+const IP_SALT = process.env.B24SIM_IP_SALT || crypto.randomBytes(16).toString('hex');
+
+if (!process.env.B24SIM_IP_SALT) {
+    console.error('ВНИМАНИЕ: B24SIM_IP_SALT не задан — хеши адресов несопоставимы между перезапусками, счёт уникальных агентов будет завышен.');
+}
 
 function hashIp(ip) {
     return crypto.createHash('sha256').update(IP_SALT + String(ip)).digest('hex').slice(0, 12);
@@ -222,6 +288,7 @@ async function handle(req, res) {
         return {
             outcome: response.error ? (response.error === 'SECURITY_REJECTED' ? 'rejected_secret' : 'invalid') : 'valid',
             method,
+            response,
         };
     }
 
@@ -240,17 +307,40 @@ const server = http.createServer((req, res) => {
             return { outcome: 'error', detail: String(error).slice(0, 120) };
         })
         .then((info) => {
+            const outcome = (info && info.outcome) || 'unknown';
+            const method = (info && info.method) || null;
+            const ms = Date.now() - started;
+
             logEvent({
                 ts: new Date().toISOString(),
                 channel: 'api',
                 path: req.url.split('?')[0],
-                method: (info && info.method) || null,
-                outcome: (info && info.outcome) || 'unknown',
+                method,
+                outcome,
                 ip_hash: hashIp(req.socket.remoteAddress),
-                ms: Date.now() - started,
+                ms,
             });
+
+            // В статистику служебные исходы тоже нужны: по ним видно, что
+            // агенты ищут методы, а не только вызывают их.
+            if (outcome !== 'preflight') {
+                queueEvent(Telemetry.shape({
+                    channel: 'api',
+                    method: method || '',
+                    outcome,
+                    ms,
+                    session: hashIp(req.socket.remoteAddress),
+                    response: (info && info.response) || null,
+                }));
+            }
         });
 });
+
+if (STATS_ENABLED) {
+    setInterval(flushStats, STATS_FLUSH_MS).unref();
+    process.on('SIGTERM', flushStats);
+    process.on('SIGINT', flushStats);
+}
 
 if (require.main === module) {
     server.listen(PORT, () => {
@@ -258,4 +348,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { server, handle };
+module.exports = { server, handle, flushStats };

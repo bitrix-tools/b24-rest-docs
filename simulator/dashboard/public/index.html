@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Статистика песочницы</title>
+<link rel="icon" href="/_gw/icon">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+<header>
+    <div>
+        <h1>Статистика песочницы</h1>
+        <div class="sub" id="subtitle">Симулятор REST API Битрикс24</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="controls">
+        <div class="ranges" id="ranges" role="group" aria-label="Период">
+            <button data-range="24h">Сутки</button>
+            <button data-range="7d" aria-pressed="true">Неделя</button>
+            <button data-range="30d">Месяц</button>
+            <button data-range="90d">Квартал</button>
+            <button data-range="all">Всё время</button>
+        </div>
+        <div class="dates">
+            <label for="from">от</label>
+            <input type="date" id="from" aria-label="Дата начала">
+            <label for="to">до</label>
+            <input type="date" id="to" aria-label="Дата конца">
+            <button type="button" class="linkbtn" id="clear-dates" hidden>сбросить</button>
+        </div>
+    </div>
+</header>
+
+<section class="kpis" id="kpis"></section>
+
+<div class="grid">
+    <div class="card">
+        <div class="head">
+            <div>
+                <h2>Активность</h2>
+                <p class="hint" id="activity-hint">Вызовы за период</p>
+            </div>
+            <div class="legend">
+                <span><i style="background:var(--human)"></i>Люди</span>
+                <span><i style="background:var(--agent)"></i>ИИ-агенты</span>
+                <span><i style="background:var(--muted)"></i>Неопознанные</span>
+            </div>
+        </div>
+        <div class="chart" id="activity"></div>
+    </div>
+</div>
+
+<div class="grid two">
+    <div class="card">
+        <h2>Доля ошибочных вызовов</h2>
+        <p class="hint">Процент от вызовов, дошедших до проверки</p>
+        <div class="chart" id="errorrate"></div>
+    </div>
+    <div class="card">
+        <h2>Когда пользуются</h2>
+        <p class="hint">Вызовы по часам суток, UTC</p>
+        <div class="chart" id="hourofday"></div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h2>Методы</h2>
+        <p class="hint">Клик по заголовку столбца сортирует таблицу</p>
+        <div id="methods"></div>
+    </div>
+</div>
+
+<div class="grid two">
+    <div class="card">
+        <h2>Исходы</h2>
+        <p class="hint">Чем закончился вызов</p>
+        <div id="outcomes"></div>
+    </div>
+    <div class="card">
+        <h2>Задержка ответа</h2>
+        <p class="hint">Распределение по времени выполнения</p>
+        <div class="chart" id="latency"></div>
+    </div>
+</div>
+
+<div class="grid two">
+    <div class="card">
+        <h2>Ошибки валидации</h2>
+        <p class="hint">Классы ошибок в вызовах</p>
+        <div id="errors"></div>
+    </div>
+    <div class="card">
+        <h2>Проблемные параметры</h2>
+        <p class="hint">Где чаще всего ошибаются — кандидаты на правку документации</p>
+        <div id="errorparams"></div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h2>Страницы документации</h2>
+        <p class="hint">Откуда запускают виджет</p>
+        <div id="pages"></div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <div class="head">
+            <div>
+                <h2>Последние вызовы</h2>
+                <p class="hint">Живая лента, без содержимого запросов</p>
+            </div>
+        </div>
+        <div class="scroll"><table id="recent"></table></div>
+    </div>
+</div>
+
+<footer id="footer"></footer>
+
+</div>
+<script src="/app.js"></script>
+</body>
+</html>
