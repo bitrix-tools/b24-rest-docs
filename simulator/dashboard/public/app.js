@@ -740,6 +740,9 @@ var OUTCOME_RU = {
     not_found: 'Неизвестный маршрут',
     error: 'Внутренняя ошибка',
     ok: 'Служебный запрос',
+    fetched: 'Схему забрали статикой',
+    no_schema: 'Схемы метода нет',
+    endpoint_missing: 'Пришли на несуществующий адрес',
 };
 
 function kpis(data) {
@@ -857,6 +860,7 @@ function render(data) {
         { key: 'agent', label: 'Агенты' },
         { key: 'human', label: 'Люди' },
         { key: 'executed', label: 'Исполнено' },
+        { key: 'fetched', label: 'Скачиваний' },
         { key: 'avgMs', label: 'Ср. время', type: 'ms' },
     ], tables.methods, 'total');
 
@@ -887,8 +891,14 @@ function render(data) {
     var t = data.totals;
     document.getElementById('subtitle').textContent =
         'Симулятор REST API Битрикс24 · обновлено ' + new Date(data.generatedAt).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('footer').innerHTML =
+    var missing = (data.outcomes || []).filter(function (o) { return o.key === 'endpoint_missing'; })[0];
+    var alarm = missing && missing.count
+        ? '<span class="alarm">Пришли на несуществующий адрес: ' + fmt(missing.count) + '</span>'
+        : '';
+
+    document.getElementById('footer').innerHTML = alarm +
         '<span>Исполнено на датасете: ' + fmt(t.executed) + '</span>'
+        + '<span>Схем скачали статикой: ' + fmt(t.fetched) + '</span>'
         + '<span>Отклонено секретов: ' + fmt(t.secret) + '</span>'
         + '<span>Упёрлось в лимит: ' + fmt(t.rateLimited) + '</span>'
         + '<span>Медиана ответа: ' + ms(t.p50Ms) + ', 95-й перцентиль: ' + ms(t.p95Ms) + '</span>'

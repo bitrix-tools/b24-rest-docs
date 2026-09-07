@@ -70,10 +70,11 @@ function tableOf(map, limit) {
             agent: row.ag,
             human: row.hu,
             executed: row.ex,
+            fetched: row.fe,
             errorRate: row.ok + row.err ? row.err / (row.ok + row.err) : null,
             avgMs: row.mc ? Math.round(row.ms / row.mc) : null,
         }))
-        .sort((a, b) => b.total - a.total)
+        .sort((a, b) => (b.total + b.fetched) - (a.total + a.fetched))
         .slice(0, limit);
 }
 
@@ -316,6 +317,7 @@ function build(store, rangeKey, now, custom) {
             ok: totals.ok,
             err: totals.err,
             service: totals.service,
+            fetched: totals.fetched,
             executed: totals.executed,
             agent: totals.agent,
             human: totals.human,

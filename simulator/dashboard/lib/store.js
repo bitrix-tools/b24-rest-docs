@@ -50,6 +50,7 @@ function emptyCounters() {
         ok: 0,
         err: 0,
         service: 0,
+        fetched: 0,
         executed: 0,
         human: 0,
         agent: 0,
@@ -70,7 +71,7 @@ function emptyCounters() {
 // кто вызывал и сколько это заняло. Ключи короткие — свёртка лежит на
 // диске и читается целиком при старте.
 function emptyBreakdown() {
-    return { t: 0, ok: 0, err: 0, ag: 0, hu: 0, ex: 0, ms: 0, mc: 0 };
+    return { t: 0, ok: 0, err: 0, ag: 0, hu: 0, ex: 0, fe: 0, ms: 0, mc: 0 };
 }
 
 function bumpBreakdown(map, key, event, limit) {
@@ -95,6 +96,12 @@ function bumpBreakdown(map, key, event, limit) {
             row = emptyBreakdown();
             map[key] = row;
         }
+    }
+    // Скачивания считаем отдельной колонкой: смешать их с вызовами значит
+    // выдать интерес к методу за его использование.
+    if (event.outcome === 'fetched') {
+        row.fe += 1;
+        return;
     }
     row.t += 1;
     if (event.service) {
@@ -182,6 +189,9 @@ function addEvent(counters, event) {
         counters.err += 1;
     }
 
+    if (event.outcome === 'fetched') {
+        counters.fetched += 1;
+    }
     if (event.executed) {
         counters.executed += 1;
     }

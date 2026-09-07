@@ -212,6 +212,7 @@ td.method { font-variant-numeric: normal; }
 .pager button:disabled { opacity: .4; cursor: default; }
 
 footer { color: var(--muted); font-size: 12px; margin-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; }
+footer .alarm { color: var(--err); font-weight: 500; }
 
 /* ------------------------------------------------------------- вход */
 
