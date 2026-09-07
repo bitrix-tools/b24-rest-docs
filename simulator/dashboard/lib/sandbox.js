@@ -12,7 +12,11 @@ const path = require('path');
 
 const DOCS = process.env.SIMULATOR_ASSETS || 'https://apidocs.bitrix24.ru/_assets/simulator';
 const SPEC_CACHE_MAX = 400;
-const REFRESH_MS = 6 * 60 * 60 * 1000;
+const REFRESH_MS = 60 * 60 * 1000;
+// Как часто можно перепроверять каталог из-за промаха. Без этого один
+// агент, перебирающий несуществующие имена, дёргал бы документацию на
+// каждый запрос.
+const MISS_RECHECK_MS = 5 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 10000;
 
 function loadCore() {
@@ -44,6 +48,7 @@ class Sandbox {
         this.dataset = null;
         this.specs = new Map();
         this.loadedAt = 0;
+        this.checkedAt = 0;
         this.lastError = null;
     }
 
@@ -65,6 +70,7 @@ class Sandbox {
             this.index = index;
             this.dataset = dataset;
             this.loadedAt = Date.now();
+            this.checkedAt = Date.now();
             this.lastError = null;
             this.specs.clear();
         } catch (error) {
@@ -77,11 +83,23 @@ class Sandbox {
         }
     }
 
+    knows(method) {
+        return Boolean(this.index && this.index.methods.some((entry) => entry.method === method));
+    }
+
     async spec(method) {
         if (this.specs.has(method)) {
             return this.specs.get(method);
         }
-        if (!this.index || !this.index.methods.some((entry) => entry.method === method)) {
+
+        // Метода нет в каталоге — но каталог мог просто устареть: страницы
+        // документации выходят чаще, чем обновляется кэш. Отвечать 404 на
+        // существующий метод хуже, чем лишний раз сходить за индексом.
+        if (!this.knows(method) && Date.now() - this.checkedAt > MISS_RECHECK_MS) {
+            this.checkedAt = Date.now();
+            await this.refresh(true);
+        }
+        if (!this.knows(method)) {
             return null;
         }
         let spec = null;

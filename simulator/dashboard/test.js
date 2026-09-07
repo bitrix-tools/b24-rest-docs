@@ -435,6 +435,24 @@ async function main() {
         assert.ok(data.tables.errorParams.some((p) => p.key === 'fields.TITLLE'), 'параметр с опечаткой не попал в статистику');
     });
 
+    await check('устаревший каталог обновляется при промахе', async () => {
+        const { Sandbox } = require('./lib/sandbox');
+        const box = new Sandbox();
+        await box.refresh(true);
+        const real = box.index.methods[0].method;
+
+        // Имитируем устаревший каталог: выкидываем метод и делаем вид, что
+        // проверяли давно.
+        box.index = { count: 0, methods: box.index.methods.filter((m) => m.method !== real) };
+        box.specs.clear();
+        box.checkedAt = 0;
+        assert.strictEqual(box.knows(real), false, 'подготовка не сработала');
+
+        const spec = await box.spec(real);
+        assert.ok(spec, 'метод не нашёлся после перепроверки каталога');
+        assert.strictEqual(spec.method, real);
+    });
+
     await check('тело сверх лимита отклоняется', async () => {
         const big = 'x'.repeat(300 * 1024);
         const response = await fetch(base + '/collect', {
