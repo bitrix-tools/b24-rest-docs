@@ -356,7 +356,14 @@ function start() {
     }
 
     setInterval(() => store.save(), 15000).unref();
-    setInterval(() => store.prune(Date.now()), 6 * 60 * 60 * 1000).unref();
+
+    // Уборка запускается сразу на старте и дальше раз в полчаса. Шестичасовой
+    // таймер на сервере Black Hole не срабатывал никогда: сервер засыпает
+    // после часа простоя, и до срабатывания дело не доходило — журнал и
+    // часовые свёртки росли без границ. Запуск на старте гарантирует уборку
+    // после каждого пробуждения.
+    store.prune(Date.now());
+    setInterval(() => store.prune(Date.now()), 30 * 60 * 1000).unref();
 
     server.listen(PORT, () => {
         console.error('b24sim-stats ' + VERSION + ' слушает порт ' + PORT + ', данные в ' + DATA_DIR);

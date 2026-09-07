@@ -333,6 +333,27 @@ async function main() {
         fs.rmSync(dir, { recursive: true, force: true });
     });
 
+    await check('уборка удаляет журнал старше срока хранения', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b24prune-'));
+        fs.mkdirSync(path.join(dir, 'events'), { recursive: true });
+        const old = new Date(Date.now() - 200 * 86400000).toISOString().slice(0, 10);
+        const fresh = new Date().toISOString().slice(0, 10);
+        fs.writeFileSync(path.join(dir, 'events', old + '.ndjson'), '{}\n');
+        fs.writeFileSync(path.join(dir, 'events', fresh + '.ndjson'), '{}\n');
+
+        const { Store } = require('./lib/store');
+        const store = new Store({ dir });
+        store.init();
+        store.prune(Date.now());
+
+        const left = fs.readdirSync(path.join(dir, 'events'));
+        assert.ok(!left.includes(old + '.ndjson'), 'старый журнал не удалён');
+        assert.ok(left.includes(fresh + '.ndjson'), 'свежий журнал удалён по ошибке');
+
+        store.close();
+        fs.rmSync(dir, { recursive: true, force: true });
+    });
+
     await check('тело сверх лимита отклоняется', async () => {
         const big = 'x'.repeat(300 * 1024);
         const response = await fetch(base + '/collect', {
