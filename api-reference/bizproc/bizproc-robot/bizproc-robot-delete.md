@@ -228,3 +228,4 @@ HTTP-статус: **400**
 - [{#T}](./bizproc-robot-update.md)
 - [{#T}](./bizproc-robot-list.md)
 - [{#T}](./bizproc-event-send.md)
+- [{#T}](../../../settings/app-update.md)
