@@ -23,6 +23,24 @@ function ms(value) {
 
 var MONTHS = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 
+function plural(count, one, few, many) {
+    var mod100 = count % 100;
+    if (mod100 >= 11 && mod100 <= 14) { return many; }
+    var mod10 = count % 10;
+    if (mod10 === 1) { return one; }
+    if (mod10 >= 2 && mod10 <= 4) { return few; }
+    return many;
+}
+
+// Человеческое название шага графика: «по часам», «по 6 часов», «по 3 дня».
+function stepName(hours) {
+    if (!hours || hours <= 1) { return 'по часам'; }
+    if (hours < 24) { return 'по ' + hours + ' ' + plural(hours, 'часу', 'часа', 'часов'); }
+    var days = Math.round(hours / 24);
+    if (days === 1) { return 'по суткам'; }
+    return 'по ' + days + ' ' + plural(days, 'дню', 'дня', 'дней');
+}
+
 function labelFor(ts, bucket) {
     var d = new Date(ts);
     var day = d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()];
@@ -154,6 +172,93 @@ function drawValueAxis(svg, ticks, y, pad, W, format) {
     });
 }
 
+// ------------------------------------------------------- сглаживание
+
+// Монотонная кубическая интерполяция Фрича — Карлсона. В отличие от
+// обычного сплайна она не даёт выбросов: кривая на каждом отрезке остаётся
+// между значениями его концов. Для счётчиков это принципиально — обычный
+// сплайн рисовал бы горбы между точками и провалы ниже нуля, то есть
+// выдуманные вызовы и отрицательные значения.
+function monotoneSlopes(xs, ys) {
+    var n = ys.length;
+    if (n < 2) { return [0]; }
+
+    var secants = [];
+    for (var i = 0; i < n - 1; i += 1) {
+        var dx = xs[i + 1] - xs[i];
+        secants.push(dx === 0 ? 0 : (ys[i + 1] - ys[i]) / dx);
+    }
+
+    var slopes = new Array(n);
+    slopes[0] = secants[0];
+    slopes[n - 1] = secants[n - 2];
+    for (var k = 1; k < n - 1; k += 1) {
+        // На локальном экстремуме наклон обнуляем — так кривая не
+        // перелетает через точку.
+        slopes[k] = secants[k - 1] * secants[k] <= 0
+            ? 0
+            : (secants[k - 1] + secants[k]) / 2;
+    }
+
+    for (var j = 0; j < n - 1; j += 1) {
+        if (secants[j] === 0) {
+            slopes[j] = 0;
+            slopes[j + 1] = 0;
+            continue;
+        }
+        var a = slopes[j] / secants[j];
+        var b = slopes[j + 1] / secants[j];
+        var scale = a * a + b * b;
+        if (scale > 9) {
+            var t = 3 / Math.sqrt(scale);
+            slopes[j] = t * a * secants[j];
+            slopes[j + 1] = t * b * secants[j];
+        }
+    }
+    return slopes;
+}
+
+var SAMPLES_PER_SEGMENT = 8;
+
+// Возвращает частую выборку значений вдоль кривой. Слои стопки сглаживаем
+// именно так — по отдельности, а потом складываем: если сглаживать уже
+// сложенные границы, они могут пересечься между узлами и слои налезут.
+function sampleMonotone(values, samplesPerSegment) {
+    var n = values.length;
+    if (n === 0) { return []; }
+    if (n === 1) { return [values[0]]; }
+
+    var xs = [];
+    for (var i = 0; i < n; i += 1) { xs.push(i); }
+    var slopes = monotoneSlopes(xs, values);
+
+    var out = [];
+    for (var seg = 0; seg < n - 1; seg += 1) {
+        var y0 = values[seg];
+        var y1 = values[seg + 1];
+        var m0 = slopes[seg];
+        var m1 = slopes[seg + 1];
+        for (var k = 0; k < samplesPerSegment; k += 1) {
+            var t = k / samplesPerSegment;
+            var t2 = t * t;
+            var t3 = t2 * t;
+            var value = (2 * t3 - 3 * t2 + 1) * y0
+                + (t3 - 2 * t2 + t) * m0
+                + (-2 * t3 + 3 * t2) * y1
+                + (t3 - t2) * m1;
+            // Страховка от вычислительной погрешности у нуля.
+            out.push(value < 0 ? 0 : value);
+        }
+    }
+    out.push(values[n - 1]);
+    return out;
+}
+
+// Позиция выборки по оси X в долях индекса исходного ряда.
+function sampleIndex(k, samplesPerSegment) {
+    return k / samplesPerSegment;
+}
+
 // ------------------------------------------------------------- подсказка
 
 function makeTip(host) {
@@ -242,14 +347,35 @@ function areaChart(host, series, bucket) {
             });
         });
     } else {
+        // Каждый слой сглаживается по отдельности, и только потом значения
+        // складываются. Если сглаживать уже сложенные границы, между узлами
+        // они могут пересечься и слои налезут друг на друга.
+        var samples = LAYERS.map(function (layer) {
+            return sampleMonotone(series.map(function (p) { return p[layer.key]; }), SAMPLES_PER_SEGMENT);
+        });
+        var sampleCount = samples[0].length;
+        var sampleX = function (k) {
+            return pad.l + (sampleIndex(k, SAMPLES_PER_SEGMENT) / (series.length - 1)) * iw;
+        };
+
+        // Накопленные границы: cumulative[n][k] — верх слоя n в выборке k.
+        var cumulative = [];
+        for (var n = 0; n < LAYERS.length; n += 1) {
+            var row = new Array(sampleCount);
+            for (var k = 0; k < sampleCount; k += 1) {
+                row[k] = (n === 0 ? 0 : cumulative[n - 1][k]) + samples[n][k];
+            }
+            cumulative.push(row);
+        }
+
         LAYERS.forEach(function (layer, n) {
             var top = [];
             var bottom = [];
-            series.forEach(function (p, i) {
-                var base = baseAt(p, n);
-                top.push(xAt(i) + ',' + y(base + p[layer.key]));
-                bottom.unshift(xAt(i) + ',' + y(base));
-            });
+            for (var k = 0; k < sampleCount; k += 1) {
+                var base = n === 0 ? 0 : cumulative[n - 1][k];
+                top.push(sampleX(k) + ',' + y(cumulative[n][k]));
+                bottom.unshift(sampleX(k) + ',' + y(base));
+            }
             svg.appendChild(el('path', {
                 d: 'M' + top.join('L') + 'L' + bottom.join('L') + 'Z',
                 fill: layer.color, 'fill-opacity': '0.85',
@@ -258,9 +384,9 @@ function areaChart(host, series, bucket) {
 
         // Границы между слоями цветом подложки — стопка читается и в
         // оттенках серого, а не только по цвету.
-        for (var n = 0; n < LAYERS.length - 1; n += 1) {
+        for (var b = 0; b < LAYERS.length - 1; b += 1) {
             var edge = [];
-            series.forEach(function (p, i) { edge.push(xAt(i) + ',' + y(baseAt(p, n + 1))); });
+            for (var e = 0; e < sampleCount; e += 1) { edge.push(sampleX(e) + ',' + y(cumulative[b][e])); }
             svg.appendChild(el('polyline', { points: edge.join(' '), fill: 'none', stroke: 'var(--surface)', 'stroke-width': 2 }));
         }
     }
@@ -332,9 +458,12 @@ function lineChart(host, series, bucket) {
     // Ось в процентных пунктах. Раньше шкала считалась в долях, а подпись
     // округлялась до целого процента: линия стояла на 2,5 %, а подписана
     // была «3 %» — подпись не совпадала с положением линии.
+    // Доля от одного-двух вызовов — это не показатель, а шум: одна ошибка
+    // даёт сразу сто процентов. Такие корзины оставляем разрывом.
+    var MIN_DENOMINATOR = 3;
     var valuesPp = series.map(function (p) {
         var attempted = p.ok + p.err;
-        return attempted ? (p.err / attempted) * 100 : null;
+        return attempted >= MIN_DENOMINATOR ? (p.err / attempted) * 100 : null;
     });
     var peakPp = 0;
     valuesPp.forEach(function (v) { if (v !== null && v > peakPp) { peakPp = v; } });
@@ -348,6 +477,7 @@ function lineChart(host, series, bucket) {
     var ih = H - pad.t - pad.b;
 
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Доля ошибочных вызовов' });
+    // Индекс может быть дробным: сглаженная кривая ставит точки между узлами.
     var x = function (i) { return pad.l + (series.length === 1 ? iw / 2 : (i / (series.length - 1)) * iw); };
     var y = function (pp) { return pad.t + ih - (pp / scale.max) * ih; };
 
@@ -358,14 +488,22 @@ function lineChart(host, series, bucket) {
     var segments = [];
     valuesPp.forEach(function (v, i) {
         if (v === null) { if (run.length) { segments.push(run); run = []; } return; }
-        run.push({ x: x(i), y: y(v) });
+        run.push({ index: i, value: v });
     });
     if (run.length) { segments.push(run); }
 
     segments.forEach(function (seg) {
         if (seg.length < 2) { return; }
+        // Сглаживание монотонное: доля не может выскочить за пределы
+        // соседних значений, то есть подняться выше ста процентов или
+        // уйти ниже нуля между точками.
+        var dense = sampleMonotone(seg.map(function (pt) { return pt.value; }), SAMPLES_PER_SEGMENT);
+        var points = dense.map(function (value, k) {
+            var pos = seg[0].index + sampleIndex(k, SAMPLES_PER_SEGMENT);
+            return x(pos) + ',' + y(value);
+        });
         svg.appendChild(el('polyline', {
-            points: seg.map(function (pt) { return pt.x + ',' + pt.y; }).join(' '),
+            points: points.join(' '),
             fill: 'none', stroke: 'var(--err)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
         }));
     });
@@ -376,7 +514,10 @@ function lineChart(host, series, bucket) {
     if (filled <= 12) {
         segments.forEach(function (seg) {
             seg.forEach(function (pt) {
-                svg.appendChild(el('circle', { cx: pt.x, cy: pt.y, r: 2.5, fill: 'var(--err)', stroke: 'var(--surface)', 'stroke-width': 1.5 }));
+                svg.appendChild(el('circle', {
+                    cx: x(pt.index), cy: y(pt.value), r: 2.5,
+                    fill: 'var(--err)', stroke: 'var(--surface)', 'stroke-width': 1.5,
+                }));
             });
         });
     }
@@ -673,14 +814,17 @@ function render(data) {
     state.data = data;
     kpis(data);
 
+    // Подписи времени показывают часы, только если шаг меньше суток.
+    var axisBucket = data.range.stepHours < 24 ? 'hour' : 'day';
+
     var span = new Date(data.range.from).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
         + ' — ' + new Date(data.range.to).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
     document.getElementById('activity-hint').textContent =
-        'Вызовы по ' + (data.range.bucket === 'hour' ? 'часам' : 'суткам') + ', ' + span;
+        'Вызовы ' + stepName(data.range.stepHours) + ', ' + span;
     document.getElementById('clear-dates').hidden = !data.range.custom;
 
-    areaChart(document.getElementById('activity'), data.series, data.range.bucket);
-    lineChart(document.getElementById('errorrate'), data.series, data.range.bucket);
+    areaChart(document.getElementById('activity'), data.series, axisBucket);
+    lineChart(document.getElementById('errorrate'), data.series, axisBucket);
 
     barChart(document.getElementById('hourofday'), data.hourOfDay.map(function (value, hour) {
         return { label: String(hour).padStart(2, '0') + ':00 UTC', value: value };

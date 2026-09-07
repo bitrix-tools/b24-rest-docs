@@ -160,21 +160,70 @@ function resolveRange(rangeKey, now, store, custom) {
     };
 }
 
-function buildSeries(store, from, to, bucket) {
-    const rows = bucket === 'hour' ? store.hourSeries(from, to) : store.daySeries(from, to);
-    return rows.map((row) => {
-        const c = row.counters;
-        return {
-            ts: row.ts,
-            total: c ? c.total : 0,
-            ok: c ? c.ok : 0,
-            err: c ? c.err : 0,
-            service: c ? c.service : 0,
-            human: c ? c.human : 0,
-            agent: c ? c.agent : 0,
-            unknown: c ? c.unknown : 0,
-        };
-    });
+// Шаг графика подбирается так, чтобы точек было около тридцати. Часовые
+// точки на недельном разрезе — это сто семьдесят столбиков по одному-два
+// вызова: график выглядит рваным, а доля ошибок скачет от нуля до ста
+// процентов, потому что считается от двух вызовов. Укрупнение шага — это
+// не косметика, а единственный способ получить осмысленный знаменатель.
+const STEPS_MS = [
+    HOUR_MS, 2 * HOUR_MS, 3 * HOUR_MS, 6 * HOUR_MS, 12 * HOUR_MS,
+    DAY_MS, 2 * DAY_MS, 3 * DAY_MS, 7 * DAY_MS, 14 * DAY_MS, 28 * DAY_MS,
+];
+const TARGET_POINTS = 34;
+
+function pickStep(from, to, finest) {
+    const span = Math.max(HOUR_MS, to - from);
+    for (const step of STEPS_MS) {
+        if (step < finest) {
+            continue;
+        }
+        if (span / step <= TARGET_POINTS) {
+            return step;
+        }
+    }
+    return STEPS_MS[STEPS_MS.length - 1];
+}
+
+function emptyPoint(ts) {
+    return { ts, total: 0, ok: 0, err: 0, service: 0, human: 0, agent: 0, unknown: 0 };
+}
+
+function addCounters(point, counters) {
+    if (!counters) {
+        return;
+    }
+    point.total += counters.total;
+    point.ok += counters.ok;
+    point.err += counters.err;
+    point.service += counters.service;
+    point.human += counters.human;
+    point.agent += counters.agent;
+    point.unknown += counters.unknown;
+}
+
+function buildSeries(store, from, to, stepMs) {
+    // Шаг меньше суток собирается из часовых свёрток, шаг от суток и
+    // больше — из дневных: они есть за всю историю, а часовые за 400 дней.
+    const rows = stepMs < DAY_MS ? store.hourSeries(from, to) : store.daySeries(from, to);
+    const start = Math.floor(from / stepMs) * stepMs;
+    const points = [];
+    const index = new Map();
+
+    for (let ts = start; ts <= to; ts += stepMs) {
+        const point = emptyPoint(ts);
+        points.push(point);
+        index.set(ts, point);
+    }
+
+    for (const row of rows) {
+        const key = Math.floor(row.ts / stepMs) * stepMs;
+        const point = index.get(key);
+        if (point) {
+            addCounters(point, row.counters);
+        }
+    }
+
+    return points;
 }
 
 // Профиль активности по часам суток: показывает, когда песочницей
@@ -191,6 +240,7 @@ function hourOfDayProfile(store, from, to) {
 
 function build(store, rangeKey, now, custom) {
     const range = resolveRange(rangeKey, now, store, custom);
+    const stepMs = pickStep(range.from, range.to, range.bucket === 'hour' ? HOUR_MS : DAY_MS);
     const days = store.daysInRange(range.from, range.to);
 
     const totals = emptyCounters();
@@ -224,7 +274,10 @@ function build(store, rangeKey, now, custom) {
     const avgMs = totals.msCount ? Math.round(totals.msSum / totals.msCount) : null;
 
     return {
-        range: { key: range.key, from: range.from, to: range.to, bucket: range.bucket, custom: Boolean(range.custom) },
+        range: {
+            key: range.key, from: range.from, to: range.to, bucket: range.bucket,
+            custom: Boolean(range.custom), stepMs, stepHours: Math.round(stepMs / HOUR_MS),
+        },
         generatedAt: now,
         totals: {
             requests: totals.total,
@@ -248,7 +301,7 @@ function build(store, rangeKey, now, custom) {
             p50Ms: percentile(totals.msHist, 0.5),
             p95Ms: percentile(totals.msHist, 0.95),
         },
-        series: buildSeries(store, range.from, range.to, range.bucket),
+        series: buildSeries(store, range.from, range.to, stepMs),
         hourOfDay: hourOfDayProfile(store, range.from, range.to),
         top: {
             methods: topOf(methods, 15),
