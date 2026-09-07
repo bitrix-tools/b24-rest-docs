@@ -448,23 +448,18 @@ function areaChart(host, series, bucket) {
 
 function lineChart(host, series, bucket) {
     host.innerHTML = '';
-    var attemptedAnywhere = series.some(function (p) { return p.ok + p.err > 0; });
-    if (!attemptedAnywhere) {
-        // Доля ошибок от нуля вызовов не определена; рисовать 0 % — врать.
+    // Ось в процентных пунктах: раньше шкала считалась в долях, а подпись
+    // округлялась до целого процента, и линия на 2,5 % была подписана «3 %».
+    // Саму долю считает сервер по скользящему окну — окно расширяется
+    // назад, пока не наберётся достаточная выборка, поэтому линия не
+    // разваливается на огрызки там, где вызовов мало.
+    var valuesPp = series.map(function (p) {
+        return p.rate === null || p.rate === undefined ? null : p.rate * 100;
+    });
+    if (!valuesPp.some(function (v) { return v !== null; })) {
         host.innerHTML = '<div class="empty">Пока нет данных</div>';
         return;
     }
-
-    // Ось в процентных пунктах. Раньше шкала считалась в долях, а подпись
-    // округлялась до целого процента: линия стояла на 2,5 %, а подписана
-    // была «3 %» — подпись не совпадала с положением линии.
-    // Доля от одного-двух вызовов — это не показатель, а шум: одна ошибка
-    // даёт сразу сто процентов. Такие корзины оставляем разрывом.
-    var MIN_DENOMINATOR = 3;
-    var valuesPp = series.map(function (p) {
-        var attempted = p.ok + p.err;
-        return attempted >= MIN_DENOMINATOR ? (p.err / attempted) * 100 : null;
-    });
     var peakPp = 0;
     valuesPp.forEach(function (v) { if (v !== null && v > peakPp) { peakPp = v; } });
 
@@ -493,7 +488,15 @@ function lineChart(host, series, bucket) {
     if (run.length) { segments.push(run); }
 
     segments.forEach(function (seg) {
-        if (seg.length < 2) { return; }
+        if (seg.length < 2) {
+            // Одиночная точка между разрывами: линии из неё не выйдет,
+            // но и терять её незачем.
+            svg.appendChild(el('circle', {
+                cx: x(seg[0].index), cy: y(seg[0].value), r: 3,
+                fill: 'var(--err)', stroke: 'var(--surface)', 'stroke-width': 1.5,
+            }));
+            return;
+        }
         // Сглаживание монотонное: доля не может выскочить за пределы
         // соседних значений, то есть подняться выше ста процентов или
         // уйти ниже нуля между точками.
@@ -542,7 +545,8 @@ function lineChart(host, series, bucket) {
         dot.setAttribute('opacity', 1);
         tip.show('<b>' + labelFor(p.ts, bucket) + '</b>'
             + '<div class="row">Ошибочных<span class="n">' + pct(v / 100) + '</span></div>'
-            + '<div class="row">Вызовов<span class="n">' + fmt(p.ok + p.err) + '</span></div>',
+            + '<div class="row">Выборка<span class="n">' + fmt(p.rateSample) + '</span></div>'
+            + '<div class="row">В этой точке<span class="n">' + fmt(p.ok + p.err) + '</span></div>',
             (x(i) / W) * box.width, event.clientY - box.top);
     });
     svg.addEventListener('pointerleave', function () { tip.hide(); dot.setAttribute('opacity', 0); });

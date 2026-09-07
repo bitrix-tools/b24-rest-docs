@@ -201,6 +201,37 @@ function addCounters(point, counters) {
     point.unknown += counters.unknown;
 }
 
+// Доля ошибок по одной корзине — величина без смысла: при двух вызовах
+// одна ошибка даёт сразу пятьдесят процентов, а разрывы там, где вызовов
+// не набралось, разваливают линию на огрызки. Поэтому считаем не среднее
+// долей, а долю от накопленных сумм: окно расширяется назад, пока не
+// наберётся достаточная выборка, и на плотном трафике сжимается до одной
+// корзины.
+const RATE_MIN_SAMPLE = 20;
+const RATE_MIN_PLOT = 4;
+
+function withErrorRate(points) {
+    const maxWindow = Math.max(3, Math.round(points.length / 4));
+
+    return points.map((point, i) => {
+        let err = 0;
+        let attempted = 0;
+        let width = 0;
+
+        while (width < maxWindow && i - width >= 0 && attempted < RATE_MIN_SAMPLE) {
+            const source = points[i - width];
+            err += source.err;
+            attempted += source.ok + source.err;
+            width += 1;
+        }
+
+        point.rate = attempted >= RATE_MIN_PLOT ? err / attempted : null;
+        point.rateWindow = width;
+        point.rateSample = attempted;
+        return point;
+    });
+}
+
 function buildSeries(store, from, to, stepMs) {
     // Шаг меньше суток собирается из часовых свёрток, шаг от суток и
     // больше — из дневных: они есть за всю историю, а часовые за 400 дней.
@@ -223,7 +254,7 @@ function buildSeries(store, from, to, stepMs) {
         }
     }
 
-    return points;
+    return withErrorRate(points);
 }
 
 // Профиль активности по часам суток: показывает, когда песочницей
