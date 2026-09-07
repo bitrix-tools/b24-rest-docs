@@ -251,6 +251,88 @@ async function main() {
         assert.ok(data.tables.methods.length > 0, 'разбивка по методам не восстановилась');
     });
 
+    await check('уникальные сессии переживают перезапуск и не затираются', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b24sess-'));
+        const { Store } = require('./lib/store');
+        const { build } = require('./lib/aggregate');
+        const { normalize } = require('./lib/classify');
+        const now = Date.now();
+
+        const event = (session) => normalize(
+            { channel: 'widget', method: 'crm.deal.list', outcome: 'valid', session, ms: 5 },
+            { now, userAgent: 'Mozilla/5.0 Chrome' }
+        );
+
+        const first = new Store({ dir });
+        first.init();
+        for (let i = 0; i < 100; i += 1) {
+            first.add(event('s' + i), null);
+        }
+        assert.strictEqual(build(first, '24h', now).totals.sessions, 100, 'до перезапуска');
+        first.dirty = true;
+        first.close();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        const second = new Store({ dir });
+        second.init();
+        assert.strictEqual(build(second, '24h', now).totals.sessions, 100, 'сразу после перезапуска');
+        for (let i = 100; i < 150; i += 1) {
+            second.add(event('s' + i), null);
+        }
+        assert.strictEqual(build(second, '24h', now).totals.sessions, 150, 'новые сессии после перезапуска не учтены');
+        second.dirty = true;
+        second.close();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        const third = new Store({ dir });
+        third.init();
+        assert.strictEqual(build(third, '24h', now).totals.sessions, 150, 'после второго перезапуска число уменьшилось');
+
+        fs.rmSync(dir, { recursive: true, force: true });
+    });
+
+    await check('лидер дня попадает в топ даже после длинного хвоста', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b24cap-'));
+        const { Store } = require('./lib/store');
+        const { build } = require('./lib/aggregate');
+        const { normalize } = require('./lib/classify');
+        const now = Date.now();
+        const store = new Store({ dir });
+        store.init();
+
+        // Сначала длинный хвост, забивающий потолок в 400 ключей…
+        for (let i = 0; i < 400; i += 1) {
+            store.add(normalize(
+                { channel: 'widget', method: 'rare' + i + '.method', outcome: 'valid', page: '/p' + i + '.html' },
+                { now, userAgent: 'Mozilla/5.0 Chrome' }
+            ), null);
+        }
+        // …и только потом настоящий лидер.
+        for (let i = 0; i < 5000; i += 1) {
+            store.add(normalize(
+                { channel: 'widget', method: 'crm.deal.list', outcome: 'valid', page: '/hit.html' },
+                { now, userAgent: 'Mozilla/5.0 Chrome' }
+            ), null);
+        }
+
+        const data = build(store, '24h', now);
+        assert.strictEqual(data.totals.attempted, 5400, 'всего: ' + data.totals.attempted);
+
+        const top = data.top.methods[0];
+        assert.strictEqual(top.key, 'crm.deal.list', 'лидер топа: ' + top.key);
+        assert.ok(top.count >= 5000, 'счётчик лидера занижен: ' + top.count);
+
+        const row = data.tables.methods[0];
+        assert.strictEqual(row.key, 'crm.deal.list', 'лидер таблицы: ' + row.key);
+        assert.ok(row.total >= 5000, 'вызовов у лидера: ' + row.total);
+
+        assert.ok(data.top.pages.some((p) => p.key === '/hit.html'), 'страница-лидер потерялась');
+
+        store.close();
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        fs.rmSync(dir, { recursive: true, force: true });
+    });
+
     await check('тело сверх лимита отклоняется', async () => {
         const big = 'x'.repeat(300 * 1024);
         const response = await fetch(base + '/collect', {

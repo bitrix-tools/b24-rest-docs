@@ -147,7 +147,17 @@ function resolveRange(rangeKey, now, store, custom) {
         // «Всё время» — от самых ранних суток, по которым есть свёртка.
         return { from: earliestDay(store, now - 7 * DAY_MS), to: now, bucket: 'day', key: 'all' };
     }
-    return { from: now - range.ms, to: now, bucket: range.bucket, key: rangeKey };
+    // Готовый период начинается с начала суток, а не «столько-то часов
+    // назад». Сводные цифры считаются по дневным свёрткам, и скользящее
+    // окно захватывало вчерашние сутки целиком: плитка показывала вдвое
+    // больше, чем сумма точек на графике.
+    const days = Math.max(1, Math.round(range.ms / DAY_MS));
+    return {
+        from: Math.floor((now - (days - 1) * DAY_MS) / DAY_MS) * DAY_MS,
+        to: now,
+        bucket: range.bucket,
+        key: rangeKey,
+    };
 }
 
 function buildSeries(store, from, to, bucket) {
@@ -207,9 +217,7 @@ function build(store, rangeKey, now, custom) {
         // Уникальные сессии складываем по суткам: один человек, заходивший
         // два дня подряд, считается дважды. Точное объединение потребовало бы
         // хранить все id, а это персональные данные без нужды.
-        sessions += entry.day.sessionsCount !== undefined
-            ? entry.day.sessionsCount
-            : Object.keys(entry.day.sessions).length;
+        sessions += (entry.day.sessionsBase || 0) + Object.keys(entry.day.sessions).length;
     }
 
     const attempted = totals.ok + totals.err; // без служебных обращений

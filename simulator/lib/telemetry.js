@@ -26,6 +26,9 @@
         flushDelayMs: 4000,
         maxBuffer: 40,
         maxStored: 200,
+        // Приёмник берёт за раз не больше сотни: пачка крупнее обрезалась
+        // молча, а клиент получал 200 OK и считал её доставленной.
+        maxBatch: 100,
     };
 
     var browserConfig = typeof window !== 'undefined' && window.B24SimTelemetryConfig;
@@ -129,7 +132,10 @@
     var buffer = [];
     var timer = null;
 
-    function allowed() {
+    // Сбор разрешён в принципе: включён, есть адрес, нет запрета на
+    // отслеживание. Проверяется и при записи, и при отправке — иначе
+    // выключенная телеметрия продолжала бы досылать накопленное.
+    function collectionEnabled() {
         if (!CONFIG.enabled || !CONFIG.endpoint) {
             return false;
         }
@@ -139,7 +145,13 @@
                 return false;
             }
         }
-        return !(CONFIG.sampling < 1 && Math.random() > CONFIG.sampling);
+        return true;
+    }
+
+    // Сэмплирование решается на отдельном событии, а не на пачке: иначе
+    // выбрасывался бы сразу весь накопленный буфер.
+    function allowed() {
+        return collectionEnabled() && !(CONFIG.sampling < 1 && Math.random() > CONFIG.sampling);
     }
 
     function readStored() {
@@ -201,13 +213,29 @@
             clearTimeout(timer);
             timer = null;
         }
+        if (!collectionEnabled()) {
+            // Сбор выключили — накопленное не досылаем и не храним.
+            buffer = [];
+            writeStored([]);
+            return;
+        }
+
         var pending = readStored().concat(buffer);
         buffer = [];
         if (!pending.length) {
             return;
         }
-        writeStored([]);
-        post(pending.slice(-CONFIG.maxStored), viaBeacon);
+
+        // Отправляем самые старые, остальное оставляем на диске. Раньше
+        // хранилище очищалось до отправки, и всё, что не влезало в один
+        // запрос, пропадало безвозвратно.
+        var batch = pending.slice(0, CONFIG.maxBatch);
+        var rest = pending.slice(CONFIG.maxBatch);
+        writeStored(rest);
+
+        if (!post(batch, viaBeacon)) {
+            writeStored(rest.concat(batch));
+        }
     }
 
     function record(event) {

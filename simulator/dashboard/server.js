@@ -80,10 +80,20 @@ function timingSafeEqual(a, b) {
 
 let SALT = '';
 
+// Число доверенных прокси перед приложением. Приложение стоит за шлюзом
+// Вайбкод, который дописывает реальный адрес в конец X-Forwarded-For.
+const TRUSTED_HOPS = Math.max(1, Number(process.env.TRUSTED_PROXY_HOPS) || 1);
+
+// Берём адрес, дописанный ближайшим доверенным прокси, а не первый в
+// списке: первый приходит от клиента и подделывается одной строкой, из-за
+// чего лимит частоты обходился сменой заголовка на каждый запрос.
 function clientIp(req) {
     const forwarded = req.headers['x-forwarded-for'];
     if (typeof forwarded === 'string' && forwarded) {
-        return forwarded.split(',')[0].trim();
+        const chain = forwarded.split(',').map((part) => part.trim()).filter(Boolean);
+        if (chain.length) {
+            return chain[Math.max(0, chain.length - TRUSTED_HOPS)];
+        }
     }
     return req.socket.remoteAddress || '';
 }
@@ -186,6 +196,9 @@ function ingest(rawEvents, req, trusted) {
     const userAgent = String(req.headers['user-agent'] || '').slice(0, 300);
     let accepted = 0;
     let skipped = 0;
+    // Всё, что не влезло в пачку, раньше молча пропадало, а клиент получал
+    // 200 OK и считал события доставленными.
+    const dropped = Math.max(0, rawEvents.length - MAX_BATCH);
 
     for (const raw of rawEvents.slice(0, MAX_BATCH)) {
         const event = normalize(raw, { now, userAgent });
@@ -208,8 +221,8 @@ function ingest(rawEvents, req, trusted) {
         }
     }
 
-    store.rejected += skipped;
-    return { accepted, skipped };
+    store.rejected += skipped + dropped;
+    return { accepted, skipped, dropped, limit: MAX_BATCH };
 }
 
 // ------------------------------------------------------------------ статика

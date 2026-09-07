@@ -81,6 +81,11 @@ function queueEvent(event) {
     if (!STATS_ENABLED) {
         return;
     }
+    // Сэмплирование действует на оба канала: иначе доля виджета была бы
+    // занижена относительно endpoint, а по цифрам этого не видно.
+    if (TELEMETRY.sampling < 1 && Math.random() > TELEMETRY.sampling) {
+        return;
+    }
     if (statsQueue.length >= STATS_MAX_QUEUE) {
         statsQueue.shift();
         statsDropped += 1;
@@ -338,8 +343,21 @@ const server = http.createServer((req, res) => {
 
 if (STATS_ENABLED) {
     setInterval(flushStats, STATS_FLUSH_MS).unref();
-    process.on('SIGTERM', flushStats);
-    process.on('SIGINT', flushStats);
+}
+
+// Обработчик сигнала подавляет штатное завершение процесса, поэтому выход
+// после дослать-и-выйти обязателен: иначе сервис перестаёт останавливаться
+// по SIGTERM и его добивает таймаут systemd.
+function shutdown(signal) {
+    console.error('получен ' + signal + ', досылаю статистику');
+    const done = () => process.exit(0);
+    Promise.resolve(STATS_ENABLED ? flushStats() : null).then(done, done);
+    setTimeout(done, 3000).unref();
+}
+
+if (require.main === module) {
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
+    process.on('SIGINT', () => shutdown('SIGINT'));
 }
 
 if (require.main === module) {
