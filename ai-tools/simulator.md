@@ -58,13 +58,19 @@ metadata:
 || `POST /ai/v1/call/{method}` | проверка вызова и симулированный ответ ||
 |#
 
+{% note warning "" %}
+
+Сервис работает в пилотном режиме на отдельном адресе: `https://app-f23b8f256bfb.vibecode.bitrix24.tech`. Постоянный адрес на домене документации появится позже — при переезде эта страница будет обновлена. Схемы, датасет и ядро проверки при этом лежат на домене документации и доступны всегда, см. раздел «Проверка без обращения к сервису».
+
+{% endnote %}
+
 Тело запроса — те же параметры, что вы передали бы в реальный метод:
 
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"filter":{">=DATE_CREATE":"2026-01-01T00:00:00+03:00"},"select":["ID","TITLE"],"order":{"ID":"DESC"}}' \
-  https://apidocs.bitrix24.ru/ai/v1/call/crm.deal.list
+  https://app-f23b8f256bfb.vibecode.bitrix24.tech/ai/v1/call/crm.deal.list
 ```
 
 Ответ повторяет форму реального REST API, а метаданные симуляции лежат в отдельном ключе `simulator`:
@@ -89,6 +95,31 @@ curl -X POST \
 ```
 
 Лишний ключ не мешает коду, который читает `result` и `total`: отлаженный на симуляторе разбор ответов работает и против реального портала.
+
+## Проверка без обращения к сервису
+
+Всё, что нужно для проверки вызова, лежит статикой на домене документации: схема метода, тестовый датасет и само ядро валидации. Агент может забрать их и проверять вызовы у себя, не завися от доступности сервиса.
+
+Ядро — обычный CommonJS-модуль, его нужно скачать файлом:
+
+```bash
+curl -sO https://apidocs.bitrix24.ru/_assets/simulator/core.js
+```
+
+```js
+const B24Sim = require('./core.js');
+const DOCS = 'https://apidocs.bitrix24.ru/_assets/simulator';
+
+const spec = await (await fetch(DOCS + '/spec/methods/crm.deal.list.json')).json();
+const dataset = await (await fetch(DOCS + '/fixtures/dataset.json')).json();
+
+const response = B24Sim.call(spec, { select: ['ID', 'TITLE'], order: { ID: 'DESC' } }, dataset);
+// response.total → 60, response.result[0] → { ID: '60', TITLE: '…' }
+```
+
+Ответ такой же, как у `POST /ai/v1/call/{method}`: та же валидация, те же классы ошибок, то же исполнение read-методов на датасете.
+
+Датасет весит около 170 КБ и нужен только для исполнения списочных методов. Если достаточно проверки параметров, передайте ядру `null` вместо датасета — валидация отработает, а в ответе будет `simulator.executed: false`.
 
 ## Ограничения
 

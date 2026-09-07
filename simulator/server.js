@@ -270,7 +270,14 @@ async function handle(req, res) {
         }
 
         // Секрет мог приехать в самом URL — проверяем до разбора тела.
-        const inUrl = B24Sim.findSecret({ url: req.url });
+        // Ядро ищет ключи вроде auth среди полей объекта, поэтому одной
+        // сериализации адреса мало: токен в ?auth=... оказывается внутри
+        // строки и проходит насквозь. Разбираем параметры и проверяем их.
+        const query = {};
+        for (const [key, value] of url.searchParams) {
+            query[key] = value;
+        }
+        const inUrl = B24Sim.findSecret({ url: req.url }) || B24Sim.findSecret(query);
         let params = {};
 
         if (raw.trim()) {

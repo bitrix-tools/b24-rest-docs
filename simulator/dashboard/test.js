@@ -354,6 +354,69 @@ async function main() {
         fs.rmSync(dir, { recursive: true, force: true });
     });
 
+    await check('песочница отдаёт список методов', async () => {
+        const response = await call('GET', '/ai/v1/methods?scope=crm&q=deal');
+        const body = await response.json();
+        assert.strictEqual(response.status, 200);
+        assert.ok(body.count > 0, 'методов не найдено');
+        assert.ok(body.methods.every((m) => m.scope === 'crm'), 'скоуп не отфильтрован');
+        assert.ok(body.methods.some((m) => m.method === 'crm.deal.list'));
+    });
+
+    await check('песочница отдаёт схему метода', async () => {
+        const response = await call('GET', '/ai/v1/spec/crm.deal.list');
+        const spec = await response.json();
+        assert.strictEqual(response.status, 200);
+        assert.strictEqual(spec.method, 'crm.deal.list');
+        assert.ok(Array.isArray(spec.params) && spec.params.length > 0);
+    });
+
+    await check('несуществующий метод даёт UNKNOWN_METHOD', async () => {
+        const response = await call('GET', '/ai/v1/spec/crm.deal.listt');
+        assert.strictEqual(response.status, 404);
+        assert.strictEqual((await response.json()).error, 'UNKNOWN_METHOD');
+    });
+
+    await check('корректный вызов исполняется на датасете', async () => {
+        const response = await call('POST', '/ai/v1/call/crm.deal.list', {
+            body: { select: ['ID', 'TITLE'], filter: { '>=OPPORTUNITY': 1000000 }, order: { ID: 'DESC' } },
+        });
+        const body = await response.json();
+        assert.strictEqual(response.status, 200);
+        assert.ok(Array.isArray(body.result), 'result не массив');
+        assert.ok(typeof body.total === 'number', 'нет total');
+        assert.strictEqual(body.simulator.mode, 'simulated');
+        assert.strictEqual(body.simulator.executed, true);
+    });
+
+    await check('ошибка валидации возвращает класс и параметр', async () => {
+        const response = await call('POST', '/ai/v1/call/crm.deal.add', {
+            body: { fields: { TITLLE: 'Тест' } },
+        });
+        const body = await response.json();
+        assert.strictEqual(response.status, 400);
+        assert.strictEqual(body.error, 'SIMULATOR_VALIDATION');
+        const errors = body.simulator.validation.errors;
+        assert.ok(errors.some((e) => e.param === 'fields.TITLLE' && e.class === 'unknown_param'), JSON.stringify(errors));
+    });
+
+    await check('вебхук в адресе отклоняется', async () => {
+        const response = await fetch(base + '/ai/v1/call/crm.deal.list?auth=9f2a1c7e0b4d5a6f8e3c2b1a0d9e8f7c', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+        });
+        const body = await response.json();
+        assert.strictEqual(response.status, 400);
+        assert.strictEqual(body.error, 'SECURITY_REJECTED');
+    });
+
+    await check('вызовы песочницы попадают в статистику как агенты', async () => {
+        const response = await call('GET', '/api/stats?range=24h');
+        const data = await response.json();
+        assert.ok(data.totals.agent >= 3, 'агентских вызовов: ' + data.totals.agent);
+        assert.ok(data.tables.methods.some((r) => r.key === 'crm.deal.list'), 'метода нет в таблице');
+        assert.ok(data.tables.errorParams.some((p) => p.key === 'fields.TITLLE'), 'параметр с опечаткой не попал в статистику');
+    });
+
     await check('тело сверх лимита отклоняется', async () => {
         const big = 'x'.repeat(300 * 1024);
         const response = await fetch(base + '/collect', {
