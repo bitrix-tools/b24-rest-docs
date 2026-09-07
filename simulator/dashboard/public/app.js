@@ -98,14 +98,60 @@ function drawTimeAxis(svg, series, bucket, x, height, innerWidth) {
     });
 }
 
-function niceMax(value) {
-    if (value <= 5) { return 5; }
-    var pow = Math.pow(10, Math.floor(Math.log10(value)));
-    var steps = [1, 2, 2.5, 5, 10];
-    for (var i = 0; i < steps.length; i += 1) {
-        if (value <= steps[i] * pow) { return steps[i] * pow; }
+// Шаг оси берётся только из мантисс 1, 2 и 5. Мантисса 2,5, которая была
+// здесь раньше, и давала деления вида 0 / 1,25 / 2,5 / 3,75 / 5 на счётчике
+// целых вызовов: niceMax(3) возвращал 5, а дальше максимум делился на
+// четыре. Дробных вызовов не бывает, дробных делений быть не должно.
+var STEP_MANTISSA = [1, 2, 5];
+var DIVISION_ORDER = [4, 3, 5, 2];
+
+function niceStep(raw, minStep) {
+    if (!(raw > 0)) { return minStep; }
+    var k = Math.floor(Math.log10(raw));
+    for (var p = k; p <= k + 2; p += 1) {
+        var pow = Math.pow(10, p);
+        for (var i = 0; i < STEP_MANTISSA.length; i += 1) {
+            var step = STEP_MANTISSA[i] * pow;
+            if (step >= minStep && step >= raw - 1e-9) { return step; }
+        }
     }
-    return 10 * pow;
+    return minStep;
+}
+
+// Подбирает шкалу, плотнее всего прижатую к данным: перебирает число
+// делений и берёт вариант с наименьшим потолком. minStep = 1 для счётчиков
+// и для процентных пунктов, cap ограничивает ось сверху (100 для долей).
+function valueScale(peak, minStep, cap) {
+    var best = null;
+    for (var n = 0; n < DIVISION_ORDER.length; n += 1) {
+        var divisions = DIVISION_ORDER[n];
+        var step = niceStep((peak > 0 ? peak : 0) / divisions, minStep);
+        var max = step * divisions;
+        if (cap && max > cap + 1e-9) { continue; }
+        if (!best || max < best.max - 1e-9) { best = { max: max, step: step, divisions: divisions }; }
+    }
+    if (!best) { best = { max: cap, step: cap / 2, divisions: 2 }; }
+
+    var ticks = [];
+    for (var i = 0; i <= best.divisions; i += 1) { ticks.push(best.step * i); }
+    return { max: best.max, step: best.step, ticks: ticks };
+}
+
+// Левое поле под подписи оси значений: считается по самой длинной из них,
+// иначе «10 000» вылезает за пределы карточки.
+function axisPad(scale, format) {
+    return Math.max(28, Math.ceil(String(format(scale.max)).length * 6.6) + 12);
+}
+
+function drawValueAxis(svg, ticks, y, pad, W, format) {
+    ticks.forEach(function (value) {
+        // На нуле сетку не рисуем — там уже проходит базовая линия, и две
+        // линии друг на друге выглядят как утолщение.
+        if (value > 0) {
+            svg.appendChild(el('line', { class: 'gridline', x1: pad.l, x2: W - pad.r, y1: y(value), y2: y(value) }));
+        }
+        svg.appendChild(el('text', { class: 'axis-label', x: pad.l - 8, y: y(value) + 4, 'text-anchor': 'end' }, format(value)));
+    });
 }
 
 // ------------------------------------------------------------- подсказка
@@ -134,99 +180,95 @@ function areaChart(host, series, bucket) {
     host.innerHTML = '';
     if (!series.length) { host.innerHTML = '<div class="empty">Пока нет данных</div>'; return; }
 
-    var W = host.clientWidth || 900;
-    var H = 220;
-    var pad = { l: 44, r: 8, t: 12, b: 24 };
-    var iw = W - pad.l - pad.r;
-    var ih = H - pad.t - pad.b;
-
-    var peak = 0;
-    series.forEach(function (p) { peak = Math.max(peak, p.human + p.agent + p.unknown); });
-    var max = niceMax(peak);
-
-    // Порядок слоёв снизу вверх. Неопознанные — это вызовы из виджета с
-    // клиентом, похожим на бота: их немного, но без них стопка не
-    // сходится с плиткой «всего», и график выглядит враньём.
+    // Порядок слоёв снизу вверх. Неопознанные — вызовы из виджета с
+    // клиентом, похожим на автоматический: их немного, но без них стопка
+    // не сходится с плиткой «всего», и график занижает картину.
     var LAYERS = [
         { key: 'human', color: 'var(--human)', label: 'Люди' },
         { key: 'agent', color: 'var(--agent)', label: 'ИИ-агенты' },
         { key: 'unknown', color: 'var(--muted)', label: 'Неопознанные' },
     ];
 
-    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Активность песочницы за период' });
-    var x = function (i) { return pad.l + (series.length === 1 ? iw / 2 : (i / (series.length - 1)) * iw); };
-    var y = function (v) { return pad.t + ih - (v / max) * ih; };
+    var peak = 0;
+    series.forEach(function (p) { peak = Math.max(peak, p.human + p.agent + p.unknown); });
 
-    // Сетка: четыре линии, подписи только на них.
-    for (var g = 0; g <= 4; g += 1) {
-        var value = (max / 4) * g;
-        svg.appendChild(el('line', { class: 'gridline', x1: pad.l, x2: W - pad.r, y1: y(value), y2: y(value) }));
-        svg.appendChild(el('text', { class: 'axis-label', x: pad.l - 8, y: y(value) + 4, 'text-anchor': 'end' }, fmt(value)));
-    }
+    var W = host.clientWidth || 900;
+    var H = 220;
+    var scale = valueScale(peak, 1);
+    var pad = { l: axisPad(scale, fmt), r: 8, t: 12, b: 24 };
+    var iw = W - pad.l - pad.r;
+    var ih = H - pad.t - pad.b;
+
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Активность песочницы за период' });
+    var y = function (v) { return pad.t + ih - (v / scale.max) * ih; };
+
+    // На одной-двух точках заливка между точками вырождается в полосу
+    // нулевой ширины и график выглядит пустым, хотя данные есть.
+    var asBars = series.length <= 2;
+    var slot = iw / series.length;
+    var xAt = asBars
+        ? function (i) { return pad.l + i * slot + slot / 2; }
+        : function (i) { return pad.l + (series.length === 1 ? iw / 2 : (i / (series.length - 1)) * iw); };
+
+    drawValueAxis(svg, scale.ticks, y, pad, W, fmt);
 
     function baseAt(point, layerIndex) {
         var sum = 0;
-        for (var n = 0; n < layerIndex; n += 1) {
-            sum += point[LAYERS[n].key];
-        }
+        for (var n = 0; n < layerIndex; n += 1) { sum += point[LAYERS[n].key]; }
         return sum;
     }
 
-    function areaFor(layerIndex) {
-        var key = LAYERS[layerIndex].key;
-        var top = [];
-        var bottom = [];
-        series.forEach(function (p, i) {
-            var base = baseAt(p, layerIndex);
-            top.push(x(i) + ',' + y(base + p[key]));
-            bottom.unshift(x(i) + ',' + y(base));
-        });
-        return 'M' + top.join('L') + 'L' + bottom.join('L') + 'Z';
-    }
-
-    // На одной-двух точках заливка между точками вырождается в полосу
-    // нулевой ширины и график выглядит пустым, хотя данные есть. Такой
-    // ряд честнее показать столбцами.
-    var asBars = series.length <= 2;
-
-    if (asBars) {
-        var slot = iw / series.length;
+    if (peak === 0) {
+        // Период выбран, ось времени осмысленна, вызовов просто не было —
+        // это другое состояние, чем «данных нет», и выглядеть должно иначе,
+        // иначе читатель не понимает, сломан график или тишина настоящая.
+        svg.appendChild(el('text', {
+            class: 'empty-note', x: pad.l + iw / 2, y: pad.t + ih / 2, 'text-anchor': 'middle',
+        }, 'За период вызовов не было'));
+    } else if (asBars) {
         var barW = Math.min(72, Math.max(8, slot - 8));
         series.forEach(function (p, i) {
-            var left = pad.l + i * slot + (slot - barW) / 2;
+            var left = xAt(i) - barW / 2;
             LAYERS.forEach(function (layer, n) {
                 var value = p[layer.key];
                 if (!value) { return; }
                 var base = baseAt(p, n);
                 var top = y(base + value);
                 var height = y(base) - top;
-                // Зазор в 2px цветом подложки между сегментами стопки.
-                var gap = base > 0 ? 2 : 0;
+                var gap = base > 0 ? 2 : 0; // зазор цветом подложки между сегментами стопки
                 svg.appendChild(el('rect', {
-                    x: left, y: top, width: barW, height: Math.max(1, height - gap),
-                    fill: layer.color, rx: 3,
+                    x: left, y: top, width: barW, height: Math.max(1, height - gap), fill: layer.color, rx: 3,
                 }));
             });
         });
     } else {
         LAYERS.forEach(function (layer, n) {
-            svg.appendChild(el('path', { d: areaFor(n), fill: layer.color, 'fill-opacity': '0.85' }));
+            var top = [];
+            var bottom = [];
+            series.forEach(function (p, i) {
+                var base = baseAt(p, n);
+                top.push(xAt(i) + ',' + y(base + p[layer.key]));
+                bottom.unshift(xAt(i) + ',' + y(base));
+            });
+            svg.appendChild(el('path', {
+                d: 'M' + top.join('L') + 'L' + bottom.join('L') + 'Z',
+                fill: layer.color, 'fill-opacity': '0.85',
+            }));
         });
 
-        // Границы между слоями цветом подложки — чтобы стопка читалась
-        // и в оттенках серого, а не только по цвету.
+        // Границы между слоями цветом подложки — стопка читается и в
+        // оттенках серого, а не только по цвету.
         for (var n = 0; n < LAYERS.length - 1; n += 1) {
             var edge = [];
-            series.forEach(function (p, i) { edge.push(x(i) + ',' + y(baseAt(p, n + 1))); });
+            series.forEach(function (p, i) { edge.push(xAt(i) + ',' + y(baseAt(p, n + 1))); });
             svg.appendChild(el('polyline', { points: edge.join(' '), fill: 'none', stroke: 'var(--surface)', 'stroke-width': 2 }));
         }
     }
 
     svg.appendChild(el('line', { class: 'baseline', x1: pad.l, x2: W - pad.r, y1: y(0), y2: y(0) }));
+    drawTimeAxis(svg, series, bucket, xAt, H, iw);
 
-    drawTimeAxis(svg, series, bucket, x, H, iw);
-
-    var cursor = el('line', { class: 'baseline', y1: pad.t, y2: pad.t + ih, opacity: 0 });
+    var cursor = el('line', { class: 'cursor', y1: pad.t, y2: pad.t + ih, opacity: 0 });
     svg.appendChild(cursor);
     var dots = LAYERS.map(function (layer) {
         var dot = el('circle', { r: 4, fill: layer.color, stroke: 'var(--surface)', 'stroke-width': 2, opacity: 0 });
@@ -237,19 +279,21 @@ function areaChart(host, series, bucket) {
     host.appendChild(svg);
     var tip = makeTip(host);
 
-    svg.addEventListener('mousemove', function (event) {
+    svg.addEventListener('pointermove', function (event) {
         var box = svg.getBoundingClientRect();
         var px = (event.clientX - box.left) / box.width * W;
-        var i = Math.round(((px - pad.l) / iw) * (series.length - 1));
+        var i = asBars
+            ? Math.floor((px - pad.l) / slot)
+            : Math.round(((px - pad.l) / iw) * (series.length - 1));
         i = Math.max(0, Math.min(series.length - 1, i));
         var p = series[i];
 
-        cursor.setAttribute('x1', x(i));
-        cursor.setAttribute('x2', x(i));
+        cursor.setAttribute('x1', xAt(i));
+        cursor.setAttribute('x2', xAt(i));
         cursor.setAttribute('opacity', asBars ? 0 : 1);
         LAYERS.forEach(function (layer, n) {
             var visible = !asBars && p[layer.key] > 0;
-            dots[n].setAttribute('cx', x(i));
+            dots[n].setAttribute('cx', xAt(i));
             dots[n].setAttribute('cy', y(baseAt(p, n) + p[layer.key]));
             dots[n].setAttribute('opacity', visible ? 1 : 0);
         });
@@ -262,12 +306,12 @@ function areaChart(host, series, bucket) {
         tip.show(
             '<b>' + labelFor(p.ts, bucket) + '</b>'
             + (rows || '<div class="row">Вызовов не было</div>')
-            + '<div class="row">Всего<span class="n">' + fmt(p.total) + '</span></div>',
-            (x(i) / W) * box.width, event.clientY - box.top
+            + (rows ? '<div class="row">Всего<span class="n">' + fmt(p.total) + '</span></div>' : ''),
+            (xAt(i) / W) * box.width, event.clientY - box.top
         );
     });
 
-    svg.addEventListener('mouseleave', function () {
+    svg.addEventListener('pointerleave', function () {
         tip.hide();
         cursor.setAttribute('opacity', 0);
         dots.forEach(function (dot) { dot.setAttribute('opacity', 0); });
@@ -278,49 +322,64 @@ function areaChart(host, series, bucket) {
 
 function lineChart(host, series, bucket) {
     host.innerHTML = '';
-    var points = series.filter(function (p) { return p.ok + p.err > 0; });
-    if (!points.length) { host.innerHTML = '<div class="empty">Пока нет данных</div>'; return; }
+    var attemptedAnywhere = series.some(function (p) { return p.ok + p.err > 0; });
+    if (!attemptedAnywhere) {
+        // Доля ошибок от нуля вызовов не определена; рисовать 0 % — врать.
+        host.innerHTML = '<div class="empty">Пока нет данных</div>';
+        return;
+    }
+
+    // Ось в процентных пунктах. Раньше шкала считалась в долях, а подпись
+    // округлялась до целого процента: линия стояла на 2,5 %, а подписана
+    // была «3 %» — подпись не совпадала с положением линии.
+    var valuesPp = series.map(function (p) {
+        var attempted = p.ok + p.err;
+        return attempted ? (p.err / attempted) * 100 : null;
+    });
+    var peakPp = 0;
+    valuesPp.forEach(function (v) { if (v !== null && v > peakPp) { peakPp = v; } });
 
     var W = host.clientWidth || 420;
     var H = 180;
-    var pad = { l: 40, r: 8, t: 12, b: 24 };
+    var pctLabel = function (v) { return fmt(v) + '%'; };
+    var scale = valueScale(peakPp, 1, 100);
+    var pad = { l: axisPad(scale, pctLabel), r: 8, t: 12, b: 24 };
     var iw = W - pad.l - pad.r;
     var ih = H - pad.t - pad.b;
 
-    var values = series.map(function (p) {
-        var attempted = p.ok + p.err;
-        return attempted ? p.err / attempted : null;
-    });
-    var peak = 0;
-    values.forEach(function (v) { if (v !== null) { peak = Math.max(peak, v); } });
-    var max = Math.max(0.05, Math.ceil(peak * 20) / 20);
-
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Доля ошибочных вызовов' });
     var x = function (i) { return pad.l + (series.length === 1 ? iw / 2 : (i / (series.length - 1)) * iw); };
-    var y = function (v) { return pad.t + ih - (v / max) * ih; };
+    var y = function (pp) { return pad.t + ih - (pp / scale.max) * ih; };
 
-    for (var g = 0; g <= 2; g += 1) {
-        var value = (max / 2) * g;
-        svg.appendChild(el('line', { class: 'gridline', x1: pad.l, x2: W - pad.r, y1: y(value), y2: y(value) }));
-        svg.appendChild(el('text', { class: 'axis-label', x: pad.l - 8, y: y(value) + 4, 'text-anchor': 'end' }, pct(value, 0)));
-    }
+    drawValueAxis(svg, scale.ticks, y, pad, W, pctLabel);
 
     // Разрывы там, где вызовов не было: соединять их прямой — врать.
     var run = [];
     var segments = [];
-    values.forEach(function (v, i) {
+    valuesPp.forEach(function (v, i) {
         if (v === null) { if (run.length) { segments.push(run); run = []; } return; }
-        run.push(x(i) + ',' + y(v));
+        run.push({ x: x(i), y: y(v) });
     });
     if (run.length) { segments.push(run); }
+
     segments.forEach(function (seg) {
-        if (seg.length === 1) {
-            var parts = seg[0].split(',');
-            svg.appendChild(el('circle', { cx: parts[0], cy: parts[1], r: 3, fill: 'var(--err)' }));
-            return;
-        }
-        svg.appendChild(el('polyline', { points: seg.join(' '), fill: 'none', stroke: 'var(--err)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+        if (seg.length < 2) { return; }
+        svg.appendChild(el('polyline', {
+            points: seg.map(function (pt) { return pt.x + ',' + pt.y; }).join(' '),
+            fill: 'none', stroke: 'var(--err)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+        }));
     });
+
+    // На скудных данных три отдельных часа — это три пикселя линии, которых
+    // не видно, пока не наведёшь мышь. Ставим точки, пока их немного.
+    var filled = valuesPp.filter(function (v) { return v !== null; }).length;
+    if (filled <= 12) {
+        segments.forEach(function (seg) {
+            seg.forEach(function (pt) {
+                svg.appendChild(el('circle', { cx: pt.x, cy: pt.y, r: 2.5, fill: 'var(--err)', stroke: 'var(--surface)', 'stroke-width': 1.5 }));
+            });
+        });
+    }
 
     svg.appendChild(el('line', { class: 'baseline', x1: pad.l, x2: W - pad.r, y1: y(0), y2: y(0) }));
     drawTimeAxis(svg, series, bucket, x, H, iw);
@@ -330,22 +389,22 @@ function lineChart(host, series, bucket) {
     host.appendChild(svg);
     var tip = makeTip(host);
 
-    svg.addEventListener('mousemove', function (event) {
+    svg.addEventListener('pointermove', function (event) {
         var box = svg.getBoundingClientRect();
         var px = (event.clientX - box.left) / box.width * W;
         var i = Math.max(0, Math.min(series.length - 1, Math.round(((px - pad.l) / iw) * (series.length - 1))));
         var p = series[i];
-        var v = values[i];
+        var v = valuesPp[i];
         if (v === null) { tip.hide(); dot.setAttribute('opacity', 0); return; }
         dot.setAttribute('cx', x(i));
         dot.setAttribute('cy', y(v));
         dot.setAttribute('opacity', 1);
         tip.show('<b>' + labelFor(p.ts, bucket) + '</b>'
-            + '<div class="row">Ошибочных<span class="n">' + pct(v) + '</span></div>'
+            + '<div class="row">Ошибочных<span class="n">' + pct(v / 100) + '</span></div>'
             + '<div class="row">Вызовов<span class="n">' + fmt(p.ok + p.err) + '</span></div>',
             (x(i) / W) * box.width, event.clientY - box.top);
     });
-    svg.addEventListener('mouseleave', function () { tip.hide(); dot.setAttribute('opacity', 0); });
+    svg.addEventListener('pointerleave', function () { tip.hide(); dot.setAttribute('opacity', 0); });
 }
 
 // ----------------------------------------------------------- столбцы
@@ -355,54 +414,72 @@ function barChart(host, items, options) {
     var total = items.reduce(function (sum, item) { return sum + item.value; }, 0);
     if (!total) { host.innerHTML = '<div class="empty">Пока нет данных</div>'; return; }
 
+    var peak = Math.max.apply(null, items.map(function (i) { return i.value; }));
     var W = host.clientWidth || 420;
     var H = options.height || 180;
-    var pad = { l: 40, r: 8, t: 12, b: 24 };
+    var scale = valueScale(peak, 1);
+    var pad = { l: axisPad(scale, fmt), r: 8, t: 14, b: 24 };
     var iw = W - pad.l - pad.r;
     var ih = H - pad.t - pad.b;
-    var max = niceMax(Math.max.apply(null, items.map(function (i) { return i.value; })));
 
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': options.label });
-    var y = function (v) { return pad.t + ih - (v / max) * ih; };
+    var y = function (v) { return pad.t + ih - (v / scale.max) * ih; };
 
-    for (var g = 0; g <= 2; g += 1) {
-        var value = (max / 2) * g;
-        svg.appendChild(el('line', { class: 'gridline', x1: pad.l, x2: W - pad.r, y1: y(value), y2: y(value) }));
-        svg.appendChild(el('text', { class: 'axis-label', x: pad.l - 8, y: y(value) + 4, 'text-anchor': 'end' }, fmt(value)));
-    }
+    drawValueAxis(svg, scale.ticks, y, pad, W, fmt);
 
-    // Зазор в 2px между соседними столбцами — требование читаемости.
+    // Зазор между столбцами не фиксированный: при двух десятках столбцов на
+    // узкой карточке постоянные 2px съедали десятую часть ширины.
     var slot = iw / items.length;
-    var barW = Math.max(2, slot - 2);
+    var gap = slot >= 14 ? 2 : 1;
+    var barW = Math.max(1, slot - gap);
     var tip = makeTip(host);
 
+    // Когда ненулевых столбцов один-два или один подавляет остальные,
+    // сравнивать не с чем — подписываем значение прямо над столбцом, чтобы
+    // не заставлять наводить мышь ради единственного числа.
+    var sorted = items.map(function (i) { return i.value; }).sort(function (a, b) { return b - a; });
+    var lonely = sorted.filter(function (v) { return v > 0; }).length <= 2 || sorted[0] >= 8 * (sorted[1] || 0);
+
     items.forEach(function (item, i) {
-        var x = pad.l + i * slot + (slot - barW) / 2;
-        var h = (item.value / max) * ih;
-        var path = el('path', { d: barPath(x, y(item.value), barW, h, 4), fill: 'var(--bar)' });
+        var left = pad.l + i * slot + (slot - barW) / 2;
+        var height = (item.value / scale.max) * ih;
+        var bar = el('path', { class: 'bar', d: barPath(left, y(item.value), barW, height, Math.min(4, barW / 3)) });
+        svg.appendChild(bar);
+
+        if (lonely && item.value > 0) {
+            svg.appendChild(el('text', {
+                class: 'axis-label', x: left + barW / 2, y: y(item.value) - 6, 'text-anchor': 'middle',
+            }, fmt(item.value)));
+        }
+
         var hit = el('rect', { x: pad.l + i * slot, y: pad.t, width: slot, height: ih, fill: 'transparent' });
-        hit.addEventListener('mousemove', function (event) {
+        hit.addEventListener('pointermove', function (event) {
             var box = svg.getBoundingClientRect();
+            bar.classList.add('on');
             tip.show('<b>' + item.label + '</b><div class="row">Вызовов<span class="n">' + fmt(item.value) + '</span></div>',
-                ((x + barW / 2) / W) * box.width, event.clientY - box.top);
+                ((left + barW / 2) / W) * box.width, event.clientY - box.top);
         });
-        hit.addEventListener('mouseleave', function () { tip.hide(); });
-        svg.appendChild(path);
+        hit.addEventListener('pointerleave', function () { bar.classList.remove('on'); tip.hide(); });
         svg.appendChild(hit);
     });
 
     svg.appendChild(el('line', { class: 'baseline', x1: pad.l, x2: W - pad.r, y1: y(0), y2: y(0) }));
+
     (options.ticks || []).forEach(function (tick) {
-        svg.appendChild(el('text', {
-            class: 'axis-label', x: pad.l + tick.index * slot + slot / 2, y: H - 6, 'text-anchor': 'middle',
-        }, tick.label));
+        // Крайние подписи прижимаем к краям, иначе последняя вылезает за
+        // область графика на половину своей ширины.
+        var anchor = tick.index === 0 ? 'start' : (tick.index === items.length - 1 ? 'end' : 'middle');
+        var tx = Math.min(Math.max(pad.l + tick.index * slot + slot / 2, pad.l), W - pad.r);
+        svg.appendChild(el('text', { class: 'axis-label', x: tx, y: H - 6, 'text-anchor': anchor }, tick.label));
     });
 
     host.appendChild(svg);
 }
 
-// ------------------------------------------------- ранжированные списки
+// ------------------------------------------------- ранжированный список
 
+// Короткий список, где важен не точный масштаб, а порядок: полоса за
+// текстом даёт долю от лидера, не отнимая места у самих подписей.
 function ranked(host, rows, options) {
     host.innerHTML = '';
     if (!rows.length) { host.innerHTML = '<div class="empty">Пока нет данных</div>'; return; }
@@ -538,14 +615,29 @@ function kpis(data) {
     }).join('');
 }
 
+var RECENT_PER_PAGE = 5;
+var recentPage = 0;
+
 function recentTable(data) {
-    var table = document.getElementById('recent');
-    if (!data.recent.length) {
-        table.innerHTML = '<tr><td class="empty">Событий пока не было</td></tr>';
+    var host = document.getElementById('recent');
+    var rows = data.recent || [];
+    host.innerHTML = '';
+
+    if (!rows.length) {
+        host.innerHTML = '<div class="empty">Событий пока не было</div>';
         return;
     }
+
+    var pages = Math.max(1, Math.ceil(rows.length / RECENT_PER_PAGE));
+    // Данные обновляются каждую минуту: если лента укоротилась, страница
+    // может оказаться за пределами — возвращаемся на последнюю.
+    recentPage = Math.min(Math.max(0, recentPage), pages - 1);
+
+    var from = recentPage * RECENT_PER_PAGE;
+    var slice = rows.slice(from, from + RECENT_PER_PAGE);
+
     var head = '<tr><th>Время</th><th>Метод</th><th>Кто</th><th>Исход</th><th>Ошибки</th><th>Время ответа</th></tr>';
-    var rows = data.recent.map(function (row) {
+    var body = slice.map(function (row) {
         var when = new Date(row.ts).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
         var actor = row.actor === 'agent' ? 'ИИ-агент' : (row.actor === 'human' ? 'Человек' : 'Неизвестно');
         var ok = row.outcome === 'valid';
@@ -556,7 +648,25 @@ function recentTable(data) {
             + '<td class="method">' + escapeHtml((row.errors || []).join(', ') || '—') + '</td>'
             + '<td>' + (row.ms === null || row.ms === undefined ? '—' : ms(row.ms)) + '</td></tr>';
     }).join('');
-    table.innerHTML = head + rows;
+
+    var table = document.createElement('div');
+    table.className = 'scroll';
+    table.innerHTML = '<table>' + head + body + '</table>';
+    host.appendChild(table);
+
+    var nav = document.createElement('div');
+    nav.className = 'pager';
+    nav.innerHTML = '<button type="button" data-step="-1"' + (recentPage === 0 ? ' disabled' : '') + ' aria-label="Предыдущая страница">←</button>'
+        + '<span>' + (from + 1) + '–' + (from + slice.length) + ' из ' + fmt(rows.length) + '</span>'
+        + '<button type="button" data-step="1"' + (recentPage >= pages - 1 ? ' disabled' : '') + ' aria-label="Следующая страница">→</button>';
+    host.appendChild(nav);
+
+    nav.addEventListener('click', function (event) {
+        var button = event.target.closest('button[data-step]');
+        if (!button || button.disabled) { return; }
+        recentPage += Number(button.dataset.step);
+        recentTable(data);
+    });
 }
 
 function render(data) {

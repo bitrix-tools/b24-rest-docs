@@ -268,7 +268,7 @@ function build(store, rangeKey, now, custom) {
             edge: edge === Infinity ? null : edge,
             count: totals.msHist[i],
         })),
-        recent: store.recentEvents(40).map((event) => ({
+        recent: store.recentEvents(50).map((event) => ({
             ts: event.ts,
             method: event.method,
             outcome: event.outcome,
