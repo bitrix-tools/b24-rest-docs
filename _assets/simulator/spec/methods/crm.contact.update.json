@@ -43,7 +43,7 @@
           "type": "crm_status",
           "base": "string",
           "required": false,
-          "description": "Обращение. Список доступных типов обращений можно узнать с помощью [crm.status.list][2], применив фильтр { ENTITY_ID: \"HONORIFIC\" }"
+          "description": "Обращение. Список доступных типов обращений можно узнать с помощью crm.status.list, применив фильтр { ENTITY_ID: \"HONORIFIC\" }"
         },
         {
           "name": "NAME",
@@ -85,14 +85,14 @@
           "type": "crm_status",
           "base": "string",
           "required": false,
-          "description": "Тип контакта. Список доступных типов контакта можно узнать с помощью [crm.status.list][2], применив фильтр { ENTITY_ID: \"CONTACT_TYPE\" }"
+          "description": "Тип контакта. Список доступных типов контакта можно узнать с помощью crm.status.list, применив фильтр { ENTITY_ID: \"CONTACT_TYPE\" }"
         },
         {
           "name": "SOURCE_ID",
           "type": "crm_status",
           "base": "string",
           "required": false,
-          "description": "Источник Список доступных типов источника можно узнать с помощью [crm.status.list][2], применив фильтр { ENTITY_ID: \"SOURCE\" }"
+          "description": "Источник Список доступных типов источника можно узнать с помощью crm.status.list, применив фильтр { ENTITY_ID: \"SOURCE\" }"
         },
         {
           "name": "SOURCE_DESCRIPTION",

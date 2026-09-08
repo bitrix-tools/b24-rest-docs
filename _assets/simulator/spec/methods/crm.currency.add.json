@@ -39,7 +39,7 @@
         },
         {
           "name": "AMOUNT_CNT",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": true,
           "description": "Номинал. В качестве номинала чаще всего используется 1 или число кратное 10"
@@ -53,7 +53,7 @@
         },
         {
           "name": "SORT",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Положение в списке валют. Значение по умолчанию — 100"

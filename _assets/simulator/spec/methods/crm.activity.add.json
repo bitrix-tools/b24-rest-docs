@@ -74,14 +74,14 @@
         },
         {
           "name": "DESCRIPTION_TYPE",
-          "type": "crm.enum.contenttype",
+          "type": "crm_enum_contenttype",
           "base": "any",
           "required": false,
           "description": "Тип описания"
         },
         {
           "name": "DIRECTION",
-          "type": "crm.enum.activitydirection",
+          "type": "crm_enum_activitydirection",
           "base": "any",
           "required": false,
           "description": "Направление дела: входящее/исходящее. Актуально для звонков и писем, для встреч не используется"
@@ -109,7 +109,7 @@
         },
         {
           "name": "NOTIFY_TYPE",
-          "type": "crm.enum.activitynotifytype",
+          "type": "crm_enum_activitynotifytype",
           "base": "any",
           "required": false,
           "description": "Тип уведомления"
@@ -137,7 +137,7 @@
         },
         {
           "name": "PRIORITY",
-          "type": "crm.enum.activitypriority",
+          "type": "crm_enum_activitypriority",
           "base": "any",
           "required": false,
           "description": "Приоритет"

@@ -75,6 +75,22 @@
       "operating": 0.16593098640441895
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true если комментарий обновлен успешно"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/tasks/comment-item/task-comment-item-update.html",
   "executable": false
 }

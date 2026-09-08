@@ -34,14 +34,14 @@
           "name": "NAME",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Название виджета"
         },
         {
           "name": "PREVIEW",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "URL картинки-обложки виджета для слайдера выбора виджетов"
         },
         {
@@ -55,22 +55,22 @@
           "name": "CONTENT",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Верстка виджета с использованием конструкций Vue"
         },
         {
           "name": "SECTIONS",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Код раздела, в который будет добавлен виджет. Список доступных разделов: - widgets_company_life — Жизнь компании - widgets_new_employees — Новым сотрудникам - widgets_team — Команда - widgets_automation — Автоматизация - widgets_events — Встречи и события - widgets_profile — Профиль сотрудника - widgets_tasks — Задачи и проекты - widgets_sales — Продажи и клиенты - widgets_hr — HR - widgets_other…"
         },
         {
           "name": "WIDGET_PARAMS",
           "type": "object",
           "base": "object",
-          "required": false,
-          "description": "Параметры для vue-шаблонизатора. Если их нет, то блок останется обычным html-кодом с {{}}"
+          "required": true,
+          "description": "Параметры для vue-шаблонизатора. Без них метод вернет ошибку REQUIRED_FIELD_NO_EXISTS"
         },
         {
           "name": "ACTIVE",

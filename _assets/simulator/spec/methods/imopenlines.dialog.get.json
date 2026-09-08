@@ -18,7 +18,7 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Идентификатор диалога в формате chat<ID>, где <ID> — индентификатор чата открытой линии"
+      "description": "Идентификатор диалога в формате chat<ID>, где <ID> — идентификатор чата открытой линии"
     },
     {
       "name": "SESSION_ID",

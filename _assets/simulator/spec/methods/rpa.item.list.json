@@ -15,22 +15,30 @@
     },
     {
       "name": "order",
-      "type": "number",
-      "base": "number",
+      "type": "object",
+      "base": "object",
       "required": "unknown",
-      "description": "Список для сортировки, где ключ — поле, а значение — ASC или DESC"
+      "description": "Список для сортировки, где ключ — поле, а значение — ASC или DESC",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     },
     {
       "name": "filter",
-      "type": "number",
-      "base": "number",
+      "type": "object",
+      "base": "object",
       "required": "unknown",
-      "description": "Список для фильтрации. Ключи для фильтрации по пользовательским полям должны быть в UPPER_CASE, остальные — в camelCase. Примеры фильтров ниже"
+      "description": "Список для фильтрации. Ключи для фильтрации по пользовательским полям должны быть в UPPER_CASE, остальные — в camelCase. Примеры фильтров ниже",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     },
     {
       "name": "start",
-      "type": "number",
-      "base": "number",
+      "type": "integer",
+      "base": "integer",
       "required": "unknown",
       "description": "Сдвиг для постраничной навигации."
     }

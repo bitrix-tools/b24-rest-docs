@@ -13,6 +13,14 @@
 //   GET  /          дашборд
 //   GET  /api/health проверка живости для платформы
 //
+//   GET  /ai/v1/methods?scope=&q=  список и поиск методов
+//   GET  /ai/v1/spec/{method}      схема метода
+//   POST /ai/v1/call/{method}      проверка вызова и симулированный ответ
+//
+// Три последних — песочница для ИИ-агентов из PRD. Схемы и датасет тянутся
+// с боевой документации, поэтому агент проверяет вызов ровно по тому
+// контракту, который читает человек на странице метода.
+//
 // Смотреть статистику может любой, кто открыл ссылку: доступом управляет
 // политика сервера в кабинете Вайбкод, приложение своей авторизации не
 // заводит. Закрыты только пути записи — приём событий.
@@ -26,6 +34,7 @@ const { Store } = require('./lib/store');
 const { build } = require('./lib/aggregate');
 const { normalize } = require('./lib/classify');
 const { RateLimiter } = require('./lib/ratelimit');
+const { Sandbox, eventFor } = require('./lib/sandbox');
 
 const PORT = Number(process.env.PORT) || 3000;
 const DATA_DIR = process.env.DATA_DIR || '/opt/data/b24sim-stats';
@@ -44,6 +53,10 @@ const MAX_BODY = 256 * 1024;
 const MAX_BATCH = 100;
 
 const collectLimiter = new RateLimiter(120, 60 * 1000); // событий в минуту с адреса
+const sandboxLimiter = new RateLimiter(60, 60 * 1000);  // вызовов песочницы в минуту с адреса, как в PRD
+const SANDBOX_MAX_BODY = 64 * 1024;
+
+const sandbox = new Sandbox();
 
 const store = new Store({ dir: DATA_DIR });
 
@@ -80,10 +93,20 @@ function timingSafeEqual(a, b) {
 
 let SALT = '';
 
+// Число доверенных прокси перед приложением. Приложение стоит за шлюзом
+// Вайбкод, который дописывает реальный адрес в конец X-Forwarded-For.
+const TRUSTED_HOPS = Math.max(1, Number(process.env.TRUSTED_PROXY_HOPS) || 1);
+
+// Берём адрес, дописанный ближайшим доверенным прокси, а не первый в
+// списке: первый приходит от клиента и подделывается одной строкой, из-за
+// чего лимит частоты обходился сменой заголовка на каждый запрос.
 function clientIp(req) {
     const forwarded = req.headers['x-forwarded-for'];
     if (typeof forwarded === 'string' && forwarded) {
-        return forwarded.split(',')[0].trim();
+        const chain = forwarded.split(',').map((part) => part.trim()).filter(Boolean);
+        if (chain.length) {
+            return chain[Math.max(0, chain.length - TRUSTED_HOPS)];
+        }
     }
     return req.socket.remoteAddress || '';
 }
@@ -186,6 +209,9 @@ function ingest(rawEvents, req, trusted) {
     const userAgent = String(req.headers['user-agent'] || '').slice(0, 300);
     let accepted = 0;
     let skipped = 0;
+    // Всё, что не влезло в пачку, раньше молча пропадало, а клиент получал
+    // 200 OK и считал события доставленными.
+    const dropped = Math.max(0, rawEvents.length - MAX_BATCH);
 
     for (const raw of rawEvents.slice(0, MAX_BATCH)) {
         const event = normalize(raw, { now, userAgent });
@@ -208,8 +234,24 @@ function ingest(rawEvents, req, trusted) {
         }
     }
 
-    store.rejected += skipped;
-    return { accepted, skipped };
+    store.rejected += skipped + dropped;
+    return { accepted, skipped, dropped, limit: MAX_BATCH };
+}
+
+// Событие песочницы кладётся в то же хранилище, что и события виджета:
+// сеть между ними не нужна, они в одном процессе.
+function recordSandbox(req, method, response, ms, forcedOutcome) {
+    const raw = eventFor(method, response, ms);
+    if (forcedOutcome) {
+        raw.outcome = forcedOutcome;
+    }
+    // Агента опознаём по адресу: сессии как таковой у него нет.
+    raw.session = ipKey(req);
+    const event = normalize(raw, { now: Date.now(), userAgent: String(req.headers['user-agent'] || '') });
+    if (event) {
+        event.trusted = true;
+        store.add(event, null);
+    }
 }
 
 // ------------------------------------------------------------------ статика
@@ -248,6 +290,7 @@ async function handle(req, res) {
             uptimeMs: Date.now() - store.startedAt,
             ingested: store.ingested,
             configured: { ingestToken: Boolean(INGEST_TOKEN) },
+            sandbox: sandbox.status(),
         });
         return;
     }
@@ -309,6 +352,115 @@ async function handle(req, res) {
         return;
     }
 
+    // ------------------------------------------------------ песочница
+
+    if (route.startsWith('/ai/v1/')) {
+        const cors = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        };
+
+        if (!sandboxLimiter.check(ipKey(req))) {
+            send(res, 429, {
+                error: 'RATE_LIMITED',
+                error_description: 'Слишком много запросов. Повторите через минуту.',
+            }, Object.assign({ 'Retry-After': '60' }, cors));
+            return;
+        }
+
+        try {
+            await sandbox.refresh(false);
+        } catch (error) {
+            send(res, 503, {
+                error: 'SIMULATOR_UNAVAILABLE',
+                error_description: 'Схемы методов недоступны: ' + error.message,
+            }, cors);
+            return;
+        }
+
+        if (req.method === 'GET' && route === '/ai/v1/methods') {
+            send(res, 200, sandbox.list(url.searchParams.get('scope'), url.searchParams.get('q')), cors);
+            return;
+        }
+
+        if (req.method === 'GET' && route.startsWith('/ai/v1/spec/')) {
+            const method = decodeURIComponent(route.slice('/ai/v1/spec/'.length));
+            const spec = await sandbox.spec(method);
+            if (!spec) {
+                send(res, 404, {
+                    error: 'UNKNOWN_METHOD',
+                    error_description: 'Метод ' + method + ' не описан схемой.',
+                }, cors);
+                return;
+            }
+            send(res, 200, spec, cors);
+            return;
+        }
+
+        if (req.method === 'POST' && route.startsWith('/ai/v1/call/')) {
+            const method = decodeURIComponent(route.slice('/ai/v1/call/'.length));
+            const started = Date.now();
+
+            const spec = await sandbox.spec(method);
+            if (!spec) {
+                send(res, 404, {
+                    error: 'UNKNOWN_METHOD',
+                    error_description: 'Метод ' + method + ' не описан схемой.',
+                }, cors);
+                recordSandbox(req, method, { error: 'UNKNOWN_METHOD' }, Date.now() - started, 'unknown_method');
+                return;
+            }
+
+            let raw;
+            try {
+                raw = await readBody(req, res, SANDBOX_MAX_BODY);
+            } catch (error) {
+                send(res, 413, {
+                    error: 'BODY_TOO_LARGE',
+                    error_description: 'Тело запроса больше 64 КБ.',
+                }, cors);
+                return;
+            }
+
+            // Секрет мог приехать в самом адресе — проверяем до разбора тела.
+            if (sandbox.findSecretInUrl(req.url, url.searchParams)) {
+                const rejected = {
+                    error: 'SECURITY_REJECTED',
+                    error_description: 'Адрес запроса содержит секрет. Симулятор не выполняет реальных вызовов и не принимает вебхуки и токены.',
+                };
+                send(res, 400, rejected, cors);
+                recordSandbox(req, method, rejected, Date.now() - started, 'rejected_secret');
+                return;
+            }
+
+            let params = {};
+            if (raw.trim()) {
+                try {
+                    params = JSON.parse(raw);
+                } catch (error) {
+                    send(res, 400, {
+                        error: 'BAD_JSON',
+                        error_description: 'Тело запроса не является корректным JSON.',
+                    }, cors);
+                    return;
+                }
+            }
+
+            const response = sandbox.call(spec, params);
+            const status = response.error ? 400 : 200;
+            send(res, status, response, Object.assign({ 'Cache-Control': 'no-store' }, cors));
+            recordSandbox(req, method, response, Date.now() - started);
+            return;
+        }
+
+        send(res, 404, {
+            error: 'NOT_FOUND',
+            error_description: 'Неизвестный маршрут. Доступны /ai/v1/methods, /ai/v1/spec/{method}, /ai/v1/call/{method}.',
+        }, cors);
+        return;
+    }
+
     if (route === '/' || route === '/index.html') {
         serveStatic(res, 'index.html');
         return;
@@ -343,7 +495,20 @@ function start() {
     }
 
     setInterval(() => store.save(), 15000).unref();
-    setInterval(() => store.prune(Date.now()), 6 * 60 * 60 * 1000).unref();
+
+    // Уборка запускается сразу на старте и дальше раз в полчаса. Шестичасовой
+    // таймер на сервере Black Hole не срабатывал никогда: сервер засыпает
+    // после часа простоя, и до срабатывания дело не доходило — журнал и
+    // часовые свёртки росли без границ. Запуск на старте гарантирует уборку
+    // после каждого пробуждения.
+    store.prune(Date.now());
+    setInterval(() => store.prune(Date.now()), 30 * 60 * 1000).unref();
+
+    // Прогреваем схемы заранее: первый агент не должен ждать загрузку.
+    sandbox.refresh(true).then(
+        () => console.error('песочница готова: методов ' + sandbox.status().methods + ', датасет ' + sandbox.status().dataset),
+        (error) => console.error('песочница не поднялась: ' + error.message + ' — попробует снова при первом запросе')
+    );
 
     server.listen(PORT, () => {
         console.error('b24sim-stats ' + VERSION + ' слушает порт ' + PORT + ', данные в ' + DATA_DIR);

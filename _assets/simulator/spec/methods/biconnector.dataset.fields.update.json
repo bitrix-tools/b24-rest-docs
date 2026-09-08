@@ -37,7 +37,7 @@
     },
     {
       "name": "delete",
-      "type": "int[]",
+      "type": "integer[]",
       "base": "array",
       "required": false,
       "description": "Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом biconnector.dataset.get",

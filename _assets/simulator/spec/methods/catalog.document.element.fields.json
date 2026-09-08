@@ -1,0 +1,83 @@
+{
+  "$v": 1,
+  "method": "catalog.document.element.fields",
+  "scope": "catalog",
+  "kind": "read",
+  "title": "Получить список полей товаров документа складского учета catalog.document.element.fields",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с описанием полей товара документа складского учета",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/catalog/document/outdated/catalog-document-element-fields.md"
+  },
+  "deprecated": {
+    "successor": "catalog.document.element.getFields"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "id": {
+          "type": "integer",
+          "isRequired": false,
+          "isReadOnly": true,
+          "isImmutable": false,
+          "isMultiple": false,
+          "isDynamic": false,
+          "title": "ID"
+        }
+      }
+    ],
+    "time": {
+      "start": 1759482402.511337,
+      "finish": 1759482402.642843,
+      "duration": 0.13150620460510254,
+      "processing": 0.02694106101989746,
+      "date_start": "2025-11-02T12:26:42+03:00",
+      "date_finish": "2025-11-02T12:26:42+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив с описанием полей товара документа складского учета"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/catalog/document/outdated/catalog-document-element-fields.html",
+  "executable": false
+}

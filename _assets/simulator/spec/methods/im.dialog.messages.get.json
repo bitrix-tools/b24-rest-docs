@@ -57,6 +57,9 @@
           "params": {
             "LIKE": [
               547
+            ],
+            "FILE_ID": [
+              5255
             ]
           },
           "disappearing_date": null
@@ -161,7 +164,7 @@
         {
           "id": 5255,
           "chatId": 1489,
-          "date": "2026-03-02T16:10:00+03:00",
+          "date": "2026-03-04T09:43:27+03:00",
           "type": "image",
           "name": "image.png",
           "extension": "png",

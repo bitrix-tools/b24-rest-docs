@@ -15,10 +15,14 @@
     },
     {
       "name": "USER_ID",
-      "type": "integer/array",
-      "base": "any",
+      "type": "integer | integer[]",
+      "base": "array",
       "required": true,
-      "description": "Идентификатор участника. Идентификатор можно получить с помощью метода sonetgroup.user.get"
+      "description": "Идентификатор участника. Идентификатор можно получить с помощью метода sonetgroup.user.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     }
   ],
   "defs": {},

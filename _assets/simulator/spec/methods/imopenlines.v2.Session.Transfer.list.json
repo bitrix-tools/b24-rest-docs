@@ -1,0 +1,104 @@
+{
+  "$v": 1,
+  "method": "imopenlines.v2.Session.Transfer.list",
+  "scope": "imopenlines",
+  "kind": "read",
+  "title": "Получить историю переводов imopenlines.v2.Session.Transfer.list",
+  "permissions": "пользователь с доступом к отчетам открытых линий",
+  "params": [
+    {
+      "name": "sessionId",
+      "type": "integer[]",
+      "base": "array",
+      "required": true,
+      "description": "Массив идентификаторов сессий. Идентификаторы можно получить методом imopenlines.v2.Session.list. Максимум: 50 уникальных идентификаторов",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/imopenlines/statistics/imopenlines-v2-session-transfer-list.md"
+  },
+  "resultExample": {
+    "result": {
+      "transfers": [
+        {
+          "sessionId": 1024,
+          "date": "2026-06-15T14:30:05+03:00",
+          "fromOperatorId": null,
+          "toOperatorId": 42,
+          "fromConfigId": 3,
+          "toConfigId": null,
+          "reason": "auto",
+          "mode": "AUTO",
+          "type": "USER",
+          "initiatorId": null
+        },
+        {
+          "sessionId": 1024,
+          "date": "2026-06-15T14:40:00+03:00",
+          "fromOperatorId": 42,
+          "toOperatorId": 51,
+          "fromConfigId": 3,
+          "toConfigId": null,
+          "reason": "manual",
+          "mode": "MANUAL",
+          "type": "USER",
+          "initiatorId": 42
+        }
+      ]
+    },
+    "time": {
+      "start": 1782810000,
+      "finish": 1782810000.2,
+      "duration": 0.2,
+      "processing": 0,
+      "date_start": "2026-06-30T10:00:00+03:00",
+      "date_finish": "2026-06-30T10:00:00+03:00",
+      "operating_reset_at": 1782810600,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой объект ответа"
+    },
+    {
+      "name": "result.transfers",
+      "type": "transfer[]",
+      "base": "array",
+      "required": false,
+      "description": "История переводов по запрошенным сессиям. Все поля типа transfer смотрите в разделе Типы данных статистики открытых линий"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/imopenlines/statistics/imopenlines-v2-session-transfer-list.html",
+  "executable": false,
+  "entityFields": [
+    "date",
+    "fromConfigId",
+    "fromOperatorId",
+    "initiatorId",
+    "mode",
+    "reason",
+    "sessionId",
+    "toConfigId",
+    "toOperatorId",
+    "type"
+  ]
+}

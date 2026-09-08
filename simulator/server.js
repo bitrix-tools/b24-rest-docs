@@ -81,6 +81,11 @@ function queueEvent(event) {
     if (!STATS_ENABLED) {
         return;
     }
+    // Сэмплирование действует на оба канала: иначе доля виджета была бы
+    // занижена относительно endpoint, а по цифрам этого не видно.
+    if (TELEMETRY.sampling < 1 && Math.random() > TELEMETRY.sampling) {
+        return;
+    }
     if (statsQueue.length >= STATS_MAX_QUEUE) {
         statsQueue.shift();
         statsDropped += 1;
@@ -103,6 +108,12 @@ async function flushStats() {
         });
         if (!response.ok) {
             throw new Error('HTTP ' + response.status);
+        }
+        // Закрытая политика доступа сервера отвечает страницей входа со
+        // статусом 200: без этой проверки пачка считалась бы доставленной.
+        const type = response.headers.get('content-type') || '';
+        if (!type.includes('application/json')) {
+            throw new Error('приёмник закрыт: ответ не JSON');
         }
         if (statsDropped) {
             console.error('статистика: потеряно событий из-за переполнения очереди: ' + statsDropped);
@@ -259,7 +270,14 @@ async function handle(req, res) {
         }
 
         // Секрет мог приехать в самом URL — проверяем до разбора тела.
-        const inUrl = B24Sim.findSecret({ url: req.url });
+        // Ядро ищет ключи вроде auth среди полей объекта, поэтому одной
+        // сериализации адреса мало: токен в ?auth=... оказывается внутри
+        // строки и проходит насквозь. Разбираем параметры и проверяем их.
+        const query = {};
+        for (const [key, value] of url.searchParams) {
+            query[key] = value;
+        }
+        const inUrl = B24Sim.findSecret({ url: req.url }) || B24Sim.findSecret(query);
         let params = {};
 
         if (raw.trim()) {
@@ -338,8 +356,21 @@ const server = http.createServer((req, res) => {
 
 if (STATS_ENABLED) {
     setInterval(flushStats, STATS_FLUSH_MS).unref();
-    process.on('SIGTERM', flushStats);
-    process.on('SIGINT', flushStats);
+}
+
+// Обработчик сигнала подавляет штатное завершение процесса, поэтому выход
+// после дослать-и-выйти обязателен: иначе сервис перестаёт останавливаться
+// по SIGTERM и его добивает таймаут systemd.
+function shutdown(signal) {
+    console.error('получен ' + signal + ', досылаю статистику');
+    const done = () => process.exit(0);
+    Promise.resolve(STATS_ENABLED ? flushStats() : null).then(done, done);
+    setTimeout(done, 3000).unref();
+}
+
+if (require.main === module) {
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
+    process.on('SIGINT', () => shutdown('SIGINT'));
 }
 
 if (require.main === module) {

@@ -59,7 +59,7 @@
   "returns": [
     {
       "name": "result",
-      "type": "item",
+      "type": "object",
       "base": "object",
       "required": false,
       "description": "Корневой элемент ответа. Содержит информацию о полях источника. Описание полей в статье Источники: обзор методов"

@@ -7,11 +7,25 @@
   "permissions": "пользователь с правом «удаление» сайта",
   "params": [
     {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Значение scope должно соответствовать типу сайта (подробное описание)"
+    },
+    {
       "name": "lid",
       "type": "integer",
       "base": "integer",
       "required": true,
       "description": "Идентификатор страницы. Идентификатор страницы можно получить методом landing.landing.getList, а также из результата методов landing.landing.add, landing.landing.addByTemplate и landing.landing.copy"
+    },
+    {
+      "name": "mark",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Признак пометки страницы как удаленной. По умолчанию true. Если передать false, метод восстановит страницу из корзины. Для такого сценария обычно используют landing.landing.markUnDelete"
     }
   ],
   "defs": {},

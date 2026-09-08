@@ -57,7 +57,7 @@
 <div class="grid two">
     <div class="card">
         <h2>Доля ошибочных вызовов</h2>
-        <p class="hint">Процент от вызовов, дошедших до проверки</p>
+        <p class="hint">Скользящее окно: доля считается по накопленной выборке, чтобы один вызов не давал сто процентов</p>
         <div class="chart" id="errorrate"></div>
     </div>
     <div class="card">
@@ -114,10 +114,10 @@
         <div class="head">
             <div>
                 <h2>Последние вызовы</h2>
-                <p class="hint">Живая лента, без содержимого запросов</p>
+                <p class="hint">По пять записей на страницу, без содержимого запросов</p>
             </div>
         </div>
-        <div class="scroll"><table id="recent"></table></div>
+        <div id="recent"></div>
     </div>
 </div>
 

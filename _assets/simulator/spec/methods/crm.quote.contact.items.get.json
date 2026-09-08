@@ -1,0 +1,73 @@
+{
+  "$v": 1,
+  "method": "crm.quote.contact.items.get",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить набор контактов, связанных с указанным предложением crm.quote.contact.items.get",
+  "permissions": "пользователь с правом «чтения» коммерческих предложений",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор коммерческого предложения Идентификатор можно получить с помощью методов crm.quote.list или crm.quote.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/quote/contacts/crm-quote-contact-items-get.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "CONTACT_ID": 2649,
+        "SORT": 10,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "Y"
+      },
+      {
+        "CONTACT_ID": 2647,
+        "SORT": 20,
+        "ROLE_ID": 0,
+        "IS_PRIMARY": "N"
+      }
+    ],
+    "time": {
+      "start": 1787206096,
+      "finish": 1787206096.725297,
+      "duration": 0.7252969741821289,
+      "processing": 0,
+      "date_start": "2026-08-20T09:08:16+03:00",
+      "date_finish": "2026-08-20T09:08:16+03:00",
+      "operating_reset_at": 1787206696,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "quote_contact_binding[]",
+      "base": "array",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит массив с информацией о привязанных к предложению контактах, отсортированный по возрастанию SORT. Если у предложения нет привязанных контактов, возвращается пустой массив"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/quote/contacts/crm-quote-contact-items-get.html",
+  "executable": false,
+  "entityFields": [
+    "CONTACT_ID",
+    "IS_PRIMARY",
+    "ROLE_ID",
+    "SORT"
+  ]
+}

@@ -43,6 +43,10 @@ const METHOD_ENTITY = {
 // Телеметрия песочницы: куда виджет и endpoint шлют обезличенные события.
 // Адрес приходит из окружения, чтобы стенд и продакшен не мешались, а
 // значение по умолчанию — рабочий дашборд статистики.
+// Адрес работающей песочницы. На домене документации сервиса пока нет,
+// поэтому агент узнаёт рабочий адрес из манифеста, а не угадывает.
+const SANDBOX_BASE = process.env.B24SIM_SANDBOX_BASE || 'https://app-f23b8f256bfb.vibecode.bitrix24.tech';
+
 const TELEMETRY = {
     endpoint: process.env.B24SIM_STATS_URL || 'https://app-f23b8f256bfb.vibecode.bitrix24.tech/collect',
     enabled: process.env.B24SIM_STATS_ENABLED !== '0',
@@ -53,4 +57,4 @@ const TELEMETRY = {
 
 const PAGE_SIZE = 50;
 
-module.exports = { PILOT_DIRS, READ_EXECUTABLE, METHOD_ENTITY, PAGE_SIZE, TELEMETRY };
+module.exports = { PILOT_DIRS, READ_EXECUTABLE, METHOD_ENTITY, PAGE_SIZE, TELEMETRY, SANDBOX_BASE };

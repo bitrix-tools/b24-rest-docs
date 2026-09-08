@@ -56,8 +56,8 @@
       "name": "ENTITY_REGISTRY_TYPE",
       "type": "string",
       "base": "string",
-      "required": true,
-      "description": "Привязка платежной системы: - ORDER — значение для заказов магазина, сделок, смарт-процессов - CRM_INVOICE — значение для счетов CRM - CRM_QUOTE — значение для коммерческих предложений CRM"
+      "required": false,
+      "description": "Привязка платежной системы: - ORDER — значение для заказов магазина, сделок, смарт-процессов - CRM_INVOICE — значение для счетов CRM - CRM_QUOTE — значение для коммерческих предложений CRM Если не передано, то по умолчанию CRM_INVOICE. Тип плательщика PERSON_TYPE_ID должен относиться к тому же типу привязки"
     },
     {
       "name": "LOGOTYPE",
