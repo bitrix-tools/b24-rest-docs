@@ -15,3 +15,5 @@ items:
     href: how-to-connect-task-to-spa.md  
   - name: Как посчитать затраченное время по задачам для каждого сотрудника
     href: how-to-calculate-employee-time-by-tasks.md
+  - name: Как передать незавершенные задачи уволенного сотрудника
+    href: how-to-delegate-fired-employee-tasks.md
