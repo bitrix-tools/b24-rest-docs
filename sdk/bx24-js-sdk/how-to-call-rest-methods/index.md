@@ -26,7 +26,7 @@ BX24.js позволяет вызывать методы Битрикс24 из �
 
 - Необходимый scope зависит от вызываемого метода. Значения scope смотрите в справочнике [Права доступа](../../../api-reference/scopes/permissions.md)
 - Доступ к данным дополнительно зависит от прав пользователя, от имени которого выполняется запрос
-- Если вызвать [`BX24.callMethod`](./bx24-call-method.md) или [`BX24.callBatch`](./bx24-call-batch.md) до `BX24.init`, библиотека отложит запрос до завершения инициализации
+- Если вызвать [`BX24.callMethod`](./bx24-call-method.md), [`BX24.callBatch`](./bx24-call-batch.md), [`BX24.callBind`](./bx24-call-bind.md) или [`BX24.callUnbind`](./bx24-call-unbind.md) до `BX24.init`, библиотека отложит запрос до завершения инициализации
 - В коробочной версии Битрикс24 вместо [`BX24.callMethod()`](./bx24-call-method.md) используйте [`BX.rest.callMethod()`](./bx24-call-method.md)
 - Регистрировать и удалять обработчики онлайн-событий можно с помощью [`BX24.callBind`](./bx24-call-bind.md) и [`BX24.callUnbind`](./bx24-call-unbind.md) 
 
