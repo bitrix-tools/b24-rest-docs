@@ -464,7 +464,7 @@ HTTP-статус: **200**
 [`object`](../../data-types.md) | Объект файла, где `id` — идентификатор файла загрузки [(подробное описание)](#files-upload-item) ||
 |#
 
-#### Объект FILES.upload{id} {#files-upload-item}
+#### Объект FILES.upload\{id\} {#files-upload-item}
 
 #|
 || **Название**
@@ -574,7 +574,7 @@ HTTP-статус: **200**
 [`object`](../../data-types.md) | Объект модели файла, где `id` — идентификатор файла загрузки [(подробное описание)](#file-models-upload-item) ||
 |#
 
-#### Объект FILE_MODELS.upload{id} {#file-models-upload-item}
+#### Объект FILE_MODELS.upload\{id\} {#file-models-upload-item}
 
 #|
 || **Название**

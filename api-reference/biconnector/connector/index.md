@@ -281,4 +281,4 @@ table=sales_2024&limit=100&mapFields[deal_id]=Сделка&connection[login]=use
 - [{#T}](../source/index.md)
 - [{#T}](../dataset/index.md)
 - [Пример создания коннектора на базе B24PHPSDK](https://github.com/bitrix24/b24sdk-examples/tree/main/php/special/biconnector)
-- [Митап про создание коннектора](../../../meetups.md#biconnectorMeetup)
+- [Митап про создание коннектора](../../../meetups.md#biconnector-meetup)

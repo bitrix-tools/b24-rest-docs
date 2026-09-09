@@ -56,7 +56,7 @@
 
 <iframe src="https://vk.ru/video_ext.php?oid=-211967493&id=456240208&hd=1" width="640" height="360" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
-## Коннекторы для Битрикс24 BI-Конструктор {#biconnector-meetup} {#biconnectorMeetup}
+## Коннекторы для Битрикс24 BI-Конструктор {#biconnector-meetup}
 
 Дата: 27.05.2025
 

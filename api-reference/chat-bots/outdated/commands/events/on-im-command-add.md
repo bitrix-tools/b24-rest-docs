@@ -305,7 +305,7 @@
 Структура описана [ниже](#command-item) ||
 |#
 
-#### Элемент /{COMMAND_ID/} {#command-item}
+#### Элемент \{COMMAND_ID\} {#command-item}
 
 #|
 || **Параметр**
