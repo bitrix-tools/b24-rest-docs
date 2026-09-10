@@ -25,3 +25,5 @@ items:
     href: how-to-move-activity-between-objects.md
   - name: Как внести дату оплаты в поле сделки
     href: how-to-set-paid-date-to-deal.md
+  - name: Как сохранить сумму оплат в поле сделки
+    href: how-to-set-paid-sum-to-deal.md

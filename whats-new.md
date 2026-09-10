@@ -2,6 +2,14 @@
 
 ## 2026
 
+### 10 сентября, 2026
+
+- Добавили туториал [Как работать с полем Привязка к справочникам CRM](./tutorials/crm/how-to-add-crm-objects/how-to-use-crm-status-field.md)
+- Добавили туториал [Как работать с полем Привязка к элементам инфоблоков](./tutorials/crm/how-to-add-crm-objects/how-to-use-iblock-binding-field.md)
+- Добавили туториал [Как работать с полем Привязка к разделам инфоблоков](./tutorials/crm/how-to-add-crm-objects/how-to-use-iblock-section-binding-field.md)
+- Добавили туториал [Как работать с полем типа Список](./tutorials/crm/how-to-add-crm-objects/how-to-use-enumeration-field.md)
+- Добавили туториал [Как сохранить сумму оплат в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-sum-to-deal.md)
+
 ### 08 сентября, 2026
 
 - Добавили туториал [Как передать незавершенные задачи уволенного сотрудника](./tutorials/tasks/how-to-delegate-fired-employee-tasks.md)
