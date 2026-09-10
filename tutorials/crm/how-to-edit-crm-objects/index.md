@@ -95,6 +95,7 @@
 #|
 || **Сценарий** | **Основные методы** | **Результат** ||
 || [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Дата оплаты в пользовательском поле сделки ||
+|| [Как сохранить сумму оплат в поле сделки](./how-to-set-paid-sum-to-deal.md) | [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Оплаченная сумма и валюта в денежном поле сделки ||
 |#
 
 ## Продолжите изучение

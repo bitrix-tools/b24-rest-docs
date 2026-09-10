@@ -3,7 +3,7 @@ href: index.md
 items: 
   - name: Обзор 
     href: index.md
-  - name: Мастер установки 
+  - name: Мастер установки тиражного приложения
     href: installation-master.md
   - name: Мастер настройки REST-only приложения
     href: rest-only-installation-master.md

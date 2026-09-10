@@ -9,5 +9,5 @@ items:
     href: bx24-select-users.md
   - name: Показать диалог выбора прав доступа
     href: bx24-select-access.md
-  - name: Вызвать диалог выбора сущности CRM
+  - name: Вызвать диалог выбора объектов CRM
     href: bx24-select-crm.md

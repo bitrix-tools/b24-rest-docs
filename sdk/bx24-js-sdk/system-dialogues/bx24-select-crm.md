@@ -1,4 +1,4 @@
-# Вызвать диалог выбора сущности CRM BX24.selectCRM
+# Вызвать диалог выбора объектов CRM BX24.selectCRM
 
 {% note tip "" %}
 
@@ -10,10 +10,14 @@
 {% endnote %}
 
 ```js
-BX24.selectCRM({entityType: value, multiple: true, value:value}): void;
+BX24.selectCRM(params: object, callback: callable): void;
 ```
 
-Функция `BX24.selectCRM` вызывает системный диалог выбора сущности CRM.
+Метод `BX24.selectCRM` показывает стандартный диалог выбора лидов, контактов, компаний, сделок и предложений.
+
+Диалог рисует сам Битрикс24 поверх фрейма приложения. Приложению не нужно получать список элементов CRM: пользователь видит в диалоге только доступные ему элементы. Собственный scope диалогу не нужен — он открывает интерфейс Битрикс24, а не обращается к REST API.
+
+Вызвать метод можно только из приложения, встроенного во фрейм Битрикс24. Вызывайте его внутри обработчика [BX24.init](../system-functions/bx24-init.md).
 
 ## Параметры метода
 
@@ -23,24 +27,81 @@ BX24.selectCRM({entityType: value, multiple: true, value:value}): void;
 || **Название**
 `тип` | **Описание** ||
 || **entityType**
-[`array`](../../../api-reference/data-types.md) | Какие типы объектов выводить в диалоге. Варианты значений: 
-- lead — Лиды
-- contact — Контакты
-- company — Компании
-- deal — Сделки
-- quote — Предложения ||
+[`array`](../../../api-reference/data-types.md) | Типы объектов, которые нужно вывести в диалоге. Возможные значения:
+
+- `lead` — лиды
+- `contact` — контакты
+- `company` — компании
+- `deal` — сделки
+- `quote` — предложения
+
+Неподдерживаемые значения метод исключает из списка. Если не передать параметр или после исключения значений список окажется пустым, метод покажет лиды, контакты и компании ||
 || **multiple**
-[`boolean`](../../../api-reference/data-types.md) | Можно ли выбирать несколько объектов. По умолчанию — `false`. ||
+[`boolean`](../../../api-reference/data-types.md) | Разрешает выбрать несколько объектов. По умолчанию — `false` ||
 || **value**
-[`array`](../../../api-reference/data-types.md) | Какие объекты сразу добавить в выбранные в диалоге. Работает только в случае `multiple = true`. ||
+[`object`](../../../api-reference/data-types.md) | Объекты, которые нужно отметить выбранными при открытии диалога [(подробное описание)](#value).
+
+Идентификаторы меньше единицы метод игнорирует. Если `multiple` равен `false` и в `value` передано несколько элементов, выбранным останется первый элемент ||
+|| **callback***
+[`callable`](../../../api-reference/data-types.md) | Функция обратного вызова, которая получает выбранные объекты CRM [(подробное описание)](#callback) ||
 |#
 
-Что приходит обработчику:
+### Параметр value {#value}
+
+Ключ объекта `value` — тип объекта CRM, значение — массив числовых идентификаторов. Передавайте только типы, указанные в параметре `entityType`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **lead**
+[`integer[]`](../../../api-reference/data-types.md) | Идентификаторы лидов ||
+|| **contact**
+[`integer[]`](../../../api-reference/data-types.md) | Идентификаторы контактов ||
+|| **company**
+[`integer[]`](../../../api-reference/data-types.md) | Идентификаторы компаний ||
+|| **deal**
+[`integer[]`](../../../api-reference/data-types.md) | Идентификаторы сделок ||
+|| **quote**
+[`integer[]`](../../../api-reference/data-types.md) | Идентификаторы предложений ||
+|#
+
+## Пример кода
+
+Показать диалог множественного выбора, отметить несколько элементов и вывести выбранные объекты:
+
+```js
+BX24.init(() => {
+    BX24.selectCRM(
+        {
+            entityType: ['lead', 'contact', 'company', 'deal', 'quote'],
+            multiple: true,
+            value: {
+                lead: [1348, 2, 35],
+                contact: [2],
+                company: [4, 3],
+                deal: [1, 2],
+                quote: [1]
+            }
+        },
+        (selected) => {
+            console.log(selected);
+        }
+    );
+});
+```
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+## Обработка ответа {#callback}
+
+Диалог не возвращает данные напрямую. После подтверждения выбора функция `callback` получает объект, в котором элементы сгруппированы по типам CRM: `lead`, `contact`, `company`, `deal`, `quote`.
+
+Если пользователь закрыл диалог крестиком или кнопкой отмены, функция `callback` не вызывается.
 
 ```json
 {
-    "lead": [
-        {
+    "lead": {
+        "0": {
             "id": "L_1348",
             "type": "lead",
             "place": "lead",
@@ -48,9 +109,9 @@ BX24.selectCRM({entityType: value, multiple: true, value:value}): void;
             "desc": "Гость",
             "url": "/crm/lead/show/1348/"
         }
-    ],
-    "contact": [
-        {
+    },
+    "contact": {
+        "0": {
             "id": "C_2",
             "type": "contact",
             "place": "contact",
@@ -59,29 +120,62 @@ BX24.selectCRM({entityType: value, multiple: true, value:value}): void;
             "url": "/crm/contact/show/2/",
             "image": "/upload/resize_cache/crm/8b5/25_25_2/MM35_PG13.jpg"
         }
-    ],
-    "company": [],
-    "deal": [],
-    "quote": []
+    },
+    "company": {},
+    "deal": {},
+    "quote": {}
 }
 ```
 
-## Пример кода
+### Возвращаемые данные
 
-```js
-BX24.selectCRM(
-    {
-        entityType: ['lead', 'contact', 'company', 'deal', 'quote'],
-        multiple: true,
-        value: {lead:[1348,2,35], contact:[2], company:[4,3], deal:[1,2], quote:[1]}
-    }, 
-    function(){
-        console.log(arguments);
-    }
-)
-```
+Каждый ключ объекта содержит выбранные элементы соответствующего типа. Элементы хранятся под числовыми ключами `0`, `1` и далее.
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **lead**
+[`object`](../../../api-reference/data-types.md) | Выбранные лиды ||
+|| **contact**
+[`object`](../../../api-reference/data-types.md) | Выбранные контакты ||
+|| **company**
+[`object`](../../../api-reference/data-types.md) | Выбранные компании ||
+|| **deal**
+[`object`](../../../api-reference/data-types.md) | Выбранные сделки ||
+|| **quote**
+[`object`](../../../api-reference/data-types.md) | Выбранные предложения ||
+|#
+
+#### Поля выбранного элемента
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../../api-reference/data-types.md) | Идентификатор элемента с префиксом типа: `L_` — лид, `C_` — контакт, `CO_` — компания, `D_` — сделка, `Q_` — предложение ||
+|| **type**
+[`string`](../../../api-reference/data-types.md) | Тип элемента CRM: `lead`, `contact`, `company`, `deal` или `quote` ||
+|| **place**
+[`string`](../../../api-reference/data-types.md) | Тип элемента в интерфейсе диалога ||
+|| **title**
+[`string`](../../../api-reference/data-types.md) | Название элемента ||
+|| **desc**
+[`string`](../../../api-reference/data-types.md) | Дополнительное описание элемента. Содержание зависит от типа объекта ||
+|| **url**
+[`string`](../../../api-reference/data-types.md) | Относительный путь к карточке элемента CRM ||
+|| **image**
+[`string`](../../../api-reference/data-types.md) | Относительный путь к изображению элемента. Поле может отсутствовать ||
+|| **largeImage**
+[`string`](../../../api-reference/data-types.md) | Относительный путь к крупному изображению элемента. Поле может отсутствовать ||
+|| **customData**
+[`any`](../../../api-reference/data-types.md) | Дополнительные данные элемента. Поле возвращается, если данные передал компонент выбора ||
+|| **advancedInfo**
+[`any`](../../../api-reference/data-types.md) | Расширенная информация об элементе. Поле возвращается, если данные передал компонент выбора ||
+|#
+
+## Обработка ошибок
+
+Кодов ошибок диалог не возвращает. Неподдерживаемые значения `entityType` и некорректные идентификаторы в `value` метод игнорирует. Если пользователь закрыл диалог без подтверждения выбора, функция `callback` не вызывается.
 
 ## Продолжите изучение
 
