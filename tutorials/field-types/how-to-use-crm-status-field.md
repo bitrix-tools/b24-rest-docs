@@ -1,21 +1,21 @@
 # Как работать с полем Привязка к справочникам CRM
 
-> Scope: [`crm`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — административный доступ к разделу CRM
 >
-> - [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) — администратор CRM
-> - [crm.status.entity.types](../../../api-reference/crm/status/crm-status-entity-types.md) — любой пользователь
-> - [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md) — любой пользователь
-> - [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
-> - [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
+> - [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) — администратор CRM
+> - [crm.status.entity.types](../../api-reference/crm/status/crm-status-entity-types.md) — любой пользователь
+> - [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md) — любой пользователь
+> - [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
+> - [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
 
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
 
-- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
-- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -25,10 +25,10 @@
 
 Сценарий состоит из четырех шагов.
 
-1. Создадим поле методом [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-2. Получим варианты справочника методом [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md)
-3. Запишем выбранный `STATUS_ID` методом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md)
-4. Проверим значение методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
+1. Создадим поле методом [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+2. Получим варианты справочника методом [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md)
+3. Запишем выбранный `STATUS_ID` методом [crm.item.update](../../api-reference/crm/universal/crm-item-update.md)
+4. Проверим значение методом [crm.item.get](../../api-reference/crm/universal/crm-item-get.md)
 
 В результате в поле `UF_CRM_CLIENT_INDUSTRY` будет сохранен код `IT`. В карточке сделки ему соответствует значение «Информационные технологии».
 
@@ -37,7 +37,7 @@
 Подготовьте данные сценария:
 
 - **Сделка, в которой заполним поле.** Понадобится ее `id`. У сделок `entityTypeId` равен `2`
-- **Идентификатор справочника.** В примере это `INDUSTRY`. Идентификаторы доступных справочников возвращает метод [crm.status.entity.types](../../../api-reference/crm/status/crm-status-entity-types.md)
+- **Идентификатор справочника.** В примере это `INDUSTRY`. Идентификаторы доступных справочников возвращает метод [crm.status.entity.types](../../api-reference/crm/status/crm-status-entity-types.md)
 - **Доступ к REST.** Вебхук или приложение с правом `crm`. Создавать пользовательские поля может только администратор CRM
 
 Храните путь вебхука в переменной окружения и не публикуйте его в открытом коде.
@@ -48,11 +48,11 @@
 
 Для примеров с b24pysdk нужен Python 3.9 или новее.
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## 1. Создадим поле «Сфера клиента»
 
-Метод [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) создает пользовательское поле сразу для всех сделок.
+Метод [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) создает пользовательское поле сразу для всех сделок.
 
 Передадим в `fields`:
 
@@ -169,7 +169,7 @@
 
 ## 2. Получим варианты справочника
 
-Метод [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md) возвращает варианты справочника. Передадим в `entityId` значение `INDUSTRY`, которое указали в настройках поля.
+Метод [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md) возвращает варианты справочника. Передадим в `entityId` значение `INDUSTRY`, которое указали в настройках поля.
 
 {% list tabs %}
 
@@ -267,7 +267,7 @@
 
 {% note warning "" %}
 
-Не передавайте числовой `ID` записи справочника, ее название или код из другого справочника. Поле ожидает строковый `STATUS_ID` из ответа [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md) для `INDUSTRY`.
+Не передавайте числовой `ID` записи справочника, ее название или код из другого справочника. Поле ожидает строковый `STATUS_ID` из ответа [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md) для `INDUSTRY`.
 
 Метод обновления сделки не проверяет принадлежность к справочнику и может сохранить неверное значение без ошибки. Проверяйте выбранный код на своей стороне до записи.
 
@@ -275,7 +275,7 @@
 
 ## 3. Запишем выбранный STATUS_ID в сделку
 
-Метод [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) обновляет сделку. Передадим:
+Метод [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) обновляет сделку. Передадим:
 
 - `entityTypeId` — значение `2` для сделок
 - `id` — идентификатор сделки
@@ -384,7 +384,7 @@
 
 ## 4. Проверим сохраненное значение
 
-Метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает сделку. Передадим тот же `entityTypeId`, `id` и `useOriginalUfNames`.
+Метод [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) возвращает сделку. Передадим тот же `entityTypeId`, `id` и `useOriginalUfNames`.
 
 {% list tabs %}
 
@@ -478,18 +478,18 @@
 }
 ```
 
-Метод возвращает код `IT`, а не название «Информационные технологии». Чтобы показать название в своем интерфейсе, сопоставьте код со значением `NAME` из ответа [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md).
+Метод возвращает код `IT`, а не название «Информационные технологии». Чтобы показать название в своем интерфейсе, сопоставьте код со значением `NAME` из ответа [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md).
 
 ## Проверим результат
 
 Сценарий выполнен успешно, если:
 
-- метод [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md) вернул для справочника `INDUSTRY` вариант со `STATUS_ID: "IT"`
+- метод [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md) вернул для справочника `INDUSTRY` вариант со `STATUS_ID: "IT"`
 - после обновления сделки поле `UF_CRM_CLIENT_INDUSTRY` содержит строку `IT`
-- повторный вызов [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает то же значение
+- повторный вызов [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) возвращает то же значение
 - в карточке сделки поле «Сфера клиента» показывает вариант «Информационные технологии»
 
-Если код в ответе отличается от выбранного `STATUS_ID`, не считайте обновление успешным, даже когда [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) вернул HTTP 200.
+Если код в ответе отличается от выбранного `STATUS_ID`, не считайте обновление успешным, даже когда [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) вернул HTTP 200.
 
 ## Ошибки и диагностика
 
@@ -497,23 +497,23 @@
 
 #|
 || **Код или текст ошибки** | **Причина и действие** ||
-|| Пустой код с текстом `The parameter entityId is not defined or invalid.` | В [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md) не передан `entityId` или передано пустое значение. Укажите `INDUSTRY` ||
+|| Пустой код с текстом `The parameter entityId is not defined or invalid.` | В [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md) не передан `entityId` или передано пустое значение. Укажите `INDUSTRY` ||
 || Пустой код с текстом `The parameter entityId must be a string.` | В `entityId` передан массив или значение другого типа. Передайте идентификатор справочника строкой ||
-|| Пустой код с текстом `The 'FIELD_NAME' field is not found.` | В [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) не передано имя поля. Передайте `FIELD_NAME` ||
+|| Пустой код с текстом `The 'FIELD_NAME' field is not found.` | В [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) не передано имя поля. Передайте `FIELD_NAME` ||
 || `ERROR_CORE` с текстом `Указан неверный пользовательский тип.<br>` | В `USER_TYPE_ID` передан неизвестный тип. Для привязки к справочнику CRM укажите `crm_status` ||
-|| `100` с текстом `Could not find value for parameter {id}` | В [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) не передан идентификатор сделки ||
+|| `100` с текстом `Could not find value for parameter {id}` | В [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) не передан идентификатор сделки ||
 || `NOT_FOUND` с текстом `Элемент не найден` | Сделки с таким `id` нет или у пользователя нет права на ее чтение ||
 |#
 
 ### Метод вернул успех, но значение неверное
 
-Поле типа `crm_status` не проверяет значение по справочнику при записи через REST. В тестовом Битрикс24 [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) вернул HTTP 200 во всех трех случаях, а [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) прочитал сохраненное значение:
+Поле типа `crm_status` не проверяет значение по справочнику при записи через REST. В тестовом Битрикс24 [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) вернул HTTP 200 во всех трех случаях, а [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) прочитал сохраненное значение:
 
 - числовой `ID` варианта `539` сохранился как строка `"539"`
 - несуществующий код `NOT_A_REAL_INDUSTRY` сохранился без изменений
 - код `CALL` из справочника `SOURCE` сохранился в поле, привязанном к `INDUSTRY`
 
-Так же ведет себя и настройка поля. Если в `SETTINGS.ENTITY_TYPE` передать идентификатор несуществующего справочника, поле создается без ошибки и привязывается к первому справочнику из списка. Отличить такое поле можно по ответу [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md): у правильно настроенного поля `ENTITY_TYPE` приходит строкой `INDUSTRY`, а у поля с подменой — объектом с полями `ID` и `NAME` того справочника, который подставился.
+Так же ведет себя и настройка поля. Если в `SETTINGS.ENTITY_TYPE` передать идентификатор несуществующего справочника, поле создается без ошибки и привязывается к первому справочнику из списка. Отличить такое поле можно по ответу [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md): у правильно настроенного поля `ENTITY_TYPE` приходит строкой `INDUSTRY`, а у поля с подменой — объектом с полями `ID` и `NAME` того справочника, который подставился.
 
 Это не ошибки метода, поэтому они не входят в таблицу выше. Перед обновлением проверьте, что выбранное значение совпадает с одним из `STATUS_ID`, полученных для нужного `entityId`. После обновления прочитайте сделку и сравните сохраненный код с отправленным.
 
@@ -521,8 +521,8 @@
 
 - `INDUSTRY` — идентификатор справочника, а `IT` — идентификатор его варианта. Эти значения нельзя менять местами
 - в поле сохраняется `STATUS_ID`, а не числовой `ID` записи справочника и не `NAME`
-- [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) не проверяет, существует ли код и относится ли он к справочнику из `SETTINGS.ENTITY_TYPE`
-- варианты справочника берутся перед записью, а выбранный код сверяется с актуальным ответом [crm.status.entity.items](../../../api-reference/crm/status/crm-status-entity-items.md)
+- [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) не проверяет, существует ли код и относится ли он к справочнику из `SETTINGS.ENTITY_TYPE`
+- варианты справочника берутся перед записью, а выбранный код сверяется с актуальным ответом [crm.status.entity.items](../../api-reference/crm/status/crm-status-entity-items.md)
 - с параметром `useOriginalUfNames: "Y"` поле называется `UF_CRM_CLIENT_INDUSTRY`, без него универсальные методы возвращают его как `ufCrmClientIndustry`
 - создание поля выполняется один раз, а получение вариантов и запись значения — при каждом выборе пользователя
 
@@ -530,7 +530,7 @@
 
 Код проходит все четыре шага: создает поле, получает варианты `INDUSTRY`, выбирает вариант «Информационные технологии», записывает его `STATUS_ID` в сделку и проверяет результат.
 
-Замените вебхук и идентификатор сделки. Если поле уже существует, удалите из примера вызов [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md).
+Замените вебхук и идентификатор сделки. Если поле уже существует, удалите из примера вызов [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md).
 
 {% list tabs %}
 
@@ -745,8 +745,8 @@
 
 ## Продолжите изучение
 
-- [{#T}](../../../api-reference/crm/status/crm-status-entity-types.md)
-- [{#T}](../../../api-reference/crm/status/crm-status-entity-items.md)
-- [{#T}](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-- [{#T}](../../../api-reference/crm/universal/crm-item-update.md)
-- [{#T}](../../../api-reference/crm/universal/crm-item-get.md)
+- [{#T}](../../api-reference/crm/status/crm-status-entity-types.md)
+- [{#T}](../../api-reference/crm/status/crm-status-entity-items.md)
+- [{#T}](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](../../api-reference/crm/universal/crm-item-update.md)
+- [{#T}](../../api-reference/crm/universal/crm-item-get.md)

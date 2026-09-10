@@ -70,7 +70,7 @@
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/field-types/how-to-add-user-field-to-spa.md)
 
 {% endnote %}
 

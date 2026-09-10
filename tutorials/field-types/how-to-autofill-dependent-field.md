@@ -1,19 +1,19 @@
 # Как автоматически заполнить зависимое поле CRM после изменения основного поля
 
-> Scope: [`crm`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «изменения» элементов объекта CRM
 >
-> - [event.bind](../../../api-reference/events/event-bind.md) — любой пользователь приложения
-> - [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
-> - [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
+> - [event.bind](../../api-reference/events/event-bind.md) — любой пользователь приложения
+> - [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
+> - [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
 
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
 
-- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
-- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -23,10 +23,10 @@
 
 Сценарий состоит из четырех шагов.
 
-1. Подписать приложение на событие [onCrmDealUpdate](../../../api-reference/crm/deals/events/on-crm-deal-update.md) методом [event.bind](../../../api-reference/events/event-bind.md)
-2. Получить значения полей сделки методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
+1. Подписать приложение на событие [onCrmDealUpdate](../../api-reference/crm/deals/events/on-crm-deal-update.md) методом [event.bind](../../api-reference/events/event-bind.md)
+2. Получить значения полей сделки методом [crm.item.get](../../api-reference/crm/universal/crm-item-get.md)
 3. Проверить значение основного поля в коде обработчика
-4. Записать значение в зависимое поле методом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md)
+4. Записать значение в зависимое поле методом [crm.item.update](../../api-reference/crm/universal/crm-item-update.md)
 
 ## Что нужно до начала
 
@@ -47,19 +47,19 @@
 - `UF_CRM_DOCUMENTS` — поле «Документы»
 - `102` и `103` — идентификаторы значений списка «Услуга»
 
-Идентификаторы пользовательских полей и значений списка в каждом Битрикс24 свои. Их можно посмотреть в настройках пользовательских полей или получить методами [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) и [crm.deal.userfield.get](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md).
+Идентификаторы пользовательских полей и значений списка в каждом Битрикс24 свои. Их можно посмотреть в настройках пользовательских полей или получить методами [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) и [crm.deal.userfield.get](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md).
 
 Фрагменты в шагах 2–4 показывают отдельные операции внутри обработчика. Полный код обработчика — в блоке [Пример кода](#primer-koda).
 
 ## 1. Подпишем приложение на изменение сделки
 
-Метод [event.bind](../../../api-reference/events/event-bind.md) регистрирует обработчик события. В параметре `event` передайте код события `ONCRMDEALUPDATE`, в `handler` — публичный HTTPS-URL обработчика.
+Метод [event.bind](../../api-reference/events/event-bind.md) регистрирует обработчик события. В параметре `event` передайте код события `ONCRMDEALUPDATE`, в `handler` — публичный HTTPS-URL обработчика.
 
 Метод работает только в контексте приложения. Входящий вебхук не подойдет для регистрации события методом `event.bind`.
 
-В примерах ниже `$b24` для JS, `$b24` для PHP и `client` для Python — уже инициализированные клиенты с OAuth-токеном приложения. Получение, хранение и продление OAuth-токенов описаны в статье [Полный протокол авторизации OAuth 2.0](../../../settings/oauth/index.md).
+В примерах ниже `$b24` для JS, `$b24` для PHP и `client` для Python — уже инициализированные клиенты с OAuth-токеном приложения. Получение, хранение и продление OAuth-токенов описаны в статье [Полный протокол авторизации OAuth 2.0](../../settings/oauth/index.md).
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -120,7 +120,7 @@
 
 ## 2. Получим значения полей сделки
 
-Когда сделка изменится, Битрикс24 отправит POST-запрос на URL обработчика. Событие [onCrmDealUpdate](../../../api-reference/crm/deals/events/on-crm-deal-update.md) передает только идентификатор сделки в `data.FIELDS.ID`. Значения полей в событие не входят, поэтому обработчик должен запросить сделку методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md).
+Когда сделка изменится, Битрикс24 отправит POST-запрос на URL обработчика. Событие [onCrmDealUpdate](../../api-reference/crm/deals/events/on-crm-deal-update.md) передает только идентификатор сделки в `data.FIELDS.ID`. Значения полей в событие не входят, поэтому обработчик должен запросить сделку методом [crm.item.get](../../api-reference/crm/universal/crm-item-get.md).
 
 Тело запроса приходит как `application/x-www-form-urlencoded`. В примере ниже структура показана в формате JSON.
 
@@ -364,7 +364,7 @@ if (deal.UF_CRM_DOCUMENTS === documents) {
 
 ## 4. Изменим зависимое поле
 
-Метод [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) обновляет только поля, которые переданы в объекте `fields`. Передайте идентификатор сделки из события и новое значение зависимого поля.
+Метод [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) обновляет только поля, которые переданы в объекте `fields`. Передайте идентификатор сделки из события и новое значение зависимого поля.
 
 В примере передаем:
 
@@ -442,7 +442,7 @@ if (deal.UF_CRM_DOCUMENTS === documents) {
 
 Откройте карточку сделки в CRM. Если в поле «Услуга» выбрано значение, которому приложение сопоставило список документов, поле «Документы» будет заполнено после сохранения сделки и обработки события.
 
-Проверить результат через REST можно методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md).
+Проверить результат через REST можно методом [crm.item.get](../../api-reference/crm/universal/crm-item-get.md).
 
 ```json
 {
@@ -482,10 +482,10 @@ if (deal.UF_CRM_DOCUMENTS === documents) {
 - Сценарий срабатывает после сохранения сделки. Он не меняет интерфейс карточки в момент выбора значения
 - Событие `ONCRMDEALUPDATE` сообщает только идентификатор сделки, а не список измененных полей. Поэтому обработчик всегда читает сделку методом `crm.item.get`
 - Обновление зависимого поля тоже вызывает событие изменения сделки. Перед `crm.item.update` сравнивайте текущее и новое значения
-- Если важно не потерять изменение при временной недоступности обработчика, используйте [офлайн-события](../../../api-reference/events/offline-events.md). Приложение сможет забрать накопленные события из очереди
-- Для смарт-процессов используйте событие [onCrmDynamicItemUpdate](../../../api-reference/crm/universal/events/on-crm-dynamic-item-update.md). В событии придут `ID` элемента и `ENTITY_TYPE_ID`, их нужно передать в `crm.item.get` и `crm.item.update`
-- Для лидов, контактов и компаний используйте события соответствующего объекта: [onCrmLeadUpdate](../../../api-reference/crm/leads/events/on-crm-lead-update.md), [onCrmContactUpdate](../../../api-reference/crm/contacts/events/on-crm-contact-update.md), [onCrmCompanyUpdate](../../../api-reference/crm/companies/events/on-crm-company-update.md)
-- Проверяйте `application_token`, чтобы убедиться, что запрос пришел от Битрикс24. Подробный разбор есть в статье [Безопасная обработка событий](../../../api-reference/events/safe-event-handlers.md)
+- Если важно не потерять изменение при временной недоступности обработчика, используйте [офлайн-события](../../api-reference/events/offline-events.md). Приложение сможет забрать накопленные события из очереди
+- Для смарт-процессов используйте событие [onCrmDynamicItemUpdate](../../api-reference/crm/universal/events/on-crm-dynamic-item-update.md). В событии придут `ID` элемента и `ENTITY_TYPE_ID`, их нужно передать в `crm.item.get` и `crm.item.update`
+- Для лидов, контактов и компаний используйте события соответствующего объекта: [onCrmLeadUpdate](../../api-reference/crm/leads/events/on-crm-lead-update.md), [onCrmContactUpdate](../../api-reference/crm/contacts/events/on-crm-contact-update.md), [onCrmCompanyUpdate](../../api-reference/crm/companies/events/on-crm-company-update.md)
+- Проверяйте `application_token`, чтобы убедиться, что запрос пришел от Битрикс24. Подробный разбор есть в статье [Безопасная обработка событий](../../api-reference/events/safe-event-handlers.md)
 - Токены OAuth не придут в обработчик, если изменение выполнил робот, бизнес-процесс или агент. Для надежной фоновой обработки храните токены пользователя, который установил приложение
 
 ## Пример кода
@@ -756,10 +756,10 @@ if (deal.UF_CRM_DOCUMENTS === documents) {
 
 ## Продолжите изучение
 
-- [{#T}](../../../api-reference/events/index.md)
-- [{#T}](../../../api-reference/events/event-bind.md)
-- [{#T}](../../../api-reference/events/safe-event-handlers.md)
-- [{#T}](../../../api-reference/crm/deals/events/on-crm-deal-update.md)
-- [{#T}](../../../api-reference/crm/universal/crm-item-get.md)
-- [{#T}](../../../api-reference/crm/universal/crm-item-update.md)
-- [{#T}](../../../api-reference/crm/deals/user-defined-fields/index.md)
+- [{#T}](../../api-reference/events/index.md)
+- [{#T}](../../api-reference/events/event-bind.md)
+- [{#T}](../../api-reference/events/safe-event-handlers.md)
+- [{#T}](../../api-reference/crm/deals/events/on-crm-deal-update.md)
+- [{#T}](../../api-reference/crm/universal/crm-item-get.md)
+- [{#T}](../../api-reference/crm/universal/crm-item-update.md)
+- [{#T}](../../api-reference/crm/deals/user-defined-fields/index.md)

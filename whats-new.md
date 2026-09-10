@@ -4,11 +4,12 @@
 
 ### 10 сентября, 2026
 
-- Добавили туториал [Как работать с полем Привязка к справочникам CRM](./tutorials/crm/how-to-add-crm-objects/how-to-use-crm-status-field.md)
-- Добавили туториал [Как работать с полем Привязка к элементам инфоблоков](./tutorials/crm/how-to-add-crm-objects/how-to-use-iblock-binding-field.md)
-- Добавили туториал [Как работать с полем Привязка к разделам инфоблоков](./tutorials/crm/how-to-add-crm-objects/how-to-use-iblock-section-binding-field.md)
-- Добавили туториал [Как работать с полем типа Список](./tutorials/crm/how-to-add-crm-objects/how-to-use-enumeration-field.md)
+- Добавили туториал [Как работать с полем Привязка к справочникам CRM](./tutorials/field-types/how-to-use-crm-status-field.md)
+- Добавили туториал [Как работать с полем Привязка к элементам инфоблоков](./tutorials/field-types/how-to-use-iblock-binding-field.md)
+- Добавили туториал [Как работать с полем Привязка к разделам инфоблоков](./tutorials/field-types/how-to-use-iblock-section-binding-field.md)
+- Добавили туториал [Как работать с полем типа Список](./tutorials/field-types/how-to-use-enumeration-field.md)
 - Добавили туториал [Как сохранить сумму оплат в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-sum-to-deal.md)
+- Собрали туториалы по работе с полями в отдельный раздел [Типы полей](./tutorials/field-types/index.md)
 
 ### 08 сентября, 2026
 
@@ -28,12 +29,12 @@
 - Добавили туториал [Как перенести файл из поля CRM в задачу](./tutorials/tasks/how-to-transfer-file-from-crm-to-task.md)
 - Добавили туториал [Как отправить письмо из подключенного ящика](./tutorials/mail/how-to-send-email-from-mailbox.md)
 - Добавили туториал [Как создать дело CRM из входящего письма](./tutorials/mail/how-to-create-crm-activity-from-email.md)
-- Добавили туториал [Как работать с полем Привязка к элементам CRM](./tutorials/crm/how-to-add-crm-objects/how-to-use-crm-binding-field.md)
+- Добавили туториал [Как работать с полем Привязка к элементам CRM](./tutorials/field-types/how-to-use-crm-binding-field.md)
 
 ### 31 августа, 2026
 
 - Добавили методы [imopenlines.v2.*](./api-reference/imopenlines/statistics/index.md) для статистики открытых линий: агрегаты, список сессий, метрики сессий, оценки, переводы и нагрузка операторов
-- Добавили туториал [Как автоматически заполнить зависимое поле CRM после изменения основного поля](./tutorials/crm/how-to-edit-crm-objects/how-to-autofill-dependent-field.md)
+- Добавили туториал [Как автоматически заполнить зависимое поле CRM после изменения основного поля](./tutorials/field-types/how-to-autofill-dependent-field.md)
 
 ### 28 августа, 2026
 
@@ -1161,7 +1162,7 @@
 
 ### 26 февраля, 2025
 
-- Добавлен новый туториал [Как настроить округление для пользовательского поля типа «Число»](./tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- Добавлен новый туториал [Как настроить округление для пользовательского поля типа «Число»](./tutorials/field-types/how-to-add-precision-to-user-field.md)
 - Обновлена главная страница раздела [Учет рабочего времени](./api-reference/timeman/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 25 февраля, 2025
@@ -1222,7 +1223,7 @@
 
 ### 29 января, 2025
 
-- Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/field-types/how-to-add-user-field-to-spa.md)
 - Обновлена информация по методам пользовательских типов дел в CRM [crm.activity.type.*](./api-reference/crm/timeline/activities/types/index.md)
 - Обновлена информация по событиям дел в CRM [onCrmActivity*](./api-reference/crm/timeline/activities/events/index.md)
 

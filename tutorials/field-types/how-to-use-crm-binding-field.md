@@ -1,20 +1,20 @@
 # Как работать с полем Привязка к элементам CRM
 
-> Scope: [`crm`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — административный доступ к разделу CRM
 >
-> - [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) — администратор CRM
-> - [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
-> - [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
-> - [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) — любой пользователь
+> - [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) — администратор CRM
+> - [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) — пользователь с правом «изменения» элементов объекта CRM
+> - [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) — пользователь с правом «чтения» элементов объекта CRM
+> - [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) — любой пользователь
 
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
 
-- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
-- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -24,24 +24,24 @@
 
 Сценарий состоит из четырех шагов.
 
-1. Создадим поля методом [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-2. Запишем значения методом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md)
-3. Прочитаем привязки методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
-4. Развернем значения в записи методами [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) и [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md)
+1. Создадим поля методом [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+2. Запишем значения методом [crm.item.update](../../api-reference/crm/universal/crm-item-update.md)
+3. Прочитаем привязки методом [crm.item.get](../../api-reference/crm/universal/crm-item-get.md)
+4. Развернем значения в записи методами [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) и [crm.item.get](../../api-reference/crm/universal/crm-item-get.md)
 
 ## Что нужно до начала
 
 Подготовьте данные сценария:
 
 - **Сделка, в которой заполним поля.** Понадобится ее `id`. У сделок `entityTypeId` равен `2`. Сами поля создаются сразу для всех сделок, а не для одной
-- **Элементы, к которым будем привязывать.** В примере это контакт и две компании. Их идентификаторы вернут методы [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md) или [crm.contact.list](../../../api-reference/crm/contacts/crm-contact-list.md) и [crm.company.list](../../../api-reference/crm/companies/crm-company-list.md)
+- **Элементы, к которым будем привязывать.** В примере это контакт и две компании. Их идентификаторы вернут методы [crm.item.list](../../api-reference/crm/universal/crm-item-list.md) или [crm.contact.list](../../api-reference/crm/contacts/crm-contact-list.md) и [crm.company.list](../../api-reference/crm/companies/crm-company-list.md)
 - **Доступ к REST.** Вебхук или приложение с правом `crm`. Поля создает только администратор CRM
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## 1. Создадим поля привязки
 
-Создадим два поля методом [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) с параметрами:
+Создадим два поля методом [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) с параметрами:
 
 - `FIELD_NAME` — имя поля. Префикс `UF_CRM_` метод добавит сам, поэтому передаем только `BIND_ONE` и `BIND_MANY`
 - `USER_TYPE_ID` — укажем `crm`, это и есть тип «Привязка к элементам CRM»
@@ -165,18 +165,18 @@
 
 Полные имена полей стали `UF_CRM_BIND_ONE` и `UF_CRM_BIND_MANY`. Универсальные методы обращаются к ним в другом виде — `ufCrmBindOne` и `ufCrmBindMany`.
 
-Имя преобразуется по-разному. Если в нем есть цифра, оно остается без изменений после приставки `ufCrm_`: поле `UF_CRM_1688736288` придет как `ufCrm_1688736288`. Не собирайте имя вручную — возьмите готовое из ответа [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), там же видно `type` и `isMultiple` каждого поля. Список полей с исходными именами вернет [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md).
+Имя преобразуется по-разному. Если в нем есть цифра, оно остается без изменений после приставки `ufCrm_`: поле `UF_CRM_1688736288` придет как `ufCrm_1688736288`. Не собирайте имя вручную — возьмите готовое из ответа [crm.item.fields](../../api-reference/crm/universal/crm-item-fields.md), там же видно `type` и `isMultiple` каждого поля. Список полей с исходными именами вернет [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md).
 
 ## 2. Запишем значения
 
-Коды всех типов объектов перечислены в разделе [Формат значений для пользовательского поля «Привязка к элементам CRM»](../../../api-reference/crm/data-types.md#crm-binding-format). В примере ниже `C_1` — это контакт с `id` `1`, а `CO_1` и `CO_2` — компании.
+Коды всех типов объектов перечислены в разделе [Формат значений для пользовательского поля «Привязка к элементам CRM»](../../api-reference/crm/data-types.md#crm-binding-format). В примере ниже `C_1` — это контакт с `id` `1`, а `CO_1` и `CO_2` — компании.
 
 Здесь и проходит главное отличие двух полей:
 
 - **простое поле** принимает строку — `"C_1"`
 - **множественное** принимает массив строк — `["CO_1", "CO_2"]`
 
-Запишем оба значения одним вызовом [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md).
+Запишем оба значения одним вызовом [crm.item.update](../../api-reference/crm/universal/crm-item-update.md).
 
 {% list tabs %}
 
@@ -230,7 +230,7 @@
 
 ## 3. Прочитаем привязки
 
-Прочитаем сделку методом [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) и посмотрим, что сохранилось.
+Прочитаем сделку методом [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) и посмотрим, что сохранилось.
 
 {% list tabs %}
 
@@ -293,7 +293,7 @@
 
 Строка `C_1` сама по себе ничего не говорит пользователю. Чтобы показать имя контакта или название компании, значение нужно разобрать на код и номер, а затем получить элемент.
 
-Соответствие кодов и типов объектов вернет метод [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). В ответе `SYMBOL_CODE_SHORT` — это тот самый код из значения, а `ID` — идентификатор типа объекта, который принимает [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) в параметре `entityTypeId`.
+Соответствие кодов и типов объектов вернет метод [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md). В ответе `SYMBOL_CODE_SHORT` — это тот самый код из значения, а `ID` — идентификатор типа объекта, который принимает [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) в параметре `entityTypeId`.
 
 {% list tabs %}
 
@@ -401,11 +401,11 @@
 
 - в поле `ufCrmBindOne` лежит строка вида `C_1`, а не массив и не значение `Array`
 - в поле `ufCrmBindMany` лежит массив строк
-- каждое значение разобралось на известный код и номер, и метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) вернул по нему элемент
+- каждое значение разобралось на известный код и номер, и метод [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) вернул по нему элемент
 
 В интерфейсе Битрикс24 откройте карточку сделки. Созданные поля появляются в ней автоматически, но не обязательно в первом разделе — пролистайте карточку до конца. В поле «Ответственный контакт» будет имя контакта, в поле «Подрядчики» — названия компаний через запятую.
 
-Карточка подставляет названия сама, а метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) возвращает только коды и номера. Поэтому в интеграции имена приходится получать отдельно — этим и занят четвертый шаг.
+Карточка подставляет названия сама, а метод [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) возвращает только коды и номера. Поэтому в интеграции имена приходится получать отдельно — этим и занят четвертый шаг.
 
 ## Ошибки и диагностика
 
@@ -414,7 +414,7 @@
 #|
 || **Код** | **Причина и действие** ||
 || `100` с текстом `Expected iterable value for multiple field, but got string instead` | Во множественное поле передана строка. Передавайте массив строк ||
-|| `NOT_FOUND` в [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) | Элемента с таким `id` нет или у пользователя нет права на его чтение ||
+|| `NOT_FOUND` в [crm.item.get](../../api-reference/crm/universal/crm-item-get.md) | Элемента с таким `id` нет или у пользователя нет права на его чтение ||
 || `ERROR_CORE` с текстом «Поле ... уже существует» | Поле с таким именем уже заведено. Возьмите другое имя или используйте существующее поле ||
 || `ERROR_CORE` с текстом «Указан неверный пользовательский тип» | В `USER_TYPE_ID` передан несуществующий тип. Для привязки нужен `crm` ||
 || Пустой код с текстом `The 'FIELD_NAME' field is not found` | Не передано имя поля в `FIELD_NAME` ||
@@ -425,14 +425,14 @@
 - **в простом поле оказалась строка `Array`** — в него передали массив вместо строки. Значение потеряно, запишите его заново
 - **сохранился объект не того типа** — тип, запрещенный в `SETTINGS`, все равно сохраняется. Настройки поля ограничивают выбор в интерфейсе, но не проверяют запись через REST
 - **значение есть, а элемент не открывается** — привязка к несуществующему элементу тоже сохраняется. Существование элемента при записи не проверяется
-- **код в значении не найден в справочнике** — произвольный префикс вроде `XX_1` сохранится без ошибки. Сверьте код с ответом [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+- **код в значении не найден в справочнике** — произвольный префикс вроде `XX_1` сохранится без ошибки. Сверьте код с ответом [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
 
 ## Что важно учитывать
 
 - Поле не проверяет значение при записи. Собирайте и сверяйте его на своей стороне: неверная привязка сохранится молча, и ошибка всплывет позже
 - Проверка контейнера несимметрична: множественное поле отклонит строку, а простое молча примет массив. Тип значения выбирайте по `MULTIPLE`, а не по тому, сколько элементов привязываете сейчас
 - Значение хранит только код типа и номер. Имя контакта или название компании нужно получать отдельным запросом
-- Код типа берите из [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md), а не составляйте вручную. У смарт-процессов он вычисляется по особому правилу, описанному в [справочнике](../../../api-reference/crm/data-types.md#crm-binding-format)
+- Код типа берите из [crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md), а не составляйте вручную. У смарт-процессов он вычисляется по особому правилу, описанному в [справочнике](../../api-reference/crm/data-types.md#crm-binding-format)
 - Не путайте формат привязки с форматом целевого объекта в автоматизации: там используется полное имя типа — `DEAL_25`, а не `D_25`
 
 ## Где еще встречаются поля привязки
@@ -441,16 +441,16 @@
 
 #|
 || **Где** | **Поле** | **Методы** ||
-|| Объекты CRM: лид, сделка, контакт, компания, предложение | Пользовательское поле типа `crm` | [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) ||
-|| Задачи | Системное поле `UF_CRM_TASK`, множественное | [tasks.task.add](../../../api-reference/tasks/tasks-task-add.md), [tasks.task.update](../../../api-reference/tasks/tasks-task-update.md) ||
-|| Списки | Свойство элемента с типом привязки | [lists.field.add](../../../api-reference/lists/fields/lists-field-add.md), [lists.element.add](../../../api-reference/lists/elements/lists-element-add.md) ||
-|| Торговый каталог | Свойство товара с типом `ECrm` | [catalog.productProperty.add](../../../api-reference/catalog/product-property/catalog-product-property-add.md) ||
-|| События календаря | Параметр `crm_fields` | [calendar.event.add](../../../api-reference/calendar/calendar-event/calendar-event-add.md) ||
+|| Объекты CRM: лид, сделка, контакт, компания, предложение | Пользовательское поле типа `crm` | [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md), [crm.item.update](../../api-reference/crm/universal/crm-item-update.md) ||
+|| Задачи | Системное поле `UF_CRM_TASK`, множественное | [tasks.task.add](../../api-reference/tasks/tasks-task-add.md), [tasks.task.update](../../api-reference/tasks/tasks-task-update.md) ||
+|| Списки | Свойство элемента с типом привязки | [lists.field.add](../../api-reference/lists/fields/lists-field-add.md), [lists.element.add](../../api-reference/lists/elements/lists-element-add.md) ||
+|| Торговый каталог | Свойство товара с типом `ECrm` | [catalog.productProperty.add](../../api-reference/catalog/product-property/catalog-product-property-add.md) ||
+|| События календаря | Параметр `crm_fields` | [calendar.event.add](../../api-reference/calendar/calendar-event/calendar-event-add.md) ||
 |#
 
 Формат значения везде одинаковый — код типа и номер элемента. Отличается только то, как поле называется и каким методом заполняется.
 
-Сценарий привязки задачи к элементу смарт-процесса разобран отдельно в туториале [{#T}](../../tasks/how-to-connect-task-to-spa.md).
+Сценарий привязки задачи к элементу смарт-процесса разобран отдельно в туториале [{#T}](../tasks/how-to-connect-task-to-spa.md).
 
 ## Пример кода
 
@@ -677,9 +677,9 @@
 
 ## Продолжите изучение
 
-- [Формат значений для поля «Привязка к элементам CRM»](../../../api-reference/crm/data-types.md#crm-binding-format)
-- [Тип объекта CRM](../../../api-reference/crm/data-types.md#object_type)
-- [{#T}](../../tasks/how-to-connect-task-to-spa.md)
+- [Формат значений для поля «Привязка к элементам CRM»](../../api-reference/crm/data-types.md#crm-binding-format)
+- [Тип объекта CRM](../../api-reference/crm/data-types.md#object_type)
+- [{#T}](../tasks/how-to-connect-task-to-spa.md)
 - [{#T}](./how-to-add-user-field-to-spa.md)
-- [Добавить пользовательское поле сделки crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-- [Получить типы объектов CRM crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)
+- [Добавить пользовательское поле сделки crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+- [Получить типы объектов CRM crm.enum.ownertype](../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md)

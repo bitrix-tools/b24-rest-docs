@@ -1,21 +1,21 @@
 # Как работать с полем Привязка к элементам инфоблоков
 
-> Scope: [`crm`, `lists`, `catalog`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`, `lists`, `catalog`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: права разных модулей складываются, нужны все перечисленные
 >
-> - [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) — администратор CRM
-> - [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) и [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md) — пользователь с правом «изменения» и «чтения» сделок
-> - [lists.get](../../../api-reference/lists/lists/lists-get.md) и [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) — пользователь с правом «Чтение» для нужного списка
-> - [catalog.catalog.list](../../../api-reference/catalog/catalog/catalog-catalog-list.md) и [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md) — администратор
-> - [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md) — пользователь с правом на просмотр каталога товаров и правом на чтение инфоблока торгового каталога
+> - [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) — администратор CRM
+> - [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md) и [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md) — пользователь с правом «изменения» и «чтения» сделок
+> - [lists.get](../../api-reference/lists/lists/lists-get.md) и [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) — пользователь с правом «Чтение» для нужного списка
+> - [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md) и [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md) — администратор
+> - [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md) — пользователь с правом на просмотр каталога товаров и правом на чтение инфоблока торгового каталога
 
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
 
-- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
-- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -27,11 +27,11 @@
 
 Сценарий состоит из пяти шагов.
 
-1. Найдем инфоблок методами [lists.get](../../../api-reference/lists/lists/lists-get.md) и [catalog.catalog.list](../../../api-reference/catalog/catalog/catalog-catalog-list.md)
-2. Создадим поля привязки методом [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-3. Получим идентификаторы элементов методами [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) и [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md)
-4. Запишем значения методом [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md)
-5. Развернем значения в названия методами [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md), [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) и [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md)
+1. Найдем инфоблок методами [lists.get](../../api-reference/lists/lists/lists-get.md) и [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md)
+2. Создадим поля привязки методом [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+3. Получим идентификаторы элементов методами [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) и [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md)
+4. Запишем значения методом [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md)
+5. Развернем значения в названия методами [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md), [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) и [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md)
 
 В результате в сделке будут заполнены оба поля, а по сохраненным идентификаторам вы получите названия записи списка и товаров.
 
@@ -51,17 +51,17 @@
 
 Храните путь вебхука в переменной окружения и не публикуйте его в открытом коде.
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## 1. Найдем инфоблок и его идентификатор
 
 Списки и товарные каталоги — это инфоблоки разных типов, и получают их разными методами.
 
-Метод [lists.get](../../../api-reference/lists/lists/lists-get.md) возвращает списки одного типа. Передайте параметр:
+Метод [lists.get](../../api-reference/lists/lists/lists-get.md) возвращает списки одного типа. Передайте параметр:
 
 - `IBLOCK_TYPE_ID` — тип инфоблока. `lists` — обычные списки, `bitrix_processes` — списки процессов
 
-Метод [catalog.catalog.list](../../../api-reference/catalog/catalog/catalog-catalog-list.md) возвращает торговые каталоги без параметров.
+Метод [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md) возвращает торговые каталоги без параметров.
 
 В ответах сохраните:
 
@@ -170,7 +170,7 @@
 
 {% endlist %}
 
-Сокращенный ответ [lists.get](../../../api-reference/lists/lists/lists-get.md):
+Сокращенный ответ [lists.get](../../api-reference/lists/lists/lists-get.md):
 
 ```json
 {
@@ -186,7 +186,7 @@
 }
 ```
 
-Сокращенный ответ [catalog.catalog.list](../../../api-reference/catalog/catalog/catalog-catalog-list.md):
+Сокращенный ответ [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md):
 
 ```json
 {
@@ -216,7 +216,7 @@
 
 ## 2. Создадим поля привязки
 
-Метод [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) создает пользовательское поле для всех сделок. Передайте параметры:
+Метод [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) создает пользовательское поле для всех сделок. Передайте параметры:
 
 - `FIELD_NAME` — код поля. Параметр обязательный. Если код не начинается с `UF_CRM_`, префикс добавится автоматически: `MY_FIELD` превратится в `UF_CRM_MY_FIELD`
 - `USER_TYPE_ID` — тип поля, для привязки к элементам инфоблоков это `iblock_element`
@@ -225,9 +225,9 @@
 - `SETTINGS.IBLOCK_ID` — идентификатор инфоблока с первого шага. Без него метод вернет ошибку
 - `SETTINGS.DISPLAY` — вид элемента управления в карточке: `UI`, `DIALOG`, `LIST` или `CHECKBOX`
 
-Полный список типов полей возвращает метод [crm.userfield.types](../../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md). Для привязки к разделам инфоблока есть отдельный тип `iblock_section`.
+Полный список типов полей возвращает метод [crm.userfield.types](../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md). Для привязки к разделам инфоблока есть отдельный тип `iblock_section`.
 
-В ответе сохраните идентификаторы созданных полей: по ним можно прочитать настройки методом [crm.deal.userfield.get](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md).
+В ответе сохраните идентификаторы созданных полей: по ним можно прочитать настройки методом [crm.deal.userfield.get](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md).
 
 {% list tabs %}
 
@@ -333,7 +333,7 @@
 }
 ```
 
-Настройки поля можно прочитать методом [crm.deal.userfield.get](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md). Сокращенный ответ:
+Настройки поля можно прочитать методом [crm.deal.userfield.get](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md). Сокращенный ответ:
 
 ```json
 {
@@ -358,13 +358,13 @@
 
 ## 3. Получим идентификаторы элементов
 
-Записи списка возвращает метод [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md). Передайте параметры:
+Записи списка возвращает метод [lists.element.get](../../api-reference/lists/elements/lists-element-get.md). Передайте параметры:
 
 - `IBLOCK_TYPE_ID` — тип инфоблока, тот же, что на первом шаге
 - `IBLOCK_ID` — идентификатор списка
 - `ELEMENT_ID` — идентификатор одной записи, если нужна конкретная
 
-Товары каталога возвращает метод [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md). Передайте параметры:
+Товары каталога возвращает метод [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md). Передайте параметры:
 
 - `filter.iblockId` — идентификатор каталога, иначе в ответ попадут товары всех каталогов
 - `select` — поля товара, для сценария достаточно `id`, `iblockId` и `name`
@@ -453,7 +453,7 @@
 
 {% endlist %}
 
-Сокращенный ответ [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md):
+Сокращенный ответ [lists.element.get](../../api-reference/lists/elements/lists-element-get.md):
 
 ```json
 {
@@ -469,7 +469,7 @@
 }
 ```
 
-Сокращенный ответ [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md):
+Сокращенный ответ [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md):
 
 ```json
 {
@@ -487,12 +487,12 @@
 
 ## 4. Запишем значения
 
-Метод [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) записывает значения в поля сделки. Передайте параметры:
+Метод [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md) записывает значения в поля сделки. Передайте параметры:
 
 - `id` — идентификатор сделки
 - `fields` — объект с кодами полей. В одиночное поле передайте число, в множественное — массив чисел
 
-Битрикс24 не проверяет переданные идентификаторы: метод примет и несуществующий элемент, и элемент чужого инфоблока, и вернет `true`. Поэтому перед записью проверьте элементы сами. Запись списка ищем методом [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) по `ELEMENT_ID`: пустой массив в ответе означает, что записи в этом списке нет. Товар получаем методом [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md) и сверяем его `iblockId` с инфоблоком поля.
+Битрикс24 не проверяет переданные идентификаторы: метод примет и несуществующий элемент, и элемент чужого инфоблока, и вернет `true`. Поэтому перед записью проверьте элементы сами. Запись списка ищем методом [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) по `ELEMENT_ID`: пустой массив в ответе означает, что записи в этом списке нет. Товар получаем методом [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md) и сверяем его `iblockId` с инфоблоком поля.
 
 {% list tabs %}
 
@@ -654,9 +654,9 @@
 
 ## 5. Развернем значения в названия
 
-Метод [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md) возвращает сделку со всеми пользовательскими полями. Одиночное поле приходит строкой, множественное — массивом чисел.
+Метод [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md) возвращает сделку со всеми пользовательскими полями. Одиночное поле приходит строкой, множественное — массивом чисел.
 
-Названия элементов в сделке не хранятся. Чтобы их получить, запросите записи списка методом [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md), а товары — методом [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md) по одному идентификатору за вызов.
+Названия элементов в сделке не хранятся. Чтобы их получить, запросите записи списка методом [lists.element.get](../../api-reference/lists/elements/lists-element-get.md), а товары — методом [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md) по одному идентификатору за вызов.
 
 {% list tabs %}
 
@@ -762,7 +762,7 @@
 
 {% endlist %}
 
-Сокращенный ответ [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md):
+Сокращенный ответ [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md):
 
 ```json
 {
@@ -775,7 +775,7 @@
 }
 ```
 
-Сокращенный ответ [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md):
+Сокращенный ответ [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md):
 
 ```json
 {
@@ -799,8 +799,8 @@
 
 - `UF_CRM_IB_LIST` содержит строку с идентификатором записи, а не `"0"` и не пустую строку
 - `UF_CRM_IB_PROD` содержит массив с идентификаторами товаров
-- [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) с этим `ELEMENT_ID` вернул одну запись, а не пустой массив
-- [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md) вернул товар, и его `iblockId` совпадает с `IBLOCK_ID` поля
+- [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) с этим `ELEMENT_ID` вернул одну запись, а не пустой массив
+- [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md) вернул товар, и его `iblockId` совпадает с `IBLOCK_ID` поля
 
 В интерфейсе откройте карточку сделки: в полях «Элемент списка» и «Товары каталога» будут названия элементов. Пустое поле в карточке при непустом значении в ответе означает, что сохраненного элемента в привязанном инфоблоке нет.
 
@@ -810,18 +810,18 @@
 
 #|
 || **Код или текст ошибки** | **Причина и действие** ||
-|| `The 'FIELD_NAME' field is not found.` | В [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) не передан код поля. Передайте `FIELD_NAME` ||
+|| `The 'FIELD_NAME' field is not found.` | В [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) не передан код поля. Передайте `FIELD_NAME` ||
 || `ERROR_CORE`, `Выберите инфоблок, с которым нужно связать поле` | В настройках поля нет `SETTINGS.IBLOCK_ID`. Передайте идентификатор инфоблока с первого шага ||
-|| `ACCESS_DENIED`, `Нет прав для просмотра и редактирования списка.` | [lists.get](../../../api-reference/lists/lists/lists-get.md) вызван с типом инфоблока, который не относится к спискам, например `catalog`. Для товаров используйте [catalog.catalog.list](../../../api-reference/catalog/catalog/catalog-catalog-list.md) ||
-|| `product does not exist.` | [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md) вызван с идентификатором несуществующего товара. Получите идентификаторы методом [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md) ||
+|| `ACCESS_DENIED`, `Нет прав для просмотра и редактирования списка.` | [lists.get](../../api-reference/lists/lists/lists-get.md) вызван с типом инфоблока, который не относится к спискам, например `catalog`. Для товаров используйте [catalog.catalog.list](../../api-reference/catalog/catalog/catalog-catalog-list.md) ||
+|| `product does not exist.` | [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md) вызван с идентификатором несуществующего товара. Получите идентификаторы методом [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md) ||
 |#
 
-Если ошибки не было, а привязка не работает, проверьте сохраненное значение методом [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md).
+Если ошибки не было, а привязка не работает, проверьте сохраненное значение методом [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md).
 
 - Значение `"0"` означает, что в поле передали строку вместо числа. Нечисловое значение приводится к нулю, ошибку метод не возвращает
 - Значение `"1"` в одиночном поле означает, что в него передали массив. Одиночное поле принимает только число, массив приводится к единице, а не к первому элементу
-- Значение есть, а в карточке пусто — сохранен идентификатор несуществующего элемента или элемента другого инфоблока. Проверьте элемент методом [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) или [catalog.product.get](../../../api-reference/catalog/product/catalog-product-get.md) и запишите значение заново
-- Поле создалось, но в карточке нет списка для выбора — в `SETTINGS.IBLOCK_ID` указан несуществующий инфоблок. Такое поле создается без ошибки. Проверьте настройку методом [crm.deal.userfield.get](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md)
+- Значение есть, а в карточке пусто — сохранен идентификатор несуществующего элемента или элемента другого инфоблока. Проверьте элемент методом [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) или [catalog.product.get](../../api-reference/catalog/product/catalog-product-get.md) и запишите значение заново
+- Поле создалось, но в карточке нет списка для выбора — в `SETTINGS.IBLOCK_ID` указан несуществующий инфоблок. Такое поле создается без ошибки. Проверьте настройку методом [crm.deal.userfield.get](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-get.md)
 - В карточке не тот элемент управления, который вы задали — в `SETTINGS.DISPLAY` передано неизвестное значение, и оно заменено на `UI`
 
 Чтобы очистить привязку, передайте в поле пустую строку. Повторный запуск сценария перезаписывает значения, дубликаты не создаются.
@@ -832,8 +832,8 @@
 - Битрикс24 не проверяет, что элемент существует и относится к привязанному инфоблоку. Проверка идентификаторов — задача вашей интеграции
 - Одиночное поле возвращается строкой, множественное — массивом чисел. Учитывайте это при разборе ответа
 - Инфоблок торговых предложений — отдельный каталог с заполненным `productIblockId`. Привязка к нему хранит вариации товара, а не товары
-- [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md) и [lists.element.get](../../../api-reference/lists/elements/lists-element-get.md) возвращают элементы страницами по 50. Для полного перебора увеличивайте `start`
-- Для других объектов CRM поля создают одноименными методами, например [crm.lead.userfield.add](../../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md), а в смарт-процессе — методом [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md)
+- [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md) и [lists.element.get](../../api-reference/lists/elements/lists-element-get.md) возвращают элементы страницами по 50. Для полного перебора увеличивайте `start`
+- Для других объектов CRM поля создают одноименными методами, например [crm.lead.userfield.add](../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md), а в смарт-процессе — методом [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md)
 - Для привязки к разделам инфоблока используйте тип поля `iblock_section`, он разобран в туториале [{#T}](./how-to-use-iblock-section-binding-field.md)
 
 ## Пример кода
@@ -1182,10 +1182,10 @@
 ## Продолжите изучение
 
 - [{#T}](./how-to-use-iblock-section-binding-field.md)
-- [{#T}](../../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md)
-- [{#T}](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-- [{#T}](../../../api-reference/lists/lists/lists-get.md)
-- [{#T}](../../../api-reference/lists/elements/lists-element-get.md)
-- [{#T}](../../../api-reference/catalog/catalog/catalog-catalog-list.md)
-- [{#T}](../../../api-reference/catalog/product/catalog-product-list.md)
-- [{#T}](../../../api-reference/crm/deals/crm-deal-update.md)
+- [{#T}](../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md)
+- [{#T}](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](../../api-reference/lists/lists/lists-get.md)
+- [{#T}](../../api-reference/lists/elements/lists-element-get.md)
+- [{#T}](../../api-reference/catalog/catalog/catalog-catalog-list.md)
+- [{#T}](../../api-reference/catalog/product/catalog-product-list.md)
+- [{#T}](../../api-reference/crm/deals/crm-deal-update.md)

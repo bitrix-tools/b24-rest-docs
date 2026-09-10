@@ -1,19 +1,19 @@
 # Как создать пользовательское поле в смарт-процессе
 
-> Scope: [`crm`, `userfieldconfig`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`, `userfieldconfig`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — «административный доступ к разделу CRM»
 >
-> - [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — пользователь с административным доступом к разделу CRM
-> - [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) — пользователь с правом «Разрешить изменять настройки» в CRM
-> - [userfieldconfig.list](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md) — пользователь с правом на чтение элементов смарт-процесса
+> - [crm.type.list](../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) — пользователь с административным доступом к разделу CRM
+> - [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) — пользователь с правом «Разрешить изменять настройки» в CRM
+> - [userfieldconfig.list](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md) — пользователь с правом на чтение элементов смарт-процесса
 
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
 
-- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
-- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -27,24 +27,24 @@
 
 Сценарий состоит из двух шагов.
 
-1. Получить `id` смарт-процесса методом [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
-2. Создать пользовательское поле методом [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md), собрав из `id` идентификатор объекта и код поля
+1. Получить `id` смарт-процесса методом [crm.type.list](../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
+2. Создать пользовательское поле методом [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md), собрав из `id` идентификатор объекта и код поля
 
 ## Что нужно до начала
 
 - смарт-процесс уже создан в Битрикс24, и вы знаете его название
 
-- вебхук создан от имени пользователя с административным доступом к разделу CRM. Без него метод [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) вернет ошибку
+- вебхук создан от имени пользователя с административным доступом к разделу CRM. Без него метод [crm.type.list](../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) вернет ошибку
 
-- в правах вебхука отмечены оба scope: `crm` и `userfieldconfig`. Метод [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) требует scope `userfieldconfig` и scope того модуля, который передан в `moduleId`
+- в правах вебхука отмечены оба scope: `crm` и `userfieldconfig`. Метод [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) требует scope `userfieldconfig` и scope того модуля, который передан в `moduleId`
 
 ## 1. Получаем идентификатор смарт-процесса {#spa-id}
 
-Для получения ID смарт-процесса используем метод [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) с фильтром:
+Для получения ID смарт-процесса используем метод [crm.type.list](../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md) с фильтром:
 
 - `title` — укажем название смарт-процесса. Замените `Закупка оборудования` на название своего смарт-процесса
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -147,13 +147,13 @@
 
 {% note warning "" %}
 
-Дальше нужен именно `id`, а не `entityTypeId`. Это разные числа: у смарт-процесса с `id`: `7` идентификатор типа равен `177`. Если подставить `entityTypeId`, метод [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) откажет с сообщением «Вы не можете создавать пользовательские поля».
+Дальше нужен именно `id`, а не `entityTypeId`. Это разные числа: у смарт-процесса с `id`: `7` идентификатор типа равен `177`. Если подставить `entityTypeId`, метод [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) откажет с сообщением «Вы не можете создавать пользовательские поля».
 
 {% endnote %}
 
 ## 2. Создаем пользовательское поле в смарт-процессе
 
-Для создания пользовательского поля используем метод [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) с параметрами:
+Для создания пользовательского поля используем метод [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) с параметрами:
 
 - `moduleId` — идентификатор модуля, в котором метод создаст поле, обязательный параметр. Модуль смарт-процессов — `crm`
 
@@ -161,7 +161,7 @@
 
 - `field[fieldName]` — код поля по формуле `UF_ + {идентификатор объекта} + _ + {произвольная строка в UPPERCASE}`. Ограничение длины кода — 50 символов, обязательный параметр. В примере укажем `UF_CRM_7_NEW_REST_LIST`
 
-- `field[userTypeId]` — идентификатор [типа поля](../../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md), обязательный параметр. В примере укажем `enumeration` для создания поля типа список, варианты значений списочного поля передадим в отдельном массиве `enum`
+- `field[userTypeId]` — идентификатор [типа поля](../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md), обязательный параметр. В примере укажем `enumeration` для создания поля типа список, варианты значений списочного поля передадим в отдельном массиве `enum`
 
 - `field[multiple]` — флаг множественного поля, необязательный параметр. Изменить флаг множественности после создания поля нельзя
 
@@ -269,7 +269,7 @@
     ```
 {% endlist %}
 
-В результате получим данные созданного поля. Сохраните `id` — он понадобится, чтобы изменить поле методом [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) или удалить его методом [userfieldconfig.delete](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md).
+В результате получим данные созданного поля. Сохраните `id` — он понадобится, чтобы изменить поле методом [userfieldconfig.update](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) или удалить его методом [userfieldconfig.delete](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md).
 
 ```json
 {
@@ -344,7 +344,7 @@
 
 Откройте карточку любого элемента смарт-процесса в Битрикс24. Новое поле отображается в карточке под названием из `editFormLabel` — «Список характеристик». Значение «Характеристика 2» подставлено по умолчанию, потому что у него `def`: `Y`.
 
-Через REST состав полей смарт-процесса возвращает метод [userfieldconfig.list](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md) с параметрами:
+Через REST состав полей смарт-процесса возвращает метод [userfieldconfig.list](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md) с параметрами:
 
 - `moduleId` — `crm`
 
@@ -395,15 +395,15 @@
 
 ## Ошибки и диагностика
 
-Если метод вернул ошибку, проверьте данные запроса. Метод [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) возвращает ошибки с пустым кодом, поэтому ориентируйтесь на текст в `error_description`.
+Если метод вернул ошибку, проверьте данные запроса. Метод [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) возвращает ошибки с пустым кодом, поэтому ориентируйтесь на текст в `error_description`.
 
 #|
 || **Текст ошибки** | **Причина и действие** ||
 || `Вы не можете создавать пользовательские поля` | В `field[entityId]` передан идентификатор объекта, которого нет. Частая причина — `entityTypeId` вместо `id`: у смарт-процесса с `id`: `7` нужен `CRM_7`, а не `CRM_177` ||
 || `Некорректный код поля` | `field[fieldName]` не начинается с `UF_{entityId}_`. Для объекта `CRM_7` код должен начинаться с `UF_CRM_7_` ||
-|| `Поле ... уже существует.` | Поле с таким `field[fieldName]` в этом объекте уже создано. Возьмите другой код или измените существующее поле методом [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) ||
+|| `Поле ... уже существует.` | Поле с таким `field[fieldName]` в этом объекте уже создано. Возьмите другой код или измените существующее поле методом [userfieldconfig.update](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) ||
 || `The 'FIELD_NAME' field is not found` | Не передан обязательный `field[fieldName]` ||
-|| `The 'USER_TYPE_ID' field is not found` | Не передан обязательный `field[userTypeId]`. Список допустимых значений возвращает метод [userfieldconfig.getTypes](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.md) ||
+|| `The 'USER_TYPE_ID' field is not found` | Не передан обязательный `field[userTypeId]`. Список допустимых значений возвращает метод [userfieldconfig.getTypes](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.md) ||
 || `Access denied` | У пользователя нет права «Разрешить изменять настройки» в CRM. Проверьте, от имени какого пользователя создан вебхук ||
 || `Fail to save enumeration field values` | Не сохранились варианты списка. Проверьте массив `enum`: у каждого варианта нужны непустой `value`, а `def` принимает только `Y` или `N` ||
 |#
@@ -414,13 +414,13 @@
 
 ## Что важно учитывать
 
-- флаг множественности `multiple` после создания поля изменить нельзя. Чтобы сделать поле множественным, удалите его методом [userfieldconfig.delete](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md) и создайте заново
+- флаг множественности `multiple` после создания поля изменить нельзя. Чтобы сделать поле множественным, удалите его методом [userfieldconfig.delete](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md) и создайте заново
 
 - метод не проверяет `field[entityId]` на принадлежность к смарт-процессам. Формула `CRM_ + {id}` работает только для них, для лидов, сделок и других объектов CRM идентификаторы объектов другие
 
 - повторный запуск примера с тем же `fieldName` вернет ошибку «Поле ... уже существует», новое поле не создастся
 
-- варианты списка возвращаются в массиве `enum` с собственными `id`. Чтобы добавить или изменить вариант позже, передайте эти `id` в метод [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md)
+- варианты списка возвращаются в массиве `enum` с собственными `id`. Чтобы добавить или изменить вариант позже, передайте эти `id` в метод [userfieldconfig.update](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md)
 
 ## Пример кода
 
@@ -641,10 +641,10 @@
 
 ## Продолжите изучение
 
-- [{#T}](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md)
-- [{#T}](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md)
-- [{#T}](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md)
-- [{#T}](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md)
-- [{#T}](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.md)
-- [{#T}](../../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md)
-- [{#T}](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)
+- [{#T}](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md)
+- [{#T}](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-list.md)
+- [{#T}](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md)
+- [{#T}](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.md)
+- [{#T}](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.md)
+- [{#T}](../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md)
+- [{#T}](../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md)

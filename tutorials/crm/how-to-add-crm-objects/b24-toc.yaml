@@ -33,20 +33,6 @@ items:
     href: how-to-send-email.md
   - name: Добавить комментарий в таймлайн смарт-процесса
     href: how-to-add-comment-to-spa.md
-  - name: Создать пользовательское поле в смарт-процессе    
-    href: how-to-add-user-field-to-spa.md
-  - name: Настроить округление для пользовательского поля типа «Число»
-    href: how-to-add-precision-to-user-field.md
-  - name: Как работать с полем Привязка к элементам CRM
-    href: how-to-use-crm-binding-field.md
-  - name: Как работать с полем Привязка к справочникам CRM
-    href: how-to-use-crm-status-field.md
-  - name: Как работать с полем Привязка к элементам инфоблоков
-    href: how-to-use-iblock-binding-field.md
-  - name: Как работать с полем Привязка к разделам инфоблоков
-    href: how-to-use-iblock-section-binding-field.md
-  - name: Как работать с полем типа Список
-    href: how-to-use-enumeration-field.md
   - name: Как создать новую воронку со стадиями в смарт-процессе
     href: how-to-add-category-to-spa.md
     

@@ -1,21 +1,21 @@
 # Как работать с полем типа Список
 
-> Scope: [`crm`](../../../api-reference/scopes/permissions.md)
+> Scope: [`crm`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — административный доступ к разделу CRM
 >
-> - [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) и [crm.deal.userfield.update](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md) — администратор CRM
-> - [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) — пользователь с правом «чтения» сделок
-> - [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) — пользователь с правом «изменения» сделок
-> - [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md) и [crm.deal.list](../../../api-reference/crm/deals/crm-deal-list.md) — пользователь с правом «чтения» сделок
-> - [crm.deal.fields](../../../api-reference/crm/deals/crm-deal-fields.md) — любой пользователь
+> - [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) и [crm.deal.userfield.update](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md) — администратор CRM
+> - [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) — пользователь с правом «чтения» сделок
+> - [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md) — пользователь с правом «изменения» сделок
+> - [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md) и [crm.deal.list](../../api-reference/crm/deals/crm-deal-list.md) — пользователь с правом «чтения» сделок
+> - [crm.deal.fields](../../api-reference/crm/deals/crm-deal-fields.md) — любой пользователь
 
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
 
-- используйте [Битрикс24 Вайбкод](../../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
-- используйте [MCP-сервер](../../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
+- используйте [Битрикс24 Вайбкод](../../ai-tools/vibecode.md), чтобы создать приложение для Битрикс24 по описанию задачи без знания языков программирования. Агент напишет код и разместит приложение на сервере без ручной настройки хостинга
+- используйте [MCP-сервер](../../ai-tools/mcp.md), чтобы разрабатывать интеграцию через REST API в своем проекте. Агент будет обращаться к официальной REST-документации
 
 {% endnote %}
 
@@ -27,11 +27,11 @@
 
 Сценарий состоит из пяти шагов.
 
-1. Создадим поля методом [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-2. Получим идентификаторы значений методами [crm.deal.fields](../../../api-reference/crm/deals/crm-deal-fields.md) и [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md)
-3. Запишем значения методом [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md)
-4. Отберем сделки по значению методом [crm.deal.list](../../../api-reference/crm/deals/crm-deal-list.md)
-5. Изменим состав значений методом [crm.deal.userfield.update](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md)
+1. Создадим поля методом [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+2. Получим идентификаторы значений методами [crm.deal.fields](../../api-reference/crm/deals/crm-deal-fields.md) и [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md)
+3. Запишем значения методом [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md)
+4. Отберем сделки по значению методом [crm.deal.list](../../api-reference/crm/deals/crm-deal-list.md)
+5. Изменим состав значений методом [crm.deal.userfield.update](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md)
 
 В результате в сделке будут заполнены оба поля, отбор по значению вернет только нужные сделки, а переименование варианта не разорвет уже сохраненные ссылки на него.
 
@@ -49,11 +49,11 @@
 
 Храните путь вебхука в переменной окружения и не публикуйте его в открытом коде.
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../_includes/examples.md) %}
 
 ## 1. Создадим поля со списком значений
 
-Метод [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) создает пользовательское поле для всех сделок. Передайте параметры:
+Метод [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) создает пользовательское поле для всех сделок. Передайте параметры:
 
 - `FIELD_NAME` — код поля. Параметр обязательный. Если код не начинается с `UF_CRM_`, префикс добавится автоматически
 - `USER_TYPE_ID` — тип поля, для списка это `enumeration`
@@ -256,9 +256,9 @@
 
 Идентификаторы вариантов возвращают два метода, выбирайте по задаче.
 
-Метод [crm.deal.fields](../../../api-reference/crm/deals/crm-deal-fields.md) отдает описание всех полей сделки. У поля типа Список есть массив `items` с парами `ID` и `VALUE` — этого достаточно, чтобы сопоставить текст варианта с его идентификатором. Метод доступен любому пользователю.
+Метод [crm.deal.fields](../../api-reference/crm/deals/crm-deal-fields.md) отдает описание всех полей сделки. У поля типа Список есть массив `items` с парами `ID` и `VALUE` — этого достаточно, чтобы сопоставить текст варианта с его идентификатором. Метод доступен любому пользователю.
 
-Метод [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) отдает только пользовательские поля и полное описание вариантов в массиве `LIST`: там есть `SORT`, признак значения по умолчанию `DEF` и `XML_ID`. Передайте `filter` с `USER_TYPE_ID` или `FIELD_NAME`, чтобы не разбирать все поля.
+Метод [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) отдает только пользовательские поля и полное описание вариантов в массиве `LIST`: там есть `SORT`, признак значения по умолчанию `DEF` и `XML_ID`. Передайте `filter` с `USER_TYPE_ID` или `FIELD_NAME`, чтобы не разбирать все поля.
 
 {% list tabs %}
 
@@ -356,7 +356,7 @@
 
 {% endlist %}
 
-Сокращенный ответ [crm.deal.fields](../../../api-reference/crm/deals/crm-deal-fields.md) для одного поля:
+Сокращенный ответ [crm.deal.fields](../../api-reference/crm/deals/crm-deal-fields.md) для одного поля:
 
 ```json
 {
@@ -376,7 +376,7 @@
 }
 ```
 
-Сокращенный ответ [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md):
+Сокращенный ответ [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md):
 
 ```json
 {
@@ -403,7 +403,7 @@
 
 ## 3. Запишем значения в сделку
 
-Метод [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md) записывает значения в поля сделки. Передайте параметры:
+Метод [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md) записывает значения в поля сделки. Передайте параметры:
 
 - `id` — идентификатор сделки
 - `fields` — объект с кодами полей. В одиночное поле передайте идентификатор варианта числом, в множественное — массив идентификаторов
@@ -477,7 +477,7 @@
 
 {% endlist %}
 
-Ответ [crm.deal.update](../../../api-reference/crm/deals/crm-deal-update.md):
+Ответ [crm.deal.update](../../api-reference/crm/deals/crm-deal-update.md):
 
 ```json
 {
@@ -485,7 +485,7 @@
 }
 ```
 
-Сокращенный ответ [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md):
+Сокращенный ответ [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md):
 
 ```json
 {
@@ -502,7 +502,7 @@
 
 ## 4. Отберем сделки по значению
 
-Метод [crm.deal.list](../../../api-reference/crm/deals/crm-deal-list.md) отбирает сделки по фильтру. В фильтре по полю типа Список тоже указывается идентификатор варианта.
+Метод [crm.deal.list](../../api-reference/crm/deals/crm-deal-list.md) отбирает сделки по фильтру. В фильтре по полю типа Список тоже указывается идентификатор варианта.
 
 Для множественного поля фильтр по одному идентификатору находит все сделки, где этот вариант выбран, даже если рядом выбраны другие.
 
@@ -600,7 +600,7 @@
 
 ## 5. Изменим состав значений
 
-Метод [crm.deal.userfield.update](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md) меняет описание поля. Состав вариантов задается тем же массивом `LIST`, а действие определяется набором ключей:
+Метод [crm.deal.userfield.update](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md) меняет описание поля. Состав вариантов задается тем же массивом `LIST`, а действие определяется набором ключей:
 
 - `ID` и `VALUE` — переименовать вариант. Идентификатор сохраняется, сделки продолжают ссылаться на него и показывают новый текст
 - только `VALUE` — добавить новый вариант, Битрикс24 присвоит ему новый идентификатор
@@ -718,8 +718,8 @@
 
 - `UF_CRM_ENUM_ONE` содержит строку с идентификатором варианта, а не `"0"`
 - `UF_CRM_ENUM_MULTI` содержит массив идентификаторов
-- [crm.deal.list](../../../api-reference/crm/deals/crm-deal-list.md) с фильтром по идентификатору вернул сделку, а `total` равен ожидаемому количеству
-- после переименования варианта [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md) возвращает тот же идентификатор
+- [crm.deal.list](../../api-reference/crm/deals/crm-deal-list.md) с фильтром по идентификатору вернул сделку, а `total` равен ожидаемому количеству
+- после переименования варианта [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md) возвращает тот же идентификатор
 
 В интерфейсе откройте карточку сделки: в полях «Источник обращения» и «Интересы клиента» будут выбранные варианты.
 
@@ -729,27 +729,27 @@
 
 #|
 || **Код или текст ошибки** | **Причина и действие** ||
-|| `The 'FIELD_NAME' field is not found.` | В [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) не передан код поля. Передайте `FIELD_NAME` ||
-|| `ERROR_NOT_FOUND`, `The entity with ID '...' is not found.` | В [crm.deal.userfield.update](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md) передан идентификатор несуществующего поля. Получите его методом [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) ||
+|| `The 'FIELD_NAME' field is not found.` | В [crm.deal.userfield.add](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md) не передан код поля. Передайте `FIELD_NAME` ||
+|| `ERROR_NOT_FOUND`, `The entity with ID '...' is not found.` | В [crm.deal.userfield.update](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md) передан идентификатор несуществующего поля. Получите его методом [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) ||
 |#
 
-Ошибки этого сценария почти всегда молчаливые: метод отвечает успехом, а результат неверный. Проверьте сохраненное значение методом [crm.deal.get](../../../api-reference/crm/deals/crm-deal-get.md).
+Ошибки этого сценария почти всегда молчаливые: метод отвечает успехом, а результат неверный. Проверьте сохраненное значение методом [crm.deal.get](../../api-reference/crm/deals/crm-deal-get.md).
 
 - Значение `"0"` означает, что в поле передали текст варианта вместо идентификатора
 - Значение есть, а в карточке пусто — передан идентификатор, которого нет среди вариантов поля. Такой идентификатор сохраняется без ошибки
 - Отбор вернул слишком много сделок с пустым полем — в фильтре передан текст варианта вместо идентификатора
-- В поле нечего выбрать — поле создано без `LIST` или с пустым массивом. Добавьте варианты методом [crm.deal.userfield.update](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md)
+- В поле нечего выбрать — поле создано без `LIST` или с пустым массивом. Добавьте варианты методом [crm.deal.userfield.update](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md)
 
 Чтобы очистить одиночное поле, передайте в него пустую строку.
 
 ## Что важно учитывать
 
 - В поле хранится идентификатор варианта. Текст варианта живет в описании поля и меняется независимо от сделок
-- Идентификаторы вариантов уникальны для конкретного Битрикс24. Переносить их в код как константы нельзя: получайте идентификаторы методом [crm.deal.fields](../../../api-reference/crm/deals/crm-deal-fields.md) или [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) перед записью
+- Идентификаторы вариантов уникальны для конкретного Битрикс24. Переносить их в код как константы нельзя: получайте идентификаторы методом [crm.deal.fields](../../api-reference/crm/deals/crm-deal-fields.md) или [crm.deal.userfield.list](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md) перед записью
 - Одиночное поле возвращается строкой, множественное — массивом чисел
 - Порядок вариантов в ответе не гарантирован, если у них одинаковый `SORT`
 - Удаление варианта не очищает сделки, которые на него ссылались: в поле останется идентификатор, которого больше нет среди вариантов
-- Для других объектов CRM поля создают одноименными методами, например [crm.lead.userfield.add](../../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md), а в смарт-процессе — методом [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md)
+- Для других объектов CRM поля создают одноименными методами, например [crm.lead.userfield.add](../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md), а в смарт-процессе — методом [userfieldconfig.add](../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md)
 
 ## Пример кода
 
@@ -1046,10 +1046,10 @@
 
 ## Продолжите изучение
 
-- [{#T}](../../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md)
-- [{#T}](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
-- [{#T}](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md)
-- [{#T}](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md)
-- [{#T}](../../../api-reference/crm/deals/crm-deal-fields.md)
-- [{#T}](../../../api-reference/crm/deals/crm-deal-update.md)
-- [{#T}](../../../api-reference/crm/deals/crm-deal-list.md)
+- [{#T}](../../api-reference/crm/universal/user-defined-fields/crm-userfield-types.md)
+- [{#T}](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-update.md)
+- [{#T}](../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md)
+- [{#T}](../../api-reference/crm/deals/crm-deal-fields.md)
+- [{#T}](../../api-reference/crm/deals/crm-deal-update.md)
+- [{#T}](../../api-reference/crm/deals/crm-deal-list.md)

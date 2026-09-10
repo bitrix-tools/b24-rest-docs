@@ -56,7 +56,7 @@ CRM работает в классическом режиме с лидами и
 
 {% note tip "Частые кейсы и сценарии" %}
 
-- [Как добавить пользовательское поле в смарт-процесс](../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- [Как добавить пользовательское поле в смарт-процесс](../../tutorials/field-types/how-to-add-user-field-to-spa.md)
 - [Как создать новую воронку со стадиями в смарт-процессе](../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 - [Как добавить дело в карточку контакта](../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
 - [Как добавить шаблон и создать документ на его основе](../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
