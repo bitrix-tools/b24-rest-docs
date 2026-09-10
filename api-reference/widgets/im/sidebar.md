@@ -489,4 +489,4 @@ Array
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../bx24-widget-methods.md)
 - [{#T}](../../../settings/interactivity/index.md)
-
+- [{#T}](../../../sdk/b24jssdk/iframe-messenger-textarea.md)

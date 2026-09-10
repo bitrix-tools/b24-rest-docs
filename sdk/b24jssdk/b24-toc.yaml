@@ -3,5 +3,5 @@ href: index.md
 items: 
   - name: Установка и использование
     href: index.md
-  - name: Поле ввода мессенджера в iframe
+  - name: Взаимодействие встройки с полем ввода мессенджера
     href: iframe-messenger-textarea.md
