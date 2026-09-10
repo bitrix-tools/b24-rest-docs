@@ -25,5 +25,7 @@ items:
     href: guide-bi-reports.md
   - name: Требования к отраслевым CRM
     href: requirements-vertical-crm.md
+  - name: Требования к цифровым рабочим местам
+    href: requirements-digital-workplaces.md
   - name: Чеклист перед модерацией
     href: checklist.md
