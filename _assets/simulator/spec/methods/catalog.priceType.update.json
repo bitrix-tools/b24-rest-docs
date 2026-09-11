@@ -42,7 +42,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Является ли тип цены базовым. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли тип цены базовым. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "sort",

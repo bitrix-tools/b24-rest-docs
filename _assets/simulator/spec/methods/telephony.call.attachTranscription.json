@@ -49,7 +49,17 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Участник разговора. Возможные значения: - User — пользователь портала - Client — клиент"
+          "description": "Участник разговора. Возможные значения: - User — пользователь портала - Client — клиент",
+          "values": [
+            {
+              "value": "User",
+              "title": "пользователь портала"
+            },
+            {
+              "value": "Client",
+              "title": "клиент"
+            }
+          ]
         },
         {
           "name": "START_TIME",

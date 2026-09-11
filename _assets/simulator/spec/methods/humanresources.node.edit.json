@@ -32,7 +32,33 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Новый цвет команды. Возможные значения: - blue — синий - green — зеленый - cyan — голубой - orange — оранжевый - purple — фиолетовый - pink — розовый"
+      "description": "Новый цвет команды. Возможные значения: - blue — синий - green — зеленый - cyan — голубой - orange — оранжевый - purple — фиолетовый - pink — розовый",
+      "values": [
+        {
+          "value": "blue",
+          "title": "синий"
+        },
+        {
+          "value": "green",
+          "title": "зеленый"
+        },
+        {
+          "value": "cyan",
+          "title": "голубой"
+        },
+        {
+          "value": "orange",
+          "title": "оранжевый"
+        },
+        {
+          "value": "purple",
+          "title": "фиолетовый"
+        },
+        {
+          "value": "pink",
+          "title": "розовый"
+        }
+      ]
     }
   ],
   "defs": {},

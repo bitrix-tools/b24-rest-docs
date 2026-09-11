@@ -12,6 +12,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки записей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}, где field_N — идентификатор поля crmcurrency. Возможные значения для order_N: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"

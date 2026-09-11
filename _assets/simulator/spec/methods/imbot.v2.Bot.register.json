@@ -56,7 +56,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Режим доставки событий. Допустимые значения: - fetch — бот забирает события через imbot.v2.Event.get - webhook — события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch"
+          "description": "Режим доставки событий. Допустимые значения: - fetch — бот забирает события через imbot.v2.Event.get - webhook — события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch",
+          "values": [
+            {
+              "value": "fetch",
+              "title": "бот забирает события через imbot.v2.Event.get"
+            },
+            {
+              "value": "webhook",
+              "title": "события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch"
+            }
+          ]
         },
         {
           "name": "webhookUrl",

@@ -49,21 +49,51 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Является ли пользовательское поле обязательным. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли пользовательское поле обязательным. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SHOW_FILTER",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Показывать ли поле в фильтре списка. Возможные значения: - Y — да - N — нет"
+          "description": "Показывать ли поле в фильтре списка. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SHOW_IN_LIST",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Показывать ли поле в списке. Возможные значения: - Y — да - N — нет"
+          "description": "Показывать ли поле в списке. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SETTINGS",

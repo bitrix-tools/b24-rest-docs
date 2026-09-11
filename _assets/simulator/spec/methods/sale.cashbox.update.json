@@ -70,7 +70,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Активность кассы. Возможные значения: - Y — да - N — нет"
+          "description": "Активность кассы. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SORT",
@@ -84,7 +94,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Используется ли касса офлайн. Возможные значения: - Y — да - N — нет"
+          "description": "Используется ли касса офлайн. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SETTINGS",

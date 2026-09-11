@@ -243,16 +243,87 @@ function tableToFields(table, ctx) {
             ctx.unknownTypes.add(parsed.docType);
         }
 
+        const description = shorten(row[1], 400);
+        const values = extractValues(description);
+
         fields.push({
             name: parsed.name,
             type: parsed.docType || 'unknown',
             base: base || 'any',
             required: parsed.requiredMark ? true : ctx.requiredConvention ? false : 'unknown',
-            description: shorten(row[1], 400),
+            description,
+            ...(values ? { values } : {}),
+            ...(base === 'char' ? { flag: looksLikeFlag(description, values) } : {}),
         });
     });
 
     return fields;
+}
+
+// Документация часто перечисляет допустимые значения прямо в описании:
+// «Возможные значения: - A — поступление, - S — оприходование». Вытащим их
+// в поле values — тогда форма предложит настоящие варианты вместо догадки.
+//
+// Зачем это нужно: тип char документация ставит и флагам Y/N, и коротким
+// кодам, и свободному тексту. Виджет рисовал всем подряд выпадашку Y/N —
+// для «Комментарий к документу» это выглядело откровенной ошибкой.
+const ENUM_INTRO = /(?:возможные|допустимые|доступные)\s+значени[яе][^:]*:/i;
+
+// Элемент перечисления: «- A — поступление». Разделителем между значением
+// и расшифровкой считаем только длинное тире: обычный дефис встречается
+// внутри слов и разваливает разбор.
+const ENUM_ITEM = /[-•*]\s*([A-Za-z0-9_]{1,20})\s*[—–]\s*/g;
+
+function extractValues(description) {
+    if (!description) {
+        return null;
+    }
+    const intro = ENUM_INTRO.exec(description);
+    if (!intro) {
+        return null;
+    }
+    const tail = description.slice(intro.index + intro[0].length);
+
+    // Сначала находим начала всех элементов, потом режем текст между ними.
+    // Ловить заголовок одним выражением не выходит: в документации элементы
+    // разделены то запятой, то просто пробелом («- L — список - C — флажки»),
+    // и жадный разбор склеивает весь хвост в один вариант.
+    const marks = [];
+    let m;
+    ENUM_ITEM.lastIndex = 0;
+    while ((m = ENUM_ITEM.exec(tail)) !== null) {
+        marks.push({ value: m[1], at: m.index, from: m.index + m[0].length });
+        if (marks.length >= 25) {
+            break;
+        }
+    }
+    if (marks.length < 2) {
+        return null;
+    }
+
+    const items = marks.map((mark, i) => {
+        const to = i + 1 < marks.length ? marks[i + 1].at : tail.length;
+        let title = tail.slice(mark.from, to).trim().replace(/[\s,;]+$/, '');
+        // У последнего элемента за перечислением обычно идёт обычный текст.
+        const stop = title.search(/\.\s/);
+        if (stop !== -1) {
+            title = title.slice(0, stop);
+        }
+        return { value: mark.value, title: title.slice(0, 80).trim() };
+    }).filter((item) => item.title);
+
+    return items.length >= 2 ? items : null;
+}
+
+// Признак флага: значения Y и N, либо описание прямо про «да/нет».
+const FLAG_HINT = /\bY\b\s*[—–-]|\bN\b\s*[—–-]|да\s*[/,]?\s*нет|флаг|признак/i;
+
+function looksLikeFlag(description, values) {
+    if (values) {
+        const set = values.map((v) => v.value.toUpperCase()).sort().join(',');
+        return set === 'N,Y';
+    }
+    return FLAG_HINT.test(description || '');
 }
 
 // Заголовок «### Параметр fields {#fields}» связывает подтаблицу с параметром.

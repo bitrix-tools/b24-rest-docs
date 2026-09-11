@@ -25,7 +25,25 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Уровень прав, который выдается пользователю. Возможные значения: - disk_access_read — чтение - disk_access_add — добавление - disk_access_edit — редактирование - disk_access_full — полный доступ"
+      "description": "Уровень прав, который выдается пользователю. Возможные значения: - disk_access_read — чтение - disk_access_add — добавление - disk_access_edit — редактирование - disk_access_full — полный доступ",
+      "values": [
+        {
+          "value": "disk_access_read",
+          "title": "чтение"
+        },
+        {
+          "value": "disk_access_add",
+          "title": "добавление"
+        },
+        {
+          "value": "disk_access_edit",
+          "title": "редактирование"
+        },
+        {
+          "value": "disk_access_full",
+          "title": "полный доступ"
+        }
+      ]
     }
   ],
   "defs": {},

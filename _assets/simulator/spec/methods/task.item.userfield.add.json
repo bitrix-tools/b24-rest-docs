@@ -70,14 +70,34 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Множественное значение. Возможные значения: - Y — множественное - N — единственное Применяется для типов string, double, datetime. Для типа boolean всегда используется N"
+          "description": "Множественное значение. Возможные значения: - Y — множественное - N — единственное Применяется для типов string, double, datetime. Для типа boolean всегда используется N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "множественное"
+            },
+            {
+              "value": "N",
+              "title": "единственное Применяется для типов string, double, datetime"
+            }
+          ]
         },
         {
           "name": "MANDATORY",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Обязательное значение. Возможные значения: - Y — обязательно - N — не обязательное"
+          "description": "Обязательное значение. Возможные значения: - Y — обязательно - N — не обязательное",
+          "values": [
+            {
+              "value": "Y",
+              "title": "обязательно"
+            },
+            {
+              "value": "N",
+              "title": "не обязательное"
+            }
+          ]
         },
         {
           "name": "SETTINGS",

@@ -80,14 +80,36 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Возвращать очередь операторов. Возможные значения: - Y — да - N — нет"
+          "description": "Возвращать очередь операторов. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "CONFIG_QUEUE",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Возвращать очередь линии. Каждый элемент очереди содержит ENTITY_TYPE и ENTITY_ID. Возможные значения: - Y — да - N — нет"
+          "description": "Возвращать очередь линии. Каждый элемент очереди содержит ENTITY_TYPE и ENTITY_ID. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "CHECK_PERMISSION",

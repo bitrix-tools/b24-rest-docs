@@ -18,7 +18,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Признак активности сервиса. Допустимые значения: - Y — да - N — нет"
+      "description": "Признак активности сервиса. Допустимые значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "NAME",
@@ -46,7 +56,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Признак защищенного подключения. Допустимые значения: - Y — да - N — нет"
+      "description": "Признак защищенного подключения. Допустимые значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "LINK",

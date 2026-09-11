@@ -91,7 +91,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+          "description": "Признак активности. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "PICTURE",
@@ -112,7 +122,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Устаревший. Тип описания. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text"
+          "description": "Устаревший. Тип описания. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML По умолчанию устанавливается text"
+            }
+          ]
         },
         {
           "name": "DETAIL_PICTURE",

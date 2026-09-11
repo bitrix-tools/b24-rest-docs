@@ -210,16 +210,33 @@
 
     // ------------------------------------------------------- редакторы значений
 
+    // Выпадающий список из перечня значений: пустой вариант плюс всё, что
+    // документация назвала допустимым.
+    function valueSelect(options, value) {
+        var select = gSelect();
+        [['', '— не передавать —']].concat(options).forEach(function (pair) {
+            var option = el('option', null, pair[1]);
+            option.value = pair[0];
+            select.control.appendChild(option);
+        });
+        select.control.value = value === undefined ? '' : String(value);
+        return select;
+    }
+
     function createValueControl(field, value) {
-        if (field.base === 'char' || field.base === 'boolean') {
-            var select = gSelect();
-            [['', '— не передавать —'], ['Y', 'Y'], ['N', 'N']].forEach(function (pair) {
-                var option = el('option', null, pair[1]);
-                option.value = pair[0];
-                select.control.appendChild(option);
-            });
-            select.control.value = value === undefined ? '' : String(value);
-            return select;
+        // Документация перечислила допустимые значения — предлагаем их.
+        if (field.values && field.values.length) {
+            return valueSelect(field.values.map(function (item) {
+                return [item.value, item.title ? item.value + ' — ' + item.title : item.value];
+            }), value);
+        }
+
+        // Y/N только там, где поле действительно флаг. Тип char документация
+        // ставит и флагам, и коротким кодам, и свободному тексту: раньше
+        // «Комментарий к документу» получал выпадашку с Y и N, и клиент
+        // справедливо считал это ошибкой.
+        if (field.base === 'boolean' || (field.base === 'char' && field.flag)) {
+            return valueSelect([['Y', 'Y'], ['N', 'N']], value);
         }
 
         var isNumber = field.base === 'integer' || field.base === 'number';

@@ -35,7 +35,65 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Тип пользовательского поля. Возможные значения: - string — строка - integer — целое число - double — число - date — дата - datetime — дата со временем - boolean — Да / Нет - file — файл - enumeration — список - url — ссылка - address — адрес Google карты - money — деньги - iblock_section — Привязка к разделу инфоблока - iblock_element — Привязка к элементу инфоблока - employee — Привязка к пользов…"
+          "description": "Тип пользовательского поля. Возможные значения: - string — строка - integer — целое число - double — число - date — дата - datetime — дата со временем - boolean — Да / Нет - file — файл - enumeration — список - url — ссылка - address — адрес Google карты - money — деньги - iblock_section — Привязка к разделу инфоблока - iblock_element — Привязка к элементу инфоблока - employee — Привязка к пользов…",
+          "values": [
+            {
+              "value": "string",
+              "title": "строка"
+            },
+            {
+              "value": "integer",
+              "title": "целое число"
+            },
+            {
+              "value": "double",
+              "title": "число"
+            },
+            {
+              "value": "date",
+              "title": "дата"
+            },
+            {
+              "value": "datetime",
+              "title": "дата со временем"
+            },
+            {
+              "value": "boolean",
+              "title": "Да / Нет"
+            },
+            {
+              "value": "file",
+              "title": "файл"
+            },
+            {
+              "value": "enumeration",
+              "title": "список"
+            },
+            {
+              "value": "url",
+              "title": "ссылка"
+            },
+            {
+              "value": "address",
+              "title": "адрес Google карты"
+            },
+            {
+              "value": "money",
+              "title": "деньги"
+            },
+            {
+              "value": "iblock_section",
+              "title": "Привязка к разделу инфоблока"
+            },
+            {
+              "value": "iblock_element",
+              "title": "Привязка к элементу инфоблока"
+            },
+            {
+              "value": "employee",
+              "title": "Привязка к пользов…"
+            }
+          ]
         },
         {
           "name": "XML_ID",
@@ -56,28 +114,68 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Является ли поле множественным. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли поле множественным. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "MANDATORY",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Является ли пользовательское поле обязательным. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли пользовательское поле обязательным. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SHOW_FILTER",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Показывать ли поле в фильтре списка. Возможные значения: - Y — да - N — нет"
+          "description": "Показывать ли поле в фильтре списка. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SHOW_IN_LIST",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Показывать ли поле в списке. Возможные значения: - Y — да - N — нет"
+          "description": "Показывать ли поле в списке. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "SETTINGS",

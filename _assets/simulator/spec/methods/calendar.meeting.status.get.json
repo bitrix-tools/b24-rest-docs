@@ -37,7 +37,21 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Статус участия текущего пользователя. Возможные значения: - Y — согласен - N — отказался - Q — приглашен, но еще не ответил"
+      "description": "Статус участия текущего пользователя. Возможные значения: - Y — согласен - N — отказался - Q — приглашен, но еще не ответил",
+      "values": [
+        {
+          "value": "Y",
+          "title": "согласен"
+        },
+        {
+          "value": "N",
+          "title": "отказался"
+        },
+        {
+          "value": "Q",
+          "title": "приглашен, но еще не ответил"
+        }
+      ]
     }
   ],
   "page": "/api-reference/calendar/calendar-event/calendar-meeting-status-get.html",

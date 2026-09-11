@@ -29,7 +29,29 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Роль, которую нужно назначить всем пользователям из userIds. Возможные значения для отдела: - MEMBER_HEAD — руководитель отдела - MEMBER_DEPUTY_HEAD — заместитель руководителя отдела - MEMBER_EMPLOYEE — сотрудник отдела Возможные значения для команды: - MEMBER_TEAM_HEAD — руководитель команды - MEMBER_TEAM_DEPUTY_HEAD — заместитель руководителя команды - MEMBER_TEAM_EMPLOYEE — участник команды"
+      "description": "Роль, которую нужно назначить всем пользователям из userIds. Возможные значения для отдела: - MEMBER_HEAD — руководитель отдела - MEMBER_DEPUTY_HEAD — заместитель руководителя отдела - MEMBER_EMPLOYEE — сотрудник отдела Возможные значения для команды: - MEMBER_TEAM_HEAD — руководитель команды - MEMBER_TEAM_DEPUTY_HEAD — заместитель руководителя команды - MEMBER_TEAM_EMPLOYEE — участник команды",
+      "values": [
+        {
+          "value": "MEMBER_HEAD",
+          "title": "руководитель отдела"
+        },
+        {
+          "value": "MEMBER_DEPUTY_HEAD",
+          "title": "заместитель руководителя отдела"
+        },
+        {
+          "value": "MEMBER_EMPLOYEE",
+          "title": "сотрудник отдела Возможные значения для команды:"
+        },
+        {
+          "value": "MEMBER_TEAM_HEAD",
+          "title": "руководитель команды - MEMBER_TEAM_DEPUTY_HEAD — заместитель руководителя команд"
+        },
+        {
+          "value": "MEMBER_TEAM_EMPLOYEE",
+          "title": "участник команды"
+        }
+      ]
     }
   ],
   "defs": {},

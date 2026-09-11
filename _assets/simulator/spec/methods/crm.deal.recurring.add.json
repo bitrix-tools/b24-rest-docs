@@ -35,21 +35,34 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Флаг активности настройки. Возможные значения: - Y — активна - N — неактивна"
+          "description": "Флаг активности настройки. Возможные значения: - Y — активна - N — неактивна",
+          "values": [
+            {
+              "value": "Y",
+              "title": "активна"
+            },
+            {
+              "value": "N",
+              "title": "неактивна"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "CATEGORY_ID",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "id воронки для новых сделок, создаваемых из шаблона. Список доступных воронок можно узнать с помощью метода crm.category.list, передав entityTypeId = 2"
+          "description": "id воронки для новых сделок, создаваемых из шаблона. Список доступных воронок можно узнать с помощью метода crm.category.list, передав entityTypeId = 2",
+          "flag": false
         },
         {
           "name": "IS_LIMIT",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Ограничение по созданию новых сделок: N — без ограничений D — ограничение по дате (LIMIT_DATE) T — ограничение по количеству (LIMIT_REPEAT) Если передано любое другое значение, оно будет приведено к N"
+          "description": "Ограничение по созданию новых сделок: N — без ограничений D — ограничение по дате (LIMIT_DATE) T — ограничение по количеству (LIMIT_REPEAT) Если передано любое другое значение, оно будет приведено к N",
+          "flag": true
         },
         {
           "name": "LIMIT_REPEAT",

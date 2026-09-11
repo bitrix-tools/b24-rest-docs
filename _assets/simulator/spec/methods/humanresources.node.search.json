@@ -11,7 +11,17 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип элемента структуры. Возможные значения: - DEPARTMENT — отдел - TEAM — команда"
+      "description": "Тип элемента структуры. Возможные значения: - DEPARTMENT — отдел - TEAM — команда",
+      "values": [
+        {
+          "value": "DEPARTMENT",
+          "title": "отдел"
+        },
+        {
+          "value": "TEAM",
+          "title": "команда"
+        }
+      ]
     },
     {
       "name": "name",

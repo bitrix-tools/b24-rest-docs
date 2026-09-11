@@ -11,7 +11,25 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт",
+      "values": [
+        {
+          "value": "lead",
+          "title": "лид"
+        },
+        {
+          "value": "deal",
+          "title": "сделка"
+        },
+        {
+          "value": "company",
+          "title": "компания"
+        },
+        {
+          "value": "contact",
+          "title": "контакт"
+        }
+      ]
     },
     {
       "name": "CRM_ENTITY",
@@ -25,7 +43,18 @@
       "type": "char",
       "base": "char",
       "required": false,
-      "description": "Флаг возврата только активных чатов. Возможные значения: - Y — вернуть только активные чаты - N — вернуть все чаты По умолчанию — Y"
+      "description": "Флаг возврата только активных чатов. Возможные значения: - Y — вернуть только активные чаты - N — вернуть все чаты По умолчанию — Y",
+      "values": [
+        {
+          "value": "Y",
+          "title": "вернуть только активные чаты"
+        },
+        {
+          "value": "N",
+          "title": "вернуть все чаты По умолчанию — Y"
+        }
+      ],
+      "flag": true
     }
   ],
   "defs": {},

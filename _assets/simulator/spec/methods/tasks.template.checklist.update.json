@@ -63,14 +63,34 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Статус выполнения пункта. Возможные значения: - Y — выполнен - N — не выполнен"
+          "description": "Статус выполнения пункта. Возможные значения: - Y — выполнен - N — не выполнен",
+          "values": [
+            {
+              "value": "Y",
+              "title": "выполнен"
+            },
+            {
+              "value": "N",
+              "title": "не выполнен"
+            }
+          ]
         },
         {
           "name": "IS_IMPORTANT",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Отметка, что пункт важный. Возможные значения: - Y — важный - N — обычный"
+          "description": "Отметка, что пункт важный. Возможные значения: - Y — важный - N — обычный",
+          "values": [
+            {
+              "value": "Y",
+              "title": "важный"
+            },
+            {
+              "value": "N",
+              "title": "обычный"
+            }
+          ]
         },
         {
           "name": "MEMBERS",

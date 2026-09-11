@@ -27,6 +27,16 @@
       "base": "object",
       "required": false,
       "description": "Объект, содержащий набор дополнительных параметров: - REGISTER_SONET_EVENT — отправить уведомление ответственному - REGISTER_HISTORY_EVENT — регистрировать событие в истории. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -95,7 +105,18 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Доступна ли компания для всех. Возможные значения: - Y — да - N — нет"
+          "description": "Доступна ли компания для всех. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "COMMENTS",
@@ -151,7 +172,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры",
+          "values": [
+            {
+              "value": "CPC",
+              "title": "объявления"
+            },
+            {
+              "value": "CPM",
+              "title": "баннеры"
+            }
+          ]
         },
         {
           "name": "UTM_CAMPAIGN",
