@@ -11,7 +11,17 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип коммуникации. Возможные значения: - EMAIL — email-адрес - PHONE — телефон"
+      "description": "Тип коммуникации. Возможные значения: - EMAIL — email-адрес - PHONE — телефон",
+      "values": [
+        {
+          "value": "EMAIL",
+          "title": "email-адрес"
+        },
+        {
+          "value": "PHONE",
+          "title": "телефон"
+        }
+      ]
     },
     {
       "name": "values",
@@ -29,7 +39,21 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Тип объекта. Возможные значения: - LEAD — лид - CONTACT — контакт - COMPANY — компания Если не задан — поиск выполняется по всем трем типам"
+      "description": "Тип объекта. Возможные значения: - LEAD — лид - CONTACT — контакт - COMPANY — компания Если не задан — поиск выполняется по всем трем типам",
+      "values": [
+        {
+          "value": "LEAD",
+          "title": "лид"
+        },
+        {
+          "value": "CONTACT",
+          "title": "контакт"
+        },
+        {
+          "value": "COMPANY",
+          "title": "компания Если не задан — поиск выполняется по всем трем типам"
+        }
+      ]
     }
   ],
   "defs": {},

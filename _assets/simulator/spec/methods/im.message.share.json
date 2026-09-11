@@ -25,7 +25,25 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип создаваемого объекта. Допустимые значения: - CHAT — чат - TASK — задача - POST — пост в ленте - CALEND — событие календаря"
+      "description": "Тип создаваемого объекта. Допустимые значения: - CHAT — чат - TASK — задача - POST — пост в ленте - CALEND — событие календаря",
+      "values": [
+        {
+          "value": "CHAT",
+          "title": "чат"
+        },
+        {
+          "value": "TASK",
+          "title": "задача"
+        },
+        {
+          "value": "POST",
+          "title": "пост в ленте"
+        },
+        {
+          "value": "CALEND",
+          "title": "событие календаря"
+        }
+      ]
     }
   ],
   "defs": {},

@@ -35,21 +35,58 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Показывать ли свойство в умном фильтре. Возможные значения: - Y — да - N — нет"
+          "description": "Показывать ли свойство в умном фильтре. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "displayType",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Вид свойства в умном фильтре. Возможные значения: - F — флажки - K — радиокнопки - P — выпадающий список"
+          "description": "Вид свойства в умном фильтре. Возможные значения: - F — флажки - K — радиокнопки - P — выпадающий список",
+          "values": [
+            {
+              "value": "F",
+              "title": "флажки"
+            },
+            {
+              "value": "K",
+              "title": "радиокнопки"
+            },
+            {
+              "value": "P",
+              "title": "выпадающий список"
+            }
+          ],
+          "flag": false
         },
         {
           "name": "displayExpanded",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Показывать ли свойство развернутым в фильтре. Возможные значения: - Y — да - N — нет"
+          "description": "Показывать ли свойство развернутым в фильтре. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "filterHint",

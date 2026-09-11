@@ -301,7 +301,10 @@
                     expected: describeType(field),
                     got: Array.isArray(value[key]) ? 'array' : typeof value[key],
                 });
+                return;
             }
+
+            checkAllowedValue(param.name + '.' + key, field, value[key], warnings);
         });
 
         def.fields.forEach(function (field) {
@@ -312,6 +315,30 @@
                     hint: 'Обязательное поле, тип ' + describeType(field),
                 });
             }
+        });
+    }
+
+    // Документация перечислила допустимые значения — сверяем с ними. Это
+    // предупреждение, а не ошибка: перечень вытащен из текста описания и
+    // бывает неполным, а ложная ошибка в виджете хуже пропущенной.
+    function checkAllowedValue(path, field, value, warnings) {
+        if (!field.values || !field.values.length) {
+            return;
+        }
+        if (typeof value !== 'string' && typeof value !== 'number') {
+            return;
+        }
+        var given = String(value);
+        var allowed = field.values.map(function (item) { return item.value; });
+        if (allowed.indexOf(given) !== -1) {
+            return;
+        }
+        warnings.push({
+            class: 'value_not_in_list',
+            param: path,
+            message: 'Значение «' + given.slice(0, 40) + '» не указано в документации. '
+                + 'Перечислены: ' + allowed.slice(0, 8).join(', ')
+                + (allowed.length > 8 ? ' и другие' : '') + '.',
         });
     }
 

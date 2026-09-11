@@ -11,7 +11,25 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт",
+      "values": [
+        {
+          "value": "lead",
+          "title": "лид"
+        },
+        {
+          "value": "deal",
+          "title": "сделка"
+        },
+        {
+          "value": "company",
+          "title": "компания"
+        },
+        {
+          "value": "contact",
+          "title": "контакт"
+        }
+      ]
     },
     {
       "name": "CRM_ENTITY",

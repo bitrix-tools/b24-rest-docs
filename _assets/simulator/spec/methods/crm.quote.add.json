@@ -92,7 +92,18 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Доступно ли предложение для всех. Возможные значения: - Y — да - N — нет"
+          "description": "Доступно ли предложение для всех. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "PERSON_TYPE_ID",
@@ -164,7 +175,17 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Режим импорта. Возможные значения: - Y — да - N — нет"
+          "description": "Режим импорта. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         }
       ]
     }

@@ -120,14 +120,34 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Доступен ли для всех. Возможные значения: - Y — да - N — нет"
+          "description": "Доступен ли для всех. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "EXPORT",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Участвует ли контакт в экспорте. Возможные значения: - Y — да - N — нет"
+          "description": "Участвует ли контакт в экспорте. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "ASSIGNED_BY_ID",
@@ -162,7 +182,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры",
+          "values": [
+            {
+              "value": "CPC",
+              "title": "объявления"
+            },
+            {
+              "value": "CPM",
+              "title": "баннеры"
+            }
+          ]
         },
         {
           "name": "UTM_CAMPAIGN",
@@ -248,14 +278,34 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Производить ли регистрацию события обновления контакта в живой ленте. Возможные значения: - Y — да - N — нет По умолчанию N"
+          "description": "Производить ли регистрацию события обновления контакта в живой ленте. Возможные значения: - Y — да - N — нет По умолчанию N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию N"
+            }
+          ]
         },
         {
           "name": "REGISTER_HISTORY_EVENT",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Производить ли регистрацию обновления контакта в истории. Возможные значения: - Y — да - N — нет По умолчанию Y"
+          "description": "Производить ли регистрацию обновления контакта в истории. Возможные значения: - Y — да - N — нет По умолчанию Y",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию Y"
+            }
+          ]
         }
       ]
     }

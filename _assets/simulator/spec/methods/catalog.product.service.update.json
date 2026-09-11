@@ -42,7 +42,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+          "description": "Признак активности. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "code",
@@ -147,14 +157,34 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML"
+          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML"
+            }
+          ]
         },
         {
           "name": "detailTextType",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML"
+          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML"
+            }
+          ]
         },
         {
           "name": "sort",
@@ -175,7 +205,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Включен ли НДС в цену. Возможные значения: - Y — да - N — нет"
+          "description": "Включен ли НДС в цену. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "propertyN",

@@ -18,7 +18,73 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Цвет чата для мобильного приложения. Возможные значения: - RED — красный - GREEN — зеленый - MINT — мятный - LIGHT_BLUE — светло-синий - DARK_BLUE — темно-синий - PURPLE — фиолетовый - AQUA — аквамариновый - PINK — розовый - LIME — лаймовый - BROWN — коричневый - AZURE — лазурный - KHAKI — хаки - SAND — песочный - MARENGO — маренго - GRAY — серый - GRAPHITE — графитовый"
+      "description": "Цвет чата для мобильного приложения. Возможные значения: - RED — красный - GREEN — зеленый - MINT — мятный - LIGHT_BLUE — светло-синий - DARK_BLUE — темно-синий - PURPLE — фиолетовый - AQUA — аквамариновый - PINK — розовый - LIME — лаймовый - BROWN — коричневый - AZURE — лазурный - KHAKI — хаки - SAND — песочный - MARENGO — маренго - GRAY — серый - GRAPHITE — графитовый",
+      "values": [
+        {
+          "value": "RED",
+          "title": "красный"
+        },
+        {
+          "value": "GREEN",
+          "title": "зеленый"
+        },
+        {
+          "value": "MINT",
+          "title": "мятный"
+        },
+        {
+          "value": "LIGHT_BLUE",
+          "title": "светло-синий"
+        },
+        {
+          "value": "DARK_BLUE",
+          "title": "темно-синий"
+        },
+        {
+          "value": "PURPLE",
+          "title": "фиолетовый"
+        },
+        {
+          "value": "AQUA",
+          "title": "аквамариновый"
+        },
+        {
+          "value": "PINK",
+          "title": "розовый"
+        },
+        {
+          "value": "LIME",
+          "title": "лаймовый"
+        },
+        {
+          "value": "BROWN",
+          "title": "коричневый"
+        },
+        {
+          "value": "AZURE",
+          "title": "лазурный"
+        },
+        {
+          "value": "KHAKI",
+          "title": "хаки"
+        },
+        {
+          "value": "SAND",
+          "title": "песочный"
+        },
+        {
+          "value": "MARENGO",
+          "title": "маренго"
+        },
+        {
+          "value": "GRAY",
+          "title": "серый"
+        },
+        {
+          "value": "GRAPHITE",
+          "title": "графитовый"
+        }
+      ]
     },
     {
       "name": "BOT_ID",

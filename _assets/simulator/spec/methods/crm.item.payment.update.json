@@ -35,7 +35,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Статус оплаты. Возможные значения: - Y – Оплачена - N – Не оплачена"
+          "description": "Статус оплаты. Возможные значения: - Y – Оплачена - N – Не оплачена",
+          "values": [
+            {
+              "value": "Y",
+              "title": "Оплачена"
+            },
+            {
+              "value": "N",
+              "title": "Не оплачена"
+            }
+          ]
         },
         {
           "name": "paySystemId",

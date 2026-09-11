@@ -29,7 +29,17 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Результат выполнения метода. Возможные значения: - true — поток закреплен - false — поток откреплен"
+      "description": "Результат выполнения метода. Возможные значения: - true — поток закреплен - false — поток откреплен",
+      "values": [
+        {
+          "value": "true",
+          "title": "поток закреплен"
+        },
+        {
+          "value": "false",
+          "title": "поток откреплен"
+        }
+      ]
     }
   ],
   "page": "/api-reference/tasks/flow/tasks-flow-flow-pin.html",

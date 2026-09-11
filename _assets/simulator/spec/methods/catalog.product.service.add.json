@@ -42,7 +42,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Признак активности. Возможные значения: - Y — да - N — нет По умолчанию устанавливается Y"
+          "description": "Признак активности. Возможные значения: - Y — да - N — нет По умолчанию устанавливается Y",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию устанавливается Y"
+            }
+          ]
         },
         {
           "name": "code",
@@ -147,14 +157,34 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text"
+          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML По умолчанию устанавливается text"
+            }
+          ]
         },
         {
           "name": "detailTextType",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text"
+          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML По умолчанию устанавливается text"
+            }
+          ]
         },
         {
           "name": "sort",
@@ -175,7 +205,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Включен ли НДС в цену. Возможные значения: - Y — да - N — нет По умолчанию устанавливается N"
+          "description": "Включен ли НДС в цену. Возможные значения: - Y — да - N — нет По умолчанию устанавливается N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию устанавливается N"
+            }
+          ]
         },
         {
           "name": "propertyN",

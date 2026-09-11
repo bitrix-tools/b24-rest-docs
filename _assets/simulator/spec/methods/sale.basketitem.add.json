@@ -77,7 +77,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Указана ли цена вручную. Возможные значения: - Y — да - N — нет Если указывается значение Y, то данные каталога будут игнорироваться. Необходимо явно задать параметры price, basePrice и discountPrice так, чтобы выполнялось условие basePrice = price + discountPrice"
+          "description": "Указана ли цена вручную. Возможные значения: - Y — да - N — нет Если указывается значение Y, то данные каталога будут игнорироваться. Необходимо явно задать параметры price, basePrice и discountPrice так, чтобы выполнялось условие basePrice = price + discountPrice",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет Если указывается значение Y, то данные каталога будут игнорироваться"
+            }
+          ]
         },
         {
           "name": "quantity",
@@ -133,7 +143,17 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Флаг доступности товара. Возможные значения: - Y — да - N — нет"
+          "description": "Флаг доступности товара. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "vatRate",
@@ -147,7 +167,17 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Флаг того, включен ли НДС или налог в цену товара. Возможные значения: - Y — да - N — нет"
+          "description": "Флаг того, включен ли НДС или налог в цену товара. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "catalogXmlId",

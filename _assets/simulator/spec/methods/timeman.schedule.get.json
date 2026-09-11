@@ -144,7 +144,25 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Периодичность формирования отчетов по графику. Возможные значения: - MONTH — месяц - WEEK — неделя - TWO_WEEKS — две недели - QUARTER — квартал"
+      "description": "Периодичность формирования отчетов по графику. Возможные значения: - MONTH — месяц - WEEK — неделя - TWO_WEEKS — две недели - QUARTER — квартал",
+      "values": [
+        {
+          "value": "MONTH",
+          "title": "месяц"
+        },
+        {
+          "value": "WEEK",
+          "title": "неделя"
+        },
+        {
+          "value": "TWO_WEEKS",
+          "title": "две недели"
+        },
+        {
+          "value": "QUARTER",
+          "title": "квартал"
+        }
+      ]
     },
     {
       "name": "REPORT_PERIOD_OPTIONS",

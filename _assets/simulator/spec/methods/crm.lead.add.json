@@ -197,7 +197,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак доступности лида для всех. Допустимые значения Y или N."
+          "description": "Признак доступности лида для всех. Допустимые значения Y или N.",
+          "flag": true
         },
         {
           "name": "OPPORTUNITY",
@@ -211,7 +212,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак ручного режима расчёта суммы. Допустимые значения Y или N"
+          "description": "Признак ручного режима расчёта суммы. Допустимые значения Y или N",
+          "flag": true
         },
         {
           "name": "ORIGINATOR_ID",

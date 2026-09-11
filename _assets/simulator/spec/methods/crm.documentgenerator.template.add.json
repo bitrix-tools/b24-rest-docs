@@ -70,14 +70,16 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Активность шаблона: Y или N. По умолчанию Y"
+          "description": "Активность шаблона: Y или N. По умолчанию Y",
+          "flag": false
         },
         {
           "name": "withStamps",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Подставлять печать и подпись: Y или N. По умолчанию N"
+          "description": "Подставлять печать и подпись: Y или N. По умолчанию N",
+          "flag": false
         },
         {
           "name": "sort",

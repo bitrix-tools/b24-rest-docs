@@ -63,7 +63,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Комментарий к документу"
+          "description": "Комментарий к документу",
+          "flag": false
         },
         {
           "name": "title",

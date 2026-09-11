@@ -25,7 +25,17 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Адресат сообщения. Возможные значения: - MANAGER — менеджер - RECIPIENT — получатель груза"
+      "description": "Адресат сообщения. Возможные значения: - MANAGER — менеджер - RECIPIENT — получатель груза",
+      "values": [
+        {
+          "value": "MANAGER",
+          "title": "менеджер"
+        },
+        {
+          "value": "RECIPIENT",
+          "title": "получатель груза"
+        }
+      ]
     },
     {
       "name": "MESSAGE",

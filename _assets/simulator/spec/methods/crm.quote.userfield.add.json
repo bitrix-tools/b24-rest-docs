@@ -28,7 +28,65 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Тип данных пользовательского поля. Возможные значения: - string — строка - integer — целое число - double — число - boolean — да/нет - datetime — дата/время - date — дата - money — деньги - url — ссылка - address — адрес - enumeration — список - file — файл - employee — привязка к сотруднику - crm_status — привязка к справочнику CRM - iblock_section — привязка к разделам инф.…"
+          "description": "Тип данных пользовательского поля. Возможные значения: - string — строка - integer — целое число - double — число - boolean — да/нет - datetime — дата/время - date — дата - money — деньги - url — ссылка - address — адрес - enumeration — список - file — файл - employee — привязка к сотруднику - crm_status — привязка к справочнику CRM - iblock_section — привязка к разделам инф.…",
+          "values": [
+            {
+              "value": "string",
+              "title": "строка"
+            },
+            {
+              "value": "integer",
+              "title": "целое число"
+            },
+            {
+              "value": "double",
+              "title": "число"
+            },
+            {
+              "value": "boolean",
+              "title": "да/нет"
+            },
+            {
+              "value": "datetime",
+              "title": "дата/время"
+            },
+            {
+              "value": "date",
+              "title": "дата"
+            },
+            {
+              "value": "money",
+              "title": "деньги"
+            },
+            {
+              "value": "url",
+              "title": "ссылка"
+            },
+            {
+              "value": "address",
+              "title": "адрес"
+            },
+            {
+              "value": "enumeration",
+              "title": "список"
+            },
+            {
+              "value": "file",
+              "title": "файл"
+            },
+            {
+              "value": "employee",
+              "title": "привязка к сотруднику"
+            },
+            {
+              "value": "crm_status",
+              "title": "привязка к справочнику CRM"
+            },
+            {
+              "value": "iblock_section",
+              "title": "привязка к разделам инф.…"
+            }
+          ]
         },
         {
           "name": "FIELD_NAME",
@@ -91,21 +149,51 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Является ли поле множественным. Возможные значения: - Y — да - N — нет Поля типа boolean не могут быть множественными. По умолчанию N"
+          "description": "Является ли поле множественным. Возможные значения: - Y — да - N — нет Поля типа boolean не могут быть множественными. По умолчанию N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет Поля типа boolean не могут быть множественными"
+            }
+          ]
         },
         {
           "name": "MANDATORY",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Является ли поле обязательным. Возможные значения: - Y — да - N — нет По умолчанию N"
+          "description": "Является ли поле обязательным. Возможные значения: - Y — да - N — нет По умолчанию N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию N"
+            }
+          ]
         },
         {
           "name": "SHOW_FILTER",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Показывать ли поле в фильтре. Возможные значения: - Y — да - N — нет По умолчанию N"
+          "description": "Показывать ли поле в фильтре. Возможные значения: - Y — да - N — нет По умолчанию N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию N"
+            }
+          ]
         },
         {
           "name": "SETTINGS",
@@ -133,21 +221,51 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Показывать ли пользовательское поле в списке. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет По умолчанию N"
+          "description": "Показывать ли пользовательское поле в списке. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет По умолчанию N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию N"
+            }
+          ]
         },
         {
           "name": "EDIT_IN_LIST",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Разрешать ли редактирование пользователем. Возможные значения: - Y — да - N — нет По умолчанию Y. Значение N поддерживают не все типы полей в рамках crm"
+          "description": "Разрешать ли редактирование пользователем. Возможные значения: - Y — да - N — нет По умолчанию Y. Значение N поддерживают не все типы полей в рамках crm",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию Y"
+            }
+          ]
         },
         {
           "name": "IS_SEARCHABLE",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Участвуют ли значения поля в поиске. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет По умолчанию N"
+          "description": "Участвуют ли значения поля в поиске. Данный параметр ни на что не влияет в рамках crm. Возможные значения: - Y — да - N — нет По умолчанию N",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию N"
+            }
+          ]
         }
       ]
     }

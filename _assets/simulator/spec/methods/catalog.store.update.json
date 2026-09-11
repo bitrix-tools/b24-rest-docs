@@ -49,7 +49,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Активность. Возможные значения: - Y — да - N — нет"
+          "description": "Активность. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "description",
@@ -147,7 +157,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Является ли пунктом выдачи. Возможные значения: - Y – да - N – нет"
+          "description": "Является ли пунктом выдачи. Возможные значения: - Y – да - N – нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "code",

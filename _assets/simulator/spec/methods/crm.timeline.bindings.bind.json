@@ -42,7 +42,29 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Тип элемента CRM, к которому привязана запись таймлайна. Возможные значения: - lead — лид - deal — сделка - contact — контакт - company — компания - order — заказ"
+          "description": "Тип элемента CRM, к которому привязана запись таймлайна. Возможные значения: - lead — лид - deal — сделка - contact — контакт - company — компания - order — заказ",
+          "values": [
+            {
+              "value": "lead",
+              "title": "лид"
+            },
+            {
+              "value": "deal",
+              "title": "сделка"
+            },
+            {
+              "value": "contact",
+              "title": "контакт"
+            },
+            {
+              "value": "company",
+              "title": "компания"
+            },
+            {
+              "value": "order",
+              "title": "заказ"
+            }
+          ]
         }
       ]
     }

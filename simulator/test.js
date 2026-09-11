@@ -264,6 +264,51 @@ test('датасет детерминирован при одной дате с�
 
 // ---------------------------------------------------------------------- итог
 
+// --- поле char не всегда флаг Y/N ---------------------------------------
+//
+// Клиент сообщил: у поля commentary в документах складского учёта форма
+// предлагала выбрать Y или N, хотя это комментарий текстом. Причина — тип
+// char в документации стоит и у флагов, и у коротких кодов, и у свободного
+// текста, а виджет считал его флагом всегда.
+
+test('перечень значений из описания попадает в схему', () => {
+    const docType = spec('catalog.document.add').defs.fieldsFields.fields
+        .find((f) => f.name === 'docType');
+    assert(docType && docType.values, 'у docType нет перечня значений');
+    assertEqual(docType.values.map((v) => v.value).join(','), 'A,S,M,R,D', 'значения docType');
+    assertEqual(docType.flag, false, 'docType ошибочно принят за флаг Y/N');
+});
+
+test('свободный текст не считается флагом Y/N', () => {
+    const commentary = spec('catalog.document.update').defs.fieldsFields.fields
+        .find((f) => f.name === 'commentary');
+    assertEqual(commentary.base, 'char', 'тип в документации изменился');
+    assertEqual(commentary.flag, false, 'комментарию подсунут флаг Y/N');
+    assert(!commentary.values, 'у комментария не должно быть перечня значений');
+});
+
+test('комментарий строкой принимается без ошибок', () => {
+    const response = B24Sim.call(spec('catalog.document.update'),
+        { id: 142, fields: { commentary: 'Обновили ответственного' } }, null);
+    assert(!response.error, 'строка в commentary отклонена: ' + JSON.stringify(response.error));
+});
+
+test('значение вне перечня даёт предупреждение, а не ошибку', () => {
+    const fields = { docType: 'ZZZ', currency: 'RUB', responsibleId: 1, title: 'Т' };
+    const response = B24Sim.call(spec('catalog.document.add'), { fields }, null);
+    assert(!response.error, 'неизвестное значение стало ошибкой, а должно быть предупреждением');
+    const warning = (response.simulator.warnings || []).find((w) => w.class === 'value_not_in_list');
+    assert(warning, 'нет предупреждения о значении вне перечня');
+    assert(warning.message.indexOf('A, S, M, R, D') !== -1, 'в предупреждении нет списка значений');
+});
+
+test('значение из перечня предупреждения не вызывает', () => {
+    const fields = { docType: 'A', currency: 'RUB', responsibleId: 1, title: 'Т' };
+    const response = B24Sim.call(spec('catalog.document.add'), { fields }, null);
+    const warning = (response.simulator.warnings || []).find((w) => w.class === 'value_not_in_list');
+    assert(!warning, 'верное значение вызвало предупреждение');
+});
+
 console.log('Пройдено: ' + passed + ', провалено: ' + failures.length);
 
 if (failures.length) {

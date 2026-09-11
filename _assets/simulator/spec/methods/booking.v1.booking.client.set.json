@@ -42,7 +42,17 @@
           "type": "object",
           "base": "object",
           "required": true,
-          "description": "Тип клиента в формате {\"module\": \"crm\", \"code\": \"CONTACT\"}. Возможные значения code: - CONTACT — контакт CRM - COMPANY — компания CRM Cтруктуру объекта возвращает метод booking.v1.clienttype.list"
+          "description": "Тип клиента в формате {\"module\": \"crm\", \"code\": \"CONTACT\"}. Возможные значения code: - CONTACT — контакт CRM - COMPANY — компания CRM Cтруктуру объекта возвращает метод booking.v1.clienttype.list",
+          "values": [
+            {
+              "value": "CONTACT",
+              "title": "контакт CRM"
+            },
+            {
+              "value": "COMPANY",
+              "title": "компания CRM Cтруктуру объекта возвращает метод booking.v1.clienttype.list"
+            }
+          ]
         }
       ]
     }

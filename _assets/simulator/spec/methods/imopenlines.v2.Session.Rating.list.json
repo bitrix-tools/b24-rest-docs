@@ -79,7 +79,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Клиентская оценка. Возможные значения: - like — клиент поставил лайк - dislike — клиент поставил дизлайк"
+      "description": "Клиентская оценка. Возможные значения: - like — клиент поставил лайк - dislike — клиент поставил дизлайк",
+      "values": [
+        {
+          "value": "like",
+          "title": "клиент поставил лайк"
+        },
+        {
+          "value": "dislike",
+          "title": "клиент поставил дизлайк"
+        }
+      ]
     },
     {
       "name": "hasVoteHead",

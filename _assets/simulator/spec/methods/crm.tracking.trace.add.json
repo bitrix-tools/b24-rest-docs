@@ -35,7 +35,29 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип объекта CRM. Возможные значения: - COMPANY — компания, entityTypeId = 4 - CONTACT — контакт, entityTypeId = 3 - DEAL — сделка, entityTypeId = 2 - LEAD — лид, entityTypeId = 1 - QUOTE — коммерческое предложение, entityTypeId = 7"
+          "description": "Тип объекта CRM. Возможные значения: - COMPANY — компания, entityTypeId = 4 - CONTACT — контакт, entityTypeId = 3 - DEAL — сделка, entityTypeId = 2 - LEAD — лид, entityTypeId = 1 - QUOTE — коммерческое предложение, entityTypeId = 7",
+          "values": [
+            {
+              "value": "COMPANY",
+              "title": "компания, entityTypeId = 4"
+            },
+            {
+              "value": "CONTACT",
+              "title": "контакт, entityTypeId = 3"
+            },
+            {
+              "value": "DEAL",
+              "title": "сделка, entityTypeId = 2"
+            },
+            {
+              "value": "LEAD",
+              "title": "лид, entityTypeId = 1"
+            },
+            {
+              "value": "QUOTE",
+              "title": "коммерческое предложение, entityTypeId = 7"
+            }
+          ]
         },
         {
           "name": "ID",

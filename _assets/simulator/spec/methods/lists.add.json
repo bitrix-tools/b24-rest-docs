@@ -11,7 +11,21 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп",
+      "values": [
+        {
+          "value": "lists",
+          "title": "тип инфоблока списка"
+        },
+        {
+          "value": "bitrix_processes",
+          "title": "тип инфоблока процессов"
+        },
+        {
+          "value": "lists_socnet",
+          "title": "тип инфоблока списков групп"
+        }
+      ]
     },
     {
       "name": "IBLOCK_CODE",
@@ -99,7 +113,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Включение поддержки бизнес-процессов. Возможные значения: - Y — да - N — нет"
+          "description": "Включение поддержки бизнес-процессов. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         }
       ]
     }

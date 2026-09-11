@@ -81,7 +81,8 @@
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Доступна ли компания для всех. Возможные значения: Y или N"
+      "description": "Доступна ли компания для всех. Возможные значения: Y или N",
+      "flag": false
     },
     {
       "name": "COMMENTS",
@@ -95,28 +96,32 @@
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Задан телефон"
+      "description": "Задан телефон",
+      "flag": false
     },
     {
       "name": "HAS_EMAIL",
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Задан e-mail"
+      "description": "Задан e-mail",
+      "flag": false
     },
     {
       "name": "HAS_IMOL",
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Задана открытая линия"
+      "description": "Задана открытая линия",
+      "flag": false
     },
     {
       "name": "IS_MY_COMPANY",
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Признак «Моя компания». Возможные значения: Y или N"
+      "description": "Признак «Моя компания». Возможные значения: Y или N",
+      "flag": true
     },
     {
       "name": "ASSIGNED_BY_ID",
@@ -200,7 +205,17 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+      "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры",
+      "values": [
+        {
+          "value": "CPC",
+          "title": "объявления"
+        },
+        {
+          "value": "CPM",
+          "title": "баннеры"
+        }
+      ]
     },
     {
       "name": "UTM_CAMPAIGN",
@@ -991,7 +1006,8 @@
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Доступна ли компания для всех. Возможные значения: Y или N"
+      "description": "Доступна ли компания для всех. Возможные значения: Y или N",
+      "flag": false
     },
     {
       "name": "COMMENTS",
@@ -1005,28 +1021,32 @@
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Задан телефон"
+      "description": "Задан телефон",
+      "flag": false
     },
     {
       "name": "HAS_EMAIL",
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Задан e-mail"
+      "description": "Задан e-mail",
+      "flag": false
     },
     {
       "name": "HAS_IMOL",
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Задана открытая линия"
+      "description": "Задана открытая линия",
+      "flag": false
     },
     {
       "name": "IS_MY_COMPANY",
       "type": "char",
       "base": "char",
       "required": "unknown",
-      "description": "Признак «Моя компания». Возможные значения: Y или N"
+      "description": "Признак «Моя компания». Возможные значения: Y или N",
+      "flag": true
     },
     {
       "name": "ASSIGNED_BY_ID",
@@ -1110,7 +1130,17 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+      "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры",
+      "values": [
+        {
+          "value": "CPC",
+          "title": "объявления"
+        },
+        {
+          "value": "CPM",
+          "title": "баннеры"
+        }
+      ]
     },
     {
       "name": "UTM_CAMPAIGN",

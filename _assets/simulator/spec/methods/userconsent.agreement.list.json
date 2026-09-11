@@ -36,7 +36,17 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+      "description": "Признак активности. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "LANGUAGE_ID",
@@ -200,7 +210,17 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Признак активности. Возможные значения: - Y — да - N — нет"
+      "description": "Признак активности. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "LANGUAGE_ID",

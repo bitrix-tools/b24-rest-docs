@@ -11,21 +11,51 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропускать чаты открытых линий. Возможные значения: - Y — да - N — нет"
+      "description": "Пропускать чаты открытых линий. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "SKIP_DIALOG",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропускать диалоги один-на-один. Возможные значения: - Y — да - N — нет"
+      "description": "Пропускать диалоги один-на-один. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "SKIP_CHAT",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропускать групповые чаты. Возможные значения: - Y — да - N — нет"
+      "description": "Пропускать групповые чаты. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "LAST_MESSAGE_DATE",
@@ -39,49 +69,119 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Возвращать только диалоги с непрочитанными сообщениями. Возможные значения: - Y — да - N — нет"
+      "description": "Возвращать только диалоги с непрочитанными сообщениями. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "PARSE_TEXT",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Парсить текст последнего сообщения. Возможные значения: - Y — да - N — нет"
+      "description": "Парсить текст последнего сообщения. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "GET_ORIGINAL_TEXT",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Вернуть оригинальный текст сообщения без преобразований. Возможные значения: - Y — да - N — нет"
+      "description": "Вернуть оригинальный текст сообщения без преобразований. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "SKIP_UNDISTRIBUTED_OPENLINES",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропускать нераспределенные чаты открытых линий. Возможные значения: - Y — да - N — нет"
+      "description": "Пропускать нераспределенные чаты открытых линий. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "ONLY_COPILOT",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Возвращать только чаты BitrixGPT. Возможные значения: - Y — да - N — нет"
+      "description": "Возвращать только чаты BitrixGPT. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "ONLY_CHANNEL",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Возвращать только каналы. Возможные значения: - Y — да - N — нет"
+      "description": "Возвращать только каналы. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "CAN_MANAGE_MESSAGES",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Возвращать только чаты с правом управления сообщениями. Возможные значения: - Y — да - N — нет"
+      "description": "Возвращать только чаты с правом управления сообщениями. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "OFFSET",

@@ -112,7 +112,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Флаг доступности товара. Возможные значения: - Y — да - N — нет"
+          "description": "Флаг доступности товара. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "vatRate",
@@ -126,7 +136,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Флаг того, включен ли НДС или налог в цену товара. Возможные значения: - Y — да - N — нет"
+          "description": "Флаг того, включен ли НДС или налог в цену товара. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "catalogXmlId",

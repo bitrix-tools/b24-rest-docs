@@ -11,21 +11,51 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропустить чаты открытых линий. Возможные значения: - Y — да - N — нет"
+      "description": "Пропустить чаты открытых линий. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "SKIP_CHAT",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропустить групповые чаты. Возможные значения: - Y — да - N — нет"
+      "description": "Пропустить групповые чаты. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "SKIP_DIALOG",
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Пропустить диалоги один-на-один. Возможные значения: - Y — да - N — нет"
+      "description": "Пропустить диалоги один-на-один. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "LAST_UPDATE",
@@ -39,7 +69,17 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Выбрать только чаты открытых линий. Возможные значения: - Y — да - N — нет"
+      "description": "Выбрать только чаты открытых линий. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "LAST_SYNC_DATE",

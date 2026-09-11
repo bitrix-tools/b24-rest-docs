@@ -63,7 +63,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "По умолчанию"
+          "description": "По умолчанию",
+          "flag": false
         }
       ]
     }

@@ -123,7 +123,25 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Базовая политика доступа базы знаний. Возможные значения: - none — нет доступа - view — просмотр - manage — редактирование - moderate — администрирование"
+      "description": "Базовая политика доступа базы знаний. Возможные значения: - none — нет доступа - view — просмотр - manage — редактирование - moderate — администрирование",
+      "values": [
+        {
+          "value": "none",
+          "title": "нет доступа"
+        },
+        {
+          "value": "view",
+          "title": "просмотр"
+        },
+        {
+          "value": "manage",
+          "title": "редактирование"
+        },
+        {
+          "value": "moderate",
+          "title": "администрирование"
+        }
+      ]
     },
     {
       "name": "createdBy",

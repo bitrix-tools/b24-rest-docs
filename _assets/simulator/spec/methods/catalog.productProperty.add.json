@@ -42,14 +42,51 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Базовый тип свойства. Допустимые значения: - N — число - S — строка - L — список - F — файл - E — привязка к элементам - G — привязка к разделам"
+          "description": "Базовый тип свойства. Допустимые значения: - N — число - S — строка - L — список - F — файл - E — привязка к элементам - G — привязка к разделам",
+          "values": [
+            {
+              "value": "N",
+              "title": "число"
+            },
+            {
+              "value": "S",
+              "title": "строка"
+            },
+            {
+              "value": "L",
+              "title": "список"
+            },
+            {
+              "value": "F",
+              "title": "файл"
+            },
+            {
+              "value": "E",
+              "title": "привязка к элементам"
+            },
+            {
+              "value": "G",
+              "title": "привязка к разделам"
+            }
+          ]
         },
         {
           "name": "active",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак активности. Допустимые значения: - Y — да - N — нет"
+          "description": "Признак активности. Допустимые значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "sort",
@@ -98,14 +135,36 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Внешний вид списка. Допустимые значения: - L — выпадающий список - C — набор флажков"
+          "description": "Внешний вид списка. Допустимые значения: - L — выпадающий список - C — набор флажков",
+          "values": [
+            {
+              "value": "L",
+              "title": "выпадающий список"
+            },
+            {
+              "value": "C",
+              "title": "набор флажков"
+            }
+          ],
+          "flag": false
         },
         {
           "name": "multiple",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак множественного значения. Допустимые значения: - Y — да - N — нет"
+          "description": "Признак множественного значения. Допустимые значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "xmlId",
@@ -140,28 +199,72 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак хранения описания значения. Допустимые значения: - Y — да - N — нет"
+          "description": "Признак хранения описания значения. Допустимые значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "searchable",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак участия в поиске. Допустимые значения: - Y — да - N — нет"
+          "description": "Признак участия в поиске. Допустимые значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "filtrable",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак участия в фильтрации. Допустимые значения: - Y — да - N — нет"
+          "description": "Признак участия в фильтрации. Допустимые значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "isRequired",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак обязательного значения. Допустимые значения: - Y — да - N — нет"
+          "description": "Признак обязательного значения. Допустимые значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "hint",
