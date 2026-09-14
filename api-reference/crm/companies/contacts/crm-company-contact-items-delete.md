@@ -15,6 +15,10 @@
 
 Метод `crm.company.contact.items.delete` очищает набор контактов, связанных с указанной компанией.
 
+Метод отвязывает все контакты сразу и не удаляет сами контакты. Чтобы убрать один контакт, используйте [crm.company.contact.delete](./crm-company-contact-delete.md).
+
+У каждого отвязанного контакта поле `COMPANY_ID` переключается на другую его компанию с наименьшим идентификатором или очищается, если других компаний у контакта нет. Восстановить набор можно только повторной привязкой через [crm.company.contact.items.set](./crm-company-contact-items-set.md) — прежние значения `SORT` и `IS_PRIMARY` при этом не сохраняются. Что означают эти поля, описано в [обзоре раздела](./index.md).
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -23,9 +27,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор компании.
+[`integer`](../../../data-types.md) | Идентификатор компании. Должен быть больше `0`.
 
-Идентификатор можно получить с помощью методов [crm.company.list](../crm-company-list.md) или [crm.company.add](../crm-company-add.md) ||
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
 |#
 
 ## Примеры кода
@@ -149,7 +153,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -160,17 +163,17 @@
                     'id' => 32,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting company contact item: ' . $e->getMessage();
@@ -255,7 +258,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха.
+
+Метод возвращает `true` и в том случае, когда у компании не было привязанных контактов или компании с переданным `id` не существует ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -277,7 +282,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
+|| Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше или равен 0 или не передан вовсе ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение компаний ||
 |#
 
@@ -285,8 +290,9 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-company-contact-add.md)
 - [{#T}](./crm-company-contact-delete.md)
-- [{#T}](./crm-company-contact-fields.md)
 - [{#T}](./crm-company-contact-items-get.md)
 - [{#T}](./crm-company-contact-items-set.md)
+- [{#T}](./crm-company-contact-fields.md)

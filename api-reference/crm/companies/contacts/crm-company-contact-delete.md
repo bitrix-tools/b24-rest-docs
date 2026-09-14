@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Изменение» компаний
+> Кто может выполнять метод: пользователь с правом «Изменение» компаний и правом «Чтение» контакта, который удаляется из привязок
 
 Метод `crm.company.contact.delete` удаляет контакт из указанной компании.
+
+Удаляется только связь компании с контактом — сам контакт остается в CRM. Чтобы отвязать от компании сразу все контакты, используйте [crm.company.contact.items.delete](./crm-company-contact-items-delete.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -23,20 +25,33 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор компании.
+[`integer`](../../../data-types.md) | Идентификатор компании. Должен быть больше `0`.
 
-Идентификатор можно получить с помощью методов [crm.company.list](../crm-company-list.md) или [crm.company.add](../crm-company-add.md) ||
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
 || **fields***
-[`object`](../../../data-types.md) | Объект с информацией о том, какой контакт необходимо удалить из привязок.
+[`object`](../../../data-types.md) | Объект с информацией о том, какой контакт нужно удалить из привязок.
 
-Содержит единственный ключ `CONTACT_ID` ||
-|| **fields.CONTACT_ID***
-[`crm_entity`](../../data-types.md) | Идентификатор контакта, который необходимо удалить из привязок ||
+Содержит единственный ключ `CONTACT_ID`. Описание поля смотрите [ниже](#parameter-fields) ||
+|#
+
+### Параметр fields {#parameter-fields}
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **CONTACT_ID***
+[`crm_entity`](../../data-types.md) | Идентификатор контакта, который нужно удалить из привязок компании. Должен быть больше `0`.
+
+Идентификаторы привязанных контактов можно получить методом [crm.company.contact.items.get](./crm-company-contact-items-get.md) ||
 |#
 
 {% note info "Удалить первичную привязку" %}
 
-Если удалить первичную привязку, то новой первичной привязкой станет первая доступная привязка
+Флаг `IS_PRIMARY` относится к контакту: он означает, что компания из привязки для контакта основная.
+
+Если удалить такую привязку, поле контакта `COMPANY_ID` переключится на другую его компанию с наименьшим идентификатором или очистится, когда у контакта нет других компаний. Флаг `IS_PRIMARY` в оставшихся привязках контакта при этом не переключается в `Y` — сделать компанию основной заново можно методом [crm.company.contact.add](./crm-company-contact-add.md).
 
 {% endnote %}
 
@@ -170,7 +185,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -184,17 +198,17 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting contact from company: ' . $e->getMessage();
@@ -313,8 +327,8 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined.` | Передан `id` меньше или равен 0 или не передан вовсе ||
-|| Пустое значение | `The parameter 'item' must be array.` | В `fields` передан не объект ||
-|| `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение компании ||
+|| Пустое значение | `The parameter 'item' must be array.` | В `fields` передан не объект. В тексте ошибки параметр назван `item` ||
+|| `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение компаний или на чтение контакта ||
 || Пустое значение | `Not found.` | Компания с переданным `id` не найдена ||
 || Пустое значение | `The parameter 'fields' is not valid.` | Может возникать в нескольких случаях:
 - если не передан обязательный параметр `fields.CONTACT_ID`
@@ -325,8 +339,9 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-company-contact-add.md)
-- [{#T}](./crm-company-contact-fields.md)
 - [{#T}](./crm-company-contact-items-get.md)
 - [{#T}](./crm-company-contact-items-set.md)
 - [{#T}](./crm-company-contact-items-delete.md)
+- [{#T}](./crm-company-contact-fields.md)

@@ -15,6 +15,8 @@
 
 Метод `crm.company.contact.items.get` возвращает набор контактов, связанных с указанной компанией.
 
+Метод отдает все привязки компании целиком: параметров фильтрации, выборки полей и постраничной навигации у него нет. Чтобы изменить набор, используйте [crm.company.contact.items.set](./crm-company-contact-items-set.md), а чтобы добавить или убрать один контакт — [crm.company.contact.add](./crm-company-contact-add.md) и [crm.company.contact.delete](./crm-company-contact-delete.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -23,9 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор компании.
+[`integer`](../../../data-types.md) | Идентификатор компании. Должен быть больше `0`.
 
-Идентификатор можно получить с помощью методов [crm.company.list](../crm-company-list.md) или [crm.company.add](../crm-company-add.md) ||
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 4` ||
 |#
 
 ## Примеры кода
@@ -157,7 +159,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -168,17 +169,17 @@
                     'id' => 32,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Data: ' . print_r($result->data(), true);
+            echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting company contact items: ' . $e->getMessage();
@@ -254,22 +255,22 @@ HTTP-статус: **200**
 {
     "result": [
         {
-        "CONTACT_ID": 7,
-        "SORT": 100,
-        "ROLE_ID": 0,
-        "IS_PRIMARY": "Y"
+            "CONTACT_ID": 7,
+            "SORT": 100,
+            "ROLE_ID": 0,
+            "IS_PRIMARY": "Y"
         },
         {
-        "CONTACT_ID": 8,
-        "SORT": 110,
-        "ROLE_ID": 0,
-        "IS_PRIMARY": "N"
+            "CONTACT_ID": 8,
+            "SORT": 110,
+            "ROLE_ID": 0,
+            "IS_PRIMARY": "Y"
         },
         {
-        "CONTACT_ID": 9,
-        "SORT": 120,
-        "ROLE_ID": 0,
-        "IS_PRIMARY": "N"
+            "CONTACT_ID": 9,
+            "SORT": 120,
+            "ROLE_ID": 0,
+            "IS_PRIMARY": "N"
         }
     ],
     "time": {
@@ -283,32 +284,54 @@ HTTP-статус: **200**
 }
 ```
 
+Ответ, когда у компании нет привязанных контактов:
+
+```json
+{
+    "result": [],
+    "time": {
+        "start": 1724078812.104471,
+        "finish": 1724078812.487903,
+        "duration": 0.3834319114685059,
+        "processing": 0.1382269859313965,
+        "date_start": "2024-08-19T16:46:52+02:00",
+        "date_finish": "2024-08-19T16:46:52+02:00"
+    }
+}
+```
+
 ### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`company_contact_binding[]`](#company_contact_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к компании контактах ||
+[`company_contact_binding[]`](#company_contact_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к компании контактах, отсортированный по возрастанию `SORT`.
+
+Если компании с переданным `id` не существует, метод тоже возвращает пустой массив, а не ошибку ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Параметр company_contact_binding {#company_contact_binding}
+#### Объект company_contact_binding {#company_contact_binding}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **CONTACT_ID**
-[`integer`](../../../data-types.md) | Идентификатор контакта ||
+[`integer`](../../../data-types.md) | Идентификатор связанного контакта.
+
+Получить данные контакта можно методом [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 3` ||
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
 || **ROLE_ID**
-[`integer`](../../../data-types.md) | Идентификатор роли, служебное поле ||
+[`integer`](../../../data-types.md) | Идентификатор роли. Поле зарезервировано, доступно только на чтение и всегда равно `0` ||
 || **IS_PRIMARY**
 [`char`](../../../data-types.md#standart-types) | Является ли привязка первичной. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+Флаг относится к контакту и означает, что эта компания для него основная. Поэтому метод может вернуть несколько привязок с `IS_PRIMARY = Y` — по одной на каждый такой контакт ||
 |#
 
 ## Обработка ошибок
@@ -328,7 +351,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The parameter ownerEntityID is invalid or not defined` | Передан `id` меньше или равен 0 или не передан вовсе ||
+|| Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше или равен 0 или не передан вовсе ||
 || `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на чтение компаний ||
 |#
 
@@ -336,8 +359,9 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-company-contact-add.md)
 - [{#T}](./crm-company-contact-delete.md)
-- [{#T}](./crm-company-contact-fields.md)
 - [{#T}](./crm-company-contact-items-set.md)
 - [{#T}](./crm-company-contact-items-delete.md)
+- [{#T}](./crm-company-contact-fields.md)

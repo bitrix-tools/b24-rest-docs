@@ -1,4 +1,4 @@
-# Получить поля для связи компания-контакт crm.company.contact.fields
+# Получить описание полей для связи компания-контакт crm.company.contact.fields
 
 {% note tip "" %}
 
@@ -14,6 +14,8 @@
 > Кто может выполнять метод: любой пользователь
 
 Метод `crm.company.contact.fields` возвращает описание полей для связи компания-контакт.
+
+Состав полей привязки фиксирован, пользовательских полей у нее нет. Поле `ROLE_ID`, которое приходит в ответе [crm.company.contact.items.get](./crm-company-contact-items-get.md), в выдачу метода не попадает — записать его нельзя. Как устроен объект привязки, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -147,7 +149,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -156,17 +157,17 @@
                 'crm.company.contact.fields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching company contact fields: ' . $e->getMessage();
@@ -285,19 +286,39 @@ HTTP-статус: **200**
 
 где:
 - `field_n` — поле элемента
-- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description)
+
+Состав полей привязки описан [ниже](#binding-fields) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля привязки {#binding-fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **CONTACT_ID**
+[`integer`](../../../data-types.md) | Идентификатор связанного контакта. Единственное обязательное поле привязки — в его описании приходит `isRequired: true` ||
+|| **SORT**
+[`integer`](../../../data-types.md) | Индекс сортировки ||
+|| **IS_PRIMARY**
+[`char`](../../../data-types.md#standart-types) | Является ли привязка первичной. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 |#
 
 ## Обработка ошибок
 
 Метод не возвращает ошибок.
 
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-company-contact-add.md)
 - [{#T}](./crm-company-contact-delete.md)
 - [{#T}](./crm-company-contact-items-get.md)
