@@ -383,7 +383,7 @@ HTTP-статус: **200**
 || `510` | My company ... not found | Компания CRM не найдена ||
 || `-` | Parameter 'companyUuid' or 'companyCrmId' is required | Не переданы идентификаторы компании ||
 || `-` | humanresources module is not installed | Модуль `humanresources` не установлен при использовании `companyUuid` ||
-|| `-` | Error while autoregistering providers | Ошибка автрегистрации виртуальных провайдеров. Проверьте данные моей компании в CRM ||
+|| `-` | Error while autoregistering providers | Ошибка авторегистрации виртуальных провайдеров. Проверьте данные моей компании в CRM ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
