@@ -76,7 +76,7 @@
 || **mobile** | [Мобильное приложение](../widgets/mobile-app.md) | Мобильное приложение ||
 || **pay_system** | [Платежные системы](../pay-system/index.md) | Платежные системы ||
 || **placement** | [Виджеты](../widgets/index.md) | Встраивание приложений ||
-|| **pull** | [Pull&Push](../../settings/interactivity/push-and-pull/index.md) | Pull&Push ||
+|| **pull** | [Push&Pull](../../settings/interactivity/index.md) | Push&Pull ||
 || **rpa** | [Роботизация бизнеса](../outdated/rpa/index.md) | Роботизация бизнеса ||
 || **sale** | [Интернет-магазин](../sale/index.md) | Интернет-магазин ||
 || **salescenter** | [CRM. Оплата](../crm/universal/payment/index.md) | Продажи в чате ||

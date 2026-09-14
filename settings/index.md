@@ -70,10 +70,12 @@
 
 Используйте Push&Pull, чтобы мгновенно реагировать на действия пользователя в интерфейсе.
 
-- Какие варианты интерактивности доступны — [Интерактивные приложения](interactivity/index.md).
+- Какие варианты интерактивности доступны и какие методы использовать — [Интерактивность в приложениях](interactivity/index.md).
 - Как принимать сообщения Push&Pull на странице приложения — [Push&Pull в браузере](interactivity/push-and-pull-in-browser.md).
 - Как создать и настроить свой Push&Pull клиент — [Собственный Push&Pull клиент](interactivity/custom-push-and-pull-client.md).
-- Какие методы использовать, чтобы получить параметры подключения и отправлять push-события — [Push&Pull](interactivity/push-and-pull/index.md).
+- Как получить адреса серверов и каналы приложения — [pull.application.config.get](interactivity/pull-application-config-get.md).
+- Как отправить событие в канал приложения — [pull.application.event.add](interactivity/pull-application-event-add.md).
+- Как отправить push-уведомление пользователям приложения — [pull.application.push.add](interactivity/pull-application-push-add.md).
 
 ## Оптимизировать работу под нагрузкой {#limits}
 

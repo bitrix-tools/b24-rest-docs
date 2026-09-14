@@ -360,7 +360,7 @@
 ### 09 апреля, 2026
 
 - Обновили страницу [Отвязать виджет от блока](./api-reference/landing/embedding/landing-repo-unbind.md)
-- Обновили главную страницу раздела [Push&Pull](./settings/interactivity/push-and-pull/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Push&Pull](./settings/interactivity/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Пользовательские блоки](./api-reference/landing/user-blocks/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Пользовательские шаблоны](./api-reference/landing/demos/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили страницу [Как подготовить пользовательский шаблон](./api-reference/landing/demos/introduction.md)
@@ -433,7 +433,7 @@
 - Обновили документацию по методам [landing.site.*](./api-reference/landing/embedding/knowledge-base/index.md) в разделе Места встройки Баз знаний
 - Обновили документацию по методам [landing.repo.*](./api-reference/landing/user-blocks/index.md) в разделе Пользовательские блоки
 - Обновили документацию по методам [placement.*](./api-reference/widgets/placements.md) в разделе Места для встройки виджетов
-- Обновили документацию по методам [pull.application.*](./settings/interactivity/push-and-pull/index.md) в разделе Push&Pull
+- Обновили документацию по методам [pull.application.*](./settings/interactivity/index.md) в разделе Push&Pull
 - Обновили документацию по виджетам [LANDING_BLOCK_*](./api-reference/landing/embedding/block.md) и [LANDING_SETTINGS](./api-reference/landing/embedding/settings.md)
 - Обновили документацию по виджету [CONTACT_CENTER](./api-reference/widgets/contact-center.md)
 - Обновили страницу [Методы BX24 SDK для виджетов](./api-reference/widgets/bx24-widget-methods.md)
