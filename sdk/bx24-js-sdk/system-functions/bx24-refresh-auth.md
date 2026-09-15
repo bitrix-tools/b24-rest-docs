@@ -1,4 +1,4 @@
-# Обновить принудительно ключ авторизации BX24.refreshAuth
+# Принудительно обновить данные авторизации BX24.refreshAuth
 
 {% note tip "" %}
 
@@ -10,10 +10,20 @@
 {% endnote %}
 
 ```js
-BX24.refreshAuth(someCallback: function): object
+BX24.refreshAuth([someCallback: function]): void;
 ```
 
-Функция `BX24.refreshAuth` обновляет ключ авторизации принудительно. Функция-обработчик `someCallback` получит на вход объект, аналогичный [BX24.getAuth()](./bx24-get-auth.md). Работает только после [BX24.init](./bx24-init.md).
+Функция `BX24.refreshAuth` принудительно обновляет данные авторизации [OAuth 2.0](../../../settings/oauth/index.md): Битрикс24 выдает приложению новую пару `access_token` и `refresh_token`. Обновленные данные приходят в функцию-обработчик `someCallback`.
+
+Функция работает только после [BX24.init](./bx24-init.md) и только внутри фрейма [приложения](../../../settings/app-installation/index.md). Собственный scope функции не нужен.
+
+## Когда вызывать функцию
+
+Для запросов к Битрикс24 принудительное обновление не нужно: перед вызовом [BX24.callMethod](../how-to-call-rest-methods/bx24-call-method.md) библиотека сама сверяет срок действия токена, а при ответе с ошибкой `expired_token` обновляет токен и повторяет запрос.
+
+Вызывайте `refreshAuth`, только если свежий токен нужен вашему коду раньше — например, чтобы передать его на свой сервер. `access_token` живет один час. Постоянно работающему с Битрикс24 серверу нужны оба токена: сохраняйте их и заменяйте прежние значения новыми.
+
+Дальше сервер продлевает авторизацию сам, без фрейма приложения — запросом к [серверу авторизации](../../../settings/oauth/index.md). Этот сценарий описывает [Автоматическое продление авторизации](../../../settings/oauth/auto-renewal.md). Там же объяснено, почему не стоит продлевать авторизацию по расписанию.
 
 ## Параметры функции
 
@@ -21,33 +31,70 @@ BX24.refreshAuth(someCallback: function): object
 || **Название**
 `тип` | **Описание** ||
 || **someCallback**
-[`function`](../../../api-reference/data-types.md) | Принимает на вход функцию, которую в случае успеха выполняет ||
+[`function`](../../../api-reference/data-types.md) | Обработчик, который выполнится после обновления токенов. Принимает объект с данными авторизации — такой же, как результат [BX24.getAuth](./bx24-get-auth.md). Без обработчика токены тоже обновятся, но приложение их не получит ||
 |#
 
+## Пример кода
 
-## Пример
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 ```js
 BX24.init(() => {
-    const authInfo = BX24.getAuth();
-    console.log('BX24: current authInfo: ', authInfo);
-
     const button = document.createElement('button');
     button.textContent = 'Refresh auth';
     button.addEventListener('click', () => {
         BX24.refreshAuth((refreshedAuthInfo) => {
-            console.log('BX24: refreshed authInfo: ', refreshedAuthInfo);
+            // передаем свежие токены своему серверу, чтобы он работал с Битрикс24 от имени приложения.
+            // токены секретны: не логируем их и не храним в браузере
+            fetch('https://example.com/b24/tokens', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    memberId: refreshedAuthInfo.member_id,
+                    accessToken: refreshedAuthInfo.access_token,
+                    refreshToken: refreshedAuthInfo.refresh_token
+                })
+            })
+                .then((response) => console.log('B24: tokens sent, status: ', response.status))
+                .catch((error) => console.error('B24: tokens are not sent: ', error));
         })
     });
     document.body.appendChild(button);
 });
 ```
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа
+
+Функция не возвращает данные (`void`). Результат приходит в `someCallback`: токены и срок их действия в нем новые, `domain` и `member_id` не меняются.
+
+```json
+{
+    "access_token": "7f2ab466006efd82005fdecc00000000a1c4de93bb6d11e0a3c25f7b91d4c2a8",
+    "refresh_token": "b03fd266006efd82005fdecc0000000041e7c85d0f2a44b8a6d1e3c7594fb102",
+    "expires_in": 1720015327002,
+    "domain": "mycompany.bitrix24.ru",
+    "member_id": "42bc01fbd89dd1d45d13506933f6f4fc"
+}
+```
+
+Состав, типы и назначение полей описывает [Возвращаемые данные BX24.getAuth](./bx24-get-auth.md#returns).
+
+## Обработка ошибок
+
+Своих кодов ошибок у функции нет: она не обращается к REST API. При любой неудаче обработчик не выполняется.
+
+#|
+|| **Ситуация** | **Что происходит** | **Что делать** ||
+|| Функция вызвана до того, как отработала инициализация библиотеки | Вызов игнорируется молча: запрос не уходит, `someCallback` не выполняется, ошибки в консоли нет | Перенести вызов в обработчик [BX24.init](./bx24-init.md) ||
+|| Битрикс24 не смог выдать новый токен — например, у приложения закончилась подписка | Битрикс24 показывает браузерный `alert` с текстом `Unable to get new token! Reload page, please!`, `someCallback` не выполняется | Проверить статус приложения в Битрикс24. Предусмотреть поведение приложения на случай, когда обработчик не выполнится ||
+|| Страница открыта не во фрейме приложения | Библиотека не инициализируется: при загрузке она выбрасывает исключение `Unable to initialize Bitrix24 JS library!`, объект `BX24` становится равен `null` | Открывать страницу как приложение Битрикс24 ||
+|#
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./bx24-init.md)
 - [{#T}](./bx24-install.md)
 - [{#T}](./bx24-install-finish.md)
 - [{#T}](./bx24-get-auth.md)
+- [{#T}](../../../settings/oauth/auto-renewal.md)
