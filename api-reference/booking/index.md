@@ -170,9 +170,9 @@
 || **Событие** | **Вызывается** ||
 || [onBookingResourceTypeAdd](./resource/resource-type/events/on-booking-resource-type-add.md) | При создании типа ресурса вручную или методом [booking.v1.resourceType.add](./resource/resource-type/booking-v1-resourcetype-add.md) ||
 || [onBookingResourceTypeUpdate](./resource/resource-type/events/on-booking-resource-type-update.md) | При обновлении типа ресурса вручную или методом [booking.v1.resourceType.update](./resource/resource-type/booking-v1-resourcetype-update.md) ||
-|| [onBookingResourceTypeDelete](./resource/resource-type/events/on-booking-resource-type-delete.md) | При удалении типа ресурса вручную или методом [booking.v1.resourceType.delete](./resource/resource-type/booking-v1-resourcetype-delete.md) ||
+|| [onBookingResourceTypeDelete](./resource/resource-type/events/on-booking-resource-type-delete.md) | При удалении типа ресурса методом [booking.v1.resourceType.delete](./resource/resource-type/booking-v1-resourcetype-delete.md) ||
 || [onBookingResourceAdd](./resource/events/on-booking-resource-add.md) | При создании ресурса вручную или методом [booking.v1.resource.add](./resource/booking-v1-resource-add.md) ||
-|| [onBookingResourceUpdate](./resource/events/on-booking-resource-update.md) | При обновлении ресурса вручную или методом [booking.v1.resource.update](./resource/booking-v1-resource-update.md) ||
+|| [onBookingResourceUpdate](./resource/events/on-booking-resource-update.md) | При обновлении ресурса вручную или методами [booking.v1.resource.update](./resource/booking-v1-resource-update.md), [booking.v1.resource.slots.set](./resource/slots/booking-v1-resource-slots-set.md), [booking.v1.resource.slots.unset](./resource/slots/booking-v1-resource-slots-unset.md) ||
 || [onBookingResourceDelete](./resource/events/on-booking-resource-delete.md) | При удалении ресурса вручную или методом [booking.v1.resource.delete](./resource/booking-v1-resource-delete.md) ||
 || [onBookingWaitListItemAdd](./waitlist/events/on-booking-waitlistitem-add.md) | При создании записи в листе ожидания вручную или методом [booking.v1.waitlist.add](./waitlist/booking-v1-waitlist-add.md) ||
 || [onBookingWaitListItemUpdate](./waitlist/events/on-booking-waitlistitem-update.md) | При обновлении записи в листе ожидания вручную или методом [booking.v1.waitlist.update](./waitlist/booking-v1-waitlist-update.md) ||

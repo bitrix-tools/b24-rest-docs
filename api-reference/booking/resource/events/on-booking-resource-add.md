@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGRESOURCEADD` сработает при создании нового ресурса вручную или методом [booking.v1.resource.add](../booking-v1-resource-add.md).
+Событие `ONBOOKINGRESOURCEADD` сработает при создании нового ресурса вручную или методом [booking.v1.resource.add](../booking-v1-resource-add.md). В обработчик приходит только идентификатор — остальные поля ресурса получайте методом [booking.v1.resource.get](../booking-v1-resource-get.md).
 
 {% note info "" %}
 
@@ -77,6 +77,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../../../events/index.md)
 - [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-booking-resource-update.md)

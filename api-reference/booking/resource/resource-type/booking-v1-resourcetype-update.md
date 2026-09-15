@@ -23,7 +23,8 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор типа ресурса. 
+[`integer`](../../../data-types.md) | Идентификатор типа ресурса.
+
 Можно получить в методах [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md) и [booking.v1.resourceType.list](./booking-v1-resourcetype-list.md) ||
 || **fields***
 [`object`](../../../data-types.md) | Объект, содержащий значения полей для обновления типа ресурса [(подробное описание)](#fields) ||
@@ -36,30 +37,29 @@
 `тип` | **Описание** ||
 || **name**
 [`string`](../../../data-types.md) | Название типа ресурса ||
-|| **code**
-[`string`](../../../data-types.md) | Код типа ресурса ||
+|| **code***
+[`string`](../../../data-types.md) | Символьный код типа ресурса.
+
+Передавать поле обязательно, и значение должно отличаться от кодов всех существующих типов, включая код самого обновляемого типа. Иначе метод вернет ошибку ||
 || **isInfoNotificationOn**
 [`string`](../../../data-types.md) | Сообщение клиенту о записи. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
-|| **templateTypeInfo**
-[`string`](../../../data-types.md) | Тип шаблона сообщения о записи. Возможные значения:
-- `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
 || **isConfirmationNotificationOn**
-[`string`](../../../data-types.md) | Автоматическое подтверждение записи. Возможные значения:
+[`string`](../../../data-types.md) | Сообщение клиенту с запросом подтвердить запись. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
 || **templateTypeConfirmation**
 [`string`](../../../data-types.md) | Тип шаблона сообщения о подтверждении записи. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
+- `animate` — шаблон для записи к специалистам
+- `inanimate_long` — шаблон для многодневного бронирования ||
 || **isReminderNotificationOn**
 [`string`](../../../data-types.md) | Напоминание о записи. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
 || **templateTypeReminder**
-[`string`](../../../data-types.md) | Тип шаблона сообщения для напоминания. Возможные значения: `base` ||
+[`string`](../../../data-types.md) | Тип шаблона сообщения для напоминания. Единственное значение — `base` ||
 || **isFeedbackNotificationOn**
 [`string`](../../../data-types.md) | Запрос обратной связи. Возможные значения:
 - `Y` — включено
@@ -76,23 +76,45 @@
 [`string`](../../../data-types.md) | Тип шаблона сообщения об опоздании. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
 - `animate` — шаблон для записи к специалистам ||
-|| **infoDelay**
-[`integer`](../../../data-types.md) | Задержка, после которой клиенту приходит сообщение о записи. Указывается в секундах ||
-|| **reminderDelay**
-[`integer`](../../../data-types.md) | Время до записи, за которое клиенту приходит напоминание о записи. Указывается в секундах ||
-|| **delayedDelay**
-[`integer`](../../../data-types.md) | Время, через сколько отправить клиенту сообщение об опоздании. Указывается в секундах ||
+|| **infoNotificationDelay**
+[`integer`](../../../data-types.md) | Время, через которое клиенту приходит сообщение о записи. Указывается в секундах ||
+|| **reminderNotificationDelay**
+[`integer`](../../../data-types.md) | Время до записи, за которое клиенту приходит напоминание о записи. Указывается в секундах.
+
+Значение `-1` — напоминание приходит утром в день записи ||
+|| **delayedNotificationDelay**
+[`integer`](../../../data-types.md) | Время, через которое клиенту отправляется сообщение об опоздании. Указывается в секундах ||
 || **delayedCounterDelay**
-[`integer`](../../../data-types.md) | Время, через сколько включить счетчик в календаре. Указывается в секундах ||
-|| **confirmationDelay**
+[`integer`](../../../data-types.md) | Время, через которое в календаре включается счетчик. Указывается в секундах ||
+|| **confirmationNotificationDelay**
 [`integer`](../../../data-types.md) | Время до записи, когда клиенту приходит первое сообщение для подтверждения записи. Указывается в секундах ||
-|| **confirmationRepetitions**
-[`integer`](../../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, не учитывая первого ||
-|| **confirmationRepetitionsInterval**
+|| **confirmationNotificationRepetitions**
+[`integer`](../../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, без учета первого ||
+|| **confirmationNotificationRepetitionsInterval**
 [`integer`](../../../data-types.md) | Интервал между сообщениями о подтверждении записи. Указывается в секундах ||
 || **confirmationCounterDelay**
-[`integer`](../../../data-types.md) | Время до записи, после которого загорается счетчик не подтвержденной записи. Указывается в секундах ||
+[`integer`](../../../data-types.md) | Время до записи, после которого включается счетчик неподтвержденной записи. Указывается в секундах ||
+|| **isCancellationNotificationOn**
+[`string`](../../../data-types.md) | Сообщение клиенту после отмены записи. Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
+|| **cancellationNotificationDelay**
+[`integer`](../../../data-types.md) | Время после отмены записи, через которое клиенту приходит сообщение об отмене. Указывается в секундах ||
+|| **senderCode**
+[`string`](../../../data-types.md) | Код сервиса, который отправляет клиенту сообщения. Возможные значения:
+- `bitrix24` — уведомления Битрикс24
+- `ai_call` — звонок AI-агента
+
+Метод не проверяет значение: перечислены коды, которые поддерживает Битрикс24.
+
+Поле сохраняется у типа, но на отправку не влияет: Битрикс24 выбирает отправителя по полю `senderCode` ресурса. Задавайте его методом [booking.v1.resource.update](../booking-v1-resource-update.md) ||
 |#
+
+Поля с флагами `Y` и `N` принимают только строки. Метод игнорирует без ошибки значения других типов, например `true`, и поля, которых нет в таблице.
+
+Метод обновляет только переданные поля, остальные сохраняют прежние значения.
+
+Шаблон сообщения о записи `templateTypeInfo` у типа ресурса через REST недоступен — метод игнорирует это поле.
 
 ## Примеры кода
 
@@ -106,7 +128,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":10,"fields":{"name":"Новое название","code":"Обновленный код","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
+    -d '{"id":10,"fields":{"name":"Новое название","code":"updated-code","isInfoNotificationOn":"Y","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoNotificationDelay":300,"reminderNotificationDelay":-1,"delayedNotificationDelay":300,"delayedCounterDelay":7200,"confirmationNotificationDelay":86400,"confirmationNotificationRepetitions":0,"confirmationNotificationRepetitionsInterval":0,"confirmationCounterDelay":7200}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resourceType.update
     ```
 
@@ -116,15 +138,15 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":10,"fields":{"name":"Новое название","code":"Обновленный код","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoDelay":300,"reminderDelay":-1,"delayedDelay":300,"delayedCounterDelay":7200,"confirmationDelay":86400,"confirmationRepetitions":0,"confirmationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
+    -d '{"id":10,"fields":{"name":"Новое название","code":"updated-code","isInfoNotificationOn":"Y","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"Y","templateTypeReminder":"base","isFeedbackNotificationOn":"N","templateTypeFeedback":"animate","isDelayedNotificationOn":"N","templateTypeDelayed":"animate","infoNotificationDelay":300,"reminderNotificationDelay":-1,"delayedNotificationDelay":300,"delayedCounterDelay":7200,"confirmationNotificationDelay":86400,"confirmationNotificationRepetitions":0,"confirmationNotificationRepetitionsInterval":0,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resourceType.update
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    // Сниппет — ES-модуль: для top-level await нужен type="module" или сборщик
+    // $b24 — уже инициализированный экземпляр SDK, смотрите руководство по началу работы с SDK
     import { Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
@@ -139,7 +161,6 @@
             name: 'New name',
             code: 'updated-code',
             isInfoNotificationOn: 'Y',
-            templateTypeInfo: 'inanimate',
             isConfirmationNotificationOn: 'Y',
             templateTypeConfirmation: 'animate',
             isReminderNotificationOn: 'Y',
@@ -148,20 +169,20 @@
             templateTypeFeedback: 'animate',
             isDelayedNotificationOn: 'N',
             templateTypeDelayed: 'animate',
-            infoDelay: 300,
-            reminderDelay: -1,
-            delayedDelay: 300,
+            infoNotificationDelay: 300,
+            reminderNotificationDelay: -1,
+            delayedNotificationDelay: 300,
             delayedCounterDelay: 7200,
-            confirmationDelay: 86400,
-            confirmationRepetitions: 0,
-            confirmationRepetitionsInterval: 0,
+            confirmationNotificationDelay: 86400,
+            confirmationNotificationRepetitions: 0,
+            confirmationNotificationRepetitionsInterval: 0,
             confirmationCounterDelay: 7200,
           },
         },
         requestId: Text.getUuidRfc4122()
       })
 
-      // The payload is available only on a successful response
+      // Данные доступны только при успешном ответе
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
       } else {
@@ -169,7 +190,7 @@
         console.info('Resource type updated:', result)
       }
     } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
       console.error(error)
     }
     ```
@@ -177,12 +198,12 @@
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Подключаем SDK в UMD-сборке, он доступен как глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
       async function updateResourceType() {
         try {
-          // Initialize the SDK inside a Bitrix24 frame
+          // Инициализируем SDK внутри фрейма Битрикс24
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
@@ -193,7 +214,6 @@
                 name: 'New name',
                 code: 'updated-code',
                 isInfoNotificationOn: 'Y',
-                templateTypeInfo: 'inanimate',
                 isConfirmationNotificationOn: 'Y',
                 templateTypeConfirmation: 'animate',
                 isReminderNotificationOn: 'Y',
@@ -202,20 +222,20 @@
                 templateTypeFeedback: 'animate',
                 isDelayedNotificationOn: 'N',
                 templateTypeDelayed: 'animate',
-                infoDelay: 300,
-                reminderDelay: -1,
-                delayedDelay: 300,
+                infoNotificationDelay: 300,
+                reminderNotificationDelay: -1,
+                delayedNotificationDelay: 300,
                 delayedCounterDelay: 7200,
-                confirmationDelay: 86400,
-                confirmationRepetitions: 0,
-                confirmationRepetitionsInterval: 0,
+                confirmationNotificationDelay: 86400,
+                confirmationNotificationRepetitions: 0,
+                confirmationNotificationRepetitionsInterval: 0,
                 confirmationCounterDelay: 7200,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
-          // The payload is available only on a successful response
+          // Данные доступны только при успешном ответе
           if (!response.isSuccess) {
             console.error(response.getErrorMessages().join('; '))
             return
@@ -224,7 +244,7 @@
           const result = response.getData().result
           console.info('Resource type updated:', result)
         } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
           console.error(error)
         }
       }
@@ -243,9 +263,8 @@
             bitrix_id=10,
             fields={
                 "name": "Новое название",
-                "code": "Обновлённый код",
+                "code": "updated-code",
                 "isInfoNotificationOn": "Y",
-                "templateTypeInfo": "inanimate",
                 "isConfirmationNotificationOn": "Y",
                 "templateTypeConfirmation": "animate",
                 "isReminderNotificationOn": "Y",
@@ -254,13 +273,13 @@
                 "templateTypeFeedback": "animate",
                 "isDelayedNotificationOn": "N",
                 "templateTypeDelayed": "animate",
-                "infoDelay": 300,
-                "reminderDelay": -1,
-                "delayedDelay": 300,
+                "infoNotificationDelay": 300,
+                "reminderNotificationDelay": -1,
+                "delayedNotificationDelay": 300,
                 "delayedCounterDelay": 7200,
-                "confirmationDelay": 86400,
-                "confirmationRepetitions": 0,
-                "confirmationRepetitionsInterval": 0,
+                "confirmationNotificationDelay": 86400,
+                "confirmationNotificationRepetitions": 0,
+                "confirmationNotificationRepetitionsInterval": 0,
                 "confirmationCounterDelay": 7200,
             },
         ).response
@@ -279,9 +298,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -293,9 +310,8 @@
                     'id' => 10,
                     'fields' => [
                         'name' => 'Новое название',
-                        'code' => 'Обновленный код',
+                        'code' => 'updated-code',
                         'isInfoNotificationOn' => 'Y',
-                        'templateTypeInfo' => 'inanimate',
                         'isConfirmationNotificationOn' => 'Y',
                         'templateTypeConfirmation' => 'animate',
                         'isReminderNotificationOn' => 'Y',
@@ -304,26 +320,26 @@
                         'templateTypeFeedback' => 'animate',
                         'isDelayedNotificationOn' => 'N',
                         'templateTypeDelayed' => 'animate',
-                        'infoDelay' => 300,
-                        'reminderDelay' => -1,
-                        'delayedDelay' => 300,
+                        'infoNotificationDelay' => 300,
+                        'reminderNotificationDelay' => -1,
+                        'delayedNotificationDelay' => 300,
                         'delayedCounterDelay' => 7200,
-                        'confirmationDelay' => 86400,
-                        'confirmationRepetitions' => 0,
-                        'confirmationRepetitionsInterval' => 0,
+                        'confirmationNotificationDelay' => 86400,
+                        'confirmationNotificationRepetitions' => 0,
+                        'confirmationNotificationRepetitionsInterval' => 0,
                         'confirmationCounterDelay' => 7200,
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating resource type: ' . $e->getMessage();
@@ -339,9 +355,8 @@
             id: 10,
             fields: {
                 name: "Новое название",
-                code: "Обновленный код",
+                code: "updated-code",
                 isInfoNotificationOn: "Y",
-                templateTypeInfo: "inanimate",
                 isConfirmationNotificationOn: "Y",
                 templateTypeConfirmation: "animate",
                 isReminderNotificationOn: "Y",
@@ -350,13 +365,13 @@
                 templateTypeFeedback: "animate",
                 isDelayedNotificationOn: "N",
                 templateTypeDelayed: "animate",
-                infoDelay: 300,
-                reminderDelay: -1,
-                delayedDelay: 300,
+                infoNotificationDelay: 300,
+                reminderNotificationDelay: -1,
+                delayedNotificationDelay: 300,
                 delayedCounterDelay: 7200,
-                confirmationDelay: 86400,
-                confirmationRepetitions: 0,
-                confirmationRepetitionsInterval: 0,
+                confirmationNotificationDelay: 86400,
+                confirmationNotificationRepetitions: 0,
+                confirmationNotificationRepetitionsInterval: 0,
                 confirmationCounterDelay: 7200
             }
         },
@@ -380,9 +395,8 @@
             'id' => 10,
             'fields' => [
                 'name' => 'Новое название',
-                'code' => 'Обновленный код',
+                'code' => 'updated-code',
                 'isInfoNotificationOn' => 'Y',
-                'templateTypeInfo' => 'inanimate',
                 'isConfirmationNotificationOn' => 'Y',
                 'templateTypeConfirmation' => 'animate',
                 'isReminderNotificationOn' => 'Y',
@@ -391,13 +405,13 @@
                 'templateTypeFeedback' => 'animate',
                 'isDelayedNotificationOn' => 'N',
                 'templateTypeDelayed' => 'animate',
-                'infoDelay' => 300,
-                'reminderDelay' => -1,
-                'delayedDelay' => 300,
+                'infoNotificationDelay' => 300,
+                'reminderNotificationDelay' => -1,
+                'delayedNotificationDelay' => 300,
                 'delayedCounterDelay' => 7200,
-                'confirmationDelay' => 86400,
-                'confirmationRepetitions' => 0,
-                'confirmationRepetitionsInterval' => 0,
+                'confirmationNotificationDelay' => 86400,
+                'confirmationNotificationRepetitions' => 0,
+                'confirmationNotificationRepetitionsInterval' => 0,
                 'confirmationCounterDelay' => 7200
             ]
         ]
@@ -415,26 +429,25 @@
     res, err := client.Core().Call(ctx, "booking.v1.resourceType.update", b24.Params{
     	"id": 10,
     	"fields": b24.Params{
-    		"name":                            "Новое название",
-    		"code":                            "Обновленный код",
-    		"isInfoNotificationOn":            "Y",
-    		"templateTypeInfo":                "inanimate",
-    		"isConfirmationNotificationOn":    "Y",
-    		"templateTypeConfirmation":        "animate",
-    		"isReminderNotificationOn":        "Y",
-    		"templateTypeReminder":            "base",
-    		"isFeedbackNotificationOn":        "N",
-    		"templateTypeFeedback":            "animate",
-    		"isDelayedNotificationOn":         "N",
-    		"templateTypeDelayed":             "animate",
-    		"infoDelay":                       300,
-    		"reminderDelay":                   -1,
-    		"delayedDelay":                    300,
-    		"delayedCounterDelay":             7200,
-    		"confirmationDelay":               86400,
-    		"confirmationRepetitions":         0,
-    		"confirmationRepetitionsInterval": 0,
-    		"confirmationCounterDelay":        7200,
+    		"name":                                        "Новое название",
+    		"code":                                        "updated-code",
+    		"isInfoNotificationOn":                        "Y",
+    		"isConfirmationNotificationOn":                "Y",
+    		"templateTypeConfirmation":                    "animate",
+    		"isReminderNotificationOn":                    "Y",
+    		"templateTypeReminder":                        "base",
+    		"isFeedbackNotificationOn":                    "N",
+    		"templateTypeFeedback":                        "animate",
+    		"isDelayedNotificationOn":                     "N",
+    		"templateTypeDelayed":                         "animate",
+    		"infoNotificationDelay":                       300,
+    		"reminderNotificationDelay":                   -1,
+    		"delayedNotificationDelay":                    300,
+    		"delayedCounterDelay":                         7200,
+    		"confirmationNotificationDelay":               86400,
+    		"confirmationNotificationRepetitions":         0,
+    		"confirmationNotificationRepetitionsInterval": 0,
+    		"confirmationCounterDelay":                    7200,
     	},
     })
     if err != nil {
@@ -458,13 +471,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-     "start": 1724068028.331234,
-     "finish": 1724068028.726591,
-     "duration": 0.3953571319580078,
-     "processing": 0.13033390045166016,
-     "date_start": "2025-01-21T13:47:08+02:00",
-     "date_finish": "2025-01-21T13:47:08+02:00",
-     "operating": 0
+        "start": 1724068028.331234,
+        "finish": 1724068028.726591,
+        "duration": 0.3953571319580078,
+        "processing": 0.13033390045166016,
+        "date_start": "2025-01-21T13:47:08+02:00",
+        "date_finish": "2025-01-21T13:47:08+02:00",
+        "operating": 0
     }
 }
 ```
@@ -486,7 +499,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1007,
+    "error": "1007",
     "error_description": "Resource type not found"
 }
 ```
@@ -498,17 +511,21 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `1007` | `Resource type not found` | Указан несуществующий `id` типа ресурса ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
-|| `422` | `Invalid value of the field` | Неверное значение поля ||
-|| `1011` | `Resource type with code already exists'` | Тип ресурса с таким `code` уже существует ||
+|| `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр ||
+|| `422` | `Invalid value of the {field} field` | Недопустимое значение поля из перечисления, например `templateTypeConfirmation` ||
+|| `1011` | `Resource type with code "X" already exists` | Такой `code` уже занят другим типом или самим обновляемым типом ||
+|| `0` | `ResourceTypeRepository::getByModuleIdAndCode(): Argument #2 ($code) must be of type string, null given` | В `fields` не передано поле `code` ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](../index.md)
-- [{#T}](./booking-v1-resourcetype-get.md)
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-resourcetype-add.md)
-- [{#T}](./booking-v1-resourcetype-delete.md)
+- [{#T}](./booking-v1-resourcetype-get.md)
 - [{#T}](./booking-v1-resourcetype-list.md)
+- [{#T}](./booking-v1-resourcetype-delete.md)
+- [{#T}](../index.md)
+- [{#T}](./events/on-booking-resource-type-update.md)

@@ -77,6 +77,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../../../events/index.md)
 - [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-booking-resource-add.md)

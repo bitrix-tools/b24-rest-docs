@@ -1,4 +1,4 @@
-# Типы ресурсов: обзор методов
+# Типы ресурсов: обзор методов и событий
 
 {% note tip "" %}
 
@@ -17,7 +17,9 @@
 - настраивать шаблоны уведомлений для клиентов
 - фильтровать бронирования
 
-> Быстрый переход: [все методы](#all-methods)
+> Быстрый переход: [все методы и события](#all-methods)
+>
+> Пользовательская документация: [Онлайн-запись: как создать новый ресурс](https://helpdesk.bitrix24.ru/open/23661822/)
 
 ## Как начать работу
 
@@ -29,15 +31,40 @@
 
 **Ресурс.** Используйте `id` типа ресурса в параметре `typeId` методов [booking.v1.resource.*](../index.md).
 
+## Код типа ресурса
+
+У каждого типа есть символьный код `code` — по нему внешние интеграции находят тип, не зная его числового идентификатора. Код уникален среди типов модуля `booking`.
+
+#|
+|| **Код** | **Тип ресурса** ||
+|| `doctor` | Врач ||
+|| `equipment` | Оборудование ||
+|| `expert` | Специалист ||
+|| `car` | Автомобиль ||
+|| `room` | Помещение ||
+|#
+
+Эти типы создаются при установке модуля.
+
+Типы ресурсов есть и у других модулей Битрикс24. Чтобы получить только свои, передавайте в [booking.v1.resourceType.list](./booking-v1-resourcetype-list.md) фильтр `moduleId` со значением `booking`.
+
 ## Особенности работы с типами ресурсов
 
-Создать типы ресурсов можно через интерфейс Битрикс24 или методом [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md). Изменить и удалить — только методами [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md) и [booking.v1.resourceType.delete](./booking-v1-resourcetype-delete.md).
+Создавать и изменять типы ресурсов можно и через интерфейс Битрикс24, и методами [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md), [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md).
 
-## Обзор методов {#all-methods}
+При обновлении код обязателен, причем его значение должно отличаться от кодов всех существующих типов, включая код самого обновляемого типа — подробности на странице [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md).
+
+Удалить тип можно только методом [booking.v1.resourceType.delete](./booking-v1-resourcetype-delete.md) и только если к нему не привязан ни один ресурс.
+
+Настройки уведомлений типа не переносятся в ресурсы: ресурс при создании получает собственные значения по умолчанию.
+
+## Обзор методов и событий {#all-methods}
 
 > Scope: [`booking`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
+
+### Тип ресурса
 
 #|
 || **Метод** | **Описание** ||
@@ -46,4 +73,15 @@
 || [booking.v1.resourceType.get](./booking-v1-resourcetype-get.md) | Получает тип ресурса ||
 || [booking.v1.resourceType.list](./booking-v1-resourcetype-list.md) | Получает список типов ресурсов ||
 || [booking.v1.resourceType.delete](./booking-v1-resourcetype-delete.md) | Удаляет тип ресурса ||
+|#
+
+### События
+
+Как подписаться — в разделе [События типов ресурсов](./events/index.md).
+
+#|
+|| **Событие** | **Вызывается** ||
+|| [onBookingResourceTypeAdd](./events/on-booking-resource-type-add.md) | При создании типа ресурса вручную или методом [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md) ||
+|| [onBookingResourceTypeUpdate](./events/on-booking-resource-type-update.md) | При обновлении типа ресурса вручную или методом [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md) ||
+|| [onBookingResourceTypeDelete](./events/on-booking-resource-type-delete.md) | При удалении типа ресурса методом [booking.v1.resourceType.delete](./booking-v1-resourcetype-delete.md) ||
 |#

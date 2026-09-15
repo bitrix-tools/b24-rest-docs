@@ -1,14 +1,11 @@
-title: Слоты 
+title: Слоты
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Установить слоты для ресурса
-    href: booking-v1-resource-slots-set.md 
-  - name: Удалить слоты для ресурса
-    href: booking-v1-resource-slots-unset.md
+    href: booking-v1-resource-slots-set.md
   - name: Получить настройку слотов для ресурса
     href: booking-v1-resource-slots-list.md
-             
-
-
+  - name: Удалить слоты для ресурса
+    href: booking-v1-resource-slots-unset.md

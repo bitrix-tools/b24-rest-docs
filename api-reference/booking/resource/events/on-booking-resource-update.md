@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGRESOURCEUPDATE` сработает при обновлении ресурса вручную или методом [booking.v1.resource.update](../booking-v1-resource-update.md).
+Событие `ONBOOKINGRESOURCEUPDATE` сработает при обновлении ресурса вручную или методом [booking.v1.resource.update](../booking-v1-resource-update.md). Событие вызывают и методы настройки слотов — [booking.v1.resource.slots.set](../slots/booking-v1-resource-slots-set.md) и [booking.v1.resource.slots.unset](../slots/booking-v1-resource-slots-unset.md): слоты хранятся в самом ресурсе. В обработчик приходит только идентификатор — остальные поля ресурса получайте методом [booking.v1.resource.get](../booking-v1-resource-get.md).
 
 {% note info "" %}
 
@@ -77,6 +77,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../../../events/index.md)
 - [{#T}](../../../events/event-bind.md)
 - [{#T}](./on-booking-resource-add.md)

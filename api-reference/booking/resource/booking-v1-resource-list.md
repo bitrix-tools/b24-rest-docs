@@ -13,16 +13,22 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.resource.list` возвращает список ресурсов по фильтру. Является реализацией списочного метода для ресурсов.
+Метод `booking.v1.resource.list` возвращает список ресурсов по фильтру. За один вызов приходит одна страница — до 50 ресурсов. Удаленные ресурсы в список не попадают.
 
 ## Параметры метода
 
+Все параметры необязательные. Без параметров приходит первая страница всех ресурсов Битрикс24.
+
 #|
-|| **FILTER**
+|| **Название**
+`тип` | **Описание** ||
+|| **filter**
 [`object`](../../data-types.md) | Объект для фильтрации списка ресурсов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где
 - `field_N` — [поле](#filter) ресурса для фильтра
-- `value_N` — значение поля ||
-|| **ORDER**
+- `value_N` — значение поля
+
+Условия фильтра объединяются логическим И. Поля, которых нет в списке ниже, метод игнорирует без ошибки ||
+|| **order**
 [`object`](../../data-types.md) | Объект для сортировки списка ресурсов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где
 - `field_N` — [поле](#order) ресурса для сортировки
 - `value_N` — направление сортировки
@@ -30,9 +36,27 @@
 Направление сортировки может принимать значения:
 - `asc` — по возрастанию
 - `desc` — по убыванию
-  
-Значение по умолчанию — `{ID: 'ASC'}` ||
+
+Регистр значения не важен. Если параметр не передан, порядок записей не гарантирован — задавайте сортировку явно ||
+|| **start**
+[`integer`](../../data-types.md) | Параметр для управления постраничной навигацией.
+
+Размер страницы результатов всегда фиксированный: 50 записей.
+
+Чтобы выбрать вторую страницу результатов, передайте значение `50`, чтобы выбрать третью — `100` и так далее.
+
+Формула расчета значения параметра `start`:
+
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Значение, не кратное 50, округляется вниз до границы страницы: при `start` от `1` до `49` придет первая страница.
+
+Значение `-1` отключает подсчет навигации — поля `total` в ответе не будет.
+
+Значение по умолчанию — `0` ||
 |#
+
+Метод распознает названия параметров и полей только в том виде, в каком они приведены в таблицах: записи `FILTER` или `SEARCH_QUERY` он игнорирует.
 
 ### Параметры filter {#filter}
 
@@ -40,22 +64,24 @@
 || **Название**
 `тип` | **Описание** ||
 || **searchQuery**
-[`string`](../../data-types.md) | Поисковой запрос. Ищет по подстроке в названии ресурса ||
+[`string`](../../data-types.md) | Поисковый запрос. Метод ищет по подстроке в названии ресурса без учета регистра. Описание ресурса в поиск не входит ||
 || **isMain**
 [`string`](../../data-types.md) | Фильтр по настройке показа ресурса. Возможные значения:
 - `Y` — в колонках расписания
-- `N` — при пересечении ресурсов ||
+- `N` — при пересечении ресурсов
+
+Передавайте значение строкой. Значения других типов, например `true`, метод игнорирует ||
 || **typeId**
-[`integer`](../../data-types.md) | Идентификатор типа ресурса.
+[`integer`](../../data-types.md) \| [`array`](../../data-types.md) | Идентификатор типа ресурса или массив идентификаторов. По массиву метод вернет ресурсы всех перечисленных типов.
 
 Список доступных типов можно узнать с помощью метода [booking.v1.resourceType.list](./resource-type/booking-v1-resourcetype-list.md) ||
 || **name**
-[`string`](../../data-types.md) | Название ресурса ||
+[`string`](../../data-types.md) | Название ресурса. Метод ищет по полному совпадению ||
 || **description**
-[`string`](../../data-types.md) | Описание ресурса ||
+[`string`](../../data-types.md) | Описание ресурса. Метод ищет по полному совпадению ||
 |#
 
-Используйте или `searchQuery` для поиска по подстроке или `name` для поиска по полному совпадению. 
+Операторы сравнения, например `%name` или `>id`, метод не поддерживает. Остальные поля фильтра принимают одно значение.
 
 ### Параметры order {#order}
 
@@ -67,6 +93,8 @@
 || **name**
 [`string`](../../data-types.md) | Сортировка по названию ||
 |#
+
+Сортировка по другим полям не поддерживается — такие поля метод игнорирует.
 
 ## Примеры кода
 
@@ -80,7 +108,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"searchQuery":"авто","isMain":"Y","typeId":1},"order":{"id":"ASC","name":"DESC"}}' \
+    -d '{"filter":{"searchQuery":"авто","typeId":[3,7]},"order":{"id":"ASC"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resource.list
     ```
 
@@ -90,39 +118,42 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"searchQuery":"авто","isMain":"Y","typeId":1},"order":{"id":"ASC","name":"DESC"},"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"searchQuery":"авто","typeId":[3,7]},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resource.list
     ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    // Сниппет — ES-модуль: для top-level await нужен type="module" или сборщик
+    // $b24 — уже инициализированный экземпляр SDK, смотрите руководство по началу работы с SDK
     import { Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    // Shape of each resource returned in result.resource[]
+    // Структура одного ресурса в result.resource[]
     type ResourceItem = {
-      confirmationCounterDelay: number
-      confirmationNotificationDelay: number
+      cancellationNotificationDelay: number | null
+      confirmationCounterDelay: number | null
+      confirmationNotificationDelay: number | null
       confirmationNotificationRepetitions: number | null
-      confirmationNotificationRepetitionsInterval: number
-      delayedCounterDelay: number
-      delayedNotificationDelay: number
+      confirmationNotificationRepetitionsInterval: number | null
+      delayedCounterDelay: number | null
+      delayedNotificationDelay: number | null
       description: string | null
       id: number
       infoNotificationDelay: number | null
+      isCancellationNotificationOn: string
       isConfirmationNotificationOn: string
       isDelayedNotificationOn: string
       isFeedbackNotificationOn: string
       isInfoNotificationOn: string
       isMain: string
       isReminderNotificationOn: string
-      name: string
-      reminderNotificationDelay: number
+      name: string | null
+      reminderNotificationDelay: number | null
+      senderCode: string
       templateTypeConfirmation: string
       templateTypeDelayed: string
       templateTypeFeedback: string
@@ -132,37 +163,32 @@
     }
 
     try {
-      // booking.v1.resource.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // Списочные обертки callList.make() и fetchList.make() для этого метода не подходят:
+      // они листают по курсору '>id', а фильтр по id и операторы метод не поддерживает.
+      // Следующие страницы запрашивайте через call.make() с start: 50, 100 и так далее
       const response = await $b24.actions.v2.call.make<{ resource: ResourceItem[] }>({
         method: 'booking.v1.resource.list',
         params: {
           filter: {
-            searchQuery: 'auto',
-            isMain: 'Y',
-            typeId: 1,
+            searchQuery: 'авто',
+            typeId: [3, 7],
           },
           order: {
             id: 'ASC',
-            name: 'DESC',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
 
-      // The payload is available only on a successful response
+      // Данные доступны только при успешном ответе
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Resources:', result.resource, 'Count:', result.resource.length)
+        console.info('Ресурсы:', result.resource, 'Получено:', result.resource.length)
       }
     } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
       console.error(error)
     }
     ```
@@ -170,46 +196,41 @@
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Подключаем SDK в UMD-сборке, он доступен как глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
       async function fetchResourceList() {
         try {
-          // Initialize the SDK inside a Bitrix24 frame
+          // Инициализируем SDK внутри фрейма Битрикс24
           const $b24 = await B24Js.initializeB24Frame()
 
-          // booking.v1.resource.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // Списочные обертки callList.make() и fetchList.make() для этого метода не подходят:
+          // они листают по курсору '>id', а фильтр по id и операторы метод не поддерживает.
+          // Следующие страницы запрашивайте через call.make() с start: 50, 100 и так далее
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.resource.list',
             params: {
               filter: {
-                searchQuery: 'auto',
-                isMain: 'Y',
-                typeId: 1,
+                searchQuery: 'авто',
+                typeId: [3, 7],
               },
               order: {
                 id: 'ASC',
-                name: 'DESC',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
-          // The payload is available only on a successful response
+          // Данные доступны только при успешном ответе
           if (!response.isSuccess) {
             console.error(response.getErrorMessages().join('; '))
             return
           }
 
           const result = response.getData().result
-          console.info('Resources:', result.resource, 'Count:', result.resource.length)
+          console.info('Ресурсы:', result.resource, 'Получено:', result.resource.length)
         } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
           console.error(error)
         }
       }
@@ -224,12 +245,10 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
     try:
         bitrix_response = client.booking.v1.resource.list(filter={
-            "typeId": 1,
             "searchQuery": "авто",
-            "isMain": "Y",
+            "typeId": [3, 7],
         }, order={
-            "id": "desc",
-            "name": "DESC",
+            "id": "ASC",
         }).response
         result = bitrix_response.result
         print(result)
@@ -241,9 +260,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -254,27 +271,25 @@
                 [
                     'filter' => [
                         'searchQuery' => 'авто',
-                        'isMain'      => 'Y',
-                        'typeId'      => 1,
+                        'typeId'      => [3, 7],
                     ],
                     'order' => [
-                        'id'   => 'ASC',
-                        'name' => 'DESC',
+                        'id' => 'ASC',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
             echo 'Error: ' . $result->error();
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling booking.v1.resource.list: ' . $e->getMessage();
@@ -288,13 +303,11 @@
         "booking.v1.resource.list",
         {
             filter: {
-                "searchQuery": "авто",
-                "isMain": "Y",
-                "typeId": 1
+                searchQuery: "авто",
+                typeId: [3, 7]
             },
             order: {
-                id: "ASC",
-                name: "DESC"
+                id: "ASC"
             }
         },
         result => {
@@ -316,12 +329,10 @@
         [
             'filter' => [
                 'searchQuery' => 'авто',
-                'isMain' => 'Y',
-                'typeId' => 1
+                'typeId' => [3, 7]
             ],
             'order' => [
-                'id' => 'ASC',
-                'name' => 'DESC'
+                'id' => 'ASC'
             ]
         ]
     );
@@ -336,14 +347,12 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "booking.v1.resource.list", b24.Params{
-    	"FILTER": b24.Params{
+    	"filter": b24.Params{
     		"searchQuery": "авто",
-    		"isMain":      "Y",
-    		"typeId":      1,
+    		"typeId":      []int{3, 7},
     	},
-    	"ORDER": b24.Params{
-    		"id":   "ASC",
-    		"name": "DESC",
+    	"order": b24.Params{
+    		"id": "ASC",
     	},
     }, b24.WithIdempotent())
     if err != nil {
@@ -357,23 +366,20 @@
     }
 
     var items []struct {
-    	ConfirmationCounterDelay                    int    `json:"confirmationCounterDelay"`
-    	ConfirmationNotificationDelay               int    `json:"confirmationNotificationDelay"`
-    	ConfirmationNotificationRepetitionsInterval int    `json:"confirmationNotificationRepetitionsInterval"`
-    	DelayedCounterDelay                         int    `json:"delayedCounterDelay"`
-    	DelayedNotificationDelay                    int    `json:"delayedNotificationDelay"`
-    	ID                                          b24.ID `json:"id"`
+    	ID     b24.ID `json:"id"`
+    	Name   string `json:"name"`
+    	TypeID int    `json:"typeId"`
+    	IsMain string `json:"isMain"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
     for _, it := range items {
-    	fmt.Println(it.ConfirmationCounterDelay)
+    	fmt.Println(it.ID, it.Name, it.TypeID)
     }
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -384,6 +390,7 @@ HTTP-статус: **200**
     "result": {
         "resource": [
             {
+                "cancellationNotificationDelay": 600,
                 "confirmationCounterDelay": 10800,
                 "confirmationNotificationDelay": 86400,
                 "confirmationNotificationRepetitions": null,
@@ -393,6 +400,7 @@ HTTP-статус: **200**
                 "description": null,
                 "id": 5,
                 "infoNotificationDelay": null,
+                "isCancellationNotificationOn": "Y",
                 "isConfirmationNotificationOn": "Y",
                 "isDelayedNotificationOn": "Y",
                 "isFeedbackNotificationOn": "N",
@@ -401,14 +409,16 @@ HTTP-статус: **200**
                 "isReminderNotificationOn": "Y",
                 "name": "Легковой автомобиль 1",
                 "reminderNotificationDelay": -1,
+                "senderCode": "bitrix24",
                 "templateTypeConfirmation": "inanimate",
                 "templateTypeDelayed": "inanimate",
                 "templateTypeFeedback": "inanimate",
                 "templateTypeInfo": "inanimate",
                 "templateTypeReminder": "base",
-                "typeId": 1
+                "typeId": 3
             },
             {
+                "cancellationNotificationDelay": 600,
                 "confirmationCounterDelay": 10800,
                 "confirmationNotificationDelay": 86400,
                 "confirmationNotificationRepetitions": null,
@@ -418,23 +428,26 @@ HTTP-статус: **200**
                 "description": null,
                 "id": 7,
                 "infoNotificationDelay": null,
+                "isCancellationNotificationOn": "Y",
                 "isConfirmationNotificationOn": "Y",
                 "isDelayedNotificationOn": "Y",
                 "isFeedbackNotificationOn": "N",
                 "isInfoNotificationOn": "Y",
-                "isMain": "Y",
+                "isMain": "N",
                 "isReminderNotificationOn": "Y",
                 "name": "Легковой автомобиль 2",
                 "reminderNotificationDelay": -1,
+                "senderCode": "bitrix24",
                 "templateTypeConfirmation": "inanimate",
                 "templateTypeDelayed": "inanimate",
                 "templateTypeFeedback": "inanimate",
                 "templateTypeInfo": "inanimate",
                 "templateTypeReminder": "base",
-                "typeId": 1
+                "typeId": 7
             }
         ]
     },
+    "total": 0,
     "time": {
         "start": 1746540454.261779,
         "finish": 1746540454.303483,
@@ -454,36 +467,48 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. 
-
-Cодержит массив объектов с информацией о ресурсах. Структура описана [ниже](#resource) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственное поле `resource` — массив объектов с информацией о ресурсах, структура объекта описана [ниже](#resource) ||
+|| **total**
+[`integer`](../../data-types.md) | Служебное поле. Метод всегда возвращает `0`, поля `next` в ответе нет. При вызове со `start: -1` поля `total` в ответе не будет — ориентироваться на них при обходе страниц нельзя ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+Признак последней страницы — в ответе меньше 50 записей.
+
 #### Ресурс {#resource}
 
+Числовые и строковые поля возвращаются как `null`, если значение не задано. Например, при задержке уведомления `0` в ответе придет `null`. Флаги `is*`, поля `templateType*` и `senderCode` приходят заполненными всегда.
+
 #|
+|| **Название**
+`тип` | **Описание** ||
+|| **cancellationNotificationDelay**
+[`integer`](../../data-types.md) | Время в секундах после отмены записи, через которое клиенту приходит сообщение об отмене ||
 || **confirmationCounterDelay**
-[`integer`](../../data-types.md) | Время до записи в секундах, после которого загорается счетчик не подтвержденной записи ||
-|| **confirmationDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, после которого включается счетчик неподтвержденной записи ||
+|| **confirmationNotificationDelay**
 [`integer`](../../data-types.md) | Время до записи в секундах, когда клиенту приходит первое сообщение для подтверждения записи ||
-|| **confirmationRepetitions**
-[`integer`](../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, не учитывая первого ||
-|| **confirmationRepetitionsInterval**
+|| **confirmationNotificationRepetitions**
+[`integer`](../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, без учета первого ||
+|| **confirmationNotificationRepetitionsInterval**
 [`integer`](../../data-types.md) | Интервал между сообщениями о подтверждении записи, в секундах ||
 || **delayedCounterDelay**
-[`integer`](../../data-types.md) | Время в секундах, через сколько включить счетчик в календаре ||
-|| **delayedDelay**
-[`integer`](../../data-types.md) | Время в секундах, через сколько отправить клиенту сообщение об опоздании ||
+[`integer`](../../data-types.md) | Время в секундах, через которое в календаре включается счетчик ||
+|| **delayedNotificationDelay**
+[`integer`](../../data-types.md) | Время в секундах, через которое клиенту отправляется сообщение об опоздании ||
 || **description**
 [`string`](../../data-types.md) | Описание ресурса ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор ресурса ||
-|| **infoDelay**
-[`integer`](../../data-types.md) | Задержка в секундах, после которой клиенту приходит сообщение о записи ||
+|| **infoNotificationDelay**
+[`integer`](../../data-types.md) | Время в секундах, через которое клиенту приходит сообщение о записи ||
+|| **isCancellationNotificationOn**
+[`string`](../../data-types.md) | Сообщение клиенту после отмены записи. Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
 || **isConfirmationNotificationOn**
-[`string`](../../data-types.md) | Автоматическое подтверждение записи. Возможные значения:
+[`string`](../../data-types.md) | Сообщение клиенту с запросом подтвердить запись. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
 || **isDelayedNotificationOn**
@@ -508,13 +533,19 @@ Cодержит массив объектов с информацией о ре�
 - `N` — выключено ||
 || **name**
 [`string`](../../data-types.md) | Название ресурса ||
-|| **reminderDelay**
-[`integer`](../../data-types.md) | Время до записи в секундах, за которое клиенту приходит напоминание о записи.
-Значение `-1` — утром в день записи ||
+|| **reminderNotificationDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, за которое клиенту приходит напоминание.
+
+Значение `-1` — напоминание приходит утром в день записи ||
+|| **senderCode**
+[`string`](../../data-types.md) | Код сервиса, который отправляет клиенту сообщения. Возможные значения:
+- `bitrix24` — уведомления Битрикс24
+- `ai_call` — звонок AI-агента ||
 || **templateTypeConfirmation**
 [`string`](../../data-types.md) | Тип шаблона сообщения о подтверждении записи. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
+- `animate` — шаблон для записи к специалистам
+- `inanimate_long` — шаблон для многодневного бронирования ||
 || **templateTypeDelayed**
 [`string`](../../data-types.md) | Тип шаблона сообщения об опоздании. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
@@ -526,9 +557,10 @@ Cодержит массив объектов с информацией о ре�
 || **templateTypeInfo**
 [`string`](../../data-types.md) | Тип шаблона сообщения о записи. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
+- `animate` — шаблон для записи к специалистам
+- `inanimate_long` — шаблон для многодневного бронирования ||
 || **templateTypeReminder**
-[`string`](../../data-types.md) | Тип шаблона сообщения для напоминания. Возможные значения: `base` ||
+[`string`](../../data-types.md) | Тип шаблона сообщения для напоминания. Единственное значение — `base` ||
 || **typeId**
 [`integer`](../../data-types.md) | Идентификатор типа ресурса.
 
@@ -541,7 +573,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "",
+    "error": "100",
     "error_description": "Invalid value {ASC} to match with parameter {order}. Should be value of type array."
 }
 ```
@@ -552,15 +584,20 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `100` | `Invalid value to match with parameter {order}. Should be value of type array` | В параметр `order` передан не объект ||
-|| `100` | `Invalid value to match with parameter {filter}. Should be value of type array` | В параметр `filter` передан не объект ||
+|| `100` | `Invalid value {value} to match with parameter {order}. Should be value of type array.` | В параметр `order` передан не объект ||
+|| `100` | `Invalid value {value} to match with parameter {filter}. Should be value of type array.` | В параметр `filter` передан не объект ||
+|| `100` | `Invalid order "XXX"` | В параметре `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 
-{% include [системные ошибки](./../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./resource-type/index.md)
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-resource-add.md)
 - [{#T}](./booking-v1-resource-update.md)
+- [{#T}](./booking-v1-resource-get.md)
 - [{#T}](./booking-v1-resource-delete.md)
+- [{#T}](./resource-type/index.md)
+- [{#T}](./slots/index.md)
