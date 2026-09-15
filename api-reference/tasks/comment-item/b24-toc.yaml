@@ -13,6 +13,10 @@ items:
     href: task-comment-item-get-list.md
   - name: Удалить комментарий
     href: task-comment-item-delete.md
+  - name: Проверить, разрешено ли действие с комментарием
+    href: task-comment-item-is-action-allowed.md
+  - name: Получить список методов и их описание
+    href: task-comment-item-get-manifest.md
   - name: События
     include:
       path: events-comment/b24-toc.yaml
