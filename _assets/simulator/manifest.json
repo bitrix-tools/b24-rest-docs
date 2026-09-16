@@ -2,8 +2,8 @@
   "$v": 1,
   "name": "Симулятор REST API Битрикс24",
   "docs": "https://apidocs.bitrix24.ru/ai-tools/simulator.html",
-  "generatedAt": "2026-09-07",
-  "methods": 1579,
+  "generatedAt": "2026-09-16",
+  "methods": 1577,
   "static": {
     "index": "/_assets/simulator/spec/index.json",
     "method": "/_assets/simulator/spec/methods/{method}.json",
