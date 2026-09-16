@@ -13,6 +13,12 @@
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
 
+В обработчик приходит только идентификатор типа ресурса. Для событий `onBookingResourceTypeAdd` и `onBookingResourceTypeUpdate` остальные данные получайте методом [booking.v1.resourceType.get](../booking-v1-resourcetype-get.md). Для `onBookingResourceTypeDelete` такой запрос вернет ошибку `1013` — тип уже удален, и идентификатор из события остается единственным, что о нем известно.
+
+События доставляются асинхронно, после завершения запроса, и повторно не отправляются. Чтобы не терять события при недоступном обработчике, используйте [офлайн-события](../../../../events/offline-events.md).
+
+События не отправляются в приложение, пока не завершена его [установка](../../../../../settings/app-installation/index.md).
+
 > Быстрый переход: [все события](#all-events)
 
 ## Как получать события
@@ -37,6 +43,6 @@
 #|
 || **Событие** | **Вызывается** ||
 || [onBookingResourceTypeAdd](./on-booking-resource-type-add.md) | При создании типа ресурса вручную или методом [booking.v1.resourceType.add](../booking-v1-resourcetype-add.md) ||
-|| [onBookingResourceTypeUpdate](./on-booking-resource-type-update.md) | При обновлении типа ресурса методом [booking.v1.resourceType.update](../booking-v1-resourcetype-update.md) ||
+|| [onBookingResourceTypeUpdate](./on-booking-resource-type-update.md) | При обновлении типа ресурса вручную или методом [booking.v1.resourceType.update](../booking-v1-resourcetype-update.md) ||
 || [onBookingResourceTypeDelete](./on-booking-resource-type-delete.md) | При удалении типа ресурса методом [booking.v1.resourceType.delete](../booking-v1-resourcetype-delete.md) ||
 |#

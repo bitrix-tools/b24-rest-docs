@@ -1,7 +1,7 @@
 {
   "$v": 1,
   "generator": "simulator/generate-spec.js",
-  "count": 1579,
+  "count": 1577,
   "methods": [
     {
       "method": "access.name",
@@ -2746,7 +2746,7 @@
       "page": "/api-reference/crm/companies/contacts/crm-company-contact-fields.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить поля для связи компания-контакт crm.company.contact.fields"
+      "title": "Получить описание полей для связи компания-контакт crm.company.contact.fields"
     },
     {
       "method": "crm.company.contact.items.delete",
@@ -12170,24 +12170,6 @@
       "executable": false,
       "deprecated": true,
       "title": "Получить список комментариев task.commentitem.getlist"
-    },
-    {
-      "method": "task.commentitem.getmanifest",
-      "scope": "task",
-      "kind": "write",
-      "page": "/api-reference/tasks/comment-item/task-comment-item-get-manifest.html",
-      "executable": false,
-      "deprecated": false,
-      "title": "Получить список методов и их описание task.commentitem.getmanifest"
-    },
-    {
-      "method": "task.commentitem.isactionallowed",
-      "scope": "task",
-      "kind": "write",
-      "page": "/api-reference/tasks/comment-item/task-comment-item-is-action-allowed.html",
-      "executable": false,
-      "deprecated": false,
-      "title": "Проверить, разрешено ли действие с комментарием task.commentitem.isactionallowed"
     },
     {
       "method": "task.commentitem.update",

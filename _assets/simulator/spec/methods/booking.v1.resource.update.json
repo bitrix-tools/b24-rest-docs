@@ -90,7 +90,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип шаблона сообщения о записи. Возможные значения: - inanimate — шаблон для бронирования оборудования и помещений - animate — шаблон для записи к специалистам",
+          "description": "Тип шаблона сообщения о записи. Возможные значения: - inanimate — шаблон для бронирования оборудования и помещений - animate — шаблон для записи к специалистам - inanimate_long — шаблон для многодневного бронирования",
           "values": [
             {
               "value": "inanimate",
@@ -99,6 +99,10 @@
             {
               "value": "animate",
               "title": "шаблон для записи к специалистам"
+            },
+            {
+              "value": "inanimate_long",
+              "title": "шаблон для многодневного бронирования"
             }
           ]
         },
@@ -107,7 +111,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Автоматическое подтверждение записи. Возможные значения: - Y — включено - N — выключено",
+          "description": "Сообщение клиенту с запросом подтвердить запись. Возможные значения: - Y — включено - N — выключено",
           "values": [
             {
               "value": "Y",
@@ -124,7 +128,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип шаблона сообщения о подтверждении записи. Возможные значения: - inanimate — шаблон для бронирования оборудования и помещений - animate — шаблон для записи к специалистам",
+          "description": "Тип шаблона сообщения о подтверждении записи. Возможные значения: - inanimate — шаблон для бронирования оборудования и помещений - animate — шаблон для записи к специалистам - inanimate_long — шаблон для многодневного бронирования",
           "values": [
             {
               "value": "inanimate",
@@ -133,6 +137,10 @@
             {
               "value": "animate",
               "title": "шаблон для записи к специалистам"
+            },
+            {
+              "value": "inanimate_long",
+              "title": "шаблон для многодневного бронирования"
             }
           ]
         },
@@ -158,7 +166,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип шаблона сообщения для напоминания. Возможные значения: base"
+          "description": "Тип шаблона сообщения для напоминания. Единственное значение — base"
         },
         {
           "name": "isFeedbackNotificationOn",
@@ -229,49 +237,73 @@
           ]
         },
         {
-          "name": "infoDelay",
-          "type": "integer",
-          "base": "integer",
+          "name": "isCancellationNotificationOn",
+          "type": "string",
+          "base": "string",
           "required": false,
-          "description": "Задержка, после которой клиенту приходит сообщение о записи. Указывается в секундах"
+          "description": "Сообщение клиенту после отмены записи. Возможные значения: - Y — включено - N — выключено",
+          "values": [
+            {
+              "value": "Y",
+              "title": "включено"
+            },
+            {
+              "value": "N",
+              "title": "выключено"
+            }
+          ]
         },
         {
-          "name": "reminderDelay",
+          "name": "cancellationNotificationDelay",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Время до записи, за которое клиенту приходит напоминание о записи. Указывается в секундах"
+          "description": "Время после отмены записи, через которое клиенту приходит сообщение об отмене. Указывается в секундах"
         },
         {
-          "name": "delayedDelay",
+          "name": "infoNotificationDelay",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Время, через сколько отправить клиенту сообщение об опоздании. Указывается в секундах"
+          "description": "Время, через которое клиенту приходит сообщение о записи. Указывается в секундах"
+        },
+        {
+          "name": "reminderNotificationDelay",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Время до записи, за которое клиенту приходит напоминание. Указывается в секундах. Значение -1 — напоминание приходит утром в день записи"
+        },
+        {
+          "name": "delayedNotificationDelay",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Время, через которое клиенту отправляется сообщение об опоздании. Указывается в секундах"
         },
         {
           "name": "delayedCounterDelay",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Время, через сколько включить счетчик в календаре. Указывается в секундах"
+          "description": "Время, через которое в календаре включается счетчик. Указывается в секундах"
         },
         {
-          "name": "confirmationDelay",
+          "name": "confirmationNotificationDelay",
           "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Время до записи, когда клиенту приходит первое сообщение для подтверждения записи. Указывается в секундах"
         },
         {
-          "name": "confirmationRepetitions",
+          "name": "confirmationNotificationRepetitions",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Количество сообщений, которые приходят клиенту для подтверждения записи, не учитывая первого"
+          "description": "Количество сообщений, которые приходят клиенту для подтверждения записи, без учета первого"
         },
         {
-          "name": "confirmationRepetitionsInterval",
+          "name": "confirmationNotificationRepetitionsInterval",
           "type": "integer",
           "base": "integer",
           "required": false,
@@ -282,7 +314,24 @@
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Время до записи, после которого загорается счетчик не подтвержденной записи. Указывается в секундах"
+          "description": "Время до записи, после которого включается счетчик неподтвержденной записи. Указывается в секундах"
+        },
+        {
+          "name": "senderCode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код сервиса, который отправляет клиенту сообщения. Возможные значения: - bitrix24 — уведомления Битрикс24 - ai_call — звонок AI-агента Метод не проверяет значение: перечислены коды, которые поддерживает Битрикс24",
+          "values": [
+            {
+              "value": "bitrix24",
+              "title": "уведомления Битрикс24"
+            },
+            {
+              "value": "ai_call",
+              "title": "звонок AI-агента Метод не проверяет значение: перечислены коды, которые поддержи"
+            }
+          ]
         }
       ]
     }

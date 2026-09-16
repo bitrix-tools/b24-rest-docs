@@ -15,6 +15,8 @@
 
 Метод `booking.v1.resourceType.delete` удаляет тип ресурса.
 
+Удалить тип можно, только если к нему не привязан ни один ресурс. Ресурсы переназначьте на другой тип методом [booking.v1.resource.update](../booking-v1-resource-update.md) или удалите методом [booking.v1.resource.delete](../booking-v1-resource-delete.md). Удаление необратимо.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -57,8 +59,8 @@
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    // Сниппет — ES-модуль: для top-level await нужен type="module" или сборщик
+    // $b24 — уже инициализированный экземпляр SDK, смотрите руководство по началу работы с SDK
     import { Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
@@ -73,7 +75,7 @@
         requestId: Text.getUuidRfc4122()
       })
 
-      // The payload is available only on a successful response
+      // Данные доступны только при успешном ответе
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
       } else {
@@ -81,7 +83,7 @@
         console.info('Resource type deleted:', result)
       }
     } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
       console.error(error)
     }
     ```
@@ -89,12 +91,12 @@
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Подключаем SDK в UMD-сборке, он доступен как глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
       async function deleteResourceType() {
         try {
-          // Initialize the SDK inside a Bitrix24 frame
+          // Инициализируем SDK внутри фрейма Битрикс24
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
@@ -105,7 +107,7 @@
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
-          // The payload is available only on a successful response
+          // Данные доступны только при успешном ответе
           if (!response.isSuccess) {
             console.error(response.getErrorMessages().join('; '))
             return
@@ -114,7 +116,7 @@
           const result = response.getData().result
           console.info('Resource type deleted:', result)
         } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
           console.error(error)
         }
       }
@@ -147,9 +149,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -161,17 +161,17 @@
                     'id' => 15,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             error_log($result->error());
         } else {
             echo 'Success: ' . print_r($result->data(), true);
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting resource type: ' . $e->getMessage();
@@ -238,16 +238,16 @@ HTTP-статус: **200**
 
 ```json
 {
-  "result": true,
-  "time": {
-    "start": 1741002472.477039,
-    "finish": 1741002472.598432,
-    "duration": 0.12139296531677246,
-    "processing": 0.012734174728393555,
-    "date_start": "2025-03-03T11:47:52+00:00",
-    "date_finish": "2025-03-03T11:47:52+00:00",
-    "operating": 0
-  }
+    "result": true,
+    "time": {
+        "start": 1741002472.477039,
+        "finish": 1741002472.598432,
+        "duration": 0.12139296531677246,
+        "processing": 0.012734174728393555,
+        "date_start": "2025-03-03T11:47:52+00:00",
+        "date_finish": "2025-03-03T11:47:52+00:00",
+        "operating": 0
+    }
 }
 ```
 
@@ -268,7 +268,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 100,
+    "error": "100",
     "error_description": "Could not find value for parameter {id}"
 }
 ```
@@ -281,14 +281,18 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр ||
 || `1012` | `Resource type has not been found` | Тип ресурса с таким `id` не найден ||
+|| `1012` | `The type can not be deleted. There are resources of  type` | К типу привязан хотя бы один ресурс. Сначала удалите или переназначьте ресурсы методом [booking.v1.resource.update](../booking-v1-resource-update.md) ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](../index.md)
-- [{#T}](./booking-v1-resourcetype-get.md)
-- [{#T}](./booking-v1-resourcetype-update.md)
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-resourcetype-add.md)
+- [{#T}](./booking-v1-resourcetype-update.md)
+- [{#T}](./booking-v1-resourcetype-get.md)
 - [{#T}](./booking-v1-resourcetype-list.md)
+- [{#T}](../index.md)
+- [{#T}](./events/on-booking-resource-type-delete.md)

@@ -23,6 +23,7 @@
   "resultExample": {
     "result": {
       "resource": {
+        "cancellationNotificationDelay": 600,
         "confirmationCounterDelay": 10800,
         "confirmationNotificationDelay": 86400,
         "confirmationNotificationRepetitions": null,
@@ -32,6 +33,7 @@
         "description": null,
         "id": 15,
         "infoNotificationDelay": null,
+        "isCancellationNotificationOn": "Y",
         "isConfirmationNotificationOn": "Y",
         "isDelayedNotificationOn": "N",
         "isFeedbackNotificationOn": "N",
@@ -40,6 +42,7 @@
         "isReminderNotificationOn": "Y",
         "name": "Название",
         "reminderNotificationDelay": -1,
+        "senderCode": "bitrix24",
         "templateTypeConfirmation": "animate",
         "templateTypeDelayed": "animate",
         "templateTypeFeedback": "animate",
@@ -65,7 +68,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит информацию о полях ресурса. Структура описана ниже"
+      "description": "Корневой элемент ответа. Содержит единственное поле resource — объект с информацией о ресурсе, структура описана ниже"
     },
     {
       "name": "time",
@@ -78,20 +81,17 @@
   "page": "/api-reference/booking/resource/booking-v1-resource-get.html",
   "executable": false,
   "entityFields": [
+    "cancellationNotificationDelay",
     "confirmationCounterDelay",
-    "confirmationDelay",
     "confirmationNotificationDelay",
     "confirmationNotificationRepetitions",
     "confirmationNotificationRepetitionsInterval",
-    "confirmationRepetitions",
-    "confirmationRepetitionsInterval",
     "delayedCounterDelay",
-    "delayedDelay",
     "delayedNotificationDelay",
     "description",
     "id",
-    "infoDelay",
     "infoNotificationDelay",
+    "isCancellationNotificationOn",
     "isConfirmationNotificationOn",
     "isDelayedNotificationOn",
     "isFeedbackNotificationOn",
@@ -99,8 +99,8 @@
     "isMain",
     "isReminderNotificationOn",
     "name",
-    "reminderDelay",
     "reminderNotificationDelay",
+    "senderCode",
     "templateTypeConfirmation",
     "templateTypeDelayed",
     "templateTypeFeedback",

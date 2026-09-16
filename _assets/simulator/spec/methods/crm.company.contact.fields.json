@@ -3,7 +3,7 @@
   "method": "crm.company.contact.fields",
   "scope": "crm",
   "kind": "read",
-  "title": "Получить поля для связи компания-контакт crm.company.contact.fields",
+  "title": "Получить описание полей для связи компания-контакт crm.company.contact.fields",
   "permissions": "любой пользователь",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект в формате: где: - field_n — поле элемента - value_n — информация о поле в формате crmrestfielddescription",
+      "description": "Объект в формате: где: - field_n — поле элемента - value_n — информация о поле в формате crmrestfielddescription Состав полей привязки описан ниже",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -80,7 +80,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект в формате: где: - field_n — поле элемента - value_n — информация о поле в формате crmrestfielddescription"
+      "description": "Объект в формате: где: - field_n — поле элемента - value_n — информация о поле в формате crmrestfielddescription Состав полей привязки описан ниже"
     },
     {
       "name": "time",

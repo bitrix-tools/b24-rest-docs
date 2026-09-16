@@ -13,6 +13,12 @@
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
+В обработчик приходит только идентификатор ресурса. Для событий `onBookingResourceAdd` и `onBookingResourceUpdate` остальные данные получайте методом [booking.v1.resource.get](../booking-v1-resource-get.md). Для `onBookingResourceDelete` такой запрос вернет ошибку `1009` — ресурс уже удален, и идентификатор из события остается единственным, что о нем известно.
+
+События доставляются асинхронно, после завершения запроса, и повторно не отправляются. Чтобы не терять события при недоступном обработчике, используйте [офлайн-события](../../../events/offline-events.md).
+
+События не отправляются в приложение, пока не завершена его [установка](../../../../settings/app-installation/index.md).
+
 > Быстрый переход: [все события](#all-events)
 
 ## Как получать события
@@ -37,6 +43,6 @@
 #|
 || **Событие** | **Вызывается** ||
 || [onBookingResourceAdd](./on-booking-resource-add.md) | При создании ресурса вручную или методом [booking.v1.resource.add](../booking-v1-resource-add.md) ||
-|| [onBookingResourceUpdate](./on-booking-resource-update.md) | При обновлении ресурса вручную или методом [booking.v1.resource.update](../booking-v1-resource-update.md) ||
+|| [onBookingResourceUpdate](./on-booking-resource-update.md) | При обновлении ресурса вручную или методами [booking.v1.resource.update](../booking-v1-resource-update.md), [booking.v1.resource.slots.set](../slots/booking-v1-resource-slots-set.md), [booking.v1.resource.slots.unset](../slots/booking-v1-resource-slots-unset.md) ||
 || [onBookingResourceDelete](./on-booking-resource-delete.md) | При удалении ресурса вручную или методом [booking.v1.resource.delete](../booking-v1-resource-delete.md) ||
 |#
