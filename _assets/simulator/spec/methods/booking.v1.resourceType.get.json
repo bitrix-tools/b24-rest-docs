@@ -23,6 +23,7 @@
   "resultExample": {
     "result": {
       "resourceType": {
+        "cancellationNotificationDelay": 600,
         "code": "equipment",
         "confirmationCounterDelay": 10800,
         "confirmationNotificationDelay": 86400,
@@ -32,12 +33,15 @@
         "delayedNotificationDelay": 300,
         "id": 15,
         "infoNotificationDelay": null,
+        "isCancellationNotificationOn": "Y",
         "isConfirmationNotificationOn": "Y",
         "isDelayedNotificationOn": "Y",
         "isFeedbackNotificationOn": "N",
+        "isInfoNotificationOn": "Y",
         "isReminderNotificationOn": "Y",
         "name": "Оборудование",
         "reminderNotificationDelay": -1,
+        "senderCode": null,
         "templateTypeConfirmation": "inanimate",
         "templateTypeDelayed": "inanimate",
         "templateTypeFeedback": "inanimate",
@@ -61,7 +65,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит информацию о полях типа ресурса. Структура описана ниже"
+      "description": "Корневой элемент ответа. Содержит единственное поле resourceType — объект с информацией о типе ресурса, структура описана ниже"
     },
     {
       "name": "time",
@@ -74,32 +78,28 @@
   "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-get.html",
   "executable": false,
   "entityFields": [
+    "cancellationNotificationDelay",
     "code",
     "confirmationCounterDelay",
-    "confirmationDelay",
     "confirmationNotificationDelay",
     "confirmationNotificationRepetitions",
     "confirmationNotificationRepetitionsInterval",
-    "confirmationRepetitions",
-    "confirmationRepetitionsInterval",
     "delayedCounterDelay",
-    "delayedDelay",
     "delayedNotificationDelay",
     "id",
-    "infoDelay",
     "infoNotificationDelay",
+    "isCancellationNotificationOn",
     "isConfirmationNotificationOn",
     "isDelayedNotificationOn",
     "isFeedbackNotificationOn",
     "isInfoNotificationOn",
     "isReminderNotificationOn",
     "name",
-    "reminderDelay",
     "reminderNotificationDelay",
+    "senderCode",
     "templateTypeConfirmation",
     "templateTypeDelayed",
     "templateTypeFeedback",
-    "templateTypeInfo",
     "templateTypeReminder"
   ]
 }

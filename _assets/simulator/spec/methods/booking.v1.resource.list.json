@@ -7,15 +7,33 @@
   "permissions": "любой пользователь",
   "params": [
     {
-      "name": "ORDER",
+      "name": "filter",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для сортировки списка ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле ресурса для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Значение по умолчанию — {ID: 'ASC'}",
+      "description": "Объект для фильтрации списка ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле ресурса для фильтра - value_N — значение поля Условия фильтра объединяются логическим И. Поля, которых нет в списке ниже, метод игнорирует без ошибки",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле ресурса для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Регистр значения не важен. Если параметр не передан, порядок записей не гарантирован — задавайте сортировку явно",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр для управления постраничной навигацией. Размер страницы результатов всегда фиксированный: 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50, чтобы выбрать третью — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы.…"
     }
   ],
   "defs": {},
@@ -28,6 +46,7 @@
     "result": {
       "resource": [
         {
+          "cancellationNotificationDelay": 600,
           "confirmationCounterDelay": 10800,
           "confirmationNotificationDelay": 86400,
           "confirmationNotificationRepetitions": null,
@@ -37,6 +56,7 @@
           "description": null,
           "id": 5,
           "infoNotificationDelay": null,
+          "isCancellationNotificationOn": "Y",
           "isConfirmationNotificationOn": "Y",
           "isDelayedNotificationOn": "Y",
           "isFeedbackNotificationOn": "N",
@@ -45,14 +65,16 @@
           "isReminderNotificationOn": "Y",
           "name": "Легковой автомобиль 1",
           "reminderNotificationDelay": -1,
+          "senderCode": "bitrix24",
           "templateTypeConfirmation": "inanimate",
           "templateTypeDelayed": "inanimate",
           "templateTypeFeedback": "inanimate",
           "templateTypeInfo": "inanimate",
           "templateTypeReminder": "base",
-          "typeId": 1
+          "typeId": 3
         },
         {
+          "cancellationNotificationDelay": 600,
           "confirmationCounterDelay": 10800,
           "confirmationNotificationDelay": 86400,
           "confirmationNotificationRepetitions": null,
@@ -62,23 +84,26 @@
           "description": null,
           "id": 7,
           "infoNotificationDelay": null,
+          "isCancellationNotificationOn": "Y",
           "isConfirmationNotificationOn": "Y",
           "isDelayedNotificationOn": "Y",
           "isFeedbackNotificationOn": "N",
           "isInfoNotificationOn": "Y",
-          "isMain": "Y",
+          "isMain": "N",
           "isReminderNotificationOn": "Y",
           "name": "Легковой автомобиль 2",
           "reminderNotificationDelay": -1,
+          "senderCode": "bitrix24",
           "templateTypeConfirmation": "inanimate",
           "templateTypeDelayed": "inanimate",
           "templateTypeFeedback": "inanimate",
           "templateTypeInfo": "inanimate",
           "templateTypeReminder": "base",
-          "typeId": 1
+          "typeId": 7
         }
       ]
     },
+    "total": 0,
     "time": {
       "start": 1746540454.261779,
       "finish": 1746540454.303483,
@@ -96,7 +121,14 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о ресурсах. Структура описана ниже"
+      "description": "Корневой элемент ответа. Содержит единственное поле resource — массив объектов с информацией о ресурсах, структура объекта описана ниже"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Служебное поле. Метод всегда возвращает 0, поля next в ответе нет. При вызове со start: -1 поля total в ответе не будет — ориентироваться на них при обходе страниц нельзя"
     },
     {
       "name": "time",
@@ -109,20 +141,17 @@
   "page": "/api-reference/booking/resource/booking-v1-resource-list.html",
   "executable": false,
   "entityFields": [
+    "cancellationNotificationDelay",
     "confirmationCounterDelay",
-    "confirmationDelay",
     "confirmationNotificationDelay",
     "confirmationNotificationRepetitions",
     "confirmationNotificationRepetitionsInterval",
-    "confirmationRepetitions",
-    "confirmationRepetitionsInterval",
     "delayedCounterDelay",
-    "delayedDelay",
     "delayedNotificationDelay",
     "description",
     "id",
-    "infoDelay",
     "infoNotificationDelay",
+    "isCancellationNotificationOn",
     "isConfirmationNotificationOn",
     "isDelayedNotificationOn",
     "isFeedbackNotificationOn",
@@ -130,8 +159,8 @@
     "isMain",
     "isReminderNotificationOn",
     "name",
-    "reminderDelay",
     "reminderNotificationDelay",
+    "senderCode",
     "templateTypeConfirmation",
     "templateTypeDelayed",
     "templateTypeFeedback",

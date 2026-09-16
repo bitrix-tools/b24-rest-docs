@@ -7,15 +7,33 @@
   "permissions": "любой пользователь",
   "params": [
     {
-      "name": "ORDER",
+      "name": "filter",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для сортировки списка типа ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле типа ресурса для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Значение по умолчанию — {ID: 'ASC'}",
+      "description": "Объект для фильтрации списка типов ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле типа ресурса для фильтра - value_N — значение поля Условия фильтра объединяются логическим И. Поля, которых нет в списке ниже, метод игнорирует без ошибки",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект для сортировки списка типов ресурсов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где - field_N — поле типа ресурса для сортировки - value_N — направление сортировки Направление сортировки может принимать значения: - asc — по возрастанию - desc — по убыванию Регистр значения не важен. Если параметр не передан, порядок записей не гарантирован — задавайте сортировку явно",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Параметр для управления постраничной навигацией. Размер страницы результатов всегда фиксированный: 50 записей. Чтобы выбрать вторую страницу результатов, передайте значение 50, чтобы выбрать третью — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы.…"
     }
   ],
   "defs": {},
@@ -24,13 +42,87 @@
   "source": {
     "file": "api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.md"
   },
+  "resultExample": {
+    "result": {
+      "resourceType": [
+        {
+          "cancellationNotificationDelay": 600,
+          "code": "equipment",
+          "confirmationCounterDelay": 10800,
+          "confirmationNotificationDelay": 86400,
+          "confirmationNotificationRepetitions": null,
+          "confirmationNotificationRepetitionsInterval": 10800,
+          "delayedCounterDelay": 300,
+          "delayedNotificationDelay": 300,
+          "id": 3,
+          "infoNotificationDelay": null,
+          "isCancellationNotificationOn": "Y",
+          "isConfirmationNotificationOn": "Y",
+          "isDelayedNotificationOn": "Y",
+          "isFeedbackNotificationOn": "N",
+          "isInfoNotificationOn": "Y",
+          "isReminderNotificationOn": "Y",
+          "name": "Оборудование",
+          "reminderNotificationDelay": -1,
+          "senderCode": null,
+          "templateTypeConfirmation": "inanimate",
+          "templateTypeDelayed": "inanimate",
+          "templateTypeFeedback": "inanimate",
+          "templateTypeReminder": "base"
+        },
+        {
+          "cancellationNotificationDelay": 600,
+          "code": "expert",
+          "confirmationCounterDelay": 10800,
+          "confirmationNotificationDelay": 86400,
+          "confirmationNotificationRepetitions": null,
+          "confirmationNotificationRepetitionsInterval": 10800,
+          "delayedCounterDelay": 300,
+          "delayedNotificationDelay": 300,
+          "id": 5,
+          "infoNotificationDelay": null,
+          "isCancellationNotificationOn": "Y",
+          "isConfirmationNotificationOn": "Y",
+          "isDelayedNotificationOn": "Y",
+          "isFeedbackNotificationOn": "N",
+          "isInfoNotificationOn": "Y",
+          "isReminderNotificationOn": "Y",
+          "name": "Специалист",
+          "reminderNotificationDelay": -1,
+          "senderCode": null,
+          "templateTypeConfirmation": "inanimate",
+          "templateTypeDelayed": "inanimate",
+          "templateTypeFeedback": "inanimate",
+          "templateTypeReminder": "base"
+        }
+      ]
+    },
+    "total": 0,
+    "time": {
+      "start": 1746540454.261779,
+      "finish": 1746540454.303483,
+      "duration": 0.04170393943786621,
+      "processing": 0.009412050247192383,
+      "date_start": "2025-05-06T17:07:34+03:00",
+      "date_finish": "2025-05-06T17:07:34+03:00",
+      "operating_reset_at": 1746541054,
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о типах ресурсов. Структура описана ниже"
+      "description": "Корневой элемент ответа. Содержит единственное поле resourceType — массив объектов с информацией о типах ресурсов, структура объекта описана ниже"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Служебное поле. Метод всегда возвращает 0, поля next в ответе нет — ориентироваться на них при обходе страниц нельзя"
     },
     {
       "name": "time",
@@ -43,25 +135,28 @@
   "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-list.html",
   "executable": false,
   "entityFields": [
+    "cancellationNotificationDelay",
     "code",
     "confirmationCounterDelay",
-    "confirmationDelay",
-    "confirmationRepetitions",
-    "confirmationRepetitionsInterval",
+    "confirmationNotificationDelay",
+    "confirmationNotificationRepetitions",
+    "confirmationNotificationRepetitionsInterval",
     "delayedCounterDelay",
-    "delayedDelay",
-    "infoDelay",
+    "delayedNotificationDelay",
+    "id",
+    "infoNotificationDelay",
+    "isCancellationNotificationOn",
     "isConfirmationNotificationOn",
     "isDelayedNotificationOn",
     "isFeedbackNotificationOn",
     "isInfoNotificationOn",
     "isReminderNotificationOn",
     "name",
-    "reminderDelay",
+    "reminderNotificationDelay",
+    "senderCode",
     "templateTypeConfirmation",
     "templateTypeDelayed",
     "templateTypeFeedback",
-    "templateTypeInfo",
     "templateTypeReminder"
   ]
 }

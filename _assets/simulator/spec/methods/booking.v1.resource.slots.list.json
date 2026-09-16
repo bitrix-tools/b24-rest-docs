@@ -24,18 +24,22 @@
     "result": {
       "slots": [
         {
-          "from": 100,
-          "id": 171,
-          "slotSize": 1,
-          "timezone": "Europe/Kaliningrad",
-          "to": 300,
+          "from": 540,
+          "id": 11,
+          "slotSize": 60,
+          "timezone": "Europe/Moscow",
+          "to": 1080,
           "weekDays": [
             "Mon",
-            "Tue"
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri"
           ]
         }
       ]
     },
+    "total": 0,
     "time": {
       "start": 1724068028.331234,
       "finish": 1724068028.726591,
@@ -52,7 +56,14 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Cодержит массив объектов с информацией о слотах. Структура описана ниже"
+      "description": "Корневой элемент ответа. Содержит единственное поле slots — массив настроек слотов, структура объекта описана ниже"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Служебное поле. Метод всегда возвращает 0 и отдает все настройки ресурса сразу, без постраничной навигации"
     },
     {
       "name": "time",
