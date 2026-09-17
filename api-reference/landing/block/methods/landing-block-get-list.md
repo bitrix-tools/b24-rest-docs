@@ -53,15 +53,15 @@
 
 По умолчанию — `false`. Параметр влияет только на выборку блоков. Поиск удаленной страницы он не включает, поэтому для страницы из корзины метод вернет ошибку.
 
-Чтобы получить удаленные блоки, передайте `deleted: true` вместе с `edit_mode: true`. Параметр `deleted` сам по себе не переключает метод на черновик. 
+Чтобы получить удаленные блоки, передайте `deleted: true` вместе с `edit_mode: true`. Параметр `deleted` сам по себе не переключает метод на черновик.
 
 Если не указать `edit_mode`, метод будет искать блоки только в опубликованной версии страницы ||
 || **get_content**
 [`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если передать `true`, метод добавит в каждый элемент результата поля `content`, `css` и `js`. По умолчанию — `false`.
 
-Поле `content` содержит уже подготовленный HTML блока вместе с системным контейнером блока, а не исходное сохраненное содержимое. 
+Поле `content` содержит уже подготовленный HTML блока вместе с системным контейнером блока, а не исходное сохраненное содержимое.
 
-Если `edit_mode` выключен, метод вернет HTML опубликованной версии блока. 
+Если `edit_mode` выключен, метод вернет HTML опубликованной версии блока.
 Если `edit_mode` включен, метод вернет HTML черновика ||
 |#
 
@@ -126,11 +126,8 @@
     }
 
     try {
-      // landing.block.getlist returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // landing.block.getlist has no pagination: it returns every block of the page
+      // in a single response, so no list helper is needed here.
       const response = await $b24.actions.v2.call.make<LandingBlock[]>({
         method: 'landing.block.getlist',
         params: {
@@ -139,7 +136,6 @@
             edit_mode: true,
             get_content: true,
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -168,11 +164,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // landing.block.getlist returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // landing.block.getlist has no pagination: it returns every block of the page
+          // in a single response, so no list helper is needed here.
           const response = await $b24.actions.v2.call.make({
             method: 'landing.block.getlist',
             params: {
@@ -181,7 +174,6 @@
                 edit_mode: true,
                 get_content: true,
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -431,14 +423,14 @@ HTTP-статус: **200**
 || **content**
 [`string`](../../../data-types.md) | Подготовленный HTML блока. Поле возвращается только если включен `params.get_content`.
 
-Если `params.edit_mode = false`, метод вернет HTML опубликованной версии блока. 
+Если `params.edit_mode = false`, метод вернет HTML опубликованной версии блока.
 Если `params.edit_mode = true`, метод вернет HTML черновика ||
 || **css**
 [`string[]`](../../../data-types.md) | Пути к CSS-файлам блока, которые нужны для его отображения.
 
 Поле возвращается только если включен `params.get_content`. Если отдельных CSS-ресурсов нет, вернется пустой массив ||
 || **js**
-[`string[]`](../../../data-types.md) | Пути к JS-файлам блока, которые нужны для его работы. 
+[`string[]`](../../../data-types.md) | Пути к JS-файлам блока, которые нужны для его работы.
 
 Поле возвращается только если включен `params.get_content`. Если отдельных JS-ресурсов нет, вернется пустой массив ||
 |#

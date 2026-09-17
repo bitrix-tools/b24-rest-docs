@@ -274,25 +274,29 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.landing.block.update_styles(
-            lid=313,
-            block=6134,
-            data={
-                ".landing-block-node-text": {
-                    "classList": [
-                        "g-font-size-18",
-                        "g-color-gray-dark-v2",
-                    ],
-                    "affect": [
-                        "text",
-                    ],
-                    "style": {
-                        "font-weight": "600",
+        # У метода нет отдельной обертки в b24pysdk, поэтому вызываем его по имени
+        bitrix_response = bitrix_token.call_method(
+            "landing.block.updateStyles",
+            {
+                "lid": 313,
+                "block": 6134,
+                "data": {
+                    ".landing-block-node-text": {
+                        "classList": [
+                            "g-font-size-18",
+                            "g-color-gray-dark-v2",
+                        ],
+                        "affect": [
+                            "text",
+                        ],
+                        "style": {
+                            "font-weight": "600",
+                        },
                     },
                 },
             },
-        ).response
-        result = bitrix_response.result
+        )
+        result = bitrix_response["result"]
         print(result)
     except BitrixAPIError as error:
         print(
