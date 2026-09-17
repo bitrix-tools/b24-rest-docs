@@ -21,7 +21,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **order**
-[`string`](../../data-types.md)\|[`array`](../../data-types.md) | Сортировка выбранных пользовательских полей в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`array`](../../data-types.md) | Сортировка выбранных пользовательских полей в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field_N`:
 
@@ -126,19 +126,12 @@
       LIST?: Array<{ ID: string; SORT: string; VALUE: string; DEF: 'Y' | 'N'; XML_ID: string }>
     }
 
-    // user.userfield.list returns a single page (max 50 records). For the whole result set
-    // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-    // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-    // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-    // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
-
     try {
       const response = await $b24.actions.v2.call.make<UserUserfieldItem[]>({
         method: 'user.userfield.list',
         params: {
           order: { id: 'desc' },
           filter: { id: 13 },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -167,18 +160,11 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // user.userfield.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
-
           const response = await $b24.actions.v2.call.make({
             method: 'user.userfield.list',
             params: {
               order: { id: 'desc' },
               filter: { id: 13 },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -369,7 +355,7 @@
         [
             'order' => [
                 'id' => 'desc',
-            ]
+            ],
             'filter' => [
                 'id' => 13,
             ],
@@ -508,11 +494,75 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
+[`array`](../../data-types.md) | Массив объектов с описанием пользовательских полей ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Поля объекта result
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор пользовательского поля ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор объекта, к которому относится поле. Для пользовательских полей сотрудников — `USER` ||
+|| **FIELD_NAME**
+[`string`](../../data-types.md) | Код пользовательского поля ||
+|| **USER_TYPE_ID**
+[`string`](../../data-types.md) | Тип пользовательского поля ||
+|| **XML_ID**
+[`string`](../../data-types.md)\|[`null`](../../data-types.md) | Внешний идентификатор пользовательского поля ||
+|| **SORT**
+[`integer`](../../data-types.md) | Индекс сортировки ||
+|| **MULTIPLE**
+[`string`](../../data-types.md) | Признак множественного поля. Возможные значения: `Y` или `N` ||
+|| **MANDATORY**
+[`string`](../../data-types.md) | Признак обязательного поля. Возможные значения: `Y` или `N` ||
+|| **SHOW_FILTER**
+[`string`](../../data-types.md) | Режим показа поля в фильтре списка пользователей ||
+|| **SHOW_IN_LIST**
+[`string`](../../data-types.md) | Признак показа поля в списке пользователей. Возможные значения: `Y` или `N` ||
+|| **EDIT_IN_LIST**
+[`string`](../../data-types.md) | Признак возможности редактировать поле в списке пользователей. Возможные значения: `Y` или `N` ||
+|| **IS_SEARCHABLE**
+[`string`](../../data-types.md) | Признак участия значений поля в поиске. Возможные значения: `Y` или `N` ||
+|| **EDIT_FORM_LABEL**
+[`string`](../../data-types.md) | Подпись поля в форме редактирования ||
+|| **LIST_COLUMN_LABEL**
+[`string`](../../data-types.md) | Заголовок поля в списке пользователей ||
+|| **LIST_FILTER_LABEL**
+[`string`](../../data-types.md) | Подпись поля в фильтре списка пользователей ||
+|| **ERROR_MESSAGE**
+[`string`](../../data-types.md) | Сообщение об ошибке при проверке значения поля ||
+|| **HELP_MESSAGE**
+[`string`](../../data-types.md) | Подсказка к полю ||
+|| **USER_TYPE_OWNER**
+[`string`](../../data-types.md) | Идентификатор приложения — владельца типа пользовательского поля. Возвращается для типов, зарегистрированных приложениями ||
+|| **SETTINGS**
+[`object`](../../data-types.md) | Настройки пользовательского поля. Набор полей зависит от значения `USER_TYPE_ID` ||
+|| **LIST**
+[`array`](../../data-types.md) | Элементы списка. Поле возвращается, если `USER_TYPE_ID` имеет значение `enumeration`. Структура элементов описана [ниже](#list-fields) ||
+|#
+
+#### Поля элементов LIST {#list-fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор элемента списка ||
+|| **SORT**
+[`integer`](../../data-types.md) | Индекс сортировки ||
+|| **VALUE**
+[`string`](../../data-types.md) | Значение элемента списка ||
+|| **DEF**
+[`string`](../../data-types.md) | Признак значения по умолчанию. Возможные значения: `Y` или `N` ||
+|| **XML_ID**
+[`string`](../../data-types.md) | Внешний идентификатор элемента списка ||
 |#
 
 ## Обработка ошибок
@@ -532,8 +582,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| Пустая строка | Access denied. | Поле с таким `id` не существует или доступ запрещен ||
-|| Пустая строка | ID is not defined or invalid | Не задан или введен неверный `id` ||
+|| Пустая строка | Access denied. | Недостаточно прав для получения списка пользовательских полей ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

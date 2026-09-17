@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает список будущих событий.
+Метод получает список ближайших будущих событий календаря за заданное число дней.
 
 ## Параметры метода
 
@@ -28,7 +28,8 @@
 || **ownerId**
 [`integer`](../../data-types.md) | Идентификатор владельца календаря.
 
-Для календаря компании параметр `ownerId` имеет значение `0` ||
+Передавайте `ownerId` вместе с `type`. Значение параметра не влияет на список
+возвращаемых событий. Для календаря компании передайте значение `0` ||
 || **days**
 [`integer`](../../data-types.md) | Число дней для выборки. По умолчанию — `60` ||
 || **forCurrentUser**
@@ -38,6 +39,17 @@
 || **detailUrl**
 [`string`](../../data-types.md) | Ссылка URL календаря ||
 |#
+
+{% note info %}
+
+Чтобы выбрать тип календаря, передайте `type` и `ownerId` вместе. Значение `ownerId`
+не влияет на список возвращаемых событий. Для календаря компании передайте
+`type: company_calendar` и `ownerId: 0`.
+
+Если передан `forCurrentUser: true` или не заданы `type` и `ownerId`, метод принудительно
+переключается на календарь текущего пользователя: `type: user` и `forCurrentUser: true`.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -90,9 +102,12 @@
 
         try:
             bitrix_response = client.calendar.event.get.nearest(
-                type="company_calendar",
-                owner_id="",
-                for_current_user=False,
+                type="user",
+                owner_id=2,
+                days=10,
+                for_current_user=True,
+                max_events_count=100,
+                detail_url="/company/personal/user/#user_id#/calendar/",
             ).response
             result = bitrix_response.result
             print(result)
@@ -165,8 +180,8 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"type":"company_calendar","ownerId":"","forCurrentUser":false}' \
-        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.get
+        -d '{"type":"company_calendar","ownerId":0,"forCurrentUser":false}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.get.nearest
         ```
 
     - cURL (OAuth)
@@ -175,18 +190,18 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"type":"company_calendar","ownerId":"","forCurrentUser":false,"auth":"**put_access_token_here**"}' \
-        https://**put_your_bitrix24_address**/rest/calendar.event.get
+        -d '{"type":"company_calendar","ownerId":0,"forCurrentUser":false,"auth":"**put_access_token_here**"}' \
+        https://**put_your_bitrix24_address**/rest/calendar.event.get.nearest
         ```
 
     - BX24.js
 
         ```js
         BX24.callMethod(
-            'calendar.event.get',
+            'calendar.event.get.nearest',
             {
                 type: 'company_calendar',
-                ownerId: 0, // ownerId не указывается при выборке событий календаря компании. Он пустой для всех событий такого типа.
+                ownerId: 0,
                 forCurrentUser: false
             }
         );
@@ -200,7 +215,7 @@
         try:
             bitrix_response = client.calendar.event.get.nearest(
                 type="company_calendar",
-                owner_id="",
+                owner_id=0,
                 for_current_user=False,
             ).response
             result = bitrix_response.result
@@ -225,10 +240,10 @@
         require_once('crest.php');
 
         $result = CRest::call(
-            'calendar.event.get',
+            'calendar.event.get.nearest',
             [
                 'type' => 'company_calendar',
-                'ownerId' => '',
+                'ownerId' => 0,
                 'forCurrentUser' => false
             ]
         );
@@ -242,13 +257,13 @@
 
         ```go
         // client и ctx уже созданы — см. раздел «SDK для Go»
-        res, err := client.Core().Call(ctx, "calendar.event.get", b24.Params{
+        res, err := client.Core().Call(ctx, "calendar.event.get.nearest", b24.Params{
         	"type":           "company_calendar",
-        	"ownerId":        "",
+        "ownerId":        0,
         	"forCurrentUser": false,
         }, b24.WithIdempotent())
         if err != nil {
-        	return fmt.Errorf("calendar.event.get: %w", err)
+        return fmt.Errorf("calendar.event.get.nearest: %w", err)
         }
 
         // Ответ приходит как json.RawMessage — разберите его
