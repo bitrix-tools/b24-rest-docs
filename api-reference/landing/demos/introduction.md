@@ -1,5 +1,12 @@
 # Как подготовить пользовательский шаблон
 
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять методы: чтобы пройти сценарий целиком, нужно самое строгое из перечисленных прав — право «экспорт» сайтов
+>
+> - [landing.site.fullExport](../site/landing-site-full-export.md) — пользователь с правом «экспорт» сайтов
+> - [landing.demos.register](./landing-demos-register.md) и [landing.demos.getList](./landing-demos-get-list.md) — пользователь с правом Просмотр в разделе Сайты
+
 {% note tip "" %}
 
 Выберите инструмент для разработки с AI-агентом:
@@ -13,9 +20,15 @@
 
 Шаблон создают на основе уже готового сайта или страницы из [раздела Сайты](../site/index.md). Сначала сайт экспортируют — выгружают его структуру в набор данных, который можно сохранить и передать дальше. Затем этот набор регистрируют [методами `landing.demos.*`](./index.md) из приложения Битрикс24.
 
-> Scope: [`landing`](../../scopes/permissions.md)
->
-> Кто может вызывать методы раздела: пользователь с правом Просмотр в разделе Сайты
+Проверяемый результат: шаблон зарегистрирован для приложения, возвращается методом `landing.demos.getList` и отображается в мастере создания сайта или страницы.
+
+Сценарий состоит из трех шагов:
+
+1. Экспортировать готовый сайт методом [landing.site.fullExport](../site/landing-site-full-export.md)
+2. Передать результат экспорта в [landing.demos.register](./landing-demos-register.md)
+3. Проверить регистрацию методом [landing.demos.getList](./landing-demos-get-list.md)
+
+Порядок вызовов важен: `landing.demos.register` принимает объект `result`, который возвращает `landing.site.fullExport`, а `landing.demos.getList` проверяет результат регистрации.
 
 ## Когда использовать пользовательский шаблон
 
@@ -41,12 +54,12 @@
 - **экспорт** — структура сайта в виде данных, которую создает метод [landing.site.fullExport](../site/landing-site-full-export.md)
 - **зарегистрированный шаблон** — запись, которая появляется в мастере после вызова [landing.demos.register](./landing-demos-register.md)
 
-Методы раздела отвечают за отдельные шаги работы с шаблоном:
+Методы `landing.demos.*` выполняют отдельные операции с шаблоном:
 
 - [landing.demos.register](./landing-demos-register.md) — регистрирует шаблон в мастере создания сайта и страницы
 - [landing.demos.getList](./landing-demos-get-list.md) — возвращает зарегистрированные шаблоны и позволяет проверить результат регистрации. Если метод вызван из приложения, в ответ попадают только шаблоны этого приложения
 - [landing.demos.getSiteList](./landing-demos-get-site-list.md) — возвращает шаблоны сайтов, которые доступны в мастере для выбранного типа сайта. В список попадают и встроенные шаблоны Битрикс24, и подходящие шаблоны, которые вы зарегистрировали. Например, для типа `store` метод вернет шаблоны интернет-магазинов
-- [landing.demos.getPageList](./landing-demos-get-page-list.md) — то же самое, но для шаблонов отдельных страниц
+- [landing.demos.getPageList](./landing-demos-get-page-list.md) — возвращает шаблоны страниц, которые доступны в мастере для выбранного типа сайта
 - [landing.demos.unregister](./landing-demos-unregister.md) — удаляет зарегистрированный шаблон
 
 ## Как подготовить шаблон
@@ -56,66 +69,303 @@
 - страницы связаны между собой корректно
 - используются нужные блоки и темы
 - изображения и внешние ресурсы доступны по рабочим URL
-- название, описание и preview-данные подготовлены для шаблона. Preview-данные — это картинки предпросмотра, по которым шаблон узнают в списке мастера
+- название, описание и изображения предпросмотра подготовлены для шаблона
 
 Если сайт многостраничный, используйте одну тему для всех страниц. Это помогает сохранить единый внешний вид после установки шаблона.
 
-## Как зарегистрировать шаблон
+## Подготовьте данные
 
-Порядок работы такой:
+Перед началом подготовьте:
 
-1. Создайте сайт или страницу, которые станут основой шаблона
-2. Экспортируйте сайт методом [landing.site.fullExport](../site/landing-site-full-export.md) — он вернет структуру сайта в виде данных
-3. Сохраните результат экспорта на стороне приложения
-4. При установке приложения передайте сохраненные данные в [landing.demos.register](./landing-demos-register.md). Обычно результат `fullExport` передают без ручной перестройки структуры
-5. Проверьте результат методом [landing.demos.getList](./landing-demos-get-list.md): шаблон должен появиться в списке и в мастере создания сайта или страницы
+- идентификатор сайта, который станет основой шаблона
+- внешний код шаблона, например `myfirstsite2026`
+- URL опубликованной страницы для `preview_url`
+- установленное приложение с OAuth-авторизацией и правом `landing`
+- установленный и инициализированный SDK: [B24JsSDK](../../../sdk/b24jssdk/index.md), [B24PhpSDK](../../../sdk/b24phpsdk/index.md) или [B24PySDK](../../../sdk/b24pysdk/index.md)
 
-Что возвращают методы:
+Идентификатор сайта можно получить методом [landing.site.getList](../site/landing-site-get-list.md) или из результата метода [landing.site.add](../site/landing-site-add.md). Внешний код должен содержать только строчные латинские буквы и цифры без разделителей.
 
-- [landing.demos.register](./landing-demos-register.md) — массив числовых идентификаторов шаблонов, которые он создал или обновил
-- [landing.demos.getList](./landing-demos-get-list.md) — список шаблонов. У каждого есть внешний код `XML_ID`, название `TITLE`, тип `TYPE` и другие поля. Выборку можно сузить параметрами `select`, `filter`, `order`, `limit` и `offset`
+В примерах замените `326`, `myfirstsite2026` и URL предпросмотра своими значениями. Выполняйте примеры выбранной вкладки последовательно в одном скрипте: переменная с результатом экспорта используется на следующем шаге.
 
-## Что учитывать перед регистрацией
+{% note warning "" %}
 
-**Тип шаблона.** В данных шаблона есть поля `type` и `tpl_type`. Поле `type` задает назначение шаблона: `page` — страницы, `store` — магазины, `knowledge` — базы знаний, `group` — группы, `mainpage` — главные страницы. Поле `tpl_type` задает место шаблона в мастере: `S` — шаблон сайта, `P` — шаблон страницы. Проверьте оба поля в структуре, которую передаете в [landing.demos.register](./landing-demos-register.md).
+OAuth-токен дает доступ к Битрикс24. Храните его в настройках приложения или переменных окружения и не добавляйте в исходный код.
 
-**Состав экспорта.** Обычно в регистрацию передают полный результат [landing.site.fullExport](../site/landing-site-full-export.md). Если структуру меняют вручную, проверьте, что в ней сохранены обязательные поля и карта страниц `items`. Если не заполнить обязательное поле `code` с внешним кодом шаблона, метод вернет ошибку `BX_EMPTY_REQUIRED`.
+{% endnote %}
 
-**Проверка безопасности.** Перед регистрацией Битрикс24 проверяет содержимое шаблона. Если в нем найден небезопасный код, метод вернет ошибку `CONTENT_IS_BAD`, и шаблон не зарегистрируется.
+## 1. Экспортируйте сайт
 
-**Preview-данные.** Подготовьте `preview`, `preview2x`, `preview3x` и `preview_url`, если шаблон должен отображаться в списке и в предпросмотре.
+Вызовите [landing.site.fullExport](../site/landing-site-full-export.md). В параметре `id` передайте идентификатор сайта, а в `params.code` — внешний код шаблона. Метод вернет полную структуру сайта в поле `result`.
 
-**Внешний код шаблона.** Чтобы удалить шаблон, нужен его внешний код. Получите его так:
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-- при регистрации внешний код задают в поле `code` метода [landing.demos.register](./landing-demos-register.md) — он сохраняется как `XML_ID` шаблона
-- если код не сохранили, его можно получить методом [landing.demos.getList](./landing-demos-get-list.md) в поле `XML_ID`
-- передайте этот код в параметр `code` метода [landing.demos.unregister](./landing-demos-unregister.md)
+{% list tabs %}
 
-Если шаблона с таким кодом нет, `unregister` вернет `false`. Если шаблон сайта и шаблон страницы зарегистрированы с одним и тем же кодом, удаление может затронуть обе связанные записи.
+- JS
 
-## URL предпросмотра
+    ```js
+    // $b24 — предварительно инициализированный экземпляр B24JsSDK
+    const exportResponse = await $b24.actions.v2.call.make({
+      method: 'landing.site.fullExport',
+      params: {
+        id: 326,
+        params: {
+          code: 'myfirstsite2026',
+          name: 'Сайт автомастерской',
+          preview_url: 'https://example.com/previews/myfirstsite2026'
+        }
+      }
+    })
 
-`preview_url` задает страницу предпросмотра шаблона в мастере. Этот URL можно передать при экспорте сайта через [landing.site.fullExport](../site/landing-site-full-export.md). Затем его используют при регистрации шаблона.
+    if (!exportResponse.isSuccess) {
+      throw new Error(exportResponse.getErrorMessages().join('; '))
+    }
 
-Для `preview_url` обычно используют опубликованную страницу, которая показывает шаблон в готовом виде. Для многостраничного сайта достаточно главной страницы.
+    const exportData = exportResponse.getData().result
+    ```
 
-Следите, чтобы ссылка предпросмотра оставалась доступной. Иначе в мастере не откроется страница предпросмотра.
+- PHP
 
-## Изображения и внешние ресурсы
+    ```php
+    // $b24Service — предварительно инициализированный B24PhpSDK
+    $response = $b24Service->core->call(
+        'landing.site.fullExport',
+        [
+            'id' => 326,
+            'params' => [
+                'code' => 'myfirstsite2026',
+                'name' => 'Сайт автомастерской',
+                'preview_url' => 'https://example.com/previews/myfirstsite2026',
+            ],
+        ]
+    );
 
-При экспорте сайта изображения и другие внешние ресурсы могут сохраниться как абсолютные ссылки. После установки шаблона они будут загружаться с исходного адреса. Это будет продолжаться, пока пользователь не заменит их своими файлами.
+    $exportData = $response->getResponseData()->getResult();
+    ```
 
-Если шаблон распространяется в другие Битрикс24, заранее проверьте:
+- Python
 
-- что все URL доступны извне
-- что изображения не зависят от временного хранилища
-- что preview-картинки не будут удалены
+    ```python
+    # client — предварительно инициализированный B24PySDK
+    export_data = client.landing.site.full_export(
+        bitrix_id=326,
+        params={
+            "code": "myfirstsite2026",
+            "name": "Сайт автомастерской",
+            "preview_url": "https://example.com/previews/myfirstsite2026",
+        },
+    ).response.result
+    ```
 
-## Локализация шаблона
+{% endlist %}
 
-Название и описание шаблона можно локализовать при регистрации. Для этого в [landing.demos.register](./landing-demos-register.md) используют параметры `lang` и `lang_original`.
+Сокращенный ответ:
 
-Если шаблон должен отображаться в Битрикс24 с разными языками, подготовьте локализационный массив заранее. Подробности смотрите в статье [Локализация шаблона](./localization.md).
+```json
+{
+    "result": {
+        "charset": "UTF-8",
+        "code": "myfirstsite2026",
+        "name": "Сайт автомастерской",
+        "type": "page",
+        "version": 3,
+        "items": {
+            "myfirstsite2026": {
+                "code": "myfirstsite2026",
+                "name": "Сайт автомастерской",
+                "type": "page",
+                "version": 3,
+                "items": {}
+            }
+        }
+    }
+}
+```
+
+Сохраните весь объект `result`, а не только отдельные поля. Переменные `exportData`, `$exportData` и `export_data` содержат данные для следующего шага.
+
+## 2. Зарегистрируйте шаблон
+
+Передайте сохраненный объект экспорта в параметр `data` метода [landing.demos.register](./landing-demos-register.md). Не перестраивайте структуру вручную: в ней уже есть внешний код `code`, карта страниц `items`, поля, блоки и настройки сайта.
+
+Примеры продолжают код первого шага.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const registerResponse = await $b24.actions.v2.call.make({
+      method: 'landing.demos.register',
+      params: {
+        data: exportData
+      }
+    })
+
+    if (!registerResponse.isSuccess) {
+      throw new Error(registerResponse.getErrorMessages().join('; '))
+    }
+
+    const registeredTemplateIds = registerResponse.getData().result
+    if (registeredTemplateIds.length === 0) {
+      throw new Error('Шаблон не зарегистрирован')
+    }
+    ```
+
+- PHP
+
+    ```php
+    $response = $b24Service->core->call(
+        'landing.demos.register',
+        [
+            'data' => $exportData,
+        ]
+    );
+
+    $registeredTemplateIds = $response->getResponseData()->getResult();
+    if ($registeredTemplateIds === []) {
+        throw new RuntimeException('Шаблон не зарегистрирован');
+    }
+    ```
+
+- Python
+
+    ```python
+    registered_template_ids = client.landing.demos.register(
+        data=export_data,
+    ).response.result
+
+    if not registered_template_ids:
+        raise RuntimeError("Шаблон не зарегистрирован")
+    ```
+
+{% endlist %}
+
+Успешный ответ содержит идентификаторы созданных или обновленных шаблонов:
+
+```json
+{
+    "result": [5]
+}
+```
+
+Сохраните массив `result`. Если он пуст, не переходите к проверке в интерфейсе и проверьте данные запроса.
+
+## 3. Проверьте регистрацию шаблона
+
+Вызовите [landing.demos.getList](./landing-demos-get-list.md) и найдите запись с внешним кодом `XML_ID`, равным `myfirstsite2026`. Метод, вызванный из приложения, возвращает только шаблоны этого приложения.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    const listResponse = await $b24.actions.v2.call.make({
+      method: 'landing.demos.getList',
+      params: {
+        params: {
+          select: ['ID', 'XML_ID', 'TITLE', 'TYPE']
+        }
+      }
+    })
+
+    if (!listResponse.isSuccess) {
+      throw new Error(listResponse.getErrorMessages().join('; '))
+    }
+
+    const template = listResponse
+      .getData()
+      .result
+      .find((item) => item.XML_ID === 'myfirstsite2026')
+
+    if (!template) {
+      throw new Error('Шаблон не найден')
+    }
+    ```
+
+- PHP
+
+    ```php
+    $response = $b24Service->core->call(
+        'landing.demos.getList',
+        [
+            'params' => [
+                'select' => ['ID', 'XML_ID', 'TITLE', 'TYPE'],
+            ],
+        ]
+    );
+
+    $templates = $response->getResponseData()->getResult();
+    $template = array_values(array_filter(
+        $templates,
+        static fn(array $item): bool => $item['XML_ID'] === 'myfirstsite2026'
+    ))[0] ?? null;
+    if ($template === null) {
+        throw new RuntimeException('Шаблон не найден');
+    }
+    ```
+
+- Python
+
+    ```python
+    templates = client.landing.demos.get_list(
+        params={
+            "select": ["ID", "XML_ID", "TITLE", "TYPE"],
+        },
+    ).response.result
+
+    template = next(
+        (item for item in templates if item["XML_ID"] == "myfirstsite2026"),
+        None,
+    )
+
+    if template is None:
+        raise RuntimeError("Шаблон не найден")
+    ```
+
+{% endlist %}
+
+Сокращенный ответ:
+
+```json
+{
+    "result": [
+        {
+            "ID": "5",
+            "XML_ID": "myfirstsite2026",
+            "TITLE": "Сайт автомастерской",
+            "TYPE": "page"
+        }
+    ]
+}
+```
+
+## Проверим результат
+
+Сценарий выполнен успешно, если:
+
+- `landing.demos.register` вернул непустой массив идентификаторов
+- `landing.demos.getList` вернул шаблон с ожидаемыми значениями `XML_ID`, `TITLE` и `TYPE`
+- шаблон появился в мастере создания сайта или страницы и открывается его предпросмотр
+
+## Ошибки и диагностика
+
+- `BX_EMPTY_REQUIRED` на втором шаге — проверьте `data.code` и поле `code` у каждой страницы в `data.items`
+- `REGISTER_ERROR_DATA` на втором шаге — передайте в `data` весь объект `result` из `landing.site.fullExport`
+- `CONTENT_IS_BAD` на втором шаге — проверьте содержимое шаблона методом `landing.repo.checkcontent`, затем повторите регистрацию
+- `AI_SITE_EXPORT_NOT_ALLOWED` на первом шаге — экспорт AI-сайтов не поддерживается. Выберите другой сайт
+- `ACCESS_DENIED` на первом шаге — проверьте право пользователя на «экспорт» сайтов; на втором и третьем шагах — право Просмотр в разделе Сайты
+- **Шаблон не найден на третьем шаге** — проверьте `XML_ID`, контекст приложения и результат `landing.demos.register`, затем повторите третий шаг
+- **Предпросмотр не открывается** — проверьте доступность `preview_url` без авторизации
+
+## Что важно учитывать {#important}
+
+- для многостраничного сайта передавайте в `data` весь результат `landing.site.fullExport`, включая карту страниц `items`
+- поле `type` задает назначение шаблона, а `tpl_type` — его место в мастере: `S` для сайта и `P` для страницы
+- внешние изображения и `preview_url` должны оставаться доступными после регистрации шаблона
+- передавайте OAuth-токены только через настройки приложения или переменные окружения, не добавляйте их в исходный код
+- для локализации названия и описания передайте в `landing.demos.register` параметры `lang` и `lang_original`
+- для удаления шаблона получите его внешний код `XML_ID` методом `landing.demos.getList` и передайте код в [landing.demos.unregister](./landing-demos-unregister.md)
 
 ## Продолжите изучение
 
