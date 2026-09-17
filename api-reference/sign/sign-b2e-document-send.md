@@ -53,6 +53,10 @@
 [`object`](../data-types.md) | Внешние параметры документа [(подробное описание)](#external-settings) ||
 || **language**
 [`string`](../data-types.md) | Язык документа ||
+|| **message**
+[`string`](../data-types.md) | Текст сообщения для сотрудника. Сотрудник увидит сообщение в чате вместе с приглашением подписать документ.
+
+Максимальная длина — 2000 символов ||
 |#
 
 ### Параметр company {#company}
@@ -166,7 +170,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"company":{"crmId":12},"members":[{"userId":25,"role":"signer"},{"userId":42,"role":"assignee"}],"responsible":{"userId":7},"companyProviderUid":"d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b","files":[{"fileName":"contract.pdf","fileType":"application/pdf","fileContent":"JVBERi0xLjQKJ..."}],"regionDocumentType":"12.999","externalSettings":{"externalId":"EXT-123","externalDateCreate":"2025-02-18T09:19:34+03:00"}},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"company":{"crmId":12},"members":[{"userId":25,"role":"signer"},{"userId":42,"role":"assignee"}],"responsible":{"userId":7},"companyProviderUid":"d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b","files":[{"fileName":"contract.pdf","fileType":"application/pdf","fileContent":"JVBERi0xLjQKJ..."}],"regionDocumentType":"12.999","externalSettings":{"externalId":"EXT-123","externalDateCreate":"2025-02-18T09:19:34+03:00"},"message":"Пожалуйста, подпишите документ"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sign.b2e.document.send
     ```
 
@@ -227,6 +231,7 @@
               externalId: 'EXT-123',
               externalDateCreate: '2025-02-18T09:19:34+03:00',
             },
+            message: 'Пожалуйста, подпишите документ',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -279,6 +284,7 @@
                   externalId: 'EXT-123',
                   externalDateCreate: '2025-02-18T09:19:34+03:00',
                 },
+                message: 'Пожалуйста, подпишите документ',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -337,6 +343,7 @@
             "externalId": "EXT-123",
             "externalDateCreate": "2025-02-18T09:19:34+03:00",
         },
+        "message": "Пожалуйста, подпишите документ",
     }
 
     try:
@@ -388,7 +395,8 @@
                         'externalSettings' => [
                             'externalId' => 'EXT-123',
                             'externalDateCreate' => '2025-02-18T09:19:34+03:00'
-                        ]
+                        ],
+                        'message' => 'Пожалуйста, подпишите документ'
                     ]
                 ]
             );
@@ -430,7 +438,8 @@
                 externalSettings: {
                     externalId: 'EXT-123',
                     externalDateCreate: '2025-02-18T09:19:34+03:00'
-                }
+                },
+                message: 'Пожалуйста, подпишите документ'
             }
         },
         result => {
@@ -470,7 +479,8 @@
                 'externalSettings' => [
                     'externalId' => 'EXT-123',
                     'externalDateCreate' => '2025-02-18T09:19:34+03:00'
-                ]
+                ],
+                'message' => 'Пожалуйста, подпишите документ'
             ]
         ]
     );
@@ -519,6 +529,7 @@
     			"externalId":         "EXT-123",
     			"externalDateCreate": "2025-02-18T09:19:34+03:00",
     		},
+		"message": "Пожалуйста, подпишите документ",
     	},
     })
     if err != nil {

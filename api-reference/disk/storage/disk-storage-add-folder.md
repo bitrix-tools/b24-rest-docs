@@ -30,9 +30,11 @@
 || **data***
 [`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя новой папки ||
 || **rights**
-[`array`](../../data-types.md) | Массив прав доступа на папку в формате `{"TASK_ID": 42, "ACCESS_CODE": "U35"}`, где
-- `TASK_ID` — идентификатор уровня доступа
-- `ACCESS_CODE` — код доступа, состоящий из буквенного кода пользователя или отдела и идентификатора
+[`array`](../../data-types.md) | Массив прав доступа на папку. Каждый элемент содержит:
+
+- `ACCESS_CODE` — непустая строка длиной до 50 символов с кодом получателя права, например `U35`
+- `TASK_ID` — целочисленный идентификатор существующего уровня доступа
+- `NEGATIVE` — необязательный логический признак запрещающего права. Значения `true`, `yes` и `on`, переданные строкой, соответствуют запрещающему праву
 
 Категории пользователей:
 - `U` — пользователь
@@ -40,7 +42,9 @@
 - `D` — все сотрудники отдела
 - `DR` — все сотрудники отдела с подотделами
 
-Список доступных идентификаторов `TASK_ID` для установки прав можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md) ||
+Список доступных идентификаторов `TASK_ID` для установки прав можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md).
+
+Дополнительные поля, включая `DOMAIN` и `OBJECT_ID`, не учитываются ||
 |#
 
 ## Примеры кода
@@ -414,7 +418,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400** или **403**
 
 ```json
 {
@@ -428,11 +432,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не передано обязательное поле `NAME` в массиве `data` ||
-|| `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
-|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав для создания папки ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не передано обязательное поле `NAME` в массиве `data` ||
+|| `400` | `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
+|| `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
+|| `400` | Пустое значение | Invalid format: Right `N` should be array | Элемент `rights` с индексом `N` передан не в виде массива ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE and TASK_ID | В элементе `rights` с индексом `N` отсутствует `ACCESS_CODE` или `TASK_ID` ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE as not empty string | `ACCESS_CODE` передан не строкой или содержит пустую строку ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE not longer than 50 characters | Длина `ACCESS_CODE` превышает 50 символов ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain TASK_ID as integer | `TASK_ID` не является целым числом ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain known TASK_ID | Уровень доступа с указанным `TASK_ID` не найден ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain NEGATIVE as 0 or 1 | `NEGATIVE` нельзя преобразовать в логическое значение ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Недостаточно прав для создания папки или изменения прав доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

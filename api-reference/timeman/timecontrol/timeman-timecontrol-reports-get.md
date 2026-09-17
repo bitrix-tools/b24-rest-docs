@@ -625,6 +625,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
 || `ACCESS_ERROR` | You don't have access to this method | У вас нет доступа к этому методу ||
 || `USER_ACCESS_ERROR` | You don't have access to report for this user | У вас нет доступа к отчетам этого пользователя ||
 |#

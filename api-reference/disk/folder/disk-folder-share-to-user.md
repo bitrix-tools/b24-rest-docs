@@ -292,7 +292,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400** или **403**
 
 ```json
 {
@@ -306,11 +306,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр ||
-|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` не найдена ||
-|| `ACCESS_DENIED` | Access denied | Попытка задать уровень прав выше, чем у текущего пользователя ||
-|| `ACCESS_DENIED` | Access denied | Неверно передано значение параметра `taskName` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр ||
+|| `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` не найдена ||
+|| `403` | `ACCESS_DENIED` | Access denied! | На Битрикс24 отключено предоставление доступа к папкам ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Попытка задать уровень прав выше, чем у текущего пользователя ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Неверно передано значение параметра `taskName` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -369,8 +369,9 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"AccessException",
-    "error_description":"Application context required"
+    "error": "ERROR_ARGUMENT",
+    "error_description": "The value of an argument 'option' must be of type string",
+    "argument": "option"
 }
 ```
 
@@ -380,6 +381,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
+|| `ERROR_ARGUMENT` | The value of an argument 'option' must be of type string | Параметр `option` передан не строкой ||
 || `AccessException` | Application context required | Метод вызван вне контекста приложения ||
 || `AccessException` | User authorization required | Пользователь не авторизован ||
 |#

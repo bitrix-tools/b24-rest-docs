@@ -443,6 +443,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
 || `ACCESS_ERROR` | You don't have access to use this method | Метод доступен только администратору ||
 || `INVALID_FORMAT` | A wrong format for the RANGES field is passed | Передан некорректный формат в параметре `RANGES` ||
 |#
