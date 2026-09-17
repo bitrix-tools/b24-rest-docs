@@ -1,4 +1,4 @@
-# Обновить поля датасета biconnector.dataset.fields.update
+# Обновить колонки таблицы biconnector.table.fields.update
 
 {% note tip "" %}
 
@@ -13,17 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-{% note warning "DEPRECATED" %}
-
-Развитие метода остановлено. Используйте [biconnector.table.fields.update](../table/biconnector-table-fields-update.md).
-
-{% endnote %}
-
-Метод `biconnector.dataset.fields.update` обновляет поля существующего датасета.
+Метод `biconnector.table.fields.update` обновляет состав колонок существующей таблицы. Схему полей самого объекта «таблица» он не меняет — ее возвращает метод [biconnector.table.fields](./biconnector-table-fields.md).
 
 {% note warning "" %}
 
-Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и изменяет только те датасеты, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и изменяет только те таблицы, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
 
 {% endnote %}
 
@@ -35,9 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор датасета, можно получить методами [biconnector.dataset.list](./biconnector-dataset-list.md) или [biconnector.dataset.add](./biconnector-dataset-add.md) ||
+[`integer`](../../data-types.md) | Идентификатор таблицы, можно получить методами [biconnector.table.list](./biconnector-table-list.md) или [biconnector.table.add](./biconnector-table-add.md) ||
 || **add**
-[`array`](../../data-types.md) | Массив добавляемых полей. Каждый элемент — объект с тремя обязательными ключами:
+[`array`](../../data-types.md) | Массив добавляемых колонок. Каждый элемент — объект с тремя обязательными ключами:
 
 ```
 {
@@ -47,13 +41,13 @@
 }
 ```
 
-- `type` [`string`](../../data-types.md) — [тип данных](./index.md#fields) поля
-- `name` [`string`](../../data-types.md) — название поля, заглавные латинские буквы `A-Z`, цифры и знак `_`, не длиннее 32 символов
-- `externalCode` [`string`](../../data-types.md) — внешний код поля
+- `type` [`string`](../../data-types.md) — [тип данных](./index.md#fields) колонки
+- `name` [`string`](../../data-types.md) — название колонки, заглавные латинские буквы `A-Z`, цифры и знак `_`, не длиннее 32 символов
+- `externalCode` [`string`](../../data-types.md) — внешний код колонки
 
-Видимость у добавляемого поля не задается: новые поля создаются видимыми ||
+Видимость у добавляемой колонки не задается: новые колонки создаются видимыми ||
 || **update**
-[`array`](../../data-types.md) | Массив изменяемых полей. Каждый элемент — объект с двумя обязательными ключами:
+[`array`](../../data-types.md) | Массив изменяемых колонок. Каждый элемент — объект с двумя обязательными ключами:
 
 ```
 {
@@ -62,19 +56,19 @@
 }
 ```
 
-- `id` [`integer`](../../data-types.md) — идентификатор поля, можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md)
-- `visible` [`boolean`](../../data-types.md) — видимость поля
+- `id` [`integer`](../../data-types.md) — идентификатор колонки, можно получить методом [biconnector.table.get](./biconnector-table-get.md)
+- `visible` [`boolean`](../../data-types.md) — видимость колонки
 
-Видимость — единственный признак поля, который меняет этот блок. Название, тип и внешний код существующего поля изменить нельзя ||
+Видимость — единственный признак колонки, который меняет этот блок. Название, тип и внешний код существующей колонки изменить нельзя ||
 || **delete**
-[`integer[]`](../../data-types.md) | Массив идентификаторов удаляемых полей. Идентификаторы можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md) ||
+[`integer[]`](../../data-types.md) | Массив идентификаторов удаляемых колонок. Идентификаторы можно получить методом [biconnector.table.get](./biconnector-table-get.md) ||
 |#
 
 Все три параметра необязательные и обрабатываются в одном вызове в порядке `update`, `add`, `delete`. Непереданный параметр ничего не затирает, а вызов, в котором нет ни одного из трех, вернет `true` и ничего не изменит.
 
 {% note warning "" %}
 
-Идентификаторы в `update`, которых нет у этого датасета, метод пропускает молча — ошибки не будет. Удаление же идет фильтром только по `id`, без проверки, что поле принадлежит указанному датасету: перед вызовом сверяйте идентификаторы с ответом [biconnector.dataset.get](./biconnector-dataset-get.md)
+Идентификаторы в `update`, которых нет у этой таблицы, метод пропускает молча — ошибки не будет. Удаление же идет фильтром только по `id`, без проверки, что колонка принадлежит указанной таблице: перед вызовом сверяйте идентификаторы с ответом [biconnector.table.get](./biconnector-table-get.md)
 
 {% endnote %}
 
@@ -120,7 +114,7 @@
         ],
         "auth": "**put_access_token_here**"
     }' \
-    https://**put_your_bitrix24_address**/rest/biconnector.dataset.fields.update
+    https://**put_your_bitrix24_address**/rest/biconnector.table.fields.update
     ```
 
 - JS (TS)
@@ -143,7 +137,7 @@
 
     try {
       const response = await $b24.actions.v2.call.make<boolean | BiconnectorError>({
-        method: 'biconnector.dataset.fields.update',
+        method: 'biconnector.table.fields.update',
         params: {
           id: 10,
           add: [
@@ -183,7 +177,7 @@
         if (typeof result === 'object' && result !== null && 'error' in result) {
           console.error(result.error.error, result.error.error_description)
         } else {
-          console.info('Dataset fields updated:', result)
+          console.info('Table columns updated:', result)
         }
       }
     } catch (error) {
@@ -198,13 +192,13 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function updateDatasetFields() {
+      async function updateTableColumns() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'biconnector.dataset.fields.update',
+            method: 'biconnector.table.fields.update',
             params: {
               id: 10,
               add: [
@@ -248,14 +242,14 @@
             return
           }
 
-          console.info('Dataset fields updated:', result)
+          console.info('Table columns updated:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', updateDatasetFields)
+      document.addEventListener('DOMContentLoaded', updateTableColumns)
     </script>
     ```
 
@@ -265,36 +259,24 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.biconnector.dataset.fields.update(
-            bitrix_id=10,
-            add=[
-                {
-                    "type": "int",
-                    "name": "NAME",
-                    "externalCode": "NAME",
-                },
-                {
-                    "type": "int",
-                    "name": "ID",
-                    "externalCode": "ID",
-                },
-            ],
-            update=[
-                {
-                    "id": 12,
-                    "visible": False,
-                },
-                {
-                    "id": 13,
-                    "visible": True,
-                },
-            ],
-            delete=[
-                14,
-                15,
-            ],
-        ).response
-        result = bitrix_response.result
+        # В b24pysdk нет готовой обертки для biconnector.table.*, поэтому метод
+        # вызывается напрямую через bitrix_token.call_method()
+        response = bitrix_token.call_method(
+            api_method="biconnector.table.fields.update",
+            params={
+                "id": 10,
+                "add": [
+                    {"type": "int", "name": "NAME", "externalCode": "NAME"},
+                    {"type": "int", "name": "ID", "externalCode": "ID"},
+                ],
+                "update": [
+                    {"id": 12, "visible": False},
+                    {"id": 13, "visible": True},
+                ],
+                "delete": [14, 15],
+            },
+        )
+        result = response["result"]
 
         # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
         if isinstance(result, dict) and "error" in result:
@@ -326,7 +308,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'biconnector.dataset.fields.update',
+                'biconnector.table.fields.update',
                 [
                     'id'     => 10,
                     'add'    => [
@@ -374,7 +356,7 @@
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error updating dataset fields: ' . $e->getMessage();
+        echo 'Error updating table columns: ' . $e->getMessage();
     }
     ```
 
@@ -382,7 +364,7 @@
 
     ```js
     BX24.callMethod(
-        'biconnector.dataset.fields.update',
+        'biconnector.table.fields.update',
         {
             id: 10,
             add: [
@@ -437,7 +419,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'biconnector.dataset.fields.update',
+        'biconnector.table.fields.update',
         [
             'id' => 10,
             'add' => [
@@ -481,7 +463,7 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "biconnector.dataset.fields.update", b24.Params{
+    res, err := client.Core().Call(ctx, "biconnector.table.fields.update", b24.Params{
     	"id": 10,
     	"add": []b24.Params{
     		{
@@ -508,7 +490,7 @@
     	"delete": []int{14, 15},
     })
     if err != nil {
-    	return fmt.Errorf("biconnector.dataset.fields.update: %w", err)
+    	return fmt.Errorf("biconnector.table.fields.update: %w", err)
     }
 
     // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
@@ -519,7 +501,7 @@
     	} `json:"error"`
     }
     if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
-    	return fmt.Errorf("biconnector.dataset.fields.update: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    	return fmt.Errorf("biconnector.table.fields.update: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var ok bool
@@ -555,7 +537,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа. При успешном обновлении содержит `true` — нового состава полей в ответе нет. Чтобы увидеть его, вызовите [biconnector.dataset.get](./biconnector-dataset-get.md) ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа. При успешном обновлении содержит `true` — нового состава колонок в ответе нет. Чтобы увидеть его, вызовите [biconnector.table.get](./biconnector-table-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -590,10 +572,10 @@ HTTP-статус: **200**
 || `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
-|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
-|| `DATASET_UPDATE_ERROR` | Error updating dataset. | Не удалось синхронизировать изменения с BI-Конструктором. Поля при этом уже сохранены: синхронизация идет после фиксации изменений, поэтому ошибка приходит по уже примененным правкам и откатывать их метод не будет ||
-|| `VALIDATION_DUPLICATE_FIELD_CODE` | Duplicate values found in the "code" parameter: #LIST_CODES# | Обнаружены дубликаты в параметре `externalCode` полей датасета ||
-|| `VALIDATION_DUPLICATE_FIELD_NAME` | Duplicate values found in the "name" parameter: #LIST_NAMES# | Обнаружены дубликаты в параметре `name` полей датасета ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Таблицы нет или она принадлежит другому приложению ||
+|| `DATASET_UPDATE_ERROR` | Error updating dataset. | Не удалось синхронизировать изменения с BI-Конструктором. Колонки при этом уже сохранены: синхронизация идет после фиксации изменений, поэтому ошибка приходит по уже примененным правкам и откатывать их метод не будет ||
+|| `VALIDATION_DUPLICATE_FIELD_CODE` | Duplicate values found in the "code" parameter: #LIST_CODES# | Обнаружены дубликаты в параметре `externalCode` полей таблицы ||
+|| `VALIDATION_DUPLICATE_FIELD_NAME` | Duplicate values found in the "name" parameter: #LIST_NAMES# | Обнаружены дубликаты в параметре `name` полей таблицы ||
 || `VALIDATION_FIELD_NAME_INVALID_FORMAT` | Field "name" has to start with an uppercase Latin character. Possible entry includes uppercase Latin characters (A-Z), numbers (0-9) and underscores. | Неправильный формат названия поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `A-Z`, цифры и знак `_` ||
 || `VALIDATION_FIELD_NAME_TOO_LONG` | Field "name" must not exceed 32 characters. | Название поля не должно превышать 32 символа ||
 || `VALIDATION_FIELD_INVALID_TYPE` | Invalid field type. | Некорректный тип поля ||
@@ -609,9 +591,9 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./biconnector-dataset-add.md)
-- [{#T}](./biconnector-dataset-update.md)
-- [{#T}](./biconnector-dataset-get.md)
-- [{#T}](./biconnector-dataset-list.md)
-- [{#T}](./biconnector-dataset-delete.md)
-- [{#T}](./biconnector-dataset-fields.md)
+- [{#T}](./biconnector-table-add.md)
+- [{#T}](./biconnector-table-update.md)
+- [{#T}](./biconnector-table-get.md)
+- [{#T}](./biconnector-table-list.md)
+- [{#T}](./biconnector-table-delete.md)
+- [{#T}](./biconnector-table-fields.md)

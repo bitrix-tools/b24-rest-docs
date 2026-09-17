@@ -1,4 +1,4 @@
-# Изменить коннектор biconnector.connector.update
+# Обновить коннектор biconnector.connector.update
 
 {% note tip "" %}
 
@@ -11,9 +11,17 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
 Метод `biconnector.connector.update` обновляет существующий коннектор.
+
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и изменяет только те коннекторы, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
+
+Обновление частичное: поля, которые вы не передали, сохраняют прежние значения. Исключение — массив `settings`: он заменяется целиком, поэтому передавайте в нем все параметры подключения, а не только измененные.
 
 ## Параметры метода
 
@@ -25,7 +33,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор коннектора, можно получить методами [biconnector.connector.list](./biconnector-connector-list.md) и [biconnector.connector.add](./biconnector-connector-add.md) ||
 || **fields***
-[`object`](../../data-types.md) | Объект, содержащий обновляемые данные. Формат объекта: 
+[`object`](../../data-types.md) | Объект, содержащий обновляемые данные. Формат объекта:
 
 ```
 {
@@ -48,23 +56,44 @@
 || **Название**
 `тип` | **Описание** ||
 || **title**
-[`string`](../../data-types.md) | Новое название коннектора ||
+[`string`](../../data-types.md) | Новое название коннектора, максимальная длина — 512 символов ||
 || **logo**
 [`string`](../../data-types.md) | Новый логотип коннектора. Может передаваться ссылкой на изображение или строкой формата base64, например `data:image/svg+xml;base64,PHN2ZyB3...` ||
 || **description**
 [`string`](../../data-types.md) | Новое описание коннектора ||
 || **urlCheck**
-[`string`](../../data-types.md) | Новый эндпоинт для проверки доступности коннектора, [(подробное описание)](./index.md#urlCheck) ||
+[`string`](../../data-types.md) | Новый эндпоинт для проверки доступности коннектора, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlCheck) ||
 || **urlTableList**
-[`string`](../../data-types.md) | Новый эндпоинт для получения списка таблиц, [(подробное описание)](./index.md#urlTableList)||
+[`string`](../../data-types.md) | Новый эндпоинт для получения списка таблиц, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlTableList) ||
 || **urlTableDescription**
-[`string`](../../data-types.md) | Новый эндпоинт для получения описания конкретной таблицы, [(подробное описание)](./index.md#urlTableDescription) ||
+[`string`](../../data-types.md) | Новый эндпоинт для получения описания конкретной таблицы, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlTableDescription) ||
 || **urlData**
-[`string`](../../data-types.md) | Новый эндпоинт для получения данных по выбранной таблице, [(подробное описание)](./index.md#urlData)  ||
+[`string`](../../data-types.md) | Новый эндпоинт для получения данных по выбранной таблице, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlData) ||
 || **settings**
-[`array`](../../data-types.md) | Новый список параметров подключения, [(подробное описание)](./index.md#settings) ||
+[`array`](../../data-types.md) | Новый массив параметров подключения. Заменяет прежний целиком [(подробное описание)](#settings) ||
+|| **supportMapping**
+[`boolean`](../../data-types.md) | Поддержка сопоставления полей таблицы с полями внешней системы. Если поле не передать, у коннектора останется прежнее значение.
+
+Значение проверяется строгим сравнением с булевым типом, поэтому в запросе с типом `application/x-www-form-urlencoded` оно не пройдет — передавайте его с заголовком `Content-Type: application/json` ||
+|| **sourceCode**
+[`string`](../../data-types.md) | Символьный код внешней системы, максимальная длина — 64 символа ||
 || **sort**
 [`integer`](../../data-types.md) | Новый параметр сортировки коннектора ||
+|#
+
+### Параметр settings {#settings}
+
+Каждый элемент массива `settings` — объект с тремя обязательными полями.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code***
+[`string`](../../data-types.md) | Код параметра. С этим названием параметр уходит во внешнюю систему в объекте `connection`. Максимальная длина — 512 символов ||
+|| **name***
+[`string`](../../data-types.md) | Название параметра, которое видит пользователь в разделе «Рабочее место аналитика». Максимальная длина — 512 символов ||
+|| **type***
+[`string`](../../data-types.md) | Тип параметра, определяет поле ввода в интерфейсе. Допустимые значения: `STRING`, `INT`. Значение регистрозависимо: `string` в нижнем регистре вызовет ошибку `VALIDATION_SETTINGS_INVALID_TYPE` ||
 |#
 
 ## Примеры кода
@@ -72,40 +101,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{
-             "id": 4,
-             "fields": {
-                 "title": "UPDATED REST CONNECTOR",
-                 "logo": "data:image/svg+xml;base64,NEWLOGODATA",
-                 "description": "Updated description",
-                 "urlCheck": "http://example.com/api/new_check",
-                 "urlTableList": "http://example.com/api/new_table_list",
-                 "urlTableDescription": "http://example.com/api/new_table_description",
-                 "urlData": "http://example.com/api/new_data",
-                 "settings": [
-                    {
-                        "name": "Идентификатор сотрудника",
-                        "type": "STRING",
-                        "code": "id"
-                    },
-                    {
-                        "name": "Пароль",
-                        "type": "STRING",
-                        "code": "password"
-                    }
-                 ],
-                 "sort": 200
-             }
-             }' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.connector.update
-    ```
 
 - cURL (OAuth)
 
@@ -117,7 +112,7 @@
              "id": 4,
              "fields": {
                  "title": "UPDATED REST CONNECTOR",
-                 "logo": "data:image/svg+xml;base64,NEWLOGODATA",
+                 "logo": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=",
                  "description": "Updated description",
                  "urlCheck": "http://example.com/api/new_check",
                  "urlTableList": "http://example.com/api/new_table_list",
@@ -152,14 +147,22 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<boolean | BiconnectorError>({
         method: 'biconnector.connector.update',
         params: {
           id: 4,
           fields: {
             title: 'UPDATED REST CONNECTOR',
-            logo: 'data:image/svg+xml;base64,NEWLOGODATA',
+            logo: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=',
             description: 'Updated description',
             urlCheck: 'http://example.com/api/new_check',
             urlTableList: 'http://example.com/api/new_table_list',
@@ -167,12 +170,12 @@
             urlData: 'http://example.com/api/new_data',
             settings: [
               {
-                name: 'Employee ID',
+                name: 'Идентификатор сотрудника',
                 type: 'STRING',
                 code: 'id',
               },
               {
-                name: 'Password',
+                name: 'Пароль',
                 type: 'STRING',
                 code: 'password',
               },
@@ -188,7 +191,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Connector updated:', result)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if (typeof result === 'object' && result !== null && 'error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Connector updated:', result)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -213,7 +222,7 @@
               id: 4,
               fields: {
                 title: 'UPDATED REST CONNECTOR',
-                logo: 'data:image/svg+xml;base64,NEWLOGODATA',
+                logo: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=',
                 description: 'Updated description',
                 urlCheck: 'http://example.com/api/new_check',
                 urlTableList: 'http://example.com/api/new_table_list',
@@ -221,12 +230,12 @@
                 urlData: 'http://example.com/api/new_data',
                 settings: [
                   {
-                    name: 'Employee ID',
+                    name: 'Идентификатор сотрудника',
                     type: 'STRING',
                     code: 'id',
                   },
                   {
-                    name: 'Password',
+                    name: 'Пароль',
                     type: 'STRING',
                     code: 'password',
                   },
@@ -244,6 +253,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Connector updated:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -265,7 +281,7 @@
             bitrix_id=4,
             fields={
                 "title": "UPDATED REST CONNECTOR",
-                "logo": "data:image/svg+xml;base64,NEWLOGODATA",
+                "logo": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=",
                 "description": "Updated description",
                 "urlCheck": "http://example.com/api/new_check",
                 "urlTableList": "http://example.com/api/new_table_list",
@@ -273,12 +289,12 @@
                 "urlData": "http://example.com/api/new_data",
                 "settings": [
                     {
-                        "name": "Employee ID",
+                        "name": "Идентификатор сотрудника",
                         "type": "STRING",
                         "code": "id",
                     },
                     {
-                        "name": "Password",
+                        "name": "Пароль",
                         "type": "STRING",
                         "code": "password",
                     },
@@ -287,7 +303,17 @@
             },
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -303,7 +329,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -314,7 +339,7 @@
                     'id' => 4,
                     'fields' => [
                         "title"               => "UPDATED REST CONNECTOR",
-                        "logo"                => "data:image/svg+xml;base64,NEWLOGODATA",
+                        "logo"                => "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=",
                         "description"         => "Updated description",
                         "urlCheck"            => "http://example.com/api/new_check",
                         "urlTableList"        => "http://example.com/api/new_table_list",
@@ -336,17 +361,24 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Success: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating connector: ' . $e->getMessage();
@@ -362,7 +394,7 @@
             id: 4,
             fields: {
                 "title": "UPDATED REST CONNECTOR",
-                "logo": "data:image/svg+xml;base64,NEWLOGODATA",
+                "logo": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=",
                 "description": "Updated description",
                 "urlCheck": "http://example.com/api/new_check",
                 "urlTableList": "http://example.com/api/new_table_list",
@@ -384,9 +416,20 @@
             }
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         }
     );
     ```
@@ -402,7 +445,7 @@
             'id' => 4,
             'fields' => [
                 'title' => 'UPDATED REST CONNECTOR',
-                'logo' => 'data:image/svg+xml;base64,NEWLOGODATA',
+                'logo' => 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=',
                 'description' => 'Updated description',
                 'urlCheck' => 'http://example.com/api/new_check',
                 'urlTableList' => 'http://example.com/api/new_table_list',
@@ -425,9 +468,15 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -438,7 +487,7 @@
     	"id": 4,
     	"fields": b24.Params{
     		"title":               "UPDATED REST CONNECTOR",
-    		"logo":                "data:image/svg+xml;base64,NEWLOGODATA",
+    		"logo":                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjMkZDN0Y3IiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPgo=",
     		"description":         "Updated description",
     		"urlCheck":            "http://example.com/api/new_check",
     		"urlTableList":        "http://example.com/api/new_table_list",
@@ -461,6 +510,17 @@
     })
     if err != nil {
     	return fmt.Errorf("biconnector.connector.update: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.connector.update: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var ok bool
@@ -496,7 +556,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа. При успешном обновлении содержит `true` — объекта с данными коннектора в ответе нет. Чтобы увидеть новые значения полей, вызовите [biconnector.connector.get](./biconnector-connector-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -507,10 +567,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_FIELDS_NOT_PROVIDED",
-    "error_description": "Fields not provided."
+    "result": {
+        "error": {
+            "error": "VALIDATION_FIELDS_NOT_PROVIDED",
+            "error_description": "Fields not provided."
+        }
+    }
 }
 ```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -518,14 +588,14 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
 || `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
 || `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
-|| `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
-|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектор не найден ||
+|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектора нет или он принадлежит другому приложению ||
 || `VALIDATION_SETTINGS_MISSING_REQUIRED_FIELDS` | Settings must include "type", "name" and "code" fields. | В настройках должны быть указаны поля `type`, `name` и `code` ||
 || `VALIDATION_SETTINGS_INVALID_TYPE` | Parameter "type" is not correct. | Недопустимое значение параметра `type` ||
 || `VALIDATION_SETTINGS_NAME_TOO_LONG` | Parameter "name" must be less than 512 characters. | Значение параметра `name` не должно превышать 512 символов ||
@@ -536,6 +606,7 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./biconnector-connector-add.md)
 - [{#T}](./biconnector-connector-get.md)
 - [{#T}](./biconnector-connector-list.md)

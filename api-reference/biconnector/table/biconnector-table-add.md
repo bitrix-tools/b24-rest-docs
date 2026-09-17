@@ -1,4 +1,4 @@
-# Создать датасет biconnector.dataset.add
+# Создать таблицу biconnector.table.add
 
 {% note tip "" %}
 
@@ -13,13 +13,15 @@
 >
 > Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-{% note warning "DEPRECATED" %}
+Метод `biconnector.table.add` создает новую таблицу, связанную с источником данных.
 
-Развитие метода остановлено. Используйте [biconnector.table.add](../table/biconnector-table-add.md).
+Созданная таблица сразу появляется в BI-Конструкторе, в разделе «Рабочее место аналитика > Таблицы». Метод делает ровно то же, что и создание таблицы вручную в интерфейсе: сохраняет таблицу, ее поля и связь с источником.
+
+{% note info "" %}
+
+Метод не создает датасет для отчетов: датасеты — отдельные объекты BI-Конструктора и через REST API не создаются. Чем таблица отличается от датасета — в разделе [Таблица и датасет — разные объекты](./index.md#table-vs-dataset)
 
 {% endnote %}
-
-Метод `biconnector.dataset.add` создает новый датасет, связанный с источником данных.
 
 {% note warning "" %}
 
@@ -35,7 +37,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Объект, содержащий данные для создания нового датасета. Формат объекта:
+[`object`](../../data-types.md) | Объект, содержащий данные для создания новой таблицы. Формат объекта:
 
 ```
 {
@@ -58,32 +60,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Название датасета. Название должно начинаться с буквы, можно использовать только строчные латинские буквы `a-z`, цифры и знак `_`. Максимальная длина названия 230 символов ||
+[`string`](../../data-types.md) | Название таблицы. Название должно начинаться с буквы, можно использовать только строчные латинские буквы `a-z`, цифры и знак `_`. Максимальная длина названия 230 символов ||
 || **externalName***
-[`string`](../../data-types.md) | Название датасета во внешнем источнике, в приложении. Максимальная длина 512 символов ||
+[`string`](../../data-types.md) | Название таблицы во внешнем источнике, в приложении. Максимальная длина 512 символов ||
 || **externalCode***
-[`string`](../../data-types.md) | Уникальный код датасета во внешнем источнике, используется при выборке данных. Максимальная длина 512 символов ||
+[`string`](../../data-types.md) | Уникальный код таблицы во внешнем источнике, используется при выборке данных. Максимальная длина 512 символов ||
 || **sourceId***
 [`integer`](../../data-types.md) | Идентификатор источника, можно получить методами [biconnector.source.list](../source/biconnector-source-list.md) или [biconnector.source.add](../source/biconnector-source-add.md). Источник должен принадлежать коннектору текущего приложения, иначе метод вернет `SOURCE_NOT_FOUND` ||
 || **description**
-[`string`](../../data-types.md) | Описание датасета ||
+[`string`](../../data-types.md) | Описание таблицы ||
 || **fields***
-[`array`](../../data-types.md) | Массив полей датасета, [(подробное описание)](#field) ||
+[`array`](../../data-types.md) | Массив колонок таблицы [(подробное описание)](#field) ||
 |#
 
 ### Элемент массива fields {#field}
 
-Каждый элемент массива `fields` — объект с тремя обязательными полями. Видимость поля при создании не задается: все поля создаются видимыми, скрыть их можно потом методом [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md).
+Каждый элемент массива `fields` — объект с тремя обязательными полями. Видимость колонки при создании не задается: все колонки создаются видимыми, скрыть их можно потом методом [biconnector.table.fields.update](./biconnector-table-fields-update.md).
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Название поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `A-Z`, цифры и знак `_`. Максимальная длина названия 32 символа ||
+[`string`](../../data-types.md) | Название колонки. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `A-Z`, цифры и знак `_`. Максимальная длина названия 32 символа ||
 || **externalCode***
-[`string`](../../data-types.md) | Внешний код поля — имя, под которым поле знает приложение. Именно его Битрикс24 передает в запросе данных ||
+[`string`](../../data-types.md) | Внешний код колонки — имя, под которым колонку знает приложение. Именно его Битрикс24 передает в запросе данных ||
 || **type***
-[`string`](../../data-types.md) | Тип данных поля. Допустимые значения:
+[`string`](../../data-types.md) | Тип данных колонки. Допустимые значения:
 `int` — число целое
 `string` — строка
 `double` — число дробное, разделитель точка
@@ -95,7 +97,7 @@
 Значение регистрозависимо: `INT` в верхнем регистре вызовет ошибку `VALIDATION_FIELD_INVALID_TYPE` ||
 |#
 
-Названия полей и внешние коды не должны повторяться внутри одного запроса: на повтор `name` метод вернет ошибку `DUPLICATE_FIELDS`, на повтор `externalCode` — `VALIDATION_DUPLICATE_FIELD_CODE`.
+Названия колонок и внешние коды не должны повторяться внутри одного запроса: на повтор `name` метод вернет ошибку `DUPLICATE_FIELDS`, на повтор `externalCode` — `VALIDATION_DUPLICATE_FIELD_CODE`.
 
 ## Примеры кода
 
@@ -112,10 +114,10 @@
     -d '{
         "fields": {
             "sourceId": 3,
-            "name": "rest_dataset",
+            "name": "sales_orders",
             "externalName": "Sales orders",
             "externalCode": "sales_orders",
-            "description": "Описание датасета",
+            "description": "Описание таблицы",
             "fields": [
                 { "type": "int", "name": "ID", "externalCode": "ID" },
                 { "type": "string", "name": "NAME", "externalCode": "NAME" },
@@ -127,7 +129,7 @@
         },
         "auth": "**put_access_token_here**"
     }' \
-    https://**put_your_bitrix24_address**/rest/biconnector.dataset.add
+    https://**put_your_bitrix24_address**/rest/biconnector.table.add
     ```
 
 - JS (TS)
@@ -149,20 +151,20 @@
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type DatasetAddResult = {
+    type TableAddResult = {
       id: number
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<DatasetAddResult | BiconnectorError>({
-        method: 'biconnector.dataset.add',
+      const response = await $b24.actions.v2.call.make<TableAddResult | BiconnectorError>({
+        method: 'biconnector.table.add',
         params: {
           fields: {
             sourceId: 3,
-            name: 'rest_dataset',
+            name: 'sales_orders',
             externalName: 'Sales orders',
             externalCode: 'sales_orders',
-            description: 'Описание датасета',
+            description: 'Table description',
             fields: [
               { type: 'int', name: 'ID', externalCode: 'ID' },
               { type: 'string', name: 'NAME', externalCode: 'NAME' },
@@ -186,7 +188,7 @@
         if ('error' in result) {
           console.error(result.error.error, result.error.error_description)
         } else {
-          console.info('Created dataset id:', result.id)
+          console.info('Created table id:', result.id)
         }
       }
     } catch (error) {
@@ -201,20 +203,20 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function addDataset() {
+      async function addTable() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'biconnector.dataset.add',
+            method: 'biconnector.table.add',
             params: {
               fields: {
                 sourceId: 3,
-                name: 'rest_dataset',
+                name: 'sales_orders',
                 externalName: 'Sales orders',
                 externalCode: 'sales_orders',
-                description: 'Описание датасета',
+                description: 'Table description',
                 fields: [
                   { type: 'int', name: 'ID', externalCode: 'ID' },
                   { type: 'string', name: 'NAME', externalCode: 'NAME' },
@@ -242,14 +244,14 @@
             return
           }
 
-          console.info('Created dataset id:', result.id)
+          console.info('Created table id:', result.id)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', addDataset)
+      document.addEventListener('DOMContentLoaded', addTable)
     </script>
     ```
 
@@ -259,48 +261,29 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.biconnector.dataset.add(
-            fields={
-                "sourceId": 3,
-                "name": "rest_dataset",
-                "externalName": "Sales orders",
-                "externalCode": "sales_orders",
-                "description": "Описание датасета",
-                "fields": [
-                    {
-                        "type": "int",
-                        "name": "ID",
-                        "externalCode": "ID",
-                    },
-                    {
-                        "type": "string",
-                        "name": "NAME",
-                        "externalCode": "NAME",
-                    },
-                    {
-                        "type": "string",
-                        "name": "SURNAME",
-                        "externalCode": "SURNAME",
-                    },
-                    {
-                        "type": "double",
-                        "name": "SCORE",
-                        "externalCode": "SCORE",
-                    },
-                    {
-                        "type": "date",
-                        "name": "DATA",
-                        "externalCode": "DATA",
-                    },
-                    {
-                        "type": "datetime",
-                        "name": "TIME",
-                        "externalCode": "TIME",
-                    },
-                ],
+        # В b24pysdk нет готовой обертки для biconnector.table.*, поэтому метод
+        # вызывается напрямую через bitrix_token.call_method()
+        response = bitrix_token.call_method(
+            api_method="biconnector.table.add",
+            params={
+                "fields": {
+                    "sourceId": 3,
+                    "name": "sales_orders",
+                    "externalName": "Sales orders",
+                    "externalCode": "sales_orders",
+                    "description": "Table description",
+                    "fields": [
+                        {"type": "int", "name": "ID", "externalCode": "ID"},
+                        {"type": "string", "name": "NAME", "externalCode": "NAME"},
+                        {"type": "string", "name": "SURNAME", "externalCode": "SURNAME"},
+                        {"type": "double", "name": "SCORE", "externalCode": "SCORE"},
+                        {"type": "date", "name": "DATA", "externalCode": "DATA"},
+                        {"type": "datetime", "name": "TIME", "externalCode": "TIME"},
+                    ],
+                },
             },
-        ).response
-        result = bitrix_response.result
+        )
+        result = response["result"]
 
         # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
         if isinstance(result, dict) and "error" in result:
@@ -332,14 +315,14 @@
         $response = $b24Service
             ->core
             ->call(
-                'biconnector.dataset.add',
+                'biconnector.table.add',
                 [
                     'fields' => [
                         'sourceId'      => 3,
-                        'name'          => 'rest_dataset',
+                        'name'          => 'sales_orders',
                         'externalName'  => 'Sales orders',
                         'externalCode'  => 'sales_orders',
-                        'description'   => 'Описание датасета',
+                        'description'   => 'Описание таблицы',
                         'fields'        => [
                             ['type' => 'int', 'name' => 'ID', 'externalCode' => 'ID'],
                             ['type' => 'string', 'name' => 'NAME', 'externalCode' => 'NAME'],
@@ -372,7 +355,7 @@
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error adding dataset: ' . $e->getMessage();
+        echo 'Error adding table: ' . $e->getMessage();
     }
     ```
 
@@ -380,14 +363,14 @@
 
     ```js
     BX24.callMethod(
-        'biconnector.dataset.add',
+        'biconnector.table.add',
         {
             fields: {
                 "sourceId": 3,
-                "name": "rest_dataset",
+                "name": "sales_orders",
                 "externalName": "Sales orders",
                 "externalCode": "sales_orders",
-                "description": "Описание датасета",
+                "description": "Описание таблицы",
                 "fields": [
                     { "type": "int", "name": "ID", "externalCode": "ID" },
                     { "type": "string", "name": "NAME", "externalCode": "NAME" },
@@ -423,14 +406,14 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'biconnector.dataset.add',
+        'biconnector.table.add',
         [
             'fields' => [
                 'sourceId' => 3,
-                'name' => 'rest_dataset',
+                'name' => 'sales_orders',
                 'externalName' => 'Sales orders',
                 'externalCode' => 'sales_orders',
-                'description' => 'Описание датасета',
+                'description' => 'Описание таблицы',
                 'fields' => [
                     [ 'type' => 'int', 'name' => 'ID', 'externalCode' => 'ID' ],
                     [ 'type' => 'string', 'name' => 'NAME', 'externalCode' => 'NAME' ],
@@ -458,13 +441,13 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "biconnector.dataset.add", b24.Params{
+    res, err := client.Core().Call(ctx, "biconnector.table.add", b24.Params{
     	"fields": b24.Params{
     		"sourceId":     3,
-    		"name":         "rest_dataset",
+    		"name":         "sales_orders",
     		"externalName": "Sales orders",
     		"externalCode": "sales_orders",
-    		"description":  "Описание датасета",
+    		"description":  "Описание таблицы",
     		"fields": []b24.Params{
     			{
     				"type":         "int",
@@ -500,7 +483,7 @@
     	},
     })
     if err != nil {
-    	return fmt.Errorf("biconnector.dataset.add: %w", err)
+    	return fmt.Errorf("biconnector.table.add: %w", err)
     }
 
     // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
@@ -511,7 +494,7 @@
     	} `json:"error"`
     }
     if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
-    	return fmt.Errorf("biconnector.dataset.add: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    	return fmt.Errorf("biconnector.table.add: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var item struct {
@@ -563,7 +546,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор созданного датасета. Используйте его в методах [biconnector.dataset.get](./biconnector-dataset-get.md), [biconnector.dataset.update](./biconnector-dataset-update.md) и [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md) ||
+[`integer`](../../data-types.md) | Идентификатор созданной таблицы. Используйте его в методах [biconnector.table.get](./biconnector-table-get.md), [biconnector.table.update](./biconnector-table-update.md) и [biconnector.table.fields.update](./biconnector-table-fields-update.md) ||
 |#
 
 ## Обработка ошибок
@@ -601,33 +584,26 @@ HTTP-статус: **200**
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
 || `SOURCE_NOT_FOUND` | Source was not found. | Источника нет или он принадлежит другому приложению ||
 || `DATASET_ALREADY_EXIST` | Table with this name already exists. | Имя занято таблицей, которая уже есть в самом BI-Конструкторе ||
-|| `NAME_EXISTS` | A table named "#NAME#" already exists. | Название #NAME# уже занято другим датасетом Битрикс24. Имя проверяется по всему Битрикс24, а не в пределах источника ||
+|| `NAME_EXISTS` | A table named "#NAME#" already exists. | Название #NAME# уже занято другой таблицей Битрикс24. Имя проверяется по всему Битрикс24, а не в пределах источника ||
 || `FIELDS_EMPTY` | $fields is empty | Передан пустой массив `fields` ||
 || `DUPLICATE_FIELDS` | Duplicate column names: #FIELD_NAMES#. | В параметре `name` полей есть повторы: перечень ||
-|| `VALIDATION_DATASET_NAME_INVALID` | Dataset name has to start with a lowercase Latin character. Possible entry includes lowercase Latin characters (a-z), numbers (0-9) and underscores. | Неправильный формат названия датасета. Название должно начинаться с буквы, можно использовать только строчные латинские буквы `a-z`, цифры и знак `_` ||
-|| `VALIDATION_DATASET_NAME_TOO_LONG` | Dataset name must not exceed 230 characters. | Название датасета не должно превышать 230 символов ||
-|| `VALIDATION_DUPLICATE_FIELD_CODE` | Duplicate values found in the "code" parameter: #LIST_CODES# | Обнаружены дубликаты в параметре `externalCode` полей датасета ||
+|| `VALIDATION_DATASET_NAME_INVALID` | Dataset name has to start with a lowercase Latin character. Possible entry includes lowercase Latin characters (a-z), numbers (0-9) and underscores. | Неправильный формат названия таблицы. Название должно начинаться с буквы, можно использовать только строчные латинские буквы `a-z`, цифры и знак `_` ||
+|| `VALIDATION_DATASET_NAME_TOO_LONG` | Dataset name must not exceed 230 characters. | Название таблицы не должно превышать 230 символов ||
+|| `VALIDATION_DUPLICATE_FIELD_CODE` | Duplicate values found in the "code" parameter: #LIST_CODES# | Обнаружены дубликаты в параметре `externalCode` полей таблицы ||
 || `VALIDATION_FIELD_MISSING_REQUIRED_PARAMETERS` | Field must include the required parameters: "name", "externalCode" and "type". | Поле должно включать параметры `name`, `externalCode` и `type` ||
 || `VALIDATION_FIELD_NAME_INVALID_FORMAT` | Field "name" has to start with an uppercase Latin character. Possible entry includes uppercase Latin characters (A-Z), numbers (0-9) and underscores. | Неправильный формат названия поля. Название должно начинаться с буквы, можно использовать только заглавные латинские буквы `A-Z`, цифры и знак `_` ||
 || `VALIDATION_FIELD_NAME_TOO_LONG` | Field "name" must not exceed 32 characters. | Название поля не должно превышать 32 символа ||
 || `VALIDATION_FIELD_INVALID_TYPE` | Invalid field type. | Некорректный тип поля ||
-|| Пустое значение | Error creating table. или Error adding dataset | Не удалось создать датасет в BI-Конструкторе. Собственного строкового кода у этой ошибки нет: в поле `error` приходит числовой ноль. Таблица при этом не остается — уже созданная запись удаляется ||
 |#
-
-{% note info "" %}
-
-Метод создает сразу два объекта: таблицу — тот же объект, что и [biconnector.table.add](../table/biconnector-table-add.md), — и датасет BI-Конструктора поверх нее. Если второй шаг не удался, первый откатывается: частично созданной таблицы не остается. У метода [biconnector.table.add](../table/biconnector-table-add.md) этого шага нет, поэтому такой ошибки у него не бывает
-
-{% endnote %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./biconnector-dataset-update.md)
-- [{#T}](./biconnector-dataset-get.md)
-- [{#T}](./biconnector-dataset-list.md)
-- [{#T}](./biconnector-dataset-delete.md)
-- [{#T}](./biconnector-dataset-fields-update.md)
-- [{#T}](./biconnector-dataset-fields.md)
+- [{#T}](./biconnector-table-update.md)
+- [{#T}](./biconnector-table-get.md)
+- [{#T}](./biconnector-table-list.md)
+- [{#T}](./biconnector-table-delete.md)
+- [{#T}](./biconnector-table-fields-update.md)
+- [{#T}](./biconnector-table-fields.md)

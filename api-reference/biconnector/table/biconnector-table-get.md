@@ -1,4 +1,4 @@
-# Получить датасет по id biconnector.dataset.get
+# Получить таблицу по id biconnector.table.get
 
 {% note tip "" %}
 
@@ -13,17 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-{% note warning "DEPRECATED" %}
-
-Развитие метода остановлено. Используйте [biconnector.table.get](../table/biconnector-table-get.md).
-
-{% endnote %}
-
-Метод `biconnector.dataset.get` возвращает информацию о датасете по идентификатору.
+Метод `biconnector.table.get` возвращает информацию о таблице по идентификатору.
 
 {% note warning "" %}
 
-Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и возвращает только те датасеты, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и возвращает только те таблицы, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
 
 {% endnote %}
 
@@ -35,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор датасета, можно получить методами [biconnector.dataset.list](./biconnector-dataset-list.md) и [biconnector.dataset.add](./biconnector-dataset-add.md) ||
+[`integer`](../../data-types.md) | Идентификатор таблицы, можно получить методами [biconnector.table.list](./biconnector-table-list.md) и [biconnector.table.add](./biconnector-table-add.md) ||
 |#
 
 ## Примеры кода
@@ -51,7 +45,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":2,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/biconnector.dataset.get
+    https://**put_your_bitrix24_address**/rest/biconnector.table.get
     ```
 
 - JS (TS)
@@ -73,7 +67,7 @@
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type DatasetGetResult = {
+    type TableGetResult = {
       item: {
         id: number
         type: string
@@ -102,8 +96,8 @@
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<DatasetGetResult | BiconnectorError>({
-        method: 'biconnector.dataset.get',
+      const response = await $b24.actions.v2.call.make<TableGetResult | BiconnectorError>({
+        method: 'biconnector.table.get',
         params: {
           id: 2,
         },
@@ -135,13 +129,13 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function getDataset() {
+      async function getTable() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'biconnector.dataset.get',
+            method: 'biconnector.table.get',
             params: {
               id: 2,
             },
@@ -169,7 +163,7 @@
         }
       }
 
-      document.addEventListener('DOMContentLoaded', getDataset)
+      document.addEventListener('DOMContentLoaded', getTable)
     </script>
     ```
 
@@ -179,10 +173,15 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.biconnector.dataset.get(
-            bitrix_id=2,
-        ).response
-        result = bitrix_response.result
+        # В b24pysdk нет готовой обертки для biconnector.table.*, поэтому метод
+        # вызывается напрямую через bitrix_token.call_method()
+        response = bitrix_token.call_method(
+            api_method="biconnector.table.get",
+            params={
+                "id": 2,
+            },
+        )
+        result = response["result"]
 
         # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
         if isinstance(result, dict) and "error" in result:
@@ -214,7 +213,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'biconnector.dataset.get',
+                'biconnector.table.get',
                 [
                     'id' => 2,
                 ]
@@ -239,7 +238,7 @@
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error getting dataset: ' . $e->getMessage();
+        echo 'Error getting table: ' . $e->getMessage();
     }
     ```
 
@@ -247,7 +246,7 @@
 
     ```js
     BX24.callMethod(
-        'biconnector.dataset.get',
+        'biconnector.table.get',
         {
             id: 2,
         },
@@ -276,7 +275,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'biconnector.dataset.get',
+        'biconnector.table.get',
         [
             'id' => 2
         ]
@@ -297,11 +296,11 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "biconnector.dataset.get", b24.Params{
+    res, err := client.Core().Call(ctx, "biconnector.table.get", b24.Params{
     	"id": 2,
     }, b24.WithIdempotent())
     if err != nil {
-    	return fmt.Errorf("biconnector.dataset.get: %w", err)
+    	return fmt.Errorf("biconnector.table.get: %w", err)
     }
 
     // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
@@ -312,7 +311,7 @@
     	} `json:"error"`
     }
     if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
-    	return fmt.Errorf("biconnector.dataset.get: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    	return fmt.Errorf("biconnector.table.get: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     // Метод заворачивает ответ в объект с ключом "item".
@@ -345,37 +344,35 @@ HTTP-статус: **200**
 {
     "result": {
         "item": {
-            "id": 2,
+            "id": 27,
             "type": "rest",
-            "name": "rest_dataset11111",
-            "description": "new__2_",
+            "name": "sales_orders",
+            "description": "Заказы из внешнего сервиса",
             "externalCode": "sales_orders",
             "externalName": "Sales orders",
-            "dateCreate": "2025-03-26 15:28:06",
-            "dateUpdate": "2025-03-27 07:47:43",
+            "dateCreate": "2026-09-16 12:00:46",
+            "dateUpdate": null,
             "createdById": 1,
-            "updatedById": 1,
-            "externalId": 275,
+            "updatedById": 0,
+            "externalId": 0,
             "csvDelimiter": "",
             "csvEncoding": "",
             "csvHasHeaders": false,
             "fields": [
-                {"id": 224, "datasetId": 2, "type": "int", "name": "ID", "externalCode": "ID", "visible": true, "description": ""},
-                {"id": 225, "datasetId": 2, "type": "string", "name": "NAME", "externalCode": "NAME", "visible": true, "description": ""},
-                {"id": 226, "datasetId": 2, "type": "string", "name": "SURNAME", "externalCode": "SURNAME", "visible": true, "description": ""},
-                {"id": 227, "datasetId": 2, "type": "double", "name": "SCORE", "externalCode": "SCORE", "visible": true, "description": ""},
-                {"id": 228, "datasetId": 2, "type": "date", "name": "DATA", "externalCode": "DATA", "visible": true, "description": ""},
-                {"id": 229, "datasetId": 2, "type": "datetime", "name": "TIME", "externalCode": "TIME", "visible": true, "description": ""}
+                {"id": 43, "datasetId": 27, "type": "int", "name": "ID", "externalCode": "id", "visible": true, "description": ""},
+                {"id": 45, "datasetId": 27, "type": "string", "name": "CUSTOMER", "externalCode": "customer", "visible": true, "description": ""},
+                {"id": 47, "datasetId": 27, "type": "money", "name": "AMOUNT", "externalCode": "amount", "visible": true, "description": ""},
+                {"id": 49, "datasetId": 27, "type": "date", "name": "ORDER_DATE", "externalCode": "order_date", "visible": true, "description": ""}
             ]
         }
     },
     "time": {
-        "start": 1743061675.963969,
-        "finish": 1743061676.064591,
-        "duration": 0.10062193870544434,
-        "processing": 0.011152029037475586,
-        "date_start": "2025-03-27T07:47:55+00:00",
-        "date_finish": "2025-03-27T07:47:56+00:00"
+        "start": 1789549489,
+        "finish": 1789549489.125967,
+        "duration": 0.12596702575683594,
+        "processing": 0,
+        "date_start": "2026-09-16T12:04:49+03:00",
+        "date_finish": "2026-09-16T12:04:49+03:00"
     }
 }
 ```
@@ -386,12 +383,66 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `item` — сам датасет вместе с массивом `fields`. Состав полей описан в статье [Датасеты: обзор методов](./index.md#dataset) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `item` с объектом [table](#table) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-Поля `sourceId` в ответе нет — идентификатор источника возвращает только метод [biconnector.dataset.list](./biconnector-dataset-list.md). Состав полей датасета, наоборот, доступен только через `get`: в выборке `list` массива `fields` не будет.
+#### Объект table {#table}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор таблицы ||
+|| **type**
+[`string`](../../data-types.md) | Тип таблицы, у таблиц REST-источника значение всегда `rest` ||
+|| **name**
+[`string`](../../data-types.md) | Название таблицы ||
+|| **description**
+[`string`](../../data-types.md) | Описание таблицы ||
+|| **externalCode**
+[`string`](../../data-types.md) | Внешний код таблицы ||
+|| **externalName**
+[`string`](../../data-types.md) | Внешнее имя таблицы ||
+|| **dateCreate**
+[`datetime`](../../data-types.md) | Дата создания в формате `Y-m-d H:i:s` ||
+|| **dateUpdate**
+[`datetime`](../../data-types.md) | Дата обновления в формате `Y-m-d H:i:s`. У таблицы, которую ни разу не обновляли, значение `null` ||
+|| **createdById**
+[`integer`](../../data-types.md) | Идентификатор пользователя, создавшего таблицу ||
+|| **updatedById**
+[`integer`](../../data-types.md) | Идентификатор пользователя, обновившего таблицу. У таблицы, которую ни разу не обновляли, значение `0` ||
+|| **externalId**
+[`integer`](../../data-types.md) | Идентификатор датасета BI-Конструктора, созданного вместе с объектом устаревшим методом `biconnector.dataset.add`. У таблиц, созданных методом [biconnector.table.add](./biconnector-table-add.md), значение всегда `0` ||
+|| **csvDelimiter**, **csvEncoding**, **csvHasHeaders**
+[`string`](../../data-types.md), [`string`](../../data-types.md), [`boolean`](../../data-types.md) | Параметры разбора CSV-файла. У таблиц REST-источника всегда пустые ||
+|| **fields**
+[`array`](../../data-types.md) | Массив [колонок](#field) таблицы ||
+|#
+
+Поля `sourceId` в ответе нет — идентификатор источника возвращает только метод [biconnector.table.list](./biconnector-table-list.md). Состав колонок, наоборот, доступен только здесь: в выборке [biconnector.table.list](./biconnector-table-list.md) массива `fields` не будет.
+
+#### Элемент массива fields {#field}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор колонки ||
+|| **datasetId**
+[`integer`](../../data-types.md) | Идентификатор таблицы, к которой относится колонка. Ключ назван так исторически ||
+|| **type**
+[`string`](../../data-types.md) | [Тип данных](./index.md#fields) колонки ||
+|| **name**
+[`string`](../../data-types.md) | Название колонки ||
+|| **externalCode**
+[`string`](../../data-types.md) | Внешний код колонки ||
+|| **visible**
+[`boolean`](../../data-types.md) | Флаг видимости колонки ||
+|| **description**
+[`string`](../../data-types.md) | Описание колонки. Через REST API не заполняется ||
+|#
 
 ## Обработка ошибок
 
@@ -423,7 +474,7 @@ HTTP-статус: **200**
 || `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
-|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Таблицы нет или она принадлежит другому приложению ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -431,9 +482,9 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./biconnector-dataset-add.md)
-- [{#T}](./biconnector-dataset-update.md)
-- [{#T}](./biconnector-dataset-list.md)
-- [{#T}](./biconnector-dataset-delete.md)
-- [{#T}](./biconnector-dataset-fields-update.md)
-- [{#T}](./biconnector-dataset-fields.md)
+- [{#T}](./biconnector-table-add.md)
+- [{#T}](./biconnector-table-update.md)
+- [{#T}](./biconnector-table-list.md)
+- [{#T}](./biconnector-table-delete.md)
+- [{#T}](./biconnector-table-fields-update.md)
+- [{#T}](./biconnector-table-fields.md)

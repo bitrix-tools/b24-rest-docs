@@ -1,4 +1,4 @@
-title: Коннектор
+title: Коннекторы
 href: index.md
 items: 
   - name: Обзор методов
@@ -7,7 +7,7 @@ items:
     href: biconnector-connector-add.md    
   - name: Обновить коннектор 
     href: biconnector-connector-update.md
-  - name: Получить информацию о коннекторе
+  - name: Получить коннектор по id
     href: biconnector-connector-get.md
   - name: Получить список коннекторов
     href: biconnector-connector-list.md

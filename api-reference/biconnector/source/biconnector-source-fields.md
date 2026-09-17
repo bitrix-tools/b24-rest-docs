@@ -10,11 +10,18 @@
 {% endnote %}
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
-> 
-> Кто может выполнять метод: любой пользователь
+>
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
 Метод `biconnector.source.fields` возвращает описание полей источника.
-Таблицу с описанием стандартных полей можно найти в статье [Источники: обзор методов](./index.md#fields).
+
+Назначение каждого поля описано в таблице [полей источника](./index.md#fields).
+
+{% note warning "" %}
+
+Метод возвращает статическую схему полей источника: она одинакова в любом Битрикс24 и не зависит от того, какие источники созданы. В отличие от остальных методов семейства, метод доступен вебхуку, но оба права проверяет и без них возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -56,6 +63,14 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     type FieldDescription = {
       title: string
       type: string
@@ -71,7 +86,7 @@
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<SourceFieldsResult>({
+      const response = await $b24.actions.v2.call.make<SourceFieldsResult | BiconnectorError>({
         method: 'biconnector.source.fields',
         params: {},
         requestId: Text.getUuidRfc4122()
@@ -82,7 +97,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Source fields:', result.fields)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if ('error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Source fields:', result.fields)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -114,6 +135,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Source fields:', result.fields)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -133,7 +161,17 @@
     try:
         bitrix_response = client.biconnector.source.fields().response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -149,7 +187,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -158,17 +195,24 @@
                 'biconnector.source.fields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Success: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching source fields: ' . $e->getMessage();
@@ -182,9 +226,20 @@
         'biconnector.source.fields',
         {},
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         },
     );
     ```
@@ -199,9 +254,15 @@
         []
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -211,6 +272,17 @@
     res, err := client.Core().Call(ctx, "biconnector.source.fields", nil, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("biconnector.source.fields: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.source.fields: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     // Метод заворачивает ответ в объект с ключом "fields".
@@ -354,27 +426,79 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит массив `fields` с описанием полей источника. Структура элемента массива описана в статье [Коннектор: обзор методов](../connector/index.md#description) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `fields` ||
+|| **result.fields**
+[`object[]`](../../data-types.md) | Массив дескрипторов полей источника, один элемент — одно поле [(подробное описание)](#field) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива fields {#field}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **title**
+[`string`](../../data-types.md) | Название поля источника. Полный список полей и их назначение — в таблице [полей источника](./index.md#fields) ||
+|| **type**
+[`string`](../../data-types.md) | Тип поля. Метод возвращает значения `integer`, `string`, `array`, `boolean` и `datetime` ||
+|| **isRequired**
+[`boolean`](../../data-types.md) | Признак обязательности поля в схеме объекта. Передавать при создании нужно только те поля, у которых `isRequired` равно `true`, а `isReadOnly` — `false`: у полей только для чтения признак тоже равен `true`, но передать их нельзя ||
+|| **isReadOnly**
+[`boolean`](../../data-types.md) | Поле доступно только для чтения ||
+|| **isImmutable**
+[`boolean`](../../data-types.md) | Установить значение поля можно только один раз и только при создании нового элемента. У источника такое поле одно — `connectorId` ||
+|| **isMultiple**
+[`boolean`](../../data-types.md) | Множественное поле. Если равно `true`, значения в поле передаются в виде массива ||
+|#
+
+Поле `active` метод отдает с `isReadOnly: false`, но методы [biconnector.source.add](./biconnector-source-add.md) и [biconnector.source.update](./biconnector-source-update.md) его значение не читают.
+
+У поля `settings` признак `isMultiple` равен `true`, однако на вход методы `add` и `update` принимают его объектом, а не массивом. Обе формы разобраны в разделе [Поле settings](./index.md#settings).
+
 ## Обработка ошибок
 
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "error": {
+            "error": "ACCESS_DENIED",
+            "error_description": "Access denied."
+        }
+    }
+}
+```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
+
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./biconnector-source-add.md)
 - [{#T}](./biconnector-source-update.md)
 - [{#T}](./biconnector-source-get.md)
 - [{#T}](./biconnector-source-list.md)
 - [{#T}](./biconnector-source-delete.md)
-- [{#T}](./biconnector-source-add.md)
