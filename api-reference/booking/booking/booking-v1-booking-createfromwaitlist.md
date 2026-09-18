@@ -25,7 +25,7 @@
 || **waitListId***
 [`integer`](../../data-types.md) | Идентификатор записи в лист ожидания. 
 Можно получить методами [booking.v1.waitlist.add](../waitlist/booking-v1-waitlist-add.md) и [booking.v1.waitlist.list](../waitlist/booking-v1-waitlist-list.md) ||
-|| **fields**
+|| **fields***
 [`object`](../../data-types.md) | Объект, содержащий значения полей для создания бронирования [(подробное описание)](#fields) ||
 |#
 
@@ -37,12 +37,6 @@
 || **resourceIds***
 [`array`](../../data-types.md#standart-types) | Массив идентификаторов ресурсов для брони. 
 ID ресурсов можно получить методом [booking.v1.resource.list](../resource/booking-v1-resource-list.md) ||
-|| **name**
-[`string`](../../data-types.md) | Название бронирования. 
-Значение по умолчанию — пустая строка ||
-|| **description**
-[`string`](../../data-types.md) | Описание бронирования. 
-Значение по умолчанию — пустая строка ||
 || **datePeriod***
 [`object`](../../data-types.md#standart-types) | Объект, содержащий время брони [(подробное описание)](#datePeriod) ||
 |#
@@ -53,9 +47,20 @@ ID ресурсов можно получить методом [booking.v1.resou
 || **Название**
 `тип` | **Описание** ||
 || **from***
-[`object`](../../data-types.md#standart-types) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
+[`object`](../../data-types.md#standart-types) | Время начала брони. Структура описана [ниже](#date) ||
 || **to***
-[`object`](../../data-types.md#standart-types) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
+[`object`](../../data-types.md#standart-types) | Время окончания брони. Структура описана [ниже](#date) ||
+|#
+
+#### Поля from и to {#date}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **timestamp***
+[`integer`](../../data-types.md) | Дата и время в формате Unix timestamp. Например, `1723446900` ||
+|| **timezone***
+[`string`](../../data-types.md) | Часовой пояс в формате идентификатора IANA. Например, `Europe/Moscow` ||
 |#
 
 ## Примеры кода

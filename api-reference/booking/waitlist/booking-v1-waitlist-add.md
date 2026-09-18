@@ -31,7 +31,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **note***
+|| **note**
 [`string`](../../data-types.md) | Заметка к записи в лист ожидания. 
 Значение по умолчанию — пустая строка ||
 |#
@@ -73,9 +73,7 @@
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type WaitlistAddResult = {
-      id: number
-    }
+    type WaitlistAddResult = number
 
     try {
       const response = await $b24.actions.v2.call.make<WaitlistAddResult>({
@@ -93,7 +91,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Added to waitlist, id:', result.id)
+        console.info('Added to waitlist, id:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -129,7 +127,7 @@
           }
 
           const result = response.getData().result
-          console.info('Added to waitlist, id:', result.id)
+          console.info('Added to waitlist, id:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -249,13 +247,11 @@
     	return fmt.Errorf("booking.v1.waitlist.add: %w", err)
     }
 
-    var item struct {
-    	ID b24.ID `json:"id"`
+    var id b24.ID
+    if err := json.Unmarshal(res.Result, &id); err != nil {
+	return fmt.Errorf("разбор ответа: %w", err)
     }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
-    	return fmt.Errorf("разбор ответа: %w", err)
-    }
-    fmt.Println(item.ID)
+    fmt.Println(id)
     ```
 
 {% endlist %}
@@ -266,9 +262,7 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": {
-        "id": 107
-    },
+    "result": 7,
     "time": {
      "start": 1724068028.331234,
      "finish": 1724068028.726591,

@@ -307,7 +307,7 @@ HTTP-статус: **200**
 
 #|
 || **datePeriod**
-[`object`](../../data-types.md) | Период времени бронирования. Содержит поля `from` и `to` с информацией о времени начала и окончания бронирования ||
+[`object`](../../data-types.md) | Период времени бронирования. Структура описана [ниже](#date-period) ||
 || **description**
 [`string`](../../data-types.md) | Описание бронирования. Может быть `null` ||
 || **id**
@@ -316,6 +316,21 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Название бронирования ||
 || **resourceIds**
 [`array`](../../data-types.md) | Массив идентификаторов ресурсов, связанных с бронированием. Описание ресурсов можно получить методом [booking.v1.resource.get](../resource/booking-v1-resource-get.md) ||
+|#
+
+#### Поля datePeriod {#date-period}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **from.timestamp**
+[`integer`](../../data-types.md) | Дата и время начала бронирования в формате Unix timestamp ||
+|| **from.timezone**
+[`string`](../../data-types.md) | Часовой пояс времени начала в формате идентификатора IANA ||
+|| **to.timestamp**
+[`integer`](../../data-types.md) | Дата и время окончания бронирования в формате Unix timestamp ||
+|| **to.timezone**
+[`string`](../../data-types.md) | Часовой пояс времени окончания в формате идентификатора IANA ||
 |#
 
 ## Обработка ошибок

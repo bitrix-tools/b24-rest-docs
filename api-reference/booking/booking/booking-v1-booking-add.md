@@ -50,9 +50,20 @@ ID ресурсов можно получить методом [booking.v1.resou
 || **Название**
 `тип` | **Описание** ||
 || **from***
-[`object`](../../data-types.md#standart-types) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
+[`object`](../../data-types.md#standart-types) | Время начала брони. Структура описана [ниже](#date) ||
 || **to***
-[`object`](../../data-types.md#standart-types) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
+[`object`](../../data-types.md#standart-types) | Время окончания брони. Структура описана [ниже](#date) ||
+|#
+
+#### Поля from и to {#date}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **timestamp***
+[`integer`](../../data-types.md) | Дата и время в формате Unix timestamp. Например, `1723446900` ||
+|| **timezone***
+[`string`](../../data-types.md) | Часовой пояс в формате идентификатора IANA. Например, `Europe/Moscow` ||
 |#
 
 ## Примеры кода
