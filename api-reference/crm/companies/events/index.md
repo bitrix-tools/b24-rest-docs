@@ -9,7 +9,9 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении компаний.
+События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении [компаний](../index.md).
+
+Во всех трех событиях в обработчик приходит только идентификатор компании в `data.FIELDS.ID`, без значений полей. После создания и изменения запрашивайте данные компании методом [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 4` или устаревшим методом [crm.company.get](../crm-company-get.md). После удаления компания уже недоступна, поэтому храните нужные данные на своей стороне заранее.
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
@@ -34,9 +36,11 @@
 >
 > Кто может подписаться: любой пользователь
 
+Методы `crm.company.add`, `crm.company.update` и `crm.company.delete` устарели, но события при их вызове срабатывают по-прежнему. Для новых интеграций используйте универсальные методы `crm.item.*` с `entityTypeId = 4`.
+
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmCompanyAdd](./on-crm-company-add.md) | При создании компании вручную или методом [crm.company.add](../crm-company-add.md) ||
-|| [onCrmCompanyUpdate](./on-crm-company-update.md) | При обновлении компании вручную или методом [crm.company.update](../crm-company-update.md) ||
-|| [onCrmCompanyDelete](./on-crm-company-delete.md) | При удалении компании вручную или методом [crm.company.delete](../crm-company-delete.md) ||
+|| [onCrmCompanyAdd](./on-crm-company-add.md) | При создании компании вручную, методом [crm.company.add](../crm-company-add.md) или методом [crm.item.add](../../universal/crm-item-add.md) с `entityTypeId = 4` ||
+|| [onCrmCompanyUpdate](./on-crm-company-update.md) | При обновлении компании вручную, методом [crm.company.update](../crm-company-update.md) или методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 4` ||
+|| [onCrmCompanyDelete](./on-crm-company-delete.md) | При удалении компании вручную, методом [crm.company.delete](../crm-company-delete.md) или методом [crm.item.delete](../../universal/crm-item-delete.md) с `entityTypeId = 4` ||
 |#

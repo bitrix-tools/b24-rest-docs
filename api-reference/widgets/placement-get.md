@@ -9,15 +9,23 @@
 
 {% endnote %}
 
-> Scope: [`placement`, `в зависимости от точки встраивания`](../scopes/permissions.md)
+> Scope: [`placement`](../scopes/permissions.md)
 >
 > Кто может выполнять метод: администратор
 
-Метод `placement.get` возвращает обработчики виджетов, которые зарегистрировало приложение.
+Метод `placement.get` возвращает список обработчиков виджетов, которые приложение зарегистрировало методом [placement.bind](./placement-bind.md). Для каждого обработчика метод отдает код точки встраивания, адрес обработчика, пользователя, для которого зарегистрирован виджет, настройки и названия на разных языках.
+
+Используйте метод, чтобы проверить текущие регистрации: перед повторным вызовом [placement.bind](./placement-bind.md) или перед удалением обработчика методом [placement.unbind](./placement-unbind.md). Список точек встраивания, доступных приложению, возвращает другой метод — [placement.list](./placement-list.md).
+
+{% note info "" %}
+
+Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
+
+{% endnote %}
 
 ## Параметры метода
 
-Метод не имеет параметров
+Без параметров.
 
 ## Примеры кода
 
@@ -47,6 +55,7 @@
 
     // Shape of each PlacementHandler returned in result[]
     type PlacementHandler = {
+      id: number
       placement: string
       userId: number
       handler: string
@@ -216,6 +225,7 @@ HTTP-статус: **200**
 {
     "result": [
         {
+            "id": 41,
             "placement": "CRM_DEAL_LIST_TOOLBAR",
             "userId": 0,
             "handler": "https://myapp.com/?handler=1",
@@ -231,6 +241,7 @@ HTTP-статус: **200**
             }
         },
         {
+            "id": 42,
             "placement": "CRM_DEAL_LIST_TOOLBAR",
             "userId": 0,
             "handler": "https://myapp.com/?handler=1",
@@ -246,6 +257,7 @@ HTTP-статус: **200**
             }
         },
         {
+            "id": 43,
             "placement": "IM_CONTEXT_MENU",
             "userId": 0,
             "handler": "https://myapp.com/?handler=2",
@@ -265,6 +277,7 @@ HTTP-статус: **200**
             }
         },
         {
+            "id": 44,
             "placement": "PAGE_BACKGROUND_WORKER",
             "userId": 1,
             "handler": "https://myapp.com/?handler=3",
@@ -301,21 +314,44 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Возвращает список зарегистрированных обработчиков виджетов. Структура каждого элемента соответствует параметрам метода [регистрации обработчика](./placement-bind.md#params)
-
-||
+[`array`](../data-types.md) | Список зарегистрированных обработчиков виджетов [(подробное описание)](#result). Если приложение не зарегистрировало ни одного обработчика, список пустой ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива result {#result}
+
+Кроме `id`, значения полей приложение задает при регистрации обработчика методом [placement.bind](./placement-bind.md). В ответе имена полей записаны в стиле camelCase, а не заглавными буквами, как параметры регистрации: `placement` вместо `PLACEMENT`, `userId` вместо `USER_ID`. Соответствие для каждого поля указано в таблице.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор зарегистрированного обработчика ||
+|| **placement**
+[`string`](../data-types.md) | Код точки встраивания. Параметр `PLACEMENT` при регистрации ||
+|| **userId**
+[`integer`](../data-types.md) | Идентификатор пользователя, для которого зарегистрирован виджет. Параметр `USER_ID` при регистрации. Значение `0` — виджет доступен всем пользователям ||
+|| **handler**
+[`string`](../data-types.md) | Адрес обработчика виджета. Параметр `HANDLER` при регистрации ||
+|| **options**
+[`object`](../data-types.md) или [`array`](../data-types.md) | Дополнительные параметры отображения виджета. Параметр `OPTIONS` при регистрации. Если параметры заданы — объект, если нет — пустой массив `[]` ||
+|| **title**
+[`string`](../data-types.md) | Название виджета для одного языка: того, на котором выполнялась регистрация, или первого из `LANG_ALL`, если такого перевода нет. Параметр `TITLE` при регистрации ||
+|| **description**
+[`string`](../data-types.md) | Описание виджета для того же языка, что и `title`. Параметр `DESCRIPTION` при регистрации ||
+|| **langAll**
+[`object`](../data-types.md) | Название, описание и группа виджета для языков, переданных при регистрации. Ключ — код языка, значение — объект с полями `TITLE`, `DESCRIPTION` и `GROUP_NAME`. Параметр `LANG_ALL` при регистрации ||
+|#
+
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**, **200**
+HTTP-статус: **403**
 
 ```json
 {
-    "error": "INVALID_REQUEST",
-    "error_description": "Https required"
+    "error": "WRONG_AUTH_TYPE",
+    "error_description": "Current authorization type is denied for this method Application context required"
 }
 ```
 
@@ -324,8 +360,9 @@ HTTP-статус: **400**, **403**, **200**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал пользователь без прав администратора ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
