@@ -1,4 +1,4 @@
-# Получить поля коннектора biconnector.connector.fields
+# Получить поля таблицы biconnector.table.fields
 
 {% note tip "" %}
 
@@ -13,13 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.connector.fields` возвращает описание полей коннектора.
+Метод `biconnector.table.fields` возвращает описание полей таблицы.
 
-Назначение каждого поля описано в таблице [полей коннектора](./index.md#fields).
+Назначение каждого поля описано в таблице [полей таблицы](./index.md#table).
 
 {% note warning "" %}
 
-Метод возвращает статическую схему полей — она одинакова в любом Битрикс24 и не зависит от созданных коннекторов. В отличие от остальных методов семейства, метод доступен вебхуку, но оба права проверяет и без них возвращает ошибку `ACCESS_DENIED`
+Метод возвращает статическую схему полей таблицы — она одинакова в любом Битрикс24 и не зависит от созданных таблиц. В отличие от остальных методов семейства, метод доступен вебхуку, но оба права проверяет и без них возвращает ошибку `ACCESS_DENIED`
 
 {% endnote %}
 
@@ -37,20 +37,20 @@
 
     ```bash
     curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{}' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.connector.fields
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.table.fields
     ```
 
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{"auth":"**put_access_token_here**"}' \
-         https://**put_your_bitrix24_address**/rest/biconnector.connector.fields
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/biconnector.table.fields
     ```
 
 - JS (TS)
@@ -72,7 +72,7 @@
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type ConnectorFieldsResult = {
+    type TableFieldsResult = {
       fields: {
         title: string
         type: string
@@ -84,8 +84,8 @@
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<ConnectorFieldsResult | BiconnectorError>({
-        method: 'biconnector.connector.fields',
+      const response = await $b24.actions.v2.call.make<TableFieldsResult | BiconnectorError>({
+        method: 'biconnector.table.fields',
         params: {},
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +100,7 @@
         if ('error' in result) {
           console.error(result.error.error, result.error.error_description)
         } else {
-          console.info(result.fields)
+          console.info('Table entity fields count:', result.fields.length, result.fields)
         }
       }
     } catch (error) {
@@ -115,13 +115,13 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function getConnectorFields() {
+      async function getTableFields() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
-            method: 'biconnector.connector.fields',
+            method: 'biconnector.table.fields',
             params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -140,14 +140,14 @@
             return
           }
 
-          console.info(result.fields)
+          console.info('Table entity fields count:', result.fields.length, result.fields)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', getConnectorFields)
+      document.addEventListener('DOMContentLoaded', getTableFields)
     </script>
     ```
 
@@ -157,8 +157,12 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.biconnector.connector.fields().response
-        result = bitrix_response.result
+        # В b24pysdk нет готовой обертки для biconnector.table.*, поэтому метод
+        # вызывается напрямую через bitrix_token.call_method()
+        response = bitrix_token.call_method(
+            api_method="biconnector.table.fields",
+        )
+        result = response["result"]
 
         # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
         if isinstance(result, dict) and "error" in result:
@@ -190,7 +194,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'biconnector.connector.fields',
+                'biconnector.table.fields',
                 []
             );
 
@@ -213,7 +217,7 @@
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error calling biconnector.connector.fields: ' . $e->getMessage();
+        echo 'Error calling biconnector.table.fields: ' . $e->getMessage();
     }
     ```
 
@@ -221,7 +225,7 @@
 
     ```js
     BX24.callMethod(
-        'biconnector.connector.fields',
+        'biconnector.table.fields',
         {},
         (result) => {
             if (result.error()) {
@@ -238,7 +242,7 @@
             }
 
             console.info(data);
-        }
+        },
     );
     ```
 
@@ -248,7 +252,7 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'biconnector.connector.fields',
+        'biconnector.table.fields',
         []
     );
 
@@ -267,9 +271,9 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "biconnector.connector.fields", nil, b24.WithIdempotent())
+    res, err := client.Core().Call(ctx, "biconnector.table.fields", nil, b24.WithIdempotent())
     if err != nil {
-    	return fmt.Errorf("biconnector.connector.fields: %w", err)
+    	return fmt.Errorf("biconnector.table.fields: %w", err)
     }
 
     // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
@@ -280,7 +284,7 @@
     	} `json:"error"`
     }
     if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
-    	return fmt.Errorf("biconnector.connector.fields: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    	return fmt.Errorf("biconnector.table.fields: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     // Метод заворачивает ответ в объект с ключом "fields".
@@ -324,18 +328,26 @@ HTTP-статус: **200**
         "isMultiple": false
       },
       {
-        "title": "title",
-        "type": "string",
+        "title": "sourceId",
+        "type": "integer",
         "isRequired": true,
         "isReadOnly": false,
-        "isImmutable": false,
+        "isImmutable": true,
         "isMultiple": false
       },
       {
-        "title": "logo",
+        "title": "name",
         "type": "string",
         "isRequired": true,
         "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false
+      },
+      {
+        "title": "type",
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": true,
         "isImmutable": false,
         "isMultiple": false
       },
@@ -348,66 +360,26 @@ HTTP-статус: **200**
         "isMultiple": false
       },
       {
-        "title": "sort",
+        "title": "externalName",
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false
+      },
+      {
+        "title": "externalCode",
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false
+      },
+      {
+        "title": "externalId",
         "type": "integer",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false
-      },
-      {
-        "title": "urlCheck",
-        "type": "string",
         "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false
-      },
-      {
-        "title": "urlData",
-        "type": "string",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false
-      },
-      {
-        "title": "urlTableList",
-        "type": "string",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false
-      },
-      {
-        "title": "urlTableDescription",
-        "type": "string",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false
-      },
-      {
-        "title": "settings",
-        "type": "array",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true
-      },
-      {
-        "title": "supportMapping",
-        "type": "boolean",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false
-      },
-      {
-        "title": "sourceCode",
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
+        "isReadOnly": true,
         "isImmutable": false,
         "isMultiple": false
       },
@@ -418,16 +390,48 @@ HTTP-статус: **200**
         "isReadOnly": true,
         "isImmutable": false,
         "isMultiple": false
+      },
+      {
+        "title": "dateUpdate",
+        "type": "datetime",
+        "isRequired": true,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false
+      },
+      {
+        "title": "createdById",
+        "type": "integer",
+        "isRequired": true,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false
+      },
+      {
+        "title": "updatedById",
+        "type": "integer",
+        "isRequired": true,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false
+      },
+      {
+        "title": "fields",
+        "type": "array",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": true
       }
     ]
   },
   "time": {
-    "start": 1740671757.058651,
-    "finish": 1740671757.179896,
-    "duration": 0.12124514579772949,
-    "processing": 5.507469177246094e-5,
-    "date_start": "2025-02-27T15:55:57+00:00",
-    "date_finish": "2025-02-27T15:55:57+00:00"
+    "start": 1740757652.264398,
+    "finish": 1740757652.343882,
+    "duration": 0.0794839859008789,
+    "processing": 2.002716064453125e-5,
+    "date_start": "2025-02-28T15:47:32+00:00",
+    "date_finish": "2025-02-28T15:47:32+00:00"
   }
 }
 ```
@@ -440,7 +444,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `fields` ||
 || **result.fields**
-[`object[]`](../../data-types.md) | Массив дескрипторов полей коннектора, один элемент — одно поле [(подробное описание)](#field) ||
+[`object[]`](../../data-types.md) | Массив дескрипторов полей таблицы, один элемент — одно поле [(подробное описание)](#field) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -451,18 +455,20 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **title**
-[`string`](../../data-types.md) | Название поля коннектора. Полный список полей и их назначение — в таблице [полей коннектора](./index.md#fields) ||
+[`string`](../../data-types.md) | Название поля таблицы. Назначение полей — в таблице [полей таблицы](./index.md#table) ||
 || **type**
-[`string`](../../data-types.md) | Тип поля. Метод возвращает значения `integer`, `string`, `array`, `boolean` и `datetime` ||
+[`string`](../../data-types.md) | Тип поля. Метод возвращает значения `integer`, `string`, `array` и `datetime` ||
 || **isRequired**
 [`boolean`](../../data-types.md) | Признак обязательности поля в схеме объекта. Передавать при создании нужно только те поля, у которых `isRequired` равно `true`, а `isReadOnly` — `false`: у полей только для чтения признак тоже равен `true`, но передать их нельзя ||
 || **isReadOnly**
-[`boolean`](../../data-types.md) | Поле доступно только для чтения ||
+[`boolean`](../../data-types.md) | Поле доступно только для чтения, передать его в `add` или `update` нельзя ||
 || **isImmutable**
-[`boolean`](../../data-types.md) | Установить значение поля можно только один раз и только при создании нового элемента. У всех полей коннектора значение — `false` ||
+[`boolean`](../../data-types.md) | Значение задается один раз при создании таблицы и потом не меняется ||
 || **isMultiple**
-[`boolean`](../../data-types.md) | Множественное поле. Если равно `true`, значения в поле передаются в виде массива ||
+[`boolean`](../../data-types.md) | Множественное поле. Если равно `true`, значение передается массивом ||
 |#
+
+Схема описывает поля самой таблицы, а не колонки данных. Она не полностью совпадает с [таблицей полей](./index.md#table): параметров разбора CSV — `csvDelimiter`, `csvEncoding` и `csvHasHeaders` — в схеме нет, хотя в ответах `get` и `list` они приходят. Именно по этой схеме проверяются `select`, `filter` и `order` метода [biconnector.table.list](./biconnector-table-list.md). Состав колонок возвращает метод [biconnector.table.get](./biconnector-table-get.md), а меняет — [biconnector.table.fields.update](./biconnector-table-fields-update.md).
 
 ## Обработка ошибок
 
@@ -499,8 +505,9 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./biconnector-connector-add.md)
-- [{#T}](./biconnector-connector-update.md)
-- [{#T}](./biconnector-connector-get.md)
-- [{#T}](./biconnector-connector-list.md)
-- [{#T}](./biconnector-connector-delete.md)
+- [{#T}](./biconnector-table-add.md)
+- [{#T}](./biconnector-table-update.md)
+- [{#T}](./biconnector-table-get.md)
+- [{#T}](./biconnector-table-list.md)
+- [{#T}](./biconnector-table-delete.md)
+- [{#T}](./biconnector-table-fields-update.md)

@@ -1,4 +1,4 @@
-# Получить список источников biconnector.source.list
+# Получить список таблиц biconnector.table.list
 
 {% note tip "" %}
 
@@ -13,15 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.source.list` возвращает список источников по фильтру.
+Метод `biconnector.table.list` возвращает список таблиц по фильтру.
 
 {% note warning "" %}
 
-Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и возвращает только те источники, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и возвращает только те таблицы, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
 
 {% endnote %}
-
-Размер страницы результатов — 50 записей. Метод не возвращает ни общее количество источников, ни ссылку на следующую страницу, поэтому [обход списка](../index.md#pagination) строится по номеру страницы: выборка закончилась, когда в ответе пришло меньше 50 записей.
 
 ## Параметры метода
 
@@ -31,11 +29,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у источников в выборке. Допустимые значения — названия полей из схемы метода [biconnector.source.fields](./biconnector-source-fields.md) и `*`. По умолчанию берутся все поля, то же дает значение `*`.
+[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у таблиц в выборке. Допустимые значения — названия полей из схемы метода [biconnector.table.fields](./biconnector-table-fields.md) и `*`. По умолчанию берутся все поля.
 
-Если передать в `select` только поле `settings`, в элементах выборки не будет идентификатора `id` ||
+Поля `csvDelimiter`, `csvEncoding` и `csvHasHeaders` в схему не входят: в ответе они приходят, но в `select` вызовут ошибку `VALIDATION_FIELD_NOT_ALLOWED_IN_SELECT`. Поле `fields` схеме принадлежит, ошибки не вызовет, но и в выборку не попадет ||
 || **filter**
-[`object`](../../data-types.md) | Фильтр для выборки источников. Пример формата:
+[`object`](../../data-types.md) | Фильтр для выборки таблиц. Пример формата:
 
 ```json
 {
@@ -63,16 +61,16 @@
 - `!=` — не равно
 - `!` — не равно
 
-Список доступных полей для фильтрации можно узнать с помощью метода [biconnector.source.fields](./biconnector-source-fields.md).
+Список доступных полей для фильтрации можно узнать с помощью метода [biconnector.table.fields](./biconnector-table-fields.md).
 
 Ключ `logic` задает, как объединяются условия фильтра:
 
-- `AND` — источник попадает в выборку, если выполнены все условия. Используется по умолчанию
+- `AND` — таблица попадает в выборку, если выполнены все условия. Используется по умолчанию
 - `OR` — достаточно одного выполненного условия
 
-Любое другое значение ключа `logic` приводит к ошибке `VALIDATION_INVALID_FILTER_LOGIC`.
+Любое другое значение ключа `logic` приводит к ошибке `VALIDATION_INVALID_FILTER_LOGIC`. Группы условий можно вкладывать друг в друга.
 
-Фильтр не поддерживает поле `settings`, оно будет проигнорировано
+Фильтр не поддерживает поле `fields`, оно будет проигнорировано
 ||
 || **order**
 [`object`](../../data-types.md) | Параметры сортировки. Пример формата:
@@ -86,7 +84,9 @@
 }
 ```
 
-- `field_n` — название поля, по которому будет произведена сортировка выборки источников
+где:
+
+- `field_n` — название поля, по которому будет произведена сортировка выборки таблиц
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
@@ -94,28 +94,25 @@
 Без этого параметра сортировка не применяется и порядок записей в выборке не гарантирован.
 
 Значение направления регистронезависимо, но других значений поле не принимает. Пустая строка, число или любое слово кроме `ASC` и `DESC` обрываются на уровне ORM: ответ приходит с HTTP-статусом **400** и ошибкой `ERROR_ARGUMENT` в корне, а не [внутри `result`](../index.md#errors), как остальные ошибки раздела
-
-Сортировка, как и фильтр, не работает по полю `settings`
 ||
 || **page**
-[`integer`](../../data-types.md) | Номер страницы результатов. Нумерация начинается с единицы, значение по умолчанию — 1. Нечисловое, нулевое или отрицательное значение ошибки не вызывает: метод молча отдает первую страницу. Параметр `start`, общий для большинства списочных методов REST API, здесь не работает ||
+[`integer`](../../data-types.md) | Номер страницы выборки, нумерация начинается с единицы, значение по умолчанию — 1. Размер страницы фиксированный — 50 записей. Нечисловое, нулевое или отрицательное значение ошибки не вызывает: метод молча отдает первую страницу. Метод не возвращает ни общее количество таблиц, ни ссылку на следующую страницу, поэтому признак конца выборки один: страница вернулась короче 50 элементов, [подробнее о навигации](../index.md#pagination) ||
 |#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-Получить список источников, у которых:
+Получить список таблиц, у которых:
 
-- название начинается на `Sql`
+- название начинается на `sales`
 - описание не пустое
-- идентификатор коннектора равен `2` или `4`
+- идентификатор источника равен `2` или `4`
 
 Вернуть только нужные поля:
 
 - идентификатор `id`
-- название `title`
-- активность `active`
+- название `name`
 - описание `description`
 
 {% list tabs %}
@@ -126,8 +123,20 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","title","active","description"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"},"page":1,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/biconnector.source.list
+    -d '{
+        "select": ["id", "name", "description"],
+        "filter": {
+            "%=name": "sales%",
+            "!description": "",
+            "@sourceId": [2, 4]
+        },
+        "order": {
+            "dateCreate": "DESC"
+        },
+        "page": 1,
+        "auth": "**put_access_token_here**"
+    }' \
+    https://**put_your_bitrix24_address**/rest/biconnector.table.list
     ```
 
 - JS (TS)
@@ -148,27 +157,26 @@
       }
     }
 
-    // Shape of each SourceItem returned in result[]
-    type SourceItem = {
+    // Shape of each TableItem returned in result[]
+    type TableItem = {
       id: number
-      title: string
-      active: boolean
+      name: string
       description: string
     }
 
     try {
-      // biconnector.source.list returns a single page (max 50 records). The list helpers
+      // biconnector.table.list returns a single page (max 50 records). The list helpers
       // ($b24.actions.v2.callList.make, fetchList.make) do not work here: this method uses
       // its own `page` navigation and returns neither `total` nor `next`. Walk the pages
       // yourself, increasing `page` until a response comes back with fewer than 50 records.
-      const response = await $b24.actions.v2.call.make<SourceItem[] | BiconnectorError>({
-        method: 'biconnector.source.list',
+      const response = await $b24.actions.v2.call.make<TableItem[] | BiconnectorError>({
+        method: 'biconnector.table.list',
         params: {
-          select: ['id', 'title', 'active', 'description'],
+          select: ['id', 'name', 'description'],
           filter: {
-            '%=title': 'Sql%',
+            '%=name': 'sales%',
             '!description': '',
-            '@connectorId': [2, 4],
+            '@sourceId': [2, 4],
           },
           order: {
             dateCreate: 'DESC',
@@ -188,7 +196,7 @@
         if (!Array.isArray(result)) {
           console.error(result.error.error, result.error.error_description)
         } else {
-          console.info('Sources fetched:', result.length, result)
+          console.info('Tables page:', result.length, result)
         }
       }
     } catch (error) {
@@ -203,23 +211,23 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function fetchSourceList() {
+      async function listTables() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // biconnector.source.list returns a single page (max 50 records). The list helpers
+          // biconnector.table.list returns a single page (max 50 records). The list helpers
           // ($b24.actions.v2.callList.make, fetchList.make) do not work here: this method uses
           // its own `page` navigation and returns neither `total` nor `next`. Walk the pages
           // yourself, increasing `page` until a response comes back with fewer than 50 records.
           const response = await $b24.actions.v2.call.make({
-            method: 'biconnector.source.list',
+            method: 'biconnector.table.list',
             params: {
-              select: ['id', 'title', 'active', 'description'],
+              select: ['id', 'name', 'description'],
               filter: {
-                '%=title': 'Sql%',
+                '%=name': 'sales%',
                 '!description': '',
-                '@connectorId': [2, 4],
+                '@sourceId': [2, 4],
               },
               order: {
                 dateCreate: 'DESC',
@@ -243,14 +251,14 @@
             return
           }
 
-          console.info('Sources fetched:', result.length, result)
+          console.info('Tables page:', result.length, result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', fetchSourceList)
+      document.addEventListener('DOMContentLoaded', listTables)
     </script>
     ```
 
@@ -260,27 +268,24 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.biconnector.source.list(
-            select=[
-                "id",
-                "title",
-                "active",
-                "description",
-            ],
-            filter={
-                "%=title": "Sql%",
-                "!description": "",
-                "@connectorId": [
-                    2,
-                    4,
-                ],
+        # В b24pysdk нет готовой обертки для biconnector.table.*, поэтому метод
+        # вызывается напрямую через bitrix_token.call_method()
+        response = bitrix_token.call_method(
+            api_method="biconnector.table.list",
+            params={
+                "select": ["id", "name", "description"],
+                "filter": {
+                    "%=name": "sales%",
+                    "!description": "",
+                    "@sourceId": [2, 4],
+                },
+                "order": {
+                    "dateCreate": "DESC",
+                },
+                "page": 1,
             },
-            order={
-                "dateCreate": "DESC",
-            },
-            page=1,
-        ).response
-        result = bitrix_response.result
+        )
+        result = response["result"]
 
         # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
         if isinstance(result, dict) and "error" in result:
@@ -312,18 +317,13 @@
         $response = $b24Service
             ->core
             ->call(
-                'biconnector.source.list',
+                'biconnector.table.list',
                 [
-                    'select' => [
-                        "id",
-                        "title",
-                        "active",
-                        "description"
-                    ],
+                    'select' => ["id", "name", "description"],
                     'filter' => [
-                        '%=title'      => "Sql%",
+                        '%=name'      => "sales%",
                         '!description' => "",
-                        "@connectorId" => [2, 4]
+                        "@sourceId"   => [2, 4]
                     ],
                     'order'  => [
                         'dateCreate' => "DESC"
@@ -351,7 +351,7 @@
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error fetching source list: ' . $e->getMessage();
+        echo 'Error calling biconnector.table.list: ' . $e->getMessage();
     }
     ```
 
@@ -359,18 +359,13 @@
 
     ```js
     BX24.callMethod(
-        'biconnector.source.list',
+        'biconnector.table.list',
         {
-            select: [
-                "id",
-                "title",
-                "active",
-                "description"
-            ],
+            select: ["id", "name", "description"],
             filter: {
-                '%=title': "Sql%",
+                '%=name': "sales%",
                 '!description': "",
-                "@connectorId": [2, 4]
+                "@sourceId": [2, 4]
             },
             order: {
                 dateCreate: "DESC"
@@ -402,22 +397,11 @@
     require_once('crest.php');
 
     $result = CRest::call(
-        'biconnector.source.list',
+        'biconnector.table.list',
         [
-            'select' => [
-                "id",
-                "title",
-                "active",
-                "description"
-            ],
-            'filter' => [
-                '%=title' => "Sql%",
-                '!description' => "",
-                '@connectorId' => [2, 4]
-            ],
-            'order' => [
-                'dateCreate' => "DESC"
-            ],
+            'select' => ["id", "name", "description"],
+            'filter' => ['%=name' => "sales%", '!description' => "", '@sourceId' => [2, 4]],
+            'order' => ['dateCreate' => "DESC"],
             'page' => 1
         ]
     );
@@ -437,12 +421,12 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "biconnector.source.list", b24.Params{
-    	"select": []string{"id", "title", "active", "description"},
+    res, err := client.Core().Call(ctx, "biconnector.table.list", b24.Params{
+    	"select": []string{"id", "name", "description"},
     	"filter": b24.Params{
-    		"%=title":      "Sql%",
+    		"%=name":       "sales%",
     		"!description": "",
-    		"@connectorId": []int{2, 4},
+    		"@sourceId":    []int{2, 4},
     	},
     	"order": b24.Params{
     		"dateCreate": "DESC",
@@ -450,7 +434,7 @@
     	"page": 1,
     }, b24.WithIdempotent())
     if err != nil {
-    	return fmt.Errorf("biconnector.source.list: %w", err)
+    	return fmt.Errorf("biconnector.table.list: %w", err)
     }
 
     // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
@@ -461,20 +445,19 @@
     	} `json:"error"`
     }
     if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
-    	return fmt.Errorf("biconnector.source.list: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    	return fmt.Errorf("biconnector.table.list: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var items []struct {
     	ID          b24.ID `json:"id"`
-    	Title       string `json:"title"`
-    	Active      bool   `json:"active"`
+    	Name        string `json:"name"`
     	Description string `json:"description"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
     for _, it := range items {
-    	fmt.Println(it.ID, it.Title)
+    	fmt.Println(it.ID, it.Name)
     }
 
     // Total и Next этот метод не возвращает: постраничный обход
@@ -491,25 +474,28 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "id": 11,
-            "title": "Sql_host",
-            "active": true,
-            "description": "Подключение для отчетов по хостам"
+            "id": 9,
+            "name": "sales_data_main",
+            "description": "Monthly sales report"
         },
         {
-            "id": 10,
-            "title": "Sql_partner",
-            "active": false,
-            "description": "Подключение для отчетов по партнерам"
+            "id": 6,
+            "name": "sales_data_first_filial",
+            "description": "Monthly sales report for first filial"
+        },
+        {
+            "id": 5,
+            "name": "sales_data_second_filial",
+            "description": "Monthly sales report for second filial"
         }
     ],
     "time": {
-        "start": 1742804947.923552,
-        "finish": 1742804947.995446,
-        "duration": 0.07189393043518066,
-        "processing": 0.0017020702362060547,
-        "date_start": "2025-03-24T08:29:07+00:00",
-        "date_finish": "2025-03-24T08:29:07+00:00"
+        "start": 1743061675.963969,
+        "finish": 1743061676.064591,
+        "duration": 0.10062193870544434,
+        "processing": 0.011152029037475586,
+        "date_start": "2025-03-27T07:47:55+00:00",
+        "date_finish": "2025-03-27T07:47:56+00:00"
     }
 }
 ```
@@ -520,43 +506,79 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Корневой элемент ответа. Массив источников без дополнительной обертки [(подробное описание)](#source) ||
+[`array`](../../data-types.md) | Корневой элемент ответа. Плоский массив таблиц без дополнительной обертки [(подробное описание)](#table) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Элемент массива result {#source}
+#### Элемент массива result {#table}
+
+Элемент выборки — та же таблица, что возвращает [biconnector.table.get](./biconnector-table-get.md), но без массива `fields` и с дополнительным ключом `sourceId`.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Уникальный идентификатор источника ||
-|| **title**
-[`string`](../../data-types.md) | Название источника ||
+[`integer`](../../data-types.md) | Уникальный идентификатор таблицы ||
+|| **sourceId**
+[`integer`](../../data-types.md) | Идентификатор источника, к которому привязана таблица. Из методов раздела это поле возвращает только `biconnector.table.list` ||
 || **type**
-[`string`](../../data-types.md) | Тип источника. У источников, созданных через REST, значение всегда равно `rest` ||
-|| **code**
-[`string`](../../data-types.md) | Код источника. Формируется автоматически по шаблону `rest_<connectorId>` ||
+[`string`](../../data-types.md) | Тип таблицы. У таблиц, созданных через REST API, значение всегда равно `rest` ||
+|| **name**
+[`string`](../../data-types.md) | Название таблицы ||
 || **description**
-[`string`](../../data-types.md) | Описание источника ||
-|| **active**
-[`boolean`](../../data-types.md) | Активность источника. Неактивный источник перестает отдавать данные ||
+[`string`](../../data-types.md) | Описание таблицы ||
+|| **externalCode**
+[`string`](../../data-types.md) | Внешний код таблицы — имя, под которым таблицу знает приложение ||
+|| **externalName**
+[`string`](../../data-types.md) | Внешнее имя таблицы ||
 || **dateCreate**
-[`datetime`](../../data-types.md) | Дата создания источника в формате `Y-m-d H:i:s` ||
+[`datetime`](../../data-types.md) | Дата создания таблицы в формате `Y-m-d H:i:s` ||
 || **dateUpdate**
-[`datetime`](../../data-types.md) | Дата обновления источника в формате `Y-m-d H:i:s` ||
+[`datetime`](../../data-types.md) | Дата обновления таблицы в формате `Y-m-d H:i:s`. У таблицы, которую ни разу не обновляли, значение `null` ||
 || **createdById**
-[`integer`](../../data-types.md) | Идентификатор пользователя, создавшего источник ||
+[`integer`](../../data-types.md) | Идентификатор пользователя, создавшего таблицу ||
 || **updatedById**
-[`integer`](../../data-types.md) | Идентификатор пользователя, обновившего источник ||
-|| **connectorId**
-[`integer`](../../data-types.md) | Идентификатор коннектора, к которому привязан источник ||
-|| **settings**
-[`array`](../../data-types.md) | Параметры авторизации источника. Структура элемента — в разделе [Поле settings](./index.md#settings) ||
+[`integer`](../../data-types.md) | Идентификатор пользователя, обновившего таблицу. У таблицы, которую ни разу не обновляли, значение `0` ||
+|| **externalId**
+[`integer`](../../data-types.md) | Идентификатор датасета BI-Конструктора, созданного вместе с таблицей методом [biconnector.dataset.add](../dataset/biconnector-dataset-add.md). У таблиц, созданных методом [biconnector.table.add](./biconnector-table-add.md), значение всегда `0` ||
+|| **csvDelimiter**
+[`string`](../../data-types.md) | Разделитель колонок в CSV-файле. У таблиц REST-источника приходит пустой строкой ||
+|| **csvEncoding**
+[`string`](../../data-types.md) | Кодировка CSV-файла. У таблиц REST-источника приходит пустой строкой ||
+|| **csvHasHeaders**
+[`boolean`](../../data-types.md) | Признак того, что первая строка CSV-файла — заголовки колонок. У таблиц REST-источника приходит значением `false` ||
 |#
 
+Так выглядит элемент, когда метод вызван без `select`:
+
+```json
+{
+    "id": 27,
+    "type": "rest",
+    "name": "sales_orders",
+    "description": "Заказы из внешнего сервиса",
+    "externalCode": "sales_orders",
+    "externalName": "Sales orders",
+    "dateCreate": "2026-09-16 12:00:46",
+    "dateUpdate": null,
+    "createdById": 1,
+    "updatedById": 0,
+    "externalId": 0,
+    "csvDelimiter": "",
+    "csvEncoding": "",
+    "csvHasHeaders": false,
+    "sourceId": 3
+}
+```
+
 Если задан параметр `select`, в элементах остаются только перечисленные поля.
+
+{% note warning "" %}
+
+Не перечисляйте в `select` поля с датами — `dateCreate` и `dateUpdate`. При точечном выборе дата не форматируется и вместо строки приходит пустой объект `{}`. Чтобы получить даты, вызывайте метод без `select` или с `select: ["*"]`
+
+{% endnote %}
 
 ## Обработка ошибок
 
@@ -610,8 +632,9 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./biconnector-source-add.md)
-- [{#T}](./biconnector-source-update.md)
-- [{#T}](./biconnector-source-get.md)
-- [{#T}](./biconnector-source-delete.md)
-- [{#T}](./biconnector-source-fields.md)
+- [{#T}](./biconnector-table-add.md)
+- [{#T}](./biconnector-table-update.md)
+- [{#T}](./biconnector-table-get.md)
+- [{#T}](./biconnector-table-delete.md)
+- [{#T}](./biconnector-table-fields-update.md)
+- [{#T}](./biconnector-table-fields.md)

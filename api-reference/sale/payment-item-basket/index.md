@@ -9,25 +9,29 @@
 
 {% endnote %}
 
-У одной корзины может быть несколько оплат — например, если товары оплачиваются через разные платежные системы. Определите, какие позиции корзины относятся к каждой из оплат.
+У заказа может быть несколько оплат — например, если товары оплачиваются через разные платежные системы. Привязка показывает, какие элементы корзины и в каком количестве входят в каждую оплату: она хранит идентификатор оплаты `paymentId`, идентификатор элемента корзины `basketId` и количество `quantity`.
 
 > Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Как покупателю оформить заказ в интернет-магазине](https://helpdesk.bitrix24.ru/open/28841930/)
 
-## Как начать работу с привязкой элемента корзины к оплате
+## Как начать работу
 
-1. Получите идентификатор оплаты методом [sale.payment.list](../payment/sale-payment-list.md).
-2. Получите идентификатор позиции корзины методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md).
-3. Проверьте доступные поля привязки методом [sale.paymentitembasket.getfields](./sale-payment-item-basket-get-fields.md).
-4. Создайте привязку методом [sale.paymentitembasket.add](./sale-payment-item-basket-add.md).
-5. Используйте [sale.paymentitembasket.list](./sale-payment-item-basket-list.md), чтобы проверить, какие позиции корзины связаны с оплатами.
+1. Получите идентификатор заказа методом [sale.order.list](../order/sale-order-list.md).
+2. Получите оплаты заказа методом [sale.payment.list](../payment/sale-payment-list.md) и элементы корзины методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md) — в обоих методах отфильтруйте по `orderId`.
+3. Создайте привязку методом [sale.paymentitembasket.add](./sale-payment-item-basket-add.md): передайте `paymentId`, `basketId` и `quantity`.
+4. Проверьте, какие элементы корзины связаны с оплатами, методом [sale.paymentitembasket.list](./sale-payment-item-basket-list.md).
+5. Идентификатор привязки `id` из ответа методов добавления или списка передавайте в методы [sale.paymentitembasket.get](./sale-payment-item-basket-get.md), [sale.paymentitembasket.update](./sale-payment-item-basket-update.md) и [sale.paymentitembasket.delete](./sale-payment-item-basket-delete.md).
 
-## Связь привязки элементов корзины к оплатам с другими объектами
+## Связь с другими объектами
 
-**Оплаты.** Укажите идентификатор оплаты, к которой хотите привязать позицию корзины. Список идентификаторов оплат можно получить методом [sale.payment.list](../payment/sale-payment-list.md).
+Привязка соединяет оплату и элемент корзины одного заказа. Поля объекта привязки описаны в справочнике [sale_payment_item_basket](../data-types.md#sale_payment_item_basket).
 
-**Корзина.** Укажите идентификатор позиции корзины для оплаты. Список идентификаторов позиций корзины можно получить методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md).
+**Заказ.** Оплата из `paymentId` и элемент корзины из `basketId` должны принадлежать одному заказу. Если оплата относится к другому заказу, метод [sale.paymentitembasket.add](./sale-payment-item-basket-add.md) вернет ошибку `201240400002` — `payment not exists`.
+
+**Оплата.** Одна оплата может включать несколько элементов корзины, а один элемент — входить в несколько оплат. Пара «оплата + элемент» уникальна: повторная привязка той же пары вернет ошибку `201250000001`. При добавлении оплаты методом [sale.payment.add](../payment/sale-payment-add.md) Битрикс24 может создать привязки для элементов корзины автоматически — проверьте их методом [sale.paymentitembasket.list](./sale-payment-item-basket-list.md), прежде чем добавлять свои. Список оплат заказа возвращает метод [sale.payment.list](../payment/sale-payment-list.md).
+
+**Корзина.** Значение `quantity` не может превышать количество элемента в корзине: на большее значение методы [sale.paymentitembasket.add](./sale-payment-item-basket-add.md) и [sale.paymentitembasket.update](./sale-payment-item-basket-update.md) вернут ошибку с кодом `0` и описанием «Недостаточное количество товара в корзине». Проверка идет по каждой привязке отдельно: сумму количества по всем оплатам Битрикс24 не ограничивает. Количество элемента возвращает метод [sale.basketitem.list](../basket-item/sale-basket-item-list.md) в поле `quantity`.
 
 ## Обзор методов {#all-methods}
 

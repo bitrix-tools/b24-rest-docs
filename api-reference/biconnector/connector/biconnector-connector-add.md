@@ -11,9 +11,17 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.connector.add` создает новый коннектор, который позволяет интегрировать внешние источники данных в Битрикс24.
+Метод `biconnector.connector.add` создает новый коннектор.
+
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md). Созданный коннектор видит только это приложение: другим приложениям он не доступен. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
+
+Коннектор описывает только адреса эндпоинтов и список параметров авторизации — сам по себе он данные не отдает. Чтобы получить данные, после создания коннектора создайте источник методом [biconnector.source.add](../source/biconnector-source-add.md) и передайте в нем `id` коннектора.
 
 ## Параметры метода
 
@@ -23,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Объект, содержащий данные для создания нового коннектора. Формат объекта: 
+[`object`](../../data-types.md) | Объект, содержащий данные для создания нового коннектора. Формат объекта:
 
 ```
 {
@@ -46,23 +54,44 @@
 || **Название**
 `тип` | **Описание** ||
 || **title***
-[`string`](../../data-types.md) | Название коннектора ||
+[`string`](../../data-types.md) | Название коннектора, максимальная длина — 512 символов ||
 || **logo***
 [`string`](../../data-types.md) | Логотип коннектора. Может передаваться ссылкой на изображение или строкой формата base64, например `data:image/svg+xml;base64,PHN2ZyB3...` ||
 || **description**
 [`string`](../../data-types.md) | Описание коннектора ||
 || **urlCheck***
-[`string`](../../data-types.md) | Эндпоинт коннектора для проверки доступности, [(подробное описание)](./index.md#urlCheck) ||
+[`string`](../../data-types.md) | Эндпоинт коннектора для проверки доступности, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlCheck) ||
 || **urlTableList***
-[`string`](../../data-types.md) | Эндпоинт коннектора для получения списка таблиц, [(подробное описание)](./index.md#urlTableList) ||
+[`string`](../../data-types.md) | Эндпоинт коннектора для получения списка таблиц, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlTableList) ||
 || **urlTableDescription***
-[`string`](../../data-types.md) | Эндпоинт коннектора для получения описания конкретной таблицы, [(подробное описание)](./index.md#urlTableDescription) ||
+[`string`](../../data-types.md) | Эндпоинт коннектора для получения описания конкретной таблицы, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlTableDescription) ||
 || **urlData***
-[`string`](../../data-types.md) | Эндпоинт коннектора для получения данных по выбранной таблице, [(подробное описание)](./index.md#urlData) ||
+[`string`](../../data-types.md) | Эндпоинт коннектора для получения данных по выбранной таблице, максимальная длина — 2048 символов, [(подробное описание)](./index.md#urlData) ||
 || **settings***
-[`array`](../../data-types.md) | Список параметров подключения, [(подробное описание)](./index.md#settings) ||
+[`array`](../../data-types.md) | Массив параметров подключения: коды и названия полей, значения которых пользователь заполнит при создании источника [(подробное описание)](#settings) ||
+|| **supportMapping**
+[`boolean`](../../data-types.md) | Поддержка сопоставления полей таблицы с полями внешней системы. Значение по умолчанию — `false`.
+
+Значение проверяется строгим сравнением с булевым типом, поэтому в запросе с типом `application/x-www-form-urlencoded` оно не пройдет — передавайте его с заголовком `Content-Type: application/json` ||
+|| **sourceCode**
+[`string`](../../data-types.md) | Символьный код внешней системы, максимальная длина — 64 символа ||
 || **sort**
-[`integer`](../../data-types.md) | Параметр сортировки коннекторов. Значение по умолчанию `100` ||
+[`integer`](../../data-types.md) | Параметр сортировки коннекторов. Значение по умолчанию — `100` ||
+|#
+
+### Параметр settings {#settings}
+
+Каждый элемент массива `settings` — объект с тремя обязательными полями.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code***
+[`string`](../../data-types.md) | Код параметра. С этим названием параметр уходит во внешнюю систему в объекте `connection`. Максимальная длина — 512 символов ||
+|| **name***
+[`string`](../../data-types.md) | Название параметра, которое видит пользователь в разделе «Рабочее место аналитика». Максимальная длина — 512 символов ||
+|| **type***
+[`string`](../../data-types.md) | Тип параметра, определяет поле ввода в интерфейсе. Допустимые значения: `STRING`, `INT`. Значение регистрозависимо: `string` в нижнем регистре вызовет ошибку `VALIDATION_SETTINGS_INVALID_TYPE` ||
 |#
 
 ## Примеры кода
@@ -70,39 +99,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{
-             "fields": {
-                 "title": "SUPER REST CONNECTOR",
-                 "logo": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjRkYzQjNCIiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPg==",
-                 "description": "Connector with token",
-                 "urlCheck": "http://example.com/api/check",
-                 "urlTableList": "http://example.com/api/table_list",
-                 "urlTableDescription": "http://example.com/api/table_description",
-                 "urlData": "http://example.com/api/data",
-                 "settings": [
-                    {
-                        "name": "Логин",
-                        "type": "STRING",
-                        "code": "login"
-                    },
-                    {
-                        "name": "Пароль",
-                        "type": "STRING",
-                        "code": "password"
-                    }
-                 ],
-                 "sort": 100
-             }
-             }' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.connector.add
-    ```
 
 - cURL (OAuth)
 
@@ -148,13 +144,21 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type ConnectorAddResult = {
       id: number
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<ConnectorAddResult>({
+      const response = await $b24.actions.v2.call.make<ConnectorAddResult | BiconnectorError>({
         method: 'biconnector.connector.add',
         params: {
           fields: {
@@ -167,12 +171,12 @@
             urlData: 'http://example.com/api/data',
             settings: [
               {
-                name: 'Login',
+                name: 'Логин',
                 type: 'STRING',
                 code: 'login',
               },
               {
-                name: 'Password',
+                name: 'Пароль',
                 type: 'STRING',
                 code: 'password',
               },
@@ -188,7 +192,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Created connector ID:', result.id)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if ('error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Created connector ID:', result.id)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -220,12 +230,12 @@
                 urlData: 'http://example.com/api/data',
                 settings: [
                   {
-                    name: 'Login',
+                    name: 'Логин',
                     type: 'STRING',
                     code: 'login',
                   },
                   {
-                    name: 'Password',
+                    name: 'Пароль',
                     type: 'STRING',
                     code: 'password',
                   },
@@ -243,6 +253,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Created connector ID:', result.id)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -271,12 +288,12 @@
                 "urlData": "http://example.com/api/data",
                 "settings": [
                     {
-                        "name": "Login",
+                        "name": "Логин",
                         "type": "STRING",
                         "code": "login",
                     },
                     {
-                        "name": "Password",
+                        "name": "Пароль",
                         "type": "STRING",
                         "code": "password",
                     },
@@ -285,7 +302,17 @@
             },
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -300,7 +327,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -333,17 +359,24 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Success: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding connector: ' . $e->getMessage();
@@ -380,9 +413,20 @@
             },
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         },
     );
     ```
@@ -420,9 +464,15 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -455,6 +505,17 @@
     })
     if err != nil {
     	return fmt.Errorf("biconnector.connector.add: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.connector.add: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var item struct {
@@ -495,9 +556,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит поле `id` с идентификатором созданного коннектора ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор созданного коннектора. Передавайте его в параметре `id` методов [biconnector.connector.get](./biconnector-connector-get.md) и [biconnector.connector.update](./biconnector-connector-update.md) и в параметре `connectorId` метода [biconnector.source.add](../source/biconnector-source-add.md) ||
 |#
 
 ## Обработка ошибок
@@ -506,10 +576,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_FIELDS_NOT_PROVIDED",
-    "error_description": "Fields not provided."
+    "result": {
+        "error": {
+            "error": "VALIDATION_FIELDS_NOT_PROVIDED",
+            "error_description": "Fields not provided."
+        }
+    }
 }
 ```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -517,11 +597,11 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided | Поля не переданы в запросе ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
 || `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
 || `VALIDATION_REQUIRED_FIELD_MISSING` | Field "#TITLE#" is required. | Обязательное поле #TITLE# не передано ||
 || `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
-|| `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
 || `VALIDATION_SETTINGS_MISSING_REQUIRED_FIELDS` | Settings must include "type", "name" and "code" fields. | В настройках должны быть указаны поля `type`, `name` и `code` ||
 || `VALIDATION_SETTINGS_NAME_TOO_LONG` | Parameter "name" must be less than 512 characters. | Значение параметра `name` не должно превышать 512 символов ||
@@ -533,6 +613,7 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./biconnector-connector-update.md)
 - [{#T}](./biconnector-connector-get.md)
 - [{#T}](./biconnector-connector-list.md)

@@ -9,7 +9,9 @@
 
 {% endnote %}
 
-`BodyDto` — это основная контентная область [записи таймлайна](../index.md).
+`BodyDto` — основная контентная область [записи таймлайна](../index.md): логотип и набор контентных блоков, из которых складывается содержимое записи. Объект передают в поле `body` [структуры конфигурируемого дела](./layout.md) при вызове методов [crm.activity.configurable.add](../crm-activity-configurable-add.md) и [crm.activity.configurable.update](../crm-activity-configurable-update.md).
+
+Типы блоков и их поля описаны на странице [контентного блока](./content-block.md). Готовые сочетания — карточка с набором полей, с разными типами действий и на нескольких языках — собраны в [примерах конфигураций дела](./examples.md).
 
 ## Параметры объекта `BodyDto`
 
@@ -18,20 +20,14 @@
 #|
 || **Поле** | **Описание** ||
 || **logo^*^**
-[`LogoDto`](#obuekt) | Объект, описывающий логотип записи таймлайна ||
-|| **blocks**
-[`ContentBlockDto`](./content-block.md) | Ассоциативный массив объектов, описывающих контентные блоки 
-
-{% note warning %}
-
-Массив должен содержать хотя бы один элемент и не более 20 элементов.
-
-{% endnote %}
-
-||
+[`LogoDto`](#logo-dto) | Логотип записи ||
+|| **blocks^*^**
+[`object`](../../../../../data-types.md) | Контентные блоки записи: ключ — идентификатор блока, который вы задаете сами, значение — объект [ContentBlockDto](./content-block.md). В ключе допустимы латинские буквы, цифры, дефис и подчеркивание. Передайте хотя бы один блок, но не более 20 ||
 |#
 
-## Объект `LogoDto` {#obuekt}
+Если структура нарушает эти ограничения, метод вернет ошибку валидации. Коды ошибок перечислены на страницах [crm.activity.configurable.add](../crm-activity-configurable-add.md#errors) и [crm.activity.configurable.update](../crm-activity-configurable-update.md#errors).
+
+## Объект `LogoDto` {#logo-dto}
 
 Логотип записи таймлайна.
 
@@ -42,27 +38,32 @@
 #|
 || **Поле** | **Описание** ||
 || **code^*^**
-[`string`](../../../../../data-types.md) | Код логотипа, например `call`. Список доступных кодов можно получить с помощью метода [crm.timeline.logo.list](../../../logmessage/logo/crm-timeline-logo-list.md) ||
+[`string`](../../../../../data-types.md) | Код логотипа, например `call-incoming` или `notification`. Все доступные коды возвращает метод [crm.timeline.logo.list](../../../logmessage/logo/crm-timeline-logo-list.md). Свой логотип добавляет метод [crm.timeline.logo.add](../../../logmessage/logo/crm-timeline-logo-add.md) ||
 || **action**
 [`ActionDto`](./action.md) | Действие по нажатию на логотип ||
 |#
 
-## Пример объекта (без контентных блоков)
+## Пример объекта
+
+Значение поля `body`: логотип входящего звонка со ссылкой на сделку и один текстовый блок.
 
 ```json
 {
-    "body": {
-        "logo": {
-            "code": "call-incoming",
-            "action": {
-                "type": "redirect",
-                "uri": "/crm/deal/details/123/"
-            }
-        },
-        "blocks": {
-
+    "logo": {
+        "code": "call-incoming",
+        "action": {
+            "type": "redirect",
+            "uri": "/crm/deal/details/123/"
         }
     },
+    "blocks": {
+        "text": {
+            "type": "text",
+            "properties": {
+                "value": "Клиент подтвердил встречу"
+            }
+        }
+    }
 }
 ```
 

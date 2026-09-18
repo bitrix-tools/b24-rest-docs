@@ -1,0 +1,19 @@
+title: Таблицы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать таблицу
+    href: biconnector-table-add.md
+  - name: Обновить таблицу
+    href: biconnector-table-update.md
+  - name: Получить таблицу по id
+    href: biconnector-table-get.md
+  - name: Получить список таблиц
+    href: biconnector-table-list.md
+  - name: Удалить таблицу
+    href: biconnector-table-delete.md
+  - name: Обновить колонки таблицы
+    href: biconnector-table-fields-update.md
+  - name: Получить поля таблицы
+    href: biconnector-table-fields.md

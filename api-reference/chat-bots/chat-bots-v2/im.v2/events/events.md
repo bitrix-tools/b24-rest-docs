@@ -9,11 +9,28 @@
 
 {% endnote %}
 
-Описание всех событий, которые пользовательское приложение получает через [im.v2.Event.get](./event-get.md).
+> Scope: [`im`](../../../../scopes/permissions.md)
+>
+> Кто может подписаться: авторизованный пользователь
 
-Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
+Описание всех событий, которые приложение или пользователь получает через [im.v2.Event.get](./event-get.md).
 
-**Быстрый переход:** [ONIMV2MESSAGEADD](#onimv2messageadd) | [ONIMV2MESSAGEUPDATE](#onimv2messageupdate) | [ONIMV2MESSAGEDELETE](#onimv2messagedelete) | [ONIMV2REACTIONCHANGE](#onimv2reactionchange) | [ONIMV2JOINCHAT](#onimv2joinchat)
+Битрикс24 записывает события только после вызова [im.v2.Event.subscribe](./event-subscribe.md) от имени пользователя, а доставляет их только в режиме polling — вызовами [im.v2.Event.get](./event-get.md). Порядок подписки и опроса описан в обзоре [Работа с чатом](../index.md).
+
+Каждое событие приходит элементом массива `result.events` с полями `eventId`, `type`, `date` и `data`. Таблицы и примеры ниже описывают содержимое `data`; оболочка элемента описана на странице [im.v2.Event.get](./event-get.md). Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
+
+> Быстрый переход: [все события](#all-events)
+
+## Обзор событий {#all-events}
+
+#|
+|| **Событие** | **Когда приходит** ||
+|| [ONIMV2MESSAGEADD](#onimv2messageadd) | Новое сообщение в чате, где состоит подписанный пользователь ||
+|| [ONIMV2MESSAGEUPDATE](#onimv2messageupdate) | Сообщение отредактировано ||
+|| [ONIMV2MESSAGEDELETE](#onimv2messagedelete) | Сообщение удалено ||
+|| [ONIMV2REACTIONCHANGE](#onimv2reactionchange) | Реакция на сообщение добавлена или удалена ||
+|| [ONIMV2JOINCHAT](#onimv2joinchat) | В чат добавлен новый участник ||
+|#
 
 ## Отличия от ответов методов
 
@@ -25,9 +42,7 @@
 
 {% note info "" %}
 
-В этой статье описан формат событий метода `im.v2.Event.get` (polling/FETCH), поэтому поле `auth` в данных события не возвращается.
-
-Если использовать webhook-подписку на события, в webhook-обертке может присутствовать объект `auth` с токенами.
+Поля `auth` в данных события нет: события `im.v2` не вызывают обработчик приложения, а приходят в ответе [im.v2.Event.get](./event-get.md), поэтому авторизация передается в самом запросе.
 
 {% endnote %}
 
@@ -148,6 +163,28 @@
 || **language** | `string` | Язык Битрикс24 ||
 |#
 
+### Пример данных
+
+Объекты `chat` и `user` здесь и в примерах ниже сокращены. Полный состав — в примере [ONIMV2MESSAGEADD](#onimv2messageadd).
+
+```json
+{
+    "messageId": 5012,
+    "chat": {
+        "id": 5,
+        "dialogId": "chat5",
+        "name": "Project Chat",
+        "type": "chat"
+    },
+    "user": {
+        "id": 1,
+        "name": "John Smith",
+        "type": "employee"
+    },
+    "language": "en"
+}
+```
+
 ---
 
 ## ONIMV2REACTIONCHANGE {#onimv2reactionchange}
@@ -164,6 +201,39 @@
 || **language** | `string` | Язык Битрикс24 ||
 |#
 
+### Пример данных
+
+```json
+{
+    "reaction": "like",
+    "action": "add",
+    "message": {
+        "id": 5012,
+        "chatId": 5,
+        "authorId": 1,
+        "date": "2025-01-15T10:30:00+03:00",
+        "text": "Hello everyone!",
+        "isSystem": false,
+        "uuid": "",
+        "forward": null,
+        "params": {},
+        "viewedByOthers": false
+    },
+    "chat": {
+        "id": 5,
+        "dialogId": "chat5",
+        "name": "Project Chat",
+        "type": "chat"
+    },
+    "user": {
+        "id": 2,
+        "name": "Jane Doe",
+        "type": "employee"
+    },
+    "language": "en"
+}
+```
+
 ---
 
 ## ONIMV2JOINCHAT {#onimv2joinchat}
@@ -177,6 +247,26 @@
 || **user** | [`User`](../../entities.md#user) | Добавленный пользователь. Описание полей объекта — [User](../../entities.md#user) ||
 || **language** | `string` | Язык Битрикс24 ||
 |#
+
+### Пример данных
+
+```json
+{
+    "dialogId": "chat5",
+    "chat": {
+        "id": 5,
+        "dialogId": "chat5",
+        "name": "Project Chat",
+        "type": "chat"
+    },
+    "user": {
+        "id": 3,
+        "name": "Alex Brown",
+        "type": "employee"
+    },
+    "language": "en"
+}
+```
 
 ## Продолжите изучение
 

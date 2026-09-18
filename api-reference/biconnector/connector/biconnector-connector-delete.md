@@ -11,11 +11,17 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
 Метод `biconnector.connector.delete` удаляет существующий коннектор.
 
-Коннектор можно удалить, если у него нет источников.
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и удаляет только те коннекторы, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
+
+Коннектор можно удалить, если у него нет источников. Если источники остались, метод возвращает ошибку `CONNECTOR_DELETE_RESTRICTED` — сначала удалите каждый источник методом [biconnector.source.delete](../source/biconnector-source-delete.md).
 
 ## Параметры метода
 
@@ -33,18 +39,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-         -H "Content-Type: application/json" \
-         -H "Accept: application/json" \
-         -d '{
-             "id": 4
-             }' \
-         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.connector.delete
-    ```
 
 - cURL (OAuth)
 
@@ -69,8 +63,16 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<boolean | BiconnectorError>({
         method: 'biconnector.connector.delete',
         params: {
           id: 4,
@@ -83,7 +85,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Connector deleted:', result)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if (typeof result === 'object' && result !== null && 'error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Connector deleted:', result)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -117,6 +125,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Connector deleted:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -138,7 +153,17 @@
             bitrix_id=4,
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -154,7 +179,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -165,17 +189,24 @@
                     'id' => 4,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Info: ' . $result->data();
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Info: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting connector: ' . $e->getMessage();
@@ -191,7 +222,20 @@
             id: 4,
         },
         (result) => {
-            result.error() ? console.error(result.error()) : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         }
     );
     ```
@@ -208,9 +252,15 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -222,6 +272,17 @@
     })
     if err != nil {
     	return fmt.Errorf("biconnector.connector.delete: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.connector.delete: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var ok bool
@@ -257,7 +318,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа. Содержит `true`, если коннектор удален. Другого значения при успехе метод не возвращает и объект удаленного коннектора не отдает. Если удалить коннектор не удалось, вместо `true` в `result` приходит объект с ключом `error` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -268,10 +329,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_ID_NOT_PROVIDED",
-    "error_description": "ID is missing."
+    "result": {
+        "error": {
+            "error": "VALIDATION_ID_NOT_PROVIDED",
+            "error_description": "ID is missing."
+        }
+    }
 }
 ```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -279,18 +350,20 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
-|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектор не найден ||
-|| `CONNECTOR_DELETE_RESTRICTED` | Connector cannot be removed. Remove the connections related to the connector first. | Нельзя удалить коннектор, пока существуют связанные подключения ||
+|| `CONNECTOR_NOT_FOUND` | Connector was not found. | Коннектора нет или он принадлежит другому приложению ||
+|| `CONNECTOR_DELETE_RESTRICTED` | Connector cannot be removed. Remove the connections related to the connector first. | Нельзя удалить коннектор, пока у него есть источники. Удалите их методом [biconnector.source.delete](../source/biconnector-source-delete.md) и повторите вызов. В тексте ошибки источники названы подключениями ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./biconnector-connector-add.md)
 - [{#T}](./biconnector-connector-update.md)
 - [{#T}](./biconnector-connector-get.md)
 - [{#T}](./biconnector-connector-list.md)
-- [{#T}](./biconnector-connector-add.md)
 - [{#T}](./biconnector-connector-fields.md)
