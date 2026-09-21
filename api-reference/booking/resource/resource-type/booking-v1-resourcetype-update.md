@@ -510,12 +510,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `1007` | `Resource type not found` | Указан несуществующий `id` типа ресурса ||
-|| `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр ||
-|| `422` | `Invalid value of the {field} field` | Недопустимое значение поля из перечисления, например `templateTypeConfirmation` ||
-|| `1011` | `Resource type with code "X" already exists` | Такой `code` уже занят другим типом или самим обновляемым типом ||
-|| `0` | `ResourceTypeRepository::getByModuleIdAndCode(): Argument #2 ($code) must be of type string, null given` | В `fields` не передано поле `code` ||
-|| `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
+|| `1007` | Resource type not found | Указан несуществующий `id` типа ресурса ||
+|| `100` | Could not find value for parameter \{id\} | Не передан обязательный параметр ||
+|| `422` | Invalid value of the {field} field | Недопустимое значение поля из перечисления, например `templateTypeConfirmation` ||
+|| `1011` | Resource type with code "X" already exists | Такой `code` уже занят другим типом или самим обновляемым типом ||
+|| `0` | ResourceTypeRepository::getByModuleIdAndCode(): Argument #2 ($code) must be of type string, null given | В `fields` не передано поле `code` ||
+|| `0` | Booking tool is disabled. Please contact your administrator. | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
