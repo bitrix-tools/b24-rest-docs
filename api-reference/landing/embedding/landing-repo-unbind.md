@@ -29,7 +29,7 @@
 || **handler**
 [`string`](../../data-types.md) | Путь обработчика места встраивания.
 
-Значение `handler` должно совпадать со значением поля `PLACEMENT_HANDLER`, которое передавалось при регистрации места встраивания методом `landing.repo.bind`.
+Значение `handler` должно совпадать со значением поля `PLACEMENT_HANDLER`, которое передавалось при регистрации места встраивания методом [landing.repo.bind](./landing-repo-bind.md).
 
 Примеры передачи `PLACEMENT_HANDLER` смотрите на страницах [LANDING_SETTINGS](./settings.md) и [LANDING_BLOCK](./block.md).
 
@@ -314,3 +314,4 @@ HTTP-статус: **400**
 - [{#T}](./index.md)
 - [{#T}](./settings.md)
 - [{#T}](./block.md)
+- [{#T}](./landing-repo-bind.md)

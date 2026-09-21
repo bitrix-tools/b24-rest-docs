@@ -1,4 +1,4 @@
-# Пункт в меню настроек сайта и страницы LANDING_SETTINGS
+# Зарегистрировать место встраивания landing.repo.bind
 
 {% note tip "" %}
 
@@ -10,81 +10,57 @@
 {% endnote %}
 
 > Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты
 
-Виджет `LANDING_SETTINGS` добавляет пункт приложения в меню настроек сайта или страницы в режиме редактирования.
-
-Для встраивания в разделе `landing` используется внутренний метод модуля [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md).
+Метод `landing.repo.bind` регистрирует место встраивания текущего приложения в разделе Сайты.
 
 {% note info "" %}
 
-Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
 {% endnote %}
 
-## Куда встраивается виджет
-
-#|
-|| **Код встройки** | **Место** ||
-|| `LANDING_SETTINGS` | Пункт в меню настроек сайта или страницы ||
-|#
-
-### Где находится в интерфейсе
-
-Откройте сайт или страницу в режиме редактирования. В правом верхнем углу перейдите в *Возможности сайта > Настройки (⚙️)*. Пункт приложения с `PLACEMENT=LANDING_SETTINGS` отображается последним пунктом в левом меню слайдера.
-
-## Что получает обработчик
-
-Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
-
-```php
-Array
-(
-    [DOMAIN] => example.bitrix24.ru
-    [PROTOCOL] => 1
-    [LANG] => ru
-    [APP_SID] => 0123456789abcdef0123456789abcdef
-    [APPLICATION_SCOPE] => crm,placement,landing
-    [APPLICATION_TOKEN] => xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    [AUTH_ID] => 6061e72600631fcd00005a4b00000001f0f1076700000000f69dd5fc643d9ce2fdbc1
-    [AUTH_EXPIRES] => 3600
-    [REFRESH_ID] => 50e00aa340631fcd00005a4b00000001f0f1071111116580a5b83c2de639ef28c12
-    [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
-    [member_id] => abcdef1234567890abcdef1234567890
-    [status] => F
-    [PLACEMENT] => LANDING_SETTINGS
-    [PLACEMENT_OPTIONS] => {"SITE_ID":"30","LID":"30"}
-)
-```
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-{% include notitle [описание стандартных данных](../../widgets/_includes/widget_data.md) %}
-
-### Дополнительные данные
-
 #|
-|| **Параметр**
+|| **Название**
 `тип` | **Описание** ||
-|| **APPLICATION_SCOPE**
-[`string`](../../data-types.md) | Список scope, доступных приложению ||
-|| **APPLICATION_TOKEN**
-[`string`](../../data-types.md) | Токен приложения для безопасной обработки событий ||
-|| **SERVER_ENDPOINT**
-[`string`](../../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
+|| **fields**^*^
+[`object`](../../data-types.md) | Параметры места встраивания [(подробное описание)](#fields) ||
 |#
 
-### PLACEMENT_OPTIONS
+### Параметр fields {#fields}
 
-Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **PLACEMENT**^*^
+[`string`](../../data-types.md) | Код места встраивания.
 
-Для `LANDING_SETTINGS` в контекст передаются ключи:
+Код зависит от места, где должен появиться пункт приложения:
+- `LANDING_SETTINGS` — пункт в меню настроек сайта или страницы
+- `LANDING_BLOCK_<CODE>` — пункт редактирования блоков с указанным символьным кодом
+- `LANDING_BLOCK_*` — пункт редактирования для всех блоков
 
-- `SITE_ID` — идентификатор сайта, в настройках которого открыт виджет
-- `LID` — идентификатор страницы, из режима редактирования которой был вызван виджет
+Метод удаляет пробелы по краям значения и приводит код к верхнему регистру ||
+|| **PLACEMENT_HANDLER**^*^
+[`string`](../../data-types.md) | Полный HTTP- или HTTPS-адрес обработчика места встраивания.
+
+Адрес должен содержать протокол и доменное имя ||
+|| **TITLE**
+[`string`](../../data-types.md) | Название пункта приложения в интерфейсе.
+
+По умолчанию — пустая строка ||
+|#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример регистрирует пункт приложения в меню настроек сайта или страницы.
 
 {% list tabs %}
 
@@ -108,8 +84,6 @@ Array
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
@@ -122,21 +96,18 @@ Array
           fields: {
             PLACEMENT: 'LANDING_SETTINGS',
             PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-settings-handler.php',
-            TITLE: 'My Settings',
+            TITLE: 'Мои настройки',
           },
         },
         requestId: Text.getUuidRfc4122()
       })
 
-      // The payload is available only on a successful response
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
       } else {
-        const result = response.getData()!.result
-        console.info('Landing settings bound:', result)
+        console.info(response.getData()!.result)
       }
     } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
       console.error(error)
     }
     ```
@@ -144,41 +115,35 @@ Array
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindLandingSettings() {
+      async function bindLandingPlacement() {
         try {
-          // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
-
           const response = await $b24.actions.v2.call.make({
             method: 'landing.repo.bind',
             params: {
               fields: {
                 PLACEMENT: 'LANDING_SETTINGS',
                 PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-settings-handler.php',
-                TITLE: 'My Settings',
+                TITLE: 'Мои настройки',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
-          // The payload is available only on a successful response
           if (!response.isSuccess) {
             console.error(response.getErrorMessages().join('; '))
             return
           }
 
-          const result = response.getData().result
-          console.info('Landing settings bound:', result)
+          console.info(response.getData().result)
         } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', bindLandingSettings)
+      document.addEventListener('DOMContentLoaded', bindLandingPlacement)
     </script>
     ```
 
@@ -209,6 +174,7 @@ Array
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -227,14 +193,10 @@ Array
             );
 
         $result = $response->getResponseData()->getResult();
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error binding landing settings: ' . $e->getMessage();
+        echo 'Error binding landing placement: ' . $e->getMessage();
     }
     ```
 
@@ -252,9 +214,12 @@ Array
         },
         function(result)
         {
-            if (result.error()) {
+            if (result.error())
+            {
                 console.error(result.error());
-            } else {
+            }
+            else
+            {
                 console.info(result.data());
             }
         }
@@ -277,9 +242,16 @@ Array
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    if (isset($result['error']))
+    {
+        echo 'Ошибка: ' . $result['error_description'];
+    }
+    else
+    {
+        echo '<pre>';
+        print_r($result['result']);
+        echo '</pre>';
+    }
     ```
 
 - Go
@@ -297,16 +269,77 @@ Array
     	return fmt.Errorf("landing.repo.bind: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}
 
+## Обработка ответа
+
+HTTP-статус: **200**
+
+```json
+{
+    "result": true,
+    "time": {
+        "start": 1775203200,
+        "finish": 1775203200.764211,
+        "duration": 0.7642109394073486,
+        "processing": 0,
+        "date_start": "2026-04-03T11:00:00+03:00",
+        "date_finish": "2026-04-03T11:00:00+03:00",
+        "operating_reset_at": 1775203800,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`boolean`](../../data-types.md) | Результат регистрации места встраивания. Возвращает `true`, если запись успешно добавлена ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "PLACEMENT_EXIST",
+    "error_description": "Такое место встраивания уже существует"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MISSING_PARAMS` | Недостаточно параметров вызова, пропущены: fields | Параметр `fields` не передан ||
+|| `400` | `TYPE_ERROR` | Неверный тип аргумента вызова: fields | В `fields` передано значение, которое не является объектом ||
+|| `400` | `ACCESS_DENIED` | Недостаточно прав. | У пользователя нет права Просмотр в разделе Сайты или он не прошел общие проверки доступа модуля `landing` ||
+|| `400` | `ACCESS_DENIED` | Управлять местами встраивания может только приложение | Метод вызван вне контекста приложения или модуль `rest` недоступен ||
+|| `400` | `PLACEMENT_UNKNOWN` | Такое место встраивания недоступно для сайтов | Код `PLACEMENT` не начинается с `LANDING_` ||
+|| `400` | `PLACEMENT_HANDLER_INVALID` | Некорректный адрес обработчика места встраивания | В `PLACEMENT_HANDLER` передан пустой или некорректный HTTP- или HTTPS-адрес ||
+|| `400` | `PLACEMENT_EXIST` | Такое место встраивания уже существует | У текущего приложения уже есть место встраивания с такими `PLACEMENT` и `PLACEMENT_HANDLER` ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./settings.md)
+- [{#T}](./block.md)
 - [{#T}](./landing-repo-unbind.md)
-- [{#T}](../../widgets/ui-interaction/index.md)
-- [{#T}](../../widgets/bx24-widget-methods.md)

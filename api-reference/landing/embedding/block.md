@@ -13,7 +13,7 @@
 
 Виджет `LANDING_BLOCK_<CODE>` добавляет пункт приложения рядом с действиями редактирования блока в редакторе страницы.
 
-Для встраивания в разделе `landing` используется внутренний метод модуля `landing.repo.bind`, а не [placement.bind](../../widgets/placement-bind.md).
+Для встраивания в разделе `landing` используется внутренний метод модуля [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md).
 
 Код места встраивания зависит от кода блока и задается в формате `LANDING_BLOCK_<CODE>`.
 

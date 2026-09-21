@@ -10,10 +10,12 @@
 {% endnote %}
 
 ```js
-BX24.appOption.get(string name): mixed;
+BX24.appOption.get(string name): any | undefined;
 ```
 
 Метод `BX24.appOption.get` возвращает настройку по ее коду.
+
+Метод работает после [BX24.init](../system-functions/bx24-init.md) и читает настройки приложения, загруженные при инициализации библиотеки.
 
 ## Параметры метода
 
@@ -26,23 +28,37 @@ BX24.appOption.get(string name): mixed;
 [`string`](../../../api-reference/data-types.md) | Код параметра ||
 |#
 
-## Примеры кода
+## Пример кода
 
 ```js
 BX24.init(() => {
     BX24.appOption.set('param_str', 'str1', (params) => console.log(params));
     BX24.appOption.set('param_numb', 1);
 
-    console.log(BX24.appOption.get('param_str')); //вернет str1
-    console.log(BX24.appOption.get('param_numb'));//вернет 1
+    console.log(BX24.appOption.get('param_str')); // вернет str1
+    console.log(BX24.appOption.get('param_numb')); // вернет 1
+    console.log(BX24.appOption.get('unknown')); // вернет undefined
 });
 ```
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-## Возвращаемое значение
+## Обработка ответа
 
-Возвращает значение настройки приложения с именем `name`. Тип значения зависит от того, что было сохранено методом [BX24.appOption.set](./bx24-app-option-set.md).
+Метод синхронно возвращает значение настройки приложения.
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`any`\|`undefined`](../../../api-reference/data-types.md) | Если настройка с именем `name` сохранена, метод возвращает ее значение. Тип зависит от значения, переданного в [BX24.appOption.set](./bx24-app-option-set.md). Если настройка не сохранена, возвращает `undefined` ||
+|#
+
+## Обработка ошибок
+
+Кодов ошибок метод не возвращает. Отсутствие настройки не считается ошибкой — метод возвращает `undefined`.
 
 ## Продолжите изучение
 

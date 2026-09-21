@@ -10,10 +10,12 @@
 {% endnote %}
 
 ```js
-BX24.userOption.set(string name, mixed value): void;
+BX24.userOption.set(string name, any value): void;
 ```
 
 Метод `BX24.userOption.set` устанавливает значение `value` настройки с именем `name` для текущего пользователя. Установка значения происходит сразу.
+
+Массивы и объекты сохраняются в составе набора настроек пользователя. Перед записью набор сериализуется, а при чтении восстанавливается, поэтому структуру можно получить методом [BX24.userOption.get](./bx24-user-option-get.md).
 
 ## Параметры метода
 
@@ -25,8 +27,14 @@ BX24.userOption.set(string name, mixed value): void;
 || **name***
 [`string`](../../../api-reference/data-types.md) | Код параметра ||
 || **value***
-[`any`](../../../api-reference/data-types.md) | Значение параметра ||
+[`any`](../../../api-reference/data-types.md) | Значение настройки. Можно передать примитивное значение, массив или объект ||
 |#
+
+{% note info "" %}
+
+Метод предназначен для хранения небольших значений конфигурации. Не сохраняйте с его помощью большие объемы данных.
+
+{% endnote %}
 
 ## Пример кода
 
@@ -35,14 +43,20 @@ BX24.init(() => {
     BX24.userOption.set('param_str', 'str');
     BX24.userOption.set('param_numb', 1);
     BX24.userOption.set('param_obj', {foo: 'bar'});
+
+    console.log(BX24.userOption.get('param_obj')); // вернет {foo: 'bar'}
 });
 ```
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-## Возвращаемое значение
+## Обработка ответа
 
-Метод ничего не возвращает.
+Метод ничего не возвращает. После вызова сохраненное значение доступно через [BX24.userOption.get](./bx24-user-option-get.md).
+
+## Обработка ошибок
+
+Метод не возвращает коды ошибок и не принимает обработчик завершения.
 
 ## Продолжите изучение
 

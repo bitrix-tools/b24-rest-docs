@@ -26,7 +26,7 @@
 Чтобы настроить:
 
 1. Выберите место встраивания [LANDING_SETTINGS](./settings.md).
-2. Зарегистрируйте место встраивания через внутренний метод `landing.repo.bind`, а не [placement.bind](../../widgets/placement-bind.md).
+2. Зарегистрируйте место встраивания методом [landing.repo.bind](./landing-repo-bind.md). Для этого сценария не используйте [placement.bind](../../widgets/placement-bind.md).
 3. В обработчике разберите `PLACEMENT_OPTIONS`, чтобы получить идентификаторы сайта и страницы.
 4. Если место встраивания больше не нужно, его можно удалить методом [landing.repo.unbind](./landing-repo-unbind.md).
 
@@ -35,13 +35,13 @@
 Чтобы настроить:
 
 1. Выберите `LANDING_BLOCK_<CODE>`, если действие нужно только для одного типа блока, или `LANDING_BLOCK_*`, если действие должно работать для всех блоков.
-2. Зарегистрируйте место встраивания через внутренний метод `landing.repo.bind`, а не [placement.bind](../../widgets/placement-bind.md).
+2. Зарегистрируйте место встраивания методом [landing.repo.bind](./landing-repo-bind.md). Для этого сценария не используйте [placement.bind](../../widgets/placement-bind.md).
 3. В обработчике разберите `PLACEMENT_OPTIONS`, чтобы получить идентификаторы страницы, блока и код блока.
 4. Если место встраивания больше не нужно, его можно удалить методом [landing.repo.unbind](./landing-repo-unbind.md).
 
 **Привязка Базы знаний к меню или группе.** Используйте подраздел [Встраивание Базы знаний](./knowledge-base/index.md), если нужно показать Базу знаний в меню или связать ее с группой.
 
-Вариант отличается от других сценариев. Здесь не используют внутренний метод `landing.repo.bind` и [placement.bind](../../widgets/placement-bind.md), а работают через отдельные методы привязки. Это связано с тем, что База знаний в модуле `landing` представлена как отдельный сайт.
+Вариант отличается от других сценариев. Здесь не используют методы регистрации мест встраивания, описанные для [LANDING_SETTINGS](./settings.md) и [LANDING_BLOCK_*](./block.md), а работают через отдельные методы привязки. Это связано с тем, что База знаний в модуле `landing` представлена как отдельный сайт.
 
 Чтобы настроить:
 
@@ -50,13 +50,32 @@
 3. Для меню используйте методы [landing.site.bindingToMenu](./knowledge-base/landing-site-binding-to-menu.md), [landing.site.getMenuBindings](./knowledge-base/landing-site-get-menu-bindings.md), [landing.site.unbindingFromMenu](./knowledge-base/landing-site-unbinding-from-menu.md).
 4. Для группы используйте методы [landing.site.bindingToGroup](./knowledge-base/landing-site-binding-to-group.md), [landing.site.getGroupBindings](./knowledge-base/landing-site-get-group-bindings.md), [landing.site.unbindingFromGroup](./knowledge-base/landing-site-unbinding-from-group.md).
 
+### Данные в `PLACEMENT_OPTIONS`
+
+Для мест встраивания `LANDING_SETTINGS` и `LANDING_BLOCK_*` обработчик получает `PLACEMENT_OPTIONS` в POST-запросе. Это JSON-строка с контекстом текущего вызова:
+
+- для `LANDING_SETTINGS` — `SITE_ID` (идентификатор сайта) и `LID` (идентификатор страницы)
+- для `LANDING_BLOCK_<CODE>` и `LANDING_BLOCK_*` — `ID` (идентификатор блока), `CODE` (символьный код блока) и `LID` (идентификатор страницы)
+
+Пример для места `LANDING_BLOCK_*`:
+
+```json
+{
+  "ID": "996",
+  "CODE": "43.4.cover_with_price_text_button_bgimg",
+  "LID": "30"
+}
+```
+
+Подробные примеры POST-запроса и описание стандартных данных обработчика приведены на страницах [LANDING_SETTINGS](./settings.md) и [LANDING_BLOCK_*](./block.md).
+
 ## Связь с другими объектами
 
 **Сайты и страницы.** Место встраивания [LANDING_SETTINGS](./settings.md) работает в редакторе [сайтов](../site/index.md) и [страниц](../page/index.md). Поэтому в обработчик передаются идентификаторы сайта и страницы.
 
 **Блоки.** Место встраивания [LANDING_BLOCK_*](./block.md) связано с конкретным блоком на странице. Код блока, идентификатор блока и идентификатор страницы используют при работе с методами разделов [Блоки](../block/index.md) и [Работа с блоками на странице](../page/block-methods/index.md).
 
-**Виджеты.** Общая механика встраивания интерфейсов описана в разделе [Виджеты](../../widgets/index.md), но для модуля `landing` регистрация выполняется через внутренний метод `landing.repo.bind`, а не [placement.bind](../../widgets/placement-bind.md).
+**Виджеты.** Общая механика встраивания интерфейсов описана в разделе [Виджеты](../../widgets/index.md). Для модуля `landing` места встраивания регистрируют методом [landing.repo.bind](./landing-repo-bind.md). Сценарии вызова приведены на страницах [LANDING_SETTINGS](./settings.md) и [LANDING_BLOCK_*](./block.md).
 
 **База знаний.** Привязки Базы знаний используют методы объекта [Сайт](../site/index.md), потому что База знаний представлена отдельным сайтом в модуле `landing`.
 
@@ -79,6 +98,7 @@
 
 #|
 || **Метод** | **Описание** ||
+|| [landing.repo.bind](./landing-repo-bind.md) | Регистрирует место встраивания текущего приложения ||
 || [landing.repo.unbind](./landing-repo-unbind.md) | Удаляет место встраивания, зарегистрированное текущим приложением ||
 |#
 

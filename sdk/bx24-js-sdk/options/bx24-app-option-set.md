@@ -10,7 +10,7 @@
 {% endnote %}
 
 ```js
-BX24.appOption.set(string name, mixed value[, Function callback]): void;
+BX24.appOption.set(string name, any value[, Function callback]): void;
 ```
 
 Метод `BX24.appOption.set` устанавливает общие настройки для текущего приложения.
@@ -29,23 +29,50 @@ BX24.appOption.set(string name, mixed value[, Function callback]): void;
 || **value***
 [`any`](../../../api-reference/data-types.md) | Значение параметра ||
 || **callback**
-[`function`](../../../api-reference/data-types.md) | Callback после сохранения. В качестве аргумента будут переданы текущие настройки приложения ||
+[`function`](../../../api-reference/data-types.md) | Обработчик, который будет вызван после сохранения. Получает объект с текущими настройками приложения [(подробное описание)](#callback) ||
+|#
+
+### Аргумент callback {#callback}
+
+В `callback` передается объект с текущими настройками приложения. Имена свойств совпадают с кодами настроек, а значения — со значениями, сохраненными для этих кодов.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **<код настройки>**
+[`any`](../../../api-reference/data-types.md) | Сохраненное значение настройки. Имя свойства соответствует значению параметра `name` ||
 |#
 
 ## Пример кода
 
 ```js
 BX24.init(() => {
-    BX24.appOption.set('param_str', 'str1', (params) => console.log(params));
-    BX24.appOption.set('param_numb', 1);
+    BX24.appOption.set('param_str', 'str1', () => {
+        BX24.appOption.set('param_numb', 1, (options) => {
+            console.log(options);
+        });
+    });
 });
+```
+
+В приложении без других сохраненных настроек `console.log` выведет объект:
+
+```js
+{
+    param_str: 'str1',
+    param_numb: 1
+}
 ```
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-## Возвращаемое значение
+## Обработка ответа
 
-Метод ничего не возвращает. Если передан параметр `callback`, текущие настройки приложения будут переданы в аргумент функции `callback`.
+Метод ничего не возвращает. Результат сохранения можно обработать с помощью параметра `callback`. В его аргумент будут переданы текущие настройки приложения.
+
+## Обработка ошибок
+
+Метод не возвращает коды ошибок. Если у пользователя нет права управления приложениями, настройка не сохраняется и `callback` не вызывается. Проверить право можно методом [BX24.isAdmin](../additional-functions/bx24-is-admin.md).
 
 ## Продолжите изучение
 

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `user.search` позволяет получить список пользователей с ускоренным поиском по персональным данным (имя, фамилия, отчество, название подразделения, должность). Работает в двух режимах: быстро с помощью **Fulltext Index** и более медленный вариант через [правый LIKE](*ключ_правый LIKE) (поддержка определяется автоматически).
+Метод `user.search` ищет пользователей по имени, фамилии, отчеству, названию подразделения и должности.
 
 {% note info "" %}
 
@@ -31,31 +31,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **FILTER**
-[`string`](../data-types.md) | Массив может содержать поля в любом сочетании:
-- `NAME` — имя
-- `LAST_NAME` — фамилия
-- `WORK_POSITION` — должность
-- `UF_DEPARTMENT_NAME` — название подразделения
-- `USER_TYPE` — тип пользователя. Может принимать следующие значения: 
-    - `employee` — сотрудник
-    - `extranet` — пользователь экстранета
-    - `email` — почтовый пользователь
-
-Или `FIND` — поле, которое будет искать во всех перечисленных полях.
-
-{% note info "" %}
-
-Метод может работать либо с фильтрацией с помощью ключа FIND или со всеми другими полями. Одновременно использовать FIND и любое другое поле нельзя.
-
-{% endnote %} ||
+[`object`](../data-types.md) | Объект с полями поиска [(подробное описание)](#filter) ||
 || **sort**
-[`string`](../data-types.md) | Поле, по которому сортируются результаты. Сортировка работает по всем полям из [user.add](./user-add.md) ||
+[`string`](../data-types.md) | Поле, по которому сортируются результаты. Сортировка работает по всем полям из [user.add](./user-add.md).
+
+По умолчанию — `ID` ||
 || **order**
 [`string`](../data-types.md) | Направление сортировки:
 - `ASC` — по возрастанию
-- `DESC` — по убыванию ||
+- `DESC` — по убыванию
+
+По умолчанию — `ASC` ||
 || **ADMIN_MODE**
-[`boolean`](../data-types.md) | [Ключ для работы](*ключ_Ключ для работы) в режиме администратора. Служит для получения данных о любых пользователях ||
+[`boolean`](../data-types.md) | Включает режим администратора для получения данных о пользователях. Параметр действует, только если запрос выполняет администратор.
+
+По умолчанию — `false` ||
 || **select**
 [`array`](../data-types.md) | Массив с названиями полей, которые вернутся в ответе. Без этого параметра метод возвращает все поля, доступные скоупу приложения или вебхука.
 
@@ -74,8 +64,43 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N - 1) * 50`, где `N` — номер нужной страницы.
+
+По умолчанию — `0` ||
 |#
+
+### Параметр FILTER {#filter}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **FIND**
+[`string`](../data-types.md) | Строка для поиска одновременно по имени, фамилии, отчеству, должности и названию подразделения ||
+|| **NAME**
+[`string`](../data-types.md) | Имя пользователя ||
+|| **LAST_NAME**
+[`string`](../data-types.md) | Фамилия пользователя ||
+|| **SECOND_NAME**
+[`string`](../data-types.md) | Отчество пользователя ||
+|| **WORK_POSITION**
+[`string`](../data-types.md) | Должность пользователя ||
+|| **UF_DEPARTMENT_NAME**
+[`string`](../data-types.md) | Название подразделения ||
+|| **USER_TYPE**
+[`string`](../data-types.md) | Тип пользователя. Возможные значения:
+
+- `employee` — сотрудник
+- `extranet` — пользователь экстранета
+- `email` — почтовый пользователь ||
+|#
+
+{% note info "" %}
+
+Для поиска сразу по персональным данным передайте только `FIND`. Для поиска по конкретным полям не передавайте `FIND`, а укажите одно или несколько полей `NAME`, `LAST_NAME`, `SECOND_NAME`, `WORK_POSITION`, `UF_DEPARTMENT_NAME`.
+
+Метод автоматически выбирает полнотекстовый поиск или поиск по началу строки `USER_NAME LIKE "Текст%"`. Поиск по началу строки работает быстрее двухстороннего `LIKE "%текст%"` и левостороннего `LIKE "%текст"` за счет индексации полей в базе данных.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -85,30 +110,28 @@
 
 - cURL (Webhook)
 
-    ```curl
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "UF_DEPARTMENT": 1,
-        "SORT": "ID",
-        "ORDER": "asc",
-        "start": 10
+        "FILTER": {
+            "FIND": "Иван"
+        }
     }' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.search
     ```
 
 - cURL (OAuth)
 
-    ```curl
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "UF_DEPARTMENT": 1,
-        "SORT": "ID",
-        "ORDER": "asc",
-        "start": 10,
+        "FILTER": {
+            "FIND": "Иван"
+        },
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/user.search
@@ -142,18 +165,12 @@
     }
 
     try {
-      // user.search returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<UserItem[]>({
         method: 'user.search',
         params: {
-          UF_DEPARTMENT: 1,
-          SORT: 'ID',
-          ORDER: 'asc',
-          start: 10,
+          FILTER: {
+            FIND: 'Иван',
+          },
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -182,18 +199,12 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // user.search returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'user.search',
             params: {
-              UF_DEPARTMENT: 1,
-              SORT: 'ID',
-              ORDER: 'asc',
-              start: 10,
+              FILTER: {
+                FIND: 'Иван',
+              },
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -224,11 +235,8 @@
     try:
         bitrix_response = client.user.search(
             filter={
-                "UF_DEPARTMENT": 1,
+                "FIND": "Иван",
             },
-            sort="ID",
-            order="asc",
-            start=10,
         ).response
         result = bitrix_response.result
         print(result)
@@ -255,10 +263,9 @@
             ->call(
                 'user.search',
                 [
-                    'UF_DEPARTMENT' => 1,
-                    'SORT'         => 'ID',
-                    'ORDER'        => 'asc',
-                    'start'        => 10,
+                    'FILTER' => [
+                        'FIND' => 'Иван',
+                    ],
                 ]
             );
     
@@ -266,11 +273,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -284,9 +287,9 @@
     BX24.callMethod(
         "user.search",
         {
-            "UF_DEPARTMENT": 1,
-            "SORT": "ID",
-            "ORDER": "asc"
+            "FILTER": {
+                "FIND": "Иван"
+            }
         },
         function(result)
         {
@@ -314,10 +317,9 @@
     $result = CRest::call(
         'user.search',
         [
-            "UF_DEPARTMENT" => 1,
-            "SORT" => 'ID',
-            "ORDER" => 'asc',
-            "start" => 10
+            "FILTER" => [
+                "FIND" => "Иван",
+            ],
         ]
     );
 
@@ -335,32 +337,6 @@ HTTP-статус: **200**
 ```json
     {
         "result": [
-            {
-                "ID": "1",
-                "ACTIVE": true,
-                "NAME": "Вадим",
-                "LAST_NAME": "Валеев",
-                "SECOND_NAME": "",
-                "EMAIL": "v.r.valeev@bitrix.com",
-                "LAST_LOGIN": "2024-07-25T13:06:54+00:00",
-                "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
-                "TIME_ZONE": "",
-                "IS_ONLINE": "Y",
-                "TIMESTAMP_X": {
-                },
-                "LAST_ACTIVITY_DATE": {
-                },
-                "PERSONAL_GENDER": "",
-                "PERSONAL_WWW": "",
-                "PERSONAL_BIRTHDAY": "2018-07-14T00:00:00+00:00",
-                "PERSONAL_MOBILE": "",
-                "PERSONAL_CITY": "",
-                "WORK_PHONE": "",
-                "WORK_POSITION": "",
-                "UF_EMPLOYMENT_DATE": "",
-                "UF_DEPARTMENT": [1],
-                "USER_TYPE": "employee"
-            },
             {
                 "ID": "3",
                 "ACTIVE": true,
@@ -382,7 +358,7 @@ HTTP-статус: **200**
                 "USER_TYPE": "employee"
             }
         ],
-        "total": 2,
+        "total": 1,
         "time": {
             "start": 1721913235.39648,
             "finish": 1721913235.45078,
@@ -401,14 +377,60 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа, который содержит отфильтрованный список пользователей ||
+[`object[]`](../data-types.md) | Массив пользователей, которые соответствуют условиям поиска [(подробное описание)](#result).
+
+Набор полей зависит от скоупа и параметра `select` ||
 || **total**
 [`integer`](../data-types.md) | Общее количество найденных записей ||
+|| **next**
+[`integer`](../data-types.md) | Смещение следующей страницы. Поле отсутствует, если получена последняя страница ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+Метод возвращает поля, доступные скоупу приложения или вебхука. Полный перечень можно получить методом [user.fields](./user-fields.md).
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../data-types.md) | Идентификатор пользователя ||
+|| **ACTIVE**
+[`boolean`](../data-types.md) | Признак активности пользователя ||
+|| **NAME**
+[`string`](../data-types.md) | Имя пользователя ||
+|| **LAST_NAME**
+[`string`](../data-types.md) | Фамилия пользователя ||
+|| **SECOND_NAME**
+[`string`](../data-types.md) | Отчество пользователя ||
+|| **EMAIL**
+[`string`](../data-types.md) | Адрес электронной почты ||
+|| **LAST_LOGIN**
+[`datetime`](../data-types.md) | Дата и время последней авторизации ||
+|| **DATE_REGISTER**
+[`datetime`](../data-types.md) | Дата и время регистрации ||
+|| **IS_ONLINE**
+[`string`](../data-types.md) | Признак активности пользователя онлайн. Возможные значения:
+
+- `Y` — пользователь онлайн
+- `N` — пользователь не онлайн ||
+|| **PERSONAL_BIRTHDAY**
+[`date`](../data-types.md) | Дата рождения ||
+|| **WORK_POSITION**
+[`string`](../data-types.md) | Должность ||
+|| **UF_DEPARTMENT**
+[`integer[]`](../data-types.md) | Идентификаторы подразделений пользователя ||
+|| **USER_TYPE**
+[`string`](../data-types.md) | Тип пользователя: `employee`, `extranet` или `email` ||
 |#
 
 ## Обработка ошибок
+
+У метода нет специфичных ошибок.
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
@@ -419,5 +441,3 @@ HTTP-статус: **200**
 - [{#T}](./user-get.md)
 - [{#T}](./user-current.md)
 - [{#T}](./user-fields.md)
-
-[*ключ_правый LIKE]: USER_NAME LIKE "Текст%" - это называется правый лайк, когда поиск осуществляется только по тексту который начинается на заданную фразу, но может содержать разные окончания - такой поиск существенно быстрее чем у двухстороннего лайка "%текст%" или левостороннего "%текст" - за счет архитектуры хранения идексированных полей в БД.
