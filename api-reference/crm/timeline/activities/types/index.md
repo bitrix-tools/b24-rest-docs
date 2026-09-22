@@ -28,6 +28,12 @@
 3. Получите список зарегистрированных типов методом [crm.activity.type.list](./crm-activity-type-list.md)
 4. Удалите пользовательский тип методом [crm.activity.type.delete](./crm-activity-type-delete.md), если он больше не нужен
 
+## Требования к типу дела
+
+Код `TYPE_ID` обязателен и должен быть уникальным среди типов текущего приложения. Название `NAME` и иконка `ICON_FILE` необязательны: без `NAME` тип будет зарегистрирован с пустым названием, а без `ICON_FILE` — без собственной иконки. Иконку передавайте как файл по [правилам загрузки файлов](../../../../files/how-to-upload-files.md).
+
+После регистрации значение `TYPE_ID` используют как код типа дела. Чтобы создать обычное дело с этим типом, передайте код в поле `PROVIDER_TYPE_ID` метода [crm.activity.add](../activity-base/crm-activity-add.md). Например, для зарегистрированного `TYPE_ID = CUSTOM_CALL` укажите `PROVIDER_TYPE_ID = CUSTOM_CALL`.
+
 ## Связь с конфигурируемыми делами
 
 Пользовательский тип с `IS_CONFIGURABLE_TYPE = Y` можно передать в поле `typeId` метода [crm.activity.configurable.add](../configurable/crm-activity-configurable-add.md). Если `IS_CONFIGURABLE_TYPE = N`, тип нельзя использовать для конфигурируемого дела.
