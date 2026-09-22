@@ -1,4 +1,4 @@
-# Получить конфигурируемое дело по id crm.activity.configurable.get
+# Получить конфигурируемое дело crm.activity.configurable.get
 
 {% note tip "" %}
 
@@ -11,15 +11,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с доступом на чтение элемента CRM, к которому привязано дело
 
-Метод `crm.activity.configurable.get` возвращает информацию о конфигурируемом деле. 
+Метод `crm.activity.configurable.get` возвращает конфигурируемое дело по идентификатору: его поля и структуру `layout`, которая задает внешний вид записи в таймлайне.
 
-{% note warning %}
+В отличие от [crm.activity.configurable.add](./crm-activity-configurable-add.md) и [crm.activity.configurable.update](./crm-activity-configurable-update.md), метод не требует контекста приложения — его можно вызвать и через входящий вебхук.
 
-Вызов метода возможен только в контексте [приложения](https://helpdesk.bitrix24.ru/examples/app.zip).
+Метод возвращает только конфигурируемые дела — для дел других типов он вернет `NOT_FOUND`.
 
-{% endnote %}
+Идентификатор дела приходит в ответе метода [crm.activity.configurable.add](./crm-activity-configurable-add.md). Найти дела, созданные приложением, можно методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID = CONFIGURABLE_REST_APP`.
 
 ## Параметры метода
 
@@ -37,6 +37,16 @@
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"id":999}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.configurable.get
+    ```
 
 - cURL (OAuth)
 
@@ -164,7 +174,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -180,11 +189,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
+        echo 'Data: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -221,9 +226,13 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    if (isset($result['error'])) {
+        echo 'Ошибка: ' . $result['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result['result']);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -364,7 +373,7 @@ HTTP-статус: **200**
                 }
             }
         }
-    }
+    },
     "time": {
         "start": 1724068028.331234,
         "finish": 1724068028.726591,
@@ -383,9 +392,53 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа - ассоциативный массив с ключом **activity**, в котором будет содержаться [поля](./crm-activity-configurable-add.md#parametr-fields) ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа с единственным ключом **activity** [(подробное описание)](#activity) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект activity {#activity}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор дела ||
+|| **ownerTypeId**
+[`integer`](../../../../data-types.md) | Идентификатор [типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело ||
+|| **ownerId**
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело ||
+|| **fields**
+[`object`](../../../../data-types.md) | Поля дела [(подробное описание)](#fields) ||
+|| **layout**
+[`LayoutDto`](./structure/layout.md) | Структура, которая задает внешний вид записи в таймлайне. Ее же передают в параметре `layout` методов [crm.activity.configurable.add](./crm-activity-configurable-add.md) и [crm.activity.configurable.update](./crm-activity-configurable-update.md). Значения `actionParams` внутри структуры возвращаются строками, даже если при создании их передавали числами: в примере выше `clientId` пришел как `"456"` ||
+|#
+
+#### Объект fields {#fields}
+
+Типы в ответе отличаются от типов на входе. Флаги приходят как `boolean`, даже если при создании их передавали как `Y/N` или `1/0`. Незаполненные значения приходят как `null` или пустая строка.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **typeId**
+[`string`](../../../../data-types.md) | Тип конфигурируемого дела, например `CONFIGURABLE` ||
+|| **completed**
+[`boolean`](../../../../data-types.md) | Закрыто ли дело ||
+|| **deadline**
+[`datetime`](../../../../data-types.md) | Крайний срок в формате ISO 8601 или `null`, если срока нет ||
+|| **pingOffsets**
+[`array`](../../../../data-types.md) | Смещения в минутах относительно крайнего срока. Пустой массив, если пинги не заданы ||
+|| **isIncomingChannel**
+[`boolean`](../../../../data-types.md) | Создано ли дело из входящего канала ||
+|| **responsibleId**
+[`integer`](../../../../data-types.md) | Идентификатор ответственного ||
+|| **badgeCode**
+[`string`](../../../../data-types.md) | Код [бейджа](./badges/index.md) или пустая строка, если бейдж не задан ||
+|| **originatorId**
+[`string`](../../../../data-types.md) | Идентификатор источника данных или `null` ||
+|| **originId**
+[`string`](../../../../data-types.md) | Идентификатор элемента в источнике данных или `null` ||
 |#
 
 ## Обработка ошибок
@@ -395,24 +448,29 @@ HTTP-статус: **400**
 ```json
 {
     "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error_description": "Элемент не найден"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
+### Возможные коды ошибок {#errors}
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте приложения ||
+|| `100` | Не передан обязательный параметр `id` ||
+|| `NOT_FOUND` | Дело не найдено: такого идентификатора нет, дело не является конфигурируемым или у пользователя нет доступа к элементу CRM ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./crm-activity-configurable-update.md)
 - [{#T}](./crm-activity-configurable-add.md)
+- [{#T}](./crm-activity-configurable-update.md)
+- [{#T}](./structure/layout.md)
+- [{#T}](./structure/examples.md)
+- [{#T}](./badges/index.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)
+- [{#T}](./index.md)

@@ -42,7 +42,7 @@
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 || **hideIfReadonly**
-[`boolean`](../../../../../data-types.md) | Флаг. Скрывает тег, если у пользователя нет доступа на редактирование (по умолчанию `false`) ||
+[`boolean`](../../../../../data-types.md) | Флаг. Скрывает кнопку, если у пользователя нет доступа на редактирование (по умолчанию `false`) ||
 |#
 
 Возможные значения поля **type**:
@@ -82,15 +82,17 @@
 || **showDeleteItem**
 [`boolean`](../../../../../data-types.md) | Показ пункта меню "Удалить". По-умолчанию `true` ||
 || **items**
-[`MenuItemDto`](./menu-item.md) | Ассоциативный массив объектов, описывающих пункты выпадающего меню ||
+[`MenuItemDto`](./menu-item.md) | Ассоциативный массив объектов, описывающих пункты выпадающего меню. Не более десяти пунктов ||
+|| **sections**
+[`MenuSectionDto`](./menu-item.md#sections) | Разделы меню, по которым группируются пункты. Не более десяти разделов ||
 |#
 
 ### Пример
 
 ```json
 {
-    "showPostponeItem": "false",
-    "showDeleteItem": "false",
+    "showPostponeItem": false,
+    "showDeleteItem": false,
     "items": {
         "confirm": {
             "title": "Подтвердить заявку",

@@ -13,7 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.activity.badge.list` получает список доступных бейджей. Вернет массив, содержащий список всех зарегистрированных бейджей. Каждый элемент массива содержит [поля бейджа](./index.md#badge-fields).
+Метод `crm.activity.badge.list` возвращает список бейджей, зарегистрированных в Битрикс24. Каждый элемент списка содержит [поля бейджа](./index.md#badge-fields).
+
+Метод возвращает все бейджи одним ответом: постраничного вывода у него нет, параметр `start` он не принимает. Общее количество бейджей приходит в поле `total`.
+
+Список показывает занятые коды: его смотрят перед вызовом [crm.activity.badge.add](./crm-activity-badge-add.md).
 
 ## Параметры метода
 
@@ -24,6 +28,16 @@
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.badge.list
+    ```
 
 - cURL (OAuth)
 
@@ -49,23 +63,18 @@
     type BadgeListResult = {
       badges: {
         code: string
-        title: string
-        value: string
+        // title и value приходят строкой или объектом с переводами
+        title: string | Record<string, string>
+        value: string | Record<string, string>
         type: string
       }[]
     }
 
     try {
-      // crm.activity.badge.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.activity.badge.list takes no parameters and returns every badge in one response
       const response = await $b24.actions.v2.call.make<BadgeListResult>({
         method: 'crm.activity.badge.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -93,16 +102,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.activity.badge.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.activity.badge.list takes no parameters and returns every badge in one response
           const response = await $b24.actions.v2.call.make({
             method: 'crm.activity.badge.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -147,7 +150,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -220,9 +222,10 @@
     }
 
     var items []struct {
-    	Code  string `json:"code"`
-    	Title string `json:"title"`
-    	Value string `json:"value"`
+    	Code string `json:"code"`
+    	// Title и Value приходят строкой или объектом с переводами
+    	Title any    `json:"title"`
+    	Value any    `json:"value"`
     	Type  string `json:"type"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
@@ -251,6 +254,7 @@ HTTP-статус: **200**
             }
         ]
     },
+    "total": 1,
     "time": {
         "start": 1724068028.331234,
         "finish": 1724068028.726591,
@@ -269,30 +273,33 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../../../data-types.md) | Корневой элемент ответа, содержащий массив, каждый элемент которого несет информацию о бейдже ||
+[`object`](../../../../../data-types.md) | Корневой элемент ответа с единственным ключом **badges** [(подробное описание)](#badges) ||
+|| **total**
+[`integer`](../../../../../data-types.md) | Количество бейджей в ответе ||
 || **time**
 [`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-## Обработка ошибок
-
-HTTP-статус: **400**
-
-```json
-{
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
-}
-```
-
-{% include notitle [обработка ошибок](../../../../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
+#### Массив badges {#badges}
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
+|| **Название**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../../../data-types.md) | Код бейджа. По нему бейдж указывают в поле `badgeCode` дела, получают методом [crm.activity.badge.get](./crm-activity-badge-get.md) и удаляют методом [crm.activity.badge.delete](./crm-activity-badge-delete.md) ||
+|| **title**
+[`string`\|`object`](../../../../../data-types.md) | Название бейджа. Строка или объект с переводами, если бейдж добавляли на нескольких языках ||
+|| **value**
+[`string`\|`object`](../../../../../data-types.md) | Текст внутри значка. Строка или объект с переводами ||
+|| **type**
+[`string`](../../../../../data-types.md) | [Тип бейджа](./index.md#tip-bejdzha): `success`, `failure`, `warning`, `primary` или `secondary` ||
 |#
+
+Если бейджей нет, метод вернет пустой массив и `total` со значением `0`. Порядок элементов в массиве не гарантируется — если нужен определенный порядок, отсортируйте список на своей стороне.
+
+## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../../../_includes/system-errors.md) %}
 
@@ -301,3 +308,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-badge-add.md)
 - [{#T}](./crm-activity-badge-get.md)
 - [{#T}](./crm-activity-badge-delete.md)
+- [{#T}](./index.md)
+- [{#T}](../crm-activity-configurable-add.md)

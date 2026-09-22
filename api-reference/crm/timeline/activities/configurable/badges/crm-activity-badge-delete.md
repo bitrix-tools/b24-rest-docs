@@ -11,26 +11,38 @@
 
 > Scope: [`crm`](../../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с административным доступом к разделу crm
+> Кто может выполнять метод: пользователь с административным доступом к разделу CRM
 
-Метод `crm.activity.badge.delete` удаляет бейдж.
+Метод `crm.activity.badge.delete` удаляет бейдж по коду.
+
+Бейдж, который уже используется в делах, удалить нельзя: метод вернет ошибку `ENTITY_WITH_BADGE_EXISTS`. Сначала уберите код из этих дел: передайте в поле `badgeCode` пустую строку методом [crm.activity.configurable.update](../crm-activity-configurable-update.md) — он работает только в контексте приложения, создавшего дело.
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../../../_includes/required.md) %}
 
 #|
-|| **Поле** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **code***
-[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall` ||
+[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall`. Список занятых кодов возвращает метод [crm.activity.badge.list](./crm-activity-badge-list.md) ||
 |#
-
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code":"missedCall"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.badge.delete
+    ```
 
 - cURL (OAuth)
 
@@ -118,7 +130,7 @@
 
     try:
         bitrix_response = client.crm.activity.badge.delete(
-            code="CUSTOM_STATUS",
+            code="missedCall",
         ).response
         result = bitrix_response.result
         print(result)
@@ -136,7 +148,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -243,10 +254,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../../data-types.md) | Корневой элемент ответа. Содержит:
-- `true` — в случае успеха
-- `null` — в случае неудачи (произошла ошибка)
-||
+[`boolean`](../../../../../data-types.md) | Содержит `true`, если бейдж удален. При ошибке поля `result` в ответе нет — вместо него приходят `error` и `error_description` ||
 || **time**
 [`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -258,7 +266,16 @@ HTTP-статус: **400**
 ```json
 {
     "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error_description": "Badge not found for code `missedCall`"
+}
+```
+
+Бейдж, который используется в делах:
+
+```json
+{
+    "error": "ENTITY_WITH_BADGE_EXISTS",
+    "error_description": "There are entities with this badge. Delete them first."
 }
 ```
 
@@ -268,8 +285,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `NOT_FOUND` | Бейдж с указанным кодом не найден ||
+|| `ACCESS_DENIED` | Недостаточно прав: метод доступен только пользователю с административным доступом к разделу CRM ||
+|| `100` | Не передан обязательный параметр `code` ||
+|| `NOT_FOUND` | Бейдж с указанным кодом не зарегистрирован ||
+|| `ENTITY_WITH_BADGE_EXISTS` | Бейдж используется в делах, сначала уберите его оттуда ||
 |#
 
 {% include [системные ошибки](../../../../../../_includes/system-errors.md) %}
@@ -277,5 +296,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-activity-badge-add.md)
-- [{#T}](./crm-activity-badge-list.md)
 - [{#T}](./crm-activity-badge-get.md)
+- [{#T}](./crm-activity-badge-list.md)
+- [{#T}](./index.md)
+- [{#T}](../crm-activity-configurable-add.md)
