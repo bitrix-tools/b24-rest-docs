@@ -1,4 +1,4 @@
-# Удалить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.delete
+# Удалить набор дополнительных контентных блоков из дела crm.activity.layout.blocks.delete
 
 {% note tip "" %}
 
@@ -13,9 +13,19 @@
 >
 > Кто может выполнять метод: любой пользователь с правом на изменение элемента CRM, к которому привязано дело
 
-Метод `crm.activity.layout.blocks.delete` удаляет набор дополнительных контентных блоков для дела.
+Метод `crm.activity.layout.blocks.delete` удаляет набор дополнительных контентных блоков из дела.
 
-В рамках приложения можно удалить только тот набор дополнительных контентных блоков, который был установлен через это приложение.
+Метод работает только в контексте [приложения](../../../../../settings/app-installation/index.md): при вызове через вебхук он вернет ошибку `ERROR_WRONG_CONTEXT`. Приложение удаляет только тот набор блоков, который установило само методом [crm.activity.layout.blocks.set](./crm-activity-layout-blocks-set.md).
+
+Метод работает только с делами. Чтобы удалить набор блоков комментария или другой записи таймлайна, используйте [crm.timeline.layout.blocks.delete](../../layout-blocks/crm-timeline-layout-blocks-delete.md).
+
+Метод не идемпотентен: повторный вызов для уже удаленного набора вернет ошибку `NOT_FOUND`.
+
+Если дело привязано сразу к нескольким элементам CRM, блоки перестанут отображаться в таймлайне каждого связанного элемента.
+
+При удалении приложения все добавленные им наборы блоков удаляются автоматически — вызывать этот метод заранее не нужно.
+
+Порядок вызова методов и общие правила работы с наборами блоков описаны в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -25,30 +35,20 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`](../../../../data-types.md) | Идентификатор типа объекта CRM, к которому привязано дело ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
 || **entityId***
-[`integer`](../../../../data-types.md) | Идентификатор объекта CRM, к которому привязано дело ||
+[`integer`](../../../../data-types.md) | Идентификатор объекта CRM, к которому привязано дело, например идентификатор сделки ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Идентификатор дела ||
+[`integer`](../../../../data-types.md) | Идентификатор дела. Возвращают методы [crm.activity.add](../activity-base/crm-activity-add.md) и [crm.activity.list](../activity-base/crm-activity-list.md) ||
 |#
 
 ## Примеры кода
 
-Удалить набор дополнительных контентных блоков в деле с `id = 8`, привязанного к сделке с `id = 4`:
+Удалить набор дополнительных контентных блоков из дела с `id = 8`, привязанного к сделке с `id = 4`.
 
 {% include [Сноска о примерах](../../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"entityTypeId":2,"entityId":4,"activityId":8}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.layout.blocks.delete
-    ```
 
 - cURL (OAuth)
 
@@ -73,7 +73,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type DeleteBlocksResult = {
       success: boolean
-    } | null
+    }
 
     try {
       const response = await $b24.actions.v2.call.make<DeleteBlocksResult>({
@@ -91,7 +91,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result?.success)
+        console.info(result.success)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -127,7 +127,7 @@
           }
 
           const result = response.getData().result
-          console.info(result?.success)
+          console.info(result.success)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -146,8 +146,8 @@
     try:
         bitrix_response = client.crm.activity.layout.blocks.delete(
             entity_type_id=2,
-            entity_id=101,
-            activity_id=999,
+            entity_id=4,
+            activity_id=8,
         ).response
         result = bitrix_response.result
         print(result)
@@ -166,7 +166,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -179,15 +178,13 @@
                     'activityId'   => 8, // ID Дела привязанного к данной сделке
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting activity layout block: ' . $e->getMessage();
@@ -255,13 +252,42 @@
 
 HTTP-статус: **200**
 
-Возвращает `{ success: true }` в случае успешного удаления набора дополнительных контентных блоков, иначе `null`.
-
 ```json
 {
-    "success": true
+    "result": {
+        "success": true
+    },
+    "time": {
+        "start": 1753341040.475739,
+        "finish": 1753341040.582705,
+        "duration": 0.10696601867675781,
+        "processing": 0.04708504676818848,
+        "date_start": "2025-07-24T17:57:20+00:00",
+        "date_finish": "2025-07-24T17:57:20+00:00",
+        "operating": 0
+    }
 }
 ```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result). Если набор блоков удалить не удалось, метод возвращает не `result`, а объект `error` — смотрите раздел «Обработка ошибок» ||
+|| **time**
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **success**
+[`boolean`](../../../../data-types.md) | Результат удаления набора дополнительных контентных блоков. Поле возвращается при успешном выполнении метода и имеет значение `true` ||
+|#
 
 ## Обработка ошибок
 
@@ -280,16 +306,20 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения ||
-|| `OWNER_NOT_FOUND` | Элемент, к которому привязано дело, не найден ||
-|| `NOT_FOUND` | Дело не найдено ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
+|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте rest приложения. Метод вызван через вебхук ||
+|| `OWNER_NOT_FOUND` | Элемент, к которому привязано дело, не найден. Передан неизвестный `entityTypeId` или дело не привязано к элементу с указанным `entityId` ||
+|| `NOT_FOUND` | Дело не найдено либо приложение не устанавливало в него набор блоков ||
+|| `ACCESS_DENIED` | У пользователя нет права на изменение элемента CRM, к которому привязано дело ||
 |#
+
+Код и текст ошибки `NOT_FOUND` одинаковы для обеих ситуаций. Различить их можно вызовом [crm.activity.layout.blocks.get](./crm-activity-layout-blocks-get.md): для несуществующего дела он тоже вернет `NOT_FOUND`, а для дела без набора блоков — `layout` со значением `null`.
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-activity-layout-blocks-set.md)
 - [{#T}](./crm-activity-layout-blocks-get.md)
+- [{#T}](../configurable/structure/content-block.md)
+- [{#T}](../../layout-blocks/content-blocks-test-app.md)
