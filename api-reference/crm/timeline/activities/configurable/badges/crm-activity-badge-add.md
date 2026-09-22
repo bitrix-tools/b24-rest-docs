@@ -11,31 +11,48 @@
 
 > Scope: [`crm`](../../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с административным доступом к разделу crm
+> Кто может выполнять метод: пользователь с административным доступом к разделу CRM
 
-Метод `crm.activity.badge.add` добавляет новый бейдж для конфигурируемого дела.
+Метод `crm.activity.badge.add` регистрирует бейдж — значок, который появится на карточке элемента в канбане.
+
+Метод только регистрирует бейдж и не привязывает его к элементу CRM. Чтобы значок появился, код бейджа передают в поле `badgeCode` [конфигурируемого дела](../index.md) при вызове [crm.activity.configurable.add](../crm-activity-configurable-add.md) или [crm.activity.configurable.update](../crm-activity-configurable-update.md).
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../../../_includes/required.md) %}
 
 #|
-|| **Поле** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **code***
-[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall` ||
+[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall`. Не длиннее 30 символов и уникальный ||
 || **title***
-[`string`\|`array`](../../../../../data-types.md) | Заголовок бейджа. Может быть строкой или массивом строк для разных языков ||
+[`string`\|`object`](../../../../../data-types.md) | Название бейджа. Строка или объект с переводами, где ключ — код языка ||
 || **value***
-[`string`\|`array`](../../../../../data-types.md) | Заголовок бейджа. Может быть строкой или массивом строк для разных языков ||
+[`string`\|`object`](../../../../../data-types.md) | Текст внутри значка, выводится в верхнем регистре. Строка или объект с переводами ||
 || **type***
-[`string`](../../../../../data-types.md) | [Тип бейджа](./index.md#tip-bejdzha) ||
+[`string`](../../../../../data-types.md) | [Тип бейджа](./index.md#tip-bejdzha). Определяет цвет значка: `success`, `failure`, `warning`, `primary` или `secondary` ||
 |#
+
+Занятые коды возвращает метод [crm.activity.badge.list](./crm-activity-badge-list.md).
+
+В объекте с переводами ключами могут быть только коды языков, которые знает Битрикс24, например `ru`, `en`, `de`.
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code":"missedCall","title":"Статус звонка","value":"Пропущен","type":"failure"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.badge.add
+    ```
 
 - cURL (OAuth)
 
@@ -61,8 +78,9 @@
     type BadgeAddResult = {
       badge: {
         code: string
-        title: string
-        value: string
+        // title и value приходят строкой или объектом с переводами
+        title: string | Record<string, string>
+        value: string | Record<string, string>
         type: string
       }
     }
@@ -72,8 +90,8 @@
         method: 'crm.activity.badge.add',
         params: {
           code: 'missedCall',
-          title: 'Call Status',
-          value: 'Missed',
+          title: 'Статус звонка',
+          value: 'Пропущен',
           type: 'failure',
         },
         requestId: Text.getUuidRfc4122()
@@ -107,8 +125,8 @@
             method: 'crm.activity.badge.add',
             params: {
               code: 'missedCall',
-              title: 'Call Status',
-              value: 'Missed',
+              title: 'Статус звонка',
+              value: 'Пропущен',
               type: 'failure',
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -139,9 +157,9 @@
 
     try:
         bitrix_response = client.crm.activity.badge.add(
-            code="CUSTOM_STATUS",
-            title="Status",
-            value="Pending",
+            code="missedCall",
+            title="Статус звонка",
+            value="Пропущен",
             type="failure",
         ).response
         result = bitrix_response.result
@@ -160,7 +178,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -252,9 +269,10 @@
     }
 
     var item struct {
-    	Code  string `json:"code"`
-    	Title string `json:"title"`
-    	Value string `json:"value"`
+    	Code string `json:"code"`
+    	// Title и Value приходят строкой или объектом с переводами
+    	Title any    `json:"title"`
+    	Value any    `json:"value"`
     	Type  string `json:"type"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
@@ -275,8 +293,8 @@ HTTP-статус: **200**
         "badge": {
             "code": "missedCall",
             "title": "Статус звонка",
-             "value": "Пропущен",
-             "type": "failure"
+            "value": "Пропущен",
+            "type": "failure"
         }
     },
     "time": {
@@ -297,9 +315,24 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о добавленном бейдже в случае успеха. В случае неудачи вернет `null` ||
+[`object`](../../../../../data-types.md) | Корневой элемент ответа с единственным ключом **badge** [(подробное описание)](#badge) ||
 || **time**
 [`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект badge {#badge}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../../../data-types.md) | Код бейджа. Его передают в поле `badgeCode` конфигурируемого дела ||
+|| **title**
+[`string`\|`object`](../../../../../data-types.md) | Название бейджа в том виде, в котором его передали ||
+|| **value**
+[`string`\|`object`](../../../../../data-types.md) | Текст внутри значка ||
+|| **type**
+[`string`](../../../../../data-types.md) | [Тип бейджа](./index.md#tip-bejdzha) ||
 |#
 
 ## Обработка ошибок
@@ -308,8 +341,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "BX_INVALID_VALUE",
+    "error_description": "Code must be unique"
 }
 ```
 
@@ -319,8 +352,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `REQUIRED_ARG_MISSING` | Не заполнены обязательные поля ||
+|| `ACCESS_DENIED` | Недостаточно прав: метод доступен только пользователю с административным доступом к разделу CRM ||
+|| `100` | Не передан обязательный параметр. Его имя приходит в описании ошибки, например `Could not find value for parameter {title}` ||
+|| `REQUIRED_ARG_MISSING` | Поле `title` или `value` пустое либо передано не строкой и не объектом ||
+|| `WRONG_TYPE_VALUE` | Значение поля `type` не входит в список допустимых ||
+|| `BX_INVALID_VALUE` | Бейдж с таким кодом уже зарегистрирован: `Code must be unique` ||
+|| `0` | Общий код ошибки валидации. Причину называет `error_description`: `The length of the code field must not exceed 30 characters` — код длиннее 30 символов, `` Language `X` was not found `` — в объекте с переводами указан неизвестный код языка ||
 |#
 
 {% include [системные ошибки](../../../../../../_includes/system-errors.md) %}
@@ -330,3 +367,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-badge-get.md)
 - [{#T}](./crm-activity-badge-list.md)
 - [{#T}](./crm-activity-badge-delete.md)
+- [{#T}](./index.md)
+- [{#T}](../crm-activity-configurable-add.md)

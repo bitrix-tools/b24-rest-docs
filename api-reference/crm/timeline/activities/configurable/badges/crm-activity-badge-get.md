@@ -13,16 +13,19 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.activity.badge.get` вернет массив, содержащий [поля бейджа](./index.md#badge-fields).
+Метод `crm.activity.badge.get` возвращает [поля бейджа](./index.md#badge-fields) по его коду.
+
+Бейдж ищут только по коду — идентификатора у него нет. Если бейдж с таким кодом не зарегистрирован, метод вернет ошибку `NOT_FOUND`. Так же проверяют, свободен ли код, перед вызовом [crm.activity.badge.add](./crm-activity-badge-add.md).
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../../../_includes/required.md) %}
 
 #|
-|| **Поле** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **code***
-[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall` ||
+[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall`. Список занятых кодов возвращает метод [crm.activity.badge.list](./crm-activity-badge-list.md) ||
 |#
 
 ## Примеры кода
@@ -30,6 +33,16 @@
 {% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"code":"missedCall"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.badge.get
+    ```
 
 - cURL (OAuth)
 
@@ -55,8 +68,9 @@
     type BadgeGetResult = {
       badge: {
         code: string
-        title: string
-        value: string
+        // title и value приходят строкой или объектом с переводами
+        title: string | Record<string, string>
+        value: string | Record<string, string>
         type: string
       }
     }
@@ -127,7 +141,7 @@
 
     try:
         bitrix_response = client.crm.activity.badge.get(
-            code="CUSTOM_STATUS",
+            code="missedCall",
         ).response
         result = bitrix_response.result
         print(result)
@@ -145,7 +159,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -225,9 +238,10 @@
     }
 
     var item struct {
-    	Code  string `json:"code"`
-    	Title string `json:"title"`
-    	Value string `json:"value"`
+    	Code string `json:"code"`
+    	// Title и Value приходят строкой или объектом с переводами
+    	Title any    `json:"title"`
+    	Value any    `json:"value"`
     	Type  string `json:"type"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
@@ -248,8 +262,8 @@ HTTP-статус: **200**
         "badge": {
             "code": "missedCall",
             "title": "Статус звонка",
-             "value": "Пропущен",
-             "type": "failure"
+            "value": "Пропущен",
+            "type": "failure"
         }
     },
     "time": {
@@ -270,9 +284,24 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о бейдже в случае успеха. В случае неудачи вернет `null` ||
+[`object`](../../../../../data-types.md) | Корневой элемент ответа с единственным ключом **badge** [(подробное описание)](#badge) ||
 || **time**
 [`time`](../../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект badge {#badge}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../../../data-types.md) | Код бейджа ||
+|| **title**
+[`string`\|`object`](../../../../../data-types.md) | Название бейджа. Строка или объект с переводами, если бейдж добавляли на нескольких языках ||
+|| **value**
+[`string`\|`object`](../../../../../data-types.md) | Текст внутри значка. Строка или объект с переводами ||
+|| **type**
+[`string`](../../../../../data-types.md) | [Тип бейджа](./index.md#tip-bejdzha): `success`, `failure`, `warning`, `primary` или `secondary` ||
 |#
 
 ## Обработка ошибок
@@ -282,7 +311,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error_description": "Badge not found for code `missedCall`"
 }
 ```
 
@@ -292,8 +321,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `NOT_FOUND` | Бейдж с указанным кодом не найден ||
+|| `100` | Не передан обязательный параметр `code` ||
+|| `NOT_FOUND` | Бейдж с указанным кодом не зарегистрирован ||
 |#
 
 {% include [системные ошибки](../../../../../../_includes/system-errors.md) %}
@@ -303,3 +332,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-activity-badge-add.md)
 - [{#T}](./crm-activity-badge-list.md)
 - [{#T}](./crm-activity-badge-delete.md)
+- [{#T}](./index.md)
+- [{#T}](../crm-activity-configurable-add.md)
