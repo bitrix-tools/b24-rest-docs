@@ -21,7 +21,7 @@
 [`object[]`](/api-reference/data-types.html) | Массив, содержащий значения свойств отгрузки (подробное описание приведено [ниже](#property_values)) ||
 || **ITEMS**
 [`object[]`](/api-reference/data-types.html) | Массив, содержащий все товары, входящие в отгрузку (подробное описание приведено [ниже](#items)) ||
-|| **EXTRA_SERVICE_VALUES**
+|| **EXTRA_SERVICES_VALUES**
 [`object[]`](/api-reference/data-types.html) | Массив, содержащий список необходимых дополнительных услуг, выбранных для доставки (подробное описание приведено [ниже](#extra_service_values)) ||
 || **RESPONSIBLE_CONTACT**
 [`object`](/api-reference/data-types.html) | Информация по контакту менеджера, ответственного за доставку со стороны Битрикс24 (подробное описание приведено [ниже](#responsible_contact)) ||
@@ -158,7 +158,7 @@
 [`double`](/api-reference/data-types.html) | Высота товара (мм.) ||
 |#
 
-### EXTRA_SERVICE_VALUES
+### EXTRA_SERVICES_VALUES {#extra_service_values}
 
 #|
 || **Название**

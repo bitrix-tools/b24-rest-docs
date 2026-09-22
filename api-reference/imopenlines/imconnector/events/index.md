@@ -25,6 +25,39 @@
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
 
+## Форма данных событий
+
+Обработчик получает POST-запрос с кодом события в `event`, данными события в `data`, временем отправки в `ts` и параметрами авторизации в `auth`. Структура `data` зависит от события:
+
+- события сообщений `OnImConnectorMessageAdd`, `OnImConnectorMessageUpdate`, `OnImConnectorMessageDelete` передают `CONNECTOR`, `LINE` и массив `MESSAGES`
+- события диалогов `OnImConnectorDialogStart`, `OnImConnectorDialogFinish` передают `CONNECTOR`, `LINE` и массив `DATA`
+- событие `OnImConnectorStatusDelete` передает строчные ключи `connector` и `line`
+- событие `OnImConnectorLineDelete` передает идентификатор удаленной открытой линии числом непосредственно в `data`
+
+Сокращенный пример запроса для `OnImConnectorMessageAdd`:
+
+```json
+{
+  "event": "ONIMCONNECTORMESSAGEADD",
+  "event_handler_id": 555,
+  "data": {
+    "CONNECTOR": "myconnector",
+    "LINE": 107,
+    "MESSAGES": [
+      {
+        "im": { "chat_id": 1807, "message_id": 86497 },
+        "message": { "user_id": 27, "text": "Добрый день!" },
+        "chat": { "id": "channel-123" }
+      }
+    ]
+  },
+  "ts": 1773759161,
+  "auth": { "domain": "example.bitrix24.ru", "user_id": 27 }
+}
+```
+
+Полный состав вложенных объектов и параметров `auth` приведен на странице каждого события.
+
 ## Обзор событий {#all-events}
 
 > Scope: [`imconnector`](../../../scopes/permissions.md), [`imopenlines`](../../../scopes/permissions.md)
