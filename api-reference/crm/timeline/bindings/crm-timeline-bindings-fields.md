@@ -1,4 +1,4 @@
-# Получить поля связи элементов CRM и записи в таймлайне crm.timeline.bindings.fields
+# Получить поля связи записи таймлайна с элементом CRM crm.timeline.bindings.fields
 
 {% note tip "" %}
 
@@ -13,7 +13,11 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает список доступных полей для связи элементов CRM и записи в таймлайне.
+Метод `crm.timeline.bindings.fields` получает описание полей связи записи таймлайна с элементом CRM.
+
+Метод помогает проверить состав и обязательность полей перед добавлением связи и получить их названия на языке интерфейса.
+
+## Параметры метода
 
 Без параметров.
 
@@ -90,7 +94,7 @@
 
     ```html
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
-    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@2/dist/umd/index.min.js"></script>
     <script>
       async function getTimelineBindingsFields() {
         try {
@@ -145,7 +149,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,17 +156,12 @@
             ->call(
                 'crm.timeline.bindings.fields'
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching timeline bindings fields: ' . $e->getMessage();
@@ -175,11 +173,13 @@
     ```js
     BX24.callMethod(
         "crm.timeline.bindings.fields",
+        {},
         result => {
-            if (result.error())
+            if (result.error()) {
                 console.error(result.error());
-            else
+            } else {
                 console.dir(result.data());
+            }
         }
     );
     ```
@@ -268,56 +268,69 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит [поля](#fields) связи записи таймлайна с элементами CRM ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Ключ — имя поля связи из [списка полей](#fields), значение — объект с [описанием поля](#field-description) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Список полей {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **OWNER_ID***
-[`integer`](../../../data-types.md) | Идентификатор записи таймлайна. Неизменяемое ||
-|| **ENTITY_ID***
-[`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязана запись таймлайна. Неизменяемое ||
-|| **ENTITY_TYPE***
-[`string`](../../../data-types.md) | Тип элемента CRM, к которому привязана запись таймлайна. Неизменяемое. Возможные значения:
+|| **OWNER_ID**
+[`integer`](../../../data-types.md) | Идентификатор записи таймлайна. Обязательное, неизменяемое ||
+|| **ENTITY_ID**
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM, с которым связана запись таймлайна. Обязательное, неизменяемое ||
+|| **ENTITY_TYPE**
+[`string`](../../../data-types.md) | Символьный код типа объекта CRM `entityTypeName`, с которым связана запись таймлайна. Обязательное, неизменяемое. Возможные значения:
 - `lead` — лид
 - `deal` — сделка
 - `contact` — контакт
 - `company` — компания
+- `quote` — предложение
+- `smart_invoice` — счет
 - `order` — заказ
-  ||
+- `activity` — дело
+- `dynamic_<entityTypeId>` — элемент смарт-процесса, например `dynamic_128`
+
+Метод [crm.timeline.bindings.bind](./crm-timeline-bindings-bind.md) принимает и другие типы объектов CRM, например `invoice` — счет в старом формате. Как устроены символьные коды типов, описано в разделе [Тип объекта CRM](../../data-types.md#object_type) ||
+|#
+
+Типы полей описывают значения, которые принимает метод [crm.timeline.bindings.bind](./crm-timeline-bindings-bind.md). В ответе метода [crm.timeline.bindings.list](./crm-timeline-bindings-list.md) значения всех трех полей приходят строками.
+
+#### Описание поля {#field-description}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../../data-types.md) | Тип значения поля: `integer` или `string` ||
+|| **isRequired**
+[`boolean`](../../../data-types.md) | Обязательность поля ||
+|| **isReadOnly**
+[`boolean`](../../../data-types.md) | Доступность поля только для чтения ||
+|| **isImmutable**
+[`boolean`](../../../data-types.md) | Запрет на изменение поля после создания связи. Чтобы изменить связь, удалите ее методом [crm.timeline.bindings.unbind](./crm-timeline-bindings-unbind.md) и создайте заново ||
+|| **isMultiple**
+[`boolean`](../../../data-types.md) | Множественность поля ||
+|| **isDynamic**
+[`boolean`](../../../data-types.md) | Признак пользовательского поля. У полей связи всегда `false` ||
+|| **title**
+[`string`](../../../data-types.md) | Название поля на языке интерфейса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
-
-```json
-{
-    "error":0,
-    "error_description":"error"
-}
-```
+Своих ошибок у метода нет: параметров он не принимает, а состав полей одинаков в любом Битрикс24. Возможны только системные ошибки, например при неверной авторизации.
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
-|#
-
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-bindings-bind.md)
 - [{#T}](./crm-timeline-bindings-list.md)
 - [{#T}](./crm-timeline-bindings-unbind.md)
+- [{#T}](./index.md)
