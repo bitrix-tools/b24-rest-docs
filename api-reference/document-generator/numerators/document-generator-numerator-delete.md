@@ -21,6 +21,12 @@
 
 {% endnote %}
 
+Метод не проверяет, связан ли нумератор с шаблонами документов. После удаления:
+
+- идентификатор нумератора остается в настройках связанных шаблонов
+- при создании новых документов по таким шаблонам система использует нумератор по умолчанию, если он доступен
+- номера уже созданных документов не изменяются
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -282,7 +288,10 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./document-generator-numerator-add.md)
 - [{#T}](./document-generator-numerator-update.md)
 - [{#T}](./document-generator-numerator-get.md)
 - [{#T}](./document-generator-numerator-list.md)
+- [{#T}](../templates/document-generator-template-add.md)
+- [{#T}](../templates/document-generator-template-update.md)

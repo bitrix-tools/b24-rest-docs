@@ -316,12 +316,21 @@ HTTP-статус: **200**
 || **template**
 [`string`](../../../data-types.md) | Шаблон номера ||
 || **code**
-[`string`](../../../data-types.md) | Символьный код нумератора. Может быть `null` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Символьный код нумератора. Возвращается `null`, если код не задан ||
 || **settings**
 [`object`](../../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
 |#
 
 #### Тип settings {#settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **Bitrix_Main_Numerator_Generator_SequentNumberGenerator**
+[`object`](../../../data-types.md) | Настройки генератора последовательных номеров [(подробное описание)](#sequent-number-generator) ||
+|#
+
+#### Тип Bitrix_Main_Numerator_Generator_SequentNumberGenerator {#sequent-number-generator}
 
 #|
 || **Название**
@@ -335,9 +344,9 @@ HTTP-статус: **200**
 || **padString**
 [`string`](../../../data-types.md) | Символ добивки слева ||
 || **periodicBy**
-[`string`](../../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Период сброса счетчика. Возвращается `null`, если периодический сброс выключен ||
 || **timezone**
-[`string`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Возвращается `null`, если часовой пояс не задан ||
 || **isDirectNumeration**
 [`boolean`](../../../data-types.md) | Признак прямой нумерации ||
 |#
@@ -370,6 +379,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-document-generator-numerator-add.md)
 - [{#T}](./crm-document-generator-numerator-update.md)
 - [{#T}](./crm-document-generator-numerator-list.md)

@@ -483,12 +483,21 @@ HTTP-статус: **200**
 || **template**
 [`string`](../../../data-types.md) | Шаблон номера ||
 || **code**
-[`string`](../../../data-types.md) | Символьный код нумератора. Может быть `null` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Символьный код нумератора. Возвращается `null`, если код не задан ||
 || **settings**
 [`object`](../../../data-types.md) | Сохраненные настройки последовательной нумерации типа [`settings`](#settings) ||
 |#
 
 #### Тип settings {#settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **Bitrix_Main_Numerator_Generator_SequentNumberGenerator**
+[`object`](../../../data-types.md) | Настройки генератора последовательных номеров [(подробное описание)](#sequent-number-generator) ||
+|#
+
+#### Тип Bitrix_Main_Numerator_Generator_SequentNumberGenerator {#sequent-number-generator}
 
 #|
 || **Название**
@@ -502,9 +511,9 @@ HTTP-статус: **200**
 || **padString**
 [`string`](../../../data-types.md) | Символ добивки слева ||
 || **periodicBy**
-[`string`](../../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Период сброса счетчика: `day`, `month`, `year` или `null`, если сброс выключен ||
 || **timezone**
-[`string`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Возвращается `null`, если часовой пояс не задан ||
 || **isDirectNumeration**
 [`boolean`](../../../data-types.md) | Признак прямой нумерации ||
 |#
@@ -530,7 +539,6 @@ HTTP-статус: **400**
 || `100` | `Bitrix\Main\Numerator\Numerator constructor must be is public` | Внутренняя ошибка при создании объекта нумератора ||
 || `100` | Invalid value {...} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не как массив/объект ||
 || `100` | `Could not construct parameter {numerator}` | Нумератор с указанным `id` не найден ||
-|| `DOCGEN_ACCESS_ERROR` | `Access denied` | Нет доступа к нумератору. Метод обновляет только нумераторы, созданные через REST ||
 || `Пустое значение` | `You do not have permissions to modify templates` | Недостаточно прав для изменения шаблонов генератора документов ||
 || `Пустое значение` | `Module documentgenerator is not installed` | Модуль `documentgenerator` недоступен ||
 |#
@@ -539,6 +547,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-document-generator-numerator-add.md)
 - [{#T}](./crm-document-generator-numerator-get.md)
 - [{#T}](./crm-document-generator-numerator-list.md)
