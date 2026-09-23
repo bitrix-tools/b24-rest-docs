@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на изменение объекта CRM, товарная позиция которого изменяется
+> Кто может выполнять метод: требуется право на изменение объекта CRM, которому принадлежит товарная позиция
 
-Метод изменяет товарную позицию объекта CRM.
+Метод `crm.item.productrow.update` изменяет товарную позицию объекта CRM.
+
+Метод меняет одну позицию — чтобы заменить весь набор, используйте метод [crm.item.productrow.set](./crm-item-productrow-set.md). После изменения `price` или `quantity` CRM пересчитывает сумму объекта: например, сумма сделки вырастет, если поднять цену позиции.
 
 ## Параметры метода
 
@@ -23,12 +25,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`crm_item_product_row.id`](../../data-types.md#crm_item_product_row) | Идентификатор товарной позиции ||
+[`crm_item_product_row.id`](../../data-types.md#crm_item_product_row) | Идентификатор товарной позиции.
+Получить его можно методом [crm.item.productrow.list](./crm-item-productrow-list.md) ||
 || **fields***
-[`object`](../../../data-types.md) | Объект, содержащий значения полей для обновления товарной позиции объекта CRM ||
+[`object`](../../../data-types.md) | Объект, содержащий значения полей для обновления товарной позиции объекта CRM [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
+
+Передавайте только те поля, которые нужно изменить. Непереданные поля сохранят прежние значения, а зависимые CRM пересчитает сама: например, после изменения `price` метод пересчитает `priceExclusive`, `priceNetto` и `priceBrutto` с учетом скидки и налога позиции.
+
+Поля `id`, `priceAccount`, `priceExclusive`, `priceNetto`, `priceBrutto`, `type`, `xmlId` и `storeId` для записи недоступны. Если рядом с недоступными полями передать хотя бы одно доступное, метод обновит позицию и проигнорирует недоступные значения. Если же ни одного доступного поля в `fields` нет, метод вернет ошибку `INVALID_ARG_VALUE`.
+
+Исключение — пустой объект `fields`: его метод примет без ошибки, вернет `result: null` и позицию не изменит.
+
+Поля `ownerId`, `ownerType`, `measureName` и `customized` метод принимает, но значения их не сохраняет. Сменить владельца позиции через обновление нельзя.
 
 #|
 || **Название**
@@ -36,9 +47,11 @@
 || **productId**
 [`catalog_product.id`](../../../catalog/data-types.md#catalog_product) | Идентификатор товара из каталога ||
 || **productName**
-[`string`](../../../data-types.md) | Название товара в товарной позиции ||
+[`string`](../../../data-types.md) | Название товара в товарной позиции.
+Если сменить `productId` и не передать `productName`, метод подставит название нового товара из каталога ||
 || **price**
-[`double`](../../../data-types.md) | Цена за единицу товарной позиции с учетом скидок и налогов ||
+[`double`](../../../data-types.md) | Цена за единицу товарной позиции с учетом скидок и налогов. Указывается в валюте объекта CRM.
+При смене `productId` цена из каталога не подставляется: чтобы изменить цену, передайте `price` ||
 || **quantity**
 [`double`](../../../data-types.md) | Количество товара ||
 || **discountTypeId**
@@ -55,10 +68,14 @@
 || **taxIncluded**
 [`string`](../../../data-types.md) | Индикатор того, включен ли налог в стоимость.
 Возможные значения:
-- `Y` – налог включен
-- `N` – налог не включен  ||
+- `Y` — налог включен
+- `N` — налог не включен ||
+|| **taxName**
+[`string`](../../../data-types.md) | Название налоговой ставки. Например, `НДС 20`.
+Это только подпись: в расчете участвует значение `taxRate`, а `taxName` метод сохраняет как есть ||
 || **measureCode**
-[`catalog_measure.code`](../../../catalog/data-types.md#catalog_measure) | Код единицы измерения ||
+[`catalog_measure.code`](../../../catalog/data-types.md#catalog_measure) | Код единицы измерения.
+При смене `productId` единица измерения из каталога не подставляется ||
 || **sort**
 [`integer`](../../../data-types.md) | Сортировка ||
 |#
@@ -116,8 +133,9 @@
         discountTypeId: number
         discountRate: number
         discountSum: number
-        taxRate: number
+        taxRate: number | null
         taxIncluded: string
+        taxName: string
         customized: string
         measureCode: number
         measureName: string
@@ -256,7 +274,7 @@
                     'id' => 17648,
                     'fields' => [
                         'productId'      => 9621,
-                        'price'          => 90000.000000,
+                        'price'          => 90000,
                         'quantity'       => 3,
                         'discountTypeId' => 2,
                         'discountRate'   => 10,
@@ -288,7 +306,7 @@
             id: 17648,
             fields: {
                 productId: 9621,
-                price: 90000.000000,
+                price: 90000,
                 quantity: 3,
                 discountTypeId: 2,
                 discountRate: 10,
@@ -319,7 +337,7 @@
             'id' => 17648,
             'fields' => [
                 'productId' => 9621,
-                'price' => 90000.000000,
+                'price' => 90000,
                 'quantity' => 3,
                 'discountTypeId' => 2,
                 'discountRate' => 10,
@@ -365,12 +383,12 @@
     }
 
     var item struct {
-    	ID          b24.ID `json:"id"`
-    	OwnerID     b24.ID `json:"ownerId"`
-    	OwnerType   string `json:"ownerType"`
-    	ProductID   b24.ID `json:"productId"`
-    	ProductName string `json:"productName"`
-    	Price       int    `json:"price"`
+    	ID          b24.ID  `json:"id"`
+    	OwnerID     b24.ID  `json:"ownerId"`
+    	OwnerType   string  `json:"ownerType"`
+    	ProductID   b24.ID  `json:"productId"`
+    	ProductName string  `json:"productName"`
+    	Price       float64 `json:"price"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -388,27 +406,28 @@ HTTP-статус: **200**
 {
    "result":{
       "productRow":{
-         "id":17649,
+         "id":17648,
          "ownerId":13142,
          "ownerType":"D",
          "productId":9621,
          "productName":"iphone 14",
          "price":90000,
          "priceAccount":90000,
-         "priceExclusive":81818.18,
-         "priceNetto":90909.09,
+         "priceExclusive":81818.18181818,
+         "priceNetto":90909.09090909,
          "priceBrutto":100000,
          "quantity":3,
          "discountTypeId":2,
          "discountRate":10,
-         "discountSum":9090.91,
+         "discountSum":9090.90909091,
          "taxRate":10,
          "taxIncluded":"Y",
+         "taxName":"НДС 10",
          "customized":"Y",
          "measureCode":796,
          "measureName":"шт",
          "sort":20,
-         "xmlId":"sale_basket_8147",
+         "xmlId":"sale_basket_8146",
          "type":4
       }
    },
@@ -429,11 +448,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **productRow**
-[`crm_item_product_row`](../../data-types.md#crm_item_product_row) | Объект, содержащий информацию об обновленной товарной позиции ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result).
+Если в `fields` передан пустой объект, метод вернет `null` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **productRow**
+[`crm_item_product_row`](../../data-types.md#crm_item_product_row) | Объект с информацией об обновленной товарной позиции ||
 |#
 
 ## Обработка ошибок
@@ -453,10 +480,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ENTITY_TYPE_NOT_SUPPORTED` | Работа с данным типом объектов не поддерживается ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | Этот тип объектов CRM не поддерживает товарные позиции ||
+|| `ACCESS_DENIED` | У пользователя нет права на изменение объекта CRM, которому принадлежит товарная позиция ||
 || `NOT_FOUND` | Товарная позиция не найдена ||
-|| `INVALID_ARG_VALUE` | Неизвестное поле или переданное поле недоступно для обновления ||
+|| `INVALID_ARG_VALUE` | Все переданные в `fields` поля неизвестны или недоступны для обновления.
+Эту же ошибку метод вернет, если товар с переданным `productId` не найден в каталоге ||
 || `100` | Не переданы обязательные параметры ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
@@ -467,9 +495,9 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./crm-item-productrow-add.md)
-- [{#T}](./crm-item-productrow-fields.md)
 - [{#T}](./crm-item-productrow-get.md)
-- [{#T}](./crm-item-productrow-set.md)
-- [{#T}](./crm-item-productrow-get-available-for-payment.md)
 - [{#T}](./crm-item-productrow-list.md)
 - [{#T}](./crm-item-productrow-delete.md)
+- [{#T}](./crm-item-productrow-set.md)
+- [{#T}](./crm-item-productrow-get-available-for-payment.md)
+- [{#T}](./crm-item-productrow-fields.md)

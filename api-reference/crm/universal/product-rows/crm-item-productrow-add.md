@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: требуется право на изменение объекта CRM, в который добавляется товарная позиция
 
-Метод добавляет товарную позицию в объект CRM.
+Метод `crm.item.productrow.add` добавляет товарную позицию в объект CRM.
+
+Метод добавляет одну позицию и не изменяет остальные. Чтобы заменить весь набор товарных позиций объекта CRM, используйте метод [crm.item.productrow.set](./crm-item-productrow-set.md).
 
 ## Параметры метода
 
@@ -23,10 +25,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Объект, содержащий значения полей для добавления товарной позиции в объект CRM ||
+[`object`](../../../data-types.md) | Объект, содержащий значения полей для добавления товарной позиции в объект CRM [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
+
+Передайте `productId` (идентификатор товара из каталога) или `productName` (название произвольной позиции). Полный список полей с типами и признаком доступности для записи возвращает метод [crm.item.productrow.fields](./crm-item-productrow-fields.md).
 
 #|
 || **Название**
@@ -34,23 +38,25 @@
 || **ownerId***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
 || **ownerType***
-[`string`](../../../data-types.md) | Идентификатор [`типа объекта CRM`](../../data-types.md#object_type). Передавайте [Краткий символьный код типа](../../data-types.md#object_type) ||
+[`string`](../../../data-types.md) | Краткий символьный код [типа объекта CRM](../../data-types.md#object_type): `L` — лид, `D` — сделка, `Q` — предложение, `SI` — новый счет, `T` и шестнадцатеричный идентификатор типа — смарт-процесс ||
 || **productId**
-[`catalog_product.id`](../../../catalog/data-types.md#catalog_product) | Идентификатор товара из каталога ||
+[`catalog_product.id`](../../../catalog/data-types.md#catalog_product) | Идентификатор товара из каталога.
+Если не передан, создается позиция без привязки к каталогу ||
 || **productName**
 [`string`](../../../data-types.md) | Название товара в товарной позиции.
 Если не передано, но передано значение `productId`, то используется название товара из каталога товаров ||
 || **price**
-[`double`](../../../data-types.md) | Цена за единицу товарной позиции с учетом скидок и налогов ||
+[`double`](../../../data-types.md) | Цена за единицу товарной позиции с учетом скидок и налогов. Указывается в валюте объекта CRM.
+Если не передана, цена будет равна `0` — даже когда передан `productId` с ценой в каталоге ||
 || **quantity**
-[`double`](../../../data-types.md) | Количество товара. 
-По умолчанию — 1 ||
+[`double`](../../../data-types.md) | Количество товара.
+По умолчанию — `1` ||
 || **discountTypeId**
 [`integer`](../../../data-types.md) | Тип скидки.
 Возможные значения:
 - `1` — абсолютное значение
 - `2` — процентное значение
-По умолчанию — 2 ||
+По умолчанию — `2` ||
 || **discountRate**
 [`double`](../../../data-types.md) | Значение скидки в процентах (если используется тип скидки с процентным значением) ||
 || **discountSum**
@@ -60,15 +66,20 @@
 || **taxIncluded**
 [`string`](../../../data-types.md) | Индикатор того, включен ли налог в стоимость.
 Возможные значения:
-- `Y` – налог включен
-- `N` – налог не включен
-По умолчанию - N ||
+- `Y` — налог включен
+- `N` — налог не включен
+По умолчанию — `N` ||
+|| **taxName**
+[`string`](../../../data-types.md) | Название налоговой ставки. Например, `НДС 20`.
+Это только подпись: в расчете участвует значение `taxRate`, а `taxName` метод сохраняет как есть. Если не передать `taxName`, позиция без налога получит значение `Без НДС` ||
 || **measureCode**
-[`catalog_measure.code`](../../../catalog/data-types.md#catalog_measure) | Код единицы измерения
-Если не передано и передано значение `productId`, то используется единица измерения из каталога товаров ||
+[`catalog_measure.code`](../../../catalog/data-types.md#catalog_measure) | Код единицы измерения.
+Если не передано, но передано значение `productId`, то используется единица измерения из каталога товаров ||
 || **sort**
 [`integer`](../../../data-types.md) | Сортировка ||
 |#
+
+Поля `id`, `priceAccount`, `priceExclusive`, `priceNetto`, `priceBrutto`, `measureName`, `type`, `customized`, `xmlId` и `storeId` метод рассчитывает сам. Переданные значения этих полей метод игнорирует без ошибки.
 
 ## Примеры кода
 
@@ -117,7 +128,7 @@
         quantity: number
         discountTypeId: number
         discountRate: number
-        taxRate: number
+        taxRate: number | null
         taxIncluded: string
         measureCode: number
         sort: number
@@ -267,7 +278,7 @@
                         'ownerId'        => 13142,
                         'ownerType'      => 'D',
                         'productId'      => 9621,
-                        'price'          => 80000.000000,
+                        'price'          => 80000,
                         'quantity'       => 2,
                         'discountTypeId' => 2,
                         'discountRate'   => 20,
@@ -300,7 +311,7 @@
                 ownerId: 13142,
                 ownerType: 'D',
                 productId: 9621,
-                price: 80000.000000,
+                price: 80000,
                 quantity: 2,
                 discountTypeId: 2,
                 discountRate: 20,
@@ -332,7 +343,7 @@
                 'ownerId' => 13142,
                 'ownerType' => 'D',
                 'productId' => 9621,
-                'price' => 80000.000000,
+                'price' => 80000,
                 'quantity' => 2,
                 'discountTypeId' => 2,
                 'discountRate' => 20,
@@ -379,12 +390,12 @@
     }
 
     var item struct {
-    	ID        b24.ID `json:"id"`
-    	OwnerID   b24.ID `json:"ownerId"`
-    	OwnerType string `json:"ownerType"`
-    	ProductID b24.ID `json:"productId"`
-    	Price     int    `json:"price"`
-    	Quantity  int    `json:"quantity"`
+    	ID        b24.ID  `json:"id"`
+    	OwnerID   b24.ID  `json:"ownerId"`
+    	OwnerType string  `json:"ownerType"`
+    	ProductID b24.ID  `json:"productId"`
+    	Price     float64 `json:"price"`
+    	Quantity  float64 `json:"quantity"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -417,10 +428,10 @@ HTTP-статус: **200**
          "type":4,
          "productName":"iphone 14",
          "priceAccount":80000,
-         "priceExclusive":66666.67,
-         "priceNetto":83333.34,
-         "priceBrutto":100000.01,
-         "discountSum":16666.67,
+         "priceExclusive":66666.66666667,
+         "priceNetto":83333.33333333,
+         "priceBrutto":100000,
+         "discountSum":16666.66666667,
          "customized":"Y",
          "measureName":"шт",
          "xmlId":""
@@ -443,11 +454,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **productRow**
-[`crm_item_product_row`](../../data-types.md#crm_item_product_row) | Объект, содержащий информацию о добавленной товарной позиции ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **productRow**
+[`crm_item_product_row`](../../data-types.md#crm_item_product_row) | Объект с информацией о добавленной товарной позиции ||
 |#
 
 ## Обработка ошибок
@@ -467,9 +485,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ENTITY_TYPE_NOT_SUPPORTED` | Работа с данным типом объектов не поддерживается ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | Этот тип объектов CRM не поддерживает товарные позиции ||
+|| `ACCESS_DENIED` | У пользователя нет права на изменение объекта CRM, в который добавляется позиция ||
 || `OWNER_NOT_FOUND` | Переданный объект CRM не найден ||
+|| `INVALID_ARG_VALUE` | Товар с переданным `productId` не найден в каталоге ||
 || `100` | Не переданы обязательные параметры ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
@@ -480,9 +499,9 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./crm-item-productrow-update.md)
-- [{#T}](./crm-item-productrow-fields.md)
 - [{#T}](./crm-item-productrow-get.md)
-- [{#T}](./crm-item-productrow-set.md)
-- [{#T}](./crm-item-productrow-get-available-for-payment.md)
 - [{#T}](./crm-item-productrow-list.md)
 - [{#T}](./crm-item-productrow-delete.md)
+- [{#T}](./crm-item-productrow-set.md)
+- [{#T}](./crm-item-productrow-get-available-for-payment.md)
+- [{#T}](./crm-item-productrow-fields.md)

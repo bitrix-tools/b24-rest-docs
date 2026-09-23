@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на чтение объекта, к которому привязаны товарные позиции
+> Кто может выполнять метод: требуется право на чтение объекта CRM, которому принадлежит товарная позиция
 
-Метод получает информацию о товарной позиции объекта CRM.
+Метод `crm.item.productrow.get` получает информацию о товарной позиции объекта CRM по ее идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,8 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`crm_item_product_row.id`](../../data-types.md#crm_item_product_row) | Идентификатор товарной позиции ||
+[`crm_item_product_row.id`](../../data-types.md#crm_item_product_row) | Идентификатор товарной позиции.
+Получить его можно методом [crm.item.productrow.list](./crm-item-productrow-list.md) ||
 |#
 
 ## Примеры кода
@@ -81,13 +82,14 @@
         discountSum: number
         taxRate: number | null
         taxIncluded: string
+        taxName: string
         customized: string
         measureCode: number
         measureName: string
         sort: number
         xmlId: string
         type: number
-        storeId: number
+        storeId: number | null
       }
     }
 
@@ -252,12 +254,12 @@
     }
 
     var item struct {
-    	ID          b24.ID `json:"id"`
-    	OwnerID     b24.ID `json:"ownerId"`
-    	OwnerType   string `json:"ownerType"`
-    	ProductID   b24.ID `json:"productId"`
-    	ProductName string `json:"productName"`
-    	Price       int    `json:"price"`
+    	ID          b24.ID  `json:"id"`
+    	OwnerID     b24.ID  `json:"ownerId"`
+    	OwnerType   string  `json:"ownerType"`
+    	ProductID   b24.ID  `json:"productId"`
+    	ProductName string  `json:"productName"`
+    	Price       float64 `json:"price"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -291,13 +293,14 @@ HTTP-статус: **200**
          "discountSum":0,
          "taxRate":null,
          "taxIncluded":"Y",
+         "taxName":"Без НДС",
          "customized":"Y",
          "measureCode":796,
          "measureName":"шт",
          "sort":10,
          "xmlId":"sale_basket_8145",
          "type":4,
-         "storeId": 19
+         "storeId":19
       }
    },
    "time":{
@@ -317,11 +320,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **productRow**
-[`crm_item_product_row`](../../data-types.md#crm_item_product_row) | Объект, содержащий информацию о товарной позиции ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **productRow**
+[`crm_item_product_row`](../../data-types.md#crm_item_product_row) | Объект с информацией о товарной позиции ||
 |#
 
 ## Обработка ошибок
@@ -341,8 +351,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ENTITY_TYPE_NOT_SUPPORTED` | Работа с данным типом объектов не поддерживается ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | Этот тип объектов CRM не поддерживает товарные позиции ||
+|| `ACCESS_DENIED` | У пользователя нет права на чтение объекта CRM, которому принадлежит товарная позиция ||
 || `NOT_FOUND` | Товарная позиция не найдена ||
 || `100` | Не переданы обязательные параметры ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
@@ -355,8 +365,8 @@ HTTP-статус: **400**
 - [{#T}](./index.md)
 - [{#T}](./crm-item-productrow-add.md)
 - [{#T}](./crm-item-productrow-update.md)
-- [{#T}](./crm-item-productrow-fields.md)
-- [{#T}](./crm-item-productrow-set.md)
-- [{#T}](./crm-item-productrow-get-available-for-payment.md)
 - [{#T}](./crm-item-productrow-list.md)
 - [{#T}](./crm-item-productrow-delete.md)
+- [{#T}](./crm-item-productrow-set.md)
+- [{#T}](./crm-item-productrow-get-available-for-payment.md)
+- [{#T}](./crm-item-productrow-fields.md)

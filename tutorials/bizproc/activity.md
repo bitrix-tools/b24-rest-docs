@@ -670,4 +670,4 @@
 - [Получить элемент CRM crm.item.get](../../api-reference/crm/universal/crm-item-get.md)
 - [Создать новый элемент CRM crm.item.add](../../api-reference/crm/universal/crm-item-add.md)
 - [Получить товарные позиции объекта CRM crm.item.productrow.list](../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md)
-- [Сохранить товарную позицию объекта CRM crm.item.productrow.set](../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md)
+- [Сохранить товарные позиции объекта CRM crm.item.productrow.set](../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md)
