@@ -153,14 +153,14 @@
 || [crm.timeline.note.delete](./note/crm-timeline-note-delete.md) | Удаляет заметку ||
 |#
 
-### Управление связями записи таймлайна
+### Связи записей таймлайна
 
 #|
 || **Метод** | **Описание** ||
 || [crm.timeline.bindings.bind](./bindings/crm-timeline-bindings-bind.md) | Добавляет связь записи таймлайна с элементом CRM ||
-|| [crm.timeline.bindings.list](./bindings/crm-timeline-bindings-list.md) | Получает список связей для записи в таймлайне ||
+|| [crm.timeline.bindings.list](./bindings/crm-timeline-bindings-list.md) | Получает список связей записи таймлайна с элементами CRM ||
 || [crm.timeline.bindings.unbind](./bindings/crm-timeline-bindings-unbind.md) | Удаляет связь записи таймлайна с элементом CRM ||
-|| [crm.timeline.bindings.fields](./bindings/crm-timeline-bindings-fields.md) | Получает поля связи элемента CRM и записи в таймлайне ||
+|| [crm.timeline.bindings.fields](./bindings/crm-timeline-bindings-fields.md) | Получает описание полей связи записи таймлайна с элементом CRM ||
 |#
 
 ### Дополнительные контентные блоки
