@@ -29,6 +29,48 @@
 4. Добавьте задачи в Скрам методом [tasks.api.scrum.task.update](./task/tasks-api-scrum-task-update.md).
 5. Сгруппируйте задачи по эпикам и спринтам методами [tasks.api.scrum.epic.*](./epic/index.md) и [tasks.api.scrum.sprint.*](./sprint/index.md).
 
+Сокращенный пример создания Скрама и бэклога:
+
+```http
+POST sonet_group.create
+{
+    "NAME": "Разработка сайта",
+    "PROJECT": "Y",
+    "SCRUM_MASTER_ID": 6
+}
+
+POST tasks.api.scrum.backlog.add
+{
+    "fields": {
+        "groupId": 125,
+        "createdBy": 6
+    }
+}
+```
+
+Метод `sonet_group.create` возвращает идентификатор созданного Скрама. Передайте его в `fields.groupId` метода `tasks.api.scrum.backlog.add`:
+
+```json
+{
+    "result": 125
+}
+```
+
+Ответ `tasks.api.scrum.backlog.add` содержит идентификаторы бэклога и Скрама:
+
+```json
+{
+    "result": {
+        "id": 42,
+        "groupId": 125,
+        "createdBy": 6,
+        "modifiedBy": 0
+    }
+}
+```
+
+`result.id` — идентификатор бэклога, а `result.groupId` — идентификатор Скрама. Метод добавления бэклога нужен, если у Скрама еще нет активного бэклога, например при импорте.
+
 ## Элементы Скрама
 
 Задачи в Скраме — это стандартные задачи Битрикс24 с расширенными возможностями для работы по методологии Скрам. Для создания или изменения задач используется группа методов [tasks.api.scrum.task.*](./task/index.md).
@@ -45,7 +87,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: любой пользователь
+> Кто может выполнять методы: зависит от метода
 
 ### Бэклог
 

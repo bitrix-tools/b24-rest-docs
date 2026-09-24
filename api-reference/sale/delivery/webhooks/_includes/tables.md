@@ -10,7 +10,7 @@
 
 Получить идентификаторы отгрузок можно с помощью метода [sale.shipment.list](/api-reference/sale/shipment/sale-shipment-list.html) ||
 || **DELIVERY_SERVICE**
-[`object`](/api-reference/data-types.html) | Информация о выбранной службе доставке, ее профиле и настройках (подробное описание приведено [ниже](#delivery_service)) ||
+[`object`](/api-reference/data-types.html) | Информация о выбранной службе доставки, ее профиле и настройках (подробное описание приведено [ниже](#delivery_service)). Может быть `null`, если служба доставки не найдена ||
 || **PRICE**
 [`double`](/api-reference/data-types.html) | Полная стоимость товаров для клиента в отгрузке ||
 || **CURRENCY**
@@ -24,9 +24,9 @@
 || **EXTRA_SERVICES_VALUES**
 [`object[]`](/api-reference/data-types.html) | Массив, содержащий список необходимых дополнительных услуг, выбранных для доставки (подробное описание приведено [ниже](#extra_service_values)) ||
 || **RESPONSIBLE_CONTACT**
-[`object`](/api-reference/data-types.html) | Информация по контакту менеджера, ответственного за доставку со стороны Битрикс24 (подробное описание приведено [ниже](#responsible_contact)) ||
+[`object`](/api-reference/data-types.html) | Информация о сотруднике, ответственном за доставку со стороны Битрикс24 (подробное описание приведено [ниже](#responsible_contact)). Может быть `null`, если ответственный не указан или не найден ||
 || **RECIPIENT_CONTACT**
-[`object`](/api-reference/data-types.html) | Информация по контакту грузополучателя (подробное описание приведено [ниже](#recipient_contact)) ||
+[`object`](/api-reference/data-types.html) | Информация о получателе груза (подробное описание приведено [ниже](#recipient_contact)). Может быть `null`, если контакт получателя недоступен ||
 |#
 
 ### DELIVERY_SERVICE
@@ -39,7 +39,7 @@
 || **CONFIG**
 [`object[]`](/api-reference/data-types.html) | Значения настроек службы доставки (подробное описание приведено [ниже](#config)) ||
 || **PARENT**
-[`object`](/api-reference/data-types.html) | Информация о родительской службе доставки (подробное описание приведено [ниже](#parent)) ||
+[`object`](/api-reference/data-types.html) | Информация о родительской службе доставки (подробное описание приведено [ниже](#parent)). Поле отсутствует, если родительская служба не задана ||
 |#
 
 ### PARENT
@@ -78,16 +78,10 @@
 [`string`](/api-reference/data-types.html) | Тип свойства. Возможные значения:
 
 - `STRING` — строка
-- `Y`/`N` — да или нет
-- `NUMBER` — число
-- `ENUM` — список
-- `FILE` — файл
-- `DATE` — дата
-- `LOCATION` — местоположение
 - `ADDRESS` — адрес
  ||
 || **VALUE**
-[`string`](/api-reference/data-types.html) \| [`object`](/api-reference/data-types.html) | Значение свойства. Для типа `object` подробное описание приведено [ниже](#value) ||
+[`string`](/api-reference/data-types.html) \| [`object`](/api-reference/data-types.html) | Значение свойства. Для типа `object` подробное описание приведено [ниже](#value). Может быть `null`, если значение адреса отсутствует ||
 |#
 
 ### VALUE
@@ -96,14 +90,16 @@
 || **Название**
 `тип` | **Описание** ||
 || **LATITUDE**
-[`double`](/api-reference/data-types.html) | Географическая широта ||
+[`double`](/api-reference/data-types.html) | Географическая широта. Может быть `null` ||
 || **LONGITUDE**
-[`double`](/api-reference/data-types.html) | Географическая долгота ||
+[`double`](/api-reference/data-types.html) | Географическая долгота. Может быть `null` ||
 || **FIELDS**
 [`object`](/api-reference/data-types.html) | Детальная информация по адресу доставки (подробное описание приведено [ниже](#fields)) ||
 |#
 
 ### FIELDS
+
+Состав объекта зависит от заполненных частей адреса. Битрикс24 передает доступные поля из следующего списка.
 
 #|
 || **Название**
@@ -116,14 +112,36 @@
 [`string`](/api-reference/data-types.html) | Единица административно-территориального деления первого уровня (например, штат или область) ||
 || **ADM_LEVEL_2**
 [`string`](/api-reference/data-types.html) | Единица административно-территориального деления второго уровня (например, район) ||
+|| **ADM_LEVEL_3**
+[`string`](/api-reference/data-types.html) | Единица административно-территориального деления третьего уровня ||
+|| **ADM_LEVEL_4**
+[`string`](/api-reference/data-types.html) | Единица административно-территориального деления четвертого уровня ||
 || **LOCALITY**
 [`string`](/api-reference/data-types.html) | Населенный пункт ||
+|| **SUB_LOCALITY**
+[`string`](/api-reference/data-types.html) | Район или часть населенного пункта ||
+|| **SUB_LOCALITY_LEVEL_1**
+[`string`](/api-reference/data-types.html) | Первый уровень части населенного пункта ||
+|| **SUB_LOCALITY_LEVEL_2**
+[`string`](/api-reference/data-types.html) | Второй уровень части населенного пункта ||
 || **STREET**
 [`string`](/api-reference/data-types.html) | Улица ||
 || **BUILDING**
 [`string`](/api-reference/data-types.html) | Здание, номер дома ||
 || **ADDRESS_LINE_1**
 [`string`](/api-reference/data-types.html) | Адрес (улица, здание, номер дома) ||
+|| **ADDRESS_LINE_2**
+[`string`](/api-reference/data-types.html) | Дополнительная строка адреса ||
+|| **FLOOR**
+[`string`](/api-reference/data-types.html) | Этаж ||
+|| **ROOM**
+[`string`](/api-reference/data-types.html) | Помещение ||
+|| **RECIPIENT_COMPANY**
+[`string`](/api-reference/data-types.html) | Название компании получателя ||
+|| **RECIPIENT**
+[`string`](/api-reference/data-types.html) | Имя получателя ||
+|| **PO_BOX**
+[`string`](/api-reference/data-types.html) | Номер абонентского ящика ||
 |#
 
 ### ITEMS
@@ -138,11 +156,11 @@
 || **CURRENCY**
 [`crm_currency.CURRENCY`](/api-reference/crm/data-types.html) | Код валюты стоимости ||
 || **WEIGHT**
-[`double`](/api-reference/data-types.html) | Вес одной позиции товара ||
+[`double`](/api-reference/data-types.html) | Вес одной позиции товара. Может быть `null`, если вес не указан ||
 || **QUANTITY**
 [`double`](/api-reference/data-types.html) | Количество единиц товара ||
 || **DIMENSIONS**
-[`object`](/api-reference/data-types.html) | Размеры груза (подробное описание приведено [ниже](#dimensions)) ||
+[`object`](/api-reference/data-types.html) | Размеры груза (подробное описание приведено [ниже](#dimensions)). Может быть `null`, если размеры не указаны полностью ||
 |#
 
 ### DIMENSIONS
@@ -151,11 +169,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **LENGTH**
-[`double`](/api-reference/data-types.html) | Длина товара (мм.) ||
+[`double`](/api-reference/data-types.html) | Длина товара в миллиметрах ||
 || **WIDTH**
-[`double`](/api-reference/data-types.html) | Ширина товара (мм.) ||
+[`double`](/api-reference/data-types.html) | Ширина товара в миллиметрах ||
 || **HEIGHT**
-[`double`](/api-reference/data-types.html) | Высота товара (мм.) ||
+[`double`](/api-reference/data-types.html) | Высота товара в миллиметрах ||
 |#
 
 ### EXTRA_SERVICES_VALUES {#extra_service_values}
@@ -189,7 +207,7 @@
 || **NAME**
 [`string`](/api-reference/data-types.html) | Полное имя контакта ||
 || **PHONES**
-[`object[]`](/api-reference/data-types.html) | Массив, содержащий информацию о номерах телефонов контакта (подробное описание приведено [ниже](#phones)) ||
+[`object[]`](/api-reference/data-types.html) | Массив с номерами телефонов контакта (подробное описание приведено [ниже](#phones)) ||
 |#
 
 ### RECIPIENT_CONTACT
@@ -200,7 +218,7 @@
 || **NAME**
 [`string`](/api-reference/data-types.html) | Полное имя контакта ||
 || **PHONES**
-[`object[]`](/api-reference/data-types.html) | Массив, содержащий информацию о номерах телефонов контакта (подробное описание приведено [ниже](#phones)) ||
+[`object[]`](/api-reference/data-types.html) | Массив с номерами телефонов контакта (подробное описание приведено [ниже](#phones)). Поле отсутствует, если телефоны не указаны ||
 |#
 
 ### PHONES

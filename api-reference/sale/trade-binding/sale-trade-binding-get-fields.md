@@ -11,11 +11,13 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: любой пользователь
 
-Метод `sale.tradeBinding.getFields` возвращает доступные поля заказов из источников.
+Метод `sale.tradeBinding.getFields` возвращает описание полей привязки заказа к источнику. Названия полей можно передавать в параметрах `select`, `filter` и `order` метода [sale.tradeBinding.list](./sale-trade-binding-list.md).
 
-Без параметров.
+## Параметры метода
+
+Метод вызывается без параметров.
 
 ## Примеры кода
 
@@ -160,7 +162,6 @@
             ->getResult();
     
         echo 'Success: ' . print_r($result, true);
-        console.log($result);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting trade binding fields: ' . $e->getMessage();
@@ -241,19 +242,48 @@ HTTP-статус: **200**
                 "isReadOnly": true,
                 "isRequired": false,
                 "type": "integer"
+            },
+            "orderId": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "params": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "tradingPlatformId": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "tradingPlatformXmlId": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "string"
+            },
+            "xmlId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
             }
-            // прочие поля
         }
     },
     "time": {
-        "start": 1712135957.057659,   
-        "finish": 1712135957.407821,   
-        "duration": 0.3501620292663574,   
-        "processing": 0.011919021606445312,   
-        "date_start": "2024-04-03T11:19:17+02:00",   
-        "date_finish": "2024-04-03T11:19:17+02:00",   
-        "operating_reset_at": 1705765533,   
-        "operating": 3.3076241016387939 
+        "start": 1790241787,
+        "finish": 1790241787.99009,
+        "duration": 0.9900898933410645,
+        "processing": 0,
+        "date_start": "2026-09-24T12:23:07+03:00",
+        "date_finish": "2026-09-24T12:23:07+03:00",
+        "operating_reset_at": 1790242387,
+        "operating": 0
     }
 }
 ```
@@ -266,34 +296,17 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **tradeBinding**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_order_trade_binding`](../data-types.md#sale_order_trade_binding) , а `value` — объект типа [`rest_field_description`](../data-types.md) ||
+[`object`](../../data-types.md) | Объект с описанием полей привязки заказа к источнику. Ключ — название поля объекта [`sale_order_trade_binding`](../data-types.md#sale_order_trade_binding), значение — объект типа [`rest_field_description`](../data-types.md#rest_field_description) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
-
-```json
-{
-    "error":200040300010,
-    "error_description":"Access Denied"
-}
-```
-
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для выполнения метода ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
-|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./sale-trade-binding-list.md)

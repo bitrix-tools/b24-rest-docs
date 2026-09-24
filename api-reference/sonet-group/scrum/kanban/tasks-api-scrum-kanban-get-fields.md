@@ -225,6 +225,29 @@ HTTP-статус: **200**
 }
 ```
 
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Корневой элемент ответа ||
+|| **result.fields**
+[`object`](../../../data-types.md) | Описание доступных полей стадии канбана ||
+|| **result.fields.name.type**
+[`string`](../../../data-types.md) | Тип поля `name`: `string` ||
+|| **result.fields.sort.type**
+[`string`](../../../data-types.md) | Тип поля `sort`: `integer` ||
+|| **result.fields.type.type**
+[`string`](../../../data-types.md) | Тип поля `type`: `string` ||
+|| **result.fields.sprintId.type**
+[`string`](../../../data-types.md) | Тип поля `sprintId`: `integer` ||
+|| **result.fields.color.type**
+[`string`](../../../data-types.md) | Тип поля `color`: `string` ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
 ## Обработка ошибок
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
