@@ -17,7 +17,7 @@
 
 {% note warning "" %}
 
-Обновить можно только нумератор, который был создан через REST-метод `documentgenerator.numerator.add`
+Обновить можно только нумератор, который был создан методом `documentgenerator.numerator.add`.
 
 {% endnote %}
 
@@ -83,19 +83,19 @@
 - `''` — без сброса
 - `day` — ежедневно
 - `month` — ежемесячно
-- `year` — ежегодно ||
+- `year` — ежегодно
+
+По умолчанию периодический сброс выключен ||
 || **timezone**
 [`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса, например `Europe/Moscow` ||
 || **isDirectNumeration**
 [`boolean`](../../data-types.md) | Признак прямой нумерации.
 
 Возможные значения:
-- `0` — выключена
-- `1` — включена
+- `false` — выключена
+- `true` — включена
 
-По умолчанию `0`.
-
-В ответе метода значение возвращается в виде `true` \| `false` ||
+По умолчанию `false` ||
 |#
 
 ## Примеры кода
@@ -135,7 +135,7 @@
             "padString": "0",
             "periodicBy": "year",
             "timezone": "Europe/Moscow",
-            "isDirectNumeration": 0
+            "isDirectNumeration": false
           }
         }
       }
@@ -162,7 +162,7 @@
             "padString": "0",
             "periodicBy": "year",
             "timezone": "Europe/Moscow",
-            "isDirectNumeration": 0
+            "isDirectNumeration": false
           }
         }
       },
@@ -193,8 +193,8 @@
           step: number
           length: number
           padString: string
-          periodicBy: string
-          timezone: string
+          periodicBy: string | null
+          timezone: string | null
           isDirectNumeration: boolean
         }
       }
@@ -216,7 +216,7 @@
                 padString: '0',
                 periodicBy: 'year',
                 timezone: 'Europe/Moscow',
-                isDirectNumeration: 0,
+                isDirectNumeration: false,
               },
             },
           },
@@ -263,7 +263,7 @@
                     padString: '0',
                     periodicBy: 'year',
                     timezone: 'Europe/Moscow',
-                    isDirectNumeration: 0,
+                    isDirectNumeration: false,
                   },
                 },
               },
@@ -346,7 +346,7 @@
                           'padString' => '0',
                           'periodicBy' => 'year',
                           'timezone' => 'Europe/Moscow',
-                          'isDirectNumeration' => 0,
+                          'isDirectNumeration' => false,
                       ],
                   ],
               ],
@@ -378,7 +378,7 @@
                       padString: '0',
                       periodicBy: 'year',
                       timezone: 'Europe/Moscow',
-                      isDirectNumeration: 0
+                      isDirectNumeration: false
                   }
               }
           }
@@ -417,7 +417,7 @@
                       'padString' => '0',
                       'periodicBy' => 'year',
                       'timezone' => 'Europe/Moscow',
-                      'isDirectNumeration' => 0,
+                      'isDirectNumeration' => false,
                   ],
               ],
           ],
@@ -444,7 +444,7 @@
     				"padString":          "0",
     				"periodicBy":         "year",
     				"timezone":           "Europe/Moscow",
-    				"isDirectNumeration": 0,
+                    "isDirectNumeration": false,
     			},
     		},
     	},
@@ -525,7 +525,7 @@ HTTP-статус: **200**
 || **template**
 [`string`](../../data-types.md) | Шаблон номера ||
 || **code**
-[`string`](../../data-types.md) | Символьный код нумератора. Может быть `null` ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Символьный код нумератора. Для нумератора, созданного методом `documentgenerator.numerator.add`, возвращается `null` ||
 || **settings**
 [`object`](../../data-types.md) | Настройки генераторов нумератора [(подробное описание)](#result-settings) ||
 |#
@@ -553,9 +553,9 @@ HTTP-статус: **200**
 || **padString**
 [`string`](../../data-types.md) | Символ добивки слева при `length > 0` ||
 || **periodicBy**
-[`string`](../../data-types.md) | Период сброса счетчика ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Период сброса счетчика. Возвращается `null`, если периодический сброс выключен ||
 || **timezone**
-[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Возвращается `null`, если часовой пояс не задан ||
 || **isDirectNumeration**
 [`boolean`](../../data-types.md) | Признак прямой нумерации ||
 |#
@@ -581,13 +581,14 @@ HTTP-статус: **400**
 || `400` | `100` | Could not construct parameter {numerator} | Передан несуществующий или некорректный идентификатор нумератора ||
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав на изменение шаблонов генератора документов ||
-|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нельзя изменить нумератор, который не был создан через REST, или нумератор другого типа ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нельзя изменить нумератор, который не был создан методом `documentgenerator.numerator.add` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./document-generator-numerator-add.md)
 - [{#T}](./document-generator-numerator-get.md)
 - [{#T}](./document-generator-numerator-list.md)
