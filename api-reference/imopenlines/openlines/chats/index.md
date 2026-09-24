@@ -9,39 +9,49 @@
 
 {% endnote %}
 
-Чаты открытых линий хранят переписку с клиентами из онлайн-чата, мессенджеров и социальных сетей. Методы `imopenlines.crm.chat.*` помогают найти чат по объекту CRM, получить последний активный чат и управлять участниками.
+Чаты открытых линий хранят переписку с клиентами из онлайн-чата, мессенджеров и социальных сетей. Битрикс24 может привязать диалог с клиентом к лиду, сделке, контакту или компании. Методы `imopenlines.crm.chat.*` находят чаты по объекту CRM, добавляют в них сотрудников и чат-ботов или убирают участников. Например, приложение может подключить к переписке с клиентом менеджера, который ведет сделку.
 
 > Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Как работать с чатами в открытых линиях](https://helpdesk.bitrix24.ru/open/28489438/)
 
+## Как чат связан с объектом CRM
+
+Когда диалог открытой линии попадает в CRM, Битрикс24 создает дело в [лиде](../../../crm/leads/index.md), [сделке](../../../crm/deals/index.md), [контакте](../../../crm/contacts/index.md) или [компании](../../../crm/companies/index.md). По этому делу методы и находят чат. Если у объекта такого дела нет, методы чат не найдут.
+
+В запросе объект CRM, чат и участника указывают так:
+
+#|
+|| **Параметр** | **Что означает** | **Пример значения** ||
+|| `CRM_ENTITY_TYPE` | Тип объекта CRM: `lead`, `deal`, `contact` или `company`. Счета и смарт-процессы методы не поддерживают | `contact` ||
+|| `CRM_ENTITY` | Идентификатор объекта CRM. Получить его можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) | `2389` ||
+|| `CHAT_ID` | Идентификатор чата. Его возвращают методы [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) и [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md) | `1971` ||
+|| `USER_ID` | Идентификатор участника — сотрудника или чат-бота. Найти сотрудника можно методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md) | `15` ||
+|#
+
+Метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) по умолчанию возвращает только чаты, в которых оператор принял диалог и еще не завершил его. Чтобы получить все чаты объекта, передайте `ACTIVE_ONLY` со значением `N`. Метод [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md) возвращает последний чат объекта, даже если диалог в нем завершен.
+
+Менять участников можно только в тех чатах, которые [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) возвращает по умолчанию. Для завершенного чата методы [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) вернут ошибку `CHAT_NOT_IN_CRM`.
+
 ## Связь чатов с другими объектами
 
-**CRM.** Чат может быть привязан к одному из четырех объектов CRM: [лиду](../../../crm/leads/index.md), [сделке](../../../crm/deals/index.md), [контакту](../../../crm/contacts/index.md) или [компании](../../../crm/companies/index.md). Тип объекта и его идентификатор передаются в метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md).
+Кроме CRM, чаты связаны с чат-ботами, историей переписки, открытыми линиями и коннекторами.
 
-**Пользователь.** В чат можно добавить сотрудника по `USER_ID`. Получить идентификатор пользователя можно методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md).
+**Чат-боты.** Бот в чате может ответить клиенту, перевести диалог на оператора или в очередь и завершить его. Для этого есть методы группы [imopenlines.bot.*](../chat-bots/index.md).
 
-**Чат-бот.** В чат можно добавить бота. Действия чат-ботов в открытых линиях выполняет группа методов [imopenlines.bot.*](../chat-bots/index.md).
+**История переписки.** Ее возвращает метод [imopenlines.session.history.get](../sessions/imopenlines-session-history-get.md) — передайте в него `CHAT_ID`.
 
-{% note info "" %}
+**Открытые линии.** Создать, настроить или удалить саму линию можно методами [imopenlines.*](../index.md).
 
-Для добавления бота в чат открытой линии он должен иметь скоуп [crm](../../../scopes/permissions.md).
-
-{% endnote %}
-
-**Диалоги.** По идентификатору чата `CHAT_ID` можно получить историю переписки методом [imopenlines.session.history.get](../sessions/imopenlines-session-history-get.md).
-
-**Открытые линии.** Добавлять, изменять и удалять открытые линии помогают методы [imopenlines.*](../index.md).
-
-**Коннектор.** Чаты создаются через коннектор. Каналом связи может быть онлайн-чат, мессенджер или социальная сеть. Чтобы подключить коннектор или изменить настройки, используйте группу методов [imconnector.*](../../imconnector/index.md).
+**Коннекторы.** Клиент пишет в открытую линию через коннектор, например Telegram или онлайн-чат на сайте. Подключить и настроить коннектор можно методами [imconnector.*](../../imconnector/index.md).
 
 ## Как работать с чатами
 
-1. Получите список чатов объекта CRM методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md)
-2. Найдите последний активный чат методом [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md)
-3. Добавьте или удалите участников методами [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md)
-4. Отправьте сообщение методом [imopenlines.crm.message.add](../messages/imopenlines-crm-message-add.md)
-5. Передайте `CHAT_ID` в [imopenlines.crm.lead.create](../sessions/imopenlines-crm-lead-create.md), чтобы создать лид на основании диалога
+1. Найдите чат объекта CRM: передайте `CRM_ENTITY_TYPE` и `CRM_ENTITY` в метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) без `ACTIVE_ONLY`. Метод вернет чаты, в которых можно менять участников. Сохраните `CHAT_ID`
+2. Добавьте в чат сотрудника или чат-бота методом [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md): передайте те же `CRM_ENTITY_TYPE` и `CRM_ENTITY`, идентификатор участника — в `USER_ID`, а чат — в `CHAT_ID`. Убрать участника можно методом [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) с теми же параметрами
+3. Напишите клиенту от имени сотрудника или бота методом [imopenlines.crm.message.add](../messages/imopenlines-crm-message-add.md)
+
+Если диалог еще не привязан к CRM, создайте по нему лид методом [imopenlines.crm.lead.create](../sessions/imopenlines-crm-lead-create.md) — ему тоже нужен `CHAT_ID`. Если диалог уже привязан, метод ничего не создаст, но вернет `true`.
 
 {% note tip "Пользовательская документация" %}
 
@@ -55,7 +65,7 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: любой пользователь
+> Кто может выполнять методы: в зависимости от метода — [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md), [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) требуют права на чтение объекта CRM
 
 #|
 || **Метод** | **Описание** ||
