@@ -42,18 +42,20 @@ fields: {
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
+Поля `name`, `value`, `code` и `xmlId` хранят до 255 символов. Более длинное значение Битрикс24 обрежет без ошибки.
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **basketId***
-[`sale_basket_item.id`](../data-types.md) | Идентификатор элемента (позиции) корзины заказа.
+[`sale_basket_item.id`](../data-types.md) | Идентификатор элемента (позиции) корзины заказа. Позиция должна входить в заказ: у нее заполнено поле `orderId`.
 Может быть получен методами [`sale.basketitem.get`](../basket-item/sale-basket-item-get.md) или [`sale.basketitem.list`](../basket-item/sale-basket-item-list.md) ||
 || **name***
 [`string`](../../data-types.md) | Название свойства ||
 || **value***
 [`string`](../../data-types.md) | Значение свойства ||
 || **code***
-[`string`](../../data-types.md) | Символьный код свойства ||
+[`string`](../../data-types.md) | Символьный код свойства. Битрикс24 не проверяет уникальность кода: повторный вызов с тем же `code` создаст у позиции второе свойство ||
 || **sort**
 [`integer`](../../data-types.md) | Положение в списке свойств.
 Если не указать, будет присвоено значение по умолчанию — 100 ||
@@ -253,24 +255,18 @@ fields: {
                 code: 'ARTICUL',
             }
         },
-    )
-        .then(
-            function(result)
+        function(result)
+        {
+            if (result.error())
             {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result);
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                console.error(result.error());
             }
-        );
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
     ```
 
 - PHP CRest
@@ -381,8 +377,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200240400002",
+    "error_description": "Basket item not exists"
 }
 ```
 
@@ -392,13 +388,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для добавления ||
-|| `200240400004` | Basket item id is absent
-Не указан идентификатор элемента (позиции) корзины ||
-|| `200240400005` | Basket item id is bad
-Неверный идентификатор элемента (позиции) корзины — например, строка ‘семьдесят’ ||
-|| `200240400001`, `200240400002` | Не найден элемент (позиция) корзины ||
-|| `100` | Не указан или пустой параметр `fields` ||
+|| `0` | `Required fields: basketId` — не передано обязательное поле `basketId`, `name`, `value` или `code`. Имена пропущенных полей перечислены в `error_description` ||
+|| `200240400004` | `Basket item id is absent` — в `basketId` передан `null` ||
+|| `200240400005` | `Basket item id is bad` — в `basketId` передано не число или число меньше 1, например `"abc"` или `0` ||
+|| `200240400002`, `200240400001` | `Basket item not exists` — позиции корзины с таким `basketId` нет ||
+|| `MAIN_CONTROLLER_22001` | `Argument 'id' is null or empty` — позиция корзины не входит в заказ, ее поле `orderId` пустое ||
+|| `100` | `Could not find value for parameter {fields}` — не передан параметр `fields` ||
+|| `200040300020` | `Access Denied` — недостаточно прав для добавления ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
