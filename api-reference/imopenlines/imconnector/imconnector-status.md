@@ -19,7 +19,7 @@
 
 Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
-{% endnote %} 
+{% endnote %}
 
 ## Параметры метода
 
@@ -31,14 +31,14 @@
 || **CONNECTOR***
 [`string`](../../data-types.md) | Строковый код коннектора, который задали в параметре `ID` при вызове [imconnector.register](./imconnector-register.md) ||
 || **LINE**
-[`integer`](../../data-types.md) | Идентификатор открытой линии ||
+[`integer`](../../data-types.md) | Идентификатор открытой линии.
+
+Идентификатор можно получить методами [imopenlines.config.get](../openlines/imopenlines-config-get.md) и [imopenlines.config.list.get](../openlines/imopenlines-config-list-get.md) ||
 |#
 
-Если параметр `LINE` не передан, метод автоматически использует значение `0`. Это влияет на результат проверки:
-- для настоящего идентификатора линии коннектор может быть активен и настроен,
-- с `LINE=0` метод обычно возвращает `CONFIGURED=false` и `STATUS=false`, даже если коннектор работает для других линий.
+Метод не проверяет, зарегистрирован ли коннектор и существует ли линия. Для неизвестной пары «коннектор — линия» он возвращает не ошибку, а статус со значениями `ERROR: false`, `CONFIGURED: false` и `STATUS: false`.
 
-Для получения корректного статуса всегда указывайте идентификатор открытой линии.
+Частный случай такой пары — вызов без `LINE`: метод подставляет значение `0`, статуса для такой пары обычно нет, и все три признака приходят со значением `false`, даже если коннектор работает на других линиях. Чтобы получить корректный статус, всегда указывайте идентификатор открытой линии.
 
 ## Примеры кода
 
@@ -241,12 +241,14 @@ HTTP-статус: **200**
         "STATUS": true
     },
     "time": {
-        "start": 1738065600.11,
-        "finish": 1738065600.18,
-        "duration": 0.07,
-        "processing": 0.03,
-        "date_start": "2025-01-28T12:00:00+00:00",
-        "date_finish": "2025-01-28T12:00:00+00:00"
+        "start": 1773267900.126,
+        "finish": 1773267900.489,
+        "duration": 0.3630001544952393,
+        "processing": 0.0884850025177002,
+        "date_start": "2026-03-11T14:25:00+03:00",
+        "date_finish": "2026-03-11T14:25:00+03:00",
+        "operating_reset_at": 1773268500,
+        "operating": 0.0884850025177002
     }
 }
 ```
@@ -268,15 +270,17 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **LINE**
-[`integer`](../../data-types.md) | Идентификатор открытой линии ||
+[`integer`](../../data-types.md) | Идентификатор открытой линии, для которой запрошен статус. Если параметр `LINE` не передавали, возвращается `0` ||
 || **CONNECTOR**
-[`string`](../../data-types.md) | Идентификатор коннектора ||
+[`string`](../../data-types.md) | Код коннектора в нижнем регистре ||
 || **ERROR**
-[`boolean`](../../data-types.md) | Признак ошибки состояния коннектора ||
+[`boolean`](../../data-types.md) | Признак ошибки коннектора на этой линии. Значение `true` означает, что коннектор помечен как нерабочий. Признак снимается при повторном вызове [imconnector.activate](./imconnector-activate.md) ||
 || **CONFIGURED**
-[`boolean`](../../data-types.md) | Признак завершенной настройки коннектора ||
+[`boolean`](../../data-types.md) | Признак завершенной настройки коннектора. Значение `true`, если коннектор одновременно зарегистрирован, подключен и активен на этой линии. Все три признака выставляет метод [imconnector.activate](./imconnector-activate.md) ||
 || **STATUS**
-[`boolean`](../../data-types.md) | Итоговый статус доступности коннектора ||
+[`boolean`](../../data-types.md) | Итоговый статус доступности коннектора. Значение `true`, если `CONFIGURED` равно `true`, а `ERROR` — `false`.
+
+Только при `STATUS: true` линия принимает сообщения коннектора и показывает его настройки в интерфейсе оператора ||
 |#
 
 ## Обработка ошибок
@@ -286,7 +290,8 @@ HTTP-статус: **400**, **403**
 ```json
 {
     "error": "ERROR_ARGUMENT",
-    "error_description": "Argument 'CONNECTOR' is null or empty"
+    "error_description": "Argument 'CONNECTOR' is null or empty",
+    "argument": "CONNECTOR"
 }
 ```
 
@@ -297,8 +302,10 @@ HTTP-статус: **400**, **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения OAuth ||
-|| `400` | `ERROR_ARGUMENT` | Argument 'CONNECTOR' is null or empty | Не передан идентификатор коннектора `CONNECTOR` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'CONNECTOR' is null or empty | Не передан код коннектора `CONNECTOR` ||
 |#
+
+В теле ошибки `ERROR_ARGUMENT` приходит дополнительное поле `argument` с именем параметра — разбирать текст сообщения не нужно.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
@@ -314,3 +321,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
 - [{#T}](./imconnector-chat-name-set.md)
+- [{#T}](../../../tutorials/openlines/example-connector.md)

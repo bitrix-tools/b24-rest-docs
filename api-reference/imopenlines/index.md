@@ -91,7 +91,7 @@
 
 ## Обзор методов и событий {#all-methods}
 
-> Scope: [`imopenlines`](../scopes/permissions.md), [`imconnector`](../scopes/permissions.md)
+> Scope: [`imopenlines`](../scopes/permissions.md)
 >
 > Кто может выполнять методы и события: в зависимости от метода, события и прав доступа к открытым линиям
 

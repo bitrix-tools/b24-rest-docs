@@ -1,6 +1,6 @@
 # Как создать коннектор открытых линий для чата на сайте
 
-> Scope: [`imopenlines`, `imconnector`](../../api-reference/scopes/permissions.md)
+> Scope: [`imopenlines`](../../api-reference/scopes/permissions.md)
 >
 > Кто может выполнять методы: любой пользователь приложения
 
@@ -27,7 +27,7 @@ SDK выполняют исходящие вызовы методов. Вход�
 
 Для сценария нужны:
 
-- локальное приложение типа «Серверное» с правами `imopenlines`, `imconnector`, `im`
+- локальное приложение типа «Серверное» с правами `imopenlines`, `im`
 - публичный HTTPS-URL серверной части приложения
 - URL обработчика установки `install_connector.*`
 - URL обработчика события и настроек `handler.*`
@@ -113,7 +113,7 @@ SDK выполняют исходящие вызовы методов. Вход�
     $appProfile = ApplicationProfile::initFromArray([
         'BITRIX24_PHP_SDK_APPLICATION_CLIENT_ID' => 'local.xxxxxxxx.xxxxxxxx',
         'BITRIX24_PHP_SDK_APPLICATION_CLIENT_SECRET' => 'yyyyyyyy',
-        'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'imopenlines,imconnector,im',
+        'BITRIX24_PHP_SDK_APPLICATION_SCOPE' => 'imopenlines,im',
     ]);
 
     $authToken = AuthToken::initFromEventRequest($request);
@@ -491,7 +491,7 @@ SDK выполняют исходящие вызовы методов. Вход�
 ## 5. Запуск коннектора
 
 1. Разместите серверные файлы на публичном HTTPS-URL
-2. Создайте [локальное приложение](../../settings/app-installation/local-apps/index.md) типа «Серверное» с правами `imopenlines`, `imconnector`, `im`
+2. Создайте [локальное приложение](../../settings/app-installation/local-apps/index.md) типа «Серверное» с правами `imopenlines`, `im`
 3. Откройте `install_connector.*`, чтобы зарегистрировать коннектор и подписаться на событие
 4. В **Контакт-центре** откройте коннектор `ExampleSiteChat`, выберите Открытую линию и активируйте — Битрикс24 вызовет `handler.*` с placement `SETTING_CONNECTOR`
 5. Разместите виджет (`index.*`) на сайте и проверьте обмен сообщениями

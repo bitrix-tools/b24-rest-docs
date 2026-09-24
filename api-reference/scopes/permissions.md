@@ -64,8 +64,7 @@
 || **humanresources.hcmlink** | [Интеграция КЭДО с системами кадрового учета](../sign/hcm-link/index.md) | КЭДО ||
 || **im** | [Чат и уведомления](../chats/index.md) | Чат и уведомления ||
 || **imbot** | [Создание и управление Чат-ботами](../chat-bots/index.md) | Боты для чата ||
-|| **imconnector** | [Коннекторы для внешних мессенджеров](../imopenlines/imconnector/index.md) | Открытые линии ||
-|| **imopenlines** | [Открытые линии](../imopenlines/index.md) | Открытые линии ||
+|| **imopenlines** | [Открытые линии](../imopenlines/index.md), [Коннекторы для внешних мессенджеров](../imopenlines/imconnector/index.md) | Открытые линии ||
 || **intranet** | [Виджеты](../widgets/index.md) | Виджеты ||
 || **landing** | [Сайты](../landing/index.md) | Сайты ||
 || **lists** | [Списки](../lists/index.md) | Универсальные списки ||

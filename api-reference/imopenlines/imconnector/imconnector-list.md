@@ -13,13 +13,22 @@
 >
 > Кто может выполнять метод: пользователь с правом изменения коннекторов открытых линий
 
-Метод `imconnector.list` возвращает список всех коннекторов, которые зарегистрированы в Битрикс24.
+Метод `imconnector.list` возвращает список коннекторов, которые доступны в Битрикс24 и могут быть подключены к открытой линии.
 
 {% note info "" %}
 
 Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
-{% endnote %} 
+{% endnote %}
+
+В список попадают:
+
+- встроенные коннекторы, которые доступны в регионе и включены в настройках Битрикс24: онлайн-чат, Telegram, Битрикс24 Network и другие
+- пользовательские коннекторы, зарегистрированные приложениями через [imconnector.register](./imconnector-register.md)
+
+На пользовательские коннекторы настройки Битрикс24 не влияют: они попадают в список сразу после регистрации.
+
+Метод не показывает, к каким линиям подключены коннекторы и в каком они состоянии. Состояние коннектора на конкретной линии проверяйте методом [imconnector.status](./imconnector-status.md).
 
 ## Параметры метода
 
@@ -193,7 +202,7 @@ HTTP-статус: **200**
     "result": {
         "livechat": "Онлайн-чат",
         "telegrambot": "Telegram",
-        "network": "Битрикс24.Network",
+        "network": "Битрикс24 Network",
         "myconnector": "Мой коннектор"
     },
     "time": {
@@ -213,14 +222,32 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект вида `connector_id: connector_name` для доступных коннекторов ||
+[`object`](../../data-types.md) | Объект вида `connector_id: connector_name`, где:
+
+- ключ — код коннектора. Для пользовательского коннектора это значение параметра `ID` метода [imconnector.register](./imconnector-register.md), приведенное к нижнему регистру
+- значение — название коннектора на языке интерфейса Битрикс24: для пользовательского коннектора это параметр `NAME` метода [imconnector.register](./imconnector-register.md)
+
+Ключ подставляют в параметр `CONNECTOR` остальных методов раздела.
+
+Если доступных коннекторов нет, в `result` приходит пустой массив `[]` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
+
+Вызов вне контекста приложения:
+
+```json
+{
+    "error": "ERROR_CORE",
+    "error_description": "Current authorization type is denied for this method"
+}
+```
+
+Нет права изменения коннекторов:
 
 ```json
 {
@@ -235,8 +262,8 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения OAuth ||
-|| `400` | `ACCESS_DENIED` | The ImOpenLines module is not installed | На портале не установлен модуль `imopenlines` ||
+|| `400` | `ERROR_CORE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения OAuth. В отличие от остальных методов раздела, этот метод отвечает кодом `ERROR_CORE` и статусом `400` ||
+|| `400` | `ACCESS_DENIED` | The ImOpenLines module is not installed. | В Битрикс24 не установлен модуль `imopenlines`. Эта проверка выполняется раньше проверки контекста приложения ||
 || `400` | `ACCESS_DENIED` | You dont have access to this action | У пользователя нет права изменения коннекторов ||
 |#
 
@@ -254,3 +281,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
 - [{#T}](./imconnector-chat-name-set.md)
+- [{#T}](../../../tutorials/openlines/example-connector.md)
