@@ -9,16 +9,6 @@
 
 {% endnote %}
 
-{% if build == 'dev' %}
-
-{% note alert "TO-DO _не выгружается на prod_" %}
-
-- структура параметра files относится к модулю Диск, поэтому здесь не описана. Нужно сделать ссылку, когда появится описание структуры в документации
-
-{% endnote %}
-
-{% endif %}
-
 > Scope: [`task`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь, имеющий доступ к Скраму
@@ -36,7 +26,17 @@
 [`integer`](../../../data-types.md) | Идентификатор эпика.
 
 Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
+|| **withFiles**
+[`boolean`](../../../data-types.md) | Вернуть ли файлы эпика в поле `files`. По умолчанию `true`.
+
+Чтобы получить эпик без файлов, передайте `false` или `0` ||
 |#
+
+{% note warning "Внимание" %}
+
+Строки `"false"` и `"N"` в `withFiles` метод считает значением `true` и возвращает файлы. Передавайте булево `false` в JSON-запросе или `0`
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -250,48 +250,64 @@ HTTP-статус: **200**
 
 ```json
 {
-    "id": 1,
-    "groupId": 143,
-    "name": "эпик",
-    "description": "",
-    "createdBy": 1,
-    "modifiedBy": 0,
-    "color": "#69dafc",
-    "files": {
-        "ID": "136",
-        "ENTITY_ID": "TASKS_SCRUM_EPIC",
-        "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
-        "USER_TYPE_ID": "disk_file",
-        "XML_ID": null,
-        "SORT": "100",
-        "MULTIPLE": "Y",
-        "MANDATORY": "N",
-        "SHOW_FILTER": "N",
-        "SHOW_IN_LIST": "N",
-        "EDIT_IN_LIST": "N",
-        "IS_SEARCHABLE": "N",
-        "SETTINGS": {
-            "IBLOCK_ID": null,
-            "SECTION_ID": null,
-            "UF_TO_SAVE_ALLOW_EDIT": false
-        },
-        "USER_TYPE": {
+    "result": {
+        "id": 2,
+        "groupId": 2,
+        "name": "Регистрация пользователей",
+        "description": "Форма входа, регистрация и восстановление пароля",
+        "createdBy": 1,
+        "modifiedBy": 1,
+        "color": "#69dafc",
+        "files": {
+            "ID": "60",
+            "ENTITY_ID": "TASKS_SCRUM_EPIC",
+            "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
             "USER_TYPE_ID": "disk_file",
-            "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
-            "DESCRIPTION": "Файл (Диск)",
-            "BASE_TYPE": "int",
-            "TAG": [
-                "DISK FILE ID",
-                "DOCUMENT ID"
-            ]
-        },
-        "VALUE": [],
-        "ENTITY_VALUE_ID": 1,
-        "CUSTOM_DATA": {
-            "PHOTO_TEMPLATE": ""
-        },
-        "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
-        "TAG": "DOCUMENT ID"
+            "XML_ID": null,
+            "SORT": "100",
+            "MULTIPLE": "Y",
+            "MANDATORY": "N",
+            "SHOW_FILTER": "N",
+            "SHOW_IN_LIST": "N",
+            "EDIT_IN_LIST": "N",
+            "IS_SEARCHABLE": "N",
+            "SETTINGS": {
+                "IBLOCK_ID": null,
+                "SECTION_ID": null,
+                "UF_TO_SAVE_ALLOW_EDIT": false
+            },
+            "USER_TYPE": {
+                "USER_TYPE_ID": "disk_file",
+                "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
+                "DESCRIPTION": "Файл (Диск)",
+                "BASE_TYPE": "int",
+                "TAG": [
+                    "DISK FILE ID",
+                    "DOCUMENT ID"
+                ]
+            },
+            "VALUE": [
+                6
+            ],
+            "ENTITY_VALUE_ID": 2,
+            "VALUE_EXISTS": true,
+            "VALUE_RAW": "a:1:{i:0;i:6;}",
+            "CUSTOM_DATA": {
+                "PHOTO_TEMPLATE": ""
+            },
+            "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
+            "TAG": "DOCUMENT ID"
+        }
+    },
+    "time": {
+        "start": 1790263942,
+        "finish": 1790263942.418237,
+        "duration": 0.4182369709014893,
+        "processing": 0,
+        "date_start": "2026-09-24T18:32:22+03:00",
+        "date_finish": "2026-09-24T18:32:22+03:00",
+        "operating_reset_at": 1790264542,
+        "operating": 0
     }
 }
 ```
@@ -301,10 +317,21 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Данные эпика [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор эпика ||
 || **groupId**
-[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой привязан эпик ||
+[`integer`](../../../data-types.md) | Идентификатор Скрама, к которому относится эпик ||
 || **name**
 [`string`](../../../data-types.md) | Название эпика ||
 || **description**
@@ -312,11 +339,65 @@ HTTP-статус: **200**
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего эпик ||
 || **modifiedBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменял эпик ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменил эпик. Если эпик не меняли — `0` ||
 || **color**
-[`string`](../../../data-types.md) | Цвет эпика в формате HEX ||
+[`string`](../../../data-types.md) | Цвет эпика ||
 || **files**
-[`object`](../../../data-types.md) | Объект с данными обо всех файлах, прикрепленных к эпику ||
+[`object`](../../../data-types.md) | Файлы эпика в виде пользовательского поля `UF_SCRUM_EPIC_FILES` [(подробное описание)](#files) ||
+|#
+
+#### Объект files {#files}
+
+Нужные данные о файлах лежат в поле `VALUE`. Остальные поля объекта — служебное описание пользовательского поля.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **VALUE**
+[`array`](../../../data-types.md) | Идентификаторы файлов, прикрепленных к эпику. Это идентификаторы привязок, а не файлов Диска: получить имя файла, ссылку на скачивание и идентификатор файла Диска `OBJECT_ID` можно методом [disk.attachedObject.get](../../../disk/attached-object/disk-attached-object-get.md).
+
+Если файлов нет — пустой массив ||
+|| **VALUE_EXISTS**
+[`boolean`](../../../data-types.md) | Приходит со значением `true`, если к эпику прикреплены файлы. Если файлов нет, этого поля в ответе нет ||
+|| **FIELD_NAME**
+[`string`](../../../data-types.md) | Код пользовательского поля, всегда `UF_SCRUM_EPIC_FILES` ||
+|| **USER_TYPE_ID**
+[`string`](../../../data-types.md) | Тип пользовательского поля, всегда `disk_file` ||
+|| **ENTITY_VALUE_ID**
+[`integer`](../../../data-types.md) | Идентификатор эпика ||
+|| **VALUE_RAW**
+[`string`](../../../data-types.md) | Значение `VALUE` в сериализованном виде PHP. Если файлов нет, этого поля в ответе нет ||
+|#
+
+Остальные поля описывают настройки самого пользовательского поля `UF_SCRUM_EPIC_FILES`. Они одинаковы у всех эпиков и не зависят от прикрепленных файлов:
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../../data-types.md) | Идентификатор пользовательского поля ||
+|| **ENTITY_ID**
+[`string`](../../../data-types.md) | Объект, к которому относится поле, всегда `TASKS_SCRUM_EPIC` ||
+|| **XML_ID**
+[`string`](../../../data-types.md) \| `null` | Внешний код поля. У поля файлов эпика — `null` ||
+|| **SORT**
+[`string`](../../../data-types.md) | Порядок сортировки поля ||
+|| **MULTIPLE**
+[`string`](../../../data-types.md) | Множественное ли поле, всегда `Y` ||
+|| **MANDATORY**
+[`string`](../../../data-types.md) | Обязательное ли поле, всегда `N` ||
+|| **SHOW_FILTER**, **SHOW_IN_LIST**, **EDIT_IN_LIST**, **IS_SEARCHABLE**
+[`string`](../../../data-types.md) | Настройки показа поля в интерфейсе, `Y` или `N` ||
+|| **SETTINGS**
+[`object`](../../../data-types.md) | Настройки поля: `IBLOCK_ID`, `SECTION_ID`, `UF_TO_SAVE_ALLOW_EDIT` ||
+|| **USER_TYPE**
+[`object`](../../../data-types.md) | Описание типа поля: `USER_TYPE_ID`, `CLASS_NAME`, `DESCRIPTION`, `BASE_TYPE`, `TAG` ||
+|| **CUSTOM_DATA**
+[`object`](../../../data-types.md) | Дополнительные данные типа поля ||
+|| **EDIT_FORM_LABEL**
+[`string`](../../../data-types.md) | Подпись поля в форме редактирования ||
+|| **TAG**
+[`string`](../../../data-types.md) | Метка типа поля, `DOCUMENT ID` ||
 |#
 
 ## Обработка ошибок
@@ -325,7 +406,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
+    "error": "0",
     "error_description": "Access denied"
 }
 ```
@@ -335,16 +416,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание**  | **Значение** ||
-|| `0` | Access denied | Нет доступа для просмотра данных эпика ||
-|| `0` | Epic not found | Такого эпика не существует ||
-|| `100` | Could not find value for parameter {id} | Неверно указано имя параметра или не задан параметр ||
-|| `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Epic not found | Эпика с таким `id` не существует ||
+|| `400` | `0` | Access denied | У пользователя нет доступа к задачам группы, к которой относится эпик ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-epic-add.md)

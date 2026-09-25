@@ -13,24 +13,43 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает список эпиков.
+Метод возвращает список эпиков. В список попадают только эпики тех групп, в которых состоит пользователь.
 
 ## Параметры метода
+
+В `filter`, `select` и `order` передавайте имена полей эпика в верхнем регистре:
+
+#|
+|| **Поле ответа** | **Имя в `filter`, `select` и `order`** ||
+|| `id` | `ID` ||
+|| `groupId` | `GROUP_ID` ||
+|| `name` | `NAME` ||
+|| `description` | `DESCRIPTION` ||
+|| `createdBy` | `CREATED_BY` ||
+|| `modifiedBy` | `MODIFIED_BY` ||
+|| `color` | `COLOR` ||
+|#
+
+{% note warning "Внимание" %}
+
+Если в `filter` передать поле в другом регистре, например `groupId`, или несуществующее поле, метод вернет пустой массив без ошибки. Так же метод отвечает на несуществующее поле в `select` и `order`.
+
+Поля, которых нет в `select`, метод все равно вернет, но со значением `0` или пустой строкой. Не принимайте такие значения за данные эпика
+
+{% endnote %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **order**
-[`array`](../../../data-types.md) | Массив для сортировки результата вида `{'поле_сортировки': 'направление сортировки' [, ...]}`. 
+[`object`](../../../data-types.md) | Объект для сортировки результата вида `{"поле_сортировки": "направление сортировки" [, ...]}`.
 
 Направление сортировки может принимать значения:
 - `asc` — по возрастанию
 - `desc` — по убыванию
-
-Возможные значения элементов массива соответствуют полям ответа [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md#fields)
 ||
 || **filter**
-[`array`](../../../data-types.md) | Массив вида `{'фильтруемое_поле': 'значение фильтра' [, ...]}`.
+[`object`](../../../data-types.md) | Объект вида `{"фильтруемое_поле": "значение фильтра" [, ...]}`.
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.
 
@@ -40,7 +59,7 @@
 - `>` — больше
 - `<` — меньше
 - `!=` — не равно
-- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обеих сторон
 - `>=` — больше либо равно
 - `<=` — меньше либо равно
 - `=%` — LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры:
@@ -54,27 +73,14 @@
   - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (смотрите описание выше)
 
-Возможные значения элементов массива соответствуют полям ответа [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md#fields)
-
+Если префикса нет, а значение содержит символ `%`, фильтр тоже ищет по подстроке: `"NAME": "%эпик%"`
 ||
 || **select**
-[`array`](../../../data-types.md) | Массив полей записей, которые будут возвращены методом.
-
-Возможные значения элементов массива соответствуют полям ответа [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md#fields). Можно указать только те поля, которые необходимы.
-
-Если в массиве присутствует значение `"*"`, то будут возвращены все доступные поля.
-
-Значение по умолчанию — пустой массив `array()`. Это означает, что будут возвращены все поля основной таблицы запроса
-||
+[`array`](../../../data-types.md) | Массив полей, которые нужно заполнить в ответе, например `["ID", "NAME"]`. Значение `"*"` или пустой массив — все поля ||
 || **start**
-[`integer`](../../../data-types.md) | Номер страницы вывода. Работает для https запросов.
+[`integer`](../../../data-types.md) | Смещение выборки, кратное 50, по умолчанию `0`. Размер страницы результатов всегда 50 записей: чтобы получить вторую страницу, передайте `50`, третью — `100`.
 
-Размер страницы результатов всегда статичный: 50 записей.
-
-Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
-
-Формула расчета значения параметра `start`:
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+Формула расчета: `start = (N-1) * 50`, где `N` — номер нужной страницы. Значение не кратное 50 метод округляет вниз до начала страницы: при `start: 2` он вернет первую страницу
 ||
 |#
 
@@ -95,7 +101,7 @@
             ">=ID": 1,
             "<=ID": 50,
             "NAME": "%эпик%",
-            "!=DESCRIPTION": "old epic",
+            "!=DESCRIPTION": "old epic"
         },
         "order": {
             "ID": "asc",
@@ -156,11 +162,8 @@
     }
 
     try {
-      // tasks.api.scrum.epic.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // tasks.api.scrum.epic.list returns a single page (max 50 records) without `total` and `next`.
+      // To load the next page, repeat the call with `start` increased by 50.
       const response = await $b24.actions.v2.call.make<EpicItem[]>({
         method: 'tasks.api.scrum.epic.list',
         params: {
@@ -208,11 +211,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // tasks.api.scrum.epic.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // tasks.api.scrum.epic.list returns a single page (max 50 records) without `total` and `next`.
+          // To load the next page, repeat the call with `start` increased by 50.
           const response = await $b24.actions.v2.call.make({
             method: 'tasks.api.scrum.epic.list',
             params: {
@@ -463,11 +463,6 @@
             }
 
             console.log(res.data());
-
-            if (res.more())
-            {
-                res.next();
-            }
         }
     );
     ```
@@ -547,29 +542,45 @@
 HTTP-статус: **200**
 
 ```json
-[
-    {
-        "id": 1,
-        "groupId": 143,
-        "name": "эпик",
-        "description": "",
-        "createdBy": 1,
-        "modifiedBy": 0,
-        "color": "#69dafc"
-    },
-    {
-        "id": 3,
-        "groupId": 143,
-        "name": "эпик2",
-        "description": "new epic",
-        "createdBy": 3,
-        "modifiedBy": 5,
-        "color": "#69dagc"
+{
+    "result": [
+        {
+            "id": 12,
+            "groupId": 0,
+            "name": "Новый эпик",
+            "description": "",
+            "createdBy": 1,
+            "modifiedBy": 3,
+            "color": "#69dafc"
+        }
+    ],
+    "time": {
+        "start": 1790263004,
+        "finish": 1790263004.141055,
+        "duration": 0.14105510711669922,
+        "processing": 0,
+        "date_start": "2026-09-24T18:16:44+03:00",
+        "date_finish": "2026-09-24T18:16:44+03:00",
+        "operating_reset_at": 1790263604,
+        "operating": 0
     }
-]
+}
 ```
 
+В примере `groupId` равен `0`, потому что поля `GROUP_ID` нет в `select` запроса. Если эпиков по условиям нет, `result` — пустой массив. Полей `total` и `next` в ответе нет.
+
 ### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object[]`](../../../data-types.md) | Массив эпиков [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект эпика {#result}
 
 #|
 || **Название**
@@ -577,7 +588,7 @@ HTTP-статус: **200**
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор эпика ||
 || **groupId**
-[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой привязан эпик ||
+[`integer`](../../../data-types.md) | Идентификатор Скрама, к которому относится эпик ||
 || **name**
 [`string`](../../../data-types.md) | Название эпика ||
 || **description**
@@ -585,35 +596,31 @@ HTTP-статус: **200**
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего эпик ||
 || **modifiedBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменял эпик ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменил эпик. Если эпик не меняли — `0` ||
 || **color**
-[`string`](../../../data-types.md) | Цвет эпика в формате HEX ||
-
+[`string`](../../../data-types.md) | Цвет эпика ||
 |#
+
+Прикрепленные файлы метод не возвращает. Получить их можно методом [tasks.api.scrum.epic.get](./tasks-api-scrum-epic-get.md).
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+У метода нет своих ошибок. Пример общей ошибки — токен приложения без scope `task`:
+
+HTTP-статус: **401**
 
 ```json
 {
-    "error": 0,
-    "error_description": "Could not load list"
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the access token"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание**  | **Значение** ||
-|| `0` | Could not load list| Не найдено ни одного эпика с указанными фильтрами ||
-|#
-
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-epic-add.md)

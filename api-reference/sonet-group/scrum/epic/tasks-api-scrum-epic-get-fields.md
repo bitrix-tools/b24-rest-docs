@@ -41,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
-    auth=YOUR_ACCESS_TOKEN
+    "auth": "YOUR_ACCESS_TOKEN"
     }' \
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.getFields
     ```
@@ -214,55 +214,100 @@
 
 ## Обработка ответа
 
-HTTP-статус: **400**
+HTTP-статус: **200**
 
 ```json
 {
-    "fields":
-    {
-        "name": {
-            "type": "string"
-        },
-        "description": {
-            "type": "string"
-        },
-        "groupId": {
-            "type": "integer"
-        },
-        "color": {
-            "type": "string"
-        },
-        "files": {
-            "type": "array"
-        },
-        "createdBy": {
-            "type": "integer"
-        },
-        "modifiedBy": {
-            "type": "integer"
+    "result": {
+        "fields": {
+            "name": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "groupId": {
+                "type": "integer"
+            },
+            "color": {
+                "type": "string"
+            },
+            "files": {
+                "type": "array"
+            },
+            "createdBy": {
+                "type": "integer"
+            },
+            "modifiedBy": {
+                "type": "integer"
+            }
         }
+    },
+    "time": {
+        "start": 1790262925,
+        "finish": 1790262925.771081,
+        "duration": 0.7710809707641602,
+        "processing": 0,
+        "date_start": "2026-09-24T18:15:25+03:00",
+        "date_finish": "2026-09-24T18:15:25+03:00",
+        "operating_reset_at": 1790263525,
+        "operating": 0
     }
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
-|| **Поле** `тип` | **Описание** ||
-|| **name** `string` | Название эпика ||
-|| **description** `string` | Описание эпика ||
-|| **groupId** `integer` | Идентификатор группы (скрама), к которой относится эпик ||
-|| **color** `string` | Цвет эпика ||
-|| **files** `array` | Массив файлов, привязанных к эпику ||
-|| **createdBy** `integer` | Кем создана ||
-|| **modifiedBy** `integer` | Кем изменена ||
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Объект с ключом `fields` [(подробное описание)](#fields) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект fields {#fields}
+
+Ключ — имя поля эпика в методах [tasks.api.scrum.epic.add](./tasks-api-scrum-epic-add.md) и [tasks.api.scrum.epic.update](./tasks-api-scrum-epic-update.md), значение — объект с типом поля `type`. В методе [tasks.api.scrum.epic.list](./tasks-api-scrum-epic-list.md) те же поля передаются в верхнем регистре.
+
+#|
+|| **Поле**
+`type` | **Описание** ||
+|| **name**
+`string` | Название эпика ||
+|| **description**
+`string` | Описание эпика ||
+|| **groupId**
+`integer` | Идентификатор Скрама, к которому относится эпик ||
+|| **color**
+`string` | Цвет эпика ||
+|| **files**
+`array` | Идентификаторы файлов Диска с префиксом `n` ||
+|| **createdBy**
+`integer` | Идентификатор пользователя, создавшего эпик ||
+|| **modifiedBy**
+`integer` | Идентификатор пользователя, который последним изменил эпик ||
 |#
 
 ## Обработка ошибок
 
+У метода нет своих ошибок. Пример общей ошибки — токен приложения без scope `task`:
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the access token"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-epic-add.md)

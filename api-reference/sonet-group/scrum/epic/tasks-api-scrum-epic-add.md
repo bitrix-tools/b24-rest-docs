@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления нового эпика в виде структуры:
+[`object`](../../../data-types.md) | Значения полей нового эпика [(подробное описание)](#fields) в виде структуры:
 
 ```js
 fields: {
@@ -43,7 +43,7 @@ fields: {
 ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -51,22 +51,26 @@ fields: {
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../../data-types.md) | Название эпика ||
+[`string`](../../../data-types.md) | Название эпика, до 255 символов ||
 || **description**
 [`string`](../../../data-types.md) | Описание эпика ||
 || **groupId***
-[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой относится эпик ||
-|| **color**
-[`string`](../../../data-types.md) | Цвет эпика ||
-|| **files**
-[`array`](../../../data-types.md) | Массив файлов, привязанных к эпику.
+[`integer`](../../../data-types.md) | Идентификатор Скрама, в котором создается эпик.
 
-В `files` можно передать массив значений с идентификаторами файлов, указав префикс `n` для каждого идентификатора ||
+Получить идентификатор можно методом [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
+|| **color**
+[`string`](../../../data-types.md) | Цвет эпика, например `#69dafc`, до 18 символов. Формат цвета метод не проверяет и сохраняет строку как есть ||
+|| **files**
+[`array`](../../../data-types.md) | Массив идентификаторов файлов Диска. Перед каждым идентификатором укажите префикс `n`, например `["n428", "n345"]` ||
 || **createdBy**
-[`integer`](../../../data-types.md) | Кем создан ||
-|| **modifiedBy**
-[`integer`](../../../data-types.md) | Кем изменен ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который будет указан создателем эпика. По умолчанию — текущий пользователь ||
 |#
+
+{% note warning "Внимание" %}
+
+Идентификатор файла без префикса `n` и несуществующий файл метод пропускает без ошибки: эпик создается без этих файлов
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -96,7 +100,6 @@ fields: {
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
     -d '{
     "fields": {
         "name": "Epic 1",
@@ -104,7 +107,8 @@ fields: {
         "description": "Description text",
         "color": "#69dafc",
         "files": ["n428", "n345"]
-    }
+    },
+    "auth": "YOUR_ACCESS_TOKEN"
     }' \
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.add
     ```
@@ -352,21 +356,44 @@ fields: {
 
 ## Обработка ответа
 
-HTTP-Статус: **200**
+HTTP-статус: **200**
 
 ```json
 {
-    "id": 4,
-    "groupId": 1,
-    "name": "Epic 1",
-    "description": "Description text",
-    "createdBy": 1,
-    "modifiedBy": 1,
-    "color": "#69dafc"
+    "result": {
+        "id": 4,
+        "groupId": 1,
+        "name": "Epic 1",
+        "description": "Description text",
+        "createdBy": 1,
+        "modifiedBy": 0,
+        "color": "#69dafc"
+    },
+    "time": {
+        "start": 1790262925,
+        "finish": 1790262925.771081,
+        "duration": 0.7710809707641602,
+        "processing": 0,
+        "date_start": "2026-09-24T18:15:25+03:00",
+        "date_finish": "2026-09-24T18:15:25+03:00",
+        "operating_reset_at": 1790263525,
+        "operating": 0
+    }
 }
 ```
 
-### Возвращаемые данные {#fields}
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Данные созданного эпика [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
 
 #|
 || **Название**
@@ -374,18 +401,20 @@ HTTP-Статус: **200**
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор эпика ||
 || **groupId**
-[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой привязан эпик ||
+[`integer`](../../../data-types.md) | Идентификатор Скрама, к которому относится эпик ||
 || **name**
 [`string`](../../../data-types.md) | Название эпика ||
 || **description**
-[`string`](../../../data-types.md) | Описание эпика ||
+[`string`](../../../data-types.md) | Описание эпика. Если описание не передано — пустая строка ||
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего эпик ||
 || **modifiedBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменял эпик ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменил эпик. У нового эпика — `0` ||
 || **color**
-[`string`](../../../data-types.md) | Цвет эпика в формате HEX ||
+[`string`](../../../data-types.md) | Цвет эпика. Если цвет не передан — пустая строка ||
 |#
+
+Прикрепленные файлы метод не возвращает. Получить их можно методом [tasks.api.scrum.epic.get](./tasks-api-scrum-epic-get.md).
 
 ## Обработка ошибок
 
@@ -393,8 +422,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description": "Group is not found"
+    "error": "0",
+    "error_description": "Group id not found"
 }
 ```
 
@@ -403,18 +432,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание**  | **Значение** ||
-|| `0` | Access denied | Нет доступа к скраму ||
-|| `0` | Epic not created | Не удалось создать эпик ||
-|| `0` | createdBy user not found | Пользователь в поле «создатель» не найден ||
-|| `0` | modifiedBy user not found | Пользователь в поле «последний изменивший» не найден ||
-|| `0` | Group is not found | Не указан параметр `GROUP_ID` или группы с таким `ID` не существует ||
-|| `0` | Name is not found | Не указан параметр `NAME` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Group id not found | Не передан `groupId` ||
+|| `400` | `0` | Name not found | Не передано название `name` или передана пустая строка ||
+|| `400` | `0` | Access denied | У пользователя нет доступа к задачам группы или группы с таким `groupId` не существует ||
+|| `400` | `0` | createdBy user not found | Пользователя из `createdBy` не существует ||
+|| `400` | `0` | Epic not created | Не удалось сохранить эпик, например название длиннее 255 символов или цвет длиннее 18 символов ||
+|| `400` | `0` | Epic files not attached | Эпик создан, но файлы прикрепить не удалось ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-epic-update.md)

@@ -19,44 +19,133 @@
 
 {% endif %}
 
-Базовые типы данных перечислены в отдельной [статье](../data-types.md).
+Типы данных Интернет-магазина описывают идентификаторы и структуры объектов в параметрах и ответах [методов `sale.*`](./index.md#all-methods). По справочнику можно понять, из каких объектов состоит заказ, как они ссылаются друг на друга и в каком формате приходит каждое поле. Базовые типы `integer`, `string`, `datetime` и другие перечислены в статье [Типы данных в REST API](../data-types.md).
 
-В этой статье рассмотрим типы данных и структуру объектов, характерные именно для Интернет-магазина.
+## Как устроен заказ
+
+Заказ [`sale_order`](#sale_order) — главный объект Интернет-магазина. Он хранит покупателя, статус, валюту и общую сумму. Товары, доставка, оплата и данные покупателя лежат в отдельных объектах, и каждый из них ссылается на заказ через поле `orderId`:
+
+#|
+|| **Объект** | **Что это** | **Методы** ||
+|| [`sale_basket_item`](#sale_basket_item) | Элемент корзины — товар или услуга в заказе с ценой и количеством | [sale.basketitem.*](./basket-item/index.md) ||
+|| [`sale_order_shipment`](#sale_order_shipment) | Отгрузка — доставка товаров заказа: служба доставки, стоимость и статус | [sale.shipment.*](./shipment/index.md) ||
+|| [`sale_order_payment`](#sale_order_payment) | Оплата — платеж по заказу: платежная система, сумма и отметка об оплате | [sale.payment.*](./payment/index.md) ||
+|| [`sale_order_property_value`](#sale_order_property_value) | Значение свойства заказа, например имя или телефон покупателя | [sale.propertyvalue.*](./property-value/index.md) ||
+|#
+
+Какие товары входят в отгрузку, задают элементы ее табличной части [`sale_order_shipment_item`](#sale_order_shipment_item): каждый ссылается на элемент корзины через `basketId` и указывает, сколько единиц отгрузить. Значение свойства ссылается на само свойство [`sale_order_property`](#sale_order_property) через `orderPropsId`. Набор свойств зависит от типа плательщика [`sale_person_type`](#sale_person_type), например физического или юридического лица.
+
+Другие поля ведут в справочники магазина: `statusId` — в статусы [`sale_status`](#sale_status), `deliveryId` отгрузки — в службы доставки [`sale_delivery_service`](#sale_delivery_service), `paySystemId` оплаты — в платежные системы [`sale_paysystem`](#sale_paysystem).
+
+Метод [sale.order.get](./order/sale-order-get.md) возвращает заказ вместе с вложенными объектами. Пример ответа, сокращенный до полей связи:
+
+```json
+{
+  "order": {
+    "id": 943,
+    "personTypeId": 5,
+    "statusId": "N",
+    "price": 3500,
+    "currency": "RUB",
+    "payed": "N",
+    "basketItems": [
+      {
+        "id": 1253,
+        "orderId": 943,
+        "name": "Футболка, размер M",
+        "price": 1500,
+        "quantity": 2
+      }
+    ],
+    "shipments": [
+      {
+        "id": 1091,
+        "orderId": 943,
+        "deliveryId": 1,
+        "deliveryName": "Доставка курьером",
+        "priceDelivery": 500,
+        "shipmentItems": [
+          {
+            "id": 1185,
+            "orderDeliveryId": 1091,
+            "basketId": 1253,
+            "quantity": 2
+          }
+        ]
+      }
+    ],
+    "payments": [
+      {
+        "id": 537,
+        "orderId": 943,
+        "paySystemId": 11,
+        "sum": 3500,
+        "paid": "N"
+      }
+    ],
+    "propertyValues": [
+      {
+        "id": 10607,
+        "orderPropsId": 39,
+        "code": "FIO",
+        "value": "Иван Петров"
+      }
+    ]
+  }
+}
+```
+
+В примере элемент корзины `1253` входит в отгрузку `1091`: на него ссылается `basketId` в `shipmentItems`. Сумма заказа `price` — 3500: 3000 за две футболки и 500 за доставку из `priceDelivery`.
 
 ## Типы данных
 
+В таблицах полей тип записан одним из трех способов:
+
+- `sale_order` — объект целиком, его поля описаны ниже в таблице с тем же названием
+- `sale_order.id` — идентификатор объекта, то есть значение его поля `id`. У объектов с полями в верхнем регистре, например [`sale_paysystem`](#sale_paysystem), это поле `ID`
+- `sale_order_payment[]` — массив объектов
+
+Таблицы описывают поля объектов в облачном Битрикс24. В коробочной версии состав полей может отличаться: например, у элемента корзины есть служебные поля `fuserId`, `lid` и `module`. Какие поля придут в ответе, зависит также от метода и от параметра `select`, если метод его принимает.
+
+Если у поля нет значения, метод вернет `null` или пустую строку. Пустой объект, например `settings` свойства или `requisiteLink` заказа, приходит как массив `[]`. Пустые списки методы возвращают по-разному:
+
+- `clients` заказа, `properties` и `reservations` элемента корзины приходят как `[]`
+- `basketItems`, `payments`, `shipments`, `propertyValues` и `tradeBindings` заказа не попадают в ответ
+
+Какие поля можно передать при создании и изменении объекта, показывают методы `getFields` разделов, например [sale.order.getFields](./order/sale-order-get-fields.md). Для свойств есть метод [sale.property.getFieldsByType](./property/sale-property-get-fields-by-type.md), для элемента корзины с товаром из каталога — [sale.basketitem.getFieldsCatalogProduct](./basket-item/sale-basket-item-get-catalog-product-fields.md). Формат их ответа описан в структуре [`rest_field_description`](#rest_field_description).
+
 #|
 || **Тип** | **Описания и значения** ||
-|| [`sale_order`](#sale_order) | Целочисленный идентификатор заказа (например, `1`). Получить идентификаторы заказов можно с помощью метода [sale.order.list](./order/sale-order-list.md) ||
-|| [`sale_basket_item`](#sale_basket_item) | Целочисленный идентификатор корзины (например, `1`). Получить идентификаторы корзин можно с помощью метода [sale.basketItem.list](./basket-item/sale-basket-item-list.md) ||
-|| [`sale_order_shipment`](#sale_order_shipment) | Целочисленный идентификатор отгрузки (например, `1`). Получить идентификаторы отгрузок можно с помощью метода [sale.shipment.list](./shipment/sale-shipment-list.md) ||
-|| [`sale_order_shipment_item`](#sale_order_shipment_item) | Целочисленный идентификатор элемента табличной части отгрузки (например, `1`). Получить идентификаторы элементов табличной части отгрузки можно с помощью метода [sale.shipmentitem.list](./shipment-item/sale-shipment-item-list.md) ||
-|| [`sale_payment_item_shipment`](#sale_payment_item_shipment) | Целочисленный идентификатор привязки оплаты к отгрузке (например, `1`). Получить идентификаторы привязок оплат к отгрузкам можно с помощью метода [sale.paymentitemshipment.list](./payment-item-shipment/sale-payment-item-shipment-list.md) ||
-|| [`sale_payment_item_basket`](#sale_payment_item_basket) | Целочисленный идентификатор привязки элемента корзины к оплате (например, `1`). Получить идентификаторы привязок оплат к отгрузкам можно с помощью метода [sale.paymentitembasket.list](./payment-item-basket/sale-payment-item-basket-list.md) ||
-|| [`sale_status`](#sale_status) | Символьный идентификатор статуса (например, `DN`). Получить идентификаторы статусов можно с помощью метода [sale.status.list](./status/sale-status-list.md) ||
+|| [`sale_order.id`](#sale_order) | Целочисленный идентификатор заказа (например, `1`). Получить идентификаторы заказов можно с помощью метода [sale.order.list](./order/sale-order-list.md) ||
+|| [`sale_basket_item.id`](#sale_basket_item) | Целочисленный идентификатор элемента корзины (например, `1`). Получить идентификаторы элементов корзины можно с помощью метода [sale.basketItem.list](./basket-item/sale-basket-item-list.md) ||
+|| [`sale_order_shipment.id`](#sale_order_shipment) | Целочисленный идентификатор отгрузки (например, `1`). Получить идентификаторы отгрузок можно с помощью метода [sale.shipment.list](./shipment/sale-shipment-list.md) ||
+|| [`sale_order_shipment_item.id`](#sale_order_shipment_item) | Целочисленный идентификатор элемента табличной части отгрузки (например, `1`). Получить идентификаторы элементов табличной части отгрузки можно с помощью метода [sale.shipmentitem.list](./shipment-item/sale-shipment-item-list.md) ||
+|| [`sale_payment_item_shipment.id`](#sale_payment_item_shipment) | Целочисленный идентификатор привязки оплаты к отгрузке (например, `1`). Получить идентификаторы привязок оплат к отгрузкам можно с помощью метода [sale.paymentitemshipment.list](./payment-item-shipment/sale-payment-item-shipment-list.md) ||
+|| [`sale_payment_item_basket.id`](#sale_payment_item_basket) | Целочисленный идентификатор привязки элемента корзины к оплате (например, `1`). Получить идентификаторы привязок элементов корзины к оплатам можно с помощью метода [sale.paymentitembasket.list](./payment-item-basket/sale-payment-item-basket-list.md) ||
+|| [`sale_status.id`](#sale_status) | Символьный идентификатор статуса (например, `DN`). Получить идентификаторы статусов можно с помощью метода [sale.status.list](./status/sale-status-list.md) ||
 || [`sale_status_lang`](#sale_status_lang) | Объект, содержащий информацию о локализации статуса. Получить список объектов локализаций статусов можно с помощью метода [sale.statuslang.list](./status-lang/sale-status-lang-list.md) ||
-|| [`sale_lang`](#sale_lang) | Символьный идентификатор языка (например, `ru`). Получить идентификаторы языка можно с помощью метода [sale.statuslang.getlistlangs](./status-lang/sale-status-lang-get-list-langs.md) ||
-|| [`sale_person_type`](#sale_person_type) | Целочисленный идентификатор типа плательщика (например, `1`). Получить идентификаторы типов плательщиков можно с помощью метода [sale.persontype.list](./person-type/sale-person-type-list.md) ||
-|| [`sale_order_property`](#sale_order_property) | Целочисленный идентификатор свойства заказа (например, `1`). Получить идентификатор свойств заказа можно с помощью метода [sale.property.list](./property/sale-property-list.md) ||
-|| [`sale_shipment_property`](#sale_shipment_property) | Целочисленный идентификатор свойства отгрузки (например, `1`). Получить идентификатор свойств заказа можно с помощью метода [sale.shipmentproperty.list](./shipment-property/sale-shipment-property-list.md) ||
-|| [`sale_shipment_property_value`](#sale_shipment_property_value) | Целочисленный идентификатор значения свойства отгрузки (например, `1`). Получить идентификатор значения свойства заказа можно с помощью метода [sale.shipmentpropertyvalue.list](./shipment-property-value/sale-shipment-property-value-list.md) ||
-|| [`sale_order_property_group`](#sale_order_property_group) | Целочисленный идентификатор группы свойств (например, `1`). Получить идентификаторы типов групп свойств можно с помощью метода [sale.propertygroup.list](./property-group/sale-property-group-list.md) ||
-|| [`sale_order_property_value`](#sale_order_property_value) | Целочисленный идентификатор значения свойства заказа (например, `1`). Получить идентификатор значения свойства заказа можно с помощью метода [sale.propertyvalue.list](./property-value/sale-property-value-list.md) ||
-|| [`sale_order_property_variant`](#sale_order_property_variant) | Целочисленный идентификатор варианта значения свойства (например, `1`). Получить идентификаторы типов групп свойств можно с помощью метода [sale.propertyvariant.list](./property-variant/sale-property-variant-list.md) ||
+|| [`sale_lang.lid`](#sale_lang) | Символьный идентификатор языка (например, `ru`). Получить идентификаторы языков можно с помощью метода [sale.statuslang.getlistlangs](./status-lang/sale-status-lang-get-list-langs.md) ||
+|| [`sale_person_type.id`](#sale_person_type) | Целочисленный идентификатор типа плательщика (например, `1`). Получить идентификаторы типов плательщиков можно с помощью метода [sale.persontype.list](./person-type/sale-person-type-list.md) ||
+|| [`sale_order_property.id`](#sale_order_property) | Целочисленный идентификатор свойства заказа (например, `1`). Получить идентификаторы свойств заказа можно с помощью метода [sale.property.list](./property/sale-property-list.md) ||
+|| [`sale_shipment_property.id`](#sale_shipment_property) | Целочисленный идентификатор свойства отгрузки (например, `1`). Получить идентификаторы свойств отгрузки можно с помощью метода [sale.shipmentproperty.list](./shipment-property/sale-shipment-property-list.md) ||
+|| [`sale_shipment_property_value.id`](#sale_shipment_property_value) | Целочисленный идентификатор значения свойства отгрузки (например, `1`). Получить идентификаторы значений свойств отгрузки можно с помощью метода [sale.shipmentpropertyvalue.list](./shipment-property-value/sale-shipment-property-value-list.md) ||
+|| [`sale_order_property_group.id`](#sale_order_property_group) | Целочисленный идентификатор группы свойств (например, `1`). Получить идентификаторы групп свойств можно с помощью метода [sale.propertygroup.list](./property-group/sale-property-group-list.md) ||
+|| [`sale_order_property_value.id`](#sale_order_property_value) | Целочисленный идентификатор значения свойства заказа (например, `1`). Получить идентификаторы значений свойств заказа можно с помощью метода [sale.propertyvalue.list](./property-value/sale-property-value-list.md) ||
+|| [`sale_order_property_variant.id`](#sale_order_property_variant) | Целочисленный идентификатор варианта значения свойства (например, `1`). Получить идентификаторы вариантов значений свойств можно с помощью метода [sale.propertyvariant.list](./property-variant/sale-property-variant-list.md) ||
 || [`sale_order_property_relation`](#sale_order_property_relation) | Объект, содержащий информацию о привязке свойства. Получить список объектов привязки свойства можно с помощью метода [sale.propertyRelation.list](./property-relation/sale-property-relation-list.md) ||
-|| [`sale_order_trade_platform`](#sale_order_trade_platform) | Целочисленный идентификатор источника заказов (например, `1`). Получить идентификаторы источников заказов можно с помощью метода [sale.tradePlatform.list](./trade-platform/sale-trade-platform-list.md) ||
-|| [`sale_order_trade_binding`](#sale_order_trade_binding) | Целочисленный идентификатор привязки источников заказов к заказам (например, `1`). Получить идентификаторы привязок можно с помощью метода [sale.tradeBinding.list](./trade-binding/sale-trade-binding-list.md) ||
-|| [`sale_order_payment`](#sale_order_payment) | Целочисленный идентификатор оплаты (например, `1`). Получить идентификаторы оплат можно с помощью метода [sale.payment.list](./payment/sale-payment-list.md) ||
-|| [`sale_business_value_person_domain`](#sale_business_value_person_domain) | Объект, содержащий информацию о соответствии между типом плательщика и физ. или юр. лицом. Получить список объектов соответствий можно с помощью метода  [sale.businessValuePersonDomain.list](./business-value-person-domain/sale-business-value-person-domain-list.md) ||
-|| [`sale_delivery_handler`](#sale_delivery_handler) | Объект обработчика службы доставки. 
+|| [`sale_order_trade_platform.id`](#sale_order_trade_platform) | Целочисленный идентификатор источника заказов (например, `1`). Получить идентификаторы источников заказов можно с помощью метода [sale.tradePlatform.list](./trade-platform/sale-trade-platform-list.md) ||
+|| [`sale_order_trade_binding.id`](#sale_order_trade_binding) | Целочисленный идентификатор привязки источников заказов к заказам (например, `1`). Получить идентификаторы привязок можно с помощью метода [sale.tradeBinding.list](./trade-binding/sale-trade-binding-list.md) ||
+|| [`sale_order_payment.id`](#sale_order_payment) | Целочисленный идентификатор оплаты (например, `1`). Получить идентификаторы оплат можно с помощью метода [sale.payment.list](./payment/sale-payment-list.md) ||
+|| [`sale_business_value_person_domain`](#sale_business_value_person_domain) | Объект, содержащий информацию о соответствии между типом плательщика и физическим или юридическим лицом. Получить список объектов соответствий можно с помощью метода [sale.businessValuePersonDomain.list](./business-value-person-domain/sale-business-value-person-domain-list.md) ||
+|| [`sale_delivery_handler`](#sale_delivery_handler) | Объект обработчика службы доставки.
 Обработчик службы доставки — это шаблон, по которому в дальнейшем создаются конкретные службы доставки.
 Получить идентификаторы обработчиков служб доставки можно с помощью метода [sale.delivery.handler.list](./delivery/handler/sale-delivery-handler-list.md) ||
-|| [`sale_delivery_service`](#sale_delivery_service) | Объект службы доставки. Получить идентификаторы служб доставки  можно с помощью метода [sale.delivery.getlist](./delivery/delivery/sale-delivery-get-list.md) ||
-|| [`sale_delivery_extra_service`](#sale_delivery_extra_service) | Объект дополнительной услуги службы доставки. Получить идентификаторы услуг службы доставки  можно с помощью метода  [sale.delivery.extra.service.get](./delivery/extra-service/sale-delivery-extra-service-get.md) ||
-|| [`sale_paysystem_handler`](#sale_paysystem_handler) | Объект обработчика платежной системы. Получить идентификаторы обработчиков платежных систем можно с помощью метода  [sale.paysystem.handler.list](../pay-system/sale-pay-system-handler-list.md) ||
-|| [`sale_paysystem`](#sale_paysystem) | Объект платежной системы. Получить идентификаторы платежных систем можно с помощью метода  [sale.paysystem.list](../pay-system/sale-pay-system-list.md) ||
-|| [`sale_cashbox_handler`](#sale_cashbox_handler) | Объект обработчика кассы. Получить идентификаторы обработчиков кассы можно с помощью метода  [sale.cashbox.handler.list](./cashbox/sale-cashbox-handler-list.md) ||
-|| [`sale_cashbox`](#sale_cashbox) | Объект кассы. Получить идентификаторы кассы можно с помощью метода  [sale.cashbox.list](./cashbox/sale-cashbox-list.md) ||
+|| [`sale_delivery_service`](#sale_delivery_service) | Объект службы доставки. Получить идентификаторы служб доставки можно с помощью метода [sale.delivery.getlist](./delivery/delivery/sale-delivery-get-list.md) ||
+|| [`sale_delivery_extra_service`](#sale_delivery_extra_service) | Объект дополнительной услуги службы доставки. Получить идентификаторы услуг службы доставки можно с помощью метода [sale.delivery.extra.service.get](./delivery/extra-service/sale-delivery-extra-service-get.md) ||
+|| [`sale_paysystem_handler`](#sale_paysystem_handler) | Объект обработчика платежной системы. Получить идентификаторы обработчиков платежных систем можно с помощью метода [sale.paysystem.handler.list](../pay-system/sale-pay-system-handler-list.md) ||
+|| [`sale_paysystem`](#sale_paysystem) | Объект платежной системы. Получить идентификаторы платежных систем можно с помощью метода [sale.paysystem.list](../pay-system/sale-pay-system-list.md) ||
+|| [`sale_cashbox_handler`](#sale_cashbox_handler) | Объект обработчика кассы. Получить идентификаторы обработчиков касс можно с помощью метода [sale.cashbox.handler.list](./cashbox/sale-cashbox-handler-list.md) ||
+|| [`sale_cashbox`](#sale_cashbox) | Объект кассы. Получить идентификаторы касс можно с помощью метода [sale.cashbox.list](./cashbox/sale-cashbox-list.md) ||
 |#
 
 ## Структура объектов
@@ -67,11 +156,11 @@
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`string`](../data-types.md) | Идентификатор элемента табличной части отгрузки ||
+[`integer`](../data-types.md) | Идентификатор элемента табличной части отгрузки ||
 || **orderDeliveryId**
 [`sale_order_shipment.id`](#sale_order_shipment) | Идентификатор отгрузки ||
 || **basketId**
-[`sale_basket_item.id`](#sale_basket_item) | Идентификатор корзины ||
+[`sale_basket_item.id`](#sale_basket_item) | Идентификатор элемента корзины ||
 || **quantity**
 [`double`](../data-types.md) | Количество товара ||
 || **reservedQuantity**
@@ -90,7 +179,7 @@
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор элемента табличной части отгрузки ||
+[`integer`](../data-types.md) | Идентификатор привязки оплаты к отгрузке ||
 || **shipmentId**
 [`sale_order_shipment.id`](#sale_order_shipment) | Идентификатор отгрузки ||
 || **paymentId**
@@ -100,7 +189,6 @@
 || **dateInsert**
 [`datetime`](../data-types.md) | Дата добавления привязки оплаты к отгрузке ||
 |#
-
 
 ### sale_payment_item_basket
 
@@ -127,7 +215,7 @@
 || **Значение**
 `тип` | **Описание** ||
 || **id**
-[`string`](../data-types.md) | Идентификатор отгрузки ||
+[`integer`](../data-types.md) | Идентификатор отгрузки ||
 || **dateInsert**
 [`datetime`](../data-types.md) | Дата создания отгрузки ||
 || **orderId**
@@ -145,7 +233,7 @@
 || **empAllowDeliveryId**
 [`user.id`](../data-types.md) | Пользователь, который изменил значение флага разрешения доставки ||
 || **deducted**
- [`string`](../data-types.md) | Признак того, является ли отгрузка отгруженной.
+[`string`](../data-types.md) | Признак того, является ли отгрузка отгруженной.
 
 Возможные значения:
 - `Y` — да (отгружена)
@@ -154,27 +242,23 @@
 [`datetime`](../data-types.md) | Дата изменения флага отгруженности отгрузки ||
 || **empDeductedId**
 [`user.id`](../data-types.md) | Пользователь, который изменил значение флага отгруженности ||
-|| **reasonUndoDeducted** 
+|| **reasonUndoDeducted**
 [`string`](../data-types.md) | Устаревшее свойство ||
 || **system**
 [`string`](../data-types.md) | Признак того, является ли отгрузка системной.
 
-Значение всегда `N`. Системную отгрузку не видно через REST и не с ней не предполагается работа напрямую.
-
-Возможные значения:
-- `Y` — да
-- `N` — нет ||
+Методы REST не возвращают системные отгрузки, поэтому значение всегда `N` ||
 || **deliveryId**
 [`sale_delivery_service.id`](#sale_delivery_service) | Идентификатор службы доставки ||
 || **deliveryName**
 [`string`](../data-types.md) | Название службы доставки ||
 || **deliveryXmlId**
 [`string`](../data-types.md) | Внешний идентификатор службы доставки ||
-|| **statusId** 
+|| **statusId**
 [`sale_status.id`](#sale_status) | Идентификатор статуса доставки ||
-|| **statusXmlId** 
+|| **statusXmlId**
 [`string`](../data-types.md) | Внешний идентификатор статуса доставки ||
-|| **canceled** 
+|| **canceled**
 [`string`](../data-types.md) | Устаревший. Необходимо использовать статус отгрузки.
 
 Признак того, является ли отгрузка отмененной.
@@ -186,11 +270,11 @@
 [`datetime`](../data-types.md) | Устаревший.
 
 Дата и время отмены отгрузки ||
-|| **empCanceledId** 
+|| **empCanceledId**
 [`user.id`](../data-types.md) | Устаревший.
 
 Пользователь, который изменил значение флага отмененности отгрузки (`canceled`) ||
-|| **marked** 
+|| **marked**
 [`string`](../data-types.md) | Флаг маркировки. Признак того, является ли отгрузка отмеченной как проблемная.
 
 Возможные значения:
@@ -198,25 +282,25 @@
 - `N` — нет ||
 || **dateMarked**
 [`datetime`](../data-types.md) | Дата изменения флага маркировки ||
-|| **reasonMarked** 
+|| **reasonMarked**
 [`string`](../data-types.md) | Причина, по которой отгрузка была отмечена флагом маркировки ||
-|| **empMarkedId** 
+|| **empMarkedId**
 [`user.id`](../data-types.md) | Пользователь, который выставил флаг маркировки в значение `Y` ||
 || **deliveryDocDate**
-[`datetime`](../data-types.md) | Дата документа отгрузки || 
-|| **deliveryDocNum** 
+[`datetime`](../data-types.md) | Дата документа отгрузки ||
+|| **deliveryDocNum**
 [`string`](../data-types.md) | Номер документа отгрузки ||
-|| **trackingNumber** 
+|| **trackingNumber**
 [`string`](../data-types.md) | Идентификатор отправления ||
 || **trackingDescription**
 [`string`](../data-types.md) | Описание статуса отправления ||
 || **trackingLastCheck**
-[`datetime`](../data-types.md) | Время последней проверки статуса отправления ||
-|| **trackingStatus** 
+[`string`](../data-types.md) | Время последней проверки статуса отправления ||
+|| **trackingStatus**
 [`string`](../data-types.md) | Статус отправления ||
-|| **currency** 
+|| **currency**
 [`string`](../data-types.md) | Валюта отгрузки ||
-|| **customPriceDelivery** 
+|| **customPriceDelivery**
 [`string`](../data-types.md) | Признак кастомной стоимости доставки.
 
 К примеру, служба доставки автоматически рассчитала стоимость в 500 рублей, но менеджер вручную выставил стоимость в 200 рублей. В этом случае, признак кастомной стоимости доставки будет автоматически выставлен в значение `Y`.
@@ -224,39 +308,39 @@
 Возможные значения:
 - `Y` — да
 - `N` — нет ||
-|| **basePriceDelivery** 
-[`double`](../data-types.md) | Базовая стоимость доставки (без скидок/наценок). ||
-|| **priceDelivery** 
+|| **basePriceDelivery**
+[`double`](../data-types.md) | Базовая стоимость доставки (без скидок/наценок) ||
+|| **priceDelivery**
 [`double`](../data-types.md) | Стоимость доставки ||
-|| **discountPrice** 
+|| **discountPrice**
 [`double`](../data-types.md) | Скидка на доставку ||
-|| **comments** 
+|| **comments**
 [`string`](../data-types.md) | Комментарий менеджера ||
-|| **companyId** 
+|| **companyId**
 [`integer`](../data-types.md) | Идентификатор компании из модуля «Интернет-магазин». Не используется в облачной версии ||
-|| **responsibleId** 
+|| **responsibleId**
 [`user.id`](../data-types.md) | Идентификатор пользователя, ответственного за отгрузку ||
-|| **dateResponsibleId** 
+|| **dateResponsibleId**
 [`datetime`](../data-types.md) | Дата изменения ответственного за отгрузку ||
-|| **empResponsibleId** 
+|| **empResponsibleId**
 [`user.id`](../data-types.md) | Пользователь, который назначил ответственного ||
-|| **xmlId** 
+|| **xmlId**
 [`string`](../data-types.md) | Внешний идентификатор отгрузки.
 
 Можно использовать для синхронизации отгрузки с внешней системой ||
-|| **externalDelivery** 
+|| **externalDelivery**
 [`string`](../data-types.md) | Признак того, является ли отгрузка загруженной из внешней системы (например, 1С)
 
 Возможные значения:
 - `Y` — да
 - `N` — нет ||
-|| **id1c** 
+|| **id1c**
 [`string`](../data-types.md) | Идентификатор отгрузки в 1С ||
-|| **updated1c** 
+|| **updated1c**
 [`string`](../data-types.md) | Признак того, что данная отгрузка была синхронизирована (обновлена) с 1С ||
-|| **version1c** 
-[`string`](../data-types.md) | Версия 1С (если отгрузка была обновлена из 1С) ||
-|| **shipmentItems** 
+|| **version1c**
+[`string`](../data-types.md) | Версия документа отгрузки в 1С, если отгрузка была обновлена из 1С ||
+|| **shipmentItems**
 [`sale_order_shipment_item[]`](#sale_order_shipment_item) | Массив, содержащий элементы табличной части отгрузки ||
 |#
 
@@ -273,7 +357,7 @@
 - `D` — статус доставки
 ||
 || **notify**
-[`string`](../data-types.md) | Индикатор необходимости отправки почтового уведомления пользователю при переходе сущности (заказ или доставка) в этот статус:
+[`string`](../data-types.md) | Индикатор необходимости отправки почтового уведомления пользователю при переходе заказа или отгрузки в этот статус:
 - `Y` — оповещать
 - `N` — не оповещать
 ||
@@ -332,13 +416,13 @@
 [`string`](../data-types.md) | Тип свойства заказа.
 
 Возможные значения:
-- `STRING` 
-- `Y/N` 
-- `NUMBER` 
-- `ENUM` 
-- `FILE` 
-- `DATE` 
-- `LOCATION` 
+- `STRING`
+- `Y/N`
+- `NUMBER`
+- `ENUM`
+- `FILE`
+- `DATE`
+- `LOCATION`
 - `ADDRESS` ||
 || **code**
 [`string`](../data-types.md) | Символьный код свойства заказа ||
@@ -359,13 +443,13 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет  ||
+- `N` — нет ||
 || **isFiltered**
 [`string`](../data-types.md) | Индикатор того, доступно ли свойство заказа в фильтре на странице списка заказов.
 
 Возможные значения:
 - `Y` — да
-- `N` — нет  ||
+- `N` — нет ||
 || **sort**
 [`integer`](../data-types.md) | Сортировка ||
 || **description**
@@ -375,28 +459,27 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет  ||
-
+- `N` — нет ||
 || **multiple**
 [`string`](../data-types.md) | Индикатор того, является ли свойство заказа множественным. Для множественных свойств возможно указать несколько значений.
 
 Возможные значения:
 - `Y` — да
-- `N` — нет || 
+- `N` — нет ||
 || **xmlId**
 [`string`](../data-types.md) | Внешний идентификатор свойства заказа ||
 || **defaultValue**
-[`string`\|`number`\|`string[]`\|`number[]`](../data-types.md) | Дефолтное значение свойства заказа. 
+[`any`](../data-types.md) | Значение свойства заказа по умолчанию: строка или число.
 
 Для множественных свойств заказа (`multiple`) поддерживается передача массива значений ||
 || **settings**
-[`object`](../data-types.md) | См. описание параметра `settings` метода [sale.property.add](./property/sale-property-add.md) ||
+[`object`](../data-types.md) | Настройки свойства. Их состав описан в параметре `settings` метода [sale.property.add](./property/sale-property-add.md) ||
 || **isProfileName**
 [`string`](../data-types.md) | Индикатор необходимости использования значения данного свойства заказа в качестве названия профиля пользователя.
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `STRING` ||
 || **isPayer**
@@ -404,7 +487,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `STRING` ||
 || **isEmail**
@@ -412,7 +495,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `STRING` ||
 || **isPhone**
@@ -420,7 +503,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `STRING` ||
 || **isZip**
@@ -428,7 +511,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `STRING` ||
 || **isAddress**
@@ -436,7 +519,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `STRING` ||
 || **isLocation**
@@ -444,7 +527,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `LOCATION` ||
 || **isLocation4tax**
@@ -452,7 +535,7 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `LOCATION` ||
 || **inputFieldLocation**
@@ -464,15 +547,15 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `ADDRESS` ||
 || **isAddressTo**
-[`string`](../data-types.md) | Индикатор необходимости использования значения данного свойства заказа в качестве адреса покупателя куда необходимо доставить заказ  для расчета стоимости доставки.
+[`string`](../data-types.md) | Индикатор необходимости использования значения данного свойства заказа в качестве адреса покупателя куда необходимо доставить заказ для расчета стоимости доставки.
 
 Возможные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
 Актуально только для свойств заказа типа `ADDRESS` ||
 |#
@@ -495,8 +578,7 @@
 || **code**
 [`string`](../data-types.md) | Символьный код свойства ||
 || **value**
-[`string`](../data-types.md)
-[`sale_order_property_value_file_value`](#sale_order_property_value_file_value) | Значение свойства ||
+[`string`](../data-types.md) или [`sale_order_property_value_file_value`](#sale_order_property_value_file_value) | Значение свойства. Для свойства типа `FILE` — объект файла ||
 || **shipmentPropsId**
 [`sale_shipment_property.id`](#sale_shipment_property) | Идентификатор свойства ||
 || **shipmentPropsXmlId**
@@ -517,8 +599,7 @@
 || **code**
 [`string`](../data-types.md) | Символьный код свойства ||
 || **value**
-[`string`](../data-types.md)
-[`sale_order_property_value_file_value`](#sale_order_property_value_file_value) | Значение свойства ||
+[`any`](../data-types.md) | Значение свойства. Формат зависит от типа свойства: строка, массив значений или объект файла [`sale_order_property_value_file_value`](#sale_order_property_value_file_value) ||
 || **orderPropsId**
 [`sale_order_property.id`](#sale_order_property) | Идентификатор свойства ||
 || **orderPropsXmlId**
@@ -541,13 +622,17 @@
 || **fileName**
 [`string`](../data-types.md) | Название файла ||
 || **fileSize**
-[`integer`](../data-types.md) | Размер файла в байтах ||
+[`string`](../data-types.md) | Размер файла в байтах, например `"18"` ||
+|| **handlerId**
+[`string`](../data-types.md) | Служебный идентификатор хранилища файла ||
+|| **meta**
+[`string`](../data-types.md) | Служебные метаданные файла ||
 || **moduleId**
 [`string`](../data-types.md) | Принадлежность к модулю ||
 || **originalName**
 [`string`](../data-types.md) | Оригинальное название файла ||
 || **src**
-[`string`](../data-types.md) | Полный путь к файлу на сервере ||
+[`string`](../data-types.md) | Адрес файла. В облачном Битрикс24 — полная ссылка, например `https://cdn-ru.bitrix24.ru/...`. Адрес может прийти и путем от корня сайта, например `/upload/...` ||
 || **subdir**
 [`string`](../data-types.md) | Подкаталог в котором находится файл на диске ||
 || **timestampX**
@@ -600,9 +685,9 @@
 || **Значение**
 `тип` | **Описание** ||
 || **entityId**
-[`integer`](../data-types.md) | Идентификатор сущности ||
+[`integer`](../data-types.md) | Идентификатор объекта, к которому привязано свойство ||
 || **entityType**
-[`string`](../data-types.md) | Тип сущности:
+[`string`](../data-types.md) | Тип объекта:
 
 - `P` — платежная система
 - `D` — доставка
@@ -617,7 +702,7 @@
 #|
 || **Значение**
 `тип` | **Описание** ||
-|| **id** 
+|| **id**
 [`integer`](../data-types.md) | Идентификатор типа плательщика ||
 || **name**
 [`string`](../data-types.md) | Название типа плательщика ||
@@ -626,7 +711,7 @@
 || **sort**
 [`string`](../data-types.md) | Сортировка ||
 || **active**
-[`string`](../data-types.md) | Индикатор активности типа плательщика: 
+[`string`](../data-types.md) | Индикатор активности типа плательщика:
 - `Y` — активен
 - `N` — неактивен
 ||
@@ -644,12 +729,12 @@
 || **personTypeId**
 [`sale_person_type.id`](#sale_person_type) | Идентификатор типа плательщика ||
 || **domain**
-[`string`](../data-types.md) | Значение, которому соответствует тип плательщика: физическое лицо или юридическое лицо. 
+[`string`](../data-types.md) | Значение, которому соответствует тип плательщика: физическое лицо или юридическое лицо.
 
 - `I` — физическое лицо
-- `E` — юридическое лицо 
+- `E` — юридическое лицо
 
-Эта опция нужна для работы механизма бизнес-смыслов||
+Эта опция нужна для работы механизма бизнес-смыслов ||
 |#
 
 ### sale_order
@@ -660,7 +745,7 @@
 || **id**
 [`integer`](../data-types.md) | Идентификатор заказа ||
 || **lid**
-[`string`](../data-types.md) | Идентификатор сайта, на котором будет использоваться данный тип плательщика. Имеет постоянное значение `s1` ||
+[`string`](../data-types.md) | Идентификатор сайта, к которому относится заказ. В облачном Битрикс24 используйте `s1` ||
 || **dateInsert**
 [`datetime`](../data-types.md) | Дата создания заказа ||
 || **dateUpdate**
@@ -676,7 +761,7 @@
 || **dateStatus**
 [`datetime`](../data-types.md) | Дата изменения статуса ||
 || **marked**
-[`string`](../data-types.md) | Флаг маркировки. Признак того, является ли отгрузка отмеченной как проблемная. Значение `Y` ставится автоматически, если при сохранении произошла ошибка.
+[`string`](../data-types.md) | Флаг маркировки. Признак того, что заказ отмечен как проблемный. Битрикс24 ставит значение `Y` автоматически, если при сохранении заказа возникло предупреждение, например не удалось сформировать чек. Причину записывает в поле `reasonMarked`.
 - `Y` — да
 - `N` — нет
 ||
@@ -687,39 +772,41 @@
 || **reasonMarked**
 [`string`](../data-types.md) | Причина, по которой заказ был промаркирован ||
 || **price**
-[`double`](../data-types.md) | Цена ||
+[`double`](../data-types.md) | Сумма заказа с учетом доставки ||
 || **discountValue**
 [`double`](../data-types.md) | Значение скидки ||
 || **taxValue**
-[`double`](../data-types.md) | Ставка налога на заказ ||
+[`double`](../data-types.md) | Сумма налога по заказу ||
 || **userDescription**
 [`string`](../data-types.md) | Комментарий покупателя к заказу ||
 || **additionalInfo**
 [`string`](../data-types.md) | Устаревший. Дополнительная информация ||
 || **comments**
 [`string`](../data-types.md) | Комментарий менеджера к заказу ||
+|| **companyId**
+[`integer`](../data-types.md) | Идентификатор компании из модуля «Интернет-магазин» ||
 || **responsibleId**
 [`user.id`](../data-types.md) | Идентификатор пользователя, ответственного за заказ ||
 || **recurringId**
-[`integer`](../data-types.md) | Идентификатор продления подписки ||
+[`string`](../data-types.md) | Идентификатор продления подписки ||
 || **lockedBy**
-[`user.id`](../data-types.md) | Актуально только для коробочной версии. 
+[`string`](../data-types.md) | Актуально только для коробочной версии.
 
 Идентификатор пользователя, заблокировавшего заказ. Заказ блокируется в административной панели, когда пользователь открывает детальную карточку заказа
  ||
 || **dateLock**
 [`datetime`](../data-types.md) | Дата блокировки ||
 || **recountFlag**
-[`string`](../data-types.md) | Устаревший. Флаг пересчёта:
+[`string`](../data-types.md) | Устаревший. Флаг пересчета:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **affiliateId**
 [`integer`](../data-types.md) | Актуально только для коробочной версии. Идентификатор аффилиата ||
 || **updated1c**
 [`string`](../data-types.md) | Обновлен ли заказ через 1С:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **orderTopic**
 [`string`](../data-types.md) | Устаревший. Тема заказа ||
@@ -736,12 +823,12 @@
 || **externalOrder**
 [`string`](../data-types.md) | Заказ из внешней системы или нет
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **canceled**
 [`string`](../data-types.md) | Был ли отменен заказ:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **dateCanceled**
 [`datetime`](../data-types.md) | Дата отмены ||
@@ -758,26 +845,29 @@
 || **payed**
 [`string`](../data-types.md) | Заказ оплачен:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **deducted**
 [`string`](../data-types.md) | Устаревший. Отгружен ли заказ:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **basketItems**
 [`sale_basket_item[]`](#sale_basket_item) | Элементы корзины заказа ||
 || **clients**
-[`sale_order_crm_client[]`](#sale_order_crm_client)
-Массив из контактов и компаний заказа модуля CRM | Массив объектов, содержащий информацию о привязках заказа к клиентам модуля CRM||
+[`sale_order_crm_client[]`](#sale_order_crm_client) | Контакты и компании CRM, привязанные к заказу ||
 || **payments**
 [`sale_order_payment[]`](#sale_order_payment) | Оплаты заказа ||
 || **shipments**
 [`sale_order_shipment[]`](#sale_order_shipment) | Отгрузки заказа ||
 || **propertyValues**
-[`sale_order_property[]`](#sale_order_property) | Свойства заказа ||
+[`sale_order_property_value[]`](#sale_order_property_value) | Значения свойств заказа. В ответе заказа они приходят без поля `orderId` ||
 || **requisiteLink**
-Массив из связей реквизитов модуля CRM | Связи реквизитов с заказом. Список связей реквизитов с CRM сущностями можно получить через метод [crm.requisite.link.list](../crm/requisites/links/crm-requisite-link-list.md), где для заказа [entity_type_id = 14](../crm/data-types.md) ||
+[`object`](../data-types.md) | Реквизиты, выбранные для заказа:
+- `requisiteId` и `bankDetailId` — реквизит и банковский реквизит клиента
+- `mcRequisiteId` и `mcBankDetailId` — реквизит и банковский реквизит вашей компании
+
+Связи реквизитов с объектами CRM возвращает метод [crm.requisite.link.list](../crm/requisites/links/crm-requisite-link-list.md), для заказа [entity_type_id = 14](../crm/data-types.md) ||
 || **tradeBindings**
 [`sale_order_trade_binding[]`](#sale_order_trade_binding) | Источники заказа ||
 |#
@@ -797,8 +887,8 @@
 [`string`](../data-types.md) | Индикатор того, является ли клиент главным.
 
 Возможные значения:
-- `Y` - да
-- `N` - нет ||
+- `Y` — да
+- `N` — нет ||
 || **orderId**
 [`sale_order.id`](#sale_order) | Идентификатор заказа ||
 || **roleId**
@@ -819,16 +909,17 @@
 || **paySystemXmlId**
 [`string`](../data-types.md) | Внешний идентификатор платежной системы ||
 || **paySystemIsCash**
-[`string`](../data-types.md) | Является ли платежная система наличным расчетом:
-- `Y` — да
-- `N` — нет 
+[`string`](../data-types.md) | Тип оплаты платежной системы, как в поле `IS_CASH` объекта [`sale_paysystem`](#sale_paysystem):
+- `N` — безналичный
+- `Y` — наличный
+- `A` — эквайринговая операция
 ||
 || **accountNumber**
 [`string`](../data-types.md) | Системный номер оплаты ||
 || **paid**
 [`string`](../data-types.md) | Внесена ли оплата:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **datePaid**
 [`datetime`](../data-types.md) | Дата оплаты ||
@@ -839,7 +930,7 @@
 || **psStatus**
 [`string`](../data-types.md) | Статус транзакции платежной системы — успешно ли оплачен заказ (для платежных систем, которые позволяют автоматически получать данные по проведенным через них заказам):
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **psStatusCode**
 [`string`](../data-types.md) | Код статуса транзакции платежной системы ||
@@ -856,7 +947,7 @@
 || **payVoucherNum**
 [`string`](../data-types.md) | Номер платежного документа ||
 || **payVoucherDate**
-[`date`](../data-types.md) | Дата платежного документа ||
+[`datetime`](../data-types.md) | Дата платежного документа ||
 || **datePayBefore**
 [`datetime`](../data-types.md) | Дата, по которой необходимо оплатить счет (в магазине не используется) ||
 || **dateBill**
@@ -889,15 +980,16 @@
 [`datetime`](../data-types.md) | Дата назначения ответственного ||
 || **isReturn**
 [`string`](../data-types.md) | Выполнялся ли возврат:
-- `Y` — да
-- `N` — нет 
+- `N` — нет
+- `Y` — да, на внутренний счет покупателя
+- `P` — да, через платежную систему оплаты
 ||
 || **comments**
 [`string`](../data-types.md) | Комментарии к оплате ||
 || **updated1c**
 [`string`](../data-types.md) | Была ли оплата обновлена через 1С:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **id1c**
 [`string`](../data-types.md) | Идентификатор в 1С ||
@@ -906,19 +998,20 @@
 || **externalPayment**
 [`string`](../data-types.md) | Является ли оплата внешней:
 - `Y` — да
-- `N` — нет 
+- `F` — да, оплата загружена из 1С вместе с заказом
+- `N` — нет
 ||
 || **psInvoiceId**
 [`string`](../data-types.md) | Идентификатор оплаты в платежной системе ||
 || **marked**
 [`string`](../data-types.md) | Флаг маркировки. Признак того, является ли оплата отмеченной как проблемная:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **reasonMarked**
 [`string`](../data-types.md) | Причина маркировки ||
 || **dateMarked**
-[`datetime`](../data-types.md) | Дата маркировки заказа ||
+[`datetime`](../data-types.md) | Дата маркировки оплаты ||
 || **empMarkedId**
 [`user.id`](../data-types.md) | Идентификатор пользователя, промаркировавшего оплату ||
 |#
@@ -935,20 +1028,20 @@
 || **sort**
 [`integer`](../data-types.md) | Положение в списке позиций заказа ||
 || **productId**
-[`integer`](../data-types.md) | Идентификатор товара. Для товаров, отсутствующих на сайте, равен нулю ||
+[`integer`](../data-types.md) | Идентификатор товара. Для элемента корзины без товара из каталога может быть равен нулю — такой элемент добавляет метод [sale.basketitem.add](./basket-item/sale-basket-item-add.md) ||
 || **price**
 [`double`](../data-types.md) | Цена товара с учетом скидок и наценок ||
 || **customPrice**
 [`string`](../data-types.md) | Указана ли цена вручную:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **currency**
 [`string`](../data-types.md) | Валюта цены. Должна совпадать с валютой заказа. Список валют можно получить методом [crm.currency.list](../crm/currency/crm-currency-list.md), подробную информацию о валюте — методом [crm.currency.get](../crm/currency/crm-currency-get.md) ||
 || **quantity**
 [`double`](../data-types.md) | Количество ||
 || **xmlId**
-[`string`](../data-types.md) | Внешний код позиции корзины.
+[`string`](../data-types.md) | Внешний код элемента корзины.
 Если не указывать, то сгенерируется автоматически.
 Используется для синхронизации с внешними системами (например, 1С)
  ||
@@ -969,8 +1062,8 @@
 [`double`](../data-types.md) | Величина итоговой скидки/наценки. Для наценки значение отрицательное
  ||
 || **weight**
-[`double`](../data-types.md) | Вес в груммах. 
-Для коробочных версий единица изменения веса указывается в настройках модуля Интернет-магазин (sale)
+[`double`](../data-types.md) | Вес в граммах.
+Для коробочных версий единица измерения веса указывается в настройках модуля Интернет-магазин (sale)
  ||
 || **dimensions**
 [`string`](../data-types.md) | Размеры товара в миллиметрах.
@@ -987,21 +1080,21 @@
 || **canBuy**
 [`string`](../data-types.md) | Доступен ли товар к покупке:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **vatRate**
 [`double`](../data-types.md) | Ставка налога долей от единицы: `0.1` — это 10 %. Может быть равна `null` («Без НДС» — в случае, когда используются ставки НДС) ||
 || **vatIncluded**
 [`string`](../data-types.md) | Включен ли налог в цену:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
  ||
 || **barcodeMulti**
 [`string`](../data-types.md) | Поле доступно только при включенном складском учете. Является ли штрихкод уникальным:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 
-Имеет смысл только для включенного складского учета. Для товаров из каталога категорически не рекомендуется заполнять это поле вручную
+Для товаров из каталога категорически не рекомендуется заполнять это поле вручную
 ||
 || **type**
 [`integer`](../data-types.md) | Тип позиции. Не соответствует типу товара в каталоге. Возможные значения:
@@ -1085,7 +1178,7 @@
 || **orderId**
 [`sale_order.id`](#sale_order) | Идентификатор заказа ||
 || **tradingPlatformId**
-[`sale_order_trade_platform.id`](#sale_order_trade_platform) | Идентификатор источника заказа ||
+[`string`](../data-types.md) | Идентификатор источника заказа [`sale_order_trade_platform`](#sale_order_trade_platform), например `"41"` ||
 || **tradingPlatformXmlId**
 [`string`](../data-types.md) | Внешний идентификатор источника заказа ||
 || **params**
@@ -1121,7 +1214,7 @@
 || **ID**
 [`integer`](../data-types.md) | Идентификатор обработчика службы доставки.
 
-Получить идентификаторы обработчиков служб доставки можно с помощью метода [sale.delivery.handler.list](./delivery/handler/sale-delivery-handler-list.md)  ||
+Получить идентификаторы обработчиков служб доставки можно с помощью метода [sale.delivery.handler.list](./delivery/handler/sale-delivery-handler-list.md) ||
 || **NAME**
 [`string`](../data-types.md) | Название обработчика службы доставки ||
 || **CODE**
@@ -1142,7 +1235,7 @@
 || **Значение**
 `тип` | **Описание** ||
 || **CALCULATE_URL**
-[`string`](../data-types.md) | URL для расчёта стоимости доставки.
+[`string`](../data-types.md) | URL для расчета стоимости доставки.
 
 На данный URL приходят данные о посылке (что доставить, куда и как), стоимость доставки которой нужно рассчитать в ответе.
 
@@ -1158,18 +1251,18 @@
 || **CANCEL_DELIVERY_REQUEST_URL**
 [`string`](../data-types.md) | URL для отмены заказа на доставку.
 
-На данный URL приходят данные о посылке (что доставить, куда и как), заказ на которую нужно отменить в службе доставки.
+На данный URL приходят идентификаторы службы доставки `DELIVERY_ID` и транспортной заявки `REQUEST_ID`, которую нужно отменить.
 
 Формат запроса и ответа детально описан в документации по вебхуку [Отмена заказа на доставку](./delivery/webhooks/cancel-delivery-request.md) ||
 || **HAS_CALLBACK_TRACKING_SUPPORT**
-[`string`](../data-types.md) | Индикатор того, будет ли служба доставки присылать оповещения о статусе заказа на доставку (см. метод [sale.delivery.request.sendmessage](./delivery/delivery-request/sale-delivery-request-send-message.md)). 
+[`string`](../data-types.md) | Индикатор того, будет ли служба доставки присылать оповещения о статусе заказа на доставку (см. метод [sale.delivery.request.sendmessage](./delivery/delivery-request/sale-delivery-request-send-message.md)).
 
 В случае, если поддержка событий указана, то в интерфейсе менеджера при заказе доставки будет создано дело на доставку, в которое могут транслироваться изменения, связанные с текущим статусом доставки.
 
 Возможные значения:
 
-`Y` — есть поддержка
-`N` — нет поддержки ||
+- `Y` — есть поддержка
+- `N` — нет поддержки ||
 || **CONFIG**
 [`sale_delivery_handler_settings_config_item[]`](#sale_delivery_handler_settings_config_item) | Массив объектов с доступными настройками для службы доставки, создаваемой с использованием данного обработчика ||
 |#
@@ -1180,16 +1273,16 @@
 || **Значение**
 `тип` | **Описание** ||
 || **TYPE**
-[`string`](../data-types.md) | Тип поля настройки. 
+[`string`](../data-types.md) | Тип поля настройки.
 
 Возможные значения:
 
-`STRING` — строка
-`Y/N` — чекбокс (да / нет)
-`NUMBER` — число
-`ENUM` — список
-`DATE` — дата
-`LOCATION` — местоположение ||
+- `STRING` — строка
+- `Y/N` — чекбокс (да / нет)
+- `NUMBER` — число
+- `ENUM` — список
+- `DATE` — дата
+- `LOCATION` — местоположение ||
 || **CODE**
 [`string`](../data-types.md) | Символьный код настройки ||
 || **NAME**
@@ -1249,8 +1342,8 @@
 
 Возможные значения:
 
-`Y` — активна
-`N` — неактивна ||
+- `Y` — активна
+- `N` — неактивна ||
 |#
 
 ### sale_delivery_config_value_item
@@ -1272,23 +1365,23 @@
 || **ID**
 [`integer`](../data-types.md) | Идентификатор дополнительной услуги службы доставки.
 
-Получить идентификаторы услуг службы доставки  можно с помощью метода  [sale.delivery.extra.service.get](./delivery/extra-service/sale-delivery-extra-service-get.md)  ||
+Получить идентификаторы услуг службы доставки можно с помощью метода [sale.delivery.extra.service.get](./delivery/extra-service/sale-delivery-extra-service-get.md) ||
 || **TYPE**
-[`string`](../data-types.md) | Тип услуги. 
+[`string`](../data-types.md) | Тип услуги.
 
 Возможные значения:
 
-`enum` — список (выбор опции из заранее сформированного списка)
-`checkbox` — единичная услуга (например, доставка до двери)
-`quantity` — количественная услуга (например, требуемое количество грузчиков) ||
+- `enum` — список (выбор опции из заранее сформированного списка)
+- `checkbox` — единичная услуга (например, доставка до двери)
+- `quantity` — количественная услуга (например, требуемое количество грузчиков) ||
 || **NAME**
 [`string`](../data-types.md) | Название услуги ||
 || **ACTIVE**
 [`string`](../data-types.md) | Индикатор активности услуги.
 
 Возможные значения:
-`Y` — активна
-`N` — неактивна ||
+- `Y` — активна
+- `N` — неактивна ||
 || **CODE**
 [`string`](../data-types.md) | Символьный код услуги ||
 || **SORT**
@@ -1330,7 +1423,7 @@
 || **SORT**
 [`string`](../data-types.md) | Сортировка ||
 || **SETTINGS**
-[`object`](../data-types.md) | Настройки обработчика. Структура сооветствует указанной при добавлении обработчика через [sale.paysystem.handler.add](../pay-system/sale-pay-system-handler-add.md) в параметре `SETTINGS` ||
+[`object`](../data-types.md) | Настройки обработчика. Структура соответствует указанной при добавлении обработчика через [sale.paysystem.handler.add](../pay-system/sale-pay-system-handler-add.md) в параметре `SETTINGS` ||
 |#
 
 ### sale_paysystem
@@ -1354,9 +1447,9 @@
 Для системных платежных систем это код системного обработчика платежной системы
 ||
 || **ACTIVE**
-[`string`](../data-types.md) | Активна ли платежная система. Доступные значения: 
+[`string`](../data-types.md) | Активна ли платежная система. Доступные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **ENTITY_REGISTRY_TYPE**
 [`string`](../data-types.md) | Привязка платежной системы:
@@ -1365,33 +1458,33 @@
 - `CRM_QUOTE` — значение для коммерческих предложений CRM
 ||
 || **NEW_WINDOW**
-[`string`](../data-types.md) | Флаг, отвечающий за настройку «Открывать в новом окне». Доступные значения: 
+[`string`](../data-types.md) | Флаг, отвечающий за настройку «Открывать в новом окне». Доступные значения:
 - `Y` — да
-- `N` — нет 
+- `N` — нет
 ||
 || **ALLOW_EDIT_PAYMENT**
-[`string`](../data-types.md) | Флаг, отвечающий за настройку «Разрешить автопересчет оплаты». Доступные значения: 
+[`string`](../data-types.md) | Флаг, отвечающий за настройку «Разрешить автопересчет оплаты». Доступные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **AUTO_CHANGE_1C**
-[`string`](../data-types.md) | Флаг, отвечающий за настройку «Разрешить автоматическое изменение оплаты при импорте из 1С». Доступные значения: 
+[`string`](../data-types.md) | Флаг, отвечающий за настройку «Разрешить автоматическое изменение оплаты при импорте из 1С». Доступные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **CAN_PRINT_CHECK**
-[`string`](../data-types.md) | Флаг, отвечающий за настройку «Разрешить печать чеков». Доступные значения: 
+[`string`](../data-types.md) | Флаг, отвечающий за настройку «Разрешить печать чеков». Доступные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **ENCODING**
-[`string`](../data-types.md) | Настройка «Кодировка». Доступные значения: `windows-1251`, `utf-8`, `iso-8859-1`. 
+[`string`](../data-types.md) | Настройка «Кодировка». Доступные значения: `windows-1251`, `utf-8`, `iso-8859-1`.
 
 Для REST-обработчиков не используется ||
 || **IS_CASH**
-[`string`](../data-types.md) | Тип оплаты. Возможные значения: 
-- `N` — безналичный 
-- `Y` — наличный 
+[`string`](../data-types.md) | Тип оплаты. Возможные значения:
+- `N` — безналичный
+- `Y` — наличный
 - `A` — эквайринговая операция ||
 || **PSA_NAME**
 [`string`](../data-types.md) | Заголовок платежной системы ||
@@ -1417,7 +1510,7 @@
 || **SORT**
 [`string`](../data-types.md) | Сортировка ||
 || **SETTINGS**
-[`object`](../data-types.md) | Настройки обработчика. Структура сооветствует указанной при добавлении обработчика через [sale.cashbox.handler.add](./cashbox/sale-cashbox-handler-add.md) в параметре `SETTINGS` ||
+[`object`](../data-types.md) | Настройки обработчика. Структура соответствует указанной при добавлении обработчика через [sale.cashbox.handler.add](./cashbox/sale-cashbox-handler-add.md) в параметре `SETTINGS` ||
 |#
 
 ### sale_cashbox
@@ -1426,25 +1519,25 @@
 || **Значение**
 `тип` | **Описание** ||
 || **ID**
-[`string`](../data-types.md) | Идентификатор обработчика платежной системы ||
+[`string`](../data-types.md) | Идентификатор кассы ||
 || **NAME**
 [`string`](../data-types.md) | Название кассы ||
 || **ENABLED**
-[`string`](../data-types.md) | Доступность кассы. Возможные значения: 
+[`string`](../data-types.md) | Доступность кассы. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **ACTIVE**
-[`string`](../data-types.md) | Активность кассы. Возможные значения: 
+[`string`](../data-types.md) | Активность кассы. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **OFD**
-[`string`](../data-types.md) | Код обработчика ОФД. Доступные обработчики ОФД: 
-- `bx_firstofd` — Первый ОФД 
-- `bx_platformaofd` — Платформа ОФД 
+[`string`](../data-types.md) | Код обработчика ОФД. Доступные обработчики ОФД:
+- `bx_firstofd` — Первый ОФД
+- `bx_platformaofd` — Платформа ОФД
 - `bx_yarusofd` — ОФД ЯРУС
-- `bx_taxcomofd` — Такском ОФД 
-- `bx_ofdruofd` — OFD.RU 
-- `bx_tenzorofd` — Тензор ОФД 
+- `bx_taxcomofd` — Такском ОФД
+- `bx_ofdruofd` — OFD.RU
+- `bx_tenzorofd` — Тензор ОФД
 - `bx_conturofd` — Контур ОФД ||
 || **EMAIL**
 [`string`](../data-types.md) | Адрес электронной почты, на который будут отправляться уведомления в случае возникновения ошибок при печати чеков ||
@@ -1466,17 +1559,17 @@
 || **Значение**
 `тип` | **Описание** ||
 || **isImmutable**
-[`boolean`](../data-types.md) | Индикатор возможности изменения значения поля после создания. 
+[`boolean`](../data-types.md) | Индикатор возможности изменения значения поля после создания.
 
-Если у поля выставлен данный индикатор, то при создании сущности можно указать значение поля, но изменить его при обновлении не получится ||
+Если у поля выставлен данный индикатор, то при создании объекта можно указать значение поля, но изменить его при обновлении не получится ||
 || **isReadOnly**
-[`boolean`](../data-types.md) | Индикатор «только чтение». 
+[`boolean`](../data-types.md) | Индикатор «только чтение».
 
-Если у поля выставлен данный индикатор, то в операциях добавления и обновления сущности передавать значение поля не нужно. Значение формируется автоматически и предназначено только для чтения ||
+Если у поля выставлен данный индикатор, то в операциях добавления и обновления объекта передавать значение поля не нужно. Значение формируется автоматически и предназначено только для чтения ||
 || **isRequired**
 [`boolean`](../data-types.md) | Индикатор обязательности поля для операций добавления или обновления ||
 || **type**
-[`string`](../data-types.md) | Тип данных значений поля. Возможные значения: 
+[`string`](../data-types.md) | Тип данных значений поля. Возможные значения:
 - `integer`
 - `double`
 - `string`
@@ -1488,5 +1581,8 @@
 - `datetime`
 - `datatype`
 - `productproperty`
+- `any` — формат значения зависит от других настроек, например от типа свойства
 ||
+|| **fields**
+[`object`](../data-types.md) | Описания вложенных полей в том же формате `rest_field_description`. Приходит у полей составного типа `datatype`, например у `settings` в ответе [sale.property.getFieldsByType](./property/sale-property-get-fields-by-type.md) ||
 |#

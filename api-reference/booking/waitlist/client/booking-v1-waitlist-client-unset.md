@@ -1,4 +1,4 @@
-# Удалить клиентов из записи в лист ожидания booking.v1.waitlist.client.unset
+# Удалить связи с клиентами записи в листе ожидания booking.v1.waitlist.client.unset
 
 {% note tip "" %}
 
@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.waitlist.client.unset` удаляет клиентов для указанной записи в листе ожидания.
+Метод `booking.v1.waitlist.client.unset` удаляет все связи с клиентами указанной записи в листе ожидания. Контакты и компании остаются в CRM.
+
+{% note warning "Связанная сделка" %}
+
+Если у записи уже нет клиентов, но к ней привязана сделка методом [booking.v1.waitlist.externalData.set](../external-data/booking-v1-waitlist-externaldata-set.md), метод привяжет к записи контакты и компанию этой сделки. Поэтому повторный вызов может заполнить список заново. Проверьте результат методом [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,11 +29,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **waitListId***
-[`integer`](../../../data-types.md) | Идентификатор записи в лист ожидания. 
+[`integer`](../../../data-types.md) | Идентификатор записи в листе ожидания.
 Можно получить методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) и [booking.v1.waitlist.list](../booking-v1-waitlist-list.md) ||
 |#
 
 ## Примеры кода
+
+Примеры удаляют связи с клиентами записи `13`. Замените идентификатор значением своего Битрикс24.
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -39,8 +47,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"waitListId":14,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.waitlist.client.unset
+    -d '{"waitListId":13}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitlist.client.unset
     ```
 
 - cURL (OAuth)
@@ -49,8 +57,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"waitListId":14}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitlist.client.unset
+    -d '{"waitListId":13,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.waitlist.client.unset
     ```
 
 - JS (TS)
@@ -67,7 +75,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'booking.v1.waitlist.client.unset',
         params: {
-          waitListId: 14,
+          waitListId: 13,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -99,7 +107,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.waitlist.client.unset',
             params: {
-              waitListId: 14,
+              waitListId: 13,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -129,7 +137,7 @@
 
     try:
         bitrix_response = client.booking.v1.waitlist.client.unset(
-            wait_list_id=14,
+            wait_list_id=13,
         ).response
         result = bitrix_response.result
         print(result)
@@ -146,9 +154,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -157,20 +163,18 @@
             ->call(
                 'booking.v1.waitlist.client.unset',
                 [
-                    'waitListId' => 14,
+                    'waitListId' => 13,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+
+        if ($result[0] === true) {
+            echo 'Success';
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error unsetting waitlist client: ' . $e->getMessage();
@@ -183,7 +187,7 @@
     BX24.callMethod(
         "booking.v1.waitlist.client.unset",
         {
-            waitListId: 14,
+            waitListId: 13,
         },
         result => {
             if (result.error())
@@ -202,7 +206,7 @@
     $result = CRest::call(
         'booking.v1.waitlist.client.unset',
         [
-            'waitListId' => 14,
+            'waitListId' => 13,
         ]
     );
 
@@ -216,7 +220,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "booking.v1.waitlist.client.unset", b24.Params{
-    	"waitListId": 14,
+    	"waitListId": 13,
     })
     if err != nil {
     	return fmt.Errorf("booking.v1.waitlist.client.unset: %w", err)
@@ -239,12 +243,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1724068028.331234,
-        "finish": 1724068028.726591,
-        "duration": 0.3953571319580078,
-        "processing": 0.13033390045166016,
-        "date_start": "2025-01-21T13:47:08+02:00",
-        "date_finish": "2025-01-21T13:47:08+02:00",
+        "start": 1790294539,
+        "finish": 1790294539.731543,
+        "duration": 0.7315430641174316,
+        "processing": 0,
+        "date_start": "2026-09-25T03:02:19+03:00",
+        "date_finish": "2026-09-25T03:02:19+03:00",
+        "operating_reset_at": 1790295139,
         "operating": 0
     }
 }
@@ -267,7 +272,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1040,
+    "error": "1040",
     "error_description": "Wait list not found"
 }
 ```
@@ -278,8 +283,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `1040` | `Wait list not found` | Список ожидания с указанным `id` не найден ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
+|| `100` | `Could not find value for parameter {waitListId}` | Не передан `waitListId`. Укажите идентификатор записи в листе ожидания ||
+|| `1040` | `Wait list not found` | Запись с указанным `waitListId` не найдена. Проверьте идентификатор методом [booking.v1.waitlist.list](../booking-v1-waitlist-list.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

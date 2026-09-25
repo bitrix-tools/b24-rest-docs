@@ -1,4 +1,4 @@
-# Получить список клиентов записи в лист ожидания booking.v1.waitlist.client.list
+# Получить клиентов записи в листе ожидания booking.v1.waitlist.client.list
 
 {% note tip "" %}
 
@@ -23,11 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **waitListId***
-[`integer`](../../../data-types.md) | Идентификатор записи в лист ожидания. 
+[`integer`](../../../data-types.md) | Идентификатор записи в листе ожидания.
 Можно получить методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) и [booking.v1.waitlist.list](../booking-v1-waitlist-list.md) ||
 |#
 
 ## Примеры кода
+
+Примеры получают клиентов записи `13`. Замените идентификатор значением своего Битрикс24.
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -39,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"waitListId":257}' \
+    -d '{"waitListId":13}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitlist.client.list
     ```
 
@@ -49,7 +51,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"waitListId":257,"auth":"**put_access_token_here**"}' \
+    -d '{"waitListId":13,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.waitlist.client.list
     ```
 
@@ -75,16 +77,10 @@
     }
 
     try {
-      // booking.v1.waitlist.client.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<WaitListClientListResult>({
         method: 'booking.v1.waitlist.client.list',
         params: {
-          waitListId: 257,
-          start: 0,
+          waitListId: 13,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -113,16 +109,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // booking.v1.waitlist.client.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.waitlist.client.list',
             params: {
-              waitListId: 257,
-              start: 0,
+              waitListId: 13,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -152,7 +142,7 @@
 
     try:
         bitrix_response = client.booking.v1.waitlist.client.list(
-            wait_list_id=257,
+            wait_list_id=13,
         ).response
         result = bitrix_response.result
         print(result)
@@ -169,9 +159,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -180,20 +168,16 @@
             ->call(
                 'booking.v1.waitlist.client.list',
                 [
-                    'waitListId' => 257,
+                    'waitListId' => 13,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Clients: ' . print_r($result['waitListClient'], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error listing waitlist clients: ' . $e->getMessage();
@@ -206,7 +190,7 @@
     BX24.callMethod(
         "booking.v1.waitlist.client.list",
         {
-            waitListId: 257,
+            waitListId: 13,
         },
         result => {
             if (result.error())
@@ -225,7 +209,7 @@
     $result = CRest::call(
         'booking.v1.waitlist.client.list',
         [
-            'waitListId' => 257
+            'waitListId' => 13
         ]
     );
 
@@ -239,7 +223,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "booking.v1.waitlist.client.list", b24.Params{
-    	"waitListId": 257,
+    	"waitListId": 13,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("booking.v1.waitlist.client.list: %w", err)
@@ -273,28 +257,30 @@ HTTP-статус: **200**
     "result": {
         "waitListClient": [
             {
-                "id": 1,
+                "id": 2795,
                 "type": {
-                    "code": "COMPANY",
+                    "code": "CONTACT",
                     "module": "crm"
                 }
             },
             {
-                "id": 2,
+                "id": 3063,
                 "type": {
-                    "code": "CONTACT",
+                    "code": "COMPANY",
                     "module": "crm"
                 }
             }
         ]
     },
+    "total": 0,
     "time": {
-        "start": 1724068028.331234,
-        "finish": 1724068028.726591,
-        "duration": 0.3953571319580078,
-        "processing": 0.13033390045166016,
-        "date_start": "2025-01-21T13:47:08+02:00",
-        "date_finish": "2025-01-21T13:47:08+02:00",
+        "start": 1790294537,
+        "finish": 1790294537.508353,
+        "duration": 0.5083529949188232,
+        "processing": 0,
+        "date_start": "2026-09-25T03:02:17+03:00",
+        "date_finish": "2026-09-25T03:02:17+03:00",
+        "operating_reset_at": 1790295137,
         "operating": 0
     }
 }
@@ -306,9 +292,20 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит массив объектов с информацией о клиентах. Структура описана [ниже](#waitListClient) ||
+[`object`](../../../data-types.md) | Объект с массивом `waitListClient`. [Структура объекта](#result) ||
+|| **total**
+[`integer`](../../../data-types.md) | Служебное поле, возвращает `0`. Чтобы узнать количество клиентов, посчитайте элементы `result.waitListClient` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **waitListClient**
+[`array`](../../../data-types.md) | Массив объектов с полями `id` и `type`. Если у записи нет клиентов, возвращает пустой массив `[]`. [Структура элемента](#waitListClient) ||
 |#
 
 #### Клиент {#waitListClient}
@@ -317,14 +314,24 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) | Идентификатор клиента, по которому можно получить данные клиента методом [crm.item.get](../../../crm/universal/crm-item-get.md) для контактов и компаний ||
+[`integer`](../../../data-types.md) | Идентификатор контакта или компании CRM. Для получения данных через [crm.item.get](../../../crm/universal/crm-item-get.md) передайте `entityTypeId: 3` для контакта или `entityTypeId: 4` для компании ||
 || **type**
-[`object`](../../../data-types.md) | Тип клиента в формате `{"module": "crm", "code": "CONTACT"}`.
-Значения `code`: 
+[`object`](../../../data-types.md) | Тип клиента. [Структура объекта](#client-type) ||
+|#
+
+#### Объект type {#client-type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **module**
+[`string`](../../../data-types.md) | Модуль клиента. Для контактов и компаний — `crm` ||
+|| **code**
+[`string`](../../../data-types.md) | Код типа клиента:
 - `CONTACT` — [контакт CRM](../../../crm/contacts/index.md)
 - `COMPANY` — [компания CRM](../../../crm/companies/index.md)
 
-Cтруктуру объекта возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
+Доступные типы клиентов возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
 |#
 
 ## Обработка ошибок
@@ -333,7 +340,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1040,
+    "error": "1040",
     "error_description": "Wait list not found"
 }
 ```
@@ -344,8 +351,8 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `1040` | `Wait list not found` | Лист ожидания с указанным `id` не найден ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
+|| `100` | `Could not find value for parameter {waitListId}` | Не передан `waitListId`. Укажите идентификатор записи в листе ожидания ||
+|| `1040` | `Wait list not found` | Запись с указанным `waitListId` не найдена. Проверьте идентификатор методом [booking.v1.waitlist.list](../booking-v1-waitlist-list.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

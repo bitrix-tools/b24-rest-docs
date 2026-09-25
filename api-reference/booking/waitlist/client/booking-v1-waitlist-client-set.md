@@ -1,4 +1,4 @@
-# Добавить клиентов к записи в лист ожидания booking.v1.waitlist.client.set
+# Установить клиентов записи в листе ожидания booking.v1.waitlist.client.set
 
 {% note tip "" %}
 
@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.waitlist.client.set` устанавливает клиентов для указанной записи в листе ожидания.
+Метод `booking.v1.waitlist.client.set` устанавливает список клиентов для указанной записи в листе ожидания. Клиентами могут быть контакты и компании CRM.
+
+{% note warning "" %}
+
+Метод заменяет весь список клиентов записи. Чтобы сохранить текущих клиентов, получите их методом [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md) и передайте в `clients` вместе с новыми.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,10 +29,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **waitListId***
-[`integer`](../../../data-types.md) | Идентификатор записи в лист ожидания. 
+[`integer`](../../../data-types.md) | Идентификатор записи в листе ожидания.
 Можно получить методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) и [booking.v1.waitlist.list](../booking-v1-waitlist-list.md) ||
 || **clients***
-[`array`](../../../data-types.md) | Массив объектов, содержащий информацию о клиентах [(подробное описание)](#clients) ||
+[`array`](../../../data-types.md) | Полный список клиентов записи. Каждый элемент — объект с полями `id` и `type`. [Структура элемента](#clients), [поведение пустого массива](#empty-clients) ||
 |#
 
 ### Параметр clients {#clients}
@@ -35,17 +41,39 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор клиента, можно получить методом [crm.item.list](../../../crm/universal/crm-item-list.md) для контактов и компаний ||
+[`integer`](../../../data-types.md) | Идентификатор контакта или компании CRM. Получить можно методом [crm.item.list](../../../crm/universal/crm-item-list.md): `entityTypeId: 3` для контактов, `entityTypeId: 4` для компаний ||
 || **type***
-[`object`](../../../data-types.md) | Тип клиента в формате `{"module": "crm", "code": "CONTACT"}`.
-Возможные значения `code`: 
+[`object`](../../../data-types.md) | Тип клиента. Например, `{"module": "crm", "code": "CONTACT"}`. [Структура объекта](#client-type) ||
+|#
+
+### Объект type {#client-type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **module***
+[`string`](../../../data-types.md) | Модуль клиента. Для контактов и компаний — `crm` ||
+|| **code***
+[`string`](../../../data-types.md) | Код типа клиента:
 - `CONTACT` — [контакт CRM](../../../crm/contacts/index.md)
 - `COMPANY` — [компания CRM](../../../crm/companies/index.md)
 
-Cтруктуру объекта возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
+Доступные типы клиентов возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
 |#
 
+### Пустой массив clients {#empty-clients}
+
+Чтобы удалить текущие связи с клиентами, передайте `clients: []`.
+
+{% note warning "Связанная сделка" %}
+
+Если у записи уже нет клиентов, но к ней привязана сделка методом [booking.v1.waitlist.externalData.set](../external-data/booking-v1-waitlist-externaldata-set.md), вызов с `clients: []` привяжет к записи контакты и компанию этой сделки. Поэтому повторный вызов может заполнить список заново. Проверьте результат методом [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md).
+
+{% endnote %}
+
 ## Примеры кода
+
+Примеры связывают запись `13` с контактом `2795` и компанией `3063`. Замените идентификаторы значениями своего Битрикс24.
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -57,8 +85,8 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"waitListId":4,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.waitlist.client.set
+    -d '{"waitListId":13,"clients":[{"id":2795,"type":{"module":"crm","code":"CONTACT"}},{"id":3063,"type":{"module":"crm","code":"COMPANY"}}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitlist.client.set
     ```
 
 - cURL (OAuth)
@@ -67,8 +95,8 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"waitListId":4,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.waitlist.client.set
+    -d '{"waitListId":13,"clients":[{"id":2795,"type":{"module":"crm","code":"CONTACT"}},{"id":3063,"type":{"module":"crm","code":"COMPANY"}}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.waitlist.client.set
     ```
 
 - JS (TS)
@@ -85,20 +113,20 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'booking.v1.waitlist.client.set',
         params: {
-          waitListId: 4,
+          waitListId: 13,
           clients: [
             {
-              id: 1,
+              id: 2795,
               type: {
                 module: 'crm',
                 code: 'CONTACT',
               },
             },
             {
-              id: 2,
+              id: 3063,
               type: {
                 module: 'crm',
-                code: 'CONTACT',
+                code: 'COMPANY',
               },
             },
           ],
@@ -133,20 +161,20 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.waitlist.client.set',
             params: {
-              waitListId: 4,
+              waitListId: 13,
               clients: [
                 {
-                  id: 1,
+                  id: 2795,
                   type: {
                     module: 'crm',
                     code: 'CONTACT',
                   },
                 },
                 {
-                  id: 2,
+                  id: 3063,
                   type: {
                     module: 'crm',
-                    code: 'CONTACT',
+                    code: 'COMPANY',
                   },
                 },
               ],
@@ -179,20 +207,20 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
 
     try:
         bitrix_response = client.booking.v1.waitlist.client.set(
-            wait_list_id=4,
+            wait_list_id=13,
             clients=[
                 {
-                    "id": 1,
+                    "id": 2795,
                     "type": {
                         "module": "crm",
                         "code": "CONTACT",
                     },
                 },
                 {
-                    "id": 2,
+                    "id": 3063,
                     "type": {
                         "module": "crm",
-                        "code": "CONTACT",
+                        "code": "COMPANY",
                     },
                 },
             ],
@@ -212,9 +240,7 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -223,37 +249,34 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
             ->call(
                 'booking.v1.waitlist.client.set',
                 [
-                    'waitListId' => 4,
+                    'waitListId' => 13,
                     'clients'    => [
                         [
-                            'id'   => 1,
+                            'id'   => 2795,
                             'type' => [
                                 'module' => 'crm',
                                 'code'   => 'CONTACT',
                             ],
                         ],
                         [
-                            'id'   => 2,
+                            'id'   => 3063,
                             'type' => [
                                 'module' => 'crm',
-                                'code'   => 'CONTACT',
+                                'code'   => 'COMPANY',
                             ],
                         ],
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+
+        if ($result[0] === true) {
+            echo 'Success';
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error setting waitlist clients: ' . $e->getMessage();
@@ -266,20 +289,20 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     BX24.callMethod(
         "booking.v1.waitlist.client.set",
         {
-            waitListId: 4,
+            waitListId: 13,
             clients: [
                 {
-                    id: 1,
+                    id: 2795,
                     type: {
                         module: "crm",
                         code: "CONTACT"
                     }
                 },
                 {
-                    id: 2,
+                    id: 3063,
                     type: {
                         module: "crm",
-                        code: "CONTACT"
+                        code: "COMPANY"
                     }
                 }
             ]
@@ -301,20 +324,20 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     $result = CRest::call(
         'booking.v1.waitlist.client.set',
         [
-            'waitListId' => 4,
+            'waitListId' => 13,
             'clients' => [
                 [
-                    'id' => 1,
+                    'id' => 2795,
                     'type' => [
                         'module' => 'crm',
                         'code' => 'CONTACT'
                     ]
                 ],
                 [
-                    'id' => 2,
+                    'id' => 3063,
                     'type' => [
                         'module' => 'crm',
-                        'code' => 'CONTACT'
+                        'code' => 'COMPANY'
                     ]
                 ]
             ]
@@ -331,20 +354,20 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "booking.v1.waitlist.client.set", b24.Params{
-    	"waitListId": 4,
+    	"waitListId": 13,
     	"clients": []b24.Params{
     		{
-    			"id": 1,
+    			"id": 2795,
     			"type": b24.Params{
     				"module": "crm",
     				"code":   "CONTACT",
     			},
     		},
     		{
-    			"id": 2,
+    			"id": 3063,
     			"type": b24.Params{
     				"module": "crm",
-    				"code":   "CONTACT",
+    				"code":   "COMPANY",
     			},
     		},
     	},
@@ -370,12 +393,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1724068028.331234,
-        "finish": 1724068028.726591,
-        "duration": 0.3953571319580078,
-        "processing": 0.13033390045166016,
-        "date_start": "2025-01-21T13:47:08+02:00",
-        "date_finish": "2025-01-21T13:47:08+02:00",
+        "start": 1790294535,
+        "finish": 1790294535.315704,
+        "duration": 0.3157041072845459,
+        "processing": 0,
+        "date_start": "2026-09-25T03:02:15+03:00",
+        "date_finish": "2026-09-25T03:02:15+03:00",
+        "operating_reset_at": 1790295135,
         "operating": 0
     }
 }
@@ -398,7 +422,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1040,
+    "error": "1040",
     "error_description": "Wait list not found"
 }
 ```
@@ -409,9 +433,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `0` | `Required fields:` | Не передан обязательный параметр внутри `clients` ||
-|| `1040` | `Wait list not found` | Список ожидания с указанным `id` не найден ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
+|| `0` | `Required fields: id` | В элементе `clients` не передан `id`. Укажите идентификатор контакта или компании ||
+|| `0` | `Required fields: type` | В элементе `clients` не передан объект `type` ||
+|| `0` | `Required fields: module` | В объекте `type` не передан `module`. Для CRM укажите `crm` ||
+|| `0` | `Required fields: code` | В объекте `type` не передан `code`. Укажите `CONTACT` или `COMPANY` ||
+|| `100` | `Could not find value for parameter {waitListId}` | Не передан `waitListId`. Укажите идентификатор записи в листе ожидания ||
+|| `100` | `Could not find value for parameter {clients}` | Не передан массив `clients` ||
+|| `1025` | `Client type not found` | Передан неизвестный тип клиента. Проверьте сочетание `module` и `code` по методу [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
+|| `1040` | `Wait list not found` | Запись с указанным `waitListId` не найдена. Проверьте идентификатор методом [booking.v1.waitlist.list](../booking-v1-waitlist-list.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
