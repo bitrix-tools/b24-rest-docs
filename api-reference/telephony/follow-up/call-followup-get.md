@@ -101,6 +101,7 @@
       item: {
         callId: number
         callType?: number
+        chatId?: number | null
         initiatorId?: number
         startDate?: string
         endDate?: string
@@ -275,6 +276,7 @@ HTTP-статус: **200**
         "item": {
             "callId": 12345,
             "callType": 1,
+            "chatId": 2048,
             "initiatorId": 7,
             "startDate": "2026-01-15T10:00:00+00:00",
             "endDate": "2026-01-15T10:42:00+00:00",
