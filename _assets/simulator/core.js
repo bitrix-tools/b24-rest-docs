@@ -563,6 +563,33 @@
         };
     }
 
+        // Подсказка по доступным идентификаторам. Считать их как «1…длина»
+    // нельзя: у задач в датасете id идут со 100, у пользователей с
+    // пропусками. Сообщение звало пробовать единицу, единицы не было, и
+    // tasks.task.get отвечал отказом на каждый вызов подряд.
+    function availableIds(items, idField) {
+        var ids = [];
+        for (var i = 0; i < items.length; i++) {
+            ids.push(String(items[i][idField]));
+        }
+        if (!ids.length) {
+            return 'В датасете нет объектов этого типа.';
+        }
+
+        if (ids.every(function (x) { return /^\d+$/.test(x); })) {
+            var nums = ids.map(Number).sort(function (a, b) { return a - b; });
+            if (nums[nums.length - 1] - nums[0] + 1 === nums.length) {
+                return 'Доступные идентификаторы: ' + nums[0] + '…' + nums[nums.length - 1] + '.';
+            }
+            ids = nums.map(String);
+        }
+
+        var shown = ids.slice(0, 8).join(', ');
+        return ids.length > 8
+            ? 'Доступные идентификаторы: ' + shown + ' и ещё ' + (ids.length - 8) + '.'
+            : 'Доступные идентификаторы: ' + shown + '.';
+    }
+
     function getExecutor(entity, idParam, idField, wrapKey) {
         return function (params, dataset) {
             var wanted = params[idParam];
@@ -592,7 +619,7 @@
                 return {
                     __error: {
                         error: 'NOT_FOUND',
-                        error_description: 'Объект не найден в тестовом датасете. Доступные идентификаторы: 1…' + items.length + '.',
+                        error_description: 'Объект не найден в тестовом датасете. ' + availableIds(items, idField),
                     },
                 };
             }
