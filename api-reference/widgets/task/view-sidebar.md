@@ -1,4 +1,4 @@
-# Виджет в правой панели карточки задачи TASK_VIEW_SIDEBAR
+# Виджет в карточке задачи TASK_VIEW_SIDEBAR
 
 {% note tip "" %}
 
@@ -11,9 +11,13 @@
 
 > Scope: [`placement, task`](../../scopes/permissions.md)
 
-Виджет добавляет интерфейс приложения в карточку задачи. В прежней карточке пункт выводился в правой панели, отсюда название точки. Обработчик получает идентификатор той задачи, из карточки которой открыт виджет.
+Виджет добавляет интерфейс приложения в карточку задачи. До версии модуля `tasks` 25.700.0 он выводился в правой панели, в [новой карточке](../../tasks/tasks-new.md) — строкой в блоке *Приложения*.
 
-Вывод виджета можно ограничить задачами конкретных проектов — это описано в разделе [Параметры подключения](#options).
+Точку выбирают, когда приложению нужен свой экран внутри задачи: данные из внешнего сервиса, отчет или форма рядом с полями задачи.
+
+Если приложение зарегистрирует несколько точек карточки, в блоке появится по строке на каждую. Для новой интеграции достаточно одной точки.
+
+Вывод виджета можно ограничить задачами конкретных проектов параметром подключения `groupId` — см. [OPTIONS при регистрации](#options).
 
 Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -27,16 +31,14 @@
 
 #|
 || **Код точки встраивания** | **Место** ||
-|| `TASK_VIEW_SIDEBAR` | Виджет в правой панели карточки задачи ||
+|| `TASK_VIEW_SIDEBAR` | Строка в блоке *Приложения* карточки задачи ||
 |#
 
 ### Где находится в интерфейсе
 
-С версии модуля `tasks 25.700.0` вышла [новая карточка задач](../../tasks/tasks-new.md). Отдельной правой панели у точки в ней нет: все виджеты карточки выводятся строками в блоке «Приложения» — под полями задачи, перед списком дополнительных полей. Откройте задачу и нажмите строку с названием приложения.
+Откройте задачу. Строка приложения выводится под полями задачи в блоке *Приложения*. Название строки — значение `TITLE`, переданное при регистрации.
 
-![Виджет в правой панели карточки задачи](./_images/TASK_VIEW_SIDEBAR.png "Виджет в правой панели карточки задачи")
-
-Точки [TASK_VIEW_TAB](./view-tab.md) и [TASK_VIEW_TOP_PANEL](./view-top-panel.md) выводятся в том же блоке. Ранее зарегистрированные виджеты продолжают работать.
+![Строка в блоке «Приложения» карточки задачи](./_images/TASK_VIEW_SIDEBAR.png "Строка в блоке «Приложения» карточки задачи")
 
 ## Что получает обработчик
 
@@ -64,6 +66,15 @@ Array
 
 ```
 
+Строка `PLACEMENT_OPTIONS` из этого примера после разбора выглядит так:
+
+```json
+{
+    "taskId": "3957",
+    "URI": "/company/personal/user/1/tasks/task/view/3957/"
+}
+```
+
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 {% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
@@ -82,11 +93,13 @@ Array
 Данные задачи возвращает метод [tasks.task.get](../../tasks/tasks-task-get.md)
 
 ||
+|| **URI**
+[`string`](../../data-types.md) | Адрес страницы Битрикс24, с которой открыт виджет ||
 |#
 
-## Параметры подключения {#options}
+## OPTIONS при регистрации через placement.bind {#options}
 
-Параметр подключения передается в поле `OPTIONS` метода [placement.bind](../placement-bind.md) при регистрации обработчика. Это не те данные, которые Битрикс24 передает обработчику при вызове точки: входящие данные описаны выше.
+Параметры подключения передаются в `OPTIONS` метода [placement.bind](../placement-bind.md) при регистрации обработчика. Это не те данные, которые Битрикс24 передает обработчику при вызове точки: они описаны в разделе «Что получает обработчик».
 
 #|
 || **Параметр** | **Описание** ||
@@ -98,27 +111,11 @@ Array
 ||
 |#
 
-Пример регистрации с ограничением по проектам:
-
-```bash
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -H "Accept: application/json" \
-  -d '{
-    "PLACEMENT": "TASK_VIEW_SIDEBAR",
-    "HANDLER": "https://your-domain.com/widgets/task-view-sidebar-handler.php",
-    "TITLE": "Мой виджет в задаче",
-    "OPTIONS": {
-      "groupId": "129,130"
-    },
-    "auth": "**put_access_token_here**"
-  }' \
-  https://**put_your_bitrix24_address**/rest/placement.bind
-```
-
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+В примерах передан параметр `OPTIONS` с идентификаторами проектов `129,130`. Удалите его, если виджет должен выводиться во всех задачах.
 
 {% list tabs %}
 
@@ -132,6 +129,9 @@ curl -X POST \
         "PLACEMENT": "TASK_VIEW_SIDEBAR",
         "HANDLER": "https://your-domain.com/widgets/task-view-sidebar-handler.php",
         "TITLE": "Мой виджет в задаче",
+        "OPTIONS": {
+          "groupId": "129,130"
+        },
         "LANG_ALL": {
           "ru": {
             "TITLE": "Мой виджет в задаче"
@@ -162,6 +162,9 @@ curl -X POST \
           PLACEMENT: 'TASK_VIEW_SIDEBAR',
           HANDLER: 'https://your-domain.com/widgets/task-view-sidebar-handler.php',
           TITLE: 'My task widget',
+          OPTIONS: {
+            groupId: '129,130',
+          },
           LANG_ALL: {
             ru: {
               TITLE: 'Мой виджет в задаче',
@@ -204,6 +207,9 @@ curl -X POST \
               PLACEMENT: 'TASK_VIEW_SIDEBAR',
               HANDLER: 'https://your-domain.com/widgets/task-view-sidebar-handler.php',
               TITLE: 'My task widget',
+              OPTIONS: {
+                groupId: '129,130',
+              },
               LANG_ALL: {
                 ru: {
                   TITLE: 'Мой виджет в задаче',
@@ -246,6 +252,9 @@ curl -X POST \
                     'PLACEMENT' => 'TASK_VIEW_SIDEBAR',
                     'HANDLER' => 'https://your-domain.com/widgets/task-view-sidebar-handler.php',
                     'TITLE' => 'Мой виджет в задаче',
+                    'OPTIONS' => [
+                        'groupId' => '129,130',
+                    ],
                     'LANG_ALL' => [
                         'ru' => [
                             'TITLE' => 'Мой виджет в задаче',
@@ -278,6 +287,9 @@ curl -X POST \
             PLACEMENT: 'TASK_VIEW_SIDEBAR',
             HANDLER: 'https://your-domain.com/widgets/task-view-sidebar-handler.php',
             TITLE: 'Мой виджет в задаче',
+            OPTIONS: {
+                groupId: '129,130'
+            },
             LANG_ALL: {
                 ru: { TITLE: 'Мой виджет в задаче' },
                 en: { TITLE: 'My task widget' }
@@ -304,6 +316,9 @@ curl -X POST \
             'PLACEMENT' => 'TASK_VIEW_SIDEBAR',
             'HANDLER' => 'https://your-domain.com/widgets/task-view-sidebar-handler.php',
             'TITLE' => 'Мой виджет в задаче',
+            'OPTIONS' => [
+                'groupId' => '129,130',
+            ],
             'LANG_ALL' => [
                 'ru' => [
                     'TITLE' => 'Мой виджет в задаче',
@@ -327,10 +342,13 @@ curl -X POST \
     res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
     	"PLACEMENT": "TASK_VIEW_SIDEBAR",
     	"HANDLER":   "https://your-domain.com/widgets/task-view-sidebar-handler.php",
-    	"TITLE":     "Моя встройка в задаче",
+    	"TITLE":     "Мой виджет в задаче",
+    	"OPTIONS": b24.Params{
+    		"groupId": "129,130",
+    	},
     	"LANG_ALL": b24.Params{
     		"ru": b24.Params{
-    			"TITLE": "Моя встройка в задаче",
+    			"TITLE": "Мой виджет в задаче",
     		},
     		"en": b24.Params{
     			"TITLE": "My task widget",
@@ -348,12 +366,26 @@ curl -X POST \
 
 {% endlist %}
 
+## Типовые ошибки
+
+#|
+|| **Ошибка** | **Как решить** ||
+|| `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
+|| Виджет появился не во всех задачах | Проверьте `groupId`: виджет выводится только в задачах перечисленных в нем проектов — см. [OPTIONS при регистрации](#options) ||
+|| Обработчик не находит идентификатор задачи | Читайте идентификатор из ключа `taskId`. Ключ `ID` приходит у точки [TASK_LIST_CONTEXT_MENU](./list-context-menu.md) в контекстном меню списка ||
+|#
+
+Другие коды ошибок регистрации перечислены в разделе «Возможные коды ошибок» страницы [placement.bind](../placement-bind.md).
+
 ## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./view-tab.md)
 - [{#T}](./view-top-panel.md)
 - [{#T}](../placement-bind.md)
+- [{#T}](../placement-get.md)
+- [{#T}](../placement-unbind.md)
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../../../settings/interactivity/index.md)
 - [{#T}](../bx24-widget-methods.md)
+- [{#T}](../../tasks/tasks-new.md)
