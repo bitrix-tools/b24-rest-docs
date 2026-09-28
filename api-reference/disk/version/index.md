@@ -24,6 +24,24 @@
 1. Запросите список версий файла методом [disk.file.getVersions](../file/disk-file-get-versions.md). В ответе вы получите массив с `ID` всех доступных версий
 2. Используйте нужный `ID` как параметр в методе [disk.version.get](./disk-version-get.md)
 
+## Что возвращает метод
+
+Метод `disk.version.get` возвращает данные версии файла. Сокращенный пример ответа:
+
+```json
+{
+    "result": {
+        "ID": "7169",
+        "NAME": "Picture.png",
+        "SIZE": "52486",
+        "CREATE_TIME": "2025-12-23T10:30:01+03:00",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?..."
+    }
+}
+```
+
+`DOWNLOAD_URL` — временная ссылка на скачивание версии. Если версия с указанным `ID` не найдена, метод возвращает ошибку `ERROR_NOT_FOUND`. Если у пользователя нет права на чтение файла — `ACCESS_DENIED`. Полная структура ответа и примеры ошибок приведены в описании метода [disk.version.get](./disk-version-get.md).
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`disk`](../../scopes/permissions.md)
