@@ -13,7 +13,11 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::cancelTransferButtonClick` возникает при отмене перевода и возврате к звонку.
+Событие `BackgroundCallCard::cancelTransferButtonClick` возникает, когда оператор нажимает кнопку «Вернуться к звонку», чтобы отменить перевод.
+
+Кнопка есть в состояниях `transferring` и `transferFailed`. Их включает приложение командой [CallCardSetUiState](../call-card-set-ui-state.md). Перевод начинается с события [transferButtonClick](./transfer-button-click.md), когда оператор выбирает адресата. В состоянии `transferring` затем приходит одно из двух событий: [completeTransferButtonClick](./complete-transfer-button-click.md), если оператор подтвердил перевод, или `cancelTransferButtonClick`, если отменил. В состоянии `transferFailed` кнопка «Перенаправить» не выводится, поэтому приходит только `cancelTransferButtonClick`.
+
+Битрикс24 перевод звонка приложения сам не отменяет: приложение прерывает перевод на своей стороне и возвращает карточку в состояние `connected`.
 
 {% note info "" %}
 
@@ -102,5 +106,9 @@
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../bx24-placement-bind-event.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)
+- [{#T}](./transfer-button-click.md)
+- [{#T}](./complete-transfer-button-click.md)
+- [{#T}](../call-card-set-ui-state.md)

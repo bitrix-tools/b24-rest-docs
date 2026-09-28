@@ -13,7 +13,9 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::skipButtonClick` возникает при пропуске текущего вызова.
+Событие `BackgroundCallCard::skipButtonClick` возникает, когда оператор нажимает кнопку «Пропустить» в карточке входящего звонка.
+
+Кнопка «Пропустить» выводится вместе с кнопкой «Ответить» в состояниях `incoming` и `transferIncoming`. Их включает приложение командой [CallCardSetUiState](../call-card-set-ui-state.md). Для звонка приложения Битрикс24 по нажатию ничего не делает: звонок не завершается, карточка остается открытой. Приложение само завершает звонок методом [telephony.externalCall.finish](../../../../telephony/telephony-external-call-finish.md) и закрывает карточку командой [CallCardClose](../call-card-close.md).
 
 {% note info "" %}
 
@@ -102,5 +104,8 @@
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../bx24-placement-bind-event.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)
+- [{#T}](./answer-button-click.md)
+- [{#T}](../call-card-set-ui-state.md)

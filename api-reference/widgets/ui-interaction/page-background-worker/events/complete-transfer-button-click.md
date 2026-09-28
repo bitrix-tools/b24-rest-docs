@@ -13,7 +13,11 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::completeTransferButtonClick` возникает при подтверждении перевода звонка.
+Событие `BackgroundCallCard::completeTransferButtonClick` возникает, когда оператор нажимает кнопку «Перенаправить», чтобы завершить перевод звонка.
+
+Кнопка есть только в состоянии `transferring`. Приложение включает его командой [CallCardSetUiState](../call-card-set-ui-state.md) после события [transferButtonClick](./transfer-button-click.md), в котором приходят номер собеседника `phoneNumber` и адресат перевода `target`. Вторая кнопка этого состояния, «Вернуться к звонку», отправляет [cancelTransferButtonClick](./cancel-transfer-button-click.md).
+
+Битрикс24 перевод звонка приложения сам не завершает: приложение передает звонок адресату и меняет состояние карточки.
 
 {% note info "" %}
 
@@ -102,5 +106,9 @@
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../bx24-placement-bind-event.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)
+- [{#T}](./transfer-button-click.md)
+- [{#T}](./cancel-transfer-button-click.md)
+- [{#T}](../call-card-set-ui-state.md)

@@ -13,7 +13,11 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::closeButtonClick` возникает при нажатии оператором на кнопку закрытия карточки звонка.
+Событие `BackgroundCallCard::closeButtonClick` возникает, когда оператор нажимает кнопку «Закрыть» в карточке звонка.
+
+Кнопка есть в исходном виде карточки звонка приложения, а также в состояниях `error` и `moneyError`, которые приложение включает командой [CallCardSetUiState](../call-card-set-ui-state.md).
+
+Сразу после события Битрикс24 закрывает карточку сам. Отменить закрытие из обработчика нельзя. Звонок закрытие карточки не завершает, для этого приложение вызывает метод [telephony.externalCall.finish](../../../../telephony/telephony-external-call-finish.md). Команда [CallCardClose](../call-card-close.md) закрывает карточку со стороны приложения, и это событие при ней не возникает.
 
 {% note info "" %}
 
@@ -102,5 +106,8 @@
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../bx24-placement-bind-event.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)
+- [{#T}](../call-card-close.md)
+- [{#T}](./hang-up-button-click.md)
