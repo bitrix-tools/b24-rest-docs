@@ -309,10 +309,10 @@ HTTP-статус: **200**
 {
     "result": {
         "priceTypeGroup": {
-        "access": "Y",
-        "catalogGroupId": 9,
-        "groupId": 23,
-        "id": 109
+            "access": "Y",
+            "catalogGroupId": 9,
+            "groupId": 23,
+            "id": 109
         }
     },
     "time": {

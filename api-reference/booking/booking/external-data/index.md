@@ -13,17 +13,24 @@
 
 > Быстрый переход: [все методы](#all-methods)
 
-## Связь с объектами
+## Как начать работу
+
+1. Получите `ID` брони методом [booking.v1.booking.add](../booking-v1-booking-add.md) или [booking.v1.booking.list](../booking-v1-booking-list.md)
+2. Получите `ID` сделки методом [crm.deal.add](../../../crm/deals/crm-deal-add.md) или [crm.deal.list](../../../crm/deals/crm-deal-list.md)
+3. Установите связь методом [booking.v1.booking.externalData.set](./booking-v1-booking-externaldata-set.md). Передайте полный набор нужных связей: `ID` брони в `bookingId`, `ID` сделки в `value`, а также фиксированные значения `moduleId = crm` и `entityTypeId = DEAL`
+4. Проверьте связь методом [booking.v1.booking.externalData.list](./booking-v1-booking-externaldata-list.md)
+   
+## Связь с другими объектами
 
 **Бронирование.** Чтобы создать новую связь для бронирования, укажите `ID` брони в параметре `bookingId`. Получить `ID` можно методами [создания](../booking-v1-booking-add.md) или [фильтрации](../booking-v1-booking-list.md).
 
-{% note info "" %}
+**Сделка.** Чтобы создать связь со сделкой, передайте `ID` сделки в параметр `value`. Получить `ID` можно методами [создания](../../../crm/deals/crm-deal-add.md) или [фильтрации](../../../crm/deals/crm-deal-list.md). Тип связанного объекта задают параметры `moduleId` и `entityTypeId`.
 
-Сейчас к бронированию можно привязать только сделки CRM. Другие модули и типы объектов пока не поддерживаются.
+{% note warning "" %}
+
+Метод `booking.v1.booking.externalData.set` заменяет весь текущий набор связей. Чтобы сохранить существующие связи, сначала получите их методом `booking.v1.booking.externalData.list` и передайте вместе с новыми.
 
 {% endnote %}
-
-**Сделка.** Чтобы создать связь со сделкой, передайте `ID` сделки в параметр `value`. Получить `ID` можно методами [создания](../../../crm/deals/crm-deal-add.md) или [фильтрации](../../../crm/deals/crm-deal-list.md). Используйте фиксированные значения для параметров `moduleId = crm` и `entityTypeId = DEAL`.
 
 ## Обзор методов {#all-methods}
 
@@ -33,7 +40,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [booking.v1.booking.externalData.list](./booking-v1-booking-externaldata-list.md) | Получает связи бронирования ||
-|| [booking.v1.booking.externalData.set](./booking-v1-booking-externaldata-set.md) | Устанавливает связи для бронирования ||
-|| [booking.v1.booking.externalData.unset](./booking-v1-booking-externaldata-unset.md) | Удаляет связи для бронирования ||
+|| [booking.v1.booking.externalData.list](./booking-v1-booking-externaldata-list.md) | Получает все связи бронирования ||
+|| [booking.v1.booking.externalData.set](./booking-v1-booking-externaldata-set.md) | Заменяет набор связей бронирования ||
+|| [booking.v1.booking.externalData.unset](./booking-v1-booking-externaldata-unset.md) | Удаляет все связи бронирования ||
 |#

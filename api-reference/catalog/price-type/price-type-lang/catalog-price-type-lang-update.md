@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление типами цен»
 
-Метод изменяет перевод названия типа цены по его идентификатору. 
+Метод `catalog.priceTypeLang.update` изменяет перевод названия типа цены по его идентификатору.
 
 ## Параметры метода
 
@@ -22,7 +22,7 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **Id***
+|| **id***
 [`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены ||
 || **fields***
 [`object`](../../../data-types.md) | Значения полей для обновления перевода названия типа цены ||
@@ -266,10 +266,10 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.priceTypeLang.update", b24.Params{
-    	"Id": 6,
-    	"fields": b24.Params{
-    		"name": "Base Price",
-    	},
+        "id": 6,
+        "fields": b24.Params{
+            "name": "Base Price",
+        },
     })
     if err != nil {
     	return fmt.Errorf("catalog.priceTypeLang.update: %w", err)
@@ -331,7 +331,7 @@ HTTP-статус: **200**
 || **priceTypeLang**
 [`catalog_price_type_lang`](../../data-types.md#catalog_price_type_lang) | Объект с информацией об обновленном переводе названия типа цены ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -340,8 +340,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description":"Required fields: name"
+    "error": 201200000000,
+    "error_description": "priceTypeLang does not exist."
 }
 ```
 
@@ -365,8 +365,6 @@ HTTP-статус: **400**
 ||
 || `100` | Не указан или пустой параметр `fields`
 ||
-|| `0` | Не переданы обязательные поля структуры `fields`
-|| 
 || `0` | Другие ошибки (например, фатальные ошибки)
 || 
 |#

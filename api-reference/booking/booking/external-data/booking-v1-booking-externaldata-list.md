@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.booking.externalData.list` возвращает связи для указанного бронирования.
+Метод `booking.v1.booking.externalData.list` возвращает все связи для указанного бронирования.
 
 ## Параметры метода
 
@@ -73,16 +73,10 @@
     }
 
     try {
-      // booking.v1.booking.externalData.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<ExternalDataListResult>({
         method: 'booking.v1.booking.externalData.list',
         params: {
           bookingId: 123,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -111,16 +105,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // booking.v1.booking.externalData.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.booking.externalData.list',
             params: {
               bookingId: 123,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -284,6 +272,7 @@ HTTP-статус: **200**
             }
         ]
     },
+    "total": 0,
     "time": {
         "start": 1724068028.331234,
         "finish": 1724068028.726591,
@@ -303,21 +292,25 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа. Содержит массив объектов с информацией о связях. Структура описана [ниже](#externalData) ||
+|| **total**
+[`integer`](../../../data-types.md) | Служебный ключ. Всегда содержит `0` и не показывает количество связей ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Связи {#externalData}
+#### Ключ externalData {#externalData}
+
+`externalData` — массив объектов со связями бронирования.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId**
-[`string`](../../../data-types.md) | ID типа объекта ||
+[`string`](../../../data-types.md) | Тип связанного объекта, например `DEAL` ||
 || **moduleId**
-[`string`](../../../data-types.md) | Идентификатор модуля ||
+[`string`](../../../data-types.md) | Идентификатор модуля, например `crm` ||
 || **value**
-[`string`](../../../data-types.md) | ID элемента ||
+[`string`](../../../data-types.md) | Идентификатор связанного объекта, например `1` ||
 |#
 
 ## Обработка ошибок
@@ -337,6 +330,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | Инструмент «Онлайн-запись» отключен администратором ||
 || `1021` | `Booking not found` | Бронирование с указанным `id` не найдено ||
 || `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
 |#

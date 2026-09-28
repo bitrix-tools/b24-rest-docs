@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает список типов цен по фильтру.
+Метод `catalog.priceType.list` возвращает список типов цен по фильтру.
 
 ## Параметры метода
 
@@ -356,18 +356,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "priceTypes": [
-        {
-            "id": 1,
-            "name": "BASE",
-            "xmlId": "BASE"
-        },
-        {
-            "id": 2,
-            "name": "Base wholesale price",
-            "xmlId": "basewholesale"
-        }
-    ],
+    "result": {
+        "priceTypes": [
+            {
+                "id": 1,
+                "name": "BASE",
+                "xmlId": "BASE"
+            },
+            {
+                "id": 2,
+                "name": "Base wholesale price",
+                "xmlId": "basewholesale"
+            }
+        ]
+    },
     "total": 2,
     "time": {
         "start": 1712326352.63409,
@@ -391,7 +393,9 @@ HTTP-статус: **200**
 || **priceTypes**
 [`catalog_price_type[]`](../data-types.md#catalog_price_type) | Массив объектов с информацией о выбранных типах цен ||
 || **total**
-[`integer`](../../data-types.md#time) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество найденных записей ||
+|| **next**
+[`integer`](../../data-types.md) | Значение параметра `start` для получения следующей страницы. Поле отсутствует, если получена последняя страница ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
