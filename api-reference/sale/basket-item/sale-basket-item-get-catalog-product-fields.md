@@ -1,4 +1,4 @@
-# Получить доступные поля элемента корзины (товар из каталога) sale.basketitem.getFieldsCatalogProduct
+# Получить поля позиции с товаром из каталога sale.basketitem.getFieldsCatalogProduct
 
 {% note tip "" %}
 
@@ -13,9 +13,9 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод `sale.basketitem.getFieldsCatalogProduct` возвращает список доступных полей элемента корзины для методов [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) — эти методы работают только с товарами модуля catalog в элементах корзины.
+Метод `sale.basketitem.getFieldsCatalogProduct` возвращает список полей позиции корзины для методов [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) — эти методы работают только с товарами модуля catalog.
 
-В отличие от [sale.basketitem.getFields](./sale-basket-item-get-fields.md) метод `sale.basketitem.getFieldsCatalogProduct` возвращает минимально необходимый для работы список полей.
+Набор полей тот же, что у [sale.basketitem.getFields](./sale-basket-item-get-fields.md), но большинство из них отмечены как только для чтения. При добавлении позиции методом [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) передают `orderId`, `productId`, `currency`, `quantity`, `price`, `sort` и `xmlId`. После добавления методом [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md) можно изменить только `quantity`, `price`, `sort` и `xmlId`.
 
 ## Параметры метода
 
@@ -145,8 +145,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -234,6 +234,8 @@
 
 HTTP-статус: **200**
 
+В примере показаны три поля из 25.
+
 ```json
 {
     "result": {
@@ -248,24 +250,24 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": true,
                 "isRequired": false,
-                "type": "string"
+                "type": "char"
             },
             "catalogXmlId": {
                 "isImmutable": false,
                 "isReadOnly": true,
                 "isRequired": false,
                 "type": "string"
-            },
-        ...
+            }
         }
     },
     "time": {
-        "start": 1713789567.852219,
-        "finish": 1713789568.52453,
-        "duration": 0.6723108291625977,
-        "processing": 0.01367807388305664,
-        "date_start": "2024-04-22T14:39:27+02:00",
-        "date_finish": "2024-04-22T14:39:28+02:00",
+        "start": 1790578169,
+        "finish": 1790578169.100949,
+        "duration": 0.10094904899597168,
+        "processing": 0,
+        "date_start": "2026-09-28T09:49:29+03:00",
+        "date_finish": "2026-09-28T09:49:29+03:00",
+        "operating_reset_at": 1790578769,
         "operating": 0
     }
 }
@@ -279,22 +281,13 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md#sale_basket_item), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
 ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
-
-HTTP-статус: **400**
-
-```json
-{
-    "error":0,
-    "error_description":"error"
-}
-```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -302,19 +295,22 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения || 
-|| `0` | Другие ошибки (например, фатальные ошибки) || 
+|| `200040300010` | Недостаточно прав для чтения
+||
+|| `0` | Другие ошибки, например фатальные
+||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-add.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-get.md)
 - [{#T}](./sale-basket-item-list.md)
 - [{#T}](./sale-basket-item-delete.md)
-- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-add-catalog-product.md)
 - [{#T}](./sale-basket-item-update-catalog-product.md)
+- [{#T}](./sale-basket-item-get-fields.md)

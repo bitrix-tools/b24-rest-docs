@@ -1,4 +1,4 @@
-# Изменить позицию корзины (товар из каталога) существующего заказа sale.basketitem.updateCatalogProduct
+# Изменить позицию с товаром из каталога sale.basketitem.updateCatalogProduct
 
 {% note tip "" %}
 
@@ -15,6 +15,10 @@
 
 Метод `sale.basketitem.updateCatalogProduct` изменяет позицию корзины с товаром из каталога в существующем заказе.
 
+Метод меняет только поля `quantity`, `price`, `sort` и `xmlId`. Название, валюту и товар он берет из каталога, а значения этих полей в `fields` пропускает без ошибки. Чтобы изменить название позиции вручную, используйте метод [sale.basketitem.update](./sale-basket-item-update.md). Список изменяемых полей возвращает метод [sale.basketitem.getFieldsCatalogProduct](./sale-basket-item-get-catalog-product-fields.md): у них `isReadOnly` и `isImmutable` равны `false`.
+
+После вызова поле `customPrice` позиции становится `Y`: цена фиксируется и больше не пересчитывается по каталогу, даже если `price` не передавали.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -23,22 +27,26 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_basket_item.id`](../data-types.md) | Идентификатор элемента (позиции) корзины. Может быть получен методами [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.list](./sale-basket-item-list.md) ||
+[`sale_basket_item.id`](../data-types.md#sale_basket_item) | Идентификатор позиции корзины. Получить его можно методами [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md) и [sale.basketitem.list](./sale-basket-item-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Объект с изменяемыми полями ||
+[`object`](../../data-types.md) | Объект с изменяемыми полями [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **quantity***
+[`double`](../../data-types.md) | Количество товара, например `4` или `1.5`. Передавайте всегда, даже если меняете только другие поля: без него метод вернет ошибку `Required fields: quantity`.
+
+Значение `0`, отрицательное число или строку метод пропускает без ошибки, количество остается прежним. Чтобы убрать позицию из заказа, используйте метод [sale.basketitem.delete](./sale-basket-item-delete.md) ||
+|| **price**
+[`double`](../../data-types.md) | Цена за единицу товара. Если не передать, остается текущая цена позиции ||
 || **sort**
 [`integer`](../../data-types.md) | Положение в списке позиций заказа ||
-|| **quantity***
-[`double`](../../data-types.md) | Количество товара ||
 || **xmlId**
 [`string`](../../data-types.md) | Внешний код позиции корзины ||
 |#
@@ -82,6 +90,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type BasketItemUpdateResult = {
       basketItem: {
+        barcodeMulti: string,
         basePrice: number,
         canBuy: string,
         catalogXmlId: string,
@@ -97,10 +106,13 @@
         name: string,
         orderId: number,
         price: number,
+        productId: number,
         productXmlId: string,
+        properties: Array<{ basketId: number, code: string, id: number, name: string, sort: number, value: string, xmlId: string }>,
         quantity: number,
+        reservations: Array<{ basketId: number, dateReserve: ISODate, dateReserveEnd: ISODate, id: number, quantity: number, reservedBy: number | null, storeId: number }>,
         sort: number,
-        type: number,
+        type: number | null,
         vatIncluded: string,
         vatRate: number | null,
         weight: number,
@@ -201,8 +213,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -304,12 +316,12 @@
     }
 
     var item struct {
-    	BasePrice    int    `json:"basePrice"`
-    	CanBuy       string `json:"canBuy"`
-    	CatalogXmlID string `json:"catalogXmlId"`
-    	Currency     string `json:"currency"`
-    	CustomPrice  string `json:"customPrice"`
-    	DateInsert   string `json:"dateInsert"`
+    	BasePrice    float64 `json:"basePrice"`
+    	CanBuy       string  `json:"canBuy"`
+    	CatalogXmlID string  `json:"catalogXmlId"`
+    	Currency     string  `json:"currency"`
+    	CustomPrice  string  `json:"customPrice"`
+    	DateInsert   string  `json:"dateInsert"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -327,43 +339,55 @@ HTTP-статус: **200**
 {
     "result": {
         "basketItem": {
-            "basePrice": 1234,
+            "barcodeMulti": "N",
+            "basePrice": 100,
             "canBuy": "Y",
-            "catalogXmlId": "FUTURE-ERP-CATALOG",
+            "catalogXmlId": "FUTURE-1C-CATALOG",
             "currency": "RUB",
-            "customPrice": "N",
-            "dateInsert": "2024-04-22T16:23:43+02:00",
-            "dateUpdate": "2024-04-22T16:32:26+02:00",
+            "customPrice": "Y",
+            "dateInsert": "2026-09-28T07:46:42+03:00",
+            "dateUpdate": "2026-09-28T07:46:49+03:00",
             "dimensions": "a:3:{s:5:\"WIDTH\";N;s:6:\"HEIGHT\";N;s:6:\"LENGTH\";N;}",
-            "discountPrice": 124,
+            "discountPrice": 0,
             "id": 6783,
             "measureCode": "796",
             "measureName": "шт",
-            "name": " Разработка дизайна ",
+            "name": "Головной товар",
             "orderId": 5147,
-            "price": 1110,
-            "roductid": 4347,
-            "productXmlId": "4347",
+            "price": 100,
+            "productId": 6967,
+            "productXmlId": "6967",
             "properties": [],
             "quantity": 4,
-            "reservations": [],
+            "reservations": [
+                {
+                    "basketId": 6783,
+                    "dateReserve": "2026-09-28T07:46:42+03:00",
+                    "dateReserveEnd": "2026-10-01T21:00:00+03:00",
+                    "id": 329,
+                    "quantity": 1,
+                    "reservedBy": null,
+                    "storeId": 1
+                }
+            ],
             "sort": 100,
-            "type": 2,
+            "type": null,
             "vatIncluded": "N",
-            "vatRate": null,
+            "vatRate": 0,
             "weight": 0,
-            "xmlId": "bx_662672ef370c6"
+            "xmlId": "bx_6ab9ff420a704"
         }
     },
     "total": 1,
     "time": {
-        "start": 1713796344.951712,
-        "finish": 1713796346.586924,
-        "duration": 1.6352121829986572,
-        "processing": 0.6428370475769043,
-        "date_start": "2024-04-22T16:32:24+02:00",
-        "date_finish": "2024-04-22T16:32:26+02:00",
-        "operating": 0
+        "start": 1790574409,
+        "finish": 1790574410.105003,
+        "duration": 1.1050031185150146,
+        "processing": 1,
+        "date_start": "2026-09-28T08:46:49+03:00",
+        "date_finish": "2026-09-28T08:46:50+03:00",
+        "operating_reset_at": 1790575009,
+        "operating": 0.23203706741333008
     }
 }
 ```
@@ -376,11 +400,23 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`sale_basket_item`](../data-types.md) | Объект с данными созданного элемента (позиции) корзины ||
+[`sale_basket_item`](../data-types.md#sale_basket_item) | Объект с данными измененной позиции корзины. Основные поля:
+- `id` — идентификатор позиции
+- `orderId` — идентификатор заказа
+- `productId` — идентификатор товара в каталоге
+- `name` — название товара из каталога
+- `quantity` — количество
+- `price` — цена за единицу с учетом скидок и наценок, `basePrice` — цена без них
+- `customPrice` — `Y`, если цена зафиксирована вручную
+- `currency` — валюта цены
+- `properties` — свойства позиции, массив объектов [sale_basket_item_property](../data-types.md#sale_basket_item_property)
+- `reservations` — резервы позиции на складах, массив объектов [sale_basket_item_reservation](../data-types.md#sale_basket_item_reservation)
+
+Полный список полей с типами — в описании типа [sale_basket_item](../data-types.md#sale_basket_item) ||
 || **total**
 [`integer`](../../data-types.md) | Число обработанных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -389,8 +425,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200140400001",
+    "error_description": "basket item is not exists"
 }
 ```
 
@@ -400,29 +436,31 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200140400006` | `Module catalog is not exists`
+|| `0` | `Required fields: quantity`
 
-Отсутствует модуль Торговый каталог (catalog)
-|| 
+В `fields` не передано обязательное поле `quantity`
+||
 || `200140400001` | `basket item is not exists`
 
-Не найдена позиция корзины
-|| 
-|| `200140400008` | `Required fields: fields[ORDER_ID]`
+Позиции корзины с таким `id` нет
+||
+|| `100` | `Could not find value for parameter {fields}`
 
-Не указан идентификатор заказа
-|| 
+Не передан параметр `fields`
+||
+|| `100` | `Bitrix\Sale\BasketItem constructor must be is public`
+
+Не передан параметр `id`
+||
+|| `200140400006` | `Module catalog is not exists`
+
+Не установлен модуль Торговый каталог
+||
 || `200140400009` | `Order not found`
 
-Заказ не найден
-|| 
-|| `200140400011` | `Currency must be the currency of the order`
-
-Валюта позиции не совпадает с валютой заказа
-|| 
+Заказ позиции не найден
+||
 || `200040300010` | Недостаточно прав для изменения
-|| 
-|| `100` | Не указаны обязательные параметры
 ||
 || `0` | Другие ошибки (например, фатальные ошибки)
 ||
@@ -432,11 +470,12 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-add.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-get.md)
 - [{#T}](./sale-basket-item-list.md)
 - [{#T}](./sale-basket-item-delete.md)
-- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-add-catalog-product.md)
+- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-get-catalog-product-fields.md)
