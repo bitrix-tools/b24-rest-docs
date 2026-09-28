@@ -41,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
-    auth=YOUR_ACCESS_TOKEN
+    "auth": "YOUR_ACCESS_TOKEN"
     }' \
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.sprint.getFields
     ```
@@ -141,7 +141,9 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
     ```php
     try {
         $response = $b24Service
@@ -183,15 +185,15 @@
 
     // выполнение запроса к REST API
     $result = CRest::call(
-    'tasks.api.scrum.sprint.getFields',
-    []
+        'tasks.api.scrum.sprint.getFields',
+        []
     );
 
     // Обработка ответа от Битрикс24
-    if ($result['error']) {
-    echo 'Error: '.$result['error_description'];
+    if (isset($result['error'])) {
+        echo 'Error: '.$result['error_description'];
     } else {
-    print_r($result['result']);
+        print_r($result['result']);
     }
     ```
 
@@ -204,7 +206,7 @@
     	return fmt.Errorf("tasks.api.scrum.sprint.getFields: %w", err)
     }
 
-    // Метод заворачивает ответ в объект с ключом "fields".
+    // Метод возвращает поля внутри объекта с ключом "fields".
     raw, ok := b24.Unwrap(res.Result, "fields")
     if !ok {
     	return fmt.Errorf("в ответе нет ключа fields")
@@ -258,6 +260,16 @@ HTTP-статус: **200**
                 "type": "string"
             }
         }
+    },
+    "time": {
+        "start": 1790580587,
+        "finish": 1790580587.569156,
+        "duration": 0.5691559314727783,
+        "processing": 0,
+        "date_start": "2026-09-28T10:29:47+03:00",
+        "date_finish": "2026-09-28T10:29:47+03:00",
+        "operating_reset_at": 1790581187,
+        "operating": 0
     }
 }
 ```
@@ -267,27 +279,42 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Объект с ключом `fields` [(подробное описание)](#fields) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект fields {#fields}
+
+Ключ — имя поля спринта в методах [tasks.api.scrum.sprint.add](./tasks-api-scrum-sprint-add.md) и [tasks.api.scrum.sprint.update](./tasks-api-scrum-sprint-update.md). Значение — объект с ключом `type`, в котором указан тип поля: `integer` или `string`. В методе [tasks.api.scrum.sprint.list](./tasks-api-scrum-sprint-list.md) те же поля передаются в верхнем регистре, например `GROUP_ID`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **groupId** 
 [`integer`](../../../data-types.md) | Идентификатор группы (Скрама), к которой относится спринт ||
 || **name** 
 [`string`](../../../data-types.md) | Название спринта ||
 || **sort** 
-[`integer`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Порядок сортировки спринта ||
 || **createdBy** 
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего спринт ||
 || **modifiedBy** 
 [`integer`](../../../data-types.md) | Идентификатор пользователя, изменившего спринт ||
 || **dateStart** 
-[`string`](../../../data-types.md) | Дата начала спринта в формате `ISO 8601` ||
+[`string`](../../../data-types.md) | Дата начала спринта. В ответах методов — `ISO 8601`, в `add` и `update` можно передать `ISO 8601` или `timestamp` ||
 || **dateEnd** 
-[`string`](../../../data-types.md) | Дата окончания спринта в формате `ISO 8601` ||
+[`string`](../../../data-types.md) | Дата окончания спринта, форматы как у `dateStart` ||
 || **status** 
-[`string`](../../../data-types.md) | Статус спринта ||
+[`string`](../../../data-types.md) | Статус спринта. Возможные значения: `planned` — запланирован, `active` — активен, `completed` — завершен ||
 |#
 
 ## Обработка ошибок
 
-Метод не возвращает ошибок.
+У метода нет своих ошибок.
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
@@ -295,8 +322,8 @@ HTTP-статус: **200**
 
 - [{#T}](./tasks-api-scrum-sprint-add.md)
 - [{#T}](./tasks-api-scrum-sprint-update.md)
-- [{#T}](./tasks-api-scrum-sprint-start.md)
-- [{#T}](./tasks-api-scrum-sprint-complete.md)
 - [{#T}](./tasks-api-scrum-sprint-get.md)
 - [{#T}](./tasks-api-scrum-sprint-list.md)
 - [{#T}](./tasks-api-scrum-sprint-delete.md)
+- [{#T}](./tasks-api-scrum-sprint-start.md)
+- [{#T}](./tasks-api-scrum-sprint-complete.md)

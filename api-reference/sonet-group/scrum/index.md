@@ -131,11 +131,11 @@ POST tasks.api.scrum.backlog.add
 || **Метод** | **Описание** ||
 || [tasks.api.scrum.sprint.add](./sprint/tasks-api-scrum-sprint-add.md) | Добавляет спринт в Скрам ||
 || [tasks.api.scrum.sprint.update](./sprint/tasks-api-scrum-sprint-update.md) | Обновляет спринт ||
-|| [tasks.api.scrum.sprint.start](./sprint/tasks-api-scrum-sprint-start.md) | Запускает спринт ||
-|| [tasks.api.scrum.sprint.complete](./sprint/tasks-api-scrum-sprint-complete.md) | Завершает активный спринт выбранного Скрама ||
 || [tasks.api.scrum.sprint.get](./sprint/tasks-api-scrum-sprint-get.md) | Получает значения полей спринта по его `id` ||
 || [tasks.api.scrum.sprint.list](./sprint/tasks-api-scrum-sprint-list.md) | Получает список спринтов ||
 || [tasks.api.scrum.sprint.delete](./sprint/tasks-api-scrum-sprint-delete.md) | Удаляет спринт ||
+|| [tasks.api.scrum.sprint.start](./sprint/tasks-api-scrum-sprint-start.md) | Запускает спринт ||
+|| [tasks.api.scrum.sprint.complete](./sprint/tasks-api-scrum-sprint-complete.md) | Завершает активный спринт выбранного Скрама ||
 || [tasks.api.scrum.sprint.getFields](./sprint/tasks-api-scrum-sprint-get-fields.md) | Получает доступные поля спринта ||
 |#
 

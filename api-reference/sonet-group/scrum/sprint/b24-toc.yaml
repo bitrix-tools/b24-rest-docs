@@ -7,16 +7,15 @@ items:
     href: tasks-api-scrum-sprint-add.md
   - name: Изменить спринт
     href: tasks-api-scrum-sprint-update.md
-  - name: Запустить спринт
-    href: tasks-api-scrum-sprint-start.md
-  - name: Завершить активный спринт выбранного Скрама
-    href: tasks-api-scrum-sprint-complete.md
-  - name: Получить поля спринта по его идентификатору
+  - name: Получить спринт по идентификатору
     href: tasks-api-scrum-sprint-get.md
   - name: Получить список спринтов
     href: tasks-api-scrum-sprint-list.md
   - name: Удалить спринт
     href: tasks-api-scrum-sprint-delete.md
+  - name: Запустить спринт
+    href: tasks-api-scrum-sprint-start.md
+  - name: Завершить активный спринт выбранного Скрама
+    href: tasks-api-scrum-sprint-complete.md
   - name: Получить список доступных полей спринта
     href: tasks-api-scrum-sprint-get-fields.md
-
