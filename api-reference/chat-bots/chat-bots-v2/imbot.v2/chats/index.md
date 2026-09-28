@@ -9,15 +9,15 @@
 
 {% endnote %}
 
-Методы позволяют создавать групповые чаты от имени бота и управлять участниками, владельцем и менеджерами.
+Методы позволяют создавать групповые чаты от имени бота и управлять участниками, владельцем и менеджерами. Они заменяют методы `imbot.chat.*` первой версии API. Соответствие старых и новых методов — в [таблице миграции](../../migration.md).
 
 > Быстрый переход: [все методы](#all-methods)
 
 ## Порядок работы с чатом {#how-to-start}
 
-1. Создайте групповой чат методом [imbot.v2.Chat.add](./chat-add.md). Если владелец не указан, им становится сам бот.
-2. Добавьте участников через [imbot.v2.Chat.User.add](./chat-user-add.md) или сразу передайте их в `fields.userIds` при создании.
-3. При необходимости измените свойства чата через [imbot.v2.Chat.update](./chat-update.md), а состав менеджеров — через [imbot.v2.Chat.Manager.add](./chat-manager-add.md).
+1. Создайте групповой чат методом [imbot.v2.Chat.add](./chat-add.md).
+2. Добавьте участников методом [imbot.v2.Chat.User.add](./chat-user-add.md) или сразу передайте их в `fields.userIds` при создании.
+3. При необходимости измените свойства чата методом [imbot.v2.Chat.update](./chat-update.md). Назначить менеджеров можно методом [imbot.v2.Chat.Manager.add](./chat-manager-add.md), снять — методом [imbot.v2.Chat.Manager.delete](./chat-manager-delete.md).
 4. Отправляйте сообщения в чат методами группы [Сообщения](../messages/index.md).
 5. Когда бот больше не нужен в чате, выведите его методом [imbot.v2.Chat.leave](./chat-leave.md).
 
@@ -38,19 +38,25 @@
 ## Роли в чате {#roles}
 
 #|
-|| **Роль** | **Что дает** | **Какими методами управлять** ||
-|| Владелец | Полные права на чат. Только владелец может назначать и снимать менеджеров. Бот становится владельцем автоматически, если при создании чата не указан `fields.ownerId` | [imbot.v2.Chat.setOwner](./chat-set-owner.md) ||
-|| Менеджер | Расширенные права на управление чатом. Назначить менеджером можно только действующего участника чата — остальные ID игнорируются без ошибки | [imbot.v2.Chat.Manager.add](./chat-manager-add.md), [imbot.v2.Chat.Manager.delete](./chat-manager-delete.md) ||
-|| Участник | Доступ к сообщениям чата | [imbot.v2.Chat.User.add](./chat-user-add.md), [imbot.v2.Chat.User.delete](./chat-user-delete.md), [imbot.v2.Chat.User.list](./chat-user-list.md) ||
+|| **Роль** | **Какие методы доступны боту с этой ролью по умолчанию** | **Как назначить** ||
+|| Владелец | [imbot.v2.Chat.update](./chat-update.md), [imbot.v2.Chat.setOwner](./chat-set-owner.md), [imbot.v2.Chat.Manager.add](./chat-manager-add.md), [imbot.v2.Chat.Manager.delete](./chat-manager-delete.md) и все методы менеджера | `fields.ownerId` в [imbot.v2.Chat.add](./chat-add.md) или [imbot.v2.Chat.setOwner](./chat-set-owner.md) ||
+|| Менеджер | [imbot.v2.Chat.User.delete](./chat-user-delete.md) и все методы участника | [imbot.v2.Chat.Manager.add](./chat-manager-add.md) ||
+|| Участник | [imbot.v2.Chat.get](./chat-get.md), [imbot.v2.Chat.User.list](./chat-user-list.md), [imbot.v2.Chat.User.add](./chat-user-add.md), [imbot.v2.Chat.leave](./chat-leave.md) | `fields.userIds` в [imbot.v2.Chat.add](./chat-add.md) или [imbot.v2.Chat.User.add](./chat-user-add.md) ||
 |#
+
+Минимальную роль для каждого действия задают в настройках конкретного чата. Исключения: [imbot.v2.Chat.update](./chat-update.md) всегда требует роли владельца, а [imbot.v2.Chat.get](./chat-get.md), [imbot.v2.Chat.User.list](./chat-user-list.md) и [imbot.v2.Chat.leave](./chat-leave.md) доступны любому участнику чата. Текущие значения возвращает поле `permissions` в ответе [imbot.v2.Chat.get](./chat-get.md). Если у бота не хватает роли, метод вернет ошибку `ACCESS_DENIED`.
 
 ## Связь с другими объектами {#relations}
 
-**Бот.** Все методы раздела выполняются от имени зарегистрированного бота: в каждом вызове передается `botId`, а при авторизации через вебхук — еще и `botToken`. Получить их можно при регистрации бота — [Боты](../bots/index.md).
+Чат связан с ботом, от имени которого работают методы, с сообщениями и файлами, с событиями, с индикатором набора и с пользователями.
 
-**Сообщения.** Чат — адресат сообщений бота. Идентификатор чата в формате `dialogId` передается в методы группы [Сообщения](../messages/index.md) и [Файлы](../files/index.md).
+**Бот.** Все методы раздела выполняются от имени зарегистрированного бота: в каждом вызове передается `botId`, а при авторизации через вебхук — еще и `botToken`. `botId` возвращает метод регистрации бота, а `botToken` вы задаете сами в `fields.botToken` при регистрации — [Боты](../bots/index.md).
+
+**Сообщения и файлы.** Чат — адресат сообщений бота. Идентификатор чата в формате `dialogId` передается в методы группы [Сообщения](../messages/index.md) и [Файлы](../files/index.md).
 
 **События.** Когда бота добавляют в групповой чат, он получает событие [ONIMBOTV2JOINCHAT](../events/events.md#onimbotv2joinchat). Типовая реакция на него — отправить в чат приветственное сообщение.
+
+**Индикатор набора.** Пока бот готовит ответ, в чате можно показать статус «печатает» методом [imbot.v2.Chat.InputAction.notify](../ui/chat-input-action-notify.md) — в него передается тот же `dialogId` чата.
 
 **Пользователи.** Участники и менеджеры задаются массивами ID пользователей Битрикс24. Описание полей объекта User — [Объекты и поля](../../entities.md#user).
 
@@ -60,18 +66,32 @@
 >
 > Кто может выполнять методы: владелец зарегистрированного бота
 
+### Чат
+
 #|
 || **Метод** | **Описание** ||
 || [imbot.v2.Chat.add](./chat-add.md) | Создает групповой чат ||
-|| [imbot.v2.Chat.get](./chat-get.md) | Возвращает информацию о чате ||
 || [imbot.v2.Chat.update](./chat-update.md) | Обновляет свойства чата ||
+|| [imbot.v2.Chat.get](./chat-get.md) | Возвращает информацию о чате ||
+|| [imbot.v2.Chat.setOwner](./chat-set-owner.md) | Назначает нового владельца чата ||
+|| [imbot.v2.Chat.leave](./chat-leave.md) | Выводит бота из чата ||
+|#
+
+### Участники
+
+#|
+|| **Метод** | **Описание** ||
 || [imbot.v2.Chat.User.add](./chat-user-add.md) | Добавляет участников в чат ||
-|| [imbot.v2.Chat.User.delete](./chat-user-delete.md) | Удаляет участника из чата ||
-|| [imbot.v2.Chat.leave](./chat-leave.md) | Выходит из чата ||
 || [imbot.v2.Chat.User.list](./chat-user-list.md) | Возвращает список участников чата ||
+|| [imbot.v2.Chat.User.delete](./chat-user-delete.md) | Удаляет участника из чата ||
+|#
+
+### Менеджеры
+
+#|
+|| **Метод** | **Описание** ||
 || [imbot.v2.Chat.Manager.add](./chat-manager-add.md) | Добавляет менеджеров чата ||
 || [imbot.v2.Chat.Manager.delete](./chat-manager-delete.md) | Удаляет менеджеров чата ||
-|| [imbot.v2.Chat.setOwner](./chat-set-owner.md) | Назначает нового владельца чата ||
 |#
 
 ## Продолжите изучение
