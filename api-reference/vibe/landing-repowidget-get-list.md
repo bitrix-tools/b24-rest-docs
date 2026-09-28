@@ -13,22 +13,22 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `landing.repowidget.getlist` возвращает список виджетов текущего приложения, отобранных по фильтру.
+Метод `landing.repowidget.getlist` возвращает список виджетов Вайба текущего приложения, отобранных по фильтру. Если вызвать метод вебхуком, он вернет виджеты, зарегистрированные без приложения.
+
+Метод возвращает все подходящие записи за один вызов. Постраничной навигации через `start` у него нет.
 
 ## Параметры метода
-
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **params***
-[`object`](../data-types.md) | Массив полей для получения списка виджетов ||
+|| **params**
+[`object`](../data-types.md) | Параметры выборки [(подробное описание)](#params).
+
+Если не передан, метод вернет все виджеты ||
 |#
 
-### Параметр params
-
-{% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
+### Параметр params {#params}
 
 #|
 || **Название**
@@ -36,20 +36,20 @@
 || **select**
 [`array`](../data-types.md) | Массив [со списком полей](#anchor-field), которые необходимо выбрать.
 
-Если не передан или передан пустой массив, то будут выбраны все доступные доступные виджеты ||
+Если не передан, будут выбраны все поля. Поле `MANIFEST` добавляется к выборке всегда, поэтому при пустом массиве метод вернет только его ||
 || **filter**
 [`object`](../data-types.md) | Объект для фильтрации выбранных записей в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` смотрите [в таблице ниже](#anchor-field).
+Возможные значения для `field` смотрите [в таблице ниже](#anchor-field). Условие по `APP_CODE` метод добавляет в фильтр сам.
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `@` — IN (в качестве значения передаётся массив)
-- `!@`— NOT IN (в качестве значения передаётся массив)
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `@` — IN (в качестве значения передается массив)
+- `!@` — NOT IN (в качестве значения передается массив)
+- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Находит подстроку в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - "мол%" — ищем значения, начинающиеся с «мол»
     - "%мол" — ищем значения, заканчивающиеся на «мол»
@@ -57,7 +57,7 @@
 
 - `%=` — LIKE (см. описание выше)
 
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Находит значения, в которых подстроки нет ни в одной позиции
 
 - `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - "мол%" — ищем значения, не начинающиеся с «мол»
@@ -67,7 +67,7 @@
 - `!%=` — NOT LIKE (см. описание выше)
 
 - `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно
+- `!=` — не равно
 - `!` — не равно ||
 || **group**
 [`array`](../data-types.md) | Массив для группировки виджетов. Группировать можно [по полям](#anchor-field) виджета ||
@@ -79,12 +79,15 @@
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания ||
-
+|| **limit**
+[`integer`](../data-types.md) | Максимальное количество записей в выборке. Ограничение применяется ко всем блокам приложения в репозитории, включая блоки, добавленные методом [landing.repo.register](../landing/user-blocks/landing-repo-register.md). Виджеты Вайба отбираются уже после этого, поэтому при `limit: 10` метод может вернуть меньше 10 виджетов ||
+|| **offset**
+[`integer`](../data-types.md) | Сколько записей пропустить от начала выборки. Используется вместе с `limit` ||
 |#
 
 #### Поля field {#anchor-field}
 
-Поля объекта виджета. Присутствуют в запросе и ответе.
+Поля объекта виджета. Их можно передавать в `select`, `filter`, `order` и `group`, они же приходят в ответе. Числовые поля `ID`, `CREATED_BY_ID` и `MODIFIED_BY_ID` в ответе приходят строками.
 
 #|
 || **Название**
@@ -96,10 +99,10 @@
 || **APP_CODE**
 [`string`](../data-types.md) | Код текущего приложения ||
 || **ACTIVE**
-[`char`](../data-types.md) | Активность виджета. Принимает значения: 
+[`char`](../data-types.md) | Активность виджета. Принимает значения:
 
-- `Y` - виджет активен и доступен
-- `N` - виджет неактивен и недоступен ||
+- `Y` — виджет активен и доступен
+- `N` — виджет неактивен и недоступен ||
 || **NAME**
 [`string`](../data-types.md) | Название виджета ||
 || **DESCRIPTION**
@@ -108,20 +111,22 @@
 [`string`](../data-types.md) | Код [раздела](./landing-repowidget-register.md#anchor-fields), в который будет добавлен виджет ||
 || **PREVIEW**
 [`string`](../data-types.md) | URL картинки-обложки виджета для слайдера выбора виджетов ||
-|| **WIDGET_PARAMS**
-[`object`](../data-types.md) | [Параметры](./landing-repowidget-register.md#anchor-widget-params) для vue-шаблонизатора ||
 || **CONTENT**
 [`string`](../data-types.md) | Верстка виджета с использованием конструкций Vue ||
 || **MANIFEST**
-[`object`](../data-types.md) | Манифест виджета ||
+[`object`](../data-types.md) | Манифест виджета. Содержит:
+
+- `block.type` — `["vibe"]`
+- `block.subtype` — `widgetvue` строкой или массивом `["widgetvue"]`
+- `block.subtype_params` — [параметры](./landing-repowidget-register.md#anchor-widget-params) из `WIDGET_PARAMS`, переданные при регистрации: `rootNode`, `demoData`, `handler`, `style`, `lang` ||
 || **CREATED_BY_ID**
 [`integer`](../data-types.md) | Идентификатор пользователя, создавшего запись ||
 || **MODIFIED_BY_ID**
 [`integer`](../data-types.md) | Идентификатор пользователя, изменившего запись ||
 || **DATE_CREATE**
-[`date`](../data-types.md) | Дата создания ||
+[`string`](../data-types.md) | Дата создания. В ответе — строка в формате даты и времени Битрикс24, например `10.10.2024 15:55:30` ||
 || **DATE_MODIFY**
-[`date`](../data-types.md) | Дата изменения ||
+[`string`](../data-types.md) | Дата изменения. Формат как у `DATE_CREATE` ||
 || **SITE_TEMPLATE_ID**
 [`string`](../data-types.md) | Привязка виджета к определенному шаблону сайта. **Только для коробочного Битрикс24!** ||
 |#
@@ -162,11 +167,6 @@
     }
 
     try {
-      // landing.repowidget.getlist returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<RepoWidgetItem[]>({
         method: 'landing.repowidget.getlist',
         params: {
@@ -176,7 +176,6 @@
               '>ID': '1',
             },
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -186,7 +185,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Widgets count on this page:', result.length, result)
+        console.info('Widgets count:', result.length, result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -205,11 +204,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // landing.repowidget.getlist returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'landing.repowidget.getlist',
             params: {
@@ -219,7 +213,6 @@
                   '>ID': '1',
                 },
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -231,7 +224,7 @@
           }
 
           const result = response.getData().result
-          console.info('Widgets count on this page:', result.length, result)
+          console.info('Widgets count:', result.length, result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -275,7 +268,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -380,7 +372,7 @@ HTTP-статус: **200**
             "MANIFEST": {
                 "block": {
                     "type": [
-                        "mainpage"
+                        "vibe"
                     ],
                     "subtype": [
                         "widgetvue"
@@ -389,7 +381,7 @@ HTTP-статус: **200**
                         "rootNode": ".w-container",
                         "demoData": {
                             "desc": "JustSome widget data",
-                            "count": "420",
+                            "count": "420"
                         },
                         "handler": "https://my-app.com/main.php",
                         "style": "https://my-app.com/main.css",
@@ -431,12 +423,33 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Массив виджетов. Каждый элемент массива — объект, допустимые поля описаны [выше](#anchor-field). ||
+[`array`](../data-types.md) | Массив виджетов. Каждый элемент массива — объект, допустимые поля описаны [выше](#anchor-field). Если подходящих виджетов нет, возвращается пустой массив.
+
+Если у приложения в репозитории есть и другие блоки, после отбора виджетов нумерация элементов может прерваться. Тогда массив придет в JSON объектом с числовыми ключами, например `{"1": {...}, "3": {...}}`. Обрабатывайте `result` как коллекцию значений, а не как массив с индексами подряд ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "SYSTEM_ERROR",
+    "error_description": "Внутренняя ошибка. Подробности записаны в журнал событий."
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `SYSTEM_ERROR` | Внутренняя ошибка. Подробности записаны в журнал событий | В `select`, `filter`, `order` или `group` передано поле, которого нет в [списке полей](#anchor-field) ||
+|| `400` | `TYPE_ERROR` | Неверный тип аргумента вызова: params | Параметр `params` передан не объектом ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
@@ -445,3 +458,4 @@ HTTP-статус: **200**
 - [{#T}](./landing-repowidget-register.md)
 - [{#T}](./landing-repowidget-unregister.md)
 - [{#T}](./landing-repowidget-debug.md)
+- [{#T}](./index.md)
