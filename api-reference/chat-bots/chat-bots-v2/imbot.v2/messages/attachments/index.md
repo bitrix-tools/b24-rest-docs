@@ -9,7 +9,13 @@
 
 {% endnote %}
 
-Вложения `ATTACH` позволяют добавлять в сообщения структурированный контент: текстовые блоки, ссылки, изображения, файлы, разделители и таблицы.
+Вложения `ATTACH` позволяют добавлять в сообщения структурированный контент: текстовые блоки, ссылки, изображения, файлы, разделители и таблицы. Формат вложения общий для сообщений чат-ботов `imbot.v2`, сообщений чатов `im.*` и уведомлений `im.notify*`.
+
+Как выбрать способ оформления:
+
+- текст с разметкой — BB-коды в тексте сообщения, синтаксис описан в статье [Форматирование текста (BB-коды)](../message-formatting.md)
+- кнопки действий под сообщением — клавиатура, описана в статье [Работа с клавиатурами](../message-keyboards.md)
+- карточка со свойствами, ссылками, изображениями или файлами — вложение `ATTACH`
 
 ![Вложения](./_images/attach1.png){width=520}
 
@@ -17,96 +23,44 @@
 
 ## Как собрать вложение {#how-to-start}
 
-1. Выберите форму объекта: полную — с метаданными `ID`, `COLOR_TOKEN`, `COLOR` и массивом `BLOCKS`, или краткую — сразу массив блоков.
-2. Наберите массив блоков. Каждый элемент — объект с одним ключом верхнего уровня, и этот ключ задает тип блока: `MESSAGE`, `LINK`, `USER`, `GRID`, `IMAGE`, `FILE`, `DELIMITER`.
-3. Передайте объект в параметре `fields.attach` метода отправки сообщения — например, [imbot.v2.Chat.Message.send](../chat-message-send.md).
-4. Чтобы изменить уже отправленное вложение, вызовите [imbot.v2.Chat.Message.update](../chat-message-update.md) с новым значением `fields.attach`.
+1. Выберите [форму объекта](#formats): полную или краткую.
+2. Соберите массив блоков. Каждый элемент — объект с одним ключом верхнего уровня. Ключ задает тип блока и пишется в верхнем регистре — `message` вместо `MESSAGE` не распознается: [MESSAGE](./block-collections/text.md), [LINK](./block-collections/links.md), [USER](./block-collections/user.md), [GRID](./block-collections/grid.md), [IMAGE](./block-collections/images.md), [FILE](./block-collections/files.md), [DELIMITER](./block-collections/delimiter.md). Как выбрать и сочетать блоки — на странице [Коллекция блоков ATTACH](./block-collections/index.md).
+3. Передайте объект в метод отправки. В методах `imbot.v2` (scope `imbot`) это параметр `fields.attach` — например, в [imbot.v2.Chat.Message.send](../chat-message-send.md). В методах `im.*` и `im.notify*` (scope `im`) это параметр `ATTACH` верхнего уровня, структура объекта та же.
+4. Чтобы изменить уже отправленное вложение, вызовите [imbot.v2.Chat.Message.update](../chat-message-update.md) с новым значением `fields.attach` в полной форме, с массивом `BLOCKS`. Краткую форму этот метод не принимает: вложение удаляется, а метод возвращает `true`. Чтобы удалить вложение, передайте пустую строку.
 
-Готовые составные карточки, собранные из нескольких блоков, — [Конструктор вложений ATTACH](./constructor.md).
-
-## Типы блоков {#blocks}
-
-#|
-|| **Ключ в BLOCKS** | **Блок** | **Для чего использовать** ||
-|| `MESSAGE` | [Блок с текстом](./block-collections/text.md) | Текстовый фрагмент с поддержкой BB-кодов ||
-|| `LINK` | [Блок со ссылками](./block-collections/links.md) | Кликабельная ссылка с подписью ||
-|| `USER` | [Блок пользователя](./block-collections/user.md) | Карточка пользователя: имя, аватар, ссылка ||
-|| `GRID` | [Блок для построения строк и колонок](./block-collections/grid.md) | Таблица из пар «название-значение» ||
-|| `IMAGE` | [Блок с изображениями](./block-collections/images.md) | Одно или несколько изображений ||
-|| `FILE` | [Блок с файлами](./block-collections/files.md) | Файл с названием, размером и ссылкой ||
-|| `DELIMITER` | [Блок с разделителем](./block-collections/delimiter.md) | Визуальный разделитель между частями вложения ||
-|#
-
-Полное описание параметров каждого блока — [Коллекция блоков ATTACH](./block-collections/index.md).
+Готовые карточки из нескольких блоков — в статье [Конструктор вложений ATTACH](./constructor.md).
 
 ## Форматы объекта ATTACH {#formats}
 
-Передать `ATTACH` можно в одном из двух форматов:
-
-1. Полная форма: объект с метаданными вложения и массивом `BLOCKS`
-2. Краткая форма: массив блоков без обертки
+Вложение передается в полной форме — объектом с цветом и массивом `BLOCKS` — или в краткой — сразу массивом блоков.
 
 ### Полная форма ATTACH
 
-{% list tabs %}
-
-- JS
-
-    ```js
-    ATTACH: {
-        ID: 1,
-        COLOR_TOKEN: 'secondary',
-        COLOR: '#29619b',
-        BLOCKS: [
-            {...},
-            {...}
-        ]
-    }
-    ```
-
-- Python
-
-    ```python
-    attach = {
-        "ID": 1,
-        "COLOR_TOKEN": "secondary",
-        "COLOR": "#29619b",
-        "BLOCKS": [
-            Ellipsis,
-            Ellipsis,
-        ],
-    }
-    ```
-
-
-- PHP
-
-    ```php
-    'ATTACH' => [
-        'ID' => 1,
-        'COLOR_TOKEN' => 'secondary',
-        'COLOR' => '#29619b',
-        'BLOCKS' => [
-            [...],
-            [...]
-        ]
+```json
+{
+    "COLOR_TOKEN": "secondary",
+    "BLOCKS": [
+        {"MESSAGE": "..."},
+        {"GRID": [...]}
     ]
-    ```
-{% endlist %}
+}
+```
 
-### Поля полной формы {#full-form-fields}
+### Параметры полной формы {#full-form-fields}
 
 #|
-|| **Поле**
+|| **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../../data-types.md) | Идентификатор вложения внутри сообщения ||
+[`integer`](../../../../../data-types.md) | Передавать не нужно: значение игнорируется, идентификатор вложения назначается автоматически ||
 || **COLOR_TOKEN**
-[`string`](../../../../../data-types.md) | Цветовая схема вложения. Допустимые значения: `primary`, `secondary`, `alert`, `base`. По умолчанию: `base` ||
+[`string`](../../../../../data-types.md) | Цветовая схема вложения. Допустимые значения: `primary`, `secondary`, `alert`, `base`. По умолчанию и при недопустимом значении — `base` ||
 || **COLOR**
-[`string`](../../../../../data-types.md) | Явный HEX-цвет вложения. Используется для совместимости со старыми сценариями и в некоторых типах уведомлений ||
+[`string`](../../../../../data-types.md) | HEX-цвет полосы вложения (`#RGB` или `#RRGGBB`). Учитывается только устаревшим веб-интерфейсом, актуальные клиенты используют `COLOR_TOKEN`. Если не задан или некорректен, подставляется случайный цвет ||
+|| **DESCRIPTION**
+[`string`](../../../../../data-types.md) | Текст, который выводится вместо вложения там, где блоки не показываются: в списке чатов, push-уведомлениях и письмах. Если не задан, выводится подпись «Вложение» ||
 || **BLOCKS**
-[`array`](../../../../../data-types.md) | Массив блоков содержимого вложения. Типы блоков описаны в разделе [Коллекции блоков](./block-collections/index.md) ||
+[`array`](../../../../../data-types.md) | Массив блоков содержимого вложения. Типы блоков описаны на странице [Коллекция блоков ATTACH](./block-collections/index.md) ||
 |#
 
 ![Объект ATTACH](./_images/attach_variants.png){width=520}
@@ -123,7 +77,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"Вложение с цветом primary","attach":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}}' \
+      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"Вложение с цветом primary","attach":{"COLOR_TOKEN":"primary","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
     ```
 
@@ -133,7 +87,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"Вложение с цветом primary","attach":{"ID":1,"COLOR_TOKEN":"primary","COLOR":"#29619b","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}},"auth":"**put_access_token_here**"}' \
+      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"Вложение с цветом primary","attach":{"COLOR_TOKEN":"primary","BLOCKS":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
     ```
 
@@ -147,9 +101,7 @@
         fields: {
           message: 'Вложение с цветом primary',
           attach: {
-            ID: 1,
             COLOR_TOKEN: 'primary',
-            COLOR: '#29619b',
             BLOCKS: [
               {
                 MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
@@ -178,9 +130,7 @@
             fields={
                 "message": "Вложение с цветом primary",
                 "attach": {
-                    "ID": 1,
                     "COLOR_TOKEN": "primary",
-                    "COLOR": "#29619b",
                     "BLOCKS": [
                         {
                             "MESSAGE": "API будет доступно в обновлении [B]im 24.0.0[/B]",
@@ -218,9 +168,7 @@
                     'fields' => [
                         'message' => 'Вложение с цветом primary',
                         'attach' => [
-                            'ID' => 1,
                             'COLOR_TOKEN' => 'primary',
-                            'COLOR' => '#29619b',
                             'BLOCKS' => [
                                 [
                                     'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
@@ -250,9 +198,7 @@
             fields: {
                 message: 'Вложение с цветом primary',
                 attach: {
-                    ID: 1,
                     COLOR_TOKEN: 'primary',
-                    COLOR: '#29619b',
                     BLOCKS: [
                         {
                             MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
@@ -284,9 +230,7 @@
             'fields' => [
                 'message' => 'Вложение с цветом primary',
                 'attach' => [
-                    'ID' => 1,
                     'COLOR_TOKEN' => 'primary',
-                    'COLOR' => '#29619b',
                     'BLOCKS' => [
                         [
                             'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
@@ -308,223 +252,20 @@
 
 ### Краткая форма ATTACH
 
-Если не нужны метаданные вложения (`ID`, `COLOR_TOKEN`, `COLOR`), можно передать сразу массив блоков:
+Если не нужны параметры вложения (`COLOR_TOKEN`, `DESCRIPTION`), можно передать сразу массив блоков. Вызов метода такой же, как в примере полной формы, меняется только значение `attach`. Краткую форму принимают методы отправки и `im.message.update`, но не `imbot.v2.Chat.Message.update`:
 
-{% list tabs %}
-
-- JS
-
-    ```js
-    ATTACH: [
-        {...},
-        {...}
-    ]
-    ```
-
-- Python
-
-    ```python
-    attach = [
-        Ellipsis,
-        Ellipsis,
-    ]
-    ```
-
-
-- PHP
-
-    ```php
-    'ATTACH' => [
-        [...],
-        [...]
-    ]
-    ```
-{% endlist %}
+```json
+[
+    {"MESSAGE": "..."},
+    {"GRID": [...]}
+]
+```
 
 ![Краткая версия ATTACH](./_images/short_attach.png){width=520}
 
-### Пример краткой формы
-
-{% include [Сноска о примерах](../../../../../../_includes/examples.md) %}
-
-{% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{"botId":456,"botToken":"my_bot_token","dialogId":"chat20921","fields":{"message":"Блок текста","attach":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]}}' \
-      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imbot.v2.Chat.Message.send
-    ```
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{"botId":456,"dialogId":"chat20921","fields":{"message":"Блок текста","attach":[{"MESSAGE":"API будет доступно в обновлении [B]im 24.0.0[/B]"}]},"auth":"**put_access_token_here**"}' \
-      https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.send
-    ```
-
-- JS
-
-    ```js
-    try {
-      const response = await $b24.callMethod('imbot.v2.Chat.Message.send', {
-        botId: 456,
-        dialogId: 'chat20921',
-        fields: {
-          message: 'Блок текста',
-          attach: [
-            {
-              MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-            }
-          ]
-        }
-      });
-
-      const result = response.getData().result.id;
-      console.log('Created message ID:', result);
-    } catch (error) {
-      console.error(error);
-    }
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.imbot.v2.chat.message.send(
-            bot_id=456,
-            dialog_id="chat20921",
-            fields={
-                "message": "Блок текста",
-                "attach": [
-                    {
-                        "MESSAGE": "API будет доступно в обновлении [B]im 24.0.0[/B]",
-                    },
-                ],
-            },
-        ).response
-        result = bitrix_response.result["id"]
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'imbot.v2.Chat.Message.send',
-                [
-                    'botId' => 456,
-                    'dialogId' => 'chat20921',
-                    'fields' => [
-                        'message' => 'Блок текста',
-                        'attach' => [
-                            [
-                                'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                            ]
-                        ]
-                    ]
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult()['id'];
-        echo 'Created message ID: ' . $result;
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'imbot.v2.Chat.Message.send',
-        {
-            botId: 456,
-            dialogId: 'chat20921',
-            fields: {
-                message: 'Блок текста',
-                attach: [
-                    {
-                        MESSAGE: 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                    }
-                ]
-            }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error().ex);
-            } else {
-                console.log('Message ID:', result.data().id);
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'imbot.v2.Chat.Message.send',
-        [
-            'botId' => 456,
-            'dialogId' => 'chat20921',
-            'fields' => [
-                'message' => 'Блок текста',
-                'attach' => [
-                    [
-                        'MESSAGE' => 'API будет доступно в обновлении [B]im 24.0.0[/B]'
-                    ]
-                ]
-            ]
-        ]
-    );
-
-    if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
-    } else {
-        echo 'Message ID: ' . $result['result']['id'];
-    }
-    ```
-
-{% endlist %}
-
 ## Что возвращается в ответе {#response}
 
-Сам метод отправки возвращает только идентификатор созданного сообщения — структуру вложения он в ответе не повторяет:
-
-```json
-{
-    "result": {
-        "id": 789,
-        "uuidMap": {}
-    }
-}
-```
+Методы отправки `imbot.v2` возвращают `id` созданного сообщения — структуру вложения в ответе они не повторяют.
 
 Чтобы увидеть отправленное вложение, прочитайте сообщение методом [imbot.v2.Chat.Message.get](../chat-message-get.md) или получите его в событии [ONIMBOTV2MESSAGEADD](../../events/events.md#onimbotv2messageadd). Вложение приходит в поле `params` объекта Message вместе с клавиатурой и файлами — [Объекты и поля](../../../entities.md#message).
 
@@ -532,37 +273,39 @@
 
 #|
 || **Ограничение** | **Значение** ||
-|| Максимальный размер сериализованного `ATTACH` | 60 000 символов ||
-|| Допустимые ссылки в блоках | Абсолютные URL `http://` и `https://` или относительные пути от корня Битрикс24, например `/company/personal/user/1/` ||
-|| Внешние каналы | Содержимое `ATTACH` не транслируется автоматически в XMPP, email и push-уведомления ||
+|| Максимальный размер сериализованного `ATTACH` | Меньше 60 000 символов ||
+|| Допустимые ссылки в блоках | Абсолютные URL `http://` и `https://` или относительные пути от корня Битрикс24, например `/company/personal/user/1/`. Элементы `LINK`, `IMAGE` и `FILE` с другой ссылкой пропускаются без ошибки, в `USER` и `GRID` отбрасывается только поле ||
+|| Внешние каналы | Блоки `ATTACH` не передаются в XMPP, email и push-уведомления. В email и push вместо вложения выводится `DESCRIPTION` или подпись «Вложение» ||
 |#
+
+Некорректные блоки и элементы отбрасываются без ошибки. Ошибка возникает, только если во вложении не осталось ни одного корректного блока или превышен лимит размера.
 
 Коды ошибок, специфичные для вложений:
 
 #|
-|| **Код** | **Когда возвращается** ||
-|| `ATTACH_ERROR` | Структура вложения некорректна ||
-|| `ATTACH_OVERSIZE` | Превышен лимит в 60 000 символов ||
+|| **Код** | **Методы** | **Когда возвращается** ||
+|| `PARAM_ATTACH_ERROR` | `imbot.v2.Chat.Message.send` | Во вложении нет ни одного корректного блока или превышен лимит 60 000 символов ||
+|| `PARAM_ATTACH_ERROR` | `imbot.v2.Chat.Message.update` | Превышен лимит 60 000 символов, прежнее вложение сохраняется. Вложение без корректных блоков ошибки не вызывает — оно удаляется из сообщения ||
+|| `ATTACH_ERROR` | `im.*`, `im.notify*` | Во вложении нет ни одного корректного блока ||
+|| `ATTACH_OVERSIZE` | `im.*`, `im.notify*` | Превышен лимит 60 000 символов ||
 |#
 
 Остальные коды ошибок зависят от метода отправки — они перечислены в разделе «Возможные коды ошибок» на странице метода, например [imbot.v2.Chat.Message.send](../chat-message-send.md).
 
 ## Методы, поддерживающие ATTACH {#all-methods}
 
-Ниже перечислены методы, которые поддерживают работу с `ATTACH`:
-
-**Чат-боты 2.0 (`imbot.v2`)**
+**Чат-боты 2.0 (`imbot.v2`)**, scope `imbot`, вложение в `fields.attach`
 
 - [imbot.v2.Chat.Message.send](../chat-message-send.md) — отправить сообщение от имени чат-бота
 - [imbot.v2.Chat.Message.update](../chat-message-update.md) — изменить сообщение чат-бота
 - [imbot.v2.Command.answer](../../commands/command-answer.md) — отправить ответ чат-бота на команду
 
-**Чаты (`im`)**
+**Чаты (`im`)**, scope `im`, вложение в параметре `ATTACH`
 
 - [im.message.add](../../../../../chats/messages/im-message-add.md) — отправить сообщение в чат
 - [im.message.update](../../../../../chats/messages/im-message-update.md) — изменить отправленное сообщение
 
-**Уведомления (`im.notify`)**
+**Уведомления (`im.notify`)**, scope `im`, вложение в параметре `ATTACH`
 
 - [im.notify](../../../../../chats/notifications/im-notify.md) — отправить уведомление
 - [im.notify.personal.add](../../../../../chats/notifications/im-notify-personal-add.md) — отправить персональное уведомление
