@@ -1,4 +1,4 @@
-# Событие после обновления приложения OnAppUpdate
+# Событие после обновления приложения onAppUpdate
 
 {% note tip "" %}
 
@@ -13,7 +13,13 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONAPPUPDATE` вызывается после установки новой версии приложения в Битрикс24. Событие передает информацию о текущей и предыдущей версиях приложения, а также обновленный `application_token`. Подробнее читайте в статье [{#T}](../../events/safe-event-handlers.md).
+Событие `ONAPPUPDATE` вызывается после установки новой версии приложения в Битрикс24. Обработчик получает текущую и предыдущую версии приложения и `application_token`.
+
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md).
+
+{% endnote %}
 
 ## Что получает обработчик
 
@@ -22,18 +28,19 @@
 ```json
 {
     "event": "ONAPPUPDATE",
+    "event_handler_id": "12",
     "data": {
-        "VERSION": "2.1.0",
-        "PREVIOUS_VERSION": "2.0.3",
+        "VERSION": "3",
+        "PREVIOUS_VERSION": "2",
         "LANGUAGE_ID": "ru"
     },
     "ts": "1696527000",
     "auth": {
         "domain": "some-domain.bitrix24.ru",
-        "scope": "imbot",
+        "scope": "crm,user",
         "access_token": "lh8ze36o8ulgrljbyscr36c7ay5sinva",
         "refresh_token": "5f1ih5tsnsb11sc5heg3kp4ywqnjhd09",
-        "expires_in": 3600,
+        "expires_in": "3600",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "F",
         "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
@@ -52,6 +59,8 @@
 `тип` | **Описание** ||
 || **event***
 [`string`](../../data-types.md) | Символьный код события. В данном случае — `ONAPPUPDATE` ||
+|| **event_handler_id**
+[`integer`](../../data-types.md) | Идентификатор обработчика события ||
 || **data***
 [`object`](../../data-types.md) | Данные об обновлении приложения.
 
@@ -59,7 +68,7 @@
 || **ts***
 [`timestamp`](../../data-types.md) | Дата и время отправки события из очереди ||
 || **auth***
-[`object`](../../data-types.md) | Объект с параметрами авторизации и данными о Битрикс24, в котором произошло событие.
+[`object`](../../data-types.md) | Объект с параметрами авторизации и данными о Битрикс24, на котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -74,7 +83,7 @@
 || **PREVIOUS_VERSION***
 [`string`](../../data-types.md) | Предыдущая версия до обновления ||
 || **LANGUAGE_ID***
-[`string`](../../data-types.md) | Установленный язык: `ru`, `en` и другие ||
+[`string`](../../data-types.md) | Язык Битрикс24 по умолчанию: `ru`, `en` и другие ||
 |#
 
 ### Параметр auth {#auth}
@@ -84,17 +93,17 @@
 `тип` | **Описание** ||
 || **domain***
 [`string`](../../data-types.md) | Адрес Битрикс24, на котором произошло событие ||
-|| **scope***
-[`string`](../../data-types.md) | Список прав, выданных приложению, через пробел ||
-|| **access_token***
+|| **scope**
+[`string`](../../data-types.md) | Коды [прав](../../scopes/permissions.md), выданных приложению, через запятую ||
+|| **access_token**
 [`string`](../../data-types.md) | Токен авторизации OAuth 2.0 ||
-|| **refresh_token***
+|| **refresh_token**
 [`string`](../../data-types.md) | Токен для продления авторизации OAuth 2.0 ||
-|| **expires_in***
+|| **expires_in**
 [`integer`](../../data-types.md) | Время жизни токена доступа в секундах ||
 || **server_endpoint***
-[`string`](../../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
-|| **status***
+[`string`](../../data-types.md) | Адрес сервера авторизации для обновления токена ||
+|| **status**
 [`string`](../../data-types.md) | Статус приложения, подписавшегося на это событие:
 
 - `L` — локальное приложение
@@ -106,13 +115,17 @@
 || **member_id***
 [`string`](../../data-types.md) | Уникальный идентификатор Битрикс24 ||
 || **application_token***
-[`string`](../../data-types.md) | Токен для безопасной обработки событий ||
+[`string`](../../data-types.md) | Токен приложения. Сравните его с токеном, сохраненным при установке, чтобы убедиться, что запрос пришел из Битрикс24. Подробнее — в статье [{#T}](../../events/safe-event-handlers.md) ||
 |#
+
+Если событие удалось привязать к пользователю, в `auth` приходят `access_token`, `refresh_token`, `expires_in`, `scope` и `status`, [подробнее](../../events/index.md#auth).
 
 ## Продолжите изучение
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
+- [{#T}](./on-app-user-ready.md)
 - [{#T}](./on-app-install.md)
 - [{#T}](./on-app-payment.md)
 - [{#T}](./on-app-method-confirm.md)

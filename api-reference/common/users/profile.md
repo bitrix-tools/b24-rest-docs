@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `profile` позволяет получить базовую информацию о текущем пользователе без каких-либо скоупов в отличие от [user.current](../../user/user-current.md).
+Метод `profile` получает базовую информацию о текущем пользователе. В отличие от [user.current](../../user/user-current.md), ему не нужен отдельный scope.
 
-Без параметров. 
+## Параметры метода
+
+Без параметров.
 
 ## Примеры кода
 
@@ -62,11 +64,12 @@
       NAME: string,
       LAST_NAME: string,
       PERSONAL_GENDER: string,
-      TIME_ZONE: string,
+      TIME_ZONE: string | null,
+      PERSONAL_PHOTO?: string,
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<ProfileResult>({
+      const response = await $b24.actions.v2.call.make<ProfileResult | []>({
         method: 'profile',
         params: {},
         requestId: Text.getUuidRfc4122()
@@ -77,7 +80,12 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.ID, result.NAME, result.LAST_NAME, result.ADMIN)
+        // An inactive user gets an empty array instead of an object
+        if (Array.isArray(result)) {
+          console.info('User is inactive')
+        } else {
+          console.info(result.ID, result.NAME, result.LAST_NAME, result.ADMIN)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -214,8 +222,9 @@ HTTP-статус: **200**
         "ADMIN": true,
         "NAME": "Вадим",
         "LAST_NAME": "Валеев",
-        "PERSONAL_GENDER": "",
-        "TIME_ZONE": ""
+        "PERSONAL_GENDER": "M",
+        "TIME_ZONE": "Europe/Moscow",
+        "PERSONAL_PHOTO": "https://example.bitrix24.ru/upload/main/c7b/c7bd44b1babaa5448125dd97d038ce1b/photo.jpg"
     },
     "time": {
         "start": 1722848182.67776,
@@ -239,7 +248,7 @@ HTTP-статус: **200**
 
 Структура описана [ниже](#profile).
 
-Если пользователь неактивен, объект пустой ||
+Если пользователь неактивен, вместо объекта вернется пустой массив `[]` ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -252,7 +261,7 @@ HTTP-статус: **200**
 || **ID**
 [`string`](../../data-types.md) | Идентификатор текущего пользователя ||
 || **ADMIN**
-[`boolean`](../../data-types.md) | Признак прав на управление настройками приложений. Совпадает с результатом метода [user.admin](./user-admin.md) ||
+[`boolean`](../../data-types.md) | Признак администратора Битрикс24: `true` — администратор, `false` — нет. Совпадает с результатом метода [user.admin](./user-admin.md) ||
 || **NAME**
 [`string`](../../data-types.md) | Имя пользователя ||
 || **LAST_NAME**
@@ -260,16 +269,36 @@ HTTP-статус: **200**
 || **PERSONAL_GENDER**
 [`string`](../../data-types.md) | Пол: `M` — мужской, `F` — женский. Если пол не указан, вернется пустая строка ||
 || **TIME_ZONE**
-[`string`](../../data-types.md) | Часовой пояс пользователя, например `Europe/Moscow`. Если часовой пояс не задан, вернется пустая строка ||
+[`string`](../../data-types.md) | Часовой пояс пользователя, например `Europe/Moscow`. Если часовой пояс не задан, вернется пустая строка или `null` ||
 || **PERSONAL_PHOTO**
-[`string`](../../data-types.md) | Ссылка на фотографию пользователя. Поле возвращается, только если фотография загружена ||
+[`string`](../../data-types.md) | Абсолютная ссылка на исходный файл фотографии пользователя. Поле возвращается, только если фотография загружена ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied! User authorization required"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизованного пользователя ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./user-admin.md)
 - [{#T}](./user-access.md)
+- [{#T}](../../user/user-current.md)

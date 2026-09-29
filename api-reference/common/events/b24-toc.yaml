@@ -13,7 +13,7 @@ items:
     href: on-app-uninstall.md
   - name: При оплате приложения
     href: on-app-payment.md
-  - name: При получении разрешения на использование методов
+  - name: При решении администратора по запросу метода с подтверждением
     href: on-app-method-confirm.md
   - name: При добавлении пользователя
     href: on-user-add.md

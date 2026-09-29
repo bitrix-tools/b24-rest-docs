@@ -1,4 +1,4 @@
-# Привязать данные к пользователю и приложению user.option.set
+# Сохранить настройки пользователя user.option.set
 
 {% note tip "" %}
 
@@ -11,11 +11,11 @@
 
 > Scope: [`базовый`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой авторизованный пользователь в контексте приложения
 
-Метод `user.option.set` привязывает данные к приложению и пользователю.
+Метод `user.option.set` сохраняет настройки текущего пользователя для приложения. Каждый пользователь хранит свои значения. Прочитать их можно методом [user.option.get](./user-option-get.md).
 
-Приложение может привязываться к установившему пользователю, если это [приложение без пользовательского интерфейса](../../../local-integrations/serverside-local-app-with-no-ui.md) или к пользователю, с которым взаимодействует, если это [приложение с пользовательским интерфейсом](../../../local-integrations/serverside-local-app-with-ui.md).
+Настройки сохраняются для пользователя, чьим токеном выполнен вызов. Для [приложения без пользовательского интерфейса](../../../local-integrations/serverside-local-app-with-no-ui.md) это обычно пользователь, установивший приложение, для [приложения с пользовательским интерфейсом](../../../local-integrations/serverside-local-app-with-ui.md) — пользователь, который с ним работает.
 
 ## Параметры метода
 
@@ -24,9 +24,12 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **options***
-[`array`](../../data-types.md) | Массив, где ключ — название сохраняемого свойства, а значение — значение свойства.
-Если передать значение с новым ключом, то метод его запишет, а если существующее — обновит ||
+|| **options**
+[`object`](../../data-types.md) | Объект настроек: ключ — название настройки, значение — ее значение. Передавайте `options` объектом. Не используйте ключи `next` и `total`: при чтении всех настроек REST API вернет их не в `result`, а в корне ответа.
+
+Перезаписываются только переданные ключи, остальные сохраненные настройки не меняются. Значение сохраняется с тем типом, с каким пришло в запросе: из параметров формы — строкой, из JSON-тела — числом, логическим значением, массивом или объектом. Метода удаления нет: ключ с пустой строкой остается в настройках с пустым значением.
+
+Если параметр `options` не передан, настройками считаются сами параметры запроса, например `{"data": "value"}` ||
 |#
 
 ## Примеры кода
@@ -34,21 +37,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "options": {
-            "data": "value",
-            "data2": "value2"
-        }
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.option.set
-    ```
 
 - cURL (OAuth)
 
@@ -299,8 +287,9 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"ArgumentNullException",
-    "error_description":"options is empty"
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Argument 'options' is null or empty",
+    "argument": "options"
 }
 ```
 
@@ -309,16 +298,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ArgumentNullException` | options is empty | Пустой массив `options`  ||
-|| `AccessException` | Application context required | Метод вызван вне контекста приложения ||
-|| `AccessException` | User authorization required | Пользователь не авторизован ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'options' is null or empty | Не передано ни одной настройки: параметр `options` пустой или запрос не содержит ни `options`, ни других параметров ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван вне контекста приложения, например через входящий вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизованного пользователя ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./app-option-set.md)
 - [{#T}](./app-option-get.md)
 - [{#T}](./user-option-get.md)
