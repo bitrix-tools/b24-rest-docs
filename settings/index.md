@@ -52,6 +52,7 @@
 - Как создать и установить тиражное решение — [Обзор установки тиражных приложений](app-installation/mass-market-apps/index.md).
 - Когда нужно вызывать `installFinish` и что проверить перед запуском — [Завершение установки приложений](app-installation/installation-finish.md).
 - Как публиковать готовые сайты, отраслевые CRM и умные сценарии — [Установка шаблонов сайтов](app-installation/site-templates-installation.md), [Установка отраслевых CRM](app-installation/vertical-crm-installation.md), [Установка решений с умными сценариями](app-installation/smart-scripts-installation.md).
+- Что происходит с регистрациями приложения при выходе новой версии — [Обновление приложений](app-update.md).
 - Какие данные удаляются при удалении приложения и как обработать событие удаления — [Удаление приложений](app-uninstallation.md).
 
 ## Настроить работу приложения в облаке и коробке {#box}
