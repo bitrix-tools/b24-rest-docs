@@ -1,7 +1,7 @@
 title: Цифровые рабочие места
 href: index.md
 items:
-  - name: Цифровые рабочие места
+  - name: Обзор методов
     href: index.md
   - name: Создать цифровое рабочее место
     href: crm-automated-solution-add.md
@@ -9,7 +9,7 @@ items:
     href: crm-automated-solution-update.md
   - name: Получить данные о цифровом рабочем месте по id
     href: crm-automated-solution-get.md
-  - name: Получить список цифровых рабочих мест 
+  - name: Получить список цифровых рабочих мест
     href: crm-automated-solution-list.md
   - name: Удалить цифровое рабочее место
     href: crm-automated-solution-delete.md
