@@ -11,9 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
-Метод получает описание полей для связи лид-контакт, используемых методами семейства `crm.lead.contact.*`.
+Метод `crm.lead.contact.fields` возвращает описание полей для связи лид-контакт.
+
+Состав полей привязки фиксирован, пользовательских полей у нее нет. Поле `ROLE_ID`, которое приходит в ответе [crm.lead.contact.items.get](./crm-lead-contact-items-get.md), в выдачу метода не попадает — записать его нельзя. Как устроен объект привязки, описано в [обзоре раздела](./index.md).
+
+## Параметры метода
 
 Без параметров.
 
@@ -153,18 +157,13 @@
             ->call(
                 'crm.lead.contact.fields'
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching lead contact fields: ' . $e->getMessage();
@@ -176,6 +175,7 @@
     ```js
     BX24.callMethod(
         "crm.lead.contact.fields",
+        {},
         result => {
             if (result.error())
                 console.error(result.error());
@@ -254,8 +254,8 @@ HTTP-статус: **200**
         "start": 1715091541.642592,
         "finish": 1715091541.730599,
         "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
         "operating": 0
     }
 }
@@ -267,26 +267,65 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержащий поля:
+[`object`](../../../data-types.md) | Объект в формате:
+```
+{
+    field_1: value_1,
+    field_2: value_2,
+    ...,
+    field_n: value_n,
+}
+```
 
-- **SORT** — индекс сортировки
-- **IS_PRIMARY** — флаг первичного контакта
-- **CONTACT_ID** — идентификатор контакта  
-||
+где:
+- `field_n` — поле привязки
+- `value_n` — описание поля в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description): тип, название и признаки `isRequired`, `isReadOnly`, `isImmutable`, `isMultiple`, `isDynamic`
+
+Состав полей привязки описан [ниже](#binding-fields) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля привязки {#binding-fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **CONTACT_ID**
+[`integer`](../../../data-types.md) | Идентификатор связанного контакта. Единственное обязательное поле привязки — в его описании приходит `isRequired: true` ||
+|| **SORT**
+[`integer`](../../../data-types.md) | Индекс сортировки ||
+|| **IS_PRIMARY**
+[`char`](../../../data-types.md#standart-types) | Основной ли это контакт лида. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-lead-contact-add.md)
 - [{#T}](./crm-lead-contact-delete.md)
 - [{#T}](./crm-lead-contact-items-get.md)

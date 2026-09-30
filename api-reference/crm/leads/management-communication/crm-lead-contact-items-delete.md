@@ -11,9 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: пользователь с правом «Изменение» лида
 
-Метод удаляет список контактов у лида.
+Метод `crm.lead.contact.items.delete` очищает набор контактов, связанных с указанным лидом.
+
+Он отвязывает все контакты сразу, сами контакты остаются в CRM. Поле лида `CONTACT_ID` очищается, а признак повторного лида `IS_RETURN_CUSTOMER` остается прежним. Чтобы убрать один контакт, используйте [crm.lead.contact.delete](./crm-lead-contact-delete.md).
+
+Чтобы восстановить набор, привяжите контакты заново методом [crm.lead.contact.items.set](./crm-lead-contact-items-set.md) или [crm.lead.contact.add](./crm-lead-contact-add.md). Прежние значения `SORT` и `IS_PRIMARY` Битрикс24 не хранит: если они понадобятся, получите набор методом [crm.lead.contact.items.get](./crm-lead-contact-items-get.md) до очистки. Что означают эти поля, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -23,7 +27,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор лида. Идентификатор лида можно получить методом [получения списка лидов](../crm-lead-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор лида. Должен быть больше `0`.
+
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 1` ||
 |#
 
 ## Примеры кода
@@ -128,7 +134,7 @@
 
     try:
         bitrix_response = client.crm.lead.contact.items.delete(
-            bitrix_id=1201,
+            bitrix_id=1,
         ).response
         result = bitrix_response.result
         print(result)
@@ -158,17 +164,13 @@
                     'id' => 1,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . var_export($result[0], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting lead contact items: ' . $e->getMessage();
@@ -240,8 +242,8 @@ HTTP-статус: **200**
         "start": 1715091541.642592,
         "finish": 1715091541.730599,
         "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
         "operating": 0
     }
 }
@@ -253,9 +255,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат операции ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха.
+
+Метод возвращает `true` и в том случае, когда у лида не было привязанных контактов. Для несуществующего `id` ответ тоже будет `true`, если проверка прав пройдена: существование лида метод отдельно не проверяет ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -264,8 +268,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "",
+    "error_description": "The parameter ownerEntityID is invalid or not defined."
 }
 ```
 
@@ -274,17 +278,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| ` ` | Не переданы обязательные поля ||
-|| ` ` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | The parameter ownerEntityID is invalid or not defined. | Параметр `id` не передан или меньше либо равен `0` ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет права на изменение лида ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-lead-contact-add.md)
 - [{#T}](./crm-lead-contact-delete.md)
 - [{#T}](./crm-lead-contact-items-get.md)
