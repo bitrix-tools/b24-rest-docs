@@ -109,5 +109,10 @@
   "executable": false,
   "entityFields": [
     "blocks"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 2,
+    "entityId": 4,
+    "timelineId": 8
+  }
 }

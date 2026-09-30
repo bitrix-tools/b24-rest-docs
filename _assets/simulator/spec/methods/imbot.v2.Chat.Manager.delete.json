@@ -18,14 +18,14 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+      "description": "Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен. Передавайте тот же botToken, который указали при регистрации бота"
     },
     {
       "name": "dialogId",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "ID диалога. Для групповых чатов — chat{chatId}"
+      "description": "ID группового чата в формате dialogId: chat{chatId}"
     },
     {
       "name": "userIds",
@@ -59,5 +59,14 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/chats/chat-manager-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "dialogId": "chat5",
+    "userIds": [
+      4,
+      5
+    ]
+  }
 }

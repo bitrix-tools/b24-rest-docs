@@ -371,5 +371,10 @@
     }
   ],
   "page": "/api-reference/catalog/product/catalog-product-get-fields-by-filter.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "filter": {
+      "iblockId": 23
+    }
+  }
 }

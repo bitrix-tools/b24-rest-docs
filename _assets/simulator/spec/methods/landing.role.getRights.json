@@ -65,5 +65,8 @@
     }
   ],
   "page": "/api-reference/landing/rights/role-model/landing-role-get-rights.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 2
+  }
 }

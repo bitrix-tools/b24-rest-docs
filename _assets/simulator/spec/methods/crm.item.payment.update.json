@@ -79,5 +79,12 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/crm-item-payment-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1036,
+    "fields": {
+      "paid": "Y",
+      "paySystemId": 110
+    }
+  }
 }

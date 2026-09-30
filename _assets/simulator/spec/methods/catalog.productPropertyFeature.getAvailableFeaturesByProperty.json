@@ -70,5 +70,8 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-feature/catalog-product-property-feature-get-available-features-by-property.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "propertyId": 901
+  }
 }

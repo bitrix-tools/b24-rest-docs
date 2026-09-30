@@ -132,5 +132,20 @@
     "id",
     "price",
     "productId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "productId",
+      "catalogGroupId",
+      "price",
+      "currency"
+    ],
+    "filter": {
+      "productId": 1
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

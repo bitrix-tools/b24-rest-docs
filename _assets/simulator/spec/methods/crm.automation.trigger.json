@@ -55,5 +55,9 @@
     }
   ],
   "page": "/api-reference/crm/automation/crm-automation-trigger.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "target": "DEAL_57",
+    "code": "c5u4m"
+  }
 }

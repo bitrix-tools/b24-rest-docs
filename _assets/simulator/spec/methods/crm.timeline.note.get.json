@@ -84,5 +84,11 @@
     "text",
     "updatedById",
     "updatedTime"
-  ]
+  ],
+  "requestExample": {
+    "ownerTypeId": 1,
+    "ownerId": 1,
+    "itemType": 1,
+    "itemId": 2
+  }
 }

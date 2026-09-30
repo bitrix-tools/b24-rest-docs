@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-get-external-link.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8930
+  }
 }

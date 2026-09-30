@@ -68,5 +68,8 @@
     }
   ],
   "page": "/api-reference/chats/users/im-user-status-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "STATUS": "dnd"
+  }
 }

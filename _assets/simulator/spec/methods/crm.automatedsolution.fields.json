@@ -1,0 +1,101 @@
+{
+  "$v": 1,
+  "method": "crm.automatedsolution.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля цифрового рабочего места crm.automatedsolution.fields",
+  "permissions": "администратор Битрикс24 или пользователь с правом «Редактирование» или «Разрешить изменять настройки» в разделе «Цифровые рабочие места» прав доступа CRM",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — поле цифрового рабочего места, а value — описание поля типа crm_rest_field_description",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/automated-solution/crm-automated-solution-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": {
+        "type": "integer",
+        "isRequired": false,
+        "isReadOnly": true,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID",
+        "upperName": "ID"
+      },
+      "title": {
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "TITLE",
+        "upperName": "TITLE"
+      },
+      "typeIds": {
+        "type": "crm_dynamic_type",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": true,
+        "isDynamic": false,
+        "title": "TYPE_IDS",
+        "upperName": "TYPE_IDS"
+      }
+    },
+    "time": {
+      "start": 1715848631.568101,
+      "finish": 1715848631.898371,
+      "duration": 0.33027005195617676,
+      "processing": 0.0055119991302490234,
+      "date_start": "2024-05-16T11:37:11+03:00",
+      "date_finish": "2024-05-16T11:37:11+03:00",
+      "operating_reset_at": 1715849231,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — поле цифрового рабочего места, а value — описание поля типа crm_rest_field_description"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/automated-solution/crm-automated-solution-fields.html",
+  "executable": false,
+  "requestExample": {}
+}

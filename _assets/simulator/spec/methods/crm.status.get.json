@@ -136,5 +136,8 @@
     "SORT",
     "STATUS_ID",
     "SYSTEM"
-  ]
+  ],
+  "requestExample": {
+    "id": 123
+  }
 }

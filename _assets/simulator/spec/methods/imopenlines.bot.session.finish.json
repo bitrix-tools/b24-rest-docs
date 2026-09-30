@@ -56,5 +56,9 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-finish.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 112,
+    "CLIENT_ID": "**put_your_client_id_or_bot_token_here**"
+  }
 }

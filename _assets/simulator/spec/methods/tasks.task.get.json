@@ -212,5 +212,37 @@
     "ufTaskWebdavFiles",
     "viewedDate",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "taskId": 8017,
+    "select": [
+      "ID",
+      "TITLE",
+      "DESCRIPTION",
+      "CREATED_BY",
+      "RESPONSIBLE_ID",
+      "DEADLINE",
+      "UF_CRM_TASK",
+      "UF_TASK_WEBDAV_FILES"
+    ]
+  },
+  "datasetHint": {
+    "entity": "tasks",
+    "count": 30,
+    "idFrom": 100,
+    "idTo": 129,
+    "runnableExample": {
+      "taskId": 100,
+      "select": [
+        "ID",
+        "TITLE",
+        "DESCRIPTION",
+        "CREATED_BY",
+        "RESPONSIBLE_ID",
+        "DEADLINE",
+        "UF_CRM_TASK",
+        "UF_TASK_WEBDAV_FILES"
+      ]
+    }
+  }
 }

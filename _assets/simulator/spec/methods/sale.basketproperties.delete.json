@@ -4,7 +4,7 @@
   "scope": "sale",
   "kind": "write",
   "title": "Удалить свойство корзины sale.basketproperties.delete",
-  "permissions": "администратор магазина",
+  "permissions": "администратор",
   "params": [
     {
       "name": "id",
@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/sale/basket-properties/sale-basket-properties-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 17
+  }
 }

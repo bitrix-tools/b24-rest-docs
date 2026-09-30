@@ -37,5 +37,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/crm-item-payment-pay.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1038
+  }
 }

@@ -79,5 +79,6 @@
     }
   ],
   "page": "/api-reference/catalog/document/outdated/catalog-document-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

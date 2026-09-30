@@ -91,5 +91,10 @@
     }
   ],
   "page": "/api-reference/tasks/result/tasks-task-result-addfromchatmessage.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "messageId": 335
+    }
+  }
 }

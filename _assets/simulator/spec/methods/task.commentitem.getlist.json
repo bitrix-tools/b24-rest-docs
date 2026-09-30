@@ -169,5 +169,15 @@
     }
   ],
   "page": "/api-reference/tasks/comment-item/task-comment-item-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "ORDER": {
+      "POST_DATE": "asc"
+    },
+    "FILTER": {
+      "AUTHOR_ID": 503,
+      ">=POST_DATE": "2025-01-01"
+    }
+  }
 }

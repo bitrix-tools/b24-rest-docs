@@ -250,5 +250,64 @@
     "updated1c",
     "version1c",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "accountNumber",
+      "allowDelivery",
+      "basePriceDelivery",
+      "canceled",
+      "comments",
+      "companyId",
+      "currency",
+      "customPriceDelivery",
+      "dateAllowDelivery",
+      "dateCanceled",
+      "dateDeducted",
+      "dateInsert",
+      "dateMarked",
+      "dateResponsibleId",
+      "deducted",
+      "deliveryDocDate",
+      "deliveryDocNum",
+      "deliveryId",
+      "deliveryName",
+      "deliveryXmlId",
+      "discountPrice",
+      "empAllowDeliveryId",
+      "empCanceledId",
+      "empDeductedId",
+      "empMarkedId",
+      "empResponsibleId",
+      "externalDelivery",
+      "id1c",
+      "marked",
+      "orderId",
+      "priceDelivery",
+      "reasonMarked",
+      "reasonUndoDeducted",
+      "responsibleId",
+      "statusId",
+      "statusXmlId",
+      "system",
+      "trackingDescription",
+      "trackingLastCheck",
+      "trackingNumber",
+      "trackingStatus",
+      "updated1c",
+      "version1c",
+      "xmlId"
+    ],
+    "filter": {
+      "@orderId": [
+        2069,
+        2070
+      ],
+      ">=id": 2464
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

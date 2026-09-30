@@ -216,5 +216,10 @@
     }
   ],
   "page": "/api-reference/tasks/user-field/task-item-user-field-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ORDER": {
+      "SORT": "ASC"
+    }
+  }
 }

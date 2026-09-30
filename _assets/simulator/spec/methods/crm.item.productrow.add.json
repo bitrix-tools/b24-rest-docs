@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Объект, содержащий значения полей для добавления товарной позиции в объект CRM",
+      "description": "Объект, содержащий значения полей для добавления товарной позиции в объект CRM (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -35,14 +35,14 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Идентификатор типа объекта CRM. Передавайте Краткий символьный код типа"
+          "description": "Краткий символьный код типа объекта CRM: L — лид, D — сделка, Q — предложение, SI — новый счет, T и шестнадцатеричный идентификатор типа — смарт-процесс"
         },
         {
           "name": "productId",
           "type": "catalog_product.id",
           "base": "any",
           "required": false,
-          "description": "Идентификатор товара из каталога"
+          "description": "Идентификатор товара из каталога. Если не передан, создается позиция без привязки к каталогу"
         },
         {
           "name": "productName",
@@ -56,7 +56,7 @@
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Цена за единицу товарной позиции с учетом скидок и налогов"
+          "description": "Цена за единицу товарной позиции с учетом скидок и налогов. Указывается в валюте объекта CRM. Если не передана, цена будет равна 0 — даже когда передан productId с ценой в каталоге"
         },
         {
           "name": "quantity",
@@ -108,7 +108,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Индикатор того, включен ли налог в стоимость. Возможные значения: - Y – налог включен - N – налог не включен По умолчанию - N",
+          "description": "Индикатор того, включен ли налог в стоимость. Возможные значения: - Y — налог включен - N — налог не включен По умолчанию — N",
           "values": [
             {
               "value": "Y",
@@ -116,16 +116,23 @@
             },
             {
               "value": "N",
-              "title": "налог не включен По умолчанию - N"
+              "title": "налог не включен По умолчанию — N"
             }
           ]
+        },
+        {
+          "name": "taxName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название налоговой ставки. Например, НДС 20. Это только подпись: в расчете участвует значение taxRate, а taxName метод сохраняет как есть. Если не передать taxName, позиция без налога получит значение Без НДС"
         },
         {
           "name": "measureCode",
           "type": "catalog_measure.code",
           "base": "any",
           "required": false,
-          "description": "Код единицы измерения Если не передано и передано значение productId, то используется единица измерения из каталога товаров"
+          "description": "Код единицы измерения. Если не передано, но передано значение productId, то используется единица измерения из каталога товаров"
         },
         {
           "name": "sort",
@@ -148,14 +155,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "productRow",
-      "type": "crm_item_product_row",
-      "base": "object",
-      "required": false,
-      "description": "Объект, содержащий информацию о добавленной товарной позиции"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -166,5 +166,20 @@
     }
   ],
   "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "ownerId": 13142,
+      "ownerType": "D",
+      "productId": 9621,
+      "price": 80000,
+      "quantity": 2,
+      "discountTypeId": 2,
+      "discountRate": 20,
+      "taxRate": 20,
+      "taxIncluded": "Y",
+      "measureCode": 796,
+      "sort": 10
+    }
+  }
 }

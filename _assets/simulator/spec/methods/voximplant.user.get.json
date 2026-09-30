@@ -59,8 +59,8 @@
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
+      "type": "object[]",
+      "base": "array",
       "required": false,
       "description": "Массив настроек пользователей"
     },
@@ -76,7 +76,7 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Номер исходящей линии по умолчанию"
+      "description": "Номер исходящей линии по умолчанию. Может быть null"
     },
     {
       "name": "PHONE_ENABLED",
@@ -114,14 +114,14 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Пароль для подключения SIP-аппарата"
+      "description": "Пароль для подключения SIP-аппарата. Может быть null"
     },
     {
       "name": "INNER_NUMBER",
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Внутренний номер пользователя"
+      "description": "Внутренний номер пользователя. Может быть null"
     },
     {
       "name": "time",
@@ -141,5 +141,11 @@
     "SIP_LOGIN",
     "SIP_PASSWORD",
     "SIP_SERVER"
-  ]
+  ],
+  "requestExample": {
+    "USER_ID": [
+      1269,
+      1271
+    ]
+  }
 }

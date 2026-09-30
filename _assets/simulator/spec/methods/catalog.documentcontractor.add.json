@@ -68,5 +68,12 @@
     }
   ],
   "page": "/api-reference/catalog/documentcontractor/catalog-documentcontractor-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "documentId": 42,
+      "entityTypeId": 3,
+      "entityId": 101
+    }
+  }
 }

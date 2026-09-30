@@ -152,5 +152,13 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 142,
+    "fields": {
+      "title": "Поступление от Поставщик-1 (корректировка)",
+      "commentary": "Обновили ответсвенного",
+      "responsibleId": 21
+    }
+  }
 }

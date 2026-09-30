@@ -121,5 +121,6 @@
     }
   ],
   "page": "/api-reference/sale/person-type/sale-person-type-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

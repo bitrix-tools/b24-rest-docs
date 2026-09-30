@@ -96,5 +96,12 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-personal-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 5,
+    "MESSAGE": "Напоминание по задаче",
+    "MESSAGE_OUT": "Напоминание по задаче (email)",
+    "TAG": "TASK_REMINDER_42",
+    "SUB_TAG": "TASK_REMINDER|42"
+  }
 }

@@ -192,5 +192,9 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-copy-to.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8930,
+    "targetFolderId": 8895
+  }
 }

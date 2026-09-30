@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/companies/userfields/crm-company-userfield-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 432
+  }
 }

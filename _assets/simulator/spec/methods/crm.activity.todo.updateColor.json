@@ -72,5 +72,11 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/todo/crm-activity-todo-update-color.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 999,
+    "ownerTypeId": 2,
+    "ownerId": 1,
+    "colorId": "3"
+  }
 }

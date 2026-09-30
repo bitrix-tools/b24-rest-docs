@@ -124,5 +124,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-get-by-entity-type-id.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 2024
+  }
 }

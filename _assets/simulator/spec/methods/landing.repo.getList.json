@@ -131,5 +131,23 @@
     }
   ],
   "page": "/api-reference/landing/user-blocks/landing-repo-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "select": [
+        "ID",
+        "NAME",
+        "DATE_MODIFY"
+      ],
+      "filter": {
+        "ACTIVE": "Y"
+      },
+      "order": {
+        "ID": "DESC"
+      },
+      "group": [
+        "ACTIVE"
+      ]
+    }
+  }
 }

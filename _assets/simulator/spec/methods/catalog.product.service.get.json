@@ -137,5 +137,8 @@
     "vatId",
     "vatIncluded",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1265
+  }
 }

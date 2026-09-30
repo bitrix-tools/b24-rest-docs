@@ -117,5 +117,14 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "KNOWLEDGE",
+    "fields": {
+      "TITLE": "База знаний компании",
+      "CODE": "",
+      "TYPE": "KNOWLEDGE",
+      "DESCRIPTION": "Сайт базы знаний"
+    }
+  }
 }

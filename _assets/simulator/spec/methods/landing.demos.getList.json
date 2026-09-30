@@ -112,5 +112,25 @@
     }
   ],
   "page": "/api-reference/landing/demos/landing-demos-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "select": [
+        "ID",
+        "XML_ID",
+        "TITLE",
+        "TYPE",
+        "DATE_MODIFY"
+      ],
+      "filter": {
+        "ACTIVE": "Y"
+      },
+      "order": {
+        "ID": "DESC"
+      },
+      "group": [
+        "TYPE"
+      ]
+    }
+  }
 }

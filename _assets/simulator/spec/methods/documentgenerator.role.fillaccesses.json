@@ -54,5 +54,21 @@
     }
   ],
   "page": "/api-reference/document-generator/role/document-generator-role-fill-accesses.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "accesses": [
+      {
+        "roleId": 9,
+        "accessCode": "U1"
+      },
+      {
+        "roleId": 9,
+        "accessCode": "D1"
+      },
+      {
+        "roleId": 9,
+        "accessCode": "UA"
+      }
+    ]
+  }
 }

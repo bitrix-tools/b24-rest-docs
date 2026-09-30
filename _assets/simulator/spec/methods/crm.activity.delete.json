@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 999
+  }
 }

@@ -80,5 +80,12 @@
     }
   ],
   "page": "/api-reference/sale/property-relation/sale-property-relation-delete-by-filter.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "entityId": 6,
+      "entityType": "D",
+      "propertyId": 40
+    }
+  }
 }

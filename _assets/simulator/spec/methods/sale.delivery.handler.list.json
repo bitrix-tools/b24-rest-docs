@@ -11,7 +11,7 @@
       "type": "sale_delivery_handler[]",
       "base": "array",
       "required": "unknown",
-      "description": "Массив объектов с информацией о выбранных обработчиках служб доставки",
+      "description": "Массив объектов с информацией об обработчиках служб доставки. Если обработчики не зарегистрированы, метод возвращает пустой массив",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -38,10 +38,10 @@
   "resultExample": {
     "result": [
       {
-        "ID": "14",
+        "ID": 14,
         "NAME": "Uber",
         "CODE": "uber",
-        "SORT": "250",
+        "SORT": 250,
         "DESCRIPTION": "Uber Description",
         "SETTINGS": {
           "CALCULATE_URL": "http://gateway.bx/calculate.php",
@@ -117,7 +117,7 @@
       "type": "sale_delivery_handler[]",
       "base": "array",
       "required": "unknown",
-      "description": "Массив объектов с информацией о выбранных обработчиках служб доставки"
+      "description": "Массив объектов с информацией об обработчиках служб доставки. Если обработчики не зарегистрированы, метод возвращает пустой массив"
     },
     {
       "name": "time",
@@ -137,5 +137,6 @@
     "PROFILES",
     "SETTINGS",
     "SORT"
-  ]
+  ],
+  "requestExample": {}
 }

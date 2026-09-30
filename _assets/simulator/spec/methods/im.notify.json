@@ -113,5 +113,13 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 5,
+    "TYPE": "USER",
+    "MESSAGE": "Напоминание",
+    "MESSAGE_OUT": "Напоминание (email)",
+    "TAG": "TASK_42",
+    "SUB_TAG": "TASK|42"
+  }
 }

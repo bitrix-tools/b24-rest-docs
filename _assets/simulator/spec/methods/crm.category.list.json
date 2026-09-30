@@ -103,5 +103,17 @@
     "originId",
     "originatorId",
     "sort"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 2
+  },
+  "datasetHint": {
+    "entity": "categories",
+    "count": 3,
+    "idFrom": 0,
+    "idTo": 2,
+    "runnableExample": {
+      "entityTypeId": 2
+    }
+  }
 }

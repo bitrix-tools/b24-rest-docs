@@ -132,5 +132,15 @@
     }
   ],
   "page": "/api-reference/crm/duplicates/crm-entity-merge-batch.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "entityTypeId": 3,
+      "entityIds": [
+        100,
+        101,
+        102
+      ]
+    }
+  }
 }

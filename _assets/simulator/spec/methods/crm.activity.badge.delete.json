@@ -4,14 +4,14 @@
   "scope": "crm",
   "kind": "write",
   "title": "Удалить бейдж по коду crm.activity.badge.delete",
-  "permissions": "пользователи с административным доступом к разделу crm",
+  "permissions": "пользователь с административным доступом к разделу CRM",
   "params": [
     {
       "name": "code",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Код бейджа, например missedCall"
+      "description": "Код бейджа, например missedCall. Список занятых кодов возвращает метод crm.activity.badge.list"
     }
   ],
   "defs": {},
@@ -38,7 +38,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит: - true — в случае успеха - null — в случае неудачи (произошла ошибка)"
+      "description": "Содержит true, если бейдж удален. При ошибке поля result в ответе нет — вместо него приходят error и error_description"
     },
     {
       "name": "time",
@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/configurable/badges/crm-activity-badge-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "missedCall"
+  }
 }

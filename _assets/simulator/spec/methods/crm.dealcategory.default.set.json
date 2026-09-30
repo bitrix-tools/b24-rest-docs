@@ -24,5 +24,8 @@
     "successor": null
   },
   "page": "/api-reference/crm/outdated/category-old/crm-deal-category-default-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "name": ""
+  }
 }

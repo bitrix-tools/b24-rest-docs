@@ -186,5 +186,14 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-history-search.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "SEARCH_TEXT": "счет",
+    "SEARCH_TYPE": "tasks|task_update",
+    "SEARCH_DATE": "2026-03-03T16:52:29+03:00",
+    "LAST_ID": 1500,
+    "LIMIT": 20,
+    "CONVERT_TEXT": "Y",
+    "GROUP_TAG": "TASK|42"
+  }
 }

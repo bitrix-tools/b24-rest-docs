@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/landing/embedding/knowledge-base/landing-site-unbinding-from-group.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 32,
+    "groupId": 174
+  }
 }

@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-unfavorite-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "blockId": 28619
+  }
 }

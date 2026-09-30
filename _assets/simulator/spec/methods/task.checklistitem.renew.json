@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-renew.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13,
+    "ITEMID": 475
+  }
 }

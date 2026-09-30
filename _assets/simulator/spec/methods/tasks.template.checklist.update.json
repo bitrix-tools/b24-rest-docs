@@ -165,5 +165,12 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 37,
+    "fields": {
+      "TITLE": "4. Подготовить дашборд и отправить ссылку"
+    }
+  }
 }

@@ -137,5 +137,15 @@
     }
   ],
   "page": "/api-reference/tasks/user-field/task-item-user-field-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 1325,
+    "DATA": {
+      "EDIT_FORM_LABEL": {
+        "ru": "Описание запроса клиента",
+        "en": "Description of client request"
+      },
+      "MANDATORY": "N"
+    }
+  }
 }

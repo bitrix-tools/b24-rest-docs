@@ -312,5 +312,9 @@
     "type",
     "unread",
     "user"
-  ]
+  ],
+  "requestExample": {
+    "SKIP_OPENLINES": "Y",
+    "LAST_UPDATE": "2026-02-25T18:30:00+01:00"
+  }
 }

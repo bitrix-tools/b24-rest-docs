@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-publication-folder.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "folderId": 737,
+    "mark": true
+  }
 }

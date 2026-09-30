@@ -78,5 +78,10 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-copy.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 1688,
+    "toSiteId": 305,
+    "toFolderId": 95
+  }
 }

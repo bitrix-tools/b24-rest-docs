@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/catalog/measure/catalog-measure-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 6
+  }
 }

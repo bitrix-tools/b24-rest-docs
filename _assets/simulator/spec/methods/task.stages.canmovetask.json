@@ -40,5 +40,9 @@
     }
   ],
   "page": "/api-reference/tasks/stages/task-stages-can-move-task.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityId": 1,
+    "entityType": "U"
+  }
 }

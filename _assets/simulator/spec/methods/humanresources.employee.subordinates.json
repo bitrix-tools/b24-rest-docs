@@ -114,5 +114,8 @@
     }
   ],
   "page": "/api-reference/departments/employee/humanresources-employee-subordinates.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 7
+  }
 }

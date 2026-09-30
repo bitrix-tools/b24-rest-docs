@@ -103,5 +103,14 @@
     }
   ],
   "page": "/api-reference/crm/universal/category/crm-category-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 1152,
+    "id": 4,
+    "fields": {
+      "name": "Новое название воронки",
+      "sort": 1000,
+      "isDefault": "Y"
+    }
+  }
 }

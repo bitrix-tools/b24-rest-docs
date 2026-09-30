@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Значения полей (подробное описание приведено ниже) для добавления нового эпика в виде структуры:",
+      "description": "Значения полей нового эпика (подробное описание) в виде структуры:",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -28,7 +28,7 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Название эпика"
+          "description": "Название эпика, до 255 символов"
         },
         {
           "name": "description",
@@ -42,35 +42,28 @@
           "type": "integer",
           "base": "integer",
           "required": true,
-          "description": "Идентификатор группы (скрама), к которой относится эпик"
+          "description": "Идентификатор Скрама, в котором создается эпик. Получить идентификатор можно методом socialnetwork.api.workgroup.list"
         },
         {
           "name": "color",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Цвет эпика"
+          "description": "Цвет эпика, например #69dafc, до 18 символов. Формат цвета метод не проверяет и сохраняет строку как есть"
         },
         {
           "name": "files",
           "type": "array",
           "base": "array",
           "required": false,
-          "description": "Массив файлов, привязанных к эпику. В files можно передать массив значений с идентификаторами файлов, указав префикс n для каждого идентификатора"
+          "description": "Массив идентификаторов файлов Диска. Перед каждым идентификатором укажите префикс n, например [\"n428\", \"n345\"]"
         },
         {
           "name": "createdBy",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Кем создан"
-        },
-        {
-          "name": "modifiedBy",
-          "type": "integer",
-          "base": "integer",
-          "required": false,
-          "description": "Кем изменен"
+          "description": "Идентификатор пользователя, который будет указан создателем эпика. По умолчанию — текущий пользователь"
         }
       ]
     }
@@ -81,14 +74,54 @@
     "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-add.md"
   },
   "resultExample": {
-    "id": 4,
-    "groupId": 1,
-    "name": "Epic 1",
-    "description": "Description text",
-    "createdBy": 1,
-    "modifiedBy": 1,
-    "color": "#69dafc"
+    "result": {
+      "id": 4,
+      "groupId": 1,
+      "name": "Epic 1",
+      "description": "Description text",
+      "createdBy": 1,
+      "modifiedBy": 0,
+      "color": "#69dafc"
+    },
+    "time": {
+      "start": 1790262925,
+      "finish": 1790262925.771081,
+      "duration": 0.7710809707641602,
+      "processing": 0,
+      "date_start": "2026-09-24T18:15:25+03:00",
+      "date_finish": "2026-09-24T18:15:25+03:00",
+      "operating_reset_at": 1790263525,
+      "operating": 0
+    }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные созданного эпика (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Epic 1",
+      "groupId": 1,
+      "description": "Description text",
+      "color": "#69dafc",
+      "files": [
+        "n428",
+        "n345"
+      ]
+    }
+  }
 }

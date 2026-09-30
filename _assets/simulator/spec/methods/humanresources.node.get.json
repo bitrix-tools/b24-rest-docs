@@ -108,5 +108,23 @@
     "updatedAt",
     "userCount",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1,
+    "select": [
+      "id",
+      "name",
+      "type",
+      "structureId",
+      "parentId",
+      "description",
+      "accessCode",
+      "userCount",
+      "colorName",
+      "xmlId",
+      "createdAt",
+      "updatedAt",
+      "members"
+    ]
+  }
 }

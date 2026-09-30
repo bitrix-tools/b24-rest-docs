@@ -100,5 +100,12 @@
     }
   ],
   "page": "/api-reference/catalog/price/catalog-price-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "currency": "RUB",
+      "price": 5000
+    }
+  }
 }

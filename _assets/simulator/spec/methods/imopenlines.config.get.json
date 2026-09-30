@@ -232,5 +232,10 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/imopenlines-config-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONFIG_ID": 15,
+    "WITH_QUEUE": "Y",
+    "SHOW_OFFLINE": "Y"
+  }
 }

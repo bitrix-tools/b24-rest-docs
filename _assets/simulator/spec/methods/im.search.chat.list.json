@@ -182,5 +182,10 @@
     "type",
     "unread_id",
     "user_counter"
-  ]
+  ],
+  "requestExample": {
+    "FIND": "Проект",
+    "OFFSET": 0,
+    "LIMIT": 10
+  }
 }

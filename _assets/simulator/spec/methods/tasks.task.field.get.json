@@ -95,5 +95,17 @@
     "title",
     "type",
     "validationRules"
-  ]
+  ],
+  "requestExample": {
+    "name": "id",
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "filterable",
+      "sortable",
+      "multiple"
+    ]
+  }
 }

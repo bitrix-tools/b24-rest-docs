@@ -246,5 +246,13 @@
     }
   ],
   "page": "/api-reference/crm/requisites/user-fields/crm-requisite-userfield-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 235,
+    "fields": {
+      "EDIT_FORM_LABEL": "Категория",
+      "LIST_COLUMN_LABEL": "Категория",
+      "LIST_FILTER_LABEL": "Категория"
+    }
+  }
 }

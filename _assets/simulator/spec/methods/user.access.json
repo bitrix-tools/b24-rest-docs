@@ -3,15 +3,15 @@
   "method": "user.access",
   "scope": "базовый",
   "kind": "write",
-  "title": "Определить набор прав пользователя user.access",
+  "title": "Проверить коды доступа пользователя user.access",
   "permissions": "любой пользователь",
   "params": [
     {
       "name": "ACCESS",
-      "type": "array",
+      "type": "string[]",
       "base": "array",
-      "required": true,
-      "description": "Список кодов доступа, которые нужно проверить. Форматы кодов: - U<id> — пользователь, например U1 - G<id> — группа пользователей, например G2 - AU — все авторизованные пользователи Названия кодов получает метод access.name",
+      "required": "unknown",
+      "description": "Список кодов доступа, которые нужно проверить, например [\"D1\", \"SG1_K\"]. Один код можно передать строкой, например \"D1\". Форматы кодов: - U<id> — пользователь, например U1 - G<id> — группа пользователей, например G1. Код G2 — «Все посетители», с ним метод всегда возвращает true - AU — все авторизованные пользователи.…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -19,7 +19,7 @@
     }
   ],
   "defs": {},
-  "requiredConvention": true,
+  "requiredConvention": false,
   "confidence": "parsed",
   "source": {
     "file": "api-reference/common/users/user-access.md"
@@ -41,17 +41,23 @@
       "name": "result",
       "type": "boolean",
       "base": "boolean",
-      "required": false,
-      "description": "Возвращается true, если текущий пользователь обладает хотя бы одним из перечисленных в параметре ACCESS кодов доступа или правами на управление настройками приложений, false — в противном случае"
+      "required": "unknown",
+      "description": "Возвращается true, если текущий пользователь обладает хотя бы одним из перечисленных в параметре ACCESS кодов доступа или является администратором Битрикс24, false — в противном случае"
     },
     {
       "name": "time",
       "type": "time",
       "base": "object",
-      "required": false,
+      "required": "unknown",
       "description": "Информация о времени выполнения запроса"
     }
   ],
   "page": "/api-reference/common/users/user-access.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ACCESS": [
+      "D1",
+      "SG1_K"
+    ]
+  }
 }

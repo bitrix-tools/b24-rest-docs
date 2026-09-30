@@ -121,5 +121,14 @@
     }
   ],
   "page": "/api-reference/catalog/vat/catalog-vat-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 6,
+    "fields": {
+      "name": "Налог 23%",
+      "rate": 23,
+      "sort": 20,
+      "active": "Y"
+    }
+  }
 }

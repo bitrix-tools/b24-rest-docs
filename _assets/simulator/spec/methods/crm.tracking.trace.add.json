@@ -104,5 +104,18 @@
     }
   ],
   "page": "/api-reference/crm/tracking/crm-tracking-trace-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TRACE": "{\"tags\":{\"list\":{\"utm_source\":\"yandex-maps\"}}}",
+    "ENTITIES": [
+      {
+        "TYPE": "CONTACT",
+        "ID": 17
+      },
+      {
+        "TYPE": "LEAD",
+        "ID": 1000739
+      }
+    ]
+  }
 }

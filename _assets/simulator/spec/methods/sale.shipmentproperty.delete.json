@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/shipment-property/sale-shipment-property-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 57
+  }
 }

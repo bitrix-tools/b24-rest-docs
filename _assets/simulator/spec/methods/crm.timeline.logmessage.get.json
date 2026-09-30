@@ -69,5 +69,8 @@
     "id",
     "text",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

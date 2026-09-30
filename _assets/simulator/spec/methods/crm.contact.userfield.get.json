@@ -57,5 +57,8 @@
     "SORT",
     "USER_TYPE_ID",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "id": 399
+  }
 }

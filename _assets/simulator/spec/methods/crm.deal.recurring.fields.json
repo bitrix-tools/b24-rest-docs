@@ -266,5 +266,6 @@
     }
   ],
   "page": "/api-reference/crm/deals/recurring-deals/crm-deal-recurring-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

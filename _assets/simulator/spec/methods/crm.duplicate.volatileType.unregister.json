@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-unregister.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 101
+  }
 }

@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-call-get-transcript.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "activityId": 12345
+  }
 }

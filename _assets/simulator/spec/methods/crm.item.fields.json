@@ -437,5 +437,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/crm-item-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 1268,
+    "useOriginalUfNames": "N"
+  }
 }

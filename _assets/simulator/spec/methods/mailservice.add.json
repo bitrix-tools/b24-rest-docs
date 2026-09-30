@@ -119,5 +119,14 @@
     }
   ],
   "page": "/api-reference/mailservice/mailservice-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NAME": "Мой почтовый сервис",
+    "ACTIVE": "Y",
+    "SERVER": "imap.my-mail.ru",
+    "PORT": 993,
+    "ENCRYPTION": "Y",
+    "LINK": "https://mail.my-mail.ru/",
+    "SORT": 500
+  }
 }

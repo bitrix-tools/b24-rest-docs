@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 357
+  }
 }

@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/chats/chat-update/im-chat-update-avatar.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2935,
+    "AVATAR": "/9j/4QAYRXhpZgAAS...CgCgCgCgP/9k="
+  }
 }

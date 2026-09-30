@@ -168,5 +168,23 @@
     }
   ],
   "page": "/api-reference/event-log/main-eventlog-tail.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "select": [
+      "id",
+      "timestampX",
+      "severity",
+      "auditTypeId",
+      "moduleId",
+      "itemId",
+      "userId",
+      "description"
+    ],
+    "filter": [],
+    "cursor": {
+      "field": "id",
+      "value": 446313,
+      "order": "ASC"
+    }
+  }
 }

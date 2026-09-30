@@ -65,5 +65,8 @@
     }
   ],
   "page": "/api-reference/landing/embedding/knowledge-base/landing-site-get-group-bindings.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "groupId": 174
+  }
 }

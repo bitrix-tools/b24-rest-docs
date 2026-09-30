@@ -121,5 +121,13 @@
     }
   ],
   "page": "/api-reference/catalog/rounding-rule/catalog-rounding-rule-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "catalogGroupId": 14,
+      "price": 1000,
+      "roundType": 4,
+      "roundPrecision": 100
+    }
+  }
 }

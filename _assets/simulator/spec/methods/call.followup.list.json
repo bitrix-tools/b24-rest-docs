@@ -233,5 +233,27 @@
     "overview",
     "participants",
     "startDate"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "startDate": {
+        "from": "2026-01-01T00:00:00Z",
+        "to": "2026-01-31T23:59:59Z"
+      }
+    },
+    "select": [
+      "callId",
+      "startDate",
+      "participants",
+      "overview.topic",
+      "overview.actionItems"
+    ],
+    "order": {
+      "startDate": "desc"
+    },
+    "pagination": {
+      "limit": 20
+    },
+    "mentionFormat": "html"
+  }
 }

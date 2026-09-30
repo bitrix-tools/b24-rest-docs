@@ -244,5 +244,16 @@
     "SORT",
     "USER_TYPE_ID",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "MULTIPLE": "Y",
+      "MANDATORY": "Y",
+      "LANG": "ru"
+    },
+    "order": {
+      "USER_TYPE_ID": "ASC",
+      "SORT": "ASC"
+    }
+  }
 }

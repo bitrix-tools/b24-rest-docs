@@ -3,7 +3,7 @@
   "method": "crm.activity.layout.blocks.delete",
   "scope": "crm",
   "kind": "write",
-  "title": "Удалить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.delete",
+  "title": "Удалить набор дополнительных контентных блоков из дела crm.activity.layout.blocks.delete",
   "permissions": "любой пользователь с правом на изменение элемента CRM, к которому привязано дело",
   "params": [
     {
@@ -11,21 +11,21 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор типа объекта CRM, к которому привязано дело"
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело, например 2 для сделки"
     },
     {
       "name": "entityId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор объекта CRM, к которому привязано дело"
+      "description": "Идентификатор объекта CRM, к которому привязано дело, например идентификатор сделки"
     },
     {
       "name": "activityId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор дела"
+      "description": "Идентификатор дела. Возвращают методы crm.activity.add и crm.activity.list"
     }
   ],
   "defs": {},
@@ -35,8 +35,35 @@
     "file": "api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-delete.md"
   },
   "resultExample": {
-    "success": true
+    "result": {
+      "success": true
+    },
+    "time": {
+      "start": 1753341040.475739,
+      "finish": 1753341040.582705,
+      "duration": 0.10696601867675781,
+      "processing": 0.04708504676818848,
+      "date_start": "2025-07-24T17:57:20+00:00",
+      "date_finish": "2025-07-24T17:57:20+00:00",
+      "operating": 0
+    }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание). Если набор блоков удалить не удалось, метод возвращает не result, а объект error — смотрите раздел «Обработка ошибок»"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-delete.html",
   "executable": false
 }

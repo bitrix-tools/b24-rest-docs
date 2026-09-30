@@ -267,5 +267,12 @@
     "ufTaskWebdavFiles",
     "viewedDate",
     "xmlId"
-  ]
+  ],
+  "datasetHint": {
+    "entity": "tasks",
+    "count": 30,
+    "idFrom": 100,
+    "idTo": 129,
+    "runnableExample": {}
+  }
 }

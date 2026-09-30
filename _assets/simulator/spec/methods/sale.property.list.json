@@ -229,5 +229,44 @@
     "userProps",
     "util",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "active",
+      "code",
+      "defaultValue",
+      "description",
+      "inputFieldLocation",
+      "isAddress",
+      "isAddressFrom",
+      "isAddressTo",
+      "isEmail",
+      "isFiltered",
+      "isLocation",
+      "isLocation4tax",
+      "isPayer",
+      "isPhone",
+      "isProfileName",
+      "isZip",
+      "multiple",
+      "name",
+      "personTypeId",
+      "propsGroupId",
+      "required",
+      "settings",
+      "sort",
+      "type",
+      "userProps",
+      "util",
+      "xmlId"
+    ],
+    "filter": {
+      "@type": "STRING",
+      "%code": "EMAIL"
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

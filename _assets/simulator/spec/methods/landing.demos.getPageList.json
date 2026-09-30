@@ -152,5 +152,11 @@
     }
   ],
   "page": "/api-reference/landing/demos/landing-demos-get-page-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "page",
+    "filter": {
+      "TYPE": "PAGE"
+    }
+  }
 }

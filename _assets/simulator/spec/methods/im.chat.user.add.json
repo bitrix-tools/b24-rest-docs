@@ -68,5 +68,13 @@
     }
   ],
   "page": "/api-reference/chats/chat-users/im-chat-user-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2935,
+    "USERS": [
+      99,
+      1271
+    ],
+    "HIDE_HISTORY": "N"
+  }
 }

@@ -122,5 +122,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/category/crm-category-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 2
+  }
 }

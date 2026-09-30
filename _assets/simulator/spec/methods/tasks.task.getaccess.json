@@ -55,5 +55,12 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-get-access.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8017,
+    "users": [
+      503,
+      547
+    ]
+  }
 }

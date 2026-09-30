@@ -72,5 +72,12 @@
   },
   "returns": [],
   "page": "/api-reference/catalog/product/sku/catalog-product-sku-download.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "fileId": 6546,
+      "productId": 1289,
+      "fieldName": "detailPicture"
+    }
+  }
 }

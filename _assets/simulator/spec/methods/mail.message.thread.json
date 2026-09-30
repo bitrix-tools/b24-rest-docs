@@ -132,5 +132,9 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-thread.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 15,
+    "limit": 20
+  }
 }

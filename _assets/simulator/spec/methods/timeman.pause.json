@@ -162,5 +162,8 @@
     }
   ],
   "page": "/api-reference/timeman/base/timeman-pause.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 503
+  }
 }

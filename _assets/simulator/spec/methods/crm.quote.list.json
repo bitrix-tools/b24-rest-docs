@@ -138,5 +138,23 @@
     "PERSON_TYPE_ID",
     "STATUS_ID",
     "TITLE"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "STATUS_ID": "ASC",
+      "ID": "ASC"
+    },
+    "filter": {
+      "=COMPANY_ID": 1,
+      "=STATUS_ID": "SENT"
+    },
+    "select": [
+      "ID",
+      "TITLE",
+      "STATUS_ID",
+      "OPPORTUNITY",
+      "CURRENCY_ID",
+      "ASSIGNED_BY_ID"
+    ]
+  }
 }

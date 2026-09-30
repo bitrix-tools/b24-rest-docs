@@ -74,5 +74,8 @@
     "quantity",
     "reservedQuantity",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 7
+  }
 }

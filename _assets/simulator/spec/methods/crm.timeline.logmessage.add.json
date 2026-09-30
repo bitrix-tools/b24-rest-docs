@@ -105,5 +105,14 @@
     }
   ],
   "page": "/api-reference/crm/timeline/logmessage/crm-timeline-logmessage-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "entityTypeId": 1,
+      "entityId": 1,
+      "title": "Test title",
+      "text": "Test text message",
+      "iconCode": "info"
+    }
+  }
 }

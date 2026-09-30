@@ -10,8 +10,8 @@
       "name": "code",
       "type": "string",
       "base": "string",
-      "required": false,
-      "description": "Символьный код удаляемого сервиса"
+      "required": true,
+      "description": "Символьный код удаляемого сервиса. Код должен совпадать с кодом сервиса, зарегистрированного текущим приложением или без привязки к приложению при вызове через вебхук"
     }
   ],
   "defs": {},
@@ -39,7 +39,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Результат удаления сервиса: - true — сервис удален - false — сервис не найден, не принадлежит текущему приложению или удаление не выполнено"
+      "description": "Результат удаления сервиса: - true — сервис удален - false — сервис не найден, не принадлежит текущему приложению, параметр code не передан или удаление не выполнено"
     },
     {
       "name": "time",
@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/ai/ai-engine-unregister.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "acme_gpt"
+  }
 }

@@ -1,0 +1,174 @@
+{
+  "$v": 1,
+  "method": "tasks.api.scrum.kanban.getFields",
+  "scope": "task",
+  "kind": "read",
+  "title": "Получить список доступных полей стадии канбана tasks.api.scrum.kanban.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "result.fields",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Описание доступных полей стадии канбана",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "result.fields.name.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля name: string"
+    },
+    {
+      "name": "result.fields.sort.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля sort: integer"
+    },
+    {
+      "name": "result.fields.type.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля type: string"
+    },
+    {
+      "name": "result.fields.sprintId.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля sprintId: integer"
+    },
+    {
+      "name": "result.fields.color.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля color: string"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "fields": {
+        "name": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "sprintId": {
+          "type": "integer"
+        },
+        "color": {
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1712137817.343984,
+      "finish": 1712137817.605804,
+      "duration": 0.26182007789611816,
+      "processing": 0.018325090408325195,
+      "date_start": "2024-04-03T12:50:17+03:00",
+      "date_finish": "2024-04-03T12:50:17+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "result.fields",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Описание доступных полей стадии канбана"
+    },
+    {
+      "name": "result.fields.name.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля name: string"
+    },
+    {
+      "name": "result.fields.sort.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля sort: integer"
+    },
+    {
+      "name": "result.fields.type.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля type: string"
+    },
+    {
+      "name": "result.fields.sprintId.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля sprintId: integer"
+    },
+    {
+      "name": "result.fields.color.type",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Тип поля color: string"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-get-fields.html",
+  "executable": false,
+  "requestExample": {}
+}

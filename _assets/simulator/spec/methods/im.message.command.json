@@ -71,5 +71,11 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-message-command.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "MESSAGE_ID": 34261,
+    "BOT_ID": 1291,
+    "COMMAND": "task",
+    "COMMAND_PARAMS": "task №1"
+  }
 }

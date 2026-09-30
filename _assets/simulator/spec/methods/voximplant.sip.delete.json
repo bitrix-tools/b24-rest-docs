@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONFIG_ID": 5
+  }
 }
