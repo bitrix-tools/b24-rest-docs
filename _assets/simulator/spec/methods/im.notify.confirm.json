@@ -61,5 +61,9 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-confirm.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NOTIFY_ID": 288,
+    "NOTIFY_VALUE": "Y"
+  }
 }

@@ -107,5 +107,13 @@
     }
   ],
   "page": "/api-reference/departments/node-member/humanresources-node-member-remove.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "nodeId": 15,
+    "userIds": [
+      18,
+      25,
+      31
+    ]
+  }
 }

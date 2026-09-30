@@ -92,5 +92,15 @@
     }
   ],
   "page": "/api-reference/tasks/comment-item/task-comment-item-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "ITEMID": 3167,
+    "FIELDS": {
+      "POST_MESSAGE": "Комментарий обновлен",
+      "UF_FORUM_MESSAGE_DOC": [
+        "n4755"
+      ]
+    }
+  }
 }

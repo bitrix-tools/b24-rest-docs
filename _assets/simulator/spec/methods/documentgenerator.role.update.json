@@ -107,5 +107,23 @@
     }
   ],
   "page": "/api-reference/document-generator/role/document-generator-role-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 9,
+    "fields": {
+      "name": "Редакторы своих шаблонов",
+      "permissions": {
+        "SETTINGS": {
+          "MODIFY": ""
+        },
+        "TEMPLATES": {
+          "MODIFY": "A"
+        },
+        "DOCUMENTS": {
+          "MODIFY": "X",
+          "VIEW": "X"
+        }
+      }
+    }
+  }
 }

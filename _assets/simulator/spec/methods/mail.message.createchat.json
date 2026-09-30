@@ -83,5 +83,8 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-createchat.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "messageId": 15
+  }
 }

@@ -78,5 +78,6 @@
     }
   ],
   "page": "/api-reference/crm/auxiliary/enum/crm-enum-settings-mode.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

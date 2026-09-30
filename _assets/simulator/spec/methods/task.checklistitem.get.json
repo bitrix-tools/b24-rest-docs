@@ -107,5 +107,9 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "ITEMID": 479
+  }
 }

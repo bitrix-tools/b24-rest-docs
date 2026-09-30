@@ -3,7 +3,7 @@
   "method": "sale.basketitem.delete",
   "scope": "sale",
   "kind": "write",
-  "title": "Удалить элемент (позицию) корзины из заказа sale.basketitem.delete",
+  "title": "Удалить позицию из корзины заказа sale.basketitem.delete",
   "permissions": "администратор",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "sale_basket_item.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор элемента (позиции) корзины. Можно получить методом sale.basketitem.list"
+      "description": "Идентификатор позиции корзины. Можно получить методом sale.basketitem.list"
     }
   ],
   "defs": {},
@@ -38,7 +38,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Результат удаления элемента корзины"
+      "description": "Результат удаления позиции корзины. При успешном удалении возвращается true"
     },
     {
       "name": "time",
@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/sale/basket-item/sale-basket-item-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 6803
+  }
 }

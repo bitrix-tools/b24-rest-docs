@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/crm/leads/management-communication/crm-lead-contact-items-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

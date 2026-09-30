@@ -127,5 +127,6 @@
     }
   ],
   "page": "/api-reference/catalog/document/document-element/catalog-document-element-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

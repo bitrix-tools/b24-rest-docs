@@ -4,14 +4,14 @@
   "scope": "crm",
   "kind": "write",
   "title": "Удалить товарную позицию из объекта CRM crm.item.productrow.delete",
-  "permissions": "требуется право на изменение объекта CRM, товарная позиция которого удаляется",
+  "permissions": "требуется право на изменение объекта CRM, которому принадлежит товарная позиция",
   "params": [
     {
       "name": "id",
       "type": "crm_item_product_row.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор товарной позиции"
+      "description": "Идентификатор товарной позиции. Получить его можно методом crm.item.productrow.list"
     }
   ],
   "defs": {},
@@ -23,10 +23,10 @@
   "returns": [
     {
       "name": "result",
-      "type": "any",
+      "type": "null",
       "base": "any",
       "required": false,
-      "description": "Результат операции. Значение всегда null"
+      "description": "Метод не возвращает данных. Признак успеха — отсутствие ошибки в ответе"
     },
     {
       "name": "time",
@@ -37,5 +37,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 17655
+  }
 }

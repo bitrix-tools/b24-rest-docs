@@ -88,5 +88,15 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "waitListId": 14,
+    "externalData": [
+      {
+        "moduleId": "crm",
+        "entityTypeId": "DEAL",
+        "value": "1"
+      }
+    ]
+  }
 }

@@ -63,5 +63,9 @@
     }
   ],
   "page": "/api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "info",
+    "fileContent": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU"
+  }
 }

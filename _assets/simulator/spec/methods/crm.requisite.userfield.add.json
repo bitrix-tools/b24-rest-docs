@@ -260,5 +260,20 @@
     }
   ],
   "page": "/api-reference/crm/requisites/user-fields/crm-requisite-userfield-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "USER_TYPE_ID": "string",
+      "ENTITY_ID": "CRM_REQUISITE",
+      "SORT": 100,
+      "MULTIPLE": "N",
+      "MANDATORY": "N",
+      "SHOW_FILTER": "E",
+      "SHOW_IN_LIST": "Y",
+      "EDIT_FORM_LABEL": "ПП - Строка",
+      "LIST_COLUMN_LABEL": "ПП - Строка",
+      "LIST_FILTER_LABEL": "ПП - Строка",
+      "FIELD_NAME": "NEWTECH_v1_STRING"
+    }
+  }
 }

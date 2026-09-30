@@ -202,5 +202,8 @@
     "TYPE",
     "UPDATED_BY",
     "UPDATE_TIME"
-  ]
+  ],
+  "requestExample": {
+    "id": 8930
+  }
 }

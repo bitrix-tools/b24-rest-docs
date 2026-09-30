@@ -91,5 +91,21 @@
     "dependentId",
     "taskId",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "filter": [
+      "taskId",
+      101
+    ],
+    "select": [
+      "taskId",
+      "dependentId",
+      "type",
+      "creatorId"
+    ],
+    "pagination": {
+      "limit": 10,
+      "offset": 0
+    }
+  }
 }

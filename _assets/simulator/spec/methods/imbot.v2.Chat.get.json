@@ -18,14 +18,14 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+      "description": "Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен. Передавайте тот же botToken, который указали при регистрации бота"
     },
     {
       "name": "dialogId",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "ID диалога. Для групповых чатов — chat{chatId}, для личных — {userId}"
+      "description": "ID диалога в формате dialogId: chat{chatId} для группового чата, {userId} для личного"
     }
   ],
   "defs": {},
@@ -53,27 +53,79 @@
         "entityData1": "",
         "entityData2": "",
         "entityData3": "",
-        "entityLink": {},
-        "diskFolderId": 42,
+        "entityLink": {
+          "type": "",
+          "url": "",
+          "id": ""
+        },
+        "diskFolderId": null,
         "role": "owner",
-        "permissions": {},
+        "permissions": {
+          "manageUsersAdd": "member",
+          "manageUsersDelete": "manager",
+          "manageUi": "member",
+          "manageSettings": "owner",
+          "manageMessages": "member",
+          "manageMessagesAutoDelete": "manager",
+          "manageGuestInvites": "manager",
+          "manageDelete": "member",
+          "canPost": "member"
+        },
+        "hasManageCapability": false,
+        "canHaveThreads": true,
         "muteList": [],
         "parentChatId": null,
         "parentMessageId": null,
         "isNew": false,
-        "textFieldEnabled": "Y",
+        "textFieldEnabled": true,
         "backgroundId": null,
         "dateCreate": "2025-01-15T10:00:00+03:00",
         "lastMessageId": 789,
-        "lastMessageViews": "{}",
+        "lastMessageViews": {
+          "messageId": 789,
+          "firstViewers": [],
+          "countOfViewers": 0
+        },
         "lastId": 789,
-        "managerList": [],
-        "markedId": null,
+        "managerList": [
+          456
+        ],
+        "markedId": 0,
         "messageCount": 15,
         "public": "",
-        "unreadId": null,
-        "userCounter": 3
-      }
+        "unreadId": 0,
+        "userCounter": 3,
+        "guestCount": 0
+      },
+      "users": [
+        {
+          "id": 456,
+          "active": true,
+          "name": "Support Bot",
+          "firstName": "Support Bot",
+          "lastName": "",
+          "workPosition": "",
+          "color": "#4ba984",
+          "avatar": "",
+          "gender": "M",
+          "birthday": "",
+          "extranet": false,
+          "bot": true,
+          "connector": false,
+          "externalAuthId": "bot",
+          "status": "online",
+          "idle": false,
+          "lastActivityDate": false,
+          "mobileLastDate": false,
+          "desktopLastDate": false,
+          "absent": false,
+          "departments": [],
+          "phones": false,
+          "type": "bot",
+          "website": "",
+          "email": ""
+        }
+      ]
     },
     "time": {
       "start": 1728626400.123,
@@ -89,6 +141,7 @@
   "entityFields": [
     "avatar",
     "backgroundId",
+    "canHaveThreads",
     "color",
     "containsCollaber",
     "dateCreate",
@@ -102,6 +155,8 @@
     "entityLink",
     "entityType",
     "extranet",
+    "guestCount",
+    "hasManageCapability",
     "id",
     "isNew",
     "lastId",
@@ -109,7 +164,6 @@
     "lastMessageViews",
     "managerList",
     "markedId",
-    "message",
     "messageCount",
     "messageType",
     "muteList",
@@ -127,5 +181,10 @@
     "unreadId",
     "userCounter",
     "userIds"
-  ]
+  ],
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "dialogId": "chat5"
+  }
 }

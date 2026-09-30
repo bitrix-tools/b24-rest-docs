@@ -1,7 +1,7 @@
 {
   "$v": 1,
   "generator": "simulator/generate-spec.js",
-  "count": 1577,
+  "count": 1596,
   "methods": [
     {
       "method": "access.name",
@@ -10,7 +10,7 @@
       "page": "/api-reference/common/system/access-name.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить названия прав доступа access.name"
+      "title": "Получить названия кодов доступа access.name"
     },
     {
       "method": "ai.engine.list",
@@ -40,13 +40,22 @@
       "title": "Удалить сервис ai.engine.unregister"
     },
     {
+      "method": "app.info",
+      "scope": "базовый",
+      "kind": "write",
+      "page": "/api-reference/common/system/app-info.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Показать информацию о приложении app.info"
+    },
+    {
       "method": "app.option.get",
       "scope": "базовый",
       "kind": "read",
       "page": "/api-reference/common/settings/app-option-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить привязанные к приложению данные app.option.get"
+      "title": "Получить общие настройки приложения app.option.get"
     },
     {
       "method": "app.option.set",
@@ -55,7 +64,7 @@
       "page": "/api-reference/common/settings/app-option-set.html",
       "executable": false,
       "deprecated": false,
-      "title": "Привязать данные к приложению app.option.set"
+      "title": "Сохранить общие настройки приложения app.option.set"
     },
     {
       "method": "biconnector.connector.add",
@@ -109,7 +118,7 @@
       "page": "/api-reference/biconnector/connector/biconnector-connector-update.html",
       "executable": false,
       "deprecated": false,
-      "title": "Изменить коннектор biconnector.connector.update"
+      "title": "Обновить коннектор biconnector.connector.update"
     },
     {
       "method": "biconnector.dataset.add",
@@ -117,7 +126,7 @@
       "kind": "write",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-add.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Создать датасет biconnector.dataset.add"
     },
     {
@@ -126,7 +135,7 @@
       "kind": "write",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-delete.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Удалить датасет biconnector.dataset.delete"
     },
     {
@@ -135,7 +144,7 @@
       "kind": "read",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-fields.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Получить поля датасета biconnector.dataset.fields"
     },
     {
@@ -144,7 +153,7 @@
       "kind": "write",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-fields-update.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Обновить поля датасета biconnector.dataset.fields.update"
     },
     {
@@ -153,7 +162,7 @@
       "kind": "read",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-get.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Получить датасет по id biconnector.dataset.get"
     },
     {
@@ -162,7 +171,7 @@
       "kind": "read",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-list.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Получить список датасетов biconnector.dataset.list"
     },
     {
@@ -171,7 +180,7 @@
       "kind": "write",
       "page": "/api-reference/biconnector/dataset/biconnector-dataset-update.html",
       "executable": false,
-      "deprecated": false,
+      "deprecated": true,
       "title": "Обновить датасет biconnector.dataset.update"
     },
     {
@@ -226,7 +235,70 @@
       "page": "/api-reference/biconnector/source/biconnector-source-update.html",
       "executable": false,
       "deprecated": false,
-      "title": "Изменить источник biconnector.source.update"
+      "title": "Обновить источник biconnector.source.update"
+    },
+    {
+      "method": "biconnector.table.add",
+      "scope": "biconnector",
+      "kind": "write",
+      "page": "/api-reference/biconnector/table/biconnector-table-add.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Создать таблицу biconnector.table.add"
+    },
+    {
+      "method": "biconnector.table.delete",
+      "scope": "biconnector",
+      "kind": "write",
+      "page": "/api-reference/biconnector/table/biconnector-table-delete.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Удалить таблицу biconnector.table.delete"
+    },
+    {
+      "method": "biconnector.table.fields",
+      "scope": "biconnector",
+      "kind": "read",
+      "page": "/api-reference/biconnector/table/biconnector-table-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить поля таблицы biconnector.table.fields"
+    },
+    {
+      "method": "biconnector.table.fields.update",
+      "scope": "biconnector",
+      "kind": "write",
+      "page": "/api-reference/biconnector/table/biconnector-table-fields-update.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Обновить колонки таблицы biconnector.table.fields.update"
+    },
+    {
+      "method": "biconnector.table.get",
+      "scope": "biconnector",
+      "kind": "read",
+      "page": "/api-reference/biconnector/table/biconnector-table-get.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить таблицу по id biconnector.table.get"
+    },
+    {
+      "method": "biconnector.table.list",
+      "scope": "biconnector",
+      "kind": "read",
+      "page": "/api-reference/biconnector/table/biconnector-table-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список таблиц biconnector.table.list"
+    },
+    {
+      "method": "biconnector.table.update",
+      "scope": "biconnector",
+      "kind": "write",
+      "page": "/api-reference/biconnector/table/biconnector-table-update.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Обновить таблицу biconnector.table.update"
     },
     {
       "method": "bizproc.activity.add",
@@ -667,7 +739,7 @@
       "page": "/api-reference/booking/waitlist/client/booking-v1-waitlist-client-list.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить список клиентов записи в лист ожидания booking.v1.waitlist.client.list"
+      "title": "Получить клиентов записи в листе ожидания booking.v1.waitlist.client.list"
     },
     {
       "method": "booking.v1.waitlist.client.set",
@@ -676,7 +748,7 @@
       "page": "/api-reference/booking/waitlist/client/booking-v1-waitlist-client-set.html",
       "executable": false,
       "deprecated": false,
-      "title": "Добавить клиентов к записи в лист ожидания booking.v1.waitlist.client.set"
+      "title": "Установить клиентов записи в листе ожидания booking.v1.waitlist.client.set"
     },
     {
       "method": "booking.v1.waitlist.client.unset",
@@ -685,7 +757,7 @@
       "page": "/api-reference/booking/waitlist/client/booking-v1-waitlist-client-unset.html",
       "executable": false,
       "deprecated": false,
-      "title": "Удалить клиентов из записи в лист ожидания booking.v1.waitlist.client.unset"
+      "title": "Удалить связи с клиентами записи в листе ожидания booking.v1.waitlist.client.unset"
     },
     {
       "method": "booking.v1.waitlist.createfrombooking",
@@ -1405,7 +1477,7 @@
       "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-delete.html",
       "executable": false,
       "deprecated": false,
-      "title": "Удалить привязку типа цен к группе покупателей catalog.priceTypeGroup.delete"
+      "title": "Удалить привязку типа цены к группе покупателей catalog.priceTypeGroup.delete"
     },
     {
       "method": "catalog.priceTypeGroup.getFields",
@@ -2314,7 +2386,7 @@
       "page": "/api-reference/crm/timeline/activities/configurable/crm-activity-configurable-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить конфигурируемое дело по id crm.activity.configurable.get"
+      "title": "Получить конфигурируемое дело crm.activity.configurable.get"
     },
     {
       "method": "crm.activity.configurable.update",
@@ -2359,7 +2431,7 @@
       "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-delete.html",
       "executable": false,
       "deprecated": false,
-      "title": "Удалить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.delete"
+      "title": "Удалить набор дополнительных контентных блоков из дела crm.activity.layout.blocks.delete"
     },
     {
       "method": "crm.activity.layout.blocks.get",
@@ -2368,7 +2440,7 @@
       "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.get"
+      "title": "Получить набор дополнительных контентных блоков дела crm.activity.layout.blocks.get"
     },
     {
       "method": "crm.activity.layout.blocks.set",
@@ -2531,6 +2603,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Удалить цифровое рабочее место crm.automatedsolution.delete"
+    },
+    {
+      "method": "crm.automatedsolution.fields",
+      "scope": "crm",
+      "kind": "read",
+      "page": "/api-reference/crm/automated-solution/crm-automated-solution-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить поля цифрового рабочего места crm.automatedsolution.fields"
     },
     {
       "method": "crm.automatedsolution.get",
@@ -4225,6 +4306,15 @@
       "title": "Удалить товарную позицию из объекта CRM crm.item.productrow.delete"
     },
     {
+      "method": "crm.item.productrow.fields",
+      "scope": "crm",
+      "kind": "read",
+      "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список полей товарных позиций crm.item.productrow.fields"
+    },
+    {
       "method": "crm.item.productrow.get",
       "scope": "crm",
       "kind": "read",
@@ -4258,7 +4348,7 @@
       "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-set.html",
       "executable": false,
       "deprecated": false,
-      "title": "Сохранить товарную позицию объекта CRM crm.item.productrow.set"
+      "title": "Сохранить товарные позиции объекта CRM crm.item.productrow.set"
     },
     {
       "method": "crm.item.productrow.update",
@@ -5224,13 +5314,22 @@
       "title": "Добавить связь записи таймлайна с элементом CRM crm.timeline.bindings.bind"
     },
     {
+      "method": "crm.timeline.bindings.fields",
+      "scope": "crm",
+      "kind": "read",
+      "page": "/api-reference/crm/timeline/bindings/crm-timeline-bindings-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить поля связи записи таймлайна с элементом CRM crm.timeline.bindings.fields"
+    },
+    {
       "method": "crm.timeline.bindings.list",
       "scope": "crm",
       "kind": "read",
       "page": "/api-reference/crm/timeline/bindings/crm-timeline-bindings-list.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить список связей записи в таймлайне crm.timeline.bindings.list"
+      "title": "Получить список связей записи таймлайна с элементами CRM crm.timeline.bindings.list"
     },
     {
       "method": "crm.timeline.bindings.unbind",
@@ -6463,7 +6562,7 @@
       "page": "/api-reference/common/system/feature-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить информацию о доступности функционала в Битрикс24 feature.get"
+      "title": "Получить информацию о доступности возможности в Битрикс24 feature.get"
     },
     {
       "method": "humanresources.employee.count",
@@ -7849,7 +7948,7 @@
       "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/chats/chat-user-list.html",
       "executable": false,
       "deprecated": false,
-      "title": "Список участников чата imbot.v2.Chat.User.list"
+      "title": "Получить список участников чата imbot.v2.Chat.User.list"
     },
     {
       "method": "imbot.v2.Command.answer",
@@ -7943,7 +8042,7 @@
     },
     {
       "method": "imconnector.chat.name.set",
-      "scope": "imconnector",
+      "scope": "imopenlines",
       "kind": "write",
       "page": "/api-reference/imopenlines/imconnector/imconnector-chat-name-set.html",
       "executable": false,
@@ -8011,7 +8110,7 @@
       "page": "/api-reference/imopenlines/imconnector/imconnector-send-status-reading.html",
       "executable": false,
       "deprecated": false,
-      "title": "Обновить статус «прочитано» imconnector.send.status.reading"
+      "title": "Передать статус «прочитано» imconnector.send.status.reading"
     },
     {
       "method": "imconnector.status",
@@ -8536,6 +8635,15 @@
       "title": "Получить список блоков из репозитория landing.block.getrepository"
     },
     {
+      "method": "landing.block.publication",
+      "scope": "landing",
+      "kind": "write",
+      "page": "/api-reference/landing/block/methods/landing-block-publication.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Опубликовать блок landing.block.publication"
+    },
+    {
       "method": "landing.block.removecard",
       "scope": "landing",
       "kind": "write",
@@ -8896,6 +9004,15 @@
       "title": "Изменить страницу landing.landing.update"
     },
     {
+      "method": "landing.repo.bind",
+      "scope": "landing",
+      "kind": "write",
+      "page": "/api-reference/landing/embedding/landing-repo-bind.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Зарегистрировать место встраивания landing.repo.bind"
+    },
+    {
       "method": "landing.repo.checkContent",
       "scope": "landing",
       "kind": "write",
@@ -8947,7 +9064,7 @@
       "page": "/api-reference/vibe/landing-repowidget-debug.html",
       "executable": false,
       "deprecated": false,
-      "title": "Включить режим отладки landing.repowidget.debug"
+      "title": "Включить или выключить режим отладки landing.repowidget.debug"
     },
     {
       "method": "landing.repowidget.getlist",
@@ -8965,7 +9082,7 @@
       "page": "/api-reference/vibe/landing-repowidget-register.html",
       "executable": false,
       "deprecated": false,
-      "title": "Добавить виджет на Вайб landing.repowidget.register"
+      "title": "Добавить виджет для Вайба landing.repowidget.register"
     },
     {
       "method": "landing.repowidget.unregister",
@@ -9982,7 +10099,7 @@
       "page": "/api-reference/common/system/method-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить список доступных методов method.get"
+      "title": "Проверить доступность метода method.get"
     },
     {
       "method": "note.collection.add",
@@ -10211,7 +10328,7 @@
     },
     {
       "method": "placement.get",
-      "scope": null,
+      "scope": "placement",
       "kind": "read",
       "page": "/api-reference/widgets/placement-get.html",
       "executable": false,
@@ -10477,7 +10594,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-add.html",
       "executable": false,
       "deprecated": false,
-      "title": "Добавить элемент (позицию) в корзину существующего заказа sale.basketitem.add"
+      "title": "Добавить произвольную позицию в корзину заказа sale.basketitem.add"
     },
     {
       "method": "sale.basketitem.addCatalogProduct",
@@ -10486,7 +10603,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-add-catalog-product.html",
       "executable": false,
       "deprecated": false,
-      "title": "Добавить позицию с товаром или услугой из модуля catalog в корзину существующего заказа sale.basketitem.addCatalogProduct"
+      "title": "Добавить позицию с товаром из каталога в корзину заказа sale.basketitem.addCatalogProduct"
     },
     {
       "method": "sale.basketitem.delete",
@@ -10495,7 +10612,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-delete.html",
       "executable": false,
       "deprecated": false,
-      "title": "Удалить элемент (позицию) корзины из заказа sale.basketitem.delete"
+      "title": "Удалить позицию из корзины заказа sale.basketitem.delete"
     },
     {
       "method": "sale.basketitem.get",
@@ -10504,7 +10621,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить информацию об элементе (позиции) корзины заказа sale.basketitem.get"
+      "title": "Получить позицию корзины sale.basketitem.get"
     },
     {
       "method": "sale.basketitem.getFields",
@@ -10513,7 +10630,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-get-fields.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить доступные поля элемента (позиции) корзины sale.basketitem.getFields"
+      "title": "Получить поля позиции корзины sale.basketitem.getFields"
     },
     {
       "method": "sale.basketitem.getFieldsCatalogProduct",
@@ -10522,7 +10639,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-get-catalog-product-fields.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить доступные поля элемента корзины (товар из каталога) sale.basketitem.getFieldsCatalogProduct"
+      "title": "Получить поля позиции с товаром из каталога sale.basketitem.getFieldsCatalogProduct"
     },
     {
       "method": "sale.basketitem.list",
@@ -10531,7 +10648,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-list.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить список элементов (позиций) корзины sale.basketitem.list"
+      "title": "Получить список позиций корзины sale.basketitem.list"
     },
     {
       "method": "sale.basketitem.update",
@@ -10540,7 +10657,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-update.html",
       "executable": false,
       "deprecated": false,
-      "title": "Изменить позицию корзины существующего заказа sale.basketitem.update"
+      "title": "Изменить позицию корзины заказа sale.basketitem.update"
     },
     {
       "method": "sale.basketitem.updateCatalogProduct",
@@ -10549,7 +10666,7 @@
       "page": "/api-reference/sale/basket-item/sale-basket-item-update-catalog-product.html",
       "executable": false,
       "deprecated": false,
-      "title": "Изменить позицию корзины (товар из каталога) существующего заказа sale.basketitem.updateCatalogProduct"
+      "title": "Изменить позицию с товаром из каталога sale.basketitem.updateCatalogProduct"
     },
     {
       "method": "sale.basketproperties.add",
@@ -10891,7 +11008,7 @@
       "page": "/api-reference/sale/order/sale-order-delete.html",
       "executable": false,
       "deprecated": false,
-      "title": "Удалить заказ и связанные объекты sale.order.delete"
+      "title": "Удалить заказ sale.order.delete"
     },
     {
       "method": "sale.order.get",
@@ -10903,13 +11020,13 @@
       "title": "Получить значения полей заказа и связанных объектов sale.order.get"
     },
     {
-      "method": "sale.order.getfields",
+      "method": "sale.order.getFields",
       "scope": "sale",
       "kind": "read",
       "page": "/api-reference/sale/order/sale-order-get-fields.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить поля заказа sale.order.getfields"
+      "title": "Получить поля заказа sale.order.getFields"
     },
     {
       "method": "sale.order.list",
@@ -11812,6 +11929,15 @@
       "title": "Получить список локализаций статусов sale.statusLang.list"
     },
     {
+      "method": "sale.tradeBinding.getFields",
+      "scope": "sale",
+      "kind": "read",
+      "page": "/api-reference/sale/trade-binding/sale-trade-binding-get-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить доступные поля заказов из источников sale.tradeBinding.getFields"
+    },
+    {
       "method": "sale.tradeBinding.list",
       "scope": "sale",
       "kind": "read",
@@ -11846,6 +11972,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Сгенерировать ссылку на определенную оплату salescenter.payment.getPublicUrl"
+    },
+    {
+      "method": "server.time",
+      "scope": "базовый",
+      "kind": "write",
+      "page": "/api-reference/common/system/server-time.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить текущее время сервера server.time"
     },
     {
       "method": "sign.b2e.company.provider.list",
@@ -12739,6 +12874,15 @@
       "title": "Удалить задачу из канбана Скрама tasks.api.scrum.kanban.deleteTask"
     },
     {
+      "method": "tasks.api.scrum.kanban.getFields",
+      "scope": "task",
+      "kind": "read",
+      "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-get-fields.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список доступных полей стадии канбана tasks.api.scrum.kanban.getFields"
+    },
+    {
       "method": "tasks.api.scrum.kanban.getStages",
       "scope": "task",
       "kind": "write",
@@ -12790,7 +12934,7 @@
       "page": "/api-reference/sonet-group/scrum/sprint/tasks-api-scrum-sprint-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить поля спринта по его идентификатору tasks.api.scrum.sprint.get"
+      "title": "Получить спринт по идентификатору tasks.api.scrum.sprint.get"
     },
     {
       "method": "tasks.api.scrum.sprint.getFields",
@@ -12835,7 +12979,7 @@
       "page": "/api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить поля задачи Скрама по id tasks.api.scrum.task.get"
+      "title": "Получить поля задачи Скрама по идентификатору tasks.api.scrum.task.get"
     },
     {
       "method": "tasks.api.scrum.task.getFields",
@@ -13744,7 +13888,7 @@
       "page": "/api-reference/common/users/user-access.html",
       "executable": false,
       "deprecated": false,
-      "title": "Определить набор прав пользователя user.access"
+      "title": "Проверить коды доступа пользователя user.access"
     },
     {
       "method": "user.add",
@@ -13754,6 +13898,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Пригласить пользователя user.add"
+    },
+    {
+      "method": "user.admin",
+      "scope": "базовый",
+      "kind": "write",
+      "page": "/api-reference/common/users/user-admin.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Проверить права администратора user.admin"
     },
     {
       "method": "user.get",
@@ -13771,7 +13924,7 @@
       "page": "/api-reference/common/settings/user-option-get.html",
       "executable": false,
       "deprecated": false,
-      "title": "Получить пользовательские данные, привязанные к приложению user.option.get"
+      "title": "Получить настройки пользователя user.option.get"
     },
     {
       "method": "user.option.set",
@@ -13780,7 +13933,7 @@
       "page": "/api-reference/common/settings/user-option-set.html",
       "executable": false,
       "deprecated": false,
-      "title": "Привязать данные к пользователю и приложению user.option.set"
+      "title": "Сохранить настройки пользователя user.option.set"
     },
     {
       "method": "user.search",
@@ -13934,6 +14087,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Удалить зарегистрированный тип пользовательских полей userfieldtype.delete"
+    },
+    {
+      "method": "userfieldtype.list",
+      "scope": "placement",
+      "kind": "read",
+      "page": "/api-reference/widgets/user-field/userfieldtype-list.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Получить список зарегистрированных типов пользовательских полей userfieldtype.list"
     },
     {
       "method": "userfieldtype.update",
@@ -14186,6 +14348,15 @@
       "executable": false,
       "deprecated": false,
       "title": "Активировать SIP-аппарат пользователя voximplant.user.activatePhone"
+    },
+    {
+      "method": "voximplant.user.deactivatePhone",
+      "scope": "telephony",
+      "kind": "write",
+      "page": "/api-reference/telephony/voximplant/users/voximplant-user-deactivate-phone.html",
+      "executable": false,
+      "deprecated": false,
+      "title": "Деактивировать SIP-аппарат пользователя voximplant.user.deactivatePhone"
     },
     {
       "method": "voximplant.user.get",

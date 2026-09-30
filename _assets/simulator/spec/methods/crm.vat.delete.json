@@ -53,5 +53,8 @@
     }
   ],
   "page": "/api-reference/crm/outdated/vat/crm-vat-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 7
+  }
 }

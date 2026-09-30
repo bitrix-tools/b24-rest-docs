@@ -3,7 +3,7 @@
   "method": "sale.order.delete",
   "scope": "sale",
   "kind": "write",
-  "title": "Удалить заказ и связанные объекты sale.order.delete",
+  "title": "Удалить заказ sale.order.delete",
   "permissions": "администратор",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "sale_order.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор заказа"
+      "description": "Идентификатор заказа, который нужно удалить. Его возвращают методы sale.order.add и sale.order.list"
     }
   ],
   "defs": {},
@@ -37,7 +37,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Результат удаления заказа"
+      "description": "true, если заказ удален"
     },
     {
       "name": "time",
@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/order/sale-order-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 5
+  }
 }

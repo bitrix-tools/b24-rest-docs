@@ -129,5 +129,22 @@
     }
   ],
   "page": "/api-reference/telephony/telephony-call-attach-transcription.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    "MESSAGES": [
+      {
+        "SIDE": "User",
+        "START_TIME": 1,
+        "STOP_TIME": 3,
+        "MESSAGE": "Добрый день"
+      },
+      {
+        "SIDE": "Client",
+        "START_TIME": 4,
+        "STOP_TIME": 7,
+        "MESSAGE": "Здравствуйте"
+      }
+    ]
+  }
 }

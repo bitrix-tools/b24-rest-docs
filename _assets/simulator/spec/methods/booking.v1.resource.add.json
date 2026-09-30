@@ -363,5 +363,31 @@
     }
   ],
   "page": "/api-reference/booking/resource/booking-v1-resource-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Название",
+      "description": "Описание",
+      "typeId": 1,
+      "isMain": "N",
+      "isInfoNotificationOn": "Y",
+      "templateTypeInfo": "inanimate",
+      "isConfirmationNotificationOn": "Y",
+      "templateTypeConfirmation": "animate",
+      "isReminderNotificationOn": "N",
+      "templateTypeReminder": "base",
+      "isFeedbackNotificationOn": "Y",
+      "templateTypeFeedback": "inanimate",
+      "isDelayedNotificationOn": "Y",
+      "templateTypeDelayed": "inanimate",
+      "infoNotificationDelay": 60,
+      "reminderNotificationDelay": -1,
+      "delayedNotificationDelay": 300,
+      "delayedCounterDelay": 7200,
+      "confirmationNotificationDelay": 86400,
+      "confirmationNotificationRepetitions": 1,
+      "confirmationNotificationRepetitionsInterval": 3600,
+      "confirmationCounterDelay": 7200
+    }
+  }
 }

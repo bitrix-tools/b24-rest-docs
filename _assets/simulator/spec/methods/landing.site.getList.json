@@ -126,5 +126,20 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "select": [
+        "ID",
+        "TITLE",
+        "TYPE"
+      ],
+      "filter": {
+        "=DELETED": "N"
+      },
+      "order": {
+        "ID": "DESC"
+      }
+    }
+  }
 }

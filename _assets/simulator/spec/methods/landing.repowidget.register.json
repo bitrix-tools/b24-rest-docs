@@ -3,22 +3,22 @@
   "method": "landing.repowidget.register",
   "scope": "landing",
   "kind": "write",
-  "title": "Добавить виджет на Вайб landing.repowidget.register",
-  "permissions": "любой пользователь",
+  "title": "Добавить виджет для Вайба landing.repowidget.register",
+  "permissions": "любой пользователь при вызове из приложения, при вызове вебхуком — администратор",
   "params": [
     {
       "name": "code",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Уникальный код виджета. Настоятельно рекомендуется использовать какой-либо уникальный префикс для своих виджетов, чтобы избежать риск совпадения кодов с виджетами других разработчиков"
+      "description": "Код виджета, уникальный в пределах приложения. Виджеты разных приложений с одинаковым кодом не конфликтуют"
     },
     {
       "name": "fields",
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Значения полей для создания виджета",
+      "description": "Значения полей для создания виджета (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -70,14 +70,14 @@
           "type": "object",
           "base": "object",
           "required": true,
-          "description": "Параметры для vue-шаблонизатора. Без них метод вернет ошибку REQUIRED_FIELD_NO_EXISTS"
+          "description": "Параметры для шаблонизатора Vue"
         },
         {
           "name": "ACTIVE",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Активность виджета. Принимает значения: - Y - виджет активен и доступен - N - виджет неактивен и недоступен",
+          "description": "Активность виджета. Принимает значения: - Y — виджет активен и доступен - N — виджет неактивен и недоступен По умолчанию — Y",
           "flag": true
         },
         {

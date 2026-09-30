@@ -149,5 +149,26 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/templates/crm-document-generator-template-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Шаблон КП из REST",
+      "file": [
+        "template.docx",
+        "**base64_encoded_content**"
+      ],
+      "numeratorId": 49,
+      "region": "ru",
+      "entityTypeId": [
+        "2",
+        "2_category_0"
+      ],
+      "users": [
+        "UA"
+      ],
+      "active": "Y",
+      "withStamps": "N",
+      "sort": 500
+    }
+  }
 }

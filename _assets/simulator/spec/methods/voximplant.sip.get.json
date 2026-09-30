@@ -163,5 +163,16 @@
     "SERVER",
     "TITLE",
     "TYPE"
-  ]
+  ],
+  "requestExample": {
+    "FILTER": {
+      "CONFIG_ID": [
+        3,
+        7,
+        9
+      ]
+    },
+    "SORT": "CONFIG_ID",
+    "ORDER": "ASC"
+  }
 }

@@ -110,5 +110,6 @@
     }
   ],
   "page": "/api-reference/crm/outdated/vat/crm-vat-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

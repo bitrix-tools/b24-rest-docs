@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-enum/catalog-product-property-enum-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 122
+  }
 }

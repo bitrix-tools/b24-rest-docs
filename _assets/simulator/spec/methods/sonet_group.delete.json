@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/sonet-group/sonet-group-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "GROUP_ID": 77
+  }
 }

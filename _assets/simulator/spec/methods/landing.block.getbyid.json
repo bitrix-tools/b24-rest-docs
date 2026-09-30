@@ -119,5 +119,12 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-get-by-id.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "block": 39556,
+    "params": {
+      "edit_mode": true,
+      "get_content": true
+    }
+  }
 }

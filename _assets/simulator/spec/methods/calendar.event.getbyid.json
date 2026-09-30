@@ -134,5 +134,8 @@
   },
   "returns": [],
   "page": "/api-reference/calendar/calendar-event/calendar-event-get-by-id.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 324
+  }
 }

@@ -66,5 +66,9 @@
     "id",
     "params",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token"
+  }
 }

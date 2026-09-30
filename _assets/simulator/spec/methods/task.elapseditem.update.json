@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Изменить запись о затраченном времени task.elapseditem.update",
-  "permissions": "любой пользователь",
+  "permissions": "автор записи или администратор с доступом к задаче",
   "params": [
     {
       "name": "TASKID",
@@ -25,7 +25,7 @@
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Объект, содержащий записи о пользователе, времени и комментарии (подробное описание приведено ниже) в виде структуры:",
+      "description": "Изменяемые поля записи (подробное описание)",
       "ref": "#/defs/ARFIELDSFields"
     }
   ],
@@ -48,15 +48,15 @@
           "name": "COMMENT_TEXT",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "Текст комментария"
         },
         {
-          "name": "USER_ID",
-          "type": "integer",
-          "base": "integer",
+          "name": "CREATED_DATE",
+          "type": "datetime",
+          "base": "datetime",
           "required": false,
-          "description": "Идентификатор пользователя"
+          "description": "Дата создания записи"
         }
       ]
     }
@@ -77,6 +77,30 @@
       "date_finish": "2024-04-03T12:50:17+03:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Возвращает null, если запись успешно изменена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 691,
+    "ITEMID": 5,
+    "ARFIELDS": {
+      "SECONDS": 113,
+      "COMMENT_TEXT": "текст комментария"
+    }
+  }
 }

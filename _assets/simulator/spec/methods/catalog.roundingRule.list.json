@@ -129,5 +129,18 @@
     "price",
     "roundPrecision",
     "roundType"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "price",
+      "roundType"
+    ],
+    "filter": {
+      "modifiedBy": 1
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

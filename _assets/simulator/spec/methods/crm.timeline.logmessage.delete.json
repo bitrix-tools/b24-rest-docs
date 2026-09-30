@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/timeline/logmessage/crm-timeline-logmessage-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

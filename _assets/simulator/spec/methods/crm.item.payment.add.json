@@ -44,5 +44,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/crm-item-payment-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityId": 13123,
+    "entityTypeId": 2
+  }
 }

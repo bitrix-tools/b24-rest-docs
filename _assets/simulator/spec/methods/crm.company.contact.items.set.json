@@ -99,5 +99,23 @@
     }
   ],
   "page": "/api-reference/crm/companies/contacts/crm-company-contact-items-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 32,
+    "items": [
+      {
+        "CONTACT_ID": 8,
+        "IS_PRIMARY": "Y",
+        "SORT": 100
+      },
+      {
+        "CONTACT_ID": 9,
+        "SORT": 200
+      },
+      {
+        "CONTACT_ID": 10,
+        "SORT": 400
+      }
+    ]
+  }
 }

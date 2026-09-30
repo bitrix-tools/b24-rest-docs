@@ -1,17 +1,21 @@
 {
   "$v": 1,
   "method": "placement.get",
-  "scope": null,
+  "scope": "placement",
   "kind": "read",
   "title": "Получить обработчики, зарегистрированные приложением placement.get",
   "permissions": "администратор",
   "params": [
     {
       "name": "result",
-      "type": "boolean",
-      "base": "boolean",
+      "type": "array",
+      "base": "array",
       "required": "unknown",
-      "description": "Возвращает список зарегистрированных обработчиков виджетов. Структура каждого элемента соответствует параметрам метода регистрации обработчика"
+      "description": "Список зарегистрированных обработчиков виджетов (подробное описание). Если приложение не зарегистрировало ни одного обработчика, список пустой",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     },
     {
       "name": "time",
@@ -34,6 +38,7 @@
   "resultExample": {
     "result": [
       {
+        "id": 41,
         "placement": "CRM_DEAL_LIST_TOOLBAR",
         "userId": 0,
         "handler": "https://myapp.com/?handler=1",
@@ -49,6 +54,7 @@
         }
       },
       {
+        "id": 42,
         "placement": "CRM_DEAL_LIST_TOOLBAR",
         "userId": 0,
         "handler": "https://myapp.com/?handler=1",
@@ -64,6 +70,7 @@
         }
       },
       {
+        "id": 43,
         "placement": "IM_CONTEXT_MENU",
         "userId": 0,
         "handler": "https://myapp.com/?handler=2",
@@ -83,6 +90,7 @@
         }
       },
       {
+        "id": 44,
         "placement": "PAGE_BACKGROUND_WORKER",
         "userId": 1,
         "handler": "https://myapp.com/?handler=3",
@@ -114,10 +122,10 @@
   "returns": [
     {
       "name": "result",
-      "type": "boolean",
-      "base": "boolean",
+      "type": "array",
+      "base": "array",
       "required": "unknown",
-      "description": "Возвращает список зарегистрированных обработчиков виджетов. Структура каждого элемента соответствует параметрам метода регистрации обработчика"
+      "description": "Список зарегистрированных обработчиков виджетов (подробное описание). Если приложение не зарегистрировало ни одного обработчика, список пустой"
     },
     {
       "name": "time",
@@ -132,6 +140,7 @@
   "entityFields": [
     "description",
     "handler",
+    "id",
     "langAll",
     "options",
     "placement",

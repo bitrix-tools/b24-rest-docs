@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Добавить перевод названия типа цены catalog.priceTypeLang.add",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Управление типами цен»",
   "params": [
     {
       "name": "fields",
@@ -95,5 +95,12 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "catalogGroupId": 1,
+      "lang": "kz",
+      "name": "PRICE"
+    }
+  }
 }

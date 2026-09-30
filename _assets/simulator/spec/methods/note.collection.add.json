@@ -149,5 +149,11 @@
     }
   ],
   "page": "/api-reference/note/collection/note-collection-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Продуктовая документация",
+      "position": 100
+    }
+  }
 }

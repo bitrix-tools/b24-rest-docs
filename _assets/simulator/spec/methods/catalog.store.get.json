@@ -64,5 +64,8 @@
     "title",
     "userId",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

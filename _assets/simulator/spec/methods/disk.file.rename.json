@@ -216,5 +216,9 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-rename.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8964,
+    "newName": "Новое имя файла.png"
+  }
 }

@@ -75,5 +75,10 @@
     }
   ],
   "page": "/api-reference/chats/departments/im-department-colleagues-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_DATA": "Y",
+    "OFFSET": 0,
+    "LIMIT": 5
+  }
 }

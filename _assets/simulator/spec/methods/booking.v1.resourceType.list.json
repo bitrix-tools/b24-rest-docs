@@ -158,5 +158,15 @@
     "templateTypeDelayed",
     "templateTypeFeedback",
     "templateTypeReminder"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "moduleId": "booking"
+    },
+    "order": {
+      "id": "ASC",
+      "name": "DESC",
+      "code": "DESC"
+    }
+  }
 }

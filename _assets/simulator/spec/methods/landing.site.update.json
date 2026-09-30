@@ -138,5 +138,14 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 206,
+    "fields": {
+      "TITLE": "Support portal",
+      "CODE": "support-portal",
+      "DESCRIPTION": "Обновленное описание сайта",
+      "LANDING_ID_INDEX": 987
+    }
+  }
 }

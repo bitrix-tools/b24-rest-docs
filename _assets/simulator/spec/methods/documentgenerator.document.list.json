@@ -83,5 +83,30 @@
     "PROVIDER",
     "TITLE",
     "TYPE"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "title",
+      "number",
+      "templateId",
+      "provider",
+      "value",
+      "fileId",
+      "imageId",
+      "pdfId",
+      "createTime",
+      "updateTime",
+      "createdBy"
+    ],
+    "order": {
+      "updateTime": "desc",
+      "id": "desc"
+    },
+    "filter": {
+      ">=createTime": "2026-03-18T00:00:00+03:00",
+      "%title": "ДГ-2026"
+    },
+    "start": 0
+  }
 }

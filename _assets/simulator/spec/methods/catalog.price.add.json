@@ -107,5 +107,13 @@
     }
   ],
   "page": "/api-reference/catalog/price/catalog-price-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "catalogGroupId": 1,
+      "currency": "RUB",
+      "price": 2000,
+      "productId": 1
+    }
+  }
 }

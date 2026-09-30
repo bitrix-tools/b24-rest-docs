@@ -142,5 +142,9 @@
     "sort",
     "userTypeId",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "moduleId": "crm",
+    "id": 7095
+  }
 }

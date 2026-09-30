@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "server.time",
+  "scope": "базовый",
+  "kind": "write",
+  "title": "Получить текущее время сервера server.time",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Время сервера в формате YYYY-MM-DDThh:mm:ss±hh:mm, например 2024-08-05T09:02:13+00:00"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/system/server-time.md"
+  },
+  "resultExample": {
+    "result": "2024-08-05T09:02:13+00:00",
+    "time": {
+      "start": 1722848533.40768,
+      "finish": 1722848533.44277,
+      "duration": 0.0350871086120606,
+      "processing": 0.000040054321289062,
+      "date_start": "2024-08-05T09:02:13+00:00",
+      "date_finish": "2024-08-05T09:02:13+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Время сервера в формате YYYY-MM-DDThh:mm:ss±hh:mm, например 2024-08-05T09:02:13+00:00"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/system/server-time.html",
+  "executable": false,
+  "requestExample": {}
+}

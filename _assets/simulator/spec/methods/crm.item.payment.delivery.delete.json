@@ -37,5 +37,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1199
+  }
 }

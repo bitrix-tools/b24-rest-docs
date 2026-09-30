@@ -1,0 +1,65 @@
+{
+  "$v": 1,
+  "method": "user.admin",
+  "scope": "базовый",
+  "kind": "write",
+  "title": "Проверить права администратора user.admin",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращается true, если текущий пользователь — администратор Битрикс24, false — в противном случае"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/users/user-admin.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1721998816.3694,
+      "finish": 1721998816.43663,
+      "duration": 0.0672309398651123,
+      "processing": 0.000064849853515625,
+      "date_start": "2024-07-26T13:00:16+00:00",
+      "date_finish": "2024-07-26T13:00:16+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": "unknown",
+      "description": "Возвращается true, если текущий пользователь — администратор Битрикс24, false — в противном случае"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/users/user-admin.html",
+  "executable": false,
+  "requestExample": {}
+}

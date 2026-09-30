@@ -64,5 +64,8 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-mark-folder-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 737
+  }
 }

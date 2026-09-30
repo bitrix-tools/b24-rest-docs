@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/resource/booking-v1-resource-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 15
+  }
 }

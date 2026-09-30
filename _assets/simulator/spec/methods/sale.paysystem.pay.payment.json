@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/pay-system/sale-pay-system-pay-payment.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "PAYMENT_ID": 1,
+    "PAY_SYSTEM_ID": 1
+  }
 }

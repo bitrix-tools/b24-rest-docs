@@ -174,5 +174,47 @@
     "vatId",
     "vatIncluded",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "iblockId",
+      "name",
+      "active",
+      "available",
+      "bundle",
+      "code",
+      "createdBy",
+      "dateActiveFrom",
+      "dateActiveTo",
+      "dateCreate",
+      "detailPicture",
+      "detailText",
+      "detailTextType",
+      "iblockSectionId",
+      "modifiedBy",
+      "previewPicture",
+      "previewText",
+      "previewTextType",
+      "sort",
+      "timestampX",
+      "type",
+      "vatId",
+      "vatIncluded",
+      "xmlId",
+      "property94",
+      "property95"
+    ],
+    "filter": {
+      "iblockId": 23,
+      ">id": 10,
+      "vatId": [
+        1,
+        2
+      ]
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

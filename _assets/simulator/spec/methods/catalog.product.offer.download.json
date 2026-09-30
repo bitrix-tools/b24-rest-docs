@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Значения полей для скачивания файлов вариации товара",
+      "description": "Параметры файла вариации товара (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -28,7 +28,7 @@
           "type": "integer",
           "base": "integer",
           "required": true,
-          "description": "Идентификатор зарегистрированного файла. Для получения идентификаторов файлов вариации товара необходимо использовать catalog.product.offer.get либо catalog.product.offer.list"
+          "description": "Идентификатор зарегистрированного файла. Идентификатор возьмите из поля id объекта файла в ответе метода catalog.product.offer.get или catalog.product.offer.list"
         },
         {
           "name": "productId",
@@ -42,19 +42,19 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Имя поля (свойства или поля элемента информационного блока), в котором хранится файл. Возможные значения: - DETAIL_PICTURE — детальная картинка, поле доступно в старой карточке товара - PREVIEW_PICTURE — картинка для анонса, поле доступно в старой карточке товара - PROPERTY_N — свойство, где N — идентификатор свойства либо код свойства Для получения существующих идентификаторов либо кодов свойств…",
+          "description": "Имя поля, в котором хранится файл. Передавайте имя в camelCase — в том же формате, в котором поле возвращают методы catalog.product.offer.get и catalog.product.offer.list. Возможные значения: - detailPicture — детальная картинка, поле доступно в старой карточке товара - previewPicture — картинка для анонса, поле доступно в старой карточке товара - propertyN — файловое свойство, где N — идентификат…",
           "values": [
             {
-              "value": "DETAIL_PICTURE",
+              "value": "detailPicture",
               "title": "детальная картинка, поле доступно в старой карточке товара"
             },
             {
-              "value": "PREVIEW_PICTURE",
+              "value": "previewPicture",
               "title": "картинка для анонса, поле доступно в старой карточке товара"
             },
             {
-              "value": "PROPERTY_N",
-              "title": "свойство, где N — идентификатор свойства либо код свойства Для получения существ"
+              "value": "propertyN",
+              "title": "файловое свойство, где N — идентификат…"
             }
           ]
         }
@@ -67,10 +67,17 @@
     "file": "api-reference/catalog/product/offer/catalog-product-offer-download.md"
   },
   "resultExample": {
-    "error": 0,
+    "error": "0",
     "error_description": "Required fields: fileId"
   },
   "returns": [],
   "page": "/api-reference/catalog/product/offer/catalog-product-offer-download.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "fileId": 6538,
+      "productId": 1286,
+      "fieldName": "detailPicture"
+    }
+  }
 }

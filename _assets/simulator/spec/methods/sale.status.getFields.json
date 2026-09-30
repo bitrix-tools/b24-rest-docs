@@ -120,5 +120,6 @@
     }
   ],
   "page": "/api-reference/sale/status/sale-status-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

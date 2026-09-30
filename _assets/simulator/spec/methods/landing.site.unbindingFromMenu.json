@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/landing/embedding/knowledge-base/landing-site-unbinding-from-menu.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 31,
+    "menuCode": "crm_switcher:deal"
+  }
 }

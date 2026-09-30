@@ -48,5 +48,9 @@
     }
   ],
   "page": "/api-reference/calendar/resource/calendar-resource-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "resourceId": 197,
+    "name": "Changed Resource Name"
+  }
 }

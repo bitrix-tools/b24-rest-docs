@@ -134,5 +134,27 @@
     "updatedAt",
     "userCount",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "type": "DEPARTMENT",
+    "select": [
+      "id",
+      "name",
+      "type",
+      "structureId",
+      "parentId",
+      "description",
+      "accessCode",
+      "userCount",
+      "colorName",
+      "xmlId",
+      "createdAt",
+      "updatedAt"
+    ],
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

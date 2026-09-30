@@ -87,5 +87,6 @@
     }
   ],
   "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-direction.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

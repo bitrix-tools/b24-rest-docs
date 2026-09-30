@@ -110,5 +110,18 @@
     "ID",
     "NAME",
     "RATE"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "ID": "ASC"
+    },
+    "filter": {
+      "ACTIVE": "Y"
+    },
+    "select": [
+      "ID",
+      "NAME",
+      "RATE"
+    ]
+  }
 }

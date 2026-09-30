@@ -236,5 +236,13 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-dialog-messages-search.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 3,
+    "SEARCH_MESSAGE": "test",
+    "ORDER": {
+      "ID": "DESC"
+    },
+    "LIMIT": 20
+  }
 }

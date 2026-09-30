@@ -105,5 +105,23 @@
     }
   ],
   "page": "/api-reference/document-generator/numerators/document-generator-numerator-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 55,
+    "fields": {
+      "name": "REST Invoice Numerator Updated",
+      "template": "INV-UPD-{NUMBER}",
+      "settings": {
+        "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+          "start": 2000,
+          "step": 10,
+          "length": 8,
+          "padString": "0",
+          "periodicBy": "year",
+          "timezone": "Europe/Moscow",
+          "isDirectNumeration": false
+        }
+      }
+    }
+  }
 }

@@ -124,136 +124,10 @@
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
+      "type": "object[]",
+      "base": "array",
       "required": false,
-      "description": "Массив групп и проектов, соответствующих условиям FILTER. Пустой массив означает, что подходящие записи с учетом прав доступа текущего пользователя отсутствуют"
-    },
-    {
-      "name": "ID",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор группы"
-    },
-    {
-      "name": "SITE_ID",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Идентификатор сайта группы"
-    },
-    {
-      "name": "NAME",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Название группы"
-    },
-    {
-      "name": "DESCRIPTION",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Описание группы"
-    },
-    {
-      "name": "DATE_CREATE",
-      "type": "datetime",
-      "base": "datetime",
-      "required": false,
-      "description": "Дата создания группы в формате ISO-8601"
-    },
-    {
-      "name": "DATE_UPDATE",
-      "type": "datetime",
-      "base": "datetime",
-      "required": false,
-      "description": "Дата изменения группы в формате ISO-8601"
-    },
-    {
-      "name": "DATE_ACTIVITY",
-      "type": "datetime",
-      "base": "datetime",
-      "required": false,
-      "description": "Дата последней активности в формате ISO-8601"
-    },
-    {
-      "name": "ACTIVE",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Признак активности"
-    },
-    {
-      "name": "VISIBLE",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Видимость группы"
-    },
-    {
-      "name": "OPENED",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Открыта ли группа"
-    },
-    {
-      "name": "CLOSED",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Архивная ли группа"
-    },
-    {
-      "name": "SUBJECT_ID",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор тематики группы"
-    },
-    {
-      "name": "OWNER_ID",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор владельца"
-    },
-    {
-      "name": "KEYWORDS",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Ключевые слова группы"
-    },
-    {
-      "name": "NUMBER_OF_MEMBERS",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Количество участников"
-    },
-    {
-      "name": "SUBJECT_NAME",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Название тематики группы"
-    },
-    {
-      "name": "IMAGE",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "URL аватара группы"
-    },
-    {
-      "name": "IS_EXTRANET",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Признак экстранет-группы"
+      "description": "Массив групп и проектов, соответствующих условиям FILTER (подробное описание). Пустой массив означает, что подходящие записи с учетом прав доступа текущего пользователя отсутствуют"
     },
     {
       "name": "total",
@@ -267,7 +141,7 @@
       "type": "integer",
       "base": "integer",
       "required": false,
-      "description": "Смещение следующей страницы (если есть)"
+      "description": "Смещение следующей страницы. Поле отсутствует, если получена последняя страница"
     },
     {
       "name": "time",
@@ -298,5 +172,13 @@
     "SUBJECT_ID",
     "SUBJECT_NAME",
     "VISIBLE"
-  ]
+  ],
+  "requestExample": {
+    "ORDER": {
+      "NAME": "ASC"
+    },
+    "FILTER": {
+      "%NAME": "Про"
+    }
+  }
 }

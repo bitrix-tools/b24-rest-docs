@@ -75,5 +75,14 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-task/bizproc-task-complete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASK_ID": 1501,
+    "STATUS": 3,
+    "COMMENT": "Добавлено",
+    "FIELDS": {
+      "contractor": "C_607",
+      "phone_number": "89991234567"
+    }
+  }
 }

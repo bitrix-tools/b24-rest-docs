@@ -111,5 +111,13 @@
     }
   ],
   "page": "/api-reference/crm/duplicates/crm-duplicate-find-by-comm.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entity_type": "CONTACT",
+    "type": "PHONE",
+    "values": [
+      "8976543",
+      "11223355"
+    ]
+  }
 }

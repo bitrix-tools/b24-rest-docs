@@ -71,5 +71,9 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/operators/imopenlines-operator-transfer.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2043,
+    "USER_ID": 15
+  }
 }

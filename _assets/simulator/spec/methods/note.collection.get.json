@@ -152,5 +152,8 @@
     "position",
     "updatedAt",
     "updatedBy"
-  ]
+  ],
+  "requestExample": {
+    "id": 42
+  }
 }

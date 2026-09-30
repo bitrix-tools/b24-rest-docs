@@ -289,5 +289,14 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-get-children.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8907,
+    "filter": {
+      ">=CREATE_TIME": "2026-01-12"
+    },
+    "order": {
+      "NAME": "DESC"
+    }
+  }
 }

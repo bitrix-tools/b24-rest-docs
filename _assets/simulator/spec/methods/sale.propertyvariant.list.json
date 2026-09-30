@@ -127,5 +127,20 @@
     "orderPropsId",
     "sort",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "orderPropsId",
+      "value"
+    ],
+    "filter": {
+      ">=id": 5
+    },
+    "order": {
+      "orderPropsId": "desc",
+      "id": "asc"
+    }
+  }
 }

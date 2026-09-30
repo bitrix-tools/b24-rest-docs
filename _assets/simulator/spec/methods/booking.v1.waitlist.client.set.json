@@ -3,7 +3,7 @@
   "method": "booking.v1.waitlist.client.set",
   "scope": "booking",
   "kind": "write",
-  "title": "Добавить клиентов к записи в лист ожидания booking.v1.waitlist.client.set",
+  "title": "Установить клиентов записи в листе ожидания booking.v1.waitlist.client.set",
   "permissions": "любой пользователь",
   "params": [
     {
@@ -11,14 +11,14 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор записи в лист ожидания. Можно получить методами booking.v1.waitlist.add и booking.v1.waitlist.list"
+      "description": "Идентификатор записи в листе ожидания. Можно получить методами booking.v1.waitlist.add и booking.v1.waitlist.list"
     },
     {
       "name": "clients",
       "type": "array",
       "base": "array",
       "required": true,
-      "description": "Массив объектов, содержащий информацию о клиентах (подробное описание)",
+      "description": "Полный список клиентов записи. Каждый элемент — объект с полями id и type. Структура элемента, поведение пустого массива",
       "ref": "#/defs/clientsFields"
     }
   ],
@@ -35,24 +35,14 @@
           "type": "integer",
           "base": "integer",
           "required": true,
-          "description": "Идентификатор клиента, можно получить методом crm.item.list для контактов и компаний"
+          "description": "Идентификатор контакта или компании CRM. Получить можно методом crm.item.list: entityTypeId: 3 для контактов, entityTypeId: 4 для компаний"
         },
         {
           "name": "type",
           "type": "object",
           "base": "object",
           "required": true,
-          "description": "Тип клиента в формате {\"module\": \"crm\", \"code\": \"CONTACT\"}. Возможные значения code: - CONTACT — контакт CRM - COMPANY — компания CRM Cтруктуру объекта возвращает метод booking.v1.clienttype.list",
-          "values": [
-            {
-              "value": "CONTACT",
-              "title": "контакт CRM"
-            },
-            {
-              "value": "COMPANY",
-              "title": "компания CRM Cтруктуру объекта возвращает метод booking.v1.clienttype.list"
-            }
-          ]
+          "description": "Тип клиента. Например, {\"module\": \"crm\", \"code\": \"CONTACT\"}. Структура объекта"
         }
       ]
     }
@@ -65,12 +55,13 @@
   "resultExample": {
     "result": true,
     "time": {
-      "start": 1724068028.331234,
-      "finish": 1724068028.726591,
-      "duration": 0.3953571319580078,
-      "processing": 0.13033390045166016,
-      "date_start": "2025-01-21T13:47:08+02:00",
-      "date_finish": "2025-01-21T13:47:08+02:00",
+      "start": 1790294535,
+      "finish": 1790294535.315704,
+      "duration": 0.3157041072845459,
+      "processing": 0,
+      "date_start": "2026-09-25T03:02:15+03:00",
+      "date_finish": "2026-09-25T03:02:15+03:00",
+      "operating_reset_at": 1790295135,
       "operating": 0
     }
   },
@@ -91,5 +82,24 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/client/booking-v1-waitlist-client-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "waitListId": 13,
+    "clients": [
+      {
+        "id": 2795,
+        "type": {
+          "module": "crm",
+          "code": "CONTACT"
+        }
+      },
+      {
+        "id": 3063,
+        "type": {
+          "module": "crm",
+          "code": "COMPANY"
+        }
+      }
+    ]
+  }
 }

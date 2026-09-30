@@ -4,35 +4,35 @@
   "scope": "crm",
   "kind": "write",
   "title": "Добавить бейдж crm.activity.badge.add",
-  "permissions": "пользователи с административным доступом к разделу crm",
+  "permissions": "пользователь с административным доступом к разделу CRM",
   "params": [
     {
       "name": "code",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Код бейджа, например missedCall"
+      "description": "Код бейджа, например missedCall. Не длиннее 30 символов и уникальный"
     },
     {
       "name": "title",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Заголовок бейджа. Может быть строкой или массивом строк для разных языков"
+      "description": "Название бейджа. Строка или объект с переводами, где ключ — код языка"
     },
     {
       "name": "value",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Заголовок бейджа. Может быть строкой или массивом строк для разных языков"
+      "description": "Текст внутри значка, выводится в верхнем регистре. Строка или объект с переводами"
     },
     {
       "name": "type",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип бейджа"
+      "description": "Тип бейджа. Определяет цвет значка: success, failure, warning, primary или secondary"
     }
   ],
   "defs": {},
@@ -66,7 +66,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа, содержащий информацию о добавленном бейдже в случае успеха. В случае неудачи вернет null"
+      "description": "Корневой элемент ответа с единственным ключом badge (подробное описание)"
     },
     {
       "name": "time",
@@ -77,5 +77,11 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/configurable/badges/crm-activity-badge-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "missedCall",
+    "title": "Статус звонка",
+    "value": "Пропущен",
+    "type": "failure"
+  }
 }

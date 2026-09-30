@@ -103,5 +103,11 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-createcalendarevent.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "messageId": 15,
+    "dateFrom": "2026-04-15 10:00:00",
+    "dateTo": "2026-04-15 11:00:00",
+    "name": "Встреча по договору"
+  }
 }

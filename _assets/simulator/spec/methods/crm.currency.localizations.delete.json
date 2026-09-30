@@ -60,5 +60,12 @@
     }
   ],
   "page": "/api-reference/crm/currency/localizations/crm-currency-localizations-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "CLF",
+    "lids": [
+      "en",
+      "de"
+    ]
+  }
 }

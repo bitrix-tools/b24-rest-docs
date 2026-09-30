@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-resolve-id-by-public-url.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "landingUrl": "/catalog/sale/",
+    "siteId": 1817
+  }
 }

@@ -242,5 +242,10 @@
     "text",
     "unread",
     "uuid"
-  ]
+  ],
+  "requestExample": {
+    "DIALOG_ID": "chat1489",
+    "FIRST_ID": 84869,
+    "LIMIT": 10
+  }
 }

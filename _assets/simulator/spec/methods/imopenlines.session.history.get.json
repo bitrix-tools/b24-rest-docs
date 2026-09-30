@@ -44,5 +44,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-history-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "SESSION_ID": 321
+  }
 }

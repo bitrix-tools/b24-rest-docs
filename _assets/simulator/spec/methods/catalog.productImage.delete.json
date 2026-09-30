@@ -44,5 +44,9 @@
     }
   ],
   "page": "/api-reference/catalog/product-image/catalog-product-image-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "productId": 1,
+    "id": 1
+  }
 }

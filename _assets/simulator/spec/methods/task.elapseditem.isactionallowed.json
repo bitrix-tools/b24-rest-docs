@@ -4,8 +4,15 @@
   "scope": "task",
   "kind": "write",
   "title": "Проверить разрешение действия task.elapseditem.isactionallowed",
-  "permissions": "любой пользователь",
+  "permissions": "зависит от проверяемого действия и прав пользователя на задачу",
   "params": [
+    {
+      "name": "TASKID",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор задачи. Идентификатор задачи можно получить при создании новой задачи или методом получения списка задач"
+    },
     {
       "name": "ITEMID",
       "type": "integer",
@@ -55,5 +62,10 @@
     }
   ],
   "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-is-action-allowed.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 691,
+    "ITEMID": 5,
+    "ACTIONID": 1
+  }
 }

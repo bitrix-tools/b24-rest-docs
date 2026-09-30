@@ -144,5 +144,17 @@
     }
   ],
   "page": "/api-reference/pay-system/sale-pay-system-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 12,
+    "FIELDS": {
+      "NAME": "Новое название платёжной системы",
+      "DESCRIPTION": "Новое описание платёжной системы",
+      "PERSON_TYPE_ID": 1,
+      "BX_REST_HANDLER": "resthandlercode",
+      "ACTIVE": "Y",
+      "NEW_WINDOW": "N",
+      "LOGOTYPE": "/* base64 image */"
+    }
+  }
 }

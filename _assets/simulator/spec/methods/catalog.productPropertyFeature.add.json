@@ -115,5 +115,13 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-feature/catalog-product-property-feature-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "propertyId": 901,
+      "moduleId": "iblock",
+      "featureId": "LIST_PAGE_SHOW",
+      "isEnabled": "Y"
+    }
+  }
 }

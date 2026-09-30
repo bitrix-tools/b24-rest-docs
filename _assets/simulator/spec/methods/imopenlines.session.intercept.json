@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-intercept.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2043
+  }
 }

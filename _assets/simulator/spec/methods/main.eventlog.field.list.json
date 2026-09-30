@@ -190,5 +190,16 @@
     "sortable",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "filterable",
+      "sortable",
+      "multiple"
+    ]
+  }
 }

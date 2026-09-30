@@ -58,5 +58,12 @@
     }
   ],
   "page": "/api-reference/chats/departments/im-department-managers-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": [
+      3,
+      7
+    ],
+    "USER_DATA": "Y"
+  }
 }

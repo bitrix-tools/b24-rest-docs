@@ -147,5 +147,6 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-fields/crm-userfield-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }
