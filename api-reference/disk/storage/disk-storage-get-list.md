@@ -56,7 +56,7 @@
 - `!=` — не равно
 - `!` — не равно
 
-Список доступных для фильтрации полей можно узнать с помощью метода [disk.storage.getFields](./disk-storage-get-fields.md) ||
+Список доступных для фильтрации полей можно узнать с помощью метода [disk.storage.getFields](./disk-storage-get-fields.md). Поля, которых нет в этом списке, метод игнорирует ||
 || **order**
 [`array`](../../data-types.md) | Массив формата:
 
@@ -405,7 +405,7 @@ HTTP-статус: **200**
 
 Пустой массив означает, что у пользователя нет доступа к хранилищам или нет записей, удовлетворяющих фильтру ||
 || **ID**
-[`integer`](../../data-types.md) | Идентификатор хранилища ||
+[`string`](../../data-types.md) | Идентификатор хранилища ||
 || **NAME**
 [`string`](../../data-types.md) | Имя хранилища ||
 || **CODE**
@@ -422,7 +422,7 @@ HTTP-статус: **200**
 || **ENTITY_ID**
 [`string`](../../data-types.md) | Идентификатор объекта, с которым связано хранилище ||
 || **ROOT_OBJECT_ID**
-[`integer`](../../data-types.md) | Идентификатор корневой папки хранилища ||
+[`string`](../../data-types.md) | Идентификатор корневой папки хранилища ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
@@ -430,6 +430,24 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "100",
+    "error_description": "Unknown field definition `NOT_A_FIELD` (NOT_A_FIELD) for \\Bitrix\\Disk\\Internals\\Storage Entity."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Unknown field definition `FIELD` (`FIELD`) for \Bitrix\Disk\Internals\Storage Entity. | В `order` указано поле, которого нет в хранилище ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

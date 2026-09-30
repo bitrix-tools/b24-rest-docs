@@ -272,7 +272,7 @@ HTTP-статус: **200**
 {
     "result": {
         "ID": "9037",
-        "NAME": "picture.png",
+        "NAME": "picture (1).png",
         "CODE": null,
         "STORAGE_ID": "1357",
         "TYPE": "file",
@@ -287,7 +287,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "1269",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=845a93690000071b006e2cf2000004f50000076345539a39c27ec694f85bece0eed696&token=disk%7CaWQ9OTAzNyZfPUljQlU8VVAyMldDUG95bW51NlBmUUVVazlPeUd5WUlR%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXpOeVpmUFVsalFsVTFWVkF5TWxkRFVHOTViVzUxTmxCbVVVVlZhemxQZVVkNVdVbFJ8ODQ1YTkzNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc2MzQ1NTM5YTM5YzI3ZWM2OTRmODViZWNlMGVlZDY5NiI%3D.axFboRC%2FEf5h1jXPcqNbho7BDEsZqxfVUEf2yL6aqe0%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка в папке/picture (1).png"
     },
     "time": {

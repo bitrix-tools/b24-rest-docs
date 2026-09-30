@@ -86,9 +86,9 @@
       REAL_OBJECT_ID: string
       PARENT_ID: string
       DELETED_TYPE: number
-      CREATE_TIME: ISODate | null
-      UPDATE_TIME: ISODate | null
-      DELETE_TIME: ISODate | null
+      CREATE_TIME: ISODate
+      UPDATE_TIME: ISODate
+      DELETE_TIME: ISODate
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string
@@ -308,7 +308,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о перемещенной в корзину папке ||
+[`object`](../../data-types.md) | Объект с данными о перемещенной в корзину папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**

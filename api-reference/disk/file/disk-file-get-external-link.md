@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для нужного файла
 
-Метод `disk.file.getExternalLink`  возвращает публичную ссылку на файл. 
+Метод `disk.file.getExternalLink` возвращает публичную ссылку на файл.
 
 ## Параметры метода
 
@@ -42,7 +42,7 @@
     -H "Accept: application/json" \
     -d '{"id":8964}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.getExternalLink
-        ```
+    ```
 
 - cURL (OAuth)
 

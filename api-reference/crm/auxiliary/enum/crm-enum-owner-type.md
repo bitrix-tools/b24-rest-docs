@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
-Метод `crm.enum.ownertype` возвращает идентификаторы типов объектов CRM и смарт-процессов. `ID` типа объекта используйте в значении параметра `entityTypeId` методов [crm.item.*](../../universal/index.md), [crm.activity.*](../../timeline/activities/index.md).
+Метод `crm.enum.ownertype` возвращает номера типов объектов CRM и смарт-процессов. Номер передают в параметре `entityTypeId` универсальных методов [crm.item.*](../../universal/index.md) и в параметре `OWNER_TYPE_ID` или `ownerTypeId` методов [дел](../../timeline/activities/index.md). Например, чтобы получить сделку методом [crm.item.get](../../universal/crm-item-get.md), передайте `entityTypeId: 2`, а для смарт-процесса — его номер, например `177`.
+
+Универсальные методы работают не со всеми типами из списка: старый счет с идентификатором `5` и реквизиты с идентификатором `8` они не поддерживают и возвращают ошибку `ENTITY_TYPE_NOT_SUPPORTED`.
 
 {% note info " " %}
 
@@ -161,13 +163,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $ownerType) {
+            echo $ownerType['ID'] . ' — ' . $ownerType['NAME'] . ' (' . $ownerType['SYMBOL_CODE'] . ')' . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.ownertype: ' . $e->getMessage();
@@ -319,7 +317,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../data-types.md) | Массив с типами владельцев [(подробное описание)](#result) ||
+[`array`](../../../data-types.md) | Массив с типами объектов [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -330,18 +328,34 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор типа владельца ||
+[`integer`](../../../data-types.md) | Идентификатор типа объекта, например `2` — сделка. У смарт-процесса — его `entityTypeId` ||
 || **NAME**
-[`string`](../../../data-types.md) | Название типа владельца ||
+[`string`](../../../data-types.md) | Название типа объекта. У смарт-процесса — название, которое ему дали в Битрикс24 ||
 || **SYMBOL_CODE**
-[`string`](../../../data-types.md) | Символьный код ||
+[`string`](../../../data-types.md) | Символьный код типа объекта, например `DEAL`. У смарт-процесса — `DYNAMIC_` и его `ID`, например `DYNAMIC_177` ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../data-types.md) | Краткий символьный код, например `D` для сделки. У смарт-процесса — буква `T` и `ID` в шестнадцатеричной записи: `Tb1` для `177`. Краткий код нужен и при привязке задачи к объекту CRM ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

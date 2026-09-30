@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены ||
+[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены.
+
+Получить идентификатор можно методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) ||
 || **fields***
 [`object`](../../../data-types.md) | Значения полей для обновления перевода названия типа цены ||
 |#

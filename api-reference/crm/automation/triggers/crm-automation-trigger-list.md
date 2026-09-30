@@ -11,29 +11,21 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор с доступом к CRM в контексте приложения 
+> Кто может выполнять метод: администратор
 
-Метод получает список приложений и триггеров.
+Метод `crm.automation.trigger.list` возвращает триггеры, которые текущее приложение зарегистрировало методом [crm.automation.trigger.add](./crm-automation-trigger-add.md). Коды триггеров из ответа передают в методы [crm.automation.trigger.execute](./crm-automation-trigger-execute.md) и [crm.automation.trigger.delete](./crm-automation-trigger-delete.md). Например, перед удалением триггера приложение находит в списке его код `CODE`.
 
-Запускать метод можно только в контексте приложения.
+Работает только в контексте [приложения](../../../../settings/app-installation/index.md).
 
-Без параметров.
+## Параметры метода
+
+Без параметров. Метод возвращает весь список сразу, без постраничной навигации: `start`, `filter` и `order` он не учитывает.
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.automation.trigger.list
-    ```
 
 - cURL (OAuth)
 
@@ -61,17 +53,11 @@
       CODE: string
     }
 
-    // crm.automation.trigger.list returns a single page (max 50 records). For the whole result set
-    // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-    // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-    // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-    // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+    // crm.automation.trigger.list returns all triggers of the current application at once
     try {
       const response = await $b24.actions.v2.call.make<TriggerItem[]>({
         method: 'crm.automation.trigger.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -99,16 +85,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.automation.trigger.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.automation.trigger.list returns all triggers of the current application at once
           const response = await $b24.actions.v2.call.make({
             method: 'crm.automation.trigger.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -132,38 +112,13 @@
 
 - Python
 
-    Пример
-
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
         bitrix_response = client.crm.automation.trigger.list().response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.automation.trigger.list().as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
+        for trigger in bitrix_response.result:
+            print(trigger["CODE"], trigger["NAME"])
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -179,26 +134,16 @@
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.automation.trigger.list',
-                []
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        $result = $b24Service
+            ->getCRMScope()
+            ->trigger()
+            ->list();
+
+        foreach ($result->getTriggers() as $trigger) {
+            echo $trigger->CODE . ' — ' . $trigger->NAME . PHP_EOL;
         }
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching automation triggers: ' . $e->getMessage();
@@ -211,7 +156,7 @@
     BX24.callMethod(
         'crm.automation.trigger.list',
         {},
-        function(result) 
+        function(result)
         {
             if(result.error())
                 console.error(result.error());
@@ -260,21 +205,21 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "NAME": "Trigger 1",
-            "CODE": "trigger1"
-        }
+            "NAME": "Оплата получена",
+            "CODE": "payment_received"
+        },
         {
-            "NAME": "Trigger 2",
-            "CODE": "trigger2"
+            "NAME": "Звонок завершен",
+            "CODE": "call_done"
         }
     ],
-    "time":{
-        "start":1718952595.479501,
-        "finish":1718952595.594397,
-        "duration":0.11489605903625488,
-        "processing":0.007472038269042969,
-        "date_start":"2024-06-21T06:49:55+00:00",
-        "date_finish":"2024-06-21T06:49:55+00:00"
+    "time": {
+        "start": 1790705980,
+        "finish": 1790705980.904287,
+        "duration": 0.9042870998382568,
+        "processing": 0,
+        "date_start": "2026-09-29T18:19:40+00:00",
+        "date_finish": "2026-09-29T18:19:40+00:00"
     }
 }
 ```
@@ -285,19 +230,30 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Возвращает массив добавленных приложением триггеров с полями `NAME` и `CODE` ||
+[`object[]`](../../../data-types.md) | Массив триггеров текущего приложения [(подробное описание)](#trigger). Если приложение не зарегистрировало ни одного триггера, метод вернет пустой массив `[]` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#trigger}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME**
+[`string`](../../../data-types.md) | Название триггера, например `Звонок завершен`. В настройках автоматизации CRM перед ним стоит название приложения в квадратных скобках, а если названия нет — номер приложения ||
+|| **CODE**
+[`string`](../../../data-types.md) | Код триггера внутри приложения. Его передают в методы [crm.automation.trigger.execute](./crm-automation-trigger-execute.md) и [crm.automation.trigger.delete](./crm-automation-trigger-delete.md) ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **403**
 
 ```json
 {
-    "error":"ACCESS_DENIED",
-    "error_description":"Access denied! Admin permissions required"
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied! Admin permissions required"
 }
 ```
 
@@ -306,18 +262,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Access denied. | Пользователь не прошел предварительную проверку прав на доступ к CRM ||
-|| ACCESS_DENIED | Access denied! Admin permissions required | Не пройдена проверка прав на администратора ||
-|| ACCESS_DENIED | Access denied! Application context required | Метод вызван вне контекста приложения ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет доступа к CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызвал не администратор ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван не из приложения, например через вебхук ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-automation-trigger-add.md)
 - [{#T}](./crm-automation-trigger-execute.md)
 - [{#T}](./crm-automation-trigger-delete.md)
-
-

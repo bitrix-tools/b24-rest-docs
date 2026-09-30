@@ -27,14 +27,14 @@
 
 Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке
 ||
-|| **data***
-[`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя файла.
+|| **data**
+[`object`](../../data-types.md) | Параметры нового файла [(подробное описание)](#data)
 
-Необязателен, если файл загружается не напрямую, а через URL. Пример загрузки файла через URL [ниже](#uploadurl)  ||
+Необязателен, если файл загружается не напрямую, а через URL. Пример загрузки файла через URL [ниже](#uploadurl) ||
 || **fileContent**
 [`array`](../../data-types.md) | Массив из имени файла и строки с [Base64](../../files/how-to-upload-files.md).
 
-Если параметр не передан, метод не загружает файл, а возвращает URL для загрузки `UploadUrl` и имя поля формы `field` ||
+Если параметр не передан, метод не загружает файл, а возвращает URL для загрузки `uploadUrl` и имя поля формы `field` ||
 || **rights**
 [`array`](../../data-types.md) | Массив прав доступа на загружаемый файл. Каждый элемент содержит:
 
@@ -59,6 +59,15 @@
 - `false` — не генерировать
 
 По умолчанию — `false` ||
+|#
+
+### Параметр data {#data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME**
+[`string`](../../data-types.md) | Имя файла. Обязательно для прямой загрузки. Максимальная длина — 255 символов. Имя не должно содержать символы, запрещенные в именах файлов ||
 |#
 
 ## Примеры кода
@@ -570,13 +579,14 @@
 
     {% endlist %}
 
-2. В ответ вы получите URL для загрузки `UploadUrl` и имя поля формы `field`.
+2. В ответ вы получите URL для загрузки `uploadUrl` и имя поля формы `field`.
 
     ```json
-    "result": {
+    {
+        "result": {
             "field": "file",
-            "uploadUrl": "https://test.bitrix24.ru/rest/upload.json?auth=929b78690000071b006e2cf2000004f5000007dde54ef79d3b6e5c447d8f8a714563bd&token=disk%7CaWQ9ODkzMCZnZW5lcmF0ZVVuaXF1ZU5hbWU9MCZfPU4zS0pqUFJiVDFSengzUmpUaTVPcGM4R1VQTlFkTWU0%7CInVwbG9hZHxkaXNrfGFXUTlPRGt6TUNablpXNWxjbUYwWlZWdWFYRjFaVTVoYldVOU1DWmZQVTR6UzBwcVVGSmlWREZTZW5nelVtcFVhVFZQY0dNNFIxVlFUbEZrVFdVMHw5MjliNzg2OTAwMDAwNzFiMDA2ZTJjZjIwMDAwMDRmNTAwMDAwN2RkZTU0ZWY3OWQzYjZlNWM0NDdkOGY4YTcxNDU2M2JkIg%3D%3D.OHwSxVni%2FKX9Pw%2FyMzpfR974ImX5bC0sigTqA0UTCp8%3D"
-            },
+            "uploadUrl": "https://test.bitrix24.ru/rest/upload.json?..."
+        },
         "time": {
             "start": 1769511710,
             "finish": 1769511710.411701,
@@ -587,13 +597,16 @@
             "operating_reset_at": 1769512310,
             "operating": 0
         }
+    }
     ```
-3. Отправьте файл на полученный адрес `UploadUrl` с помощью POST-запроса, используя тип `multipart/form-data`. Имя поля для файла внутри этого запроса должно совпадать со значением параметра `field` из ответа.
 
+3. Отправьте файл на полученный адрес `uploadUrl` с помощью POST-запроса, используя тип `multipart/form-data`. Имя поля для файла внутри этого запроса должно совпадать со значением параметра `field` из ответа.
+
+    ```bash
+    http --form POST "https://test.bitrix24.ru/rest/upload.json?..." file@/path/to/file.png
     ```
-    http --form POST "https://test.bitrix24.ru/rest/upload.json?auth=929b78690000071b006e2cf2000004f5000007dde54ef79d3b6e5c447d8f8a714563bd&token=disk%7CaWQ9ODkzMCZnZW5lcmF0ZVVuaXF1ZU5hbWU9MCZfPU4zS0pqUFJiVDFSengzUmpUaTVPcGM4R1VQTlFkTWU0%7CInVwbG9hZHxkaXNrfGFXUTlPRGt6TUNablpXNWxjbUYwWlZWdWFYRjFaVTVoYldVOU1DWmZQVTR6UzBwcVVGSmlWREZTZW5nelVtcFVhVFZQY0dNNFIxVlFUbEZrVFdVMHw5MjliNzg2OTAwMDAwNzFiMDA2ZTJjZjIwMDAwMDRmNTAwMDAwN2RkZTU0ZWY3OWQzYjZlNWM0NDdkOGY4YTcxNDU2M2JkIg%3D%3D.OHwSxVni%2FKX9Pw%2FyMzpfR974ImX5bC0sigTqA0UTCp8%3D" file@/path/to/file.png
-    ```
-4. В случае успеха сервер вернет массив с данными о загруженном файле.
+
+4. В случае успеха сервер вернет объект с данными о загруженном файле.
 
 ### Загрузка файла через URL на PHP
 
@@ -693,7 +706,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": null,
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=929b78690000071b006e2cf2000004f5000007dde54ef79d3b6e5c447d8f8a714563bd&token=disk%7CaWQ9OTAxMSZfPUFKQTNyWWVLZkxVdEw0VDRjY1QyOGpyN1NqYXZneFRI%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXhNU1pmUFVGS1FUTnlXV1ZMWmt4VmRFdzBWRFJqWTFReU9HcHlOMU5xWVhabmVGUkl8OTI5Yjc4NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDdkZGU1NGVmNzlkM2I2ZTVjNDQ3ZDhmOGE3MTQ1NjNiZCI%3D.XX%2BUFpxsl2eoLuCwolEaMKsrAJ5IIpIPmzg1j6QOuE0%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка в папке/test.png"
     },
     "time": {
@@ -709,13 +722,13 @@ HTTP-статус: **200**
 }
 ```
    
-### Возвращаемые данные
+### Возвращаемые данные при прямой загрузке
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с полями файла ||
+[`object`](../../data-types.md) | Объект с полями файла ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор файла ||
 || **NAME**
@@ -755,6 +768,23 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Ссылка для скачивания файла ||
 || **DETAIL_URL**
 [`string`](../../data-types.md) | Ссылка для открытия файла в интерфейсе ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Возвращаемые данные для загрузки через URL
+
+Если параметр `fileContent` не передан, объект `result` содержит параметры для следующего запроса загрузки.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Параметры для загрузки файла через URL ||
+|| **result.field**
+[`string`](../../data-types.md) | Имя поля формы, в котором нужно передать файл ||
+|| **result.uploadUrl**
+[`string`](../../data-types.md) | URL для отправки файла методом POST в формате `multipart/form-data` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

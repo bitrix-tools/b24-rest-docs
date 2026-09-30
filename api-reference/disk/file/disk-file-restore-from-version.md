@@ -15,6 +15,8 @@
 
 Метод `disk.file.restoreFromVersion` восстанавливает файл из конкретной версии.
 
+Содержимое выбранной версии записывается как новая текущая версия файла. История версий сохраняется. В ответе поле `GLOBAL_CONTENT_VERSION` показывает номер изменения содержимого файла и увеличивается после восстановления.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -291,7 +293,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "0",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9OTA0MyZfPVM4bEhYNjhjOWN2cmd0QlFnUHo1U3BVUzBaRTBXM3ZP%7CImRvd25sb2FkfGRpc2t8YVdROU9UQTBNeVpmUFZNNGJFaFlOamhqT1dOMmNtZDBRbEZuVUhvMVUzQlZVekJhUlRCWE0zWlB8MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.oJ%2BsjpEomvXjuciM5ixZPUhh037HG8qHi%2BdU49CNyFo%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка/Тест №2.docx"
     },
     "time": {
@@ -332,7 +334,7 @@ HTTP-статус: **200**
 - `3` — в корзине
 - `4` — удален вместе с родительской папкой ||
 || **GLOBAL_CONTENT_VERSION**
-[`integer`](../../data-types.md) | Инкрементальный счетчик версии файла ||
+[`integer`](../../data-types.md) | Номер изменения содержимого файла. Увеличивается при загрузке или восстановлении версии ||
 || **FILE_ID**
 [`integer`](../../data-types.md) | Внутреннее значение идентификатора файла ||
 || **SIZE**

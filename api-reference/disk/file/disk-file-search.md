@@ -17,6 +17,8 @@
 
 Поиск работает по индексу: в него попадают имена файлов и папок, а для документов — еще и текст внутри файла. Объекты в корзине метод не находит.
 
+Правила сопоставления слов определяет полнотекстовый индекс Битрикс24. Метод не гарантирует поиск по началу слова или по всем словоформам, поэтому не используйте такое совпадение как условие бизнес-логики.
+
 В результат попадают только объекты, которые доступны текущему пользователю на чтение. Объекты из хранилищ без внутренних прав доступа — например, из хранилищ других модулей — метод не возвращает. Папки чатов исключаются из выдачи.
 
 Запрос короче трех символов метод отклоняет, поэтому для подсказки по первым введенным буквам он не подходит. Чтобы пройти по известной структуре, используйте методы [disk.storage.getChildren](../storage/disk-storage-get-children.md) и [disk.folder.getChildren](../folder/disk-folder-get-children.md), а если идентификатор файла уже известен — [disk.file.get](./disk-file-get.md).
@@ -349,7 +351,7 @@ HTTP-статус: **200**
             "CREATED_BY": "1",
             "UPDATED_BY": "1",
             "DELETED_BY": "0",
-            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=**put_access_token_here**&token=disk%7CaWQ9MTI3NyZfPXVqVGJUMmxoclBOb0JmQjVLWmxyWnRISWFTQ2M5V2hT",
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
             "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1/disk/file/Загруженные файлы/Файлы из Google Drive/Роман Савин - Тестирование Дот Ком.pdf"
         }
     ],
@@ -472,7 +474,7 @@ HTTP-статус: **200**
             "CREATED_BY": "1",
             "UPDATED_BY": "1",
             "DELETED_BY": "0",
-            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=**put_access_token_here**&token=disk%7CaWQ9OTczOSZfPTFEU1hGMGtkY3E2Q3FZUTIyM2tiV3R6Tk5jZHgxMzR2",
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
             "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1/disk/file/Отчеты/отчет-51.txt"
         },
         {
@@ -492,7 +494,7 @@ HTTP-статус: **200**
             "CREATED_BY": "1",
             "UPDATED_BY": "1",
             "DELETED_BY": "0",
-            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=**put_access_token_here**&token=disk%7CaWQ9OTczNyZfPTBmQlVlRDFCMTA0ajNhc3ZwbFdVRnhXNUg1MFpha3JO",
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
             "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1/disk/file/Отчеты/отчет-50.txt"
         }
     ],
@@ -542,7 +544,7 @@ https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_
             "CREATED_BY": "1",
             "UPDATED_BY": "1",
             "DELETED_BY": "0",
-            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=**put_access_token_here**&token=disk%7CaWQ9OTYzOSZfPXFPZWc1bnBGZFFPcXd0anlzd3BHN2VEQ3c4UXlGdk5l",
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
             "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1/disk/file/Отчеты/отчет-01.txt"
         }
     ],
