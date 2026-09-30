@@ -68,5 +68,14 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-task/bizproc-task-delegate.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASK_IDS": [
+      1128,
+      1129,
+      1130
+    ],
+    "FROM_USER_ID": 15,
+    "TO_USER_ID": 37
+  }
 }

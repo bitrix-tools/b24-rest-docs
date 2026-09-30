@@ -4,7 +4,7 @@
   "scope": "sale",
   "kind": "read",
   "title": "Получить поля элементов свойств корзины sale.basketproperties.getFields",
-  "permissions": "менеджер магазина",
+  "permissions": "любой пользователь",
   "params": [
     {
       "name": "result",
@@ -127,5 +127,6 @@
     }
   ],
   "page": "/api-reference/sale/basket-properties/sale-basket-properties-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

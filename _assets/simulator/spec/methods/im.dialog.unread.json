@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-dialog-unread.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DIALOG_ID": "chat1489",
+    "MESSAGE_ID": 84869
+  }
 }

@@ -57,5 +57,8 @@
     }
   ],
   "page": "/api-reference/crm/status/crm-status-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 123
+  }
 }

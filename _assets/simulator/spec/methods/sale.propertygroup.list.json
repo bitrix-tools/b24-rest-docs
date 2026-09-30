@@ -113,5 +113,20 @@
     "name",
     "personTypeId",
     "sort"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "personTypeId",
+      "sort"
+    ],
+    "filter": {
+      ">=id": 14
+    },
+    "order": {
+      "name": "asc",
+      "id": "desc"
+    }
+  }
 }

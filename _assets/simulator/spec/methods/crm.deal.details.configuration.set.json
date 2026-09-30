@@ -106,5 +106,71 @@
     }
   ],
   "page": "/api-reference/crm/deals/custom-form/crm-deal-details-configuration-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "P",
+    "userId": 1,
+    "extras": {
+      "dealCategoryId": 32
+    },
+    "data": [
+      {
+        "name": "main",
+        "title": "О сделке",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TITLE"
+          },
+          {
+            "name": "OPPORTUNITY_WITH_CURRENCY"
+          },
+          {
+            "name": "STAGE_ID"
+          },
+          {
+            "name": "CLOSEDATE"
+          },
+          {
+            "name": "CLIENT"
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TYPE_ID"
+          },
+          {
+            "name": "SOURCE_ID"
+          },
+          {
+            "name": "SOURCE_DESCRIPTION"
+          },
+          {
+            "name": "OPENED"
+          },
+          {
+            "name": "ASSIGNED_BY_ID"
+          },
+          {
+            "name": "COMMENTS"
+          }
+        ]
+      },
+      {
+        "name": "products",
+        "title": "Товары",
+        "type": "section",
+        "elements": [
+          {
+            "name": "PRODUCT_ROW_SUMMARY"
+          }
+        ]
+      }
+    ]
+  }
 }

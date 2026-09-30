@@ -84,5 +84,8 @@
     "LIMIT_REPEAT",
     "PARAMS",
     "START_DATE"
-  ]
+  ],
+  "requestExample": {
+    "id": 15
+  }
 }

@@ -136,5 +136,18 @@
     "symbol",
     "symbolIntl",
     "symbolLetterIntl"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "code",
+      "symbolIntl"
+    ],
+    "filter": {
+      "<=code": 200
+    },
+    "order": {
+      "code": "DESC"
+    }
+  }
 }

@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/deals/user-defined-fields/crm-deal-userfield-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 432
+  }
 }

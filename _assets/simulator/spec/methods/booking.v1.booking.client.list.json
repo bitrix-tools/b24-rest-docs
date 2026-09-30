@@ -70,5 +70,8 @@
   "entityFields": [
     "id",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "bookingId": 123
+  }
 }

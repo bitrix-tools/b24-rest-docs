@@ -104,5 +104,13 @@
     }
   ],
   "page": "/api-reference/mail/recipient/mail-recipient-listemployees.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "query": "Иван",
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

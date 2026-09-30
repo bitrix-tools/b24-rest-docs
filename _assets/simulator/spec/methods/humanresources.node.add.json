@@ -537,5 +537,36 @@
     }
   ],
   "page": "/api-reference/departments/node/humanresources-node-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "DEPARTMENT",
+    "name": "Отдел маркетинга",
+    "parentId": 1,
+    "description": "Отвечает за продвижение",
+    "userIds": {
+      "MEMBER_HEAD": [
+        7
+      ],
+      "MEMBER_EMPLOYEE": [
+        12,
+        15
+      ]
+    },
+    "moveUsersToNode": true,
+    "createChat": true,
+    "bindingChatIds": [
+      31
+    ],
+    "createChannel": false,
+    "createCollab": false,
+    "settings": {
+      "BUSINESS_PROC_AUTHORITY": [
+        "HEAD",
+        "DEPUTY_HEAD"
+      ],
+      "REPORTS_AUTHORITY": [
+        "HEAD"
+      ]
+    }
+  }
 }

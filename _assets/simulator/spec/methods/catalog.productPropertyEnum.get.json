@@ -74,5 +74,8 @@
     "sort",
     "value",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1739
+  }
 }

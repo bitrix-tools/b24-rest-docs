@@ -137,5 +137,24 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13,
+    "ITEMID": 475,
+    "FIELDS": {
+      "TITLE": "Подготовить отчет",
+      "PARENT_ID": 447,
+      "SORT_INDEX": 100,
+      "IS_COMPLETE": "N",
+      "IS_IMPORTANT": "N",
+      "MEMBERS": {
+        "125": {
+          "TYPE": "U"
+        },
+        "547": {
+          "TYPE": "A"
+        }
+      }
+    }
+  }
 }

@@ -4,7 +4,7 @@
   "scope": "crm",
   "kind": "write",
   "title": "Добавить связь записи таймлайна с элементом CRM crm.timeline.bindings.bind",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правом на изменение элемента CRM, с которым связывается запись",
   "params": [
     {
       "name": "fields",
@@ -28,21 +28,21 @@
           "type": "integer",
           "base": "integer",
           "required": true,
-          "description": "Идентификатор записи таймлайна"
+          "description": "Идентификатор записи таймлайна. Возьмите его из ответа метода crm.timeline.comment.add или crm.timeline.logmessage.add либо получите из списка методом crm.timeline.comment.list или crm.timeline.logmessage.list"
         },
         {
           "name": "ENTITY_ID",
           "type": "integer",
           "base": "integer",
           "required": true,
-          "description": "Идентификатор элемента CRM, к которому привязана запись таймлайна"
+          "description": "Идентификатор элемента CRM, с которым связывается запись таймлайна"
         },
         {
           "name": "ENTITY_TYPE",
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Тип элемента CRM, к которому привязана запись таймлайна. Возможные значения: - lead — лид - deal — сделка - contact — контакт - company — компания - order — заказ",
+          "description": "Символьный код типа объекта CRM entityTypeName, с которым связывается запись таймлайна. Регистр значения не важен. Возможные значения: - lead — лид - deal — сделка - contact — контакт - company — компания - quote — предложение - smart_invoice — счет - order — заказ - activity — дело - invoice — счет в старом формате - order_payment — оплата заказа - order_shipment — отгрузка заказа - dynamic_<enti…",
           "values": [
             {
               "value": "lead",
@@ -61,8 +61,32 @@
               "title": "компания"
             },
             {
+              "value": "quote",
+              "title": "предложение"
+            },
+            {
+              "value": "smart_invoice",
+              "title": "счет"
+            },
+            {
               "value": "order",
               "title": "заказ"
+            },
+            {
+              "value": "activity",
+              "title": "дело"
+            },
+            {
+              "value": "invoice",
+              "title": "счет в старом формате"
+            },
+            {
+              "value": "order_payment",
+              "title": "оплата заказа"
+            },
+            {
+              "value": "order_shipment",
+              "title": "отгрузка заказа - dynamic_<enti…"
             }
           ]
         }
@@ -93,7 +117,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Возвращает true, если связь создана. Возвращает false, если связь не создана"
+      "description": "Возвращает true, если связь создана или уже существовала. Возвращает false, если у пользователя нет права на изменение элемента CRM из ENTITY_ID или связь не удалось записать. HTTP-статус ответа при этом остается 200, объект error не возвращается"
     },
     {
       "name": "time",
@@ -104,5 +128,12 @@
     }
   ],
   "page": "/api-reference/crm/timeline/bindings/crm-timeline-bindings-bind.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "OWNER_ID": 1110,
+      "ENTITY_ID": 10,
+      "ENTITY_TYPE": "deal"
+    }
+  }
 }

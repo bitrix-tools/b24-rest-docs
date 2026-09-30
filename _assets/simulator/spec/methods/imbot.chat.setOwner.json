@@ -74,5 +74,9 @@
     }
   ],
   "page": "/api-reference/chat-bots/outdated/chats/imbot-chat-set-owner.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2727,
+    "USER_ID": 1269
+  }
 }

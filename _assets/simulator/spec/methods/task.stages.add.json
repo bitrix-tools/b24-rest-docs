@@ -79,5 +79,14 @@
     }
   ],
   "page": "/api-reference/tasks/stages/task-stages-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TITLE": "Название стадии",
+      "COLOR": "#FFAAEE",
+      "AFTER_ID": 1,
+      "ENTITY_ID": 1
+    },
+    "isAdmin": false
+  }
 }

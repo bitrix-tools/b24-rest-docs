@@ -77,5 +77,8 @@
     "HIDE_ZERO",
     "THOUSANDS_SEP",
     "THOUSANDS_VARIANT"
-  ]
+  ],
+  "requestExample": {
+    "id": "RUB"
+  }
 }

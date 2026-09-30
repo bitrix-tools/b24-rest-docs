@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/leads/userfield/crm-lead-userfield-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 432
+  }
 }

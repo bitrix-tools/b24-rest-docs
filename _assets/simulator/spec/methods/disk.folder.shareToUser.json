@@ -82,5 +82,10 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-share-to-user.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8994,
+    "userId": 1271,
+    "taskName": "disk_access_read"
+  }
 }

@@ -38,5 +38,12 @@
     "successor": null
   },
   "page": "/api-reference/crm/outdated/invoice/crm-invoice-user-field-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "**put_id_here**",
+    "fields": {
+      "EDIT_FORM_LABEL": "**put_label_here**",
+      "LIST_COLUMN_LABEL": "**put_label_here**"
+    }
+  }
 }

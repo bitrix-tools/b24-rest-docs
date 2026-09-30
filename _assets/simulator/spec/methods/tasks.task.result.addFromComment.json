@@ -141,5 +141,8 @@
     }
   ],
   "page": "/api-reference/tasks/result/tasks-task-result-add-from-comment.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "commentId": 3199
+  }
 }

@@ -117,5 +117,13 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-add-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "fields": {
+      "CODE": "02.three_cols_big_1",
+      "AFTER_ID": 6428,
+      "ACTIVE": "Y"
+    }
+  }
 }

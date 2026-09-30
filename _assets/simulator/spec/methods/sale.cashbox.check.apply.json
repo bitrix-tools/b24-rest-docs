@@ -99,5 +99,15 @@
     }
   ],
   "page": "/api-reference/sale/cashbox/sale-cashbox-check-apply.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "UUID": "check|example.com|1",
+    "PRINT_END_TIME": "1609459200",
+    "REG_NUMBER_KKT": "1234567891011121",
+    "FISCAL_DOC_ATTR": "1234567890",
+    "FISCAL_DOC_NUMBER": "12345",
+    "FISCAL_RECEIPT_NUMBER": "123",
+    "FN_NUMBER": "1234567891011121",
+    "SHIFT_NUMBER": "1"
+  }
 }

@@ -62,5 +62,12 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/ui/chat-input-action-notify.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "dialogId": "chat5",
+    "statusMessageCode": "IMBOT_AGENT_ACTION_THINKING",
+    "duration": 30
+  }
 }

@@ -82,5 +82,8 @@
     "timezone",
     "to",
     "weekDays"
-  ]
+  ],
+  "requestExample": {
+    "resourceId": 15
+  }
 }

@@ -73,5 +73,11 @@
     }
   ],
   "page": "/api-reference/crm/companies/contacts/crm-company-contact-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 32,
+    "fields": {
+      "CONTACT_ID": 54
+    }
+  }
 }

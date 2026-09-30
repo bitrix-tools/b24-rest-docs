@@ -88,5 +88,11 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/voximplant-callback-start.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "FROM_LINE": "reg151083",
+    "TO_NUMBER": "79991234567",
+    "TEXT_TO_PRONOUNCE": "Вам поступил запрос на обратный звонок",
+    "VOICE": "ruinternalfemale"
+  }
 }

@@ -128,5 +128,19 @@
     "id",
     "productId",
     "storeId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "productId",
+      "storeId",
+      "amount"
+    ],
+    "filter": {
+      "productId": 6973
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

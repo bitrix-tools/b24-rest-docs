@@ -3,8 +3,8 @@
   "method": "biconnector.source.update",
   "scope": "biconnector",
   "kind": "write",
-  "title": "Изменить источник biconnector.source.update",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "title": "Обновить источник biconnector.source.update",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -34,7 +34,7 @@
           "name": "title",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Новое название источника"
         },
         {
@@ -49,14 +49,14 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Активность источника"
+          "description": "Активность источника. Метод не читает это поле: выключить источник через REST нельзя"
         },
         {
           "name": "settings",
           "type": "object",
           "base": "object",
           "required": false,
-          "description": "Список параметров для авторизации, передается объектом, где ключ — code параметра. Параметры можно получить методами biconnector.connector.list или biconnector.connector.get"
+          "description": "Значения параметров авторизации (подробное описание)"
         }
       ]
     }
@@ -83,7 +83,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Корневой элемент ответа, содержит true в случае успеха"
+      "description": "Результат обновления. При успешном обновлении приходит true, данные источника метод не возвращает — получите их методом biconnector.source.get. При ошибке вместо true в result приходит объект с полем error, см. раздел «Обработка ошибок»"
     },
     {
       "name": "time",

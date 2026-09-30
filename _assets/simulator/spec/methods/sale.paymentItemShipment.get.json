@@ -70,5 +70,8 @@
     "paymentId",
     "shipmentId",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1183
+  }
 }

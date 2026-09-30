@@ -62,5 +62,12 @@
     }
   },
   "page": "/api-reference/imopenlines/openlines/messages/imopenlines-crm-message-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CRM_ENTITY_TYPE": "lead",
+    "CRM_ENTITY": 1195,
+    "USER_ID": 27,
+    "CHAT_ID": 1341,
+    "MESSAGE": "Текст сообщения"
+  }
 }

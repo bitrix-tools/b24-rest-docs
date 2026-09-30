@@ -68,5 +68,13 @@
   "entityFields": [
     "id",
     "note"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "createdWithin": {
+        "from": "01.04.2025",
+        "to": "16.04.2025"
+      }
+    }
+  }
 }

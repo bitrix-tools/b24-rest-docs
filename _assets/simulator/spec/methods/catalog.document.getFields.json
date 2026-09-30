@@ -188,5 +188,6 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

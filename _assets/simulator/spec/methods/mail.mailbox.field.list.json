@@ -99,5 +99,14 @@
     "sortable",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "name",
+      "type",
+      "title",
+      "filterable",
+      "sortable"
+    ]
+  }
 }

@@ -150,5 +150,14 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-section/catalog-product-property-section-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "propertyId": 901,
+    "fields": {
+      "smartFilter": "Y",
+      "displayType": "F",
+      "displayExpanded": "N",
+      "filterHint": "Подсказка для фильтра"
+    }
+  }
 }

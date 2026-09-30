@@ -151,5 +151,14 @@
     "UTM_MEDIUM",
     "UTM_SOURCE",
     "UTM_TERM"
-  ]
+  ],
+  "datasetHint": {
+    "entity": "deals",
+    "count": 60,
+    "idFrom": 1,
+    "idTo": 60,
+    "runnableExample": {
+      "id": 1
+    }
+  }
 }

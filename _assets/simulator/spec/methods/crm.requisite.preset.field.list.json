@@ -173,5 +173,10 @@
     "ID",
     "IN_SHORT_LIST",
     "SORT"
-  ]
+  ],
+  "requestExample": {
+    "preset": {
+      "ID": 27
+    }
+  }
 }

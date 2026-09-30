@@ -61,5 +61,6 @@
     }
   ],
   "page": "/api-reference/chats/special-operations/im-dialog-read-all.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

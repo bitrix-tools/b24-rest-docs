@@ -126,5 +126,6 @@
     }
   ],
   "page": "/api-reference/sale/property-value/sale-property-value-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

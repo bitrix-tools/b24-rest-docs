@@ -18,21 +18,21 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+      "description": "Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен. Передавайте тот же botToken, который указали при регистрации бота"
     },
     {
       "name": "dialogId",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "ID диалога. Для групповых чатов — chat{chatId}, для личных — {userId}"
+      "description": "ID группового чата в формате dialogId: chat{chatId}"
     },
     {
       "name": "fields",
       "type": "object",
       "base": "object",
-      "required": true,
-      "description": "Обновляемые свойства чата. Структура объекта описана ниже",
+      "required": false,
+      "description": "Обновляемые свойства чата (подробное описание). Без fields метод ничего не меняет и возвращает true",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -63,14 +63,14 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Цвет чата — доступные цвета"
+          "description": "Цвет чата — доступные цвета. Неизвестный код цвета игнорируется без ошибки, цвет не меняется"
         },
         {
           "name": "avatar",
           "type": "file",
           "base": "any",
           "required": false,
-          "description": "Новый аватар чата в формате Base64"
+          "description": "Новый аватар чата в формате Base64. Если строка не содержит изображение, текущий аватар снимается без ошибки"
         }
       ]
     }
@@ -94,5 +94,14 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/chats/chat-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "dialogId": "chat5",
+    "fields": {
+      "title": "New Title",
+      "color": "azure"
+    }
+  }
 }

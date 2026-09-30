@@ -84,5 +84,9 @@
     }
   ],
   "page": "/api-reference/crm/leads/custom-form/crm-lead-details-configuration-reset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "P",
+    "userId": 1
+  }
 }

@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "read",
   "title": "Получить запись о затраченном времени по идентификатору task.elapseditem.get",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с доступом на чтение задачи",
   "params": [
     {
       "name": "TASKID",
@@ -28,20 +28,18 @@
     "file": "api-reference/tasks/elapsed-item/task-elapsed-item-get.md"
   },
   "resultExample": {
-    "result": [
-      {
-        "ID": "1",
-        "TASK_ID": "691",
-        "USER_ID": "1",
-        "COMMENT_TEXT": "1",
-        "SECONDS": "3600",
-        "MINUTES": "60",
-        "SOURCE": "2",
-        "CREATED_DATE": "2024-05-16T10:33:00+02:00",
-        "DATE_START": "2024-05-16T10:33:15+02:00",
-        "DATE_STOP": "2024-05-16T10:33:15+02:00"
-      }
-    ],
+    "result": {
+      "ID": "1",
+      "TASK_ID": "691",
+      "USER_ID": "1",
+      "COMMENT_TEXT": "1",
+      "SECONDS": "3600",
+      "MINUTES": "60",
+      "SOURCE": "2",
+      "CREATED_DATE": "2024-05-16T10:33:00+02:00",
+      "DATE_START": "2024-05-16T10:33:15+02:00",
+      "DATE_STOP": "2024-05-16T10:33:15+02:00"
+    },
     "time": {
       "start": 1712137817.343984,
       "finish": 1712137817.605804,
@@ -57,7 +55,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Информация о записи о затраченном времени"
+      "description": "Информация о записи о затраченном времени (подробное описание)"
     },
     {
       "name": "time",
@@ -80,5 +78,9 @@
     "SOURCE",
     "TASK_ID",
     "USER_ID"
-  ]
+  ],
+  "requestExample": {
+    "TASKID": 691,
+    "ITEMID": 1
+  }
 }

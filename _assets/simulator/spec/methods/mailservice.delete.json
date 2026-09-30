@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/mailservice/mailservice-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 31
+  }
 }

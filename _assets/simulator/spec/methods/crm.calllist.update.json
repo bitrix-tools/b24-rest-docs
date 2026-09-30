@@ -75,5 +75,15 @@
     }
   ],
   "page": "/api-reference/crm/call-list/crm-calllist-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "LIST_ID": 123,
+    "ENTITY_TYPE": "CONTACT",
+    "ENTITIES": [
+      1,
+      2,
+      3
+    ],
+    "WEBFORM_ID": 5
+  }
 }

@@ -11,7 +11,7 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Код бейджа, например missedCall"
+      "description": "Код бейджа, например missedCall. Список занятых кодов возвращает метод crm.activity.badge.list"
     }
   ],
   "defs": {},
@@ -45,7 +45,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа, содержащий информацию о бейдже в случае успеха. В случае неудачи вернет null"
+      "description": "Корневой элемент ответа с единственным ключом badge (подробное описание)"
     },
     {
       "name": "time",
@@ -62,5 +62,8 @@
     "title",
     "type",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "code": "missedCall"
+  }
 }

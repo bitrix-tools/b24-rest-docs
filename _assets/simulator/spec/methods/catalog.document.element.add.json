@@ -119,5 +119,14 @@
     }
   ],
   "page": "/api-reference/catalog/document/document-element/catalog-document-element-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "docId": 64,
+      "elementId": 312,
+      "storeTo": 2,
+      "amount": 15,
+      "purchasingPrice": 1250.5
+    }
+  }
 }

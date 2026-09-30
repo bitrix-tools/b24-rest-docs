@@ -35,6 +35,7 @@
         }
       ]
     },
+    "total": 0,
     "time": {
       "start": 1724068028.331234,
       "finish": 1724068028.726591,
@@ -54,6 +55,13 @@
       "description": "Корневой элемент ответа. Содержит массив объектов с информацией о связях. Структура описана ниже"
     },
     {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Служебный ключ. Всегда содержит 0 и не показывает количество связей"
+    },
+    {
       "name": "time",
       "type": "time",
       "base": "object",
@@ -67,5 +75,8 @@
     "entityTypeId",
     "moduleId",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "bookingId": 123
+  }
 }

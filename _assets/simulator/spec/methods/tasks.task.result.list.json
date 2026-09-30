@@ -173,5 +173,8 @@
     "taskId",
     "text",
     "updatedAt"
-  ]
+  ],
+  "requestExample": {
+    "taskId": 8017
+  }
 }

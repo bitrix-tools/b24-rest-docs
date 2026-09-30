@@ -59,5 +59,8 @@
     }
   ],
   "page": "/api-reference/note/document/note-document-archive.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 77
+  }
 }

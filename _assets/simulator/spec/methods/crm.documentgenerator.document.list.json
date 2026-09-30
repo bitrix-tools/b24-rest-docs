@@ -176,5 +176,22 @@
     "updateTime",
     "updatedBy",
     "values"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "title",
+      "number",
+      "entityId",
+      "createTime"
+    ],
+    "order": {
+      "id": "desc"
+    },
+    "filter": {
+      "entityTypeId": 2,
+      "entityId": 101
+    },
+    "start": 0
+  }
 }

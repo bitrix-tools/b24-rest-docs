@@ -95,5 +95,12 @@
     }
   ],
   "page": "/api-reference/crm/deals/custom-form/crm-deal-details-configuration-reset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "P",
+    "userId": 1,
+    "extras": {
+      "dealCategoryId": 32
+    }
+  }
 }

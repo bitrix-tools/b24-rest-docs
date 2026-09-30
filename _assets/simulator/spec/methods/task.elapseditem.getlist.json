@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "read",
   "title": "Получить список записей о затраченном времени task.elapseditem.getlist",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с доступом на чтение задачи",
   "params": [
     {
       "name": "taskId",
@@ -18,7 +18,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для сортировки результата (подробное описание приведено ниже)",
+      "description": "Объект для сортировки результата (подробное описание)",
       "ref": "#/defs/orderFields"
     },
     {
@@ -26,7 +26,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для фильтрации результата (подробное описание приведено ниже)",
+      "description": "Объект для фильтрации результата (подробное описание)",
       "ref": "#/defs/filterFields"
     },
     {
@@ -34,22 +34,16 @@
       "type": "array",
       "base": "array",
       "required": "unknown",
-      "description": "Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. Если в массиве присутствует значение \"*\", то будут возвращены все доступные поля. По умолчанию будут возвращены все поля основной таблицы запроса",
-      "dynamic": {
-        "allowed": true,
-        "note": "Состав полей не описан подтаблицей на этой странице"
-      }
+      "description": "Массив полей записей, которые будут возвращены методом (подробное описание) Если параметр не передан, метод возвращает все поля основной таблицы запроса. Чтобы явно вернуть все доступные поля, передайте значение *",
+      "ref": "#/defs/selectFields"
     },
     {
       "name": "params",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для опций вызова. Элементом является объект NAV_PARAMS вида {'опция вызова': 'значение' [, ...]} (подробное описание приведено ниже) в виде структуры",
-      "dynamic": {
-        "allowed": true,
-        "note": "Состав полей не описан подтаблицей на этой странице"
-      }
+      "description": "Объект для опций вызова (подробное описание)",
+      "ref": "#/defs/paramsFields"
     }
   ],
   "defs": {
@@ -66,6 +60,13 @@
           "base": "string",
           "required": "unknown",
           "description": "Идентификатор записи о затраченном времени. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
+        },
+        {
+          "name": "TASK_ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Идентификатор задачи. Может принимать значения: - asc — по возрастанию - desc — по убыванию"
         },
         {
           "name": "USER_ID",
@@ -126,6 +127,13 @@
           "description": "Идентификатор записи о затраченном времени"
         },
         {
+          "name": "TASK_ID",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Идентификатор задачи"
+        },
+        {
           "name": "USER_ID",
           "type": "integer",
           "base": "integer",
@@ -138,6 +146,101 @@
           "base": "datetime",
           "required": "unknown",
           "description": "Дата создания записи"
+        }
+      ]
+    },
+    "selectFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Идентификатор записи о затраченном времени"
+        },
+        {
+          "name": "TASK_ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Идентификатор задачи"
+        },
+        {
+          "name": "USER_ID",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Идентификатор автора записи"
+        },
+        {
+          "name": "COMMENT_TEXT",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Комментарий"
+        },
+        {
+          "name": "SECONDS",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Затраченное время в секундах"
+        },
+        {
+          "name": "MINUTES",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Затраченное время в минутах"
+        },
+        {
+          "name": "SOURCE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Источник записи"
+        },
+        {
+          "name": "CREATED_DATE",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дата создания записи"
+        },
+        {
+          "name": "DATE_START",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дата и время начала учета"
+        },
+        {
+          "name": "DATE_STOP",
+          "type": "string",
+          "base": "string",
+          "required": "unknown",
+          "description": "Дата и время завершения учета"
+        }
+      ]
+    },
+    "paramsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "NAV_PARAMS",
+          "type": "object",
+          "base": "object",
+          "required": "unknown",
+          "description": "Настройки постраничной навигации (подробное описание)"
         }
       ]
     }
@@ -186,7 +289,7 @@
       "type": "array",
       "base": "array",
       "required": "unknown",
-      "description": "Массив объектов с информацией о записях о затраченном времени по задаче"
+      "description": "Массив объектов с информацией о записях о затраченном времени по задаче (подробное описание)"
     },
     {
       "name": "total",

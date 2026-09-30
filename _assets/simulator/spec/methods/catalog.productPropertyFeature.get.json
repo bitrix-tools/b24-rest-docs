@@ -72,5 +72,8 @@
     "isEnabled",
     "moduleId",
     "propertyId"
-  ]
+  ],
+  "requestExample": {
+    "id": 101
+  }
 }

@@ -74,5 +74,16 @@
     }
   ],
   "page": "/api-reference/log/blogcomment/log-blogcomment-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "POST_ID": 403,
+    "TEXT": "Комментарий к посту",
+    "USER_ID": 27,
+    "FILES": [
+      [
+        "example.txt",
+        "SXQncyBhIHRlc3QgZmlsZSBmb3IgQml0cml4IFJlc3QgQVBJLg=="
+      ]
+    ]
+  }
 }

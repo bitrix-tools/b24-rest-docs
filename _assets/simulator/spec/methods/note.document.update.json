@@ -189,5 +189,13 @@
     }
   ],
   "page": "/api-reference/note/document/note-document-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 77,
+    "fields": {
+      "title": "Глава 1 (обновлено)",
+      "markdown": "# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]"
+    },
+    "overwrite": false
+  }
 }

@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/crm/companies/contacts/crm-company-contact-items-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 32
+  }
 }

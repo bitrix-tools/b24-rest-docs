@@ -100,5 +100,13 @@
     }
   ],
   "page": "/api-reference/crm/quote/contacts/crm-quote-contact-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 113,
+    "fields": {
+      "CONTACT_ID": 2647,
+      "IS_PRIMARY": "Y",
+      "SORT": 10
+    }
+  }
 }

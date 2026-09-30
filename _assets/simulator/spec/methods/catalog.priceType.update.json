@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Обновить тип цены catalog.priceType.update",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Управление типами цен»",
   "params": [
     {
       "name": "id",
@@ -34,8 +34,8 @@
           "name": "name",
           "type": "string",
           "base": "string",
-          "required": true,
-          "description": "Код типа цены"
+          "required": false,
+          "description": "Код типа цены. Значение не должно быть пустым"
         },
         {
           "name": "base",
@@ -124,5 +124,14 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/catalog-price-type-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 2,
+    "fields": {
+      "name": "Base wholesale price",
+      "base": "Y",
+      "sort": 1,
+      "xmlId": "basewholesale"
+    }
+  }
 }

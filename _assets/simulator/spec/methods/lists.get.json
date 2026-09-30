@@ -196,5 +196,14 @@
     "VERSION",
     "WORKFLOW",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "IBLOCK_TYPE_ID": "lists_socnet",
+    "SOCNET_GROUP_ID": 33,
+    "IBLOCK_ORDER": {
+      "SORT": "asc",
+      "NAME": "asc"
+    },
+    "start": 0
+  }
 }

@@ -134,5 +134,19 @@
     "name",
     "sort",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "sort"
+    ],
+    "filter": {
+      "iblockId": 14,
+      "<=sort": 100
+    },
+    "order": {
+      "sort": "DESC"
+    }
+  }
 }

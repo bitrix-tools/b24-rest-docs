@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "write",
   "title": "Создать датасет biconnector.dataset.add",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "fields",
@@ -28,28 +28,28 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Название датасета. Название должно начинаться с буквы, можно использовать только строчные латинские буквы a-z, цифры и знак _. Максимальная длина названия 230 символа"
+          "description": "Название датасета. Название должно начинаться с буквы, можно использовать только строчные латинские буквы a-z, цифры и знак _. Максимальная длина названия 230 символов"
         },
         {
           "name": "externalName",
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Название датасета во внешнем источнике, в приложении"
+          "description": "Название датасета во внешнем источнике, в приложении. Максимальная длина 512 символов"
         },
         {
           "name": "externalCode",
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Уникальный код датасета во внешнем источнике, используется при выборке данных"
+          "description": "Уникальный код датасета во внешнем источнике, используется при выборке данных. Максимальная длина 512 символов"
         },
         {
           "name": "sourceId",
           "type": "integer",
           "base": "integer",
           "required": true,
-          "description": "Идентификатор источника, можно получить методами biconnector.source.list или biconnector.source.add"
+          "description": "Идентификатор источника, можно получить методами biconnector.source.list или biconnector.source.add. Источник должен принадлежать коннектору текущего приложения, иначе метод вернет SOURCE_NOT_FOUND"
         },
         {
           "name": "description",
@@ -63,7 +63,7 @@
           "type": "array",
           "base": "array",
           "required": true,
-          "description": "Список полей датасета, (Подробное описание)"
+          "description": "Массив полей датасета, (подробное описание)"
         }
       ]
     }
@@ -72,6 +72,9 @@
   "confidence": "parsed",
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-add.md"
+  },
+  "deprecated": {
+    "successor": "biconnector.table.add"
   },
   "resultExample": {
     "result": {
@@ -93,7 +96,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит поле id с идентификатором созданного датасета"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",

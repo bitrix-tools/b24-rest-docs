@@ -41,5 +41,8 @@
     }
   ],
   "page": "/api-reference/calendar/resource/calendar-resource-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "name": "My resource title"
+  }
 }

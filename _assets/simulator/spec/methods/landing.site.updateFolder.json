@@ -117,5 +117,16 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-update-folder.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "siteId": 1817,
+    "folderId": 736,
+    "fields": {
+      "TITLE": "Каталог услуг",
+      "CODE": "services-catalog",
+      "PARENT_ID": 0,
+      "INDEX_ID": 987,
+      "ACTIVE": "Y"
+    }
+  }
 }

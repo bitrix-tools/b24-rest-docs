@@ -55,5 +55,10 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-section-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "user",
+    "ownerId": 2,
+    "id": 521
+  }
 }

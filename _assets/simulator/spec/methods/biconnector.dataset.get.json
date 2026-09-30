@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "read",
   "title": "Получить датасет по id biconnector.dataset.get",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -20,6 +20,9 @@
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-get.md"
   },
+  "deprecated": {
+    "successor": "biconnector.table.get"
+  },
   "resultExample": {
     "result": {
       "item": {
@@ -27,13 +30,16 @@
         "type": "rest",
         "name": "rest_dataset11111",
         "description": "new__2_",
-        "externalCode": "extrnalCode",
-        "externalName": "extranalName",
+        "externalCode": "sales_orders",
+        "externalName": "Sales orders",
         "dateCreate": "2025-03-26 15:28:06",
         "dateUpdate": "2025-03-27 07:47:43",
         "createdById": 1,
         "updatedById": 1,
         "externalId": 275,
+        "csvDelimiter": "",
+        "csvEncoding": "",
+        "csvHasHeaders": false,
         "fields": [
           {
             "id": 224,
@@ -41,7 +47,8 @@
             "type": "int",
             "name": "ID",
             "externalCode": "ID",
-            "visible": true
+            "visible": true,
+            "description": ""
           },
           {
             "id": 225,
@@ -49,7 +56,8 @@
             "type": "string",
             "name": "NAME",
             "externalCode": "NAME",
-            "visible": true
+            "visible": true,
+            "description": ""
           },
           {
             "id": 226,
@@ -57,7 +65,8 @@
             "type": "string",
             "name": "SURNAME",
             "externalCode": "SURNAME",
-            "visible": true
+            "visible": true,
+            "description": ""
           },
           {
             "id": 227,
@@ -65,7 +74,8 @@
             "type": "double",
             "name": "SCORE",
             "externalCode": "SCORE",
-            "visible": true
+            "visible": true,
+            "description": ""
           },
           {
             "id": 228,
@@ -73,7 +83,8 @@
             "type": "date",
             "name": "DATA",
             "externalCode": "DATA",
-            "visible": true
+            "visible": true,
+            "description": ""
           },
           {
             "id": 229,
@@ -81,7 +92,8 @@
             "type": "datetime",
             "name": "TIME",
             "externalCode": "TIME",
-            "visible": true
+            "visible": true,
+            "description": ""
           }
         ]
       }
@@ -101,7 +113,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит информацию о полях датасета. Описание полей в статье Датасеты: обзор методов"
+      "description": "Корневой элемент ответа. Содержит единственный ключ item — сам датасет вместе с массивом fields. Состав полей описан в статье Датасеты: обзор методов"
     },
     {
       "name": "time",
@@ -115,6 +127,9 @@
   "executable": false,
   "entityFields": [
     "createdById",
+    "csvDelimiter",
+    "csvEncoding",
+    "csvHasHeaders",
     "dateCreate",
     "dateUpdate",
     "description",

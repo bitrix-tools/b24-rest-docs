@@ -335,5 +335,13 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/templates/crm-document-generator-template-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "entityTypeId": 2,
+    "entityId": 123,
+    "values": {
+      "DocumentNumber": "2026-001"
+    }
+  }
 }

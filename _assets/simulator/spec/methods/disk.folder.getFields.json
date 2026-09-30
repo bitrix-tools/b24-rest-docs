@@ -332,5 +332,6 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -113,5 +113,30 @@
     }
   ],
   "page": "/api-reference/catalog/price/catalog-price-modify.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "product": {
+        "id": 8,
+        "prices": [
+          {
+            "catalogGroupId": 1,
+            "currency": "RUB",
+            "price": 2001
+          },
+          {
+            "catalogGroupId": 3,
+            "currency": "RUB",
+            "price": 2001
+          },
+          {
+            "catalogGroupId": 5,
+            "currency": "RUB",
+            "price": 2001,
+            "id": 122
+          }
+        ]
+      }
+    }
+  }
 }

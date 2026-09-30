@@ -3,8 +3,8 @@
   "method": "crm.activity.configurable.get",
   "scope": "crm",
   "kind": "read",
-  "title": "Получить конфигурируемое дело по id crm.activity.configurable.get",
-  "permissions": "любой пользователь",
+  "title": "Получить конфигурируемое дело crm.activity.configurable.get",
+  "permissions": "пользователь с доступом на чтение элемента CRM, к которому привязано дело",
   "params": [
     {
       "name": "id",
@@ -20,13 +20,139 @@
   "source": {
     "file": "api-reference/crm/timeline/activities/configurable/crm-activity-configurable-get.md"
   },
+  "resultExample": {
+    "result": {
+      "activity": {
+        "id": 8903,
+        "ownerTypeId": 1,
+        "ownerId": 2975,
+        "fields": {
+          "typeId": "CONFIGURABLE",
+          "completed": false,
+          "deadline": "2025-02-01T01:00:00+03:00",
+          "pingOffsets": [],
+          "isIncomingChannel": false,
+          "responsibleId": 1,
+          "badgeCode": "",
+          "originatorId": null,
+          "originId": null
+        },
+        "layout": {
+          "icon": {
+            "code": "call-completed"
+          },
+          "header": {
+            "title": "Входящий звонок",
+            "tags": {
+              "status2": {
+                "title": "не расшифрован",
+                "type": "warning"
+              }
+            }
+          },
+          "body": {
+            "logo": {
+              "code": "call-incoming",
+              "action": {
+                "type": "redirect",
+                "uri": "/crm/deal/details/123/"
+              }
+            },
+            "blocks": {
+              "client": {
+                "type": "withTitle",
+                "properties": {
+                  "title": "Клиент",
+                  "inline": true,
+                  "block": {
+                    "type": "text",
+                    "properties": {
+                      "value": "ООО Рога и Копыта"
+                    }
+                  }
+                }
+              },
+              "responsible": {
+                "type": "lineOfBlocks",
+                "properties": {
+                  "blocks": {
+                    "client": {
+                      "type": "link",
+                      "properties": {
+                        "text": "Сергей Востриков",
+                        "bold": true,
+                        "action": {
+                          "type": "redirect",
+                          "uri": "/crm/lead/details/789/"
+                        }
+                      }
+                    },
+                    "phone": {
+                      "type": "text",
+                      "properties": {
+                        "value": "+7 999 888 7777"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "footer": {
+            "buttons": {
+              "startCall": {
+                "title": "О клиенте",
+                "type": "primary",
+                "action": {
+                  "type": "openRestApp",
+                  "actionParams": {
+                    "clientId": "456"
+                  }
+                }
+              }
+            },
+            "menu": {
+              "showPostponeItem": false,
+              "items": {
+                "confirm": {
+                  "title": "Подтвердить заявку",
+                  "action": {
+                    "type": "restEvent",
+                    "id": "confirm",
+                    "animationType": "loader"
+                  }
+                },
+                "decline": {
+                  "title": "Отклонить заявку",
+                  "action": {
+                    "type": "restEvent",
+                    "id": "decline",
+                    "animationType": "loader"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа - ассоциативный массив с ключом activity, в котором будет содержаться поля"
+      "description": "Корневой элемент ответа с единственным ключом activity (подробное описание)"
     },
     {
       "name": "time",
@@ -42,11 +168,19 @@
     "badgeCode",
     "completed",
     "deadline",
+    "fields",
+    "id",
     "isIncomingChannel",
+    "layout",
     "originId",
     "originatorId",
+    "ownerId",
+    "ownerTypeId",
     "pingOffsets",
     "responsibleId",
     "typeId"
-  ]
+  ],
+  "requestExample": {
+    "id": 999
+  }
 }

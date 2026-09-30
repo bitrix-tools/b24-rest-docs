@@ -97,5 +97,13 @@
     }
   ],
   "page": "/api-reference/crm/contacts/company/crm-contact-company-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 54,
+    "fields": {
+      "COMPANY_ID": 32,
+      "IS_PRIMARY": "Y",
+      "SORT": 1000
+    }
+  }
 }

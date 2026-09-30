@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "info"
+  }
 }

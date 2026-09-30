@@ -66,5 +66,9 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-files-attach.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8017,
+    "fileId": 1065
+  }
 }

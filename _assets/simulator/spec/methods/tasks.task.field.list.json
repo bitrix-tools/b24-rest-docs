@@ -48,5 +48,16 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-field-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "filterable",
+      "sortable",
+      "multiple"
+    ]
+  }
 }

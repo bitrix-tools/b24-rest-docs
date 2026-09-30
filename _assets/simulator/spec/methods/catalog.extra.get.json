@@ -67,5 +67,8 @@
     "id",
     "name",
     "percentage"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

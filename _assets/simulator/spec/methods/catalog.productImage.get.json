@@ -55,5 +55,9 @@
   "entityFields": [
     "productId",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "productId": 1,
+    "id": 1
+  }
 }

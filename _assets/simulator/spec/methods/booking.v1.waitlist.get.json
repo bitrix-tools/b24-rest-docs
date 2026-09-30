@@ -58,5 +58,8 @@
   "entityFields": [
     "id",
     "note"
-  ]
+  ],
+  "requestExample": {
+    "id": 15
+  }
 }

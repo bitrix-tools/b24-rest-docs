@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/quote/contacts/crm-quote-contact-items-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 113
+  }
 }

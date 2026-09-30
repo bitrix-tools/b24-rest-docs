@@ -17,7 +17,7 @@
       "name": "fields",
       "type": "object",
       "base": "object",
-      "required": false,
+      "required": true,
       "description": "Объект, содержащий значения полей для создания бронирования (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
@@ -36,20 +36,6 @@
           "base": "array",
           "required": true,
           "description": "Массив идентификаторов ресурсов для брони. ID ресурсов можно получить методом booking.v1.resource.list"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "base": "string",
-          "required": false,
-          "description": "Название бронирования. Значение по умолчанию — пустая строка"
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "base": "string",
-          "required": false,
-          "description": "Описание бронирования. Значение по умолчанию — пустая строка"
         },
         {
           "name": "datePeriod",
@@ -95,5 +81,25 @@
     }
   ],
   "page": "/api-reference/booking/booking/booking-v1-booking-createfromwaitlist.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "waitListId": 10,
+    "fields": {
+      "resourceIds": [
+        1,
+        2,
+        3
+      ],
+      "datePeriod": {
+        "from": {
+          "timestamp": 1723446900,
+          "timezone": "Europe/Moscow"
+        },
+        "to": {
+          "timestamp": 1723447800,
+          "timezone": "Europe/Moscow"
+        }
+      }
+    }
+  }
 }
