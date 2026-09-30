@@ -7,46 +7,15 @@
   "permissions": "любой пользователь",
   "params": [
     {
-      "name": "entityId",
-      "type": "integer",
-      "base": "integer",
+      "name": "result",
+      "type": "object",
+      "base": "object",
       "required": "unknown",
-      "description": "Идентификатор бэклога или спринта"
-    },
-    {
-      "name": "storyPoints",
-      "type": "string",
-      "base": "string",
-      "required": "unknown",
-      "description": "Стори Поинты (относительная оценка сложности задачи). Может иметь строковое значение"
-    },
-    {
-      "name": "epicId",
-      "type": "integer",
-      "base": "integer",
-      "required": "unknown",
-      "description": "Идентификатор эпика"
-    },
-    {
-      "name": "sort",
-      "type": "integer",
-      "base": "integer",
-      "required": "unknown",
-      "description": "Сортировка"
-    },
-    {
-      "name": "createdBy",
-      "type": "integer",
-      "base": "integer",
-      "required": "unknown",
-      "description": "Кем создана задача"
-    },
-    {
-      "name": "modifiedBy",
-      "type": "integer",
-      "base": "integer",
-      "required": "unknown",
-      "description": "Кем изменена задача"
+      "description": "Корневой элемент ответа (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     }
   ],
   "defs": {},
@@ -56,27 +25,42 @@
     "file": "api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get-fields.md"
   },
   "resultExample": {
-    "fields": {
-      "entityId": {
-        "type": "integer"
-      },
-      "storyPoints": {
-        "type": "string"
-      },
-      "epicId": {
-        "type": "integer"
-      },
-      "sort": {
-        "type": "integer"
-      },
-      "createdBy": {
-        "type": "integer"
-      },
-      "modifiedBy": {
-        "type": "integer"
+    "result": {
+      "fields": {
+        "entityId": {
+          "type": "integer"
+        },
+        "storyPoints": {
+          "type": "string"
+        },
+        "epicId": {
+          "type": "integer"
+        },
+        "sort": {
+          "type": "integer"
+        },
+        "sortFloat": {
+          "type": "float"
+        },
+        "createdBy": {
+          "type": "integer"
+        },
+        "modifiedBy": {
+          "type": "integer"
+        }
       }
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа (подробное описание)"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/task/tasks-api-scrum-task-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

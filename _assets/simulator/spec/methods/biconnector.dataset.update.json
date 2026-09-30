@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "write",
   "title": "Обновить датасет biconnector.dataset.update",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -45,6 +45,9 @@
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-update.md"
   },
+  "deprecated": {
+    "successor": "biconnector.table.update"
+  },
   "resultExample": {
     "result": true,
     "time": {
@@ -62,7 +65,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Корневой элемент ответа, содержит true в случае успеха"
+      "description": "Корневой элемент ответа. При успешном обновлении содержит true — объекта с данными датасета в ответе нет. Чтобы увидеть новые значения полей, вызовите biconnector.dataset.get"
     },
     {
       "name": "time",
@@ -73,5 +76,11 @@
     }
   ],
   "page": "/api-reference/biconnector/dataset/biconnector-dataset-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 10,
+    "fields": {
+      "description": "Новое описание"
+    }
+  }
 }

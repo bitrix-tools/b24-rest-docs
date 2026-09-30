@@ -112,5 +112,32 @@
     }
   ],
   "page": "/api-reference/crm/currency/crm-currency-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "CURRENCY": "CNY",
+      "BASE": "N",
+      "AMOUNT": 12.2251,
+      "AMOUNT_CNT": 1,
+      "SORT": 9000,
+      "LANG": {
+        "ru": {
+          "DECIMALS": 2,
+          "DEC_POINT": ".",
+          "FORMAT_STRING": "# CNY",
+          "FULL_NAME": "юань",
+          "HIDE_ZERO": "Y",
+          "THOUSANDS_VARIANT": "S"
+        },
+        "en": {
+          "DECIMALS": 2,
+          "DEC_POINT": ",",
+          "FORMAT_STRING": "# CNY",
+          "FULL_NAME": "yuan",
+          "HIDE_ZERO": "Y",
+          "THOUSANDS_SEP": "."
+        }
+      }
+    }
+  }
 }

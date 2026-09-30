@@ -43,5 +43,8 @@
     }
   ],
   "page": "/api-reference/tasks/flow/tasks-flow-flow-pin.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "flowId": 517
+  }
 }

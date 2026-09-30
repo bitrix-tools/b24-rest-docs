@@ -73,5 +73,8 @@
     }
   ],
   "page": "/api-reference/chats/files/im-disk-file-save.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "FILE_ID": 5155
+  }
 }

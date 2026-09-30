@@ -40,5 +40,9 @@
     }
   },
   "page": "/api-reference/imopenlines/openlines/messages/imopenlines-message-quick-save.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 1331,
+    "MESSAGE_ID": 83507
+  }
 }

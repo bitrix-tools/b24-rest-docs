@@ -83,5 +83,8 @@
   "entityFields": [
     "code",
     "name"
-  ]
+  ],
+  "requestExample": {
+    "uid": "b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c"
+  }
 }

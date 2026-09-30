@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-operator.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 112
+  }
 }

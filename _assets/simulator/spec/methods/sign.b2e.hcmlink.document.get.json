@@ -69,5 +69,8 @@
     "fileUrl",
     "name",
     "uid"
-  ]
+  ],
+  "requestExample": {
+    "id": 3942
+  }
 }

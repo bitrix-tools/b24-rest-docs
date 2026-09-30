@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/lines/voximplant-line-outgoing-sip-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONFIG_ID": 9
+  }
 }

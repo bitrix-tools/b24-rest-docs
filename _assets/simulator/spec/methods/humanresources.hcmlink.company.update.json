@@ -101,5 +101,21 @@
     }
   ],
   "page": "/api-reference/sign/hcm-link/humanresources-hcmlink-company-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 15,
+    "fields": {
+      "company": "hr-company-001",
+      "crmCompanyId": 12,
+      "title": "ООО Ромашка",
+      "fields": [
+        {
+          "field": "personal_number",
+          "title": "Табельный номер",
+          "type": "STRING",
+          "entityType": "EMPLOYEE"
+        }
+      ]
+    }
+  }
 }

@@ -88,5 +88,9 @@
     }
   ],
   "page": "/api-reference/events/event-bind.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "event": "ONCRMLEADADD",
+    "handler": "https://www.my-domain.ru/handler/"
+  }
 }

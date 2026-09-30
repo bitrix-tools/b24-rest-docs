@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/chats/chat-users/im-chat-user-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2935,
+    "USER_ID": 1291
+  }
 }

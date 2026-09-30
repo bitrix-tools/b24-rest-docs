@@ -23,6 +23,17 @@
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
+    },
+    {
+      "name": "rights",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив прав доступа на папку. Каждый элемент содержит: - ACCESS_CODE — непустая строка длиной до 50 символов с кодом получателя права, например U35 - TASK_ID — целочисленный идентификатор существующего уровня доступа - NEGATIVE — необязательный логический признак запрещающего права.…",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     }
   ],
   "defs": {},
@@ -196,5 +207,17 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-add-subfolder.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8907,
+    "data": {
+      "NAME": "Папка в папке"
+    },
+    "rights": [
+      {
+        "TASK_ID": 71,
+        "ACCESS_CODE": "U1271"
+      }
+    ]
+  }
 }

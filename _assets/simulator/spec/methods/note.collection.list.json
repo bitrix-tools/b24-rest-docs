@@ -197,5 +197,14 @@
     "position",
     "updatedAt",
     "updatedBy"
-  ]
+  ],
+  "requestExample": {
+    "pagination": {
+      "limit": 50,
+      "afterCursor": {
+        "position": 100,
+        "id": 42
+      }
+    }
+  }
 }

@@ -3,7 +3,7 @@
   "method": "catalog.priceTypeGroup.delete",
   "scope": "catalog",
   "kind": "write",
-  "title": "Удалить привязку типа цен к группе покупателей catalog.priceTypeGroup.delete",
+  "title": "Удалить привязку типа цены к группе покупателей catalog.priceTypeGroup.delete",
   "permissions": "пользователь с правом «Управление типами цен»",
   "params": [
     {
@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 109
+  }
 }

@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/bizproc/template/bizproc-workflow-template-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 525
+  }
 }

@@ -60,5 +60,11 @@
     }
   ],
   "page": "/api-reference/events/event-offline-error.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "process_id": "yh3gu929sf0d32lsfysqas2y1hlpp09q",
+    "message_id": [
+      2
+    ]
+  }
 }

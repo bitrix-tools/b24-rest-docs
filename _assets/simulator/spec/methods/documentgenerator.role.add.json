@@ -100,5 +100,23 @@
     }
   ],
   "page": "/api-reference/document-generator/role/document-generator-role-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Редакторы шаблонов",
+      "code": "DOCGEN_TEMPLATE_EDITORS",
+      "permissions": {
+        "SETTINGS": {
+          "MODIFY": ""
+        },
+        "TEMPLATES": {
+          "MODIFY": "D"
+        },
+        "DOCUMENTS": {
+          "MODIFY": "X",
+          "VIEW": "X"
+        }
+      }
+    }
+  }
 }

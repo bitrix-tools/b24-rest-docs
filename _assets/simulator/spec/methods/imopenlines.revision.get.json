@@ -74,5 +74,6 @@
     "mobile",
     "rest",
     "web"
-  ]
+  ],
+  "requestExample": {}
 }

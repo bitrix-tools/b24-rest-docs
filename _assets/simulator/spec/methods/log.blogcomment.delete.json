@@ -56,5 +56,9 @@
     }
   ],
   "page": "/api-reference/log/blogcomment/log-blogcomment-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "COMMENT_ID": 197,
+    "USER_ID": 503
+  }
 }

@@ -77,5 +77,8 @@
   "entityFields": [
     "CODE",
     "VALUE"
-  ]
+  ],
+  "requestExample": {
+    "ID": 196
+  }
 }

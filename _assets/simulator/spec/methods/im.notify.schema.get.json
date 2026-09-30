@@ -81,5 +81,6 @@
     "LIST",
     "MODULE_ID",
     "NAME"
-  ]
+  ],
+  "requestExample": {}
 }

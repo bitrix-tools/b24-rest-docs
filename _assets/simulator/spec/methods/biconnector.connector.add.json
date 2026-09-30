@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "write",
   "title": "Создать коннектор biconnector.connector.add",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "fields",
@@ -28,7 +28,7 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Название коннектора"
+          "description": "Название коннектора, максимальная длина — 512 символов"
         },
         {
           "name": "logo",
@@ -49,42 +49,56 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Эндпоинт коннектора для проверки доступности, (подробное описание)"
+          "description": "Эндпоинт коннектора для проверки доступности, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "urlTableList",
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Эндпоинт коннектора для получения списка таблиц, (подробное описание)"
+          "description": "Эндпоинт коннектора для получения списка таблиц, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "urlTableDescription",
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Эндпоинт коннектора для получения описания конкретной таблицы, (подробное описание)"
+          "description": "Эндпоинт коннектора для получения описания конкретной таблицы, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "urlData",
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Эндпоинт коннектора для получения данных по выбранной таблице, (подробное описание)"
+          "description": "Эндпоинт коннектора для получения данных по выбранной таблице, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "settings",
           "type": "array",
           "base": "array",
           "required": true,
-          "description": "Список параметров подключения, (подробное описание)"
+          "description": "Массив параметров подключения: коды и названия полей, значения которых пользователь заполнит при создании источника (подробное описание)"
+        },
+        {
+          "name": "supportMapping",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Поддержка сопоставления полей таблицы с полями внешней системы. Значение по умолчанию — false. Значение проверяется строгим сравнением с булевым типом, поэтому в запросе с типом application/x-www-form-urlencoded оно не пройдет — передавайте его с заголовком Content-Type: application/json"
+        },
+        {
+          "name": "sourceCode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код внешней системы, максимальная длина — 64 символа"
         },
         {
           "name": "sort",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Параметр сортировки коннекторов. Значение по умолчанию 100"
+          "description": "Параметр сортировки коннекторов. Значение по умолчанию — 100"
         }
       ]
     }
@@ -114,7 +128,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит поле id с идентификатором созданного коннектора"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -125,5 +139,29 @@
     }
   ],
   "page": "/api-reference/biconnector/connector/biconnector-connector-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "title": "SUPER REST CONNECTOR",
+      "logo": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjEwIiBmaWxsPSIjRkYzQjNCIiAvPgoJPHRleHQgeD0iMTEiIHk9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlJFU1Q8L3RleHQ+Cjwvc3ZnPg==",
+      "description": "Connector with token",
+      "urlCheck": "http://example.com/api/check",
+      "urlTableList": "http://example.com/api/table_list",
+      "urlTableDescription": "http://example.com/api/table_description",
+      "urlData": "http://example.com/api/data",
+      "settings": [
+        {
+          "name": "Логин",
+          "type": "STRING",
+          "code": "login"
+        },
+        {
+          "name": "Пароль",
+          "type": "STRING",
+          "code": "password"
+        }
+      ],
+      "sort": 100
+    }
+  }
 }

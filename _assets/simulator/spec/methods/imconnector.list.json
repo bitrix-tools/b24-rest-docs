@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект вида connector_id: connector_name для доступных коннекторов",
+      "description": "Объект вида connector_id: connector_name, где: - ключ — код коннектора. Для пользовательского коннектора это значение параметра ID метода imconnector.register, приведенное к нижнему регистру - значение — название коннектора на языке интерфейса Битрикс24: для пользовательского коннектора это параметр NAME метода imconnector.register Ключ подставляют в параметр CONNECTOR остальных методов раздела.…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -39,7 +39,7 @@
     "result": {
       "livechat": "Онлайн-чат",
       "telegrambot": "Telegram",
-      "network": "Битрикс24.Network",
+      "network": "Битрикс24 Network",
       "myconnector": "Мой коннектор"
     },
     "time": {
@@ -57,7 +57,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект вида connector_id: connector_name для доступных коннекторов"
+      "description": "Объект вида connector_id: connector_name, где: - ключ — код коннектора. Для пользовательского коннектора это значение параметра ID метода imconnector.register, приведенное к нижнему регистру - значение — название коннектора на языке интерфейса Битрикс24: для пользовательского коннектора это параметр NAME метода imconnector.register Ключ подставляют в параметр CONNECTOR остальных методов раздела.…"
     },
     {
       "name": "time",
@@ -74,5 +74,6 @@
     "myconnector",
     "network",
     "telegrambot"
-  ]
+  ],
+  "requestExample": {}
 }

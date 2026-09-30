@@ -72,5 +72,9 @@
     }
   ],
   "page": "/api-reference/events/event-unbind.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "event": "ONCRMLEADADD",
+    "handler": "https://www.my-domain.ru/handler/"
+  }
 }

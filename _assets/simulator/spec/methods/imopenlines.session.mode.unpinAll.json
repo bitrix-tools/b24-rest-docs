@@ -68,5 +68,6 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-unpin-all.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/pay-system/sale-pay-system-handler-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 1
+  }
 }

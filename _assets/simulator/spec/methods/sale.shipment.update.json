@@ -233,5 +233,21 @@
     }
   ],
   "page": "/api-reference/sale/shipment/sale-shipment-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 2452,
+    "fields": {
+      "allowDelivery": "N",
+      "deducted": "N",
+      "deliveryId": 3,
+      "statusId": "DD",
+      "deliveryDocDate": "2024-02-13T15:05:49",
+      "deliveryDocNum": "MyDocumentNumber",
+      "trackingNumber": "MyTrackingNumber",
+      "basePriceDelivery": 1999.99,
+      "comments": "My new comment for manager",
+      "responsibleId": 1,
+      "xmlId": "myNewXmlId"
+    }
+  }
 }

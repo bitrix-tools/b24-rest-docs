@@ -167,5 +167,11 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 101,
+    "values": {
+      "DocumentNumber": "2026-001"
+    }
+  }
 }

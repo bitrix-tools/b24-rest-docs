@@ -194,5 +194,10 @@
     }
   ],
   "page": "/api-reference/departments/node/humanresources-node-edit.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 44,
+    "name": "Отдел продаж B2B",
+    "description": "Работает с корпоративными клиентами"
+  }
 }

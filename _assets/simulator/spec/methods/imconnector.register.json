@@ -204,5 +204,27 @@
     }
   ],
   "page": "/api-reference/imopenlines/imconnector/imconnector-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": "myconnector",
+    "NAME": "Мой коннектор",
+    "ICON": {
+      "DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+      "COLOR": "#69acc0",
+      "SIZE": "90%",
+      "POSITION": "center"
+    },
+    "PLACEMENT_HANDLER": "https://example.com/connector/settings",
+    "ICON_DISABLED": {
+      "DATA_IMAGE": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22/%3E",
+      "COLOR": "#99adb3"
+    },
+    "DEL_EXTERNAL_MESSAGES": true,
+    "EDIT_INTERNAL_MESSAGES": true,
+    "DEL_INTERNAL_MESSAGES": true,
+    "NEWSLETTER": true,
+    "NEED_SYSTEM_MESSAGES": true,
+    "NEED_SIGNATURE": true,
+    "CHAT_GROUP": false
+  }
 }

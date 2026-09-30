@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/document-generator/numerators/document-generator-numerator-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 57
+  }
 }

@@ -73,5 +73,10 @@
     }
   ],
   "page": "/api-reference/telephony/telephony-external-line-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NUMBER": "74951234567",
+    "NAME": "Основная внешняя линия",
+    "CRM_AUTO_CREATE": "Y"
+  }
 }

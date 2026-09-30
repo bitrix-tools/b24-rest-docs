@@ -113,5 +113,22 @@
     }
   ],
   "page": "/api-reference/entity/sections/entity-section-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "NAME": "Тестовый раздел",
+    "SECTION": 671,
+    "ACTIVE": "Y",
+    "SORT": 500,
+    "CODE": "testovyy-razdel",
+    "DESCRIPTION": "Описание тестового раздела",
+    "PICTURE": [
+      "section.jpg",
+      "**base64_section_image**"
+    ],
+    "DETAIL_PICTURE": [
+      "section-detail.jpg",
+      "**base64_section_detail_image**"
+    ]
+  }
 }

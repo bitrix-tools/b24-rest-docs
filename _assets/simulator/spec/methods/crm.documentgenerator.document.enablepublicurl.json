@@ -59,5 +59,9 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-enable-public-url.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 61,
+    "status": 1
+  }
 }

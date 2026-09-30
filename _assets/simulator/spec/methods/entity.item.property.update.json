@@ -85,5 +85,12 @@
     }
   ],
   "page": "/api-reference/entity/items/properties/entity-item-property-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "PROPERTY": "new_prop",
+    "PROPERTY_NEW": "updated_prop",
+    "NAME": "Обновленное свойство",
+    "SORT": 200
+  }
 }

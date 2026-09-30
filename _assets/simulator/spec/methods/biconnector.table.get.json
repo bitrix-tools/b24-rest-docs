@@ -1,0 +1,128 @@
+{
+  "$v": 1,
+  "method": "biconnector.table.get",
+  "scope": "biconnector",
+  "kind": "read",
+  "title": "Получить таблицу по id biconnector.table.get",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор таблицы, можно получить методами biconnector.table.list и biconnector.table.add"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/table/biconnector-table-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "item": {
+        "id": 27,
+        "type": "rest",
+        "name": "sales_orders",
+        "description": "Заказы из внешнего сервиса",
+        "externalCode": "sales_orders",
+        "externalName": "Sales orders",
+        "dateCreate": "2026-09-16 12:00:46",
+        "dateUpdate": null,
+        "createdById": 1,
+        "updatedById": 0,
+        "externalId": 0,
+        "csvDelimiter": "",
+        "csvEncoding": "",
+        "csvHasHeaders": false,
+        "fields": [
+          {
+            "id": 43,
+            "datasetId": 27,
+            "type": "int",
+            "name": "ID",
+            "externalCode": "id",
+            "visible": true,
+            "description": ""
+          },
+          {
+            "id": 45,
+            "datasetId": 27,
+            "type": "string",
+            "name": "CUSTOMER",
+            "externalCode": "customer",
+            "visible": true,
+            "description": ""
+          },
+          {
+            "id": 47,
+            "datasetId": 27,
+            "type": "money",
+            "name": "AMOUNT",
+            "externalCode": "amount",
+            "visible": true,
+            "description": ""
+          },
+          {
+            "id": 49,
+            "datasetId": 27,
+            "type": "date",
+            "name": "ORDER_DATE",
+            "externalCode": "order_date",
+            "visible": true,
+            "description": ""
+          }
+        ]
+      }
+    },
+    "time": {
+      "start": 1789549489,
+      "finish": 1789549489.125967,
+      "duration": 0.12596702575683594,
+      "processing": 0,
+      "date_start": "2026-09-16T12:04:49+03:00",
+      "date_finish": "2026-09-16T12:04:49+03:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа. Содержит единственный ключ item с объектом table"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/table/biconnector-table-get.html",
+  "executable": false,
+  "entityFields": [
+    "createdById",
+    "csvDelimiter",
+    "csvEncoding",
+    "csvHasHeaders",
+    "dateCreate",
+    "dateUpdate",
+    "description",
+    "externalCode",
+    "externalId",
+    "externalName",
+    "fields",
+    "id",
+    "name",
+    "sourceId",
+    "type",
+    "updatedById"
+  ],
+  "requestExample": {
+    "id": 2
+  }
+}

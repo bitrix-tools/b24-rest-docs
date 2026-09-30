@@ -144,5 +144,21 @@
     "purchasingPrice",
     "storeFrom",
     "storeTo"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "docId",
+      "elementId",
+      "amount",
+      "storeFrom",
+      "storeTo"
+    ],
+    "filter": {
+      "docId": 64
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

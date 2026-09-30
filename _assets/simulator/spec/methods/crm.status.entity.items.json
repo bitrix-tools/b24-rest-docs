@@ -91,5 +91,8 @@
     }
   ],
   "page": "/api-reference/crm/status/crm-status-entity-items.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityId": "DEAL_STAGE"
+  }
 }

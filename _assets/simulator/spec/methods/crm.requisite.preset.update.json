@@ -96,5 +96,12 @@
     }
   ],
   "page": "/api-reference/crm/requisites/presets/crm-requisite-preset-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 347,
+    "fields": {
+      "NAME": "ИП (архив)",
+      "ACTIVE": "N"
+    }
+  }
 }

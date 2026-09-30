@@ -22,7 +22,7 @@
       "type": "array",
       "base": "array",
       "required": false,
-      "description": "Массив, содержащий список полей, которые необходимо выбрать. Смотрите ниже список доступных полей для выборки. Если параметр не передан или пуст, выбирается только ID",
+      "description": "Массив, содержащий список полей, которые необходимо выбрать. Смотрите ниже список доступных полей для выборки. Если параметр не передан или пуст, выбирается только ID. Поле ID возвращается всегда, даже если его нет в select. Неизвестные поля метод игнорирует",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -96,17 +96,31 @@
         },
         {
           "name": "features",
-          "type": "array",
+          "type": "string[]",
           "base": "array",
           "required": false,
           "description": "Список кодов инструментов группы, которые нужно учитывать при формировании additionalData в режиме mobile"
         },
         {
           "name": "mandatoryFeatures",
-          "type": "array",
+          "type": "string[]",
           "base": "array",
           "required": false,
-          "description": "Список кодов инструментов, которые всегда нужно включать в additionalData в режиме mobile"
+          "description": "Коды инструментов из features, которые нужно включить в additionalData.features независимо от прав текущего пользователя"
+        },
+        {
+          "name": "shouldSelectHasCollabers",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Добавлять ли в additionalData признак наличия внешних участников hasCollabers. Возможные значения: - true или Y — добавить признак - false или N — не добавлять признак По умолчанию — false"
+        },
+        {
+          "name": "shouldEnsureHasCollabers",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Пересчитать ли признак hasCollabers перед возвратом ответа. Параметр учитывается, только если shouldSelectHasCollabers имеет значение true или Y. Возможные значения: - true или Y — пересчитать признак - false или N — вернуть сохраненное значение По умолчанию — false"
         },
         {
           "name": "shouldSelectDialogId",
@@ -137,10 +151,10 @@
     "result": {
       "workgroups": [
         {
-          "id": "5",
+          "id": 5,
           "name": "Открытая группа для всех",
           "type": "group",
-          "imageId": "5",
+          "imageId": 5,
           "avatarType": null,
           "avatar": "https://test.bitrix24.ru/b13743910/resize_cache/5/7acf4caaf5d8/socialnetwork/8d6/8d2c04ece929572/3.png",
           "additionalData": {
@@ -150,10 +164,10 @@
           "dialogId": ""
         },
         {
-          "id": "1",
+          "id": 1,
           "name": "Закрытая видимая группа",
           "type": "group",
-          "imageId": "1",
+          "imageId": 1,
           "avatarType": null,
           "avatar": "",
           "additionalData": {
@@ -189,7 +203,7 @@
       "type": "object[]",
       "base": "array",
       "required": false,
-      "description": "Список рабочих групп. Состав объекта зависит от переданных полей в select и параметров params. Если группы по фильтру не найдены, workgroups вернется пустым массивом"
+      "description": "Список рабочих групп с описанием полей. Состав объекта зависит от переданных полей в select и параметров params. Если группы по фильтру не найдены, workgroups вернется пустым массивом"
     },
     {
       "name": "next",
@@ -224,5 +238,25 @@
     "imageId",
     "name",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "ACTIVE": "Y",
+      "CLOSED": "N",
+      "%NAME": "группа"
+    },
+    "select": [
+      "ID",
+      "NAME",
+      "TYPE",
+      "AVATAR"
+    ],
+    "order": {
+      "ID": "DESC"
+    },
+    "params": {
+      "mode": "mobile",
+      "shouldSelectDialogId": "Y"
+    }
+  }
 }

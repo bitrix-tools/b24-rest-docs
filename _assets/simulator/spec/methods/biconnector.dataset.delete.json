@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "write",
   "title": "Удалить датасет biconnector.dataset.delete",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -19,6 +19,9 @@
   "confidence": "parsed",
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-delete.md"
+  },
+  "deprecated": {
+    "successor": "biconnector.table.delete"
   },
   "resultExample": {
     "result": true,
@@ -37,7 +40,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Корневой элемент ответа, содержит true в случае успеха"
+      "description": "Корневой элемент ответа. Содержит true, если датасет удален. Другого значения при успехе метод не возвращает и объект удаленного датасета не отдает. Если удалить датасет не удалось, вместо true в result приходит объект с ключом error"
     },
     {
       "name": "time",
@@ -48,5 +51,8 @@
     }
   ],
   "page": "/api-reference/biconnector/dataset/biconnector-dataset-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 4
+  }
 }

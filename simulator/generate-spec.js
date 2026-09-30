@@ -12,7 +12,8 @@ const path = require('path');
 
 const { buildSpec } = require('./lib/build-spec.js');
 const { parseTables } = require('./lib/yfm-table.js');
-const { PILOT_DIRS, READ_EXECUTABLE } = require('./lib/config.js');
+const { PILOT_DIRS, READ_EXECUTABLE, METHOD_ENTITY } = require('./lib/config.js');
+const B24Sim = require('./lib/core.js');
 
 // Состав полей сущности описан не на странице списочного метода, а отдельно.
 // Для CRM это подтаблица «Параметр fields» у метода *.add, для задач — своя страница.
@@ -110,6 +111,8 @@ function main() {
     }
 
     attachEntityFields(specs, byMethod);
+    const examples = attachRequestExample(specs);
+    const hints = attachDatasetHint(specs);
 
     report(specs, skipped, noteCounts, unknownTypes);
 
@@ -193,6 +196,135 @@ function attachEntityFields(specs, byMethod) {
     }
 }
 
+// Рабочий пример вызова. У ИИ-агента список параметров есть, а вызова,
+// который точно проходит, — нет: отсюда «не передан обязательный параметр»
+// как самый частый класс ошибок. Пример на странице обычно есть, но до
+// схемы не доезжал.
+//
+// Кладём ТОЛЬКО тот, что проходит нашу же валидацию. Пример, противоречащий
+// собственной таблице параметров, научит агента ошибке вместо вызова.
+function attachRequestExample(specs) {
+    const bodyRe = /-d\s+'((?:[^']|'"[^"]*"')*)'\s*\\?\s*\n/g;
+    let attached = 0;
+    let rejected = 0;
+
+    for (const spec of specs) {
+        const file = spec.source && spec.source.file;
+        if (!file || !fs.existsSync(file)) {
+            continue;
+        }
+        const markdown = fs.readFileSync(file, 'utf8');
+        bodyRe.lastIndex = 0;
+
+        let match;
+        while ((match = bodyRe.exec(markdown)) !== null) {
+            const raw = match[1].trim();
+            if (!raw.startsWith('{')) {
+                continue;
+            }
+            // Подстановки оболочки — не пример, а шаблон.
+            if (/\$\(|\$\{|`|'"|\$[A-Za-z_]/.test(raw)) {
+                continue;
+            }
+            let body;
+            try {
+                body = JSON.parse(raw);
+            } catch (error) {
+                continue;
+            }
+
+            // Авторизация — транспорт, а не параметр метода: в OAuth-примерах
+            // она стоит по делу, но в таблице её нет. Убираем, как в check-examples.js.
+            delete body.auth;
+
+            const verdict = B24Sim.validate(spec, body);
+            if (verdict && verdict.ok) {
+                spec.requestExample = body;
+                attached += 1;
+                break;
+            }
+            rejected += 1;
+        }
+    }
+    return { attached, rejected };
+}
+
+// Какие идентификаторы реально лежат в тестовом датасете. Без этого агент
+// подставляет единицу, получает «не найдено» и не понимает почему: у задач
+// идентификаторы начинаются со 100.
+function attachDatasetHint(specs) {
+    const file = path.join(OUT_DIR, '..', 'fixtures', 'dataset.json');
+    if (!fs.existsSync(file)) {
+        return 0;
+    }
+    const dataset = JSON.parse(fs.readFileSync(file, 'utf8'));
+    let attached = 0;
+    const brokenRunnable = [];
+
+    for (const spec of specs) {
+        const entity = METHOD_ENTITY[spec.method];
+        const items = entity && dataset.entities && dataset.entities[entity];
+        if (!items || !items.length) {
+            continue;
+        }
+
+        const ids = items.map((item) => String(item.id !== undefined ? item.id : item.ID));
+        const hint = { entity, count: items.length };
+        const nums = ids.every((x) => /^\d+$/.test(x)) ? ids.map(Number).sort((a, b) => a - b) : null;
+
+        if (nums && nums[nums.length - 1] - nums[0] + 1 === nums.length) {
+            hint.idFrom = nums[0];
+            hint.idTo = nums[nums.length - 1];
+        } else {
+            hint.ids = (nums ? nums.map(String) : ids).slice(0, 12);
+        }
+
+        // Пример из документации ссылается на идентификаторы боевого
+        // портала: скопировав его в песочницу, агент получит «не найдено».
+        // Даём рядом тот же вызов с идентификатором, который здесь есть.
+        const first = (nums ? nums.map(String) : ids)[0];
+        const idValue = /^\d+$/.test(first) ? Number(first) : first;
+        const isIdKey = (key) => /^(id|taskid)$/i.test(key);
+
+        let runnable = null;
+        if (spec.requestExample && Object.keys(spec.requestExample).some(isIdKey)) {
+            runnable = {};
+            for (const [key, value] of Object.entries(spec.requestExample)) {
+                runnable[key] = isIdKey(key) ? idValue : value;
+            }
+        } else {
+            const idParam = spec.params.find((param) => isIdKey(param.name));
+            if (idParam) {
+                // Примера нет или он не прошёл валидацию — собираем
+                // минимальный сами: для get-метода это один параметр.
+                runnable = { [idParam.name]: idValue };
+            } else {
+                // Списочный метод: годится пример со страницы, а если его
+                // нет — пустой вызов, он у списков осмыслен.
+                runnable = spec.requestExample || {};
+            }
+        }
+
+        // Публикуем только то, что сами прогнали: пример, который не
+        // работает, хуже отсутствующего.
+        if (runnable) {
+            const check = B24Sim.call(spec, runnable, dataset);
+            if (check && !check.error) {
+                hint.runnableExample = runnable;
+            } else {
+                brokenRunnable.push(spec.method + ' → ' + (check && check.error));
+            }
+        }
+
+        spec.datasetHint = hint;
+        attached += 1;
+    }
+    if (brokenRunnable.length) {
+        console.warn('  примеры для песочницы не прошли прогон: ' + brokenRunnable.join('; '));
+    }
+    return attached;
+}
+
 function write(specs) {
     const methodsDir = path.join(OUT_DIR, 'methods');
     fs.rmSync(OUT_DIR, { recursive: true, force: true });
@@ -248,6 +380,10 @@ function report(specs, skipped, noteCounts, unknownTypes) {
     console.log('  из них read          : ' + specs.filter((s) => s.kind === 'read').length);
     console.log('  из них исполняемых   : ' + executable);
     console.log('  с примером ответа    : ' + withExample + ' (' + pct(withExample, specs.length) + ')');
+    const withRequest = specs.filter((s) => s.requestExample).length;
+    const withHint = specs.filter((s) => s.datasetHint).length;
+    console.log('  с примером запроса   : ' + withRequest + ' (' + pct(withRequest, specs.length) + ')');
+    console.log('  с подсказкой по датасету: ' + withHint);
     console.log('  deprecated           : ' + specs.filter((s) => s.deprecated).length);
     console.log('параметров всего       : ' + totalParams);
     console.log('  обязательность неясна: ' + unknownRequired + ' (' + pct(unknownRequired, totalParams) + ')');

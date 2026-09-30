@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/imconnector/imconnector-unregister.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": "myconnector"
+  }
 }

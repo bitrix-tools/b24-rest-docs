@@ -1048,5 +1048,45 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/imopenlines-config-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "PARAMS": {
+      "LINE_NAME": "Линия поддержки интернет-магазина",
+      "QUEUE": [
+        {
+          "ENTITY_TYPE": "user",
+          "ENTITY_ID": "1"
+        },
+        {
+          "ENTITY_TYPE": "user",
+          "ENTITY_ID": "15"
+        },
+        {
+          "ENTITY_TYPE": "user",
+          "ENTITY_ID": "23"
+        }
+      ],
+      "QUEUE_TYPE": "strictly",
+      "QUEUE_TIME": 45,
+      "NO_ANSWER_TIME": 120,
+      "WELCOME_MESSAGE": "Y",
+      "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
+      "CRM": "Y",
+      "CRM_CREATE": "deal",
+      "CRM_SOURCE": "openline_web",
+      "CRM_FORWARD": "Y",
+      "MAX_CHAT": 4,
+      "TYPE_MAX_CHAT": "answered_new",
+      "WORKTIME_ENABLE": "Y",
+      "WORKTIME_FROM": "09:00",
+      "WORKTIME_TO": "21:00",
+      "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
+      "WORKTIME_DAYOFF": [
+        "SA",
+        "SU"
+      ],
+      "WORKTIME_DAYOFF_RULE": "text",
+      "WORKTIME_DAYOFF_TEXT": "Сейчас линия не работает. Напишите, и мы ответим в рабочее время"
+    }
+  }
 }

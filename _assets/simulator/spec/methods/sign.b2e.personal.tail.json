@@ -70,5 +70,9 @@
     }
   ],
   "page": "/api-reference/sign/sign-b2e-personal-tail.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "limit": 2,
+    "offset": 0
+  }
 }

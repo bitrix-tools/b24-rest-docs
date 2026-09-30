@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "write",
   "title": "Обновить поля датасета biconnector.dataset.fields.update",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -15,10 +15,10 @@
     },
     {
       "name": "add",
-      "type": "object",
-      "base": "object",
+      "type": "array",
+      "base": "array",
       "required": false,
-      "description": "Объект, содержащий массив добавляемых полей со следующей структурой: - type — тип поля - name — название поля - externalCode — внешний код поля",
+      "description": "Массив добавляемых полей. Каждый элемент — объект с тремя обязательными ключами: - type string — тип данных поля - name string — название поля, заглавные латинские буквы A-Z, цифры и знак _, не длиннее 32 символов - externalCode string — внешний код поля Видимость у добавляемого поля не задается: новые поля создаются видимыми",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -26,10 +26,10 @@
     },
     {
       "name": "update",
-      "type": "object",
-      "base": "object",
+      "type": "array",
+      "base": "array",
       "required": false,
-      "description": "Объект, содержащий массив обновляемых полей со следующей структурой: - id — Идентификатор поля, можно получить методом biconnector.dataset.get - visible — видимость поля",
+      "description": "Массив изменяемых полей. Каждый элемент — объект с двумя обязательными ключами: - id integer — идентификатор поля, можно получить методом biconnector.dataset.get - visible boolean — видимость поля Видимость — единственный признак поля, который меняет этот блок. Название, тип и внешний код существующего поля изменить нельзя",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -40,7 +40,7 @@
       "type": "integer[]",
       "base": "array",
       "required": false,
-      "description": "Объект, содержащий массив идентификаторов полей для их удаления. Идентификаторы полей можно получить методом biconnector.dataset.get",
+      "description": "Массив идентификаторов удаляемых полей. Идентификаторы можно получить методом biconnector.dataset.get",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -52,6 +52,9 @@
   "confidence": "parsed",
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-fields-update.md"
+  },
+  "deprecated": {
+    "successor": "biconnector.table.fields.update"
   },
   "resultExample": {
     "result": true,
@@ -70,7 +73,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Корневой элемент ответа, содержит true в случае успеха"
+      "description": "Корневой элемент ответа. При успешном обновлении содержит true — нового состава полей в ответе нет. Чтобы увидеть его, вызовите biconnector.dataset.get"
     },
     {
       "name": "time",
@@ -81,5 +84,34 @@
     }
   ],
   "page": "/api-reference/biconnector/dataset/biconnector-dataset-fields-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 10,
+    "add": [
+      {
+        "type": "int",
+        "name": "NAME",
+        "externalCode": "NAME"
+      },
+      {
+        "type": "int",
+        "name": "ID",
+        "externalCode": "ID"
+      }
+    ],
+    "update": [
+      {
+        "id": 12,
+        "visible": false
+      },
+      {
+        "id": 13,
+        "visible": true
+      }
+    ],
+    "delete": [
+      14,
+      15
+    ]
+  }
 }

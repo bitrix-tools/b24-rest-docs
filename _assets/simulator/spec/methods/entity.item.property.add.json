@@ -78,5 +78,12 @@
     }
   ],
   "page": "/api-reference/entity/items/properties/entity-item-property-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "PROPERTY": "new_prop",
+    "NAME": "Новое свойство",
+    "TYPE": "S",
+    "SORT": 100
+  }
 }

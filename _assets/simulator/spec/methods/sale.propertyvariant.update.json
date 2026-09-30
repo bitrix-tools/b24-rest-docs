@@ -110,5 +110,14 @@
     }
   ],
   "page": "/api-reference/sale/property-variant/sale-property-variant-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 5,
+    "fields": {
+      "name": "Красный",
+      "value": "red",
+      "sort": 10,
+      "description": "Новое описание значения для красного цвета"
+    }
+  }
 }

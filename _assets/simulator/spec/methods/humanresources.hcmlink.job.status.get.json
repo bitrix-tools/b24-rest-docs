@@ -53,5 +53,8 @@
   "executable": false,
   "entityFields": [
     "alive"
-  ]
+  ],
+  "requestExample": {
+    "id": 101
+  }
 }

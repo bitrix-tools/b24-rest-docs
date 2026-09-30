@@ -71,5 +71,11 @@
     }
   ],
   "page": "/api-reference/messageservice/messageservice-sender-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "provider1",
+    "HANDLER": "https://provider.example/api/new-handler",
+    "NAME": "Provider 1 Updated",
+    "DESCRIPTION": "Обновленное описание"
+  }
 }

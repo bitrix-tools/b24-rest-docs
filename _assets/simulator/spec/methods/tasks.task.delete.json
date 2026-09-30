@@ -59,5 +59,8 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8131
+  }
 }

@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/entity/sections/entity-section-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "ID": 673
+  }
 }

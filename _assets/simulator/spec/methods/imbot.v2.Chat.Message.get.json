@@ -78,5 +78,10 @@
     "text",
     "uuid",
     "viewedByOthers"
-  ]
+  ],
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "messageId": 789
+  }
 }

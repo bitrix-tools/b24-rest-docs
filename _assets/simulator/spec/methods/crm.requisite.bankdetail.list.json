@@ -157,5 +157,18 @@
     "RQ_SWIFT",
     "SORT",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "DATE_CREATE": "ASC"
+    },
+    "filter": {
+      "COUNTRY_ID": "1"
+    },
+    "select": [
+      "ENTITY_ID",
+      "ID",
+      "NAME"
+    ]
+  }
 }

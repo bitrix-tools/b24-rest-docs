@@ -133,5 +133,17 @@
     "SECTION",
     "SORT",
     "TIMESTAMP_X"
-  ]
+  ],
+  "requestExample": {
+    "ENTITY": "dish_v2",
+    "SORT": {
+      "DATE_ACTIVE_FROM": "ASC",
+      "ID": "ASC"
+    },
+    "FILTER": {
+      ">=DATE_ACTIVE_FROM": "2026-03-01T00:00:00+03:00",
+      "<DATE_ACTIVE_FROM": "2026-04-01T00:00:00+03:00"
+    },
+    "start": 0
+  }
 }

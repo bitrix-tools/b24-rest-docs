@@ -64,5 +64,10 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-read.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 101,
+    "ACTION": "Y",
+    "ONLY_CURRENT": "Y"
+  }
 }

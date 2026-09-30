@@ -108,5 +108,16 @@
     }
   ],
   "page": "/api-reference/sign/hcm-link/humanresources-hcmlink-job-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 101,
+    "fields": {
+      "status": "DONE",
+      "total": 10,
+      "sent": 10,
+      "data": {
+        "batch": "2026-08-06"
+      }
+    }
+  }
 }

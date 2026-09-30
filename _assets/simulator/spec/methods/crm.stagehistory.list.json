@@ -111,5 +111,19 @@
     "STAGE_ID",
     "STAGE_SEMANTIC_ID",
     "TYPE_ID"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 2,
+    "order": {
+      "ID": "ASC"
+    },
+    "filter": {
+      "OWNER_ID": 1
+    },
+    "select": [
+      "ID",
+      "STAGE_ID",
+      "CREATED_TIME"
+    ]
+  }
 }

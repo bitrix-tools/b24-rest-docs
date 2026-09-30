@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-delete-tree.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8942
+  }
 }

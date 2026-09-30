@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/log/log-blogpost-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "POST_ID": 211
+  }
 }

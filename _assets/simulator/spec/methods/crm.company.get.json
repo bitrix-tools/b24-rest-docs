@@ -168,5 +168,14 @@
     "UTM_SOURCE",
     "UTM_TERM",
     "WEB"
-  ]
+  ],
+  "datasetHint": {
+    "entity": "companies",
+    "count": 12,
+    "idFrom": 1,
+    "idTo": 12,
+    "runnableExample": {
+      "id": 1
+    }
+  }
 }

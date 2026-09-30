@@ -11,7 +11,7 @@
       "type": "array",
       "base": "array",
       "required": false,
-      "description": "Массив полей дела crm.activity.fields, которые необходимо выбрать. Чтобы получить поля COMMUNICATIONS и FILES укажите их в select.",
+      "description": "Массив полей дела crm.activity.fields, которые необходимо выбрать. Чтобы получить поля COMMUNICATIONS и FILES, укажите их в select.",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -33,7 +33,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Набор пар ключ-значение для сортировки результатов вывода. В качестве ключей можно использовать смотрите поля дела crm.activity.fields. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания По-умолчанию сортируется по увеличению поля Дата начала (START_TIME)",
+      "description": "Набор пар ключ-значение для сортировки результатов вывода. В качестве ключей можно использовать поля дела crm.activity.fields. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания По умолчанию результаты сортируются по возрастанию значения поля START_TIME",
       "values": [
         {
           "value": "asc",
@@ -41,7 +41,7 @@
         },
         {
           "value": "desc",
-          "title": "в порядке убывания По-умолчанию сортируется по увеличению поля Дата начала (STAR"
+          "title": "в порядке убывания По умолчанию результаты сортируются по возрастанию значения п"
         }
       ],
       "dynamic": {
@@ -63,6 +63,63 @@
   "source": {
     "file": "api-reference/crm/timeline/activities/activity-base/crm-activity-list.md"
   },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "20",
+        "OWNER_ID": "15",
+        "OWNER_TYPE_ID": "3",
+        "TYPE_ID": "2",
+        "PROVIDER_ID": "VOXIMPLANT_CALL",
+        "PROVIDER_TYPE_ID": "CALL",
+        "PROVIDER_GROUP_ID": null,
+        "ASSOCIATED_ENTITY_ID": "0",
+        "SUBJECT": "Исходящий звонок Андрей Николаев",
+        "CREATED": "2020-09-27T13:26:55+03:00",
+        "LAST_UPDATED": "2021-03-21T20:28:24+03:00",
+        "START_TIME": "2020-09-27T13:25:00+03:00",
+        "END_TIME": "2020-09-27T19:25:00+03:00",
+        "DEADLINE": "2020-09-27T13:25:00+03:00",
+        "COMPLETED": "Y",
+        "STATUS": "2",
+        "RESPONSIBLE_ID": "505",
+        "PRIORITY": "2",
+        "NOTIFY_TYPE": "1",
+        "NOTIFY_VALUE": "15",
+        "DESCRIPTION": "",
+        "DESCRIPTION_TYPE": "1",
+        "DIRECTION": "2",
+        "LOCATION": "",
+        "SETTINGS": [],
+        "ORIGINATOR_ID": null,
+        "ORIGIN_ID": null,
+        "AUTHOR_ID": "505",
+        "EDITOR_ID": "505",
+        "PROVIDER_PARAMS": [],
+        "PROVIDER_DATA": null,
+        "RESULT_MARK": "0",
+        "RESULT_VALUE": null,
+        "RESULT_SUM": null,
+        "RESULT_CURRENCY_ID": null,
+        "RESULT_STATUS": "0",
+        "RESULT_STREAM": "0",
+        "RESULT_SOURCE_ID": null,
+        "AUTOCOMPLETE_RULE": "0"
+      }
+    ],
+    "next": 50,
+    "total": 123456,
+    "time": {
+      "start": 1724677896.295857,
+      "finish": 1724677897.197243,
+      "duration": 0.901386022567749,
+      "processing": 0.8762130737304688,
+      "date_start": "2024-08-26T16:11:36+03:00",
+      "date_finish": "2024-08-26T16:11:37+03:00",
+      "operating_reset_at": "2024-08-26T16:11:37+03:00",
+      "operating": 0.0162130737304688
+    }
+  },
   "returns": [
     {
       "name": "result",
@@ -70,6 +127,20 @@
       "base": "array",
       "required": false,
       "description": "Массив дел. Для получения информации о структуре дела смотрите метод crm.activity.fields"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Значение параметра start для получения следующей страницы. Поле возвращается, если доступна следующая страница"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Общее количество найденных дел"
     },
     {
       "name": "time",
@@ -83,16 +154,24 @@
   "executable": false,
   "entityFields": [
     "ASSOCIATED_ENTITY_ID",
+    "AUTHOR_ID",
+    "AUTOCOMPLETE_RULE",
     "COMMUNICATIONS",
+    "COMPLETED",
+    "CREATED",
     "DEADLINE",
     "DESCRIPTION",
     "DESCRIPTION_TYPE",
     "DIRECTION",
+    "EDITOR_ID",
     "END_TIME",
     "FILES",
+    "ID",
     "IS_INCOMING_CHANNEL",
+    "LAST_UPDATED",
     "LOCATION",
     "NOTIFY_TYPE",
+    "NOTIFY_VALUE",
     "ORIGINATOR_ID",
     "ORIGIN_ID",
     "ORIGIN_VERSION",
@@ -105,11 +184,32 @@
     "PROVIDER_PARAMS",
     "PROVIDER_TYPE_ID",
     "RESPONSIBLE_ID",
+    "RESULT_CURRENCY_ID",
+    "RESULT_MARK",
+    "RESULT_SOURCE_ID",
+    "RESULT_STATUS",
+    "RESULT_STREAM",
+    "RESULT_SUM",
+    "RESULT_VALUE",
     "SETTINGS",
     "START_TIME",
     "STATUS",
     "SUBJECT",
     "TYPE_ID",
     "WEBDAV_ELEMENTS"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "ID": "DESC"
+    },
+    "filter": {
+      "OWNER_TYPE_ID": 3,
+      "OWNER_ID": 102
+    },
+    "select": [
+      "*",
+      "COMMUNICATIONS"
+    ],
+    "start": 0
+  }
 }

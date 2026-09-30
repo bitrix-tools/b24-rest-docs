@@ -64,5 +64,8 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-mark-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 350
+  }
 }

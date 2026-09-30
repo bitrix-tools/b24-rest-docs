@@ -62,5 +62,9 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-event/calendar-meeting-status-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "eventId": 651,
+    "status": "Y"
+  }
 }

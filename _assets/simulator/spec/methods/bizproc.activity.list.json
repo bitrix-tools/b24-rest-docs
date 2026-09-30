@@ -68,5 +68,6 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-activity/bizproc-activity-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

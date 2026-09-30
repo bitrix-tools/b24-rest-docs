@@ -20,6 +20,55 @@
   "source": {
     "file": "api-reference/document-generator/numerators/document-generator-numerator-list.md"
   },
+  "resultExample": {
+    "result": {
+      "numerators": [
+        {
+          "id": "53",
+          "name": "Общий номер",
+          "template": "{NUMBER}",
+          "settings": {
+            "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+              "start": 1,
+              "step": 1,
+              "length": 0,
+              "padString": "0",
+              "periodicBy": null,
+              "timezone": null,
+              "isDirectNumeration": false
+            }
+          }
+        },
+        {
+          "id": "55",
+          "name": "REST Invoice Numerator Updated",
+          "template": "INV-UPD-{NUMBER}",
+          "settings": {
+            "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+              "start": 2000,
+              "step": 10,
+              "length": 8,
+              "padString": "0",
+              "periodicBy": "year",
+              "timezone": "Europe/Moscow",
+              "isDirectNumeration": false
+            }
+          }
+        }
+      ]
+    },
+    "total": 2,
+    "time": {
+      "start": 1774363478,
+      "finish": 1774363478.809978,
+      "duration": 0.8099780082702637,
+      "processing": 0,
+      "date_start": "2026-03-24T17:44:38+03:00",
+      "date_finish": "2026-03-24T17:44:38+03:00",
+      "operating_reset_at": 1774364078,
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
@@ -33,7 +82,7 @@
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Количество нумераторов в текущей выборке"
+      "description": "Количество нумераторов на текущей странице. Поле не содержит общее количество записей во всей выборке"
     },
     {
       "name": "time",
@@ -46,8 +95,12 @@
   "page": "/api-reference/document-generator/numerators/document-generator-numerator-list.html",
   "executable": false,
   "entityFields": [
+    "id",
     "name",
     "settings",
     "template"
-  ]
+  ],
+  "requestExample": {
+    "start": 0
+  }
 }

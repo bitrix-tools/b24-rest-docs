@@ -54,5 +54,11 @@
     }
   ],
   "page": "/api-reference/tasks/stages/task-stages-move-task.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "stageId": 2,
+    "before": 3,
+    "after": 4
+  }
 }

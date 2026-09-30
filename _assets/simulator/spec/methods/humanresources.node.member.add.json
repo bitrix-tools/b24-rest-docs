@@ -99,5 +99,14 @@
     }
   ],
   "page": "/api-reference/departments/node-member/humanresources-node-member-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "nodeId": 15,
+    "userIds": [
+      7,
+      12,
+      18
+    ],
+    "role": "MEMBER_EMPLOYEE"
+  }
 }

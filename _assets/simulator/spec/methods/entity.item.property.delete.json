@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/entity/items/properties/entity-item-property-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "PROPERTY": "new_prop"
+  }
 }

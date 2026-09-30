@@ -61,5 +61,6 @@
     }
   ],
   "page": "/api-reference/chats/users/im-user-status-idle-end.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

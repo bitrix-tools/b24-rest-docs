@@ -64,5 +64,10 @@
     }
   ],
   "page": "/api-reference/messageservice/messageservice-message-status-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "provider1",
+    "MESSAGE_ID": "65575980fa531ac284c2ee68f81ebebd",
+    "STATUS": "delivered"
+  }
 }

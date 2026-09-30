@@ -3,7 +3,7 @@
   "method": "crm.activity.layout.blocks.get",
   "scope": "crm",
   "kind": "read",
-  "title": "Получить набор дополнительных контентных блоков в деле crm.activity.layout.blocks.get",
+  "title": "Получить набор дополнительных контентных блоков дела crm.activity.layout.blocks.get",
   "permissions": "любой пользователь с правом на чтение элемента CRM, к которому привязано дело",
   "params": [
     {
@@ -11,21 +11,21 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор типа объекта CRM, к которому привязано дело"
+      "description": "Идентификатор типа объекта CRM, к которому привязано дело, например 2 для сделки"
     },
     {
       "name": "entityId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор объекта CRM, к которому привязано дело"
+      "description": "Идентификатор объекта CRM, к которому привязано дело, например идентификатор сделки"
     },
     {
       "name": "activityId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор дела"
+      "description": "Идентификатор дела. Возвращают методы crm.activity.add и crm.activity.list"
     }
   ],
   "defs": {},
@@ -35,49 +35,84 @@
     "file": "api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-get.md"
   },
   "resultExample": {
-    "layout": {
-      "blocks": {
-        "block_1": {
-          "type": "text",
-          "properties": {
-            "value": "Здравствуйте!\nМы начинаем.",
-            "multiline": true,
-            "bold": true,
-            "color": "base_90"
-          }
-        },
-        "block_2": {
-          "type": "largeText",
-          "properties": {
-            "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания."
-          }
-        },
-        "block_3": {
-          "type": "link",
-          "properties": {
-            "text": "Открыть сделку",
-            "bold": true,
-            "action": {
-              "type": "redirect",
-              "uri": "/crm/deal/details/123/"
+    "result": {
+      "layout": {
+        "blocks": {
+          "block_1": {
+            "type": "text",
+            "properties": {
+              "value": "Здравствуйте!\nМы начинаем.",
+              "multiline": true,
+              "bold": true,
+              "color": "base_90"
             }
-          }
-        },
-        "block_4": {
-          "type": "withTitle",
-          "properties": {
-            "title": "Заголовок",
-            "block": {
-              "type": "text",
-              "properties": {
-                "value": "Какое-то значение"
+          },
+          "block_2": {
+            "type": "largeText",
+            "properties": {
+              "value": "Здравствуйте!\nМы начинаем.\nМы продолжаем.\nМы все еще работаем над этим.\nМы продолжаем.\nМы близки к результату.\nДо свидания."
+            }
+          },
+          "block_3": {
+            "type": "link",
+            "properties": {
+              "text": "Открыть сделку",
+              "bold": true,
+              "action": {
+                "type": "redirect",
+                "uri": "/crm/deal/details/123/"
+              }
+            }
+          },
+          "block_4": {
+            "type": "withTitle",
+            "properties": {
+              "title": "Заголовок",
+              "block": {
+                "type": "text",
+                "properties": {
+                  "value": "Какое-то значение"
+                }
               }
             }
           }
         }
       }
+    },
+    "time": {
+      "start": 1753341040.475739,
+      "finish": 1753341040.582705,
+      "duration": 0.10696601867675781,
+      "processing": 0.04708504676818848,
+      "date_start": "2025-07-24T17:57:20+00:00",
+      "date_finish": "2025-07-24T17:57:20+00:00",
+      "operating": 0
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание). Если получить набор блоков не удалось, метод возвращает не result, а объект error — смотрите раздел «Обработка ошибок»"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/crm/timeline/activities/layout-blocks/crm-activity-layout-blocks-get.html",
-  "executable": false
+  "executable": false,
+  "entityFields": [
+    "blocks"
+  ],
+  "requestExample": {
+    "entityTypeId": 2,
+    "entityId": 4,
+    "activityId": 8
+  }
 }

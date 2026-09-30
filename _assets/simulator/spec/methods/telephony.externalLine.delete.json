@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/telephony/telephony-external-line-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NUMBER": "74951234567"
+  }
 }

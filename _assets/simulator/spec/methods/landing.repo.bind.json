@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "landing.repo.bind",
+  "scope": "landing",
+  "kind": "write",
+  "title": "Зарегистрировать место встраивания landing.repo.bind",
+  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Параметры места встраивания (подробное описание)",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "PLACEMENT",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Код места встраивания. Код зависит от места, где должен появиться пункт приложения: - LANDING_SETTINGS — пункт в меню настроек сайта или страницы - LANDING_BLOCK_<CODE> — пункт редактирования блоков с указанным символьным кодом - LANDING_BLOCK_* — пункт редактирования для всех блоков Метод удаляет пробелы по краям значения и приводит код к верхнему регистру"
+        },
+        {
+          "name": "PLACEMENT_HANDLER",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Полный HTTP- или HTTPS-адрес обработчика места встраивания. Адрес должен содержать протокол и доменное имя"
+        },
+        {
+          "name": "TITLE",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название пункта приложения в интерфейсе. По умолчанию — пустая строка"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/landing/embedding/landing-repo-bind.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1775203200,
+      "finish": 1775203200.764211,
+      "duration": 0.7642109394073486,
+      "processing": 0,
+      "date_start": "2026-04-03T11:00:00+03:00",
+      "date_finish": "2026-04-03T11:00:00+03:00",
+      "operating_reset_at": 1775203800,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Результат регистрации места встраивания. Возвращает true, если запись успешно добавлена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/landing/embedding/landing-repo-bind.html",
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "PLACEMENT": "LANDING_SETTINGS",
+      "PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-settings-handler.php",
+      "TITLE": "Мои настройки"
+    }
+  }
+}

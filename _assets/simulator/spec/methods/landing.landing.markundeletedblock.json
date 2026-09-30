@@ -71,5 +71,9 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-mark-undeleted-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 627,
+    "block": 11923
+  }
 }

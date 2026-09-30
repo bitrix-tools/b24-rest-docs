@@ -114,5 +114,9 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-rename.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1366,
+    "newName": "Bitrix REST API"
+  }
 }

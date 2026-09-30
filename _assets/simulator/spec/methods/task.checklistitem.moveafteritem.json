@@ -64,5 +64,10 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-move-after-item.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13,
+    "ITEMID": 475,
+    "AFTERITEMID": 447
+  }
 }

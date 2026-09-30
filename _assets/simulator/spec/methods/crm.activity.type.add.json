@@ -88,5 +88,13 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/types/crm-activity-type-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TYPE_ID": "1C",
+      "NAME": "Дело 1C",
+      "ICON_FILE": "@type-icon",
+      "IS_CONFIGURABLE_TYPE": "N"
+    }
+  }
 }

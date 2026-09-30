@@ -72,5 +72,6 @@
   "entityFields": [
     "PUBLIC_PATH",
     "SERVER_ADDRESS"
-  ]
+  ],
+  "requestExample": {}
 }

@@ -95,5 +95,8 @@
     "PRICE",
     "SORT",
     "TYPE"
-  ]
+  ],
+  "requestExample": {
+    "DELIVERY_ID": 198
+  }
 }

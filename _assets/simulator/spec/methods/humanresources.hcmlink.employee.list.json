@@ -99,5 +99,10 @@
     "title",
     "updatedAt",
     "userId"
-  ]
+  ],
+  "requestExample": {
+    "company": "hr-company-001",
+    "limit": 50,
+    "offset": 0
+  }
 }

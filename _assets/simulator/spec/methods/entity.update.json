@@ -75,5 +75,14 @@
     }
   ],
   "page": "/api-reference/entity/entities/entity-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "NAME": "Dishes v2",
+    "ENTITY_NEW": "dish_v2",
+    "ACCESS": {
+      "U1": "W",
+      "AU": "R"
+    }
+  }
 }

@@ -189,5 +189,11 @@
     "source",
     "vote",
     "voteHead"
-  ]
+  ],
+  "requestExample": {
+    "configId": 3,
+    "vote": "like",
+    "dateVoteFrom": "2026-06-01T00:00:00+03:00",
+    "dateVoteTo": "2026-06-30T23:59:59+03:00"
+  }
 }

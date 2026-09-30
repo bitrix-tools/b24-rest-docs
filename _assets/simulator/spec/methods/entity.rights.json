@@ -65,5 +65,12 @@
     }
   ],
   "page": "/api-reference/entity/entities/entity-rights.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "ACCESS": {
+      "U1": "W",
+      "AU": "R"
+    }
+  }
 }

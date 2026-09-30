@@ -131,5 +131,29 @@
     "skuPropertyId",
     "subscription",
     "vatId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "iblockId",
+      "iblockTypeId",
+      "id",
+      "lid",
+      "name",
+      "productIblockId",
+      "skuPropertyId",
+      "subscription",
+      "vatId"
+    ],
+    "filter": {
+      ">id": 10,
+      "@vatId": [
+        1,
+        2
+      ],
+      "skuPropertyId": 121
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

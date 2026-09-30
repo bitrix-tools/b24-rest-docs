@@ -4,14 +4,14 @@
   "scope": "crm",
   "kind": "read",
   "title": "Получить информацию о доставке по id crm.item.delivery.get",
-  "permissions": "требуется право на чтение заказа доставки",
+  "permissions": "пользователь с правом на чтение заказа, к которому относится доставка",
   "params": [
     {
       "name": "id",
       "type": "sale_order_shipment.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор доставки"
+      "description": "Идентификатор доставки. Получить идентификаторы доставок объекта CRM можно методом crm.item.delivery.list"
     }
   ],
   "defs": {},
@@ -20,13 +20,33 @@
   "source": {
     "file": "api-reference/crm/universal/delivery/crm-item-delivery-get.md"
   },
+  "resultExample": {
+    "result": {
+      "id": 4077,
+      "accountNumber": "3657/2",
+      "deducted": "N",
+      "dateDeducted": null,
+      "deliveryId": 228,
+      "priceDelivery": 79.99,
+      "currency": "RUB",
+      "deliveryName": "Uber Taxi (Cargo)"
+    },
+    "time": {
+      "start": 1716369295.614557,
+      "finish": 1716369296.143089,
+      "duration": 0.5285320281982422,
+      "processing": 0.2371680736541748,
+      "date_start": "2024-05-22T12:14:55+03:00",
+      "date_finish": "2024-05-22T12:14:56+03:00"
+    }
+  },
   "returns": [
     {
       "name": "result",
-      "type": "sale_order_shipment_crm_simple",
-      "base": "any",
+      "type": "object",
+      "base": "object",
       "required": false,
-      "description": "Объект, содержащий краткую информацию о доставке"
+      "description": "Объект с краткой информацией о доставке (подробное описание)"
     },
     {
       "name": "time",
@@ -37,5 +57,18 @@
     }
   ],
   "page": "/api-reference/crm/universal/delivery/crm-item-delivery-get.html",
-  "executable": false
+  "executable": false,
+  "entityFields": [
+    "accountNumber",
+    "currency",
+    "dateDeducted",
+    "deducted",
+    "deliveryId",
+    "deliveryName",
+    "id",
+    "priceDelivery"
+  ],
+  "requestExample": {
+    "id": 4077
+  }
 }

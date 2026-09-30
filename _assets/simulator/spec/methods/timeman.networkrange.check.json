@@ -75,5 +75,8 @@
     }
   ],
   "page": "/api-reference/timeman/networkrange/timeman-networkrange-check.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "IP": "10.10.255.255"
+  }
 }

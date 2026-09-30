@@ -59,5 +59,8 @@
     }
   ],
   "page": "/api-reference/crm/deals/recurring-deals/crm-deal-recurring-expose.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 15
+  }
 }

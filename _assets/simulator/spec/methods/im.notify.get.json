@@ -156,5 +156,11 @@
     "params",
     "setting_name",
     "text"
-  ]
+  ],
+  "requestExample": {
+    "LAST_ID": 1500,
+    "LAST_TYPE": 3,
+    "LIMIT": 20,
+    "CONVERT_TEXT": "Y"
+  }
 }

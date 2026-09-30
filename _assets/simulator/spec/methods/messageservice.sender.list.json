@@ -68,5 +68,6 @@
     }
   ],
   "page": "/api-reference/messageservice/messageservice-sender-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

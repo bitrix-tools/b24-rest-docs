@@ -3,8 +3,8 @@
   "method": "crm.item.productrow.set",
   "scope": "crm",
   "kind": "write",
-  "title": "Сохранить товарную позицию объекта CRM crm.item.productrow.set",
-  "permissions": "требуется право на изменение объекта CRM, товарная позиция которого устанавливается",
+  "title": "Сохранить товарные позиции объекта CRM crm.item.productrow.set",
+  "permissions": "требуется право на изменение объекта CRM, товарные позиции которого сохраняются",
   "params": [
     {
       "name": "ownerId",
@@ -18,14 +18,14 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Идентификатор типа объекта CRM. Передавайте Краткий символьный код типа"
+      "description": "Краткий символьный код типа объекта CRM: L — лид, D — сделка, Q — предложение, SI — новый счет, T и шестнадцатеричный идентификатор типа — смарт-процесс"
     },
     {
       "name": "productRows",
       "type": "object[]",
       "base": "array",
       "required": true,
-      "description": "Массив объектов с информацией о товарных позициях, которые нужно сохранить в объекте",
+      "description": "Массив объектов с информацией о товарных позициях, которые нужно сохранить в объекте (подробное описание)",
       "ref": "#/defs/productRowsFields"
     }
   ],
@@ -38,25 +38,32 @@
       },
       "fields": [
         {
+          "name": "id",
+          "type": "crm_item_product_row.id",
+          "base": "any",
+          "required": false,
+          "description": "Идентификатор существующей товарной позиции. Получить его можно методом crm.item.productrow.list. Передайте id, чтобы сохранить позицию с тем же идентификатором. Без id позиция создается заново. Если передать id несуществующей позиции или позиции другого объекта CRM, метод создаст новую позицию и не вернет ошибку"
+        },
+        {
           "name": "productId",
           "type": "catalog_product.id",
           "base": "any",
           "required": false,
-          "description": "Идентификатор товара из каталога"
+          "description": "Идентификатор товара из каталога. Если не передан, создается позиция без привязки к каталогу"
         },
         {
           "name": "productName",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Название товара в товарной позиции. Если не передано и передано значение productId, то используется название товара из каталога товаров"
+          "description": "Название товара в товарной позиции. Если не передано, но передано значение productId, то используется название товара из каталога товаров"
         },
         {
           "name": "price",
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Цена за единицу товарной позиции с учетом скидок и налогов"
+          "description": "Цена за единицу товарной позиции с учетом скидок и налогов. Указывается в валюте объекта CRM. Если не передана, цена будет равна 0 — даже когда передан productId с ценой в каталоге"
         },
         {
           "name": "quantity",
@@ -108,7 +115,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Индикатор того, включен ли налог в стоимость. Возможные значения: - Y – налог включен - N – налог не включен По умолчанию - N",
+          "description": "Индикатор того, включен ли налог в стоимость. Возможные значения: - Y — налог включен - N — налог не включен По умолчанию — N",
           "values": [
             {
               "value": "Y",
@@ -116,16 +123,23 @@
             },
             {
               "value": "N",
-              "title": "налог не включен По умолчанию - N"
+              "title": "налог не включен По умолчанию — N"
             }
           ]
+        },
+        {
+          "name": "taxName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название налоговой ставки. Например, НДС 20. Это только подпись: в расчете участвует значение taxRate, а taxName метод сохраняет как есть. Если не передать taxName, позиция без налога получит значение Без НДС"
         },
         {
           "name": "measureCode",
           "type": "catalog_measure.code",
           "base": "any",
           "required": false,
-          "description": "Код единицы измерения. Если не передано и передано значение productId, то используется единица измерения из каталога товаров"
+          "description": "Код единицы измерения. Если не передано, но передано значение productId, то используется единица измерения из каталога товаров"
         },
         {
           "name": "sort",
@@ -148,14 +162,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "productRow",
-      "type": "crm_item_product_row[]",
-      "base": "array",
-      "required": false,
-      "description": "Массив объектов, содержащий информацию о всех товарных позициях объекта CRM"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -166,5 +173,23 @@
     }
   ],
   "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ownerType": "D",
+    "ownerId": 13143,
+    "productRows": [
+      {
+        "productId": 9621,
+        "price": 99999.99,
+        "quantity": 1,
+        "sort": 10
+      },
+      {
+        "productId": 9623,
+        "price": 15900,
+        "quantity": 2,
+        "sort": 10
+      }
+    ]
+  }
 }

@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/resource/slots/booking-v1-resource-slots-unset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "resourceId": 15
+  }
 }

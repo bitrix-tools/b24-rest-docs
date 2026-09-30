@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/pay-system/outdated/sale-pay-system-pay-invoice.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "INVOICE_ID": 2,
+    "PAY_SYSTEM_ID": 31
+  }
 }

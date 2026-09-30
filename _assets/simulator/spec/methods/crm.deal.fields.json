@@ -486,5 +486,6 @@
     }
   ],
   "page": "/api-reference/crm/deals/crm-deal-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

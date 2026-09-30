@@ -76,5 +76,8 @@
     "PROPERTY",
     "SORT",
     "TYPE"
-  ]
+  ],
+  "requestExample": {
+    "ENTITY": "dish"
+  }
 }

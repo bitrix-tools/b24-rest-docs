@@ -143,5 +143,14 @@
     }
   ],
   "page": "/api-reference/crm/requisites/addresses/crm-address-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TYPE_ID": 1,
+      "ENTITY_TYPE_ID": 3,
+      "ENTITY_ID": 1,
+      "ADDRESS_1": "Московский проспект, 261",
+      "CITY": "Калининград"
+    }
+  }
 }

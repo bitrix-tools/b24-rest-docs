@@ -68,5 +68,6 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-read-all.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

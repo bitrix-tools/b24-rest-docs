@@ -171,5 +171,6 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-get-for-app.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

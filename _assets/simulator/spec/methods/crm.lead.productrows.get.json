@@ -144,5 +144,8 @@
     "TAX_RATE",
     "TYPE",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "id": 5
+  }
 }

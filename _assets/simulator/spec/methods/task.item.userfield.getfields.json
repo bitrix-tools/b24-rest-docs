@@ -162,5 +162,6 @@
     }
   ],
   "page": "/api-reference/tasks/user-field/task-item-user-field-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

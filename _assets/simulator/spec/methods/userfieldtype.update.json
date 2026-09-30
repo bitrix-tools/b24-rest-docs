@@ -92,5 +92,14 @@
     }
   ],
   "page": "/api-reference/widgets/user-field/userfieldtype-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_TYPE_ID": "test_type",
+    "HANDLER": "https://www.myapplication.com/handler/",
+    "TITLE": "Updated test type",
+    "DESCRIPTION": "Test userfield type for documentation with updated description",
+    "OPTIONS": {
+      "height": 60
+    }
+  }
 }

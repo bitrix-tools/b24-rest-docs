@@ -68,5 +68,13 @@
     }
   ],
   "page": "/api-reference/entity/entities/entity-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "NAME": "Dishes",
+    "ACCESS": {
+      "U1": "W",
+      "AU": "R"
+    }
+  }
 }

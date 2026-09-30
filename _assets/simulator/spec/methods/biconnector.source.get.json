@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "read",
   "title": "Получить источник по id biconnector.source.get",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -41,7 +41,7 @@
             "code": "token",
             "name": "Токен",
             "type": "STRING",
-            "value": "beliberda",
+            "value": "a1b2c3d4e5",
             "id": 8
           }
         ]
@@ -62,7 +62,14 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит информацию о полях источника. Описание полей в статье Источники: обзор методов"
+      "description": "Корневой элемент ответа. Содержит единственный ключ item"
+    },
+    {
+      "name": "result.item",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Данные источника (подробное описание)"
     },
     {
       "name": "time",
@@ -81,5 +88,8 @@
     "description",
     "settings",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "id": 6
+  }
 }

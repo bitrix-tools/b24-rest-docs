@@ -358,5 +358,21 @@
     }
   ],
   "page": "/api-reference/catalog/product-property/catalog-product-property-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "iblockId": 19,
+      "name": "Рубрика",
+      "code": "CATEGORY",
+      "propertyType": "S",
+      "userType": "directory",
+      "multiple": "N",
+      "isRequired": "N",
+      "active": "Y",
+      "sort": 100,
+      "userTypeSettings": {
+        "tableName": "b_hlbd_categories"
+      }
+    }
+  }
 }

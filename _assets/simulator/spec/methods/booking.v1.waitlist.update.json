@@ -74,5 +74,11 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/booking-v1-waitlist-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 5,
+    "fields": {
+      "note": "Новая заметка"
+    }
+  }
 }

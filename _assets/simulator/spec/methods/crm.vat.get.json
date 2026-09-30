@@ -94,5 +94,8 @@
     "ID",
     "NAME",
     "RATE"
-  ]
+  ],
+  "requestExample": {
+    "id": 7
+  }
 }

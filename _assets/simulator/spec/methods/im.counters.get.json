@@ -219,5 +219,6 @@
     "LINES",
     "MESSENGER",
     "NOTIFY"
-  ]
+  ],
+  "requestExample": {}
 }

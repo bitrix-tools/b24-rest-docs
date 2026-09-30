@@ -145,5 +145,6 @@
     }
   ],
   "page": "/api-reference/tasks/user-field/task-item-user-field-get-types.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

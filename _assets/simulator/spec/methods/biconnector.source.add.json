@@ -4,7 +4,7 @@
   "scope": "biconnector",
   "kind": "write",
   "title": "Создать источник biconnector.source.add",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "fields",
@@ -42,7 +42,7 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Активность источника. По умолчанию true"
+          "description": "Активность источника. Метод игнорирует переданное значение: созданный источник всегда активен"
         },
         {
           "name": "connectorId",
@@ -56,7 +56,7 @@
           "type": "object",
           "base": "object",
           "required": true,
-          "description": "Список параметров для авторизации, передается объектом, где ключ — code параметра. Параметры можно получить методами biconnector.connector.list или biconnector.connector.get"
+          "description": "Значения параметров авторизации (подробное описание)"
         }
       ]
     }
@@ -86,7 +86,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит поле id с идентификатором созданного источника"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -97,5 +97,16 @@
     }
   ],
   "page": "/api-reference/biconnector/source/biconnector-source-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "title": "CRM Source",
+      "description": "Источник данных CRM",
+      "connectorId": 123,
+      "settings": {
+        "login": "admin",
+        "password": "qwerty"
+      }
+    }
+  }
 }

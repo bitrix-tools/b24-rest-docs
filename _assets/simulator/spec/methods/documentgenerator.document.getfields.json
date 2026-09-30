@@ -111,5 +111,17 @@
     }
   ],
   "page": "/api-reference/document-generator/document-generator-document-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 51,
+    "values": {
+      "DocumentNumber": "ДГ-2026-001",
+      "CurrentDate": "2026-03-18T00:00:00+03:00",
+      "ClientName": "ООО Ромашка",
+      "ClientPhone": "+7 999 123-45-67",
+      "Total": "51000",
+      "Comment": "Оплата в течение 5 рабочих дней после подписания",
+      "UserName": "Иван Петров"
+    }
+  }
 }

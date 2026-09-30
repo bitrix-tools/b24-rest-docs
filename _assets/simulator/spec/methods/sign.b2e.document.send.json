@@ -85,6 +85,13 @@
           "base": "string",
           "required": false,
           "description": "Язык документа"
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Текст сообщения для сотрудника. Сотрудник увидит сообщение в чате вместе с приглашением подписать документ. Максимальная длина — 2000 символов"
         }
       ]
     }
@@ -146,5 +153,39 @@
     }
   ],
   "page": "/api-reference/sign/sign-b2e-document-send.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "company": {
+        "crmId": 12
+      },
+      "members": [
+        {
+          "userId": 25,
+          "role": "signer"
+        },
+        {
+          "userId": 42,
+          "role": "assignee"
+        }
+      ],
+      "responsible": {
+        "userId": 7
+      },
+      "companyProviderUid": "d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b",
+      "files": [
+        {
+          "fileName": "contract.pdf",
+          "fileType": "application/pdf",
+          "fileContent": "JVBERi0xLjQKJ..."
+        }
+      ],
+      "regionDocumentType": "12.999",
+      "externalSettings": {
+        "externalId": "EXT-123",
+        "externalDateCreate": "2025-02-18T09:19:34+03:00"
+      },
+      "message": "Пожалуйста, подпишите документ"
+    }
+  }
 }

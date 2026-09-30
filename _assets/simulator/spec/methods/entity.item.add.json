@@ -110,5 +110,14 @@
     }
   ],
   "page": "/api-reference/entity/items/entity-item-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "NAME": "Hello, world!",
+    "PROPERTY_VALUES": {
+      "test": 11,
+      "test1": 22
+    },
+    "SECTION": 219
+  }
 }

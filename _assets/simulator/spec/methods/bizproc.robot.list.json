@@ -11,7 +11,7 @@
       "type": "array",
       "base": "array",
       "required": "unknown",
-      "description": "Список идентификаторов роботов приложения",
+      "description": "Коды CODE роботов, которые зарегистрировало это приложение. Если роботов нет, приходит пустой массив []",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -57,7 +57,7 @@
       "type": "array",
       "base": "array",
       "required": "unknown",
-      "description": "Список идентификаторов роботов приложения"
+      "description": "Коды CODE роботов, которые зарегистрировало это приложение. Если роботов нет, приходит пустой массив []"
     },
     {
       "name": "time",
@@ -68,5 +68,6 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-robot/bizproc-robot-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

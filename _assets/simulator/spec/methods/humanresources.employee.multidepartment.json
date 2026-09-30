@@ -219,5 +219,6 @@
     }
   ],
   "page": "/api-reference/departments/employee/humanresources-employee-multidepartment.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

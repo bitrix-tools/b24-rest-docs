@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/types/crm-activity-type-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TYPE_ID": "1C"
+  }
 }

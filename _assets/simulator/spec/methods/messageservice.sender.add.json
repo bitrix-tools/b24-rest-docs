@@ -78,5 +78,12 @@
     }
   ],
   "page": "/api-reference/messageservice/messageservice-sender-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "provider1",
+    "TYPE": "SMS",
+    "HANDLER": "https://provider.example/api/handler",
+    "NAME": "Provider 1",
+    "DESCRIPTION": "Основной SMS-провайдер"
+  }
 }

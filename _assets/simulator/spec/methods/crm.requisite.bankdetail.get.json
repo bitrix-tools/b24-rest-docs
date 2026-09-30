@@ -118,5 +118,8 @@
     "RQ_SWIFT",
     "SORT",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "id": 357
+  }
 }

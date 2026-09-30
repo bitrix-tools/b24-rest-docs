@@ -107,5 +107,8 @@
     }
   ],
   "page": "/api-reference/timeman/base/timeman-settings.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 503
+  }
 }

@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/chats/special-operations/im-recent-hide.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DIALOG_ID": "chat1489"
+  }
 }

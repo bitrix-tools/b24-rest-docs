@@ -67,10 +67,10 @@
         },
         {
           "name": "attach",
-          "type": "array",
-          "base": "array",
+          "type": "object",
+          "base": "object",
           "required": false,
-          "description": "Вложения. Подробнее: Как использовать вложения"
+          "description": "Вложение: объект с массивом BLOCKS или сразу массив блоков. Подробнее: Как использовать вложения"
         },
         {
           "name": "keyboard",
@@ -115,5 +115,15 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-answer.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "commandId": 42,
+    "messageId": 789,
+    "dialogId": "chat5",
+    "fields": {
+      "message": "Here is the help text..."
+    }
+  }
 }

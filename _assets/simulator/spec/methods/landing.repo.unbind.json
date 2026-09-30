@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/landing/embedding/landing-repo-unbind.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "LANDING_SETTINGS",
+    "handler": "https://your-domain.com/widgets/landing-settings-handler.php"
+  }
 }

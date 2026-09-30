@@ -64,5 +64,8 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-mark-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 143
+  }
 }

@@ -71,5 +71,11 @@
     }
   ],
   "page": "/api-reference/events/event-offline-clear.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "process_id": "yh3gu929sf0d32lsfysqas2y1hlpp09q",
+    "id": [
+      2
+    ]
+  }
 }

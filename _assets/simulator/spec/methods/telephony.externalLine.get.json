@@ -123,5 +123,6 @@
     "CRM_AUTO_CREATE",
     "NAME",
     "NUMBER"
-  ]
+  ],
+  "requestExample": {}
 }

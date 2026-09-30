@@ -99,5 +99,17 @@
     }
   ],
   "page": "/api-reference/tasks/comment-item/task-comment-item-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "FIELDS": {
+      "POST_MESSAGE": "Текст нового комментария к задаче",
+      "AUTHOR_ID": 503,
+      "POST_DATE": "2025-07-15T14:30:00+03:00",
+      "UF_FORUM_MESSAGE_DOC": [
+        "n4755",
+        "n4753"
+      ]
+    }
+  }
 }

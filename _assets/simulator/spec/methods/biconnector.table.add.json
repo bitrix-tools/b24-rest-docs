@@ -1,0 +1,149 @@
+{
+  "$v": 1,
+  "method": "biconnector.table.add",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Создать таблицу biconnector.table.add",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
+  "params": [
+    {
+      "name": "fields",
+      "type": "object",
+      "base": "object",
+      "required": true,
+      "description": "Объект, содержащий данные для создания новой таблицы. Формат объекта: - field_n — название поля - value_n — значение поля Подробное описание ниже",
+      "ref": "#/defs/fieldsFields"
+    }
+  ],
+  "defs": {
+    "fieldsFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название таблицы. Название должно начинаться с буквы, можно использовать только строчные латинские буквы a-z, цифры и знак _. Максимальная длина названия 230 символов"
+        },
+        {
+          "name": "externalName",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Название таблицы во внешнем источнике, в приложении. Максимальная длина 512 символов"
+        },
+        {
+          "name": "externalCode",
+          "type": "string",
+          "base": "string",
+          "required": true,
+          "description": "Уникальный код таблицы во внешнем источнике, используется при выборке данных. Максимальная длина 512 символов"
+        },
+        {
+          "name": "sourceId",
+          "type": "integer",
+          "base": "integer",
+          "required": true,
+          "description": "Идентификатор источника, можно получить методами biconnector.source.list или biconnector.source.add. Источник должен принадлежать коннектору текущего приложения, иначе метод вернет SOURCE_NOT_FOUND"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Описание таблицы"
+        },
+        {
+          "name": "fields",
+          "type": "array",
+          "base": "array",
+          "required": true,
+          "description": "Массив колонок таблицы (подробное описание)"
+        }
+      ]
+    }
+  },
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/table/biconnector-table-add.md"
+  },
+  "resultExample": {
+    "result": {
+      "id": 10
+    },
+    "time": {
+      "start": 1725013197.635808,
+      "finish": 1725013198.580873,
+      "duration": 0.9450650215148926,
+      "processing": 0.6822988986968994,
+      "date_start": "2024-08-30T12:19:57+02:00",
+      "date_finish": "2024-08-30T12:19:58+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Корневой элемент ответа (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/table/biconnector-table-add.html",
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "sourceId": 3,
+      "name": "sales_orders",
+      "externalName": "Sales orders",
+      "externalCode": "sales_orders",
+      "description": "Описание таблицы",
+      "fields": [
+        {
+          "type": "int",
+          "name": "ID",
+          "externalCode": "ID"
+        },
+        {
+          "type": "string",
+          "name": "NAME",
+          "externalCode": "NAME"
+        },
+        {
+          "type": "string",
+          "name": "SURNAME",
+          "externalCode": "SURNAME"
+        },
+        {
+          "type": "double",
+          "name": "SCORE",
+          "externalCode": "SCORE"
+        },
+        {
+          "type": "date",
+          "name": "DATA",
+          "externalCode": "DATA"
+        },
+        {
+          "type": "datetime",
+          "name": "TIME",
+          "externalCode": "TIME"
+        }
+      ]
+    }
+  }
+}

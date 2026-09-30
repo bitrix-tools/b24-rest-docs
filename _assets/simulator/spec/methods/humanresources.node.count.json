@@ -96,5 +96,6 @@
     }
   ],
   "page": "/api-reference/departments/node/humanresources-node-count.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

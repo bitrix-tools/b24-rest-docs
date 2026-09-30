@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 142
+  }
 }

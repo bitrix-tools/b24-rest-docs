@@ -88,5 +88,10 @@
     "CHAT_ID",
     "CONNECTOR_ID",
     "CONNECTOR_TITLE"
-  ]
+  ],
+  "requestExample": {
+    "CRM_ENTITY_TYPE": "lead",
+    "CRM_ENTITY": 1205,
+    "ACTIVE_ONLY": "N"
+  }
 }

@@ -56,5 +56,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "moduleId": "crm",
+    "id": 6953
+  }
 }

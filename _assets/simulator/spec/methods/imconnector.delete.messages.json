@@ -119,5 +119,22 @@
     }
   ],
   "page": "/api-reference/imopenlines/imconnector/imconnector-delete-messages.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONNECTOR": "myconnector",
+    "LINE": 107,
+    "MESSAGES": [
+      {
+        "user": {
+          "id": "ext-user-42"
+        },
+        "message": {
+          "id": "ext-msg-1001"
+        },
+        "chat": {
+          "id": "channel-123"
+        }
+      }
+    ]
+  }
 }

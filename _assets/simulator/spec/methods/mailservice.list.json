@@ -52,5 +52,6 @@
     }
   ],
   "page": "/api-reference/mailservice/mailservice-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -96,5 +96,13 @@
     }
   ],
   "page": "/api-reference/bizproc/template/bizproc-workflow-template-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 525,
+    "FIELDS": {
+      "NAME": "Вывести время",
+      "DESCRIPTION": "Шаблон показывает сообщение с локальным и серверным временем",
+      "AUTO_EXECUTE": 0
+    }
+  }
 }

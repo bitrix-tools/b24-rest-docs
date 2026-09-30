@@ -174,5 +174,15 @@
     }
   ],
   "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-settings-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ACTIVE": true,
+    "MINIMUM_IDLE_FOR_REPORT": 15,
+    "REGISTER_OFFLINE": true,
+    "REGISTER_IDLE": true,
+    "REGISTER_DESKTOP": true,
+    "REPORT_REQUEST_TYPE": "all",
+    "REPORT_SIMPLE_TYPE": "all",
+    "REPORT_FULL_TYPE": "all"
+  }
 }

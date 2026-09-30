@@ -43,5 +43,6 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/im.v2/events/event-unsubscribe.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

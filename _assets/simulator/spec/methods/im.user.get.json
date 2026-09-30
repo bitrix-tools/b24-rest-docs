@@ -92,5 +92,9 @@
     }
   ],
   "page": "/api-reference/chats/users/im-user-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 5,
+    "AVATAR_HR": "Y"
+  }
 }

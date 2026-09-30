@@ -80,5 +80,8 @@
     }
   ],
   "page": "/api-reference/widgets/placement-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "SCOPE": "crm"
+  }
 }

@@ -81,5 +81,6 @@
     }
   ],
   "page": "/api-reference/departments/employee/humanresources-employee-count.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

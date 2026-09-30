@@ -132,5 +132,43 @@
     }
   ],
   "page": "/api-reference/imopenlines/imconnector/imconnector-send-messages.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONNECTOR": "myconnector",
+    "LINE": 107,
+    "MESSAGES": [
+      {
+        "user": {
+          "id": "ext-user-42",
+          "last_name": "Иванов",
+          "name": "Иван",
+          "picture": {
+            "url": "https://example.ru/u42.png"
+          },
+          "url": "https://example.ru/users/42",
+          "gender": "male",
+          "email": "ivan@example.ru",
+          "phone": "+79990000000",
+          "skip_phone_validate": "Y"
+        },
+        "message": {
+          "id": "ext-msg-1001",
+          "date": 1773265993,
+          "text": "Добрый день",
+          "files": [
+            {
+              "url": "https://example.ru/files/spec.pdf",
+              "name": "spec.pdf"
+            }
+          ],
+          "disable_crm": "Y"
+        },
+        "chat": {
+          "id": "channel-123",
+          "name": "Канал поддержки",
+          "url": "https://example.ru/chats/123"
+        }
+      }
+    ]
+  }
 }

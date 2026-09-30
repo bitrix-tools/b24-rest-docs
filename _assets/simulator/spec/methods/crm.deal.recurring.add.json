@@ -130,5 +130,23 @@
     }
   ],
   "page": "/api-reference/crm/deals/recurring-deals/crm-deal-recurring-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "DEAL_ID": 45,
+      "CATEGORY_ID": "1",
+      "IS_LIMIT": "D",
+      "LIMIT_DATE": "2027-03-04",
+      "START_DATE": "2026-04-04",
+      "PARAMS": {
+        "MODE": "multiple",
+        "MULTIPLE_TYPE": "month",
+        "MULTIPLE_INTERVAL": 1,
+        "OFFSET_BEGINDATE_TYPE": "day",
+        "OFFSET_BEGINDATE_VALUE": 1,
+        "OFFSET_CLOSEDATE_TYPE": "month",
+        "OFFSET_CLOSEDATE_VALUE": 2
+      }
+    }
+  }
 }

@@ -90,5 +90,9 @@
     "fields",
     "id",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "limit": 50,
+    "offset": 0
+  }
 }

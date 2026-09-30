@@ -117,5 +117,15 @@
     }
   ],
   "page": "/api-reference/entity/items/entity-item-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY": "dish",
+    "ID": 2333,
+    "NAME": "Hello, updated world!",
+    "PROPERTY_VALUES": {
+      "test": 33,
+      "test1": 44
+    },
+    "SECTION": 219
+  }
 }

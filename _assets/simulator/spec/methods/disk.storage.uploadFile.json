@@ -40,7 +40,7 @@
       "type": "array",
       "base": "array",
       "required": false,
-      "description": "Массив прав доступа на загружаемый файл в формате {\"TASK_ID\": 42, \"ACCESS_CODE\": \"U35\"}, где - TASK_ID — идентификатор уровня доступа - ACCESS_CODE — код доступа, состоящий из буквенного кода пользователя или отдела и идентификатора Категории пользователей: - U — пользователь - * — все пользователи - D — все сотрудники отдела - DR — все сотрудники отдела с подотделами Список доступных идентификато…",
+      "description": "Массив прав доступа на загружаемый файл. Каждый элемент содержит: - ACCESS_CODE — непустая строка длиной до 50 символов с кодом получателя права, например U35 - TASK_ID — целочисленный идентификатор существующего уровня доступа - NEGATIVE — необязательный логический признак запрещающего права.…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -259,5 +259,22 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-upload-file.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1357,
+    "data": {
+      "NAME": "picture.png"
+    },
+    "fileContent": [
+      "picture.png",
+      "iVBORw0KGgoAAAANSUhEUgAAAD4AAABDCAYAAADEfbZbAAAACXBIWXMAABJ0AAASdAHeZh94...RK5CYII="
+    ],
+    "generateUniqueName": true,
+    "rights": [
+      {
+        "TASK_ID": 79,
+        "ACCESS_CODE": "U1271"
+      }
+    ]
+  }
 }

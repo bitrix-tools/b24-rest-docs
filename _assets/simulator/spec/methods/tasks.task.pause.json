@@ -398,5 +398,8 @@
     }
   ],
   "page": "/api-reference/tasks/status/tasks-task-pause.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 1
+  }
 }

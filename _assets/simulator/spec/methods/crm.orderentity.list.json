@@ -127,5 +127,22 @@
     "orderId",
     "ownerId",
     "ownerTypeId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "orderId",
+      "ownerId"
+    ],
+    "filter": {
+      "=ownerTypeId": 2,
+      "@ownerId": [
+        6938,
+        6937,
+        6933
+      ]
+    },
+    "order": {
+      "orderId": "asc"
+    }
+  }
 }

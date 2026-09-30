@@ -117,5 +117,13 @@
     "MESSAGE_ID",
     "PROCESS_ID",
     "TIMESTAMP_X"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "ERROR": 0
+    },
+    "order": {
+      "ID": "DESC"
+    }
+  }
 }

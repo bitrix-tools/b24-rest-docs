@@ -76,5 +76,6 @@
     }
   ],
   "page": "/api-reference/mailservice/mailservice-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

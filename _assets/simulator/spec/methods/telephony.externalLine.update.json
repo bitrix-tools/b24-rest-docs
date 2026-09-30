@@ -73,5 +73,10 @@
     }
   ],
   "page": "/api-reference/telephony/telephony-external-line-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NUMBER": "74951234567",
+    "NAME": "Линия поддержки",
+    "CRM_AUTO_CREATE": "N"
+  }
 }

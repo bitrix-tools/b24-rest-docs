@@ -66,5 +66,9 @@
     }
   ],
   "page": "/api-reference/widgets/placement-unbind.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "PLACEMENT": "CRM_LEAD_DETAIL_TAB",
+    "HANDLER": "https://www.myapplicationhost.com/placement/"
+  }
 }

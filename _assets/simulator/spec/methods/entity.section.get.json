@@ -190,5 +190,15 @@
     "SECTION",
     "SORT",
     "TIMESTAMP_X"
-  ]
+  ],
+  "requestExample": {
+    "ENTITY": "dish",
+    "SORT": {
+      "NAME": "ASC"
+    },
+    "FILTER": {
+      "ACTIVE": "Y"
+    },
+    "start": 0
+  }
 }

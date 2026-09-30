@@ -60,5 +60,24 @@
     }
   ],
   "page": "/api-reference/crm/currency/localizations/crm-currency-localizations-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "CLF",
+    "localizations": {
+      "en": {
+        "FULL_NAME": "Unidad de Fomento",
+        "FORMAT_STRING": "CLF#VALUE#",
+        "DEC_POINT": ".",
+        "THOUSANDS_VARIANT": "C",
+        "DECIMALS": 4
+      },
+      "ru": {
+        "FULL_NAME": "Единица развития",
+        "FORMAT_STRING": "#VALUE# CLF",
+        "DEC_POINT": ".",
+        "THOUSANDS_VARIANT": "B",
+        "DECIMALS": 4
+      }
+    }
+  }
 }

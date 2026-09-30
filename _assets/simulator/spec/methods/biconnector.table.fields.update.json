@@ -1,0 +1,114 @@
+{
+  "$v": 1,
+  "method": "biconnector.table.fields.update",
+  "scope": "biconnector",
+  "kind": "write",
+  "title": "Обновить колонки таблицы biconnector.table.fields.update",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор таблицы, можно получить методами biconnector.table.list или biconnector.table.add"
+    },
+    {
+      "name": "add",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив добавляемых колонок. Каждый элемент — объект с тремя обязательными ключами: - type string — тип данных колонки - name string — название колонки, заглавные латинские буквы A-Z, цифры и знак _, не длиннее 32 символов - externalCode string — внешний код колонки Видимость у добавляемой колонки не задается: новые колонки создаются видимыми",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "update",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Массив изменяемых колонок. Каждый элемент — объект с двумя обязательными ключами: - id integer — идентификатор колонки, можно получить методом biconnector.table.get - visible boolean — видимость колонки Видимость — единственный признак колонки, который меняет этот блок. Название, тип и внешний код существующей колонки изменить нельзя",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "delete",
+      "type": "integer[]",
+      "base": "array",
+      "required": false,
+      "description": "Массив идентификаторов удаляемых колонок. Идентификаторы можно получить методом biconnector.table.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/biconnector/table/biconnector-table-fields-update.md"
+  },
+  "resultExample": {
+    "result": true,
+    "time": {
+      "start": 1725365418.056843,
+      "finish": 1725365419.671506,
+      "duration": 1.6146628856658936,
+      "processing": 1.3475170135498047,
+      "date_start": "2024-09-03T14:10:18+02:00",
+      "date_finish": "2024-09-03T14:10:19+02:00"
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Корневой элемент ответа. При успешном обновлении содержит true — нового состава колонок в ответе нет. Чтобы увидеть его, вызовите biconnector.table.get"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/biconnector/table/biconnector-table-fields-update.html",
+  "executable": false,
+  "requestExample": {
+    "id": 10,
+    "add": [
+      {
+        "type": "int",
+        "name": "NAME",
+        "externalCode": "NAME"
+      },
+      {
+        "type": "int",
+        "name": "ID",
+        "externalCode": "ID"
+      }
+    ],
+    "update": [
+      {
+        "id": 12,
+        "visible": false
+      },
+      {
+        "id": 13,
+        "visible": true
+      }
+    ],
+    "delete": [
+      14,
+      15
+    ]
+  }
+}

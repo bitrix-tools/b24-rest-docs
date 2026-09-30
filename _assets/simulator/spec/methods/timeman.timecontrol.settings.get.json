@@ -327,5 +327,6 @@
     }
   ],
   "page": "/api-reference/timeman/timecontrol/timeman-timecontrol-settings-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

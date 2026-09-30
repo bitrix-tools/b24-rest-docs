@@ -4,21 +4,21 @@
   "scope": "crm",
   "kind": "write",
   "title": "Обновить конфигурируемое дело crm.activity.configurable.update",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с доступом на изменение элемента CRM, к которому привязано дело",
   "params": [
     {
       "name": "id",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Целочисленный идентификатор дела, например 999"
+      "description": "Целочисленный идентификатор дела, например 999. Его возвращает метод crm.activity.configurable.add"
     },
     {
       "name": "fields",
       "type": "array",
       "base": "array",
-      "required": true,
-      "description": "Ассоциативный массив значений полей дела в виде структуры:",
+      "required": false,
+      "description": "Ассоциативный массив значений полей дела в виде структуры: Переданные поля обновятся, остальные сохранят прежние значения",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -28,8 +28,8 @@
       "name": "layout",
       "type": "LayoutDto",
       "base": "any",
-      "required": true,
-      "description": "Ассоциативный массив особой структуры, описывающий внешний вид дела в таймлайне"
+      "required": false,
+      "description": "Структура, которая задает внешний вид записи в таймлайне. Готовый пример объекта — на странице структуры"
     }
   ],
   "defs": {},
@@ -38,13 +38,29 @@
   "source": {
     "file": "api-reference/crm/timeline/activities/configurable/crm-activity-configurable-update.md"
   },
+  "resultExample": {
+    "result": {
+      "activity": {
+        "id": 999
+      }
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа, содержащий информацию об идентификаторе дела id в случае успеха. В случае неудачи вернет null"
+      "description": "Корневой элемент ответа с единственным ключом activity (подробное описание)"
     },
     {
       "name": "time",
@@ -55,5 +71,71 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/configurable/crm-activity-configurable-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 999,
+    "fields": {
+      "completed": false,
+      "deadline": "2025-02-01T12:00:00+03:00",
+      "pingOffsets": [
+        300
+      ],
+      "isIncomingChannel": "Y",
+      "responsibleId": 5,
+      "badgeCode": "CUSTOM"
+    },
+    "layout": {
+      "icon": {
+        "code": "call-completed"
+      },
+      "header": {
+        "title": "Входящий звонок"
+      },
+      "body": {
+        "logo": {
+          "code": "call-incoming"
+        },
+        "blocks": {
+          "responsible": {
+            "type": "lineOfBlocks",
+            "properties": {
+              "blocks": {
+                "client": {
+                  "type": "link",
+                  "properties": {
+                    "text": "Сергей Востриков",
+                    "bold": true,
+                    "action": {
+                      "type": "redirect",
+                      "uri": "/crm/lead/details/789/"
+                    }
+                  }
+                },
+                "phone": {
+                  "type": "text",
+                  "properties": {
+                    "value": "+7 999 888 7777"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "footer": {
+        "buttons": {
+          "startCall": {
+            "title": "О клиенте",
+            "action": {
+              "type": "openRestApp",
+              "actionParams": {
+                "clientId": 456
+              }
+            },
+            "type": "primary"
+          }
+        }
+      }
+    }
+  }
 }

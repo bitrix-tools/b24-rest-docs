@@ -3,7 +3,7 @@
   "method": "booking.v1.waitlist.client.list",
   "scope": "booking",
   "kind": "read",
-  "title": "Получить список клиентов записи в лист ожидания booking.v1.waitlist.client.list",
+  "title": "Получить клиентов записи в листе ожидания booking.v1.waitlist.client.list",
   "permissions": "любой пользователь",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор записи в лист ожидания. Можно получить методами booking.v1.waitlist.add и booking.v1.waitlist.list"
+      "description": "Идентификатор записи в листе ожидания. Можно получить методами booking.v1.waitlist.add и booking.v1.waitlist.list"
     }
   ],
   "defs": {},
@@ -24,28 +24,30 @@
     "result": {
       "waitListClient": [
         {
-          "id": 1,
+          "id": 2795,
           "type": {
-            "code": "COMPANY",
+            "code": "CONTACT",
             "module": "crm"
           }
         },
         {
-          "id": 2,
+          "id": 3063,
           "type": {
-            "code": "CONTACT",
+            "code": "COMPANY",
             "module": "crm"
           }
         }
       ]
     },
+    "total": 0,
     "time": {
-      "start": 1724068028.331234,
-      "finish": 1724068028.726591,
-      "duration": 0.3953571319580078,
-      "processing": 0.13033390045166016,
-      "date_start": "2025-01-21T13:47:08+02:00",
-      "date_finish": "2025-01-21T13:47:08+02:00",
+      "start": 1790294537,
+      "finish": 1790294537.508353,
+      "duration": 0.5083529949188232,
+      "processing": 0,
+      "date_start": "2026-09-25T03:02:17+03:00",
+      "date_finish": "2026-09-25T03:02:17+03:00",
+      "operating_reset_at": 1790295137,
       "operating": 0
     }
   },
@@ -55,7 +57,14 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа. Содержит массив объектов с информацией о клиентах. Структура описана ниже"
+      "description": "Объект с массивом waitListClient. Структура объекта"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Служебное поле, возвращает 0. Чтобы узнать количество клиентов, посчитайте элементы result.waitListClient"
     },
     {
       "name": "time",
@@ -70,5 +79,8 @@
   "entityFields": [
     "id",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "waitListId": 13
+  }
 }

@@ -230,5 +230,11 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "ORDER": {
+      "IS_COMPLETE": "ASC"
+    }
+  }
 }
