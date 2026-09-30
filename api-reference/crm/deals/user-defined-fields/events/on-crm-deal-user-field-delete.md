@@ -1,4 +1,4 @@
-# Cобытие при удалении пользовательского поля onCrmDealUserFieldDelete
+# Событие при удалении пользовательского поля onCrmDealUserFieldDelete
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `onCrmDealUserFieldDelete` сработает при удалении пользовательского поля.
+Событие `onCrmDealUserFieldDelete` сработает при удалении пользовательского поля вручную или методом [crm.deal.userfield.delete](../crm-deal-userfield-delete.md).
 
 Событие относится к настройке пользовательского поля, а не к значению этого поля в конкретной сделке.
 
@@ -42,7 +42,6 @@
         "status": "L",
         "client_endpoint": "https://some-domain.bitrix24.com/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -62,7 +61,7 @@
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий свойства пользовательского поля.
+[`object`](../../../../data-types.md) | Объект с идентификатором и кодом пользовательского поля.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -81,10 +80,12 @@
 || **ID**
 [`integer`](../../../../data-types.md) | Идентификатор пользовательского поля ||
 || **ENTITY_ID**
-[`string`](../../../../data-types.md) | Символьный идентификатор объекта, для которого удалено поле. В данном случае — `CRM_DEAL` ||
+[`string`](../../../../data-types.md) | Символьный код объекта, к которому относится поле. В данном случае — `CRM_DEAL` ||
 || **FIELD_NAME**
-[`string`](../../../../data-types.md) | Название удаленного пользовательского поля ||
+[`string`](../../../../data-types.md) | Код пользовательского поля с префиксом `UF_CRM_` ||
 |#
+
+Настройки удаленного поля в событие не передаются. Получить их после удаления нельзя: метод [crm.deal.userfield.get](../crm-deal-userfield-get.md) с `ID` из события вернет ошибку `ERROR_NOT_FOUND`.
 
 ### Параметр auth {#auth}
 
@@ -94,7 +95,7 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-crm-deal-user-field-add.md)
-- [{#T}](./on-crm-deal-user-field-set-enum-values.md)
 - [{#T}](./on-crm-deal-user-field-update.md)
-
+- [{#T}](./on-crm-deal-user-field-set-enum-values.md)

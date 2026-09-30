@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
-Метод `crm.multifield.fields` возвращает описание множественных полей, используемых для хранения телефонов, email-адресов и другой контактной информации в лидах, контактах и компаниях.
+Метод `crm.multifield.fields` описывает поля объекта [crm_multifield](../../data-types.md#crm_multifield). Такой объект хранит одно значение телефона, e-mail, сайта или мессенджера и состоит из полей `ID`, `TYPE_ID`, `VALUE` и `VALUE_TYPE`. Для каждого поля метод возвращает тип данных, название и признак «только для чтения». Например, по ответу видно, что `VALUE` и `VALUE_TYPE` передаете вы, а `ID` Битрикс24 заполняет сам. Допустимые значения `VALUE_TYPE` метод не возвращает — они собраны в таблице [Значения VALUE_TYPE](#value-type).
 
 ## Параметры метода
 
@@ -160,13 +160,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $code => $field) {
+            echo $code . ' — ' . $field['title'] . ' (' . $field['type'] . ')' . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching multifield fields: ' . $e->getMessage();
@@ -297,11 +293,11 @@ HTTP-статус: **200**
 || **ID**
 [`object`](../../../data-types.md) | Идентификатор значения множественного поля ||
 || **TYPE_ID**
-[`object`](../../../data-types.md) | Тип множественного поля: `PHONE`, `EMAIL`, `WEB`, `IM` ||
+[`object`](../../../data-types.md) | Тип множественного поля: `PHONE`, `EMAIL`, `WEB`, `IM`, `LINK` ||
 || **VALUE**
 [`object`](../../../data-types.md) | Значение множественного поля ||
 || **VALUE_TYPE**
-[`object`](../../../data-types.md) | Тип значения множественного поля ||
+[`object`](../../../data-types.md) | Тип значения множественного поля, например `MOBILE` или `WORK`. Допустимые значения зависят от `TYPE_ID` и перечислены в таблице [Значения VALUE_TYPE](#value-type) ||
 |#
 
 #### Описание характеристик полей
@@ -325,9 +321,38 @@ HTTP-статус: **200**
 [`string`](../../../data-types.md) | Название поля ||
 |#
 
+#### Значения VALUE_TYPE {#value-type}
+
+#|
+|| **TYPE_ID** | **Значения VALUE_TYPE** ||
+|| `PHONE` — телефон | `WORK` — рабочий, `MOBILE` — мобильный, `FAX` — факс, `HOME` — домашний, `PAGER` — пейджер, `MAILING` — для рассылок, `OTHER` — другой ||
+|| `EMAIL` — e-mail | `WORK` — рабочий, `HOME` — частный, `MAILING` — для рассылок, `OTHER` — другой ||
+|| `WEB` — сайт | `WORK` — корпоративный, `HOME` — личный, `FACEBOOK`, `VK`, `LIVEJOURNAL`, `TWITTER`, `OTHER` — другой ||
+|| `IM` — мессенджер | `FACEBOOK`, `TELEGRAM`, `VK`, `VIBER`, `INSTAGRAM`, `BITRIX24` — Битрикс24 Network, `OPENLINE` — онлайн-чат, `IMOL` — открытая линия, `OTHER` — другой ||
+|| `LINK` — ссылка | `USER` — пользователь ||
+|#
+
+Значения `SKYPE`, `ICQ`, `MSN` и `JABBER` для мессенджеров устарели. Битрикс24 предлагает их, только если в вашей CRM раньше пользовались этими мессенджерами.
+
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

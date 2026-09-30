@@ -11,11 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор с доступом к CRM в контексте приложения 
+> Кто может выполнять метод: администратор
 
-Метод добавляет триггер.
+Метод `crm.automation.trigger.add` регистрирует триггер приложения — событие, по которому CRM может перевести сделку или другой объект на нужную стадию или в статус. Например, приложение телефонии регистрирует триггер «Звонок завершен» с кодом `call_done`. Затем администратор привязывает его к стадии в настройках автоматизации CRM, и приложение запускает триггер методом [crm.automation.trigger.execute](./crm-automation-trigger-execute.md). Порядок работы описан в [обзоре триггеров](./index.md).
 
-Запускать метод можно только в контексте приложения, так как добавленные триггеры привязываются к этому приложению. 
+Работает только в контексте [приложения](../../../../settings/app-installation/index.md): триггер принадлежит приложению, которое его зарегистрировало.
 
 ## Параметры метода
 
@@ -25,11 +25,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../../../data-types.md) | Внутренний уникальный (в рамках приложения) идентификатор триггера. Должен соответствовать маске `[a-z0-9\.\-_]`.
+[`string`](../../../data-types.md) | Код триггера, уникальный в рамках приложения, например `call_done`. Допустимы латинские буквы, цифры и символы `.`, `-`, `_`.
 
-Если передать уже существующий идентификатор триггера `CODE`, то произойдет обновление названия триггера `NAME` ||
+Если у приложения уже есть триггер с таким `CODE`, метод обновит его название `NAME` ||
 || **NAME***
-[`string`](../../../data-types.md) | Название триггера ||
+[`string`](../../../data-types.md) | Название триггера. Его видно в настройках автоматизации CRM, когда триггер привязывают к стадии ||
 |#
 
 ## Примеры кода
@@ -38,23 +38,13 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"c5u4m","NAME":"trigger name"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.automation.trigger.add
-    ```
-
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CODE":"c5u4m","NAME":"trigger name","auth":"**put_access_token_here**"}' \
+    -d '{"CODE":"call_done","NAME":"Звонок завершен","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.automation.trigger.add
     ```
 
@@ -72,8 +62,8 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'crm.automation.trigger.add',
         params: {
-          CODE: 'c5u4m',
-          NAME: 'trigger name',
+          CODE: 'call_done',
+          NAME: 'Звонок завершен',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -105,8 +95,8 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.automation.trigger.add',
             params: {
-              CODE: 'c5u4m',
-              NAME: 'trigger name',
+              CODE: 'call_done',
+              NAME: 'Звонок завершен',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -136,8 +126,8 @@
 
     try:
         bitrix_response = client.crm.automation.trigger.add(
-            code="c5u4m",
-            name="trigger name",
+            code="call_done",
+            name="Звонок завершен",
         ).response
         result = bitrix_response.result
         print(result)
@@ -156,29 +146,22 @@
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
+        $result = $b24Service
             ->core
             ->call(
                 'crm.automation.trigger.add',
                 [
-                    'CODE' => 'c5u4m',
-                    'NAME' => 'trigger name',
+                    'CODE' => 'call_done',
+                    'NAME' => 'Звонок завершен',
                 ]
-            );
-    
-        $result = $response
+            )
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        // The SDK wraps the boolean result of the method in an array
+        echo $result[0] ? 'Trigger saved' : 'Trigger not saved';
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding automation trigger: ' . $e->getMessage();
@@ -191,10 +174,10 @@
     BX24.callMethod(
         'crm.automation.trigger.add',
         {
-            "CODE": 'c5u4m',
-            "NAME": 'trigger name'
+            "CODE": 'call_done',
+            "NAME": 'Звонок завершен'
         },
-        function(result) 
+        function(result)
         {
             if(result.error())
                 console.error(result.error());
@@ -212,8 +195,8 @@
     $result = CRest::call(
         'crm.automation.trigger.add',
         [
-            'CODE' => 'c5u4m',
-            'NAME' => 'trigger name'
+            'CODE' => 'call_done',
+            'NAME' => 'Звонок завершен'
         ]
     );
 
@@ -227,8 +210,8 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.automation.trigger.add", b24.Params{
-    	"CODE": "c5u4m",
-    	"NAME": "trigger name",
+    	"CODE": "call_done",
+    	"NAME": "Звонок завершен",
     })
     if err != nil {
     	return fmt.Errorf("crm.automation.trigger.add: %w", err)
@@ -267,19 +250,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true` в случае успешного добавления триггера ||
+[`boolean`](../../../data-types.md) | `true`, если триггер зарегистрирован или у существующего триггера с тем же `CODE` обновлено название ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **403**
 
 ```json
 {
-    "error":"ACCESS_DENIED",
-    "error_description":"Access denied! Application context required"
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied! Application context required"
 }
 ```
 
@@ -288,19 +271,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Access denied. | Пользователь не прошёл предварительную проверку прав на доступ к CRM ||
-|| ACCESS_DENIED | Access denied! Admin permissions required | Не пройдена проверка прав на администратора ||
-|| ACCESS_DENIED | Access denied! Application context required | Метод вызван вне контекста приложения ||
-|| Пустая строка | Empty trigger code! | Пустой параметр `CODE` ||
-|| Пустая строка | Wrong trigger code! | Параметр `CODE` не удовлетворяет маске `[a-z0-9\.\-_]` ||
-|| Пустая строка | Empty trigger name! | Пустой параметр `NAME` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет доступа к CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызвал не администратор ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван не из приложения, например через вебхук ||
+|| `400` | Пустое значение | Empty trigger code! | Параметр `CODE` не передан, пустой или равен `0` ||
+|| `400` | Пустое значение | Wrong trigger code! | В `CODE` есть символы, кроме латинских букв, цифр и `.`, `-`, `_` ||
+|| `400` | Пустое значение | Empty trigger name! | Параметр `NAME` не передан, пустой или равен `0` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-automation-trigger-execute.md)
 - [{#T}](./crm-automation-trigger-list.md)
 - [{#T}](./crm-automation-trigger-delete.md)
