@@ -344,24 +344,24 @@ HTTP-статус: **200**
 {
     "result": [
         {
-        "ID": "7201",
-        "OBJECT_ID": "9043",
-        "SIZE": "21796",
-        "NAME": "Тест №2.docx",
-        "GLOBAL_CONTENT_VERSION": "5",
-        "CREATE_TIME": "2026-02-17T12:21:22+03:00",
-        "CREATED_BY": "1271",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9NzIwMSZzZXJ2aWNlPXZlcnNpb24mXz0zdHFiVHY5bkNPWm5hVk1rRm92TXlzZUdUSDNTanlVZQ%3D%3D%7CImRvd25sb2FkfGRpc2t8YVdROU56SXdNU1p6WlhKMmFXTmxQWFpsY25OcGIyNG1YejB6ZEhGaVZIWTVia05QV201aFZrMXJSbTkyVFhselpVZFVTRE5UYW5sVlpRPT18MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.dy270nYUZXvxmyBAR1vYnUtn%2Bkn%2FSClb2cIWT8FkOn0%3D"
+            "ID": "7201",
+            "OBJECT_ID": "9043",
+            "SIZE": "21796",
+            "NAME": "Тест №2.docx",
+            "GLOBAL_CONTENT_VERSION": "5",
+            "CREATE_TIME": "2026-02-17T12:21:22+03:00",
+            "CREATED_BY": "1271",
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?..."
         },
         {
-        "ID": "7199",
-        "OBJECT_ID": "9043",
-        "SIZE": "21756",
-        "NAME": "тест.docx",
-        "GLOBAL_CONTENT_VERSION": "3",
-        "CREATE_TIME": "2026-02-17T12:15:06+03:00",
-        "CREATED_BY": "1269",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9NzE5OSZzZXJ2aWNlPXZlcnNpb24mXz1Uall3RkZRa0NPMTBncklPM2tYYmxNajRmSWQ2ekVLNg%3D%3D%7CImRvd25sb2FkfGRpc2t8YVdROU56RTVPU1p6WlhKMmFXTmxQWFpsY25OcGIyNG1YejFVYWxsM1JrWlJhME5QTVRCbmNrbFBNMnRZWW14TmFqUm1TV1EyZWtWTE5nPT18MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.mtFVuU%2F1h4eGP1VROTj7n4PDUDOSc4suh90NuNPQyyQ%3D"
+            "ID": "7199",
+            "OBJECT_ID": "9043",
+            "SIZE": "21756",
+            "NAME": "тест.docx",
+            "GLOBAL_CONTENT_VERSION": "3",
+            "CREATE_TIME": "2026-02-17T12:15:06+03:00",
+            "CREATED_BY": "1269",
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?..."
         }
     ],
     "total": 2,
@@ -398,7 +398,7 @@ HTTP-статус: **200**
 || **GLOBAL_CONTENT_VERSION**
 [`integer`](../../data-types.md) | Инкрементальный счетчик версии файла ||
 || **CREATE_TIME**
-[`string`](../../data-types.md) | Время создания версии ||
+[`datetime`](../../data-types.md) | Дата и время создания версии ||
 || **CREATED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, который создал версию ||
 || **DOWNLOAD_URL**

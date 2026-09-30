@@ -422,21 +422,24 @@ HTTP-статус: **200**
             "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/path/Папка"
         },
         {
-            "ID": "9023",
-            "NAME": "Новая папка",
+            "ID": "9035",
+            "NAME": "picture.png",
             "CODE": null,
             "STORAGE_ID": "1357",
-            "TYPE": "folder",
-            "REAL_OBJECT_ID": "9023",
+            "TYPE": "file",
             "PARENT_ID": "8875",
             "DELETED_TYPE": "0",
-            "CREATE_TIME": "2026-01-26T13:30:15+03:00",
-            "UPDATE_TIME": "2026-01-26T13:30:15+03:00",
+            "GLOBAL_CONTENT_VERSION": "1",
+            "FILE_ID": "32895",
+            "SIZE": "1679",
+            "CREATE_TIME": "2026-02-02T16:01:59+03:00",
+            "UPDATE_TIME": "2026-02-02T16:01:59+03:00",
             "DELETE_TIME": null,
             "CREATED_BY": "1269",
             "UPDATED_BY": "1269",
             "DELETED_BY": null,
-            "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/path/Новая папка"
+            "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
+            "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/picture.png"
         }
     ],
     "total": 3,
@@ -471,9 +474,11 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится файл/папка ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Возможные значения:
+- `folder` — папка
+- `file` — файл ||
 || **REAL_OBJECT_ID**
-[`integer`](../../data-types.md) | Идентификатор объекта ||
+[`integer`](../../data-types.md) | Идентификатор объекта. Поле возвращается только для папки, когда `TYPE = folder` ||
 || **PARENT_ID**
 [`integer`](../../data-types.md) | Идентификатор родительской папки ||
 || **DELETED_TYPE**
@@ -482,11 +487,11 @@ HTTP-статус: **200**
 - `3` — в корзине
 - `4` — удален вместе с родительской папкой ||
 || **GLOBAL_CONTENT_VERSION**
-[`integer`](../../data-types.md) | Инкрементальный счетчик версии файла ||
+[`integer`](../../data-types.md) | Инкрементальный счетчик версии файла. Поле возвращается только для файла, когда `TYPE = file` ||
 || **FILE_ID**
-[`integer`](../../data-types.md) | Внутреннее значение идентификатора файла ||
+[`integer`](../../data-types.md) | Внутреннее значение идентификатора файла. Поле возвращается только для файла, когда `TYPE = file` ||
 || **SIZE**
-[`integer`](../../data-types.md) | Размер файла в байтах ||
+[`integer`](../../data-types.md) | Размер файла в байтах. Поле возвращается только для файла, когда `TYPE = file` ||
 || **CREATE_TIME**
 [`datetime`](../../data-types.md) | Дата и время создания файла/папки ||
 || **UPDATE_TIME**
@@ -500,7 +505,7 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего файл/папку ||
 || **DOWNLOAD_URL**
-[`string`](../../data-types.md) | Ссылка для скачивания файла ||
+[`string`](../../data-types.md) | Ссылка для скачивания файла. Поле возвращается только для файла, когда `TYPE = file` ||
 || **DETAIL_URL**
 [`string`](../../data-types.md) | Ссылка для открытия файла/папки в интерфейсе ||
 || **total**

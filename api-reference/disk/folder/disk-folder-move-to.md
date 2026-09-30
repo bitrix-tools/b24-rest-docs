@@ -311,7 +311,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о перемещенной папке.
+[`object`](../../data-types.md) \| [`boolean`](../../data-types.md) | Объект с данными о перемещенной папке
 
 Возвращает `false`, если папки находятся в разных хранилищах ||
 || **ID**
@@ -371,7 +371,7 @@ HTTP-статус: **400**
 || `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр `id` или `targetFolderId` ||
 || `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
 || `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` или `targetFolderId` не найдена ||
-|| — | Could not move root folder | Попытка переместить корневую папку хранилища ||
+|| Пустое значение | Could not move root folder. | Попытка переместить корневую папку хранилища ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для перемещения папки ||
 |#
 

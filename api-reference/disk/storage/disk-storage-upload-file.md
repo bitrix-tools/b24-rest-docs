@@ -28,7 +28,7 @@
 Идентификатор можно получить с помощью метода [disk.storage.getList](../storage/disk-storage-get-list.md)
 ||
 || **data***
-[`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя файла ||
+[`object`](../../data-types.md) | Параметры нового файла [(подробное описание)](#data) ||
 || **fileContent***
 [`array`](../../data-types.md) | Массив из имени файла и строки с [Base64](../../files/how-to-upload-files.md) ||
 || **rights**
@@ -55,6 +55,15 @@
 - `false` — не генерировать
 
 По умолчанию — `false` ||
+|#
+
+### Параметр data {#data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../../data-types.md) | Имя файла. Максимальная длина — 255 символов. Имя не должно содержать символы, запрещенные в именах файлов ||
 |#
 
 ## Примеры кода
@@ -404,7 +413,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": null,
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=b8d880690000071b006e2cf2000004f50000078dbaf74c54ad1b4e4205aba7ab57a395&token=disk%7CaWQ9OTAzNSZfPWU5eXpWQXpsVmJrdFE0OTJ3azBKQzNFVFVMek5UMTRU%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXpOU1pmUFdVNWVYcFdRWHBzVm1KcmRGRTBPVEozYXpCS1F6TkZWRlZNZWs1VU1UUlV8YjhkODgwNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc4ZGJhZjc0YzU0YWQxYjRlNDIwNWFiYTdhYjU3YTM5NSI%3D.DJafMz5LAuRzlGbCxNLoGiCleoFwz1qGyj4iPf7n110%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/picture.png"
     },
     "time": {
@@ -426,7 +435,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с полями файла ||
+[`object`](../../data-types.md) | Объект с полями файла ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор файла ||
 || **NAME**
@@ -436,7 +445,7 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится файл ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Значение — `file` ||
 || **PARENT_ID**
 [`integer`](../../data-types.md) | Идентификатор родительской папки ||
 || **DELETED_TYPE**
@@ -489,7 +498,7 @@ HTTP-статус: **400** или **403**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр ||
 || `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
-|| `400` | `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не указан обязательный параметр `NAME` в массиве `data` ||
+|| `400` | `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не указан обязательный параметр `NAME` в объекте `data` ||
 || `400` | `ERROR_COULD_NOT_SAVE_FILE` | Could not save file | Не удалось сохранить файл. Проверьте свободное место на Диске и корректность кодировки данных ||
 || `400` | Пустое значение | Invalid format: Right `N` should be array | Элемент `rights` с индексом `N` передан не в виде массива ||
 || `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE and TASK_ID | В элементе `rights` с индексом `N` отсутствует `ACCESS_CODE` или `TASK_ID` ||
