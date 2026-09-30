@@ -11,15 +11,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.activity.todo.*](../../../timeline/activities/todo/index.md).
+Развитие метода остановлено. Значения перечисления собраны в описании [типов данных CRM](../../../data-types.md#activity-enums), а работу с делами описывает раздел [Дела CRM](../../../timeline/activities/index.md).
 
 {% endnote %}
 
-Метод `crm.enum.activitynotifytype` возвращает типы уведомлений о начале активности для поля `NOTIFY_TYPE` [дел](../../../timeline/activities/index.md) — встреч и звонков.
+Метод `crm.enum.activitynotifytype` возвращает единицы времени для напоминания о [деле](../../../timeline/activities/index.md) — встрече или звонке: минуты, часы, дни. Номер единицы стоит в поле `NOTIFY_TYPE` дела — например, `2` означает часы.
 
 ## Параметры метода
 
@@ -164,13 +164,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $notifyType) {
+            echo $notifyType['ID'] . ' — ' . $notifyType['NAME'] . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.activitynotifytype: ' . $e->getMessage();
@@ -292,21 +288,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../data-types.md) | Идентификатор типа уведомления ||
+[`integer`](../../../../data-types.md) | Идентификатор единицы времени для напоминания: `1` — минуты, `2` — часы, `3` — дни. `0` с пустым названием — напоминание не задано ||
 || **NAME**
-[`string`](../../../../data-types.md) | Название типа уведомления ||
+[`string`](../../../../data-types.md) | Сокращенное название единицы времени, например `мин.` ||
 || **SYMBOL_CODE**
-[`string`](../../../../data-types.md) | Символьный код ||
+[`string`](../../../../data-types.md) \| [`null`](../../../../data-types.md) | Символьный код. У этого перечисления всегда `null` ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../../data-types.md) \| [`null`](../../../../data-types.md) | Краткий символьный код. У этого перечисления всегда `null` ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](../index.md)
+- [{#T}](../../../timeline/activities/index.md)

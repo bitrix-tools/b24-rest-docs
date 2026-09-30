@@ -11,11 +11,17 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор с доступом к CRM в контексте приложения 
+> Кто может выполнять метод: администратор
 
-Метод удаляет триггер.
+Метод `crm.automation.trigger.delete` удаляет триггер, который текущее приложение зарегистрировало методом [crm.automation.trigger.add](./crm-automation-trigger-add.md). Например, приложение телефонии больше не отслеживает звонки и удаляет триггер `call_done`. Коды триггеров приложения возвращает метод [crm.automation.trigger.list](./crm-automation-trigger-list.md).
 
-Запускать метод можно только в контексте приложения.
+Работает только в контексте [приложения](../../../../settings/app-installation/index.md).
+
+{% note warning "" %}
+
+Метод не убирает привязку триггера к стадии или статусу — удалите ее вручную в настройках автоматизации CRM. Если приложение снова зарегистрирует триггер с тем же `CODE`, старая привязка опять начнет срабатывать.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -25,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../../../data-types.md) | Внутренний уникальный (в рамках приложения) идентификатор триггера. Должен соответствовать маске `[a-z0-9\.\-_]` ||
+[`string`](../../../data-types.md) | Код триггера, который приложение передало при регистрации, например `call_done` ||
 |#
 
 ## Примеры кода
@@ -34,23 +40,13 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"c5u4m"}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.automation.trigger.delete
-    ```
-
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CODE":"c5u4m","auth":"**put_access_token_here**"}' \
+    -d '{"CODE":"call_done","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.automation.trigger.delete
     ```
 
@@ -68,7 +64,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'crm.automation.trigger.delete',
         params: {
-          CODE: 'c5u4m',
+          CODE: 'call_done',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +96,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.automation.trigger.delete',
             params: {
-              CODE: 'c5u4m',
+              CODE: 'call_done',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -130,7 +126,7 @@
 
     try:
         bitrix_response = client.crm.automation.trigger.delete(
-            code="c5u4m",
+            code="call_done",
         ).response
         result = bitrix_response.result
         print(result)
@@ -149,28 +145,14 @@
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'crm.automation.trigger.delete',
-                [
-                    'CODE' => 'c5u4m',
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+        $result = $b24Service
+            ->getCRMScope()
+            ->trigger()
+            ->delete('call_done');
+
+        echo $result->isSuccess() ? 'Trigger deleted' : 'Trigger not deleted';
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting automation trigger: ' . $e->getMessage();
@@ -183,9 +165,9 @@
     BX24.callMethod(
         'crm.automation.trigger.delete',
         {
-            "CODE": 'c5u4m'
+            "CODE": 'call_done'
         },
-        function(result) 
+        function(result)
         {
             if(result.error())
                 console.error(result.error());
@@ -203,7 +185,7 @@
     $result = CRest::call(
         'crm.automation.trigger.delete',
         [
-            'CODE' => 'c5u4m'
+            'CODE' => 'call_done'
         ]
     );
 
@@ -217,7 +199,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.automation.trigger.delete", b24.Params{
-    	"CODE": "c5u4m",
+    	"CODE": "call_done",
     })
     if err != nil {
     	return fmt.Errorf("crm.automation.trigger.delete: %w", err)
@@ -256,9 +238,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Вовзращает `true`, если удалено успешно ||
+[`boolean`](../../../data-types.md) | `true`, если триггер удален ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -267,8 +249,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"",
-    "error_description":"Trigger not found"
+    "error": "",
+    "error_description": "Trigger not found"
 }
 ```
 
@@ -277,19 +259,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Access denied. | Пользователь не прошел предварительную проверку прав на доступ к CRM ||
-|| ACCESS_DENIED | Access denied! Admin permissions required | Не пройдена проверка прав на администратора ||
-|| ACCESS_DENIED | Access denied! Application context required | Метод вызван вне контекста приложения ||
-|| Пустая строка | Empty trigger code! | Пустой параметр `CODE` ||
-|| Пустая строка | Wrong trigger code! | Параметр `CODE` не удовлетворяет маске `[a-z0-9\.\-_]` ||
-|| Пустая строка | Trigger not found | Триггер не найден ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет доступа к CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызвал не администратор ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван не из приложения, например через вебхук ||
+|| `400` | Пустое значение | Empty trigger code! | Параметр `CODE` не передан, пустой или равен `0` ||
+|| `400` | Пустое значение | Wrong trigger code! | В `CODE` есть символы, кроме латинских букв, цифр и `.`, `-`, `_` ||
+|| `400` | Пустое значение | Trigger not found | У текущего приложения нет триггера с таким `CODE`, например его уже удалили или зарегистрировало другое приложение ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-automation-trigger-add.md)
 - [{#T}](./crm-automation-trigger-execute.md)
 - [{#T}](./crm-automation-trigger-list.md)
