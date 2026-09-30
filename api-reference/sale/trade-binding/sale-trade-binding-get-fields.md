@@ -1,4 +1,4 @@
-# Получить доступные поля заказов из источников sale.tradeBinding.getFields
+# Получить поля привязки заказа к источнику sale.tradeBinding.getFields
 
 {% note tip "" %}
 
@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `sale.tradeBinding.getFields` возвращает описание полей привязки заказа к источнику. Названия полей можно передавать в параметрах `select`, `filter` и `order` метода [sale.tradeBinding.list](./sale-trade-binding-list.md).
+Метод `sale.tradeBinding.getFields` возвращает поля привязки заказа к источнику, которые можно передавать в `select`, `filter` и `order` метода [sale.tradeBinding.list](./sale-trade-binding-list.md).
 
 ## Параметры метода
 
-Метод вызывается без параметров.
+Без параметров.
 
 ## Примеры кода
 
@@ -27,8 +27,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
@@ -37,8 +37,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
@@ -146,7 +146,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -294,11 +293,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **tradeBinding**
-[`object`](../../data-types.md) | Объект с описанием полей привязки заказа к источнику. Ключ — название поля объекта [`sale_order_trade_binding`](../data-types.md#sale_order_trade_binding), значение — объект типа [`rest_field_description`](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **tradeBinding**
+[`object`](../../data-types.md) | Объект с описанием полей привязки заказа к источнику. Ключ — название поля объекта [`sale_order_trade_binding`](../data-types.md#sale_order_trade_binding), значение — объект типа [`rest_field_description`](../data-types.md#rest_field_description) ||
 |#
 
 ## Обработка ошибок
@@ -309,4 +315,5 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-trade-binding-list.md)

@@ -25,15 +25,15 @@
 
 ## Связь источников заказов с другими объектами
 
-**Привязка источников заказов к заказам.** Чтобы просмотреть заказы из конкретного источника, используйте метод [sale.tradeBinding.list](../trade-binding/sale-trade-binding-list.md).
+**Привязка заказов к источникам.** Привязка ссылается на источник через поле `tradingPlatformId` — это `id` источника. Привязки заказов источника возвращает метод [sale.tradeBinding.list](../trade-binding/sale-trade-binding-list.md).
 
 **Заказ.** Получите всю информацию о заказе с помощью метода [sale.order.get](../order/sale-order-get.md).
 
 ## Как начать работу
 
-1. Получите список источников заказов методом [sale.tradePlatform.list](./sale-trade-platform-list.md).
-2. Получите описание полей источников методом [sale.tradePlatform.getFields](./sale-trade-platform-get-fields.md).
-3. Используйте идентификатор источника в фильтре метода [sale.tradeBinding.list](../trade-binding/sale-trade-binding-list.md), чтобы найти связанные заказы.
+1. Получите список источников заказов методом [sale.tradePlatform.list](./sale-trade-platform-list.md)
+2. Получите описание полей источников методом [sale.tradePlatform.getFields](./sale-trade-platform-get-fields.md)
+3. Используйте идентификатор источника в фильтре метода [sale.tradeBinding.list](../trade-binding/sale-trade-binding-list.md), чтобы получить привязки заказов этого источника
 
 ## Обзор методов {#all-methods}
 

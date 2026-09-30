@@ -1,4 +1,4 @@
-# Получить список заказов из источников sale.tradeBinding.list
+# Получить список привязок заказов к источникам sale.tradeBinding.list
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
 
-Метод `sale.tradeBinding.list` возвращает список заказов из источников. 
+Метод `sale.tradeBinding.list` возвращает привязки заказов к источникам без состава заказа — состав получите методом [sale.order.get](../order/sale-order-get.md).
 
 ## Параметры метода
 
@@ -23,50 +23,59 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта [sale_order_trade_binding](../data-types.md#sale_order_trade_binding)).
+[`array`](../../data-types.md) | Список полей, которые нужно вернуть. Доступные поля — в объекте [sale_order_trade_binding](../data-types.md#sale_order_trade_binding).
 
-Если не передан или передан пустой массив, то будут выбраны все доступные поля заказов. ||
+Если не передан или передан пустой массив, возвращаются все поля. Неизвестные поля метод игнорирует без ошибки ||
 || **filter**
-[`object`](../../data-types.md) | Объект для фильтрации выбранных заказов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. При указании нескольких полей используется логика AND.
+[`object`](../../data-types.md) | Объект для фильтрации привязок в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. При указании нескольких полей используется логика AND.
 
 Возможные значения для `field` соответствуют полям объекта [sale_order_trade_binding](../data-types.md#sale_order_trade_binding).
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-- `=` — равно (работает и с массивами)
-- `!=` - не равно
+- `=` — равно, точное совпадение, префикс по умолчанию
+- `!=`, `!` — не равно
+- `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `@` — IN, значение передается массивом
+- `!@` — NOT IN, значение передается массивом
+- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Подстрока ищется в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, начинающиеся с «мол»
-    - "%мол" — ищем значения, заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где «мол» может быть в любой позиции
-- `%=` — LIKE (см. описание выше)
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+    - `мол%` — значения, начинающиеся с «мол»
+    - `%мол` — значения, заканчивающиеся на «мол»
+    - `%мол%` — значения, где «мол» может быть в любой позиции
+- `%=` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении, как для `=%`
+- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Возвращаются значения, в которых подстроки нет ни в одной позиции
 - `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, не начинающиеся с «мол»
-    - "%мол" — ищем значения, не заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
-- `!%=` — NOT LIKE (см. описание выше) ||
+    - `мол%` — значения, не начинающиеся с «мол»
+    - `%мол` — значения, не заканчивающиеся на «мол»
+    - `%мол%` — значения, где подстроки «мол» нет ни в одной позиции
+- `!%=` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении, как для `!=%`
+
+Чтобы получить привязки заказов одного источника, фильтруйте по `tradingPlatformId` — идентификатору из метода [sale.tradePlatform.list](../trade-platform/sale-trade-platform-list.md).
+
+Неизвестные поля метод игнорирует без ошибки. Если ошибиться в имени поля, метод вернет все записи ||
 || **order**
-[`object`](../../data-types.md) | Объект для сортировки выбранных заказов в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки привязок в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [sale_order_trade_binding](../data-types.md#sale_order_trade_binding).
 
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
-- `desc` — в порядке убывания ||
+- `desc` — в порядке убывания
+
+По умолчанию привязки сортируются по возрастанию `id`. Неизвестные поля метод игнорирует без ошибки ||
 || **start**
-[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
+[`integer`](../../data-types.md) | Смещение для постраничной навигации. Размер страницы — 50 записей. По умолчанию `0` — первая страница.
 
-Размер страницы результатов всегда статичный: 50 записей.
-
-Чтобы выбрать вторую страницу результатов, необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+Для второй страницы передайте `50`, для третьей — `100` и так далее.
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Значение для следующей страницы приходит в поле `next` ответа ||
 |#
 
 ## Примеры кода
@@ -77,21 +86,21 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["orderId","tradingPlatformId"],"filter":{"!=tradingPlatformID":10},"order":{"tradingPlatformId":"DESC"}}' \
+    -d '{"select":["orderId","tradingPlatformId"],"filter":{"!=tradingPlatformId":10},"order":{"tradingPlatformId":"desc"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.tradeBinding.list
     ```
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["orderId","tradingPlatformId"],"filter":{"!=tradingPlatformID":10},"order":{"tradingPlatformId":"DESC"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["orderId","tradingPlatformId"],"filter":{"!=tradingPlatformId":10},"order":{"tradingPlatformId":"desc"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.tradeBinding.list
     ```
 
@@ -125,8 +134,8 @@
         method: 'sale.tradeBinding.list',
         params: {
           select: ['orderId', 'tradingPlatformId'],
-          filter: { '!=tradingPlatformID': 10 },
-          order: { tradingPlatformId: 'DESC' },
+          filter: { '!=tradingPlatformId': 10 },
+          order: { tradingPlatformId: 'desc' },
           start: 0,
         },
         requestId: Text.getUuidRfc4122()
@@ -165,8 +174,8 @@
             method: 'sale.tradeBinding.list',
             params: {
               select: ['orderId', 'tradingPlatformId'],
-              filter: { '!=tradingPlatformID': 10 },
-              order: { tradingPlatformId: 'DESC' },
+              filter: { '!=tradingPlatformId': 10 },
+              order: { tradingPlatformId: 'desc' },
               start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -202,12 +211,12 @@
                 "tradingPlatformId",
             ],
             filter={
-                "!=tradingPlatformID": 10,
+                "!=tradingPlatformId": 10,
             },
             order={
-                "tradingPlatformId": "DESC",
+                "tradingPlatformId": "desc",
             },
-            start='1712135957.057659',
+            start=0,
         ).response
         result = bitrix_response.result
         print(result)
@@ -226,7 +235,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -235,8 +243,9 @@
                 'sale.tradeBinding.list',
                 [
                     'select' => ['orderId', 'tradingPlatformId'],
-                    'filter' => ['!=tradingPlatformID' => 10],
-                    'order'  => ['tradingPlatformId' => 'DESC'],
+                    'filter' => ['!=tradingPlatformId' => 10],
+                    'order'  => ['tradingPlatformId' => 'desc'],
+                    'start'  => 0,
                 ]
             );
     
@@ -245,8 +254,6 @@
             ->getResult();
     
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -261,8 +268,9 @@
         "sale.tradeBinding.list",
         {
             select: ['orderId', 'tradingPlatformId'],
-            filter: {'!=tradingPlatformID': 10},
-            order: {'tradingPlatformId': 'DESC'}
+            filter: {'!=tradingPlatformId': 10},
+            order: {'tradingPlatformId': 'desc'},
+            start: 0
         },
         function(result)
         {
@@ -272,7 +280,7 @@
             }
             else
             {
-                console.dir(result.data());
+                console.info(result.data());
             }
         }
     );
@@ -287,8 +295,9 @@
         'sale.tradeBinding.list',
         [
             'select' => ['orderId', 'tradingPlatformId'],
-            'filter' => ['!=tradingPlatformID' => 10],
-            'order' => ['tradingPlatformId' => 'DESC']
+            'filter' => ['!=tradingPlatformId' => 10],
+            'order' => ['tradingPlatformId' => 'desc'],
+            'start' => 0
         ]
     );
 
@@ -304,11 +313,12 @@
     res, err := client.Core().Call(ctx, "sale.tradeBinding.list", b24.Params{
     	"select": []string{"orderId", "tradingPlatformId"},
     	"filter": b24.Params{
-    		"!=tradingPlatformID": 10,
+    		"!=tradingPlatformId": 10,
     	},
     	"order": b24.Params{
-    		"tradingPlatformId": "DESC",
+    		"tradingPlatformId": "desc",
     	},
+    	"start": 0,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("sale.tradeBinding.list: %w", err)
@@ -357,18 +367,17 @@ HTTP-статус: **200**
         ]
     },
     "total": 3,
-    "time": {  
-        "start": 1712135957.057659,  
-        "finish": 1712135957.407821,  
-        "duration": 0.3501620292663574,  
-        "processing": 0.011919021606445312,  
-        "date_start": "2024-04-03T11:19:17+02:00",  
-        "date_finish": "2024-04-03T11:19:17+02:00",  
-        "operating_reset_at": 1705765533,  
-        "operating": 3.3076241016387939  
-    }  
+    "time": {
+        "start": 1712135957.057659,
+        "finish": 1712135957.407821,
+        "duration": 0.3501620292663574,
+        "processing": 0.011919021606445312,
+        "date_start": "2024-04-03T11:19:17+02:00",
+        "date_finish": "2024-04-03T11:19:17+02:00",
+        "operating_reset_at": 1705765533,
+        "operating": 3.3076241016387939
+    }
 }
-
 ```
 
 ### Возвращаемые данные
@@ -377,13 +386,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **tradeBindings**
-[`sale_order_trade_binding[]`](../data-types.md#sale_order_trade_binding) | Массив объектов с информацией о выбранных заказах ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|| **next**
+[`integer`](../../data-types.md) | Значение `start` для следующей страницы. Возвращается, если найдено больше записей, чем уместилось на текущей странице ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **tradeBindings**
+[`sale_order_trade_binding[]`](../data-types.md#sale_order_trade_binding) | Массив привязок заказов к источникам. Набор полей в каждом элементе задает параметр `select`. Если ничего не найдено, массив пустой ||
 |#
 
 ## Обработка ошибок
@@ -392,7 +410,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
+    "error":"200040300010",
     "error_description":"Access Denied"
 }
 ```
@@ -402,13 +420,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для выполнения метода ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Недостаточно прав для выполнения метода ||
+|| `400` | `100` | Invalid order "<VALUE>" | В `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `400` | `100` | Order must be a string | Направление сортировки в `order` передано не строкой ||
+|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-trade-binding-get-fields.md)
+- [{#T}](../trade-platform/sale-trade-platform-list.md)
+- [{#T}](../order/sale-order-get.md)
