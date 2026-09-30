@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-События дают возможность приложениям получать уведомления об изменении настроек пользовательских полей сделок: создании, обновлении и удалении поля, а также изменении набора значений для поля списочного типа.
+События дают возможность приложениям получать уведомления об изменении настроек пользовательских полей сделок: добавлении, изменении и удалении поля, а также изменении набора значений для поля списочного типа.
 
 Они не вызываются при изменении значения пользовательского поля в конкретной сделке. Чтобы отследить изменение значения поля в сделке, подпишитесь на событие изменения сделки [onCrmDealUpdate](../../events/on-crm-deal-update.md). Текущее значение поля можно получить методом [crm.deal.get](../../crm-deal-get.md).
 
-Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
+Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md). Методы для создания, изменения и удаления полей собраны в обзоре [Пользовательские поля сделок](../index.md).
 
 > Быстрый переход: [все события](#all-events)
 
@@ -25,6 +25,30 @@
 - [приложение](../../../../../settings/app-installation/index.md) и метод [event.bind](../../../../events/event-bind.md)
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../../events/test-handler.md).
+
+## Что получает обработчик
+
+Все четыре события передают в `data.FIELDS` одинаковый набор ключей: идентификатор поля `ID`, символьный код объекта `ENTITY_ID` со значением `CRM_DEAL` и код поля `FIELD_NAME`.
+
+```json
+{
+    "event": "ONCRMDEALUSERFIELDSETENUMVALUES",
+    "data": {
+        "FIELDS": {
+            "ID": "6947",
+            "ENTITY_ID": "CRM_DEAL",
+            "FIELD_NAME": "UF_CRM_1736930561"
+        }
+    }
+}
+```
+
+Тип поля, его настройки и набор значений списка в событие не передаются. Чтобы их получить, вызовите метод [crm.deal.userfield.get](../crm-deal-userfield-get.md) с `ID` из события. После события `onCrmDealUserFieldDelete` метод вернет ошибку `ERROR_NOT_FOUND`: поля в Битрикс24 уже нет. Полный запрос с параметрами `event_handler_id`, `ts` и `auth` приведен на странице каждого события.
+
+Событие `onCrmDealUserFieldSetEnumValues` приходит в паре с другим событием:
+
+- при добавлении поля списочного типа — вместе с `onCrmDealUserFieldAdd`, даже если параметр `LIST` не передан
+- при сохранении списка вручную или методом `crm.deal.userfield.update` с параметром `LIST` — вместе с `onCrmDealUserFieldUpdate`, даже если набор значений не изменился
 
 ## Доступность серверов для отправки и получения событий
 
@@ -41,5 +65,5 @@
 || [onCrmDealUserFieldAdd](./on-crm-deal-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.deal.userfield.add](../crm-deal-userfield-add.md) ||
 || [onCrmDealUserFieldUpdate](./on-crm-deal-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.deal.userfield.update](../crm-deal-userfield-update.md) ||
 || [onCrmDealUserFieldDelete](./on-crm-deal-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.deal.userfield.delete](../crm-deal-userfield-delete.md) ||
-|| [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методом [crm.deal.userfield.update](../crm-deal-userfield-update.md) ||
+|| [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) | При сохранении набора значений пользовательского поля списочного типа: при добавлении такого поля вручную или методом [crm.deal.userfield.add](../crm-deal-userfield-add.md), при изменении списка вручную или методом [crm.deal.userfield.update](../crm-deal-userfield-update.md) с параметром `LIST` ||
 |#
