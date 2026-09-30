@@ -7,7 +7,7 @@ items:
     href: crm-requisite-add.md
   - name: Обновить реквизит
     href: crm-requisite-update.md
-  - name: Получить реквизит по id
+  - name: Получить реквизит по идентификатору
     href: crm-requisite-get.md
   - name: Получить список реквизитов по фильтру
     href: crm-requisite-list.md

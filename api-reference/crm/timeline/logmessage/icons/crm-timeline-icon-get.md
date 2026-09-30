@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает информацию об иконке лог-записи таймлайна.
+Метод `crm.timeline.icon.get` получает информацию об иконке лог-записи таймлайна.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **code***
-[`string`](../../../../data-types.md) | Код иконки (например, `info`).
+[`string`](../../../../data-types.md) | Код иконки (например, `custom-info`).
 
 Получить список всех доступных кодов можно методом [`crm.timeline.icon.list`](./crm-timeline-icon-list.md) ||
 |#
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"info"}' \
+    -d '{"code":"custom-info"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.icon.get
     ```
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"info","auth":"**put_access_token_here**"}' \
+    -d '{"code":"custom-info","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.icon.get
     ```
 
@@ -77,7 +77,7 @@
       const response = await $b24.actions.v2.call.make<IconGetResult>({
         method: 'crm.timeline.icon.get',
         params: {
-          code: 'info',
+          code: 'custom-info',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -109,7 +109,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.timeline.icon.get',
             params: {
-              code: 'info',
+              code: 'custom-info',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -139,7 +139,7 @@
 
     try:
         bitrix_response = client.crm.timeline.icon.get(
-            code="info",
+            code="custom-info",
         ).response
         result = bitrix_response.result
         print(result)
@@ -158,7 +158,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -166,7 +165,7 @@
             ->call(
                 'crm.timeline.icon.get',
                 [
-                    'code' => 'info',
+                    'code' => 'custom-info',
                 ]
             );
     
@@ -192,7 +191,7 @@
     BX24.callMethod(
         "crm.timeline.icon.get",
         {
-            code: "info",
+            code: "custom-info",
         },
         result => {
             if (result.error())
@@ -211,7 +210,7 @@
     $result = CRest::call(
         'crm.timeline.icon.get',
         [
-            'code' => 'info'
+            'code' => 'custom-info'
         ]
     );
 
@@ -225,7 +224,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.timeline.icon.get", b24.Params{
-    	"code": "info",
+        "code": "custom-info",
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("crm.timeline.icon.get: %w", err)
@@ -258,7 +257,7 @@ HTTP-статус: **200**
 {
     "result": {
         "icon": {
-            "code": "info",
+            "code": "custom-info",
             "isSystem": false,
             "fileUri": "/upload/crm/13f/huhnvzds7ckoy6mk5mdze9pb7jqscpxi/e66fm2cbau9f8u32oe9jzx2qflqhj2vv"
         }
@@ -284,9 +283,36 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../../data-types.md) | Корневой элемент ответа.
 
-Поле `result` содержит объект [icon](./crm-timeline-icon-add.md#icon) ||
+Поле `result` содержит [объект с данными иконки](#result) ||
 || **time**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **icon**
+[`object`](../../../../data-types.md) | Данные [иконки](#icon) ||
+|#
+
+#### Объект icon {#icon}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../../data-types.md) | Код иконки ||
+|| **isSystem**
+[`boolean`](../../../../data-types.md) | Признак системной иконки:
+
+- `true` — системная иконка
+- `false` — пользовательская иконка
+
+||
+|| **fileUri**
+[`string`](../../../../data-types.md) | Путь к файлу пользовательской иконки. Для системной иконки возвращается пустая строка ||
 |#
 
 ## Обработка ошибок
@@ -305,15 +331,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `NOT_FOUND` | Иконки с указанным `code` не существует ||
-|| `100` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `NOT_FOUND` | Icon not found for code `{code}` | Иконки с указанным `code` не существует ||
+|| `400` | `100` | Could not find value for parameter {code} | Не передан обязательный параметр `code` ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-icon-add.md)
 - [{#T}](./crm-timeline-icon-list.md)

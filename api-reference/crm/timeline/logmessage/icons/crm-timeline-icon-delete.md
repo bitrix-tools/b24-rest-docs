@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: `администратор`
 
-Метод удаляет иконку.
+Метод `crm.timeline.icon.delete` удаляет пользовательскую иконку и ее файл. Системные иконки удалить нельзя: для системного кода метод вернет ошибку `NOT_FOUND`.
+
+Лог-записи, в которых указан удаленный код, остаются в таймлайне, но отображаются без этой иконки.
 
 ## Параметры метода
 
@@ -23,7 +25,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **code***
-[`string`](../../../../data-types.md) | Код иконки (например, `info`).
+[`string`](../../../../data-types.md) | Код пользовательской иконки (например, `custom-info`).
 
 Получить список всех доступных кодов можно методом [`crm.timeline.icon.list`](./crm-timeline-icon-list.md) ||
 |#
@@ -40,7 +42,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"info"}' \
+    -d '{"code":"custom-info"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.icon.delete
     ```
 
@@ -50,7 +52,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"info","auth":"**put_access_token_here**"}' \
+    -d '{"code":"custom-info","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.icon.delete
     ```
 
@@ -68,7 +70,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'crm.timeline.icon.delete',
         params: {
-          code: 'info',
+          code: 'custom-info',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +102,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.timeline.icon.delete',
             params: {
-              code: 'info',
+              code: 'custom-info',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -130,7 +132,7 @@
 
     try:
         bitrix_response = client.crm.timeline.icon.delete(
-            code="info",
+            code="custom-info",
         ).response
         result = bitrix_response.result
         print(result)
@@ -157,7 +159,7 @@
             ->call(
                 'crm.timeline.icon.delete',
                 [
-                    'code' => 'info',
+                    'code' => 'custom-info',
                 ]
             );
     
@@ -184,7 +186,7 @@
     BX24.callMethod(
         "crm.timeline.icon.delete",
         {
-            code: "info",
+            code: "custom-info",
         },
         result => {
             if (result.error())
@@ -203,7 +205,7 @@
     $result = CRest::call(
         'crm.timeline.icon.delete',
         [
-            'code' => 'info'
+            'code' => 'custom-info'
         ]
     );
 
@@ -217,7 +219,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.timeline.icon.delete", b24.Params{
-    	"code": "info",
+        "code": "custom-info",
     })
     if err != nil {
     	return fmt.Errorf("crm.timeline.icon.delete: %w", err)
@@ -258,10 +260,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Результат операции Возвращает:
+[`boolean`](../../../../data-types.md) | Результат операции:
 
 - `true` — при успешном удалении
-- `null` — при ошибке 
  ||
 || **time**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
@@ -274,7 +275,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "NOT_FOUND",
-    "error_description": "Icon not found for code `info`"
+    "error_description": "Icon not found for code `custom-info`"
 }
 ```
 
@@ -283,16 +284,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
-|| `NOT_FOUND` | Иконки с указанным `code` не существует ||
-|| `100` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | Метод вызывает пользователь без прав администратора ||
+|| `400` | `NOT_FOUND` | Icon not found for code `{code}` | Пользовательской иконки с указанным `code` не существует или передан код системной иконки ||
+|| `400` | `100` | Could not find value for parameter {code} | Не передан обязательный параметр `code` ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-icon-add.md)
 - [{#T}](./crm-timeline-icon-get.md)

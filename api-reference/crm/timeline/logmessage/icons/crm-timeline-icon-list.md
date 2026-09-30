@@ -13,9 +13,13 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает список доступных иконок лог-записей таймлайна.
+Метод `crm.timeline.icon.list` получает полный список системных и пользовательских иконок лог-записей таймлайна.
+
+## Параметры метода
 
 Без параметров.
+
+Метод не использует постраничную навигацию. Поле `total` в ответе содержит количество элементов в массиве `result.icons`.
 
 ## Примеры кода
 
@@ -63,16 +67,9 @@
     }
 
     try {
-      // crm.timeline.icon.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<IconListResult>({
         method: 'crm.timeline.icon.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -101,16 +98,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.timeline.icon.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.timeline.icon.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -180,31 +170,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.timeline.icon.list().as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
-
 
     ```php
     try {
@@ -310,7 +276,7 @@ HTTP-статус: **200**
                 "fileUri": ""
             },
             {
-                "code": "info",
+                "code": "custom-info",
                 "isSystem": false,
                 "fileUri": "/upload/crm/13f/huhnvzds7ckoy6mk5mdze9pb7jqscpxi/e66fm2cbau9f8u32oe9jzx2qflqhj2vv"
             }
@@ -338,36 +304,47 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../../data-types.md) | Корневой элемент ответа.
 
-Поле `result` содержит массив `icons`, каждая запись которого включает ассоциативный массив полей иконки [icon](./crm-timeline-icon-add.md#icon) ||
+Поле `result` содержит [объект со списком иконок](#result) ||
 || **total**
 [`integer`](../../../../data-types.md) | Общее количество найденных записей ||
 || **time**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
+#### Объект result {#result}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **icons**
+[`array`](../../../../data-types.md) | Массив объектов [icon](#icon) ||
+|#
+
+#### Объект icon {#icon}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../../data-types.md) | Код иконки ||
+|| **isSystem**
+[`boolean`](../../../../data-types.md) | Признак системной иконки:
+
+- `true` — системная иконка
+- `false` — пользовательская иконка
+
+||
+|| **fileUri**
+[`string`](../../../../data-types.md) | Путь к файлу пользовательской иконки. Для системной иконки возвращается пустая строка ||
+|#
+
 ## Обработка ошибок
-
-HTTP-статус: **400**
-
-```json
-{
-    "error": "0",
-    "error_description": "Could not find value"
-}
-```
 
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные) ||
-|#
-
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-icon-add.md)
 - [{#T}](./crm-timeline-icon-get.md)
