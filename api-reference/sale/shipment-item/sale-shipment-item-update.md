@@ -13,7 +13,11 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.shipmentitem.update` обновляет элемент коллекции табличной части отгрузки. 
+Метод `sale.shipmentitem.update` изменяет количество товара и внешний идентификатор элемента табличной части отгрузки.
+
+Позицию корзины и отгрузку у элемента изменить нельзя: переданные `basketId` и `orderDeliveryId` метод игнорирует без ошибки. Чтобы перенести товар в другую отгрузку, удалите элемент методом [sale.shipmentitem.delete](./sale-shipment-item-delete.md) и добавьте новый методом [sale.shipmentitem.add](./sale-shipment-item-add.md).
+
+Элементы системной отгрузки изменить нельзя. В отгрузке с `deducted` = `Y` можно изменить только `xmlId`, а в `quantity` нужно передать текущее значение. Правила распределения количества между отгрузками — в [обзоре раздела](./index.md#quantity).
 
 ## Параметры метода
 
@@ -23,12 +27,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_shipment_item.id`](../data-types.md) | Идентификатор элемента табличной части отгрузки ||
+[`sale_order_shipment_item.id`](../data-types.md#sale_order_shipment_item) | Идентификатор элемента табличной части отгрузки.
+
+Можно получить методом [sale.shipmentitem.list](./sale-shipment-item-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для обновления элемента табличной части отгрузки ||
+[`object`](../../data-types.md) | Значения полей для обновления элемента табличной части отгрузки [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -36,11 +42,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **quantity***
-[`double`](../../data-types.md) | Количество товара ||
-|| **xmlId**
-[`string`](../../data-types.md) | Внешний идентификатор.
+[`double`](../../data-types.md) | Количество товара в отгрузке. Должно быть больше `0`.
 
-Можно использовать для синхронизации текущей товарной позиции доставки с аналогичной позицией во внешней системе ||
+Сумма количества по всем отгрузкам заказа не может превышать количество в позиции корзины ||
+|| **xmlId**
+[`string`](../../data-types.md) | Внешний идентификатор. Если поле не передано, прежнее значение сохраняется.
+
+Можно использовать для синхронизации элемента табличной части отгрузки с аналогичной позицией во внешней системе ||
 |#
 
 ## Примеры кода
@@ -51,8 +59,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":7,"fields":{"quantity":5,"xmlId":"myNewXmlId"}}' \
@@ -61,8 +69,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":7,"fields":{"quantity":5,"xmlId":"myNewXmlId"},"auth":"**put_access_token_here**"}' \
@@ -212,8 +220,6 @@
             ->getResult();
     
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -289,8 +295,8 @@
     	DateInsert       string `json:"dateInsert"`
     	ID               b24.ID `json:"id"`
     	OrderDeliveryID  b24.ID `json:"orderDeliveryId"`
-    	Quantity         int    `json:"quantity"`
-    	ReservedQuantity int    `json:"reservedQuantity"`
+    	Quantity         float64 `json:"quantity"`
+    	ReservedQuantity float64 `json:"reservedQuantity"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -334,11 +340,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **shipmentItem**
-[`sale_order_shipment_item`](../data-types.md) | Объект с информацией об обновленном элементе табличной части отгрузки ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **shipmentItem**
+[`sale_order_shipment_item`](../data-types.md#sale_order_shipment_item) | Измененный элемент табличной части отгрузки ||
 |#
 
 ## Обработка ошибок
@@ -347,8 +360,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"Required fields: name"
+    "error":"100",
+    "error_description":"Could not find value for parameter {fields}"
 }
 ```
 
@@ -358,18 +371,44 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `201240400001` | Обновляемый элемент табличной части отгрузки не найден ||
-|| `200040300020` | Недостаточно прав для обновления элемента табличной части отгрузки ||
-|| `100` | Не указан параметр `id` ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля структуры `fields` ||
+|| `201240400001` | `shipment item is not exists`
+
+Обновляемый элемент табличной части отгрузки не найден ||
+|| `200040300020` | `Access Denied`
+
+Недостаточно прав для обновления элемента табличной части отгрузки ||
+|| `100` | `Bitrix\Sale\ShipmentItem constructor must be is public`
+
+Не указан параметр `id` ||
+|| `100` | `Could not find value for parameter {fields}`
+
+Не указан параметр `fields` ||
+|| `0` | `Required fields: quantity`
+
+В `fields` не передано поле `quantity` ||
+|| `150` | `Системная отгрузка недоступна для изменения`
+
+Элемент относится к системной отгрузке, в которой числится нераспределенный товар ||
+|| `SALE_SHIPMENT_ITEM_SHIPMENT_ALREADY_SHIPPED_CANNOT_EDIT` | `Отгрузка уже отправлена. Изменения невозможны.`
+
+Отгрузка уже отгружена (`deducted` = `Y`), а `quantity` отличается от текущего ||
+|| `SALE_SHIPMENT_ITEM_LESS_AVAILABLE_QUANTITY` | `В корзине недостаточное количество свободного товара "<название>" для добавления в отгрузку. Возможно, вы уже добавили часть товара по этому заказу в другие отгрузки`
+
+В корзине недостаточно свободного товара: количество превышает остаток, не распределенный по другим отгрузкам ||
+|| `SALE_SHIPMENT_ITEM_ERR_QUANTITY_EMPTY` | `Количество <название> не может быть меньше или равны 0`
+
+Передано `quantity` = `0` ||
+|| `BARCODE_MORE_ITEM_QUANTITY` | `Штрих-кодов больше чем количества товара`
+
+Передано отрицательное значение `quantity` ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-shipment-item-add.md)
 - [{#T}](./sale-shipment-item-get.md)
 - [{#T}](./sale-shipment-item-list.md)

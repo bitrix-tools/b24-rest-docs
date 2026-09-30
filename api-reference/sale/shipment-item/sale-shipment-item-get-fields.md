@@ -1,4 +1,4 @@
-# Получить поля табличной части отгрузки sale.shipmentitem.getFields
+# Получить поля элемента табличной части отгрузки sale.shipmentitem.getFields
 
 {% note tip "" %}
 
@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: любой пользователь
 
-Метод `sale.shipmentitem.getFields` позволяет получить перечень доступных полей элементов табличной части отгрузки.
+Метод `sale.shipmentitem.getFields` возвращает описание полей элемента табличной части отгрузки: тип поля, обязательность, доступность для записи. По ответу видно, какие поля передавать в [sale.shipmentitem.add](./sale-shipment-item-add.md) и [sale.shipmentitem.update](./sale-shipment-item-update.md): поле с `isReadOnly: true` не записывается, а поле с `isImmutable: true` задается только при добавлении.
 
 ## Параметры метода
 
@@ -27,8 +27,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
@@ -37,8 +37,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
@@ -128,7 +128,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.sale.shipmentitem.getfields().response
+        bitrix_response = client.sale.shipmentitem.get_fields().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -160,11 +160,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Info: ' . print_r($result->data(), true);
-        }
+        echo 'Info: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -293,36 +289,31 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **shipmentItem**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_order_shipment_item`](../data-types.md) , а `value` — объект типа [`rest_field_description`](../data-types.md) ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_order_shipment_item`](../data-types.md#sale_order_shipment_item), а `value` — объект типа [`rest_field_description`](../data-types.md#rest_field_description) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **401**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the access token"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения доступных полей элемента табличной части отгрузки ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
-|#
+Своих ошибок у метода нет. Возможны только общие ошибки REST, например `insufficient_scope`, если у приложения или вебхука нет scope `sale`.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-shipment-item-add.md)
 - [{#T}](./sale-shipment-item-update.md)
 - [{#T}](./sale-shipment-item-get.md)
