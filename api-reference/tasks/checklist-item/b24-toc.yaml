@@ -11,10 +11,10 @@ items:
     href: task-checklist-item-get.md
   - name: Получить список пунктов чек-листа
     href: task-checklist-item-get-list.md
-  - name: Удалить элемент чек-листа
+  - name: Удалить пункт чек-листа
     href: task-checklist-item-delete.md
   - name: Перенести пункт чек-листа
-    href: task-checklist-item-move-after-item.md  
+    href: task-checklist-item-move-after-item.md
   - name: Пометить пункт как выполненный
     href: task-checklist-item-complete.md
   - name: Пометить пункт как невыполненный

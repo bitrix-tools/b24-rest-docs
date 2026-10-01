@@ -11,17 +11,28 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод:
-> - любой пользователь с доступом к редактированию задачи
-> - постановщик, исполнитель и соисполнители задачи
+> Кто может выполнять метод: пользователь с доступом к задаче на чтение, если он:
+> - администратор Битрикс24
+> - постановщик задачи или его руководитель
+> - автор пункта или его руководитель
+> - исполнитель или соисполнитель, если роль разрешает изменять чек-листы
+> - участник группы с правом изменять задачи группы
 
-Метод `task.checklistitem.delete` удаляет пункт чек-листа в задаче.
+Метод `task.checklistitem.delete` удаляет пункт чек-листа вместе со всеми подпунктами.
+
+Если удалить корневой пункт с `PARENT_ID = 0`, удалится весь чек-лист.
 
 Проверить права на удаление пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
 
 ## Параметры метода
 
-{% include [Обязательные параметры](../../../_includes/required.md) %}
+{% note warning "" %}
+
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, метод примет значение `TASKID` за идентификатор пункта и может удалить другой пункт.
+
+{% endnote %}
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -38,7 +49,7 @@
 
 ## Примеры кода
 
-{% include [Обязательные параметры в примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -157,6 +168,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -265,7 +277,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Возвращает `true`, если пункт чек-листа успешно удален ||
+[`boolean`](../../data-types.md) | Возвращает `true`, если пункт чек-листа удален.
+
+Метод вернет `true` и в том случае, если пункта с идентификатором `ITEMID` нет в задаче `TASKID`. Чтобы убедиться, что пункт существовал, получите его методом [task.checklistitem.get](./task-checklist-item-get.md) перед удалением ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -287,8 +301,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::delete(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID` или `ITEMID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::delete() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID` или `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::delete(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::delete(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::delete() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Удаление элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | У пользователя нет прав доступа к задаче или не хватает прав на выполнение действия ||
 |#
 

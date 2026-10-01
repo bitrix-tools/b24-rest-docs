@@ -15,15 +15,15 @@
 
 Метод `task.checklistitem.renew` отмечает выполненный пункт чек-листа как невыполненный.
 
-Система устанавливает в поле `IS_COMPLETE` значение `N` и заполняет поля `TOGGLED_BY` и `TOGGLED_DATE` — кто и когда сменил статус пункта. Эти два поля обновляются, только когда статус пункта меняется. Повторный вызов для уже невыполненного пункта не меняет данные и возвращает `true`.
+Система устанавливает в поле `IS_COMPLETE` значение `N` и заполняет поля `TOGGLED_BY` и `TOGGLED_DATE` — кто и когда сменил статус пункта. Повторный вызов для уже невыполненного пункта данные не меняет.
 
-Отметить пункт как выполненный можно методом [task.checklistitem.complete](./task-checklist-item-complete.md). Проверить права на изменение пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
+Отметить пункт как выполненный можно методом [task.checklistitem.complete](./task-checklist-item-complete.md). Проверить право менять статус пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md) с `ACTIONID = 4`.
 
 ## Параметры метода
 
 {% note warning "" %}
 
-Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет в ответе значение `false`.
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, метод примет значение `TASKID` за идентификатор пункта: вернет `false`, если такого пункта нет, или отметит невыполненным другой пункт.
 
 {% endnote %}
 
@@ -42,7 +42,7 @@
 Идентификатор пункта можно получить при [добавлении нового пункта](./task-checklist-item-add.md) или методом [получения списка пунктов чек-листа](./task-checklist-item-get-list.md) ||
 |#
 
-Значения `TASKID` и `ITEMID` должны быть больше нуля. Метод находит пункт по `ITEMID` и не проверяет, относится ли пункт к задаче `TASKID`.
+Метод находит пункт по `ITEMID` и не проверяет, относится ли пункт к задаче `TASKID`.
 
 ## Примеры кода
 
@@ -168,6 +168,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -278,7 +279,7 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../data-types.md) | Возвращает `true`, если пункт чек-листа отмечен как невыполненный. Повторный вызов для уже невыполненного пункта тоже возвращает `true`.
 
-Возвращает `false`, если пункта с идентификатором `ITEMID` не существует. Тот же результат вернется, если нарушить порядок параметров: метод примет значение `ITEMID` за идентификатор задачи ||
+Возвращает `false`, если пункта с идентификатором `ITEMID` не существует. Тот же ответ придет, если у пункта есть участники `MEMBERS`, а у пользователя нет права изменять задачу: статус пункта при этом уже изменен ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -300,9 +301,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `ITEMID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::renew() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID`. Для `ITEMID` в сообщении указан `Param #1 (itemId)` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::renew(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::renew() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
 || `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
 |#
 
