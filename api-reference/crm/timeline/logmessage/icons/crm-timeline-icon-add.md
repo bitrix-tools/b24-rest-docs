@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: `администратор`
 
-Метод добавляет новую иконку.
+Метод `crm.timeline.icon.add` добавляет новую иконку.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **code***
-[`string`](../../../../data-types.md) | Код иконки (например, `info`) ||
+[`string`](../../../../data-types.md) | Уникальный код иконки (например, `custom-info`). Код не должен совпадать с кодом системной иконки ||
 || **fileContent***
 [`string`](../../../../data-types.md) | Закодированное `base64` содержимое файла иконки.
 
@@ -31,8 +31,6 @@
 
 - Тип — png
 - Размер — 24x24 пикселей
-- Фон — прозрачный
-
 ||
 |#
 
@@ -48,7 +46,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU"}' \
+    -d '{"code":"custom-info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.icon.add
     ```
 
@@ -58,7 +56,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU","auth":"**put_access_token_here**"}' \
+    -d '{"code":"custom-info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.icon.add
     ```
 
@@ -85,7 +83,7 @@
       const response = await $b24.actions.v2.call.make<AddIconResult>({
         method: 'crm.timeline.icon.add',
         params: {
-          code: 'info',
+          code: 'custom-info',
           fileContent: 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU',
         },
         requestId: Text.getUuidRfc4122()
@@ -118,7 +116,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.timeline.icon.add',
             params: {
-              code: 'info',
+              code: 'custom-info',
               fileContent: 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU',
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -149,7 +147,7 @@
 
     try:
         bitrix_response = client.crm.timeline.icon.add(
-            code="info",
+            code="custom-info",
             file_content="iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
         ).response
         result = bitrix_response.result
@@ -177,7 +175,7 @@
             ->call(
                 'crm.timeline.icon.add',
                 [
-                    'code'        => 'info',
+                    'code'        => 'custom-info',
                     'fileContent' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU',
                 ]
             );
@@ -204,7 +202,7 @@
     BX24.callMethod(
         "crm.timeline.icon.add",
         {
-            code: "info",
+            code: "custom-info",
             fileContent: "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
         },
         result => {
@@ -224,7 +222,7 @@
     $result = CRest::call(
         'crm.timeline.icon.add',
         [
-            'code' => 'info',
+            'code' => 'custom-info',
             'fileContent' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU'
         ]
     );
@@ -239,7 +237,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.timeline.icon.add", b24.Params{
-    	"code":        "info",
+        "code":        "custom-info",
     	"fileContent": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
     })
     if err != nil {
@@ -273,7 +271,7 @@ HTTP-статус: **200**
 {
     "result": {
         "icon": {
-            "code": "info",
+            "code": "custom-info",
             "isSystem": false,
             "fileUri": "/upload/crm/13f/huhnvzds7ckoy6mk5mdze9pb7jqscpxi/e66fm2cbau9f8u32oe9jzx2qflqhj2vv"
         }
@@ -299,9 +297,18 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../../data-types.md) | Корневой элемент ответа.
 
-Поле `result` содержит объект [icon](#icon) ||
+Поле `result` содержит [объект с добавленной иконкой](#result) ||
 || **time**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **icon**
+[`object`](../../../../data-types.md) | Данные добавленной [иконки](#icon) ||
 |#
 
 #### Объект icon {#icon}
@@ -309,17 +316,20 @@ HTTP-статус: **200**
 #|
 || **Поле**
 `тип`  | **Описание** ||
-||**code** | Код иконки ||
-||**isSystem** | Поле флага.
+|| **code**
+[`string`](../../../../data-types.md) | Код иконки ||
+|| **isSystem**
+[`boolean`](../../../../data-types.md) | Признак системной иконки.
 
 Может иметь значение:
 - `true` — если иконка является стандартной (поставляется в продукте)
-- `false` — если иконка добавлена пользователем 
+- `false` — если иконка добавлена пользователем
 
 ||
-||**fileUri** | Путь к файлу.
+|| **fileUri**
+[`string`](../../../../data-types.md) | Путь к файлу.
 
-Если иконка была добавлена пользователем, поле содержит путь к файлу картинки иконки ||
+Для пользовательской иконки поле содержит путь к файлу изображения. Для системной иконки возвращается пустая строка ||
 |#
 
 ## Обработка ошибок
@@ -338,17 +348,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
-|| `INVALID_ARG_VALUE` | Неверно указан параметр `fileContent` ||
-|| `FILE_SAVE_ERROR` | Не возможно сохранить переданный файл иконки ||
-|| `100` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | Метод вызывает пользователь без прав администратора ||
+|| `400` | `INVALID_ARG_VALUE` | Invalid image | В `fileContent` передано содержимое, которое не удалось распознать как изображение ||
+|| `400` | `INVALID_ARG_VALUE` | Only png 24px on 24px is supported | Передан файл не в формате PNG или размер изображения отличается от 24x24 пикселей ||
+|| `400` | `FILE_SAVE_ERROR` | File not saved | Не удалось сохранить файл иконки ||
+|| `400` | `100` | Could not find value for parameter {code} | Не передан обязательный параметр `code` ||
+|| `400` | `100` | Could not find value for parameter {fileContent} | Не передан обязательный параметр `fileContent` ||
+|| `400` | `0` | Code must be unique | Иконка с указанным `code` уже существует ||
+|| `400` | `0` | {code} is reserved word and cannot be used | Указанный `code` совпадает с кодом системной иконки ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-icon-get.md)
 - [{#T}](./crm-timeline-icon-list.md)

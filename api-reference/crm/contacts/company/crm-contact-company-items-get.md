@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «чтения» контактов
+> Кто может выполнять метод: пользователь с правом «Чтение» контакта
 
 Метод `crm.contact.company.items.get` возвращает набор компаний, связанных с указанным контактом.
+
+Он отдает все привязки контакта целиком: параметров фильтрации, выборки полей и постраничной навигации у него нет. Чтобы изменить набор, используйте [crm.contact.company.items.set](./crm-contact-company-items-set.md), а чтобы добавить или убрать одну компанию — [crm.contact.company.add](./crm-contact-company-add.md) и [crm.contact.company.delete](./crm-contact-company-delete.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -23,9 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор контакта.
+[`integer`](../../../data-types.md) | Идентификатор контакта. Должен быть больше `0`.
 
-Идентификатор можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md) ||
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 3` ||
 |#
 
 ## Примеры кода
@@ -174,13 +176,9 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Data: ' . print_r($result, true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting contact company items: ' . $e->getMessage();
@@ -256,24 +254,40 @@ HTTP-статус: **200**
 {
     "result": [
         {
-        "COMPANY_ID": 7,
-        "SORT": 100,
-        "ROLE_ID": 0,
-        "IS_PRIMARY": "Y"
+            "COMPANY_ID": 7,
+            "SORT": 100,
+            "ROLE_ID": 0,
+            "IS_PRIMARY": "Y"
         },
         {
-        "COMPANY_ID": 8,
-        "SORT": 110,
-        "ROLE_ID": 0,
-        "IS_PRIMARY": "N"
+            "COMPANY_ID": 8,
+            "SORT": 110,
+            "ROLE_ID": 0,
+            "IS_PRIMARY": "N"
         },
         {
-        "COMPANY_ID": 9,
-        "SORT": 120,
-        "ROLE_ID": 0,
-        "IS_PRIMARY": "N"
+            "COMPANY_ID": 9,
+            "SORT": 120,
+            "ROLE_ID": 0,
+            "IS_PRIMARY": "N"
         }
     ],
+    "time": {
+        "start": 1724078791.470108,
+        "finish": 1724078791.969407,
+        "duration": 0.4992990493774414,
+        "processing": 0.19150400161743164,
+        "date_start": "2024-08-19T16:46:31+02:00",
+        "date_finish": "2024-08-19T16:46:31+02:00"
+    }
+}
+```
+
+Ответ, когда у контакта нет привязанных компаний:
+
+```json
+{
+    "result": [],
     "time": {
         "start": 1724078791.470108,
         "finish": 1724078791.969407,
@@ -291,31 +305,35 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`contact_company_binding[]`](#contact_company_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к контакту компаниях ||
+[`contact_company_binding[]`](#contact_company_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к контакту компаниях, отсортированный по возрастанию `SORT`.
+
+Метод отдельно не проверяет, существует ли контакт: если проверка прав пройдена, для несуществующего `id` он вернет пустой массив, а не ошибку ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Параметр contact_company_binding {#contact_company_binding}
+#### Объект contact_company_binding {#contact_company_binding}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **COMPANY_ID**
-[`integer`](../../../data-types.md) | Идентификатор компании ||
+[`integer`](../../../data-types.md) | Идентификатор связанной компании.
+
+Получить данные компании можно методом [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 4` ||
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
 || **ROLE_ID**
-[`integer`](../../../data-types.md) | Идентификатор роли (зарезервировано) ||
+[`integer`](../../../data-types.md) | Идентификатор роли. Поле зарезервировано: методы связи не принимают его при записи, новые привязки получают `0` ||
 || **IS_PRIMARY**
-[`boolean`](../../../data-types.md) | Является ли привязка первичной. Возможные значения:
+[`char`](../../../data-types.md#standart-types) | Основная ли это компания контакта. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
@@ -329,15 +347,17 @@ HTTP-статус: **200**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
-|| `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на чтение контактов ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | The parameter ownerEntityID is invalid or not defined. | Параметр `id` не передан или меньше либо равен `0` ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет права на чтение контакта ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-contact-company-add.md)
 - [{#T}](./crm-contact-company-delete.md)
 - [{#T}](./crm-contact-company-fields.md)

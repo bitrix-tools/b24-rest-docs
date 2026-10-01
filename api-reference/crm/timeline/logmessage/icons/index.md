@@ -19,17 +19,19 @@
 
 ## Что учитывать перед вызовом методов
 
-- Методами [crm.timeline.icon.add](./crm-timeline-icon-add.md) и [crm.timeline.icon.delete](./crm-timeline-icon-delete.md) управляет только администратор.
-- Методы [crm.timeline.icon.get](./crm-timeline-icon-get.md) и [crm.timeline.icon.list](./crm-timeline-icon-list.md) доступны любому пользователю.
-- Для создания иконки передавайте `fileContent` в `base64`. Используйте файл в формате `PNG` размером `24x24` пикселя с прозрачным фоном.
-- В ответах методов [crm.timeline.icon.get](./crm-timeline-icon-get.md) и [crm.timeline.icon.list](./crm-timeline-icon-list.md) поле `isSystem` показывает тип иконки: `true` — системная, `false` — пользовательская.
+- Методами [crm.timeline.icon.add](./crm-timeline-icon-add.md) и [crm.timeline.icon.delete](./crm-timeline-icon-delete.md) управляет только администратор
+- Методы [crm.timeline.icon.get](./crm-timeline-icon-get.md) и [crm.timeline.icon.list](./crm-timeline-icon-list.md) доступны любому пользователю
+- Для создания иконки передавайте `fileContent` в `base64`. Поддерживаются файлы в формате `PNG` размером `24x24` пикселя
+- В ответах методов [crm.timeline.icon.get](./crm-timeline-icon-get.md) и [crm.timeline.icon.list](./crm-timeline-icon-list.md) поле `isSystem` показывает тип иконки: `true` — системная, `false` — пользовательская
+- Удалить можно только пользовательскую иконку с `isSystem = false`. При попытке удалить системную иконку метод вернет ошибку `NOT_FOUND`
+- После удаления пользовательской иконки связанные лог-записи остаются в таймлайне, но отображаются без этой иконки
 
 ## Как работать с иконками
 
-1. Получите список доступных кодов через [crm.timeline.icon.list](./crm-timeline-icon-list.md).
-2. Добавьте новую иконку методом [crm.timeline.icon.add](./crm-timeline-icon-add.md).
-3. Проверьте иконку по коду методом [crm.timeline.icon.get](./crm-timeline-icon-get.md).
-4. Удалите пользовательскую иконку методом [crm.timeline.icon.delete](./crm-timeline-icon-delete.md), если она больше не используется.
+1. Получите список доступных кодов через [crm.timeline.icon.list](./crm-timeline-icon-list.md)
+2. Добавьте новую иконку методом [crm.timeline.icon.add](./crm-timeline-icon-add.md)
+3. Проверьте иконку по коду методом [crm.timeline.icon.get](./crm-timeline-icon-get.md)
+4. Удалите пользовательскую иконку методом [crm.timeline.icon.delete](./crm-timeline-icon-delete.md), если она больше не используется
 
 ## Связь с другими объектами
 
