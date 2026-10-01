@@ -109,7 +109,7 @@
 
 Так же устроена загрузка записи разговора: [telephony.externalCall.attachRecord](../telephony/telephony-external-call-attach-record.md) с параметром `FILENAME` без `FILE_CONTENT` возвращает `uploadUrl` и `fieldName`. У остальных методов такого обхода нет — файл придется уместить в лимит запроса.
 
-У отдельных методов лимит строже: [im.v2.File.upload](../chat-bots/chat-bots-v2/im.v2/files/file-upload.md) принимает файл до 100 МБ и возвращает ошибку `FILE_TOO_LARGE`, [note.file.add](../note/file/note-file-add.md) ограничен настройкой `main.max_file_size`, а если она не задана — 25 МиБ. Полный список ограничений с цифрами — в разделе [Ограничения при работе с файлами](./how-to-upload-files.md#ogranicheniya-pri-rabote-s-fajlami).
+У отдельных методов лимит строже: [im.v2.File.upload](../chat-bots/chat-bots-v2/im.v2/files/file-upload.md) принимает файл до 100 МБ и возвращает ошибку `FILE_TOO_LARGE`, [note.file.add](../note/file/note-file-add.md) ограничен настройкой `main.max_file_size`, а если она не задана — 25 МиБ. Полный список ограничений с цифрами — в разделе [Ограничения при работе с файлами](./how-to-upload-files.md#limits).
 
 ## Как начать работу
 
