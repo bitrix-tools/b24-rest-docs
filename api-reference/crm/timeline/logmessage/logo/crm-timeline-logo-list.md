@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает список доступных логотипов лог-записей таймлайна.
+Метод `crm.timeline.logo.list` получает полный список доступных логотипов таймлайна: системных и пользовательских. Выбранный код можно передать в поле [`layout.body.logo.code`](../../activities/configurable/structure/body.md#logo-dto) конфигурируемого дела.
+
+## Параметры метода
 
 Без параметров.
 
@@ -63,16 +65,9 @@
     }
 
     try {
-      // crm.timeline.logo.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<LogoListResult>({
         method: 'crm.timeline.logo.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -100,16 +95,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.timeline.logo.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.timeline.logo.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -157,34 +145,13 @@
 
     Пример `as_list`
 
+    Метод возвращает полный список и при обычном вызове. Режим `as_list` можно использовать для единообразной обработки списочных методов в SDK.
+
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
         bitrix_response = client.crm.timeline.logo.list().as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.timeline.logo.list().as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:
             print(item)
@@ -335,38 +302,42 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа.
-
-Поле `result` содержит массив `logos`, каждая запись которого включает ассоциативный массив полей логотипа [logo](./crm-timeline-logo-add.md#logo) ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **total**
-[`integer`](../../../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../../../data-types.md) | Количество логотипов в массиве `result.logos` ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **logos**
+[`array`](../../../../data-types.md) | Массив объектов [logo](#logo) ||
+|#
+
+##### Объект logo {#logo}
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../../data-types.md) | Код логотипа ||
+|| **isSystem**
+[`boolean`](../../../../data-types.md) | Признак системного логотипа. Возвращает `true` для системного логотипа и `false` для пользовательского ||
+|| **fileUri**
+[`string`](../../../../data-types.md) | Путь к файлу пользовательского логотипа. Для системного логотипа возвращается пустая строка ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
-
-```json
-{
-    "error": "0",
-    "error_description": "Could not find value"
-}
-```
-
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные) ||
-|#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-logo-add.md)
 - [{#T}](./crm-timeline-logo-get.md)

@@ -11,17 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «импорта» элемента объекта CRM
+> Кто может выполнять метод: пользователь с правом на импорт элементов CRM
 
-Универсальный метод для импорта объектов в CRM. Отличия от добавления объекта описаны подробнее [`тут`](./index.md).
+Метод `crm.item.batchImport` импортирует до 20 элементов одного типа CRM.
 
-Логика добавления элементов работает по аналогии с методом [crm.item.import](crm-item-import.md).
-
-{% note warning "Внимание!" %}
-
-В одном запросе допустимо импортировать максимум — 20 элементов
-
-{% endnote %}
+Поля каждого элемента передавайте по тем же правилам, что и в методе [crm.item.import](crm-item-import.md). Особенности импорта описаны в [обзоре методов](./index.md).
 
 ## Параметры метода
 
@@ -31,13 +25,13 @@
 || **Название**
 `тип`          | **Описание** ||
 || **entityTypeId***
-[`integer`](../../../data-types.md) | Идентификатор [системного](../../data-types.md#object_type) или [пользовательского типа](../user-defined-object-types/index.md), для которого нужно создать элемент.
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../data-types.md#object_type) или [пользовательского типа CRM](../user-defined-object-types/index.md), в который нужно импортировать элементы.
 
-Числовые значения для системных типов (Лид — 1, Сделка — 2, Контакт — 3, Компания — 4, Счёт — 31 и др.) приведены в [справочнике типов объектов CRM](../../data-types.md#object_type). Идентификатор смарт-процесса можно узнать методом [crm.type.list](../user-defined-object-types/crm-type-list.md) ||
+Числовые значения системных типов, например лид — `1`, сделка — `2`, контакт — `3`, компания — `4`, счет — `31`, приведены в [справочнике типов объектов CRM](../../data-types.md#object_type). Идентификатор смарт-процесса можно получить методом [crm.type.list](../user-defined-object-types/crm-type-list.md) ||
 || **data***
-[`array`](../../../data-types.md) | Массив значений полей элементов. Можно рассматривать его как массив, каждый элемент которого содержит набор полей `fields`, описанный в методе [crm.item.import](crm-item-import.md) ||
+[`array`](../../../data-types.md) | Массив объектов с полями импортируемых элементов [(подробное описание)](#data) ||
 || **useOriginalUfNames**
-[`boolean`](../../../data-types.md) | Параметр для управления форматом имен пользовательских полей в запросе и ответе.   
+[`boolean`](../../../data-types.md) | Параметр для управления форматом имен пользовательских полей в запросе.
 Возможные значения:
 
 - `Y` — оригинальные имена пользовательских полей, например `UF_CRM_2_1639669411830`
@@ -45,6 +39,25 @@
 
 По умолчанию — `N` ||
 |#
+
+### Параметр data {#data}
+
+Каждый элемент массива `data` — объект с полями одного элемента CRM:
+
+```js
+[
+    {
+        field_1: value_1,
+        field_2: value_2
+    },
+    {
+        field_1: value_1,
+        field_2: value_2
+    }
+]
+```
+
+Названия, типы и форматы полей описаны в параметре [`fields`](crm-item-import.md#fields) метода `crm.item.import`.
 
 ## Примеры кода
 
@@ -60,7 +73,7 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"entityTypeId":2,"data":[{"title":"Новая сделка (специально для примера REST методов)","typeId":"SERVICE","categoryId":9,"stageId":"C9:UC_KN8KFI","isReccurring":"Y","probability":50,"currencyId":"RUB","isManualOpportunity":"Y","opportunity":999.99,"taxValue":99.9,"companyId":5,"contactId":4,"contactIds":[4,5],"quoteId":7,"begindate":"formatDate(monthAgo)","closedate":"formatDate(twelveDaysInAdvance)","opened":"N","comments":"commentsExample","assignedById":6,"sourceId":"WEB","sourceDescription":"Тут должно быть дополнительное описание об источнике","leadId":102,"additionalInfo":"Тут должна быть дополнительная информация","observers":[2,3],"utmSource":"google","utmMedium":"CPC","ufCrm_1721244707107":1111.1,"parentId1220":2},{"title":"Новая сделка (специально для примера REST методов)","typeId":"SERVICE","categoryId":4,"stageId":"C9:UC_KN8KFI","isReccurring":"Y","probability":50,"currencyId":"RUB","isManualOpportunity":"Y","opportunity":999.99,"taxValue":99.9,"companyId":5,"contactId":4,"contactIds":[4,5],"quoteId":7,"begindate":"formatDate(monthAgo)","closedate":"formatDate(twelveDaysInAdvance)","opened":"N","comments":"commentsExample","assignedById":6,"sourceId":"WEB","sourceDescription":"Тут должно быть дополнительное описание об источнике","leadId":102,"additionalInfo":"Тут должна быть дополнительная информация","observers":[2,3],"utmSource":"google","utmMedium":"CPC","ufCrm_1721244707107":1111.1,"parentId1220":2}]}' \
+        -d '{"entityTypeId":2,"data":[{"title":"Первая импортируемая сделка","isRecurring":"N","opportunity":999.99,"currencyId":"RUB"},{"title":"Вторая импортируемая сделка","isRecurring":"N","opportunity":1499.99,"currencyId":"RUB"}]}' \
         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.item.batchImport
         ```
 
@@ -70,8 +83,53 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"entityTypeId":2,"data":[{"title":"Новая сделка (специально для примера REST методов)","typeId":"SERVICE","categoryId":9,"stageId":"C9:UC_KN8KFI","isReccurring":"Y","probability":50,"currencyId":"RUB","isManualOpportunity":"Y","opportunity":999.99,"taxValue":99.9,"companyId":5,"contactId":4,"contactIds":[4,5],"quoteId":7,"begindate":"formatDate(monthAgo)","closedate":"formatDate(twelveDaysInAdvance)","opened":"N","comments":"commentsExample","assignedById":6,"sourceId":"WEB","sourceDescription":"Тут должно быть дополнительное описание об источнике","leadId":102,"additionalInfo":"Тут должна быть дополнительная информация","observers":[2,3],"utmSource":"google","utmMedium":"CPC","ufCrm_1721244707107":1111.1,"parentId1220":2},{"title":"Новая сделка (специально для примера REST методов)","typeId":"SERVICE","categoryId":4,"stageId":"C9:UC_KN8KFI","isReccurring":"Y","probability":50,"currencyId":"RUB","isManualOpportunity":"Y","opportunity":999.99,"taxValue":99.9,"companyId":5,"contactId":4,"contactIds":[4,5],"quoteId":7,"begindate":"formatDate(monthAgo)","closedate":"formatDate(twelveDaysInAdvance)","opened":"N","comments":"commentsExample","assignedById":6,"sourceId":"WEB","sourceDescription":"Тут должно быть дополнительное описание об источнике","leadId":102,"additionalInfo":"Тут должна быть дополнительная информация","observers":[2,3],"utmSource":"google","utmMedium":"CPC","ufCrm_1721244707107":1111.1,"parentId1220":2}],"auth":"**put_access_token_here**"}' \
+        -d '{"entityTypeId":2,"data":[{"title":"Первая импортируемая сделка","isRecurring":"N","opportunity":999.99,"currencyId":"RUB"},{"title":"Вторая импортируемая сделка","isRecurring":"N","opportunity":1499.99,"currencyId":"RUB"}],"auth":"**put_access_token_here**"}' \
         https://**put_your_bitrix24_address**/rest/crm.item.batchImport
+        ```
+
+    - JS (TS)
+
+        ```ts
+        import { Text } from '@bitrix24/b24jssdk'
+        import type { B24Frame } from '@bitrix24/b24jssdk'
+        declare const $b24: B24Frame
+
+        const response = await $b24.actions.v2.call.make({
+          method: 'crm.item.batchImport',
+          params: {
+            entityTypeId: 2,
+            data: [
+              { title: 'Первая импортируемая сделка', isRecurring: 'N', opportunity: 999.99, currencyId: 'RUB' },
+              { title: 'Вторая импортируемая сделка', isRecurring: 'N', opportunity: 1499.99, currencyId: 'RUB' },
+            ],
+          },
+          requestId: Text.getUuidRfc4122()
+        })
+        console.info(response.getData()?.result)
+        ```
+
+    - JS (UMD)
+
+        ```html
+        <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+        <script>
+          async function batchImportDeals() {
+            const $b24 = await B24Js.initializeB24Frame()
+            const response = await $b24.actions.v2.call.make({
+              method: 'crm.item.batchImport',
+              params: {
+                entityTypeId: 2,
+                data: [
+                  { title: 'Первая импортируемая сделка', isRecurring: 'N', opportunity: 999.99, currencyId: 'RUB' },
+                  { title: 'Вторая импортируемая сделка', isRecurring: 'N', opportunity: 1499.99, currencyId: 'RUB' },
+                ],
+              },
+              requestId: B24Js.Text.getUuidRfc4122()
+            })
+            console.info(response.getData()?.result)
+          }
+          document.addEventListener('DOMContentLoaded', batchImportDeals)
+        </script>
         ```
 
     - Python
@@ -81,41 +139,20 @@
 
         try:
             bitrix_response = client.crm.item.batch_import(
-                entity_type_id=1302,
+                entity_type_id=2,
                 data=[
                     {
-                        "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
-                        "ufCrm44_1721812814433": 81,
-                        "ufCrm44_1721812853419": "2024-08-21",
-                        "ufCrm44_1721812885588": [
-                            "example.com",
-                            "second-example.com",
-                        ],
-                        "ufCrm44_1721812898903": [
-                            "green_pixel.png",
-                            "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg==",
-                        ],
-                        "ufCrm44_1721812915476": "300|RUB",
-                        "ufCrm44_1721812935209": "Y",
-                        "ufCrm44_1721812948498": 9999.9,
-                    }
-                    ,
+                        "title": "Первая импортируемая сделка",
+                        "isRecurring": "N",
+                        "opportunity": 999.99,
+                        "currencyId": "RUB",
+                    },
                     {
-                        "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
-                        "ufCrm44_1721812814433": 45,
-                        "ufCrm44_1721812853419": "2024-08-21",
-                        "ufCrm44_1721812885588": [
-                            "example.com",
-                            "second-example.com",
-                        ],
-                        "ufCrm44_1721812898903": [
-                            "green_pixel2.png",
-                            "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg==",
-                        ],
-                        "ufCrm44_1721812915476": "300|RUB",
-                        "ufCrm44_1721812935209": "Y",
-                        "ufCrm44_1721812948498": 9999.9,
-                    }
+                        "title": "Вторая импортируемая сделка",
+                        "isRecurring": "N",
+                        "opportunity": 1499.99,
+                        "currencyId": "RUB",
+                    },
                 ],
             ).response
             result = bitrix_response.result
@@ -134,284 +171,104 @@
         ```
 
 
+    - PHP
+
+        ```php
+        try {
+            $response = $b24Service->core->call(
+                'crm.item.batchImport',
+                [
+                    'entityTypeId' => 2,
+                    'data' => [
+                        ['title' => 'Первая импортируемая сделка', 'isRecurring' => 'N', 'opportunity' => 999.99, 'currencyId' => 'RUB'],
+                        ['title' => 'Вторая импортируемая сделка', 'isRecurring' => 'N', 'opportunity' => 1499.99, 'currencyId' => 'RUB'],
+                    ],
+                ]
+            );
+            echo 'Success: ' . print_r($response->getResponseData()->getResult()->data(), true);
+        } catch (Throwable $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+        ```
+
     - BX24.js
 
         ```js
-        const formatDate = (date) => {
-            return date.toISOString().slice(0, 10);
-        };
-
-        const day = 60 * 60 * 24 * 1000;
-
-        const now = new Date();
-        const twelveDaysInAdvance = new Date(now.getTime() + 12 * day);
-        const monthAgo = new Date(now.getTime() - 30 * day);
-
-        const commentsExample = `
-        Пример комментария внутри сделки
-
-        [B]Жирный текст[/B]
-        [I]Курсив[/I]
-        [U]Подчеркнутый[/U]
-        [S]Зачеркнутый[/S]
-        [B][I][U][S]Микс[/S][/U][/I][/B]
-
-        [LIST]
-        [*]Элемент списка #1
-        [*]Элемент списка #2
-        [*]Элемент списка #3
-        [/LIST]
-
-        [LIST=1]
-        [*]Нумерованный элемент списка #1
-        [*]Нумерованный элемент списка #2
-        [*]Нумерованный элемент списка #3
-        [/LIST]
-        `;
-      
-        const deal = {
-            title: "Новая сделка (специально для примера REST методов)",
-            typeId: "SERVICE",
-            categoryId: 9,
-            stageId: "C9:UC_KN8KFI",
-            isReccurring: "Y",
-            probability: 50,
-            currencyId: "RUB",
-            isManualOpportunity: "Y",
-            opportunity: 999.99,
-            taxValue: 99.9,
-            companyId: 5,
-            contactId: 4,
-            contactIds: [4, 5],
-            quoteId: 7,
-            begindate: formatDate(monthAgo),
-            closedate: formatDate(twelveDaysInAdvance),
-            opened: "N",
-            comments: commentsExample,
-            assignedById: 6,
-            sourceId: "WEB",
-            sourceDescription: "Тут должно быть дополнительное описание об источнике",
-            leadId: 102,
-            additionalInfo: "Тут должна быть дополнительная информация",
-            observers: [2, 3],
-            utmSource: "google",
-            utmMedium: "CPC",
-            ufCrm_1721244707107: 1111.1,
-            parentId1220: 2,
-        };
-
-        const secondDeal = {
-            title: "Новая сделка (специально для примера REST методов)",
-            typeId: "SERVICE",
-            categoryId: 4,
-            stageId: "C9:UC_KN8KFI",
-            isReccurring: "Y",
-            probability: 50,
-            currencyId: "RUB",
-            isManualOpportunity: "Y",
-            opportunity: 999.99,
-            taxValue: 99.9,
-            companyId: 5,
-            contactId: 4,
-            contactIds: [4, 5],
-            quoteId: 7,
-            begindate: formatDate(monthAgo),
-            closedate: formatDate(twelveDaysInAdvance),
-            opened: "N",
-            comments: commentsExample,
-            assignedById: 6,
-            sourceId: "WEB",
-            sourceDescription: "Тут должно быть дополнительное описание об источнике",
-            leadId: 102,
-            additionalInfo: "Тут должна быть дополнительная информация",
-            observers: [2, 3],
-            utmSource: "google",
-            utmMedium: "CPC",
-            ufCrm_1721244707107: 1111.1,
-            parentId1220: 2,
-        };
-
         BX24.callMethod(
-            'crm.item.batchImport', 
+            'crm.item.batchImport',
             {
                 entityTypeId: 2,
                 data: [
-                    deal,
-                    secondDeal
-                ]
+                    {
+                        title: 'Первая импортируемая сделка',
+                        isRecurring: 'N',
+                        opportunity: 999.99,
+                        currencyId: 'RUB',
+                    },
+                    {
+                        title: 'Вторая импортируемая сделка',
+                        isRecurring: 'N',
+                        opportunity: 1499.99,
+                        currencyId: 'RUB',
+                    },
+                ],
             },
-            (result) => 
-            {
-                result.error() 
-                    ? console.error(result.error()) 
-                    : console.info(result.data())
-                ;
-            }
+            result => result.error() ? console.error(result.error()) : console.info(result.data())
         );
         ```
-
     - PHP CRest
 
         ```php
         require_once('crest.php');
-        
-        $deal = [
-            'title' => "Новая сделка (специально для примера REST методов)",
-            'typeId' => "SERVICE",
-            'categoryId' => 9,
-            'stageId' => "C9:UC_KN8KFI",
-            'isReccurring' => "Y",
-            'probability' => 50,
-            'currencyId' => "RUB",
-            'isManualOpportunity' => "Y",
-            'opportunity' => 999.99,
-            'taxValue' => 99.9,
-            'companyId' => 5,
-            'contactId' => 4,
-            'contactIds' => [4, 5],
-            'quoteId' => 7,
-            'begindate' => formatDate(monthAgo),
-            'closedate' => formatDate(twelveDaysInAdvance),
-            'opened' => "N",
-            'comments' => $commentsExample,
-            'assignedById' => 6,
-            'sourceId' => "WEB",
-            'sourceDescription' => "Тут должно быть дополнительное описание об источнике",
-            'leadId' => 102,
-            'additionalInfo' => "Тут должна быть дополнительная информация",
-            'observers' => [2, 3],
-            'utmSource' => "google",
-            'utmMedium' => "CPC",
-            'ufCrm_1721244707107' => 1111.1,
-            'parentId1220' => 2
-        ]
-        
-        $secondDeal = [
-            'title' => "Новая сделка (специально для примера REST методов)",
-            'typeId' => "SERVICE",
-            'categoryId' => 4,
-            'stageId' => "C9:UC_KN8KFI",
-            'isReccurring' => "Y",
-            'probability' => 50,
-            'currencyId' => "RUB",
-            'isManualOpportunity' => "Y",
-            'opportunity' => 999.99,
-            'taxValue' => 99.9,
-            'companyId' => 5,
-            'contactId' => 4,
-            'contactIds' => [4, 5],
-            'quoteId' => 7,
-            'begindate' => formatDate(monthAgo),
-            'closedate' => formatDate(twelveDaysInAdvance),
-            'opened' => "N",
-            'comments' => $commentsExample,
-            'assignedById' => 6,
-            'sourceId' => "WEB",
-            'sourceDescription' => "Тут должно быть дополнительное описание об источнике",
-            'leadId' => 102,
-            'additionalInfo' => "Тут должна быть дополнительная информация",
-            'observers' => [2, 3],
-            'utmSource' => "google",
-            'utmMedium' => "CPC",
-            'ufCrm_1721244707107' => 1111.1,
-            'parentId1220' => 2
-        ]
+
         $result = CRest::call(
             'crm.item.batchImport',
             [
                 'entityTypeId' => 2,
                 'data' => [
-                        $deal,
-                        $secondDeal,
+                    [
+                        'title' => 'Первая импортируемая сделка',
+                        'isRecurring' => 'N',
+                        'opportunity' => 999.99,
+                        'currencyId' => 'RUB',
                     ],
-            ],
+                    [
+                        'title' => 'Вторая импортируемая сделка',
+                        'isRecurring' => 'N',
+                        'opportunity' => 1499.99,
+                        'currencyId' => 'RUB',
+                    ],
+                ],
+            ]
         );
 
-        echo '<PRE>';
         print_r($result);
-        echo '</PRE>';
         ```
-
     - Go
 
         ```go
-        // client и ctx уже созданы — см. раздел «SDK для Go»
         res, err := client.Core().Call(ctx, "crm.item.batchImport", b24.Params{
-        	"entityTypeId": 2,
-        	"data": []b24.Params{
-        		{
-        			"title":               "Новая сделка (специально для примера REST методов)",
-        			"typeId":              "SERVICE",
-        			"categoryId":          9,
-        			"stageId":             "C9:UC_KN8KFI",
-        			"isReccurring":        "Y",
-        			"probability":         50,
-        			"currencyId":          "RUB",
-        			"isManualOpportunity": "Y",
-        			"opportunity":         999.99,
-        			"taxValue":            99.9,
-        			"companyId":           5,
-        			"contactId":           4,
-        			"contactIds":          []int{4, 5},
-        			"quoteId":             7,
-        			"begindate":           "formatDate(monthAgo)",
-        			"closedate":           "formatDate(twelveDaysInAdvance)",
-        			"opened":              "N",
-        			"comments":            "commentsExample",
-        			"assignedById":        6,
-        			"sourceId":            "WEB",
-        			"sourceDescription":   "Тут должно быть дополнительное описание об источнике",
-        			"leadId":              102,
-        			"additionalInfo":      "Тут должна быть дополнительная информация",
-        			"observers":           []int{2, 3},
-        			"utmSource":           "google",
-        			"utmMedium":           "CPC",
-        			"ufCrm_1721244707107": 1111.1,
-        			"parentId1220":        2,
-        		},
-        		{
-        			"title":               "Новая сделка (специально для примера REST методов)",
-        			"typeId":              "SERVICE",
-        			"categoryId":          4,
-        			"stageId":             "C9:UC_KN8KFI",
-        			"isReccurring":        "Y",
-        			"probability":         50,
-        			"currencyId":          "RUB",
-        			"isManualOpportunity": "Y",
-        			"opportunity":         999.99,
-        			"taxValue":            99.9,
-        			"companyId":           5,
-        			"contactId":           4,
-        			"contactIds":          []int{4, 5},
-        			"quoteId":             7,
-        			"begindate":           "formatDate(monthAgo)",
-        			"closedate":           "formatDate(twelveDaysInAdvance)",
-        			"opened":              "N",
-        			"comments":            "commentsExample",
-        			"assignedById":        6,
-        			"sourceId":            "WEB",
-        			"sourceDescription":   "Тут должно быть дополнительное описание об источнике",
-        			"leadId":              102,
-        			"additionalInfo":      "Тут должна быть дополнительная информация",
-        			"observers":           []int{2, 3},
-        			"utmSource":           "google",
-        			"utmMedium":           "CPC",
-        			"ufCrm_1721244707107": 1111.1,
-        			"parentId1220":        2,
-        		},
-        	},
+            "entityTypeId": 2,
+            "data": []b24.Params{
+                {
+                    "title":       "Первая импортируемая сделка",
+                    "isRecurring": "N",
+                    "opportunity": 999.99,
+                    "currencyId":  "RUB",
+                },
+                {
+                    "title":       "Вторая импортируемая сделка",
+                    "isRecurring": "N",
+                    "opportunity": 1499.99,
+                    "currencyId":  "RUB",
+                },
+            },
         })
         if err != nil {
-        	return fmt.Errorf("crm.item.batchImport: %w", err)
+            return fmt.Errorf("crm.item.batchImport: %w", err)
         }
 
-        // Метод заворачивает ответ в объект с ключом "items".
-        raw, ok := b24.Unwrap(res.Result, "items")
-        if !ok {
-        	return fmt.Errorf("в ответе нет ключа items")
-        }
-
-        fmt.Printf("%s\n", raw)
+        fmt.Printf("%v\n", res.Result)
         ```
 
     {% endlist %}
@@ -438,7 +295,7 @@
             "data": [{
                 "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
                 "ufCrm44_1721812814433": 81,
-                "ufCrm44_1721812853419": "'"$(date '+%Y-%m-%d')"'",
+                "ufCrm44_1721812853419": "2024-08-21",
                 "ufCrm44_1721812885588": [
                     "example.com",
                     "second-example.com"
@@ -453,7 +310,7 @@
             },{
                 "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
                 "ufCrm44_1721812814433": 45,
-                "ufCrm44_1721812853419": "'"$(date '+%Y-%m-%d')"'",
+                "ufCrm44_1721812853419": "2024-08-21",
                 "ufCrm44_1721812885588": [
                     "example.com",
                     "second-example.com"
@@ -481,7 +338,7 @@
             "data": [{
                 "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
                 "ufCrm44_1721812814433": 81,
-                "ufCrm44_1721812853419": "'"$(date '+%Y-%m-%d')"'",
+                "ufCrm44_1721812853419": "2024-08-21",
                 "ufCrm44_1721812885588": [
                     "example.com",
                     "second-example.com"
@@ -496,7 +353,7 @@
             },{
                 "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
                 "ufCrm44_1721812814433": 45,
-                "ufCrm44_1721812853419": "'"$(date '+%Y-%m-%d')"'",
+                "ufCrm44_1721812853419": "2024-08-21",
                 "ufCrm44_1721812885588": [
                     "example.com",
                     "second-example.com"
@@ -541,9 +398,9 @@
               entityTypeId: 1302,
               data: [
                 {
-                  ufCrm44_1721812760630: "String for custom field of type String",
+                  ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
                   ufCrm44_1721812814433: 81,
-                  ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                  ufCrm44_1721812853419: "2024-08-21",
                   ufCrm44_1721812885588: [
                     "example.com",
                     "second-example.com",
@@ -557,9 +414,9 @@
                   ufCrm44_1721812948498: 9999.9,
                 },
                 {
-                  ufCrm44_1721812760630: "String for custom field of type String",
+                  ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
                   ufCrm44_1721812814433: 45,
-                  ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                  ufCrm44_1721812853419: "2024-08-21",
                   ufCrm44_1721812885588: [
                     "example.com",
                     "second-example.com",
@@ -609,9 +466,9 @@
                   entityTypeId: 1302,
                   data: [
                     {
-                      ufCrm44_1721812760630: "String for custom field of type String",
+                      ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
                       ufCrm44_1721812814433: 81,
-                      ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                      ufCrm44_1721812853419: "2024-08-21",
                       ufCrm44_1721812885588: [
                         "example.com",
                         "second-example.com",
@@ -625,9 +482,9 @@
                       ufCrm44_1721812948498: 9999.9,
                     },
                     {
-                      ufCrm44_1721812760630: "String for custom field of type String",
+                      ufCrm44_1721812760630: "Строка для пользовательского поля типа Строка",
                       ufCrm44_1721812814433: 45,
-                      ufCrm44_1721812853419: new Date().toISOString().slice(0, 10),
+                      ufCrm44_1721812853419: "2024-08-21",
                       ufCrm44_1721812885588: [
                         "example.com",
                         "second-example.com",
@@ -700,8 +557,8 @@
                         "green_pixel2.png",
                         "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg==",
                     ],
-                    "ufCrm44_1721812915476": "300|RUB",
-                    "ufCrm44_1721812935209": "Y",
+                    "ufCrm44_1721812915476": "600|RUB",
+                    "ufCrm44_1721812935209": "N",
                     "ufCrm44_1721812948498": 9999.9,
                 },
                 ],
@@ -735,7 +592,7 @@
                     [
                         'ufCrm44_1721812760630' => "Строка для пользовательского поля типа Строка",
                         'ufCrm44_1721812814433' => 81,
-                        'ufCrm44_1721812853419' => date('Y-m-d'),
+                        'ufCrm44_1721812853419' => '2024-08-21',
                         'ufCrm44_1721812885588' => [
                             "example.com",
                             "second-example.com",
@@ -751,7 +608,7 @@
                     [
                         'ufCrm44_1721812760630' => "Строка для пользовательского поля типа Строка",
                         'ufCrm44_1721812814433' => 45,
-                        'ufCrm44_1721812853419' => date('Y-m-d'),
+                        'ufCrm44_1721812853419' => '2024-08-21',
                         'ufCrm44_1721812885588' => [
                             "example.com",
                             "second-example.com",
@@ -773,43 +630,113 @@
         echo '</PRE>';
         ```
 
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            'crm.item.batchImport',
+            {
+                entityTypeId: 1302,
+                data: [
+                    {
+                        ufCrm44_1721812760630: 'Строка для пользовательского поля типа Строка',
+                        ufCrm44_1721812814433: 81,
+                        ufCrm44_1721812853419: '2024-08-21',
+                        ufCrm44_1721812885588: ['example.com', 'second-example.com'],
+                        ufCrm44_1721812898903: ['green_pixel.png', 'iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=='],
+                        ufCrm44_1721812915476: '300|RUB',
+                        ufCrm44_1721812935209: 'Y',
+                        ufCrm44_1721812948498: 9999.9,
+                    },
+                    {
+                        ufCrm44_1721812760630: 'Строка для пользовательского поля типа Строка',
+                        ufCrm44_1721812814433: 45,
+                        ufCrm44_1721812853419: '2024-08-21',
+                        ufCrm44_1721812885588: ['example.com', 'second-example.com'],
+                        ufCrm44_1721812898903: ['green_pixel2.png', 'iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=='],
+                        ufCrm44_1721812915476: '600|RUB',
+                        ufCrm44_1721812935209: 'N',
+                        ufCrm44_1721812948498: 9999.9,
+                    },
+                ],
+            },
+            result => result.error() ? console.error(result.error()) : console.info(result.data())
+        );
+        ```
+
+    - PHP CRest
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'crm.item.batchImport',
+            [
+                'entityTypeId' => 1302,
+                'data' => [
+                    [
+                        'ufCrm44_1721812760630' => 'Строка для пользовательского поля типа Строка',
+                        'ufCrm44_1721812814433' => 81,
+                        'ufCrm44_1721812853419' => '2024-08-21',
+                        'ufCrm44_1721812885588' => ['example.com', 'second-example.com'],
+                        'ufCrm44_1721812898903' => ['green_pixel.png', 'iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=='],
+                        'ufCrm44_1721812915476' => '300|RUB',
+                        'ufCrm44_1721812935209' => 'Y',
+                        'ufCrm44_1721812948498' => 9999.9,
+                    ],
+                    [
+                        'ufCrm44_1721812760630' => 'Строка для пользовательского поля типа Строка',
+                        'ufCrm44_1721812814433' => 45,
+                        'ufCrm44_1721812853419' => '2024-08-21',
+                        'ufCrm44_1721812885588' => ['example.com', 'second-example.com'],
+                        'ufCrm44_1721812898903' => ['green_pixel2.png', 'iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=='],
+                        'ufCrm44_1721812915476' => '600|RUB',
+                        'ufCrm44_1721812935209' => 'N',
+                        'ufCrm44_1721812948498' => 9999.9,
+                    ],
+                ],
+            ]
+        );
+        print_r($result);
+        ```
+
     - Go
 
         ```go
         // client и ctx уже созданы — см. раздел «SDK для Go»
         res, err := client.Core().Call(ctx, "crm.item.batchImport", b24.Params{
-        	"entityTypeId": 1302,
-        	"data": []b24.Params{
-        		{
-        			"ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
-        			"ufCrm44_1721812814433": 81,
-        			"ufCrm44_1721812853419": time.Now().Format(time.RFC3339),
-        			"ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
-        			"ufCrm44_1721812898903": []string{"green_pixel.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
-        			"ufCrm44_1721812915476": "300|RUB",
-        			"ufCrm44_1721812935209": "Y",
-        			"ufCrm44_1721812948498": 9999.9,
-        		},
-        		{
-        			"ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
-        			"ufCrm44_1721812814433": 45,
-        			"ufCrm44_1721812853419": time.Now().Format(time.RFC3339),
-        			"ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
-        			"ufCrm44_1721812898903": []string{"green_pixel2.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
-        			"ufCrm44_1721812915476": "600|RUB",
-        			"ufCrm44_1721812935209": "N",
-        			"ufCrm44_1721812948498": 9999.9,
-        		},
-        	},
+            "entityTypeId": 1302,
+            "data": []b24.Params{
+                {
+                    "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
+                    "ufCrm44_1721812814433": 81,
+                    "ufCrm44_1721812853419": "2024-08-21",
+                    "ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
+                    "ufCrm44_1721812898903": []string{"green_pixel.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
+                    "ufCrm44_1721812915476": "300|RUB",
+                    "ufCrm44_1721812935209": "Y",
+                    "ufCrm44_1721812948498": 9999.9,
+                },
+                {
+                    "ufCrm44_1721812760630": "Строка для пользовательского поля типа Строка",
+                    "ufCrm44_1721812814433": 45,
+                    "ufCrm44_1721812853419": "2024-08-21",
+                    "ufCrm44_1721812885588": []string{"example.com", "second-example.com"},
+                    "ufCrm44_1721812898903": []string{"green_pixel2.png", "iVBORw0KGgoAAAANSUhEUgAAAIAAAAAMCAYAAACqTLVoAAAALklEQVR42u3SAQEAAAQDsEsuOj3YMqwy6fBWCSCAAAIgAAIgAAIgAAIgAAJw3QLOrRH1U/gU4gAAAABJRU5ErkJggg=="},
+                    "ufCrm44_1721812915476": "600|RUB",
+                    "ufCrm44_1721812935209": "N",
+                    "ufCrm44_1721812948498": 9999.9,
+                },
+            },
         })
         if err != nil {
-        	return fmt.Errorf("crm.item.batchImport: %w", err)
+            return fmt.Errorf("crm.item.batchImport: %w", err)
         }
 
         // Метод заворачивает ответ в объект с ключом "items".
         raw, ok := b24.Unwrap(res.Result, "items")
         if !ok {
-        	return fmt.Errorf("в ответе нет ключа items")
+            return fmt.Errorf("в ответе нет ключа items")
         }
 
         fmt.Printf("%s\n", raw)
@@ -817,10 +744,9 @@
 
     {% endlist %}
 
-
 ## Обработка ответа
 
-Метод вернет массив `items`, содержащий объекты, где каждый объект этого массива будет содержать идентификатор созданного элемента в случае успеха, либо объект сообщение об ошибке.
+Метод возвращает массив `items`. Каждый элемент массива содержит объект `item` с идентификатором созданного элемента или поля `error` и `error_description` с данными об ошибке импорта.
 
 HTTP-статус: **200**
 
@@ -857,31 +783,47 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа.
-
-Содержит единственный ключ `item` ||
-|| **items**
-[`array`](../../../data-types.md) | Массив содержащих объекты `item` или ошибки ||
-|| **item**
-[`object`](../../../data-types.md) | Информация о созданном элементе.
-
-Содержит единственный ключ `id` ||
-|| **id**
-[`integer`](../../../data-types.md) | Идентификатор созданного элемента ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит результаты импорта [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-{% note info " " %}
+#### Объект result {#result}
 
-По умолчанию имена пользовательских полей передаются и возвращаются в camelCase, например `ufCrm2_1639669411830`.
-При передаче параметра `useOriginalUfNames` со значением `Y` пользовательские поля будут возвращаться с оригинальными именами, например `UF_CRM_2_1639669411830`.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **items**
+[`array`](../../../data-types.md) | Результаты импорта элементов [(подробное описание)](#items) ||
+|#
 
-{% endnote %}
+#### Элемент массива items {#items}
+
+Каждый элемент массива содержит либо объект `item` при успешном импорте, либо пару полей `error` и `error_description`, если импорт завершился ошибкой.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **item**
+[`object`](../../../data-types.md) | Результат успешного импорта [(подробное описание)](#item) ||
+|| **error**
+[`string`](../../../data-types.md) | Код ошибки импорта элемента ||
+|| **error_description**
+[`string`](../../../data-types.md) | Описание ошибки импорта элемента ||
+|#
+
+#### Объект item {#item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор созданного элемента ||
+|#
 
 ## Обработка ошибок
 
-HTTP-статус: **401**, **400**, **403**
+HTTP-статус: **400**, **401**, **403**
 
 ```json
 {
@@ -895,24 +837,22 @@ HTTP-статус: **401**, **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Статус** | **Код**                           | **Описание**                                                       | **Значение**                                                                                    ||
-|| `400`      | `NOT_FOUND`                       | Смарт-процесс не найден                                            | Возникает, при передаче невалидного `entityTypeId`                                              ||
-|| `400`      | `ACCESS_DENIED`                   | Доступ запрещен                                                    | У пользователя нет прав на добавление элементов типа `entityTypeId`                             ||
-|| `400`      | `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Неверное значение поля "`field`"                                   | Передано неправильное значения поля `field`.
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `NOT_FOUND` | Смарт-процесс не найден | Передан неизвестный `entityTypeId` ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на импорт элементов типа `entityTypeId` ||
+|| `400` | `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Неверное значение поля `field` | Передано недопустимое значение поля `field`.
 
-Для системных полей типа `createdTime`, если запрос не от администратора ||
-|| `400`      | `100`                             | Expected iterable value for multiple field, but got `type` instead | В одно из множественных полей было передано значения типа `type`, хотя ожидался итерируемый тип. Также может возникать при некорректном запросе (некорректный JSON или заголовки запроса) ||
-|| `400`      | `CREATE_DYNAMIC_ITEM_RESTRICTED`  | Вы не можете создать новый элемент из-за ограничений вашего тарифа | Ограничения тарифа не позволяют создавать элементы смарт-процессов                              ||
-|| `400`      | `MAX_IMPORT_BATCH_SIZE_EXCEEDED`  | Вы не можете импортировать больше 20 элементов                     | Возникает, при передаче более 20 элементов при импорте                                        ||
-|| `401`      | `INVALID_CREDENTIALS`             | Неверные данные авторизации для запроса                            | Некорректный `ID` пользователя и/или код для в пути запроса                                       ||
-|| `403`      | `allowed_only_intranet_user`      | Действие разрешено только интранет-пользователям                   | Пользователь не является интранет-пользователем                                                 ||
+Для системных полей, например `createdTime`, ошибка также возникает, если запрос выполняет не администратор ||
+|| `400` | `100` | Expected iterable value for multiple field, but got `type` instead | В одно из множественных полей передано значение типа `type`, хотя ожидалось перебираемое значение. Ошибка также может возникнуть из-за некорректного JSON или заголовков запроса ||
+|| `400` | `CREATE_DYNAMIC_ITEM_RESTRICTED` | Вы не можете создать новый элемент из-за ограничений вашего тарифа | Ограничения тарифа не позволяют создавать элементы смарт-процессов ||
+|| `400` | `MAX_IMPORT_BATCH_SIZE_EXCEEDED` | Вы не можете импортировать больше 20 элементов | В массиве `data` передано более 20 элементов ||
+|| `401` | `INVALID_CREDENTIALS` | Неверные данные авторизации для запроса | Неверный идентификатор пользователя или код вебхука в URL запроса ||
+|| `403` | `allowed_only_intranet_user` | Действие разрешено только интранет-пользователям | Пользователь не является интранет-пользователем ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
-{% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./crm-item-import.md)

@@ -275,12 +275,12 @@
 #|
 || **Значение**
 `тип` | **Описание** ||
-|| **OWNER_ID**
+|| **ownerId**
 [`integer`](../data-types.md) | Идентификатор объекта CRM ||
-|| **OWNER_TYPE_ID**
+|| **ownerTypeId**
 [`integer`](../data-types.md) | Идентификатор [типа объекта CRM](#object_type)
 ||
-|| **ORDER_ID**
+|| **orderId**
 [`sale_order.id`](../sale/data-types.md#sale_order) | Идентификатор заказа ||
 |#
 

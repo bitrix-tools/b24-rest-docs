@@ -26,12 +26,17 @@
 5. Добавьте банковский реквизит через методы [банковских реквизитов](../bank-detail/index.md), если реквизит используется для платежных документов
 6. Получите или измените реквизит методами [crm.requisite.get](./crm-requisite-get.md) и [crm.requisite.update](./crm-requisite-update.md)
 
-## Идентификаторы реквизита
+## Связь с другими объектами
 
-- `ID` — идентификатор реквизита. Его возвращают методы [crm.requisite.add](./crm-requisite-add.md) и [crm.requisite.list](./crm-requisite-list.md)
-- `ENTITY_TYPE_ID` — тип родительского объекта. Для контакта передайте `3`, для компании — `4`. Все значения возвращает метод [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md)
-- `ENTITY_ID` — идентификатор родительского контакта или компании. Его можно получить методами [crm.contact.list](../../contacts/crm-contact-list.md) или [crm.company.list](../../companies/crm-company-list.md)
-- `PRESET_ID` — идентификатор шаблона реквизитов. Его можно получить методом [crm.requisite.preset.list](../presets/crm-requisite-preset-list.md)
+Идентификатор реквизита `ID` возвращают методы [crm.requisite.add](./crm-requisite-add.md) и [crm.requisite.list](./crm-requisite-list.md). Он связывает реквизит с адресами и банковскими реквизитами.
+
+**Контакт или компания.** Поля `ENTITY_TYPE_ID` и `ENTITY_ID` определяют владельца реквизита. Для контакта передайте тип `3`, для компании — `4`. Идентификатор владельца можно получить методами [crm.contact.list](../../contacts/crm-contact-list.md) или [crm.company.list](../../companies/crm-company-list.md).
+
+**Шаблон реквизитов.** Поле `PRESET_ID` определяет набор полей реквизита и страну. Идентификатор шаблона возвращает метод [crm.requisite.preset.list](../presets/crm-requisite-preset-list.md).
+
+**Адрес.** Для адреса реквизита передайте `8` в `ENTITY_TYPE_ID` и идентификатор реквизита в `ENTITY_ID`. Тип адреса задает поле `TYPE_ID`. Добавлять, изменять и получать адреса можно методами [адресов реквизитов](../addresses/index.md).
+
+**Банковский реквизит.** Поле `ENTITY_ID` банковского реквизита содержит идентификатор универсального реквизита. Для работы со счетами используйте методы [банковских реквизитов](../bank-detail/index.md).
 
 ## Обзор методов {#all-methods}
 
