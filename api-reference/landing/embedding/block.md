@@ -1,4 +1,4 @@
-# Пункт редактирования блока LANDING_BLOCK_*
+# Пункт редактирования блока LANDING_BLOCK_<CODE> и LANDING_BLOCK_*
 
 {% note tip "" %}
 
@@ -11,31 +11,42 @@
 
 > Scope: [`landing`](../../scopes/permissions.md)
 
-Виджет `LANDING_BLOCK_<CODE>` добавляет пункт приложения рядом с действиями редактирования блока в редакторе страницы.
+Виджеты `LANDING_BLOCK_<CODE>` и `LANDING_BLOCK_*` добавляют пункт приложения в меню действий блока в редакторе страницы.
 
-Для встраивания в разделе `landing` используется внутренний метод модуля [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md).
+Используйте их, когда приложение работает с отдельным блоком, а не со всей страницей. Например:
 
-Код места встраивания зависит от кода блока и задается в формате `LANDING_BLOCK_<CODE>`.
+- переводит текст блока и записывает перевод обратно
+- проверяет ссылку на изображение в блоке
 
-Если нужно встроить приложение в зарегистрированный вами пользовательский блок, вместо `<CODE>` укажите идентификатор блока. Например, для блока с идентификатором `1132` используйте код `LANDING_BLOCK_repo_1132`. Регистр символов в коде не важен.
+Если действие относится ко всему сайту или странице, например проверяет метатеги, используйте [LANDING_SETTINGS](./settings.md).
+
+Место встраивания регистрируют методом [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md). Метод работает только в контексте приложения, через вебхук место встраивания не зарегистрировать.
 
 {% note info "" %}
 
-Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Место встраивания не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
-|| `LANDING_BLOCK_<CODE>` | Пункт редактирования конкретного блока ||
-|| `LANDING_BLOCK_*` | Пункт редактирования для всех блоков ||
+|| **Код места встраивания** | **Место** ||
+|| `LANDING_BLOCK_<CODE>` | Пункт в меню действий блоков одного вида.
+
+Для стандартного блока `<CODE>` — его символьный код, например `04.1.one_col_fix_with_title`. Коды стандартных блоков возвращает метод [landing.block.getrepository](../block/methods/landing-block-get-repository.md).
+
+Для блока, который приложение зарегистрировало методом [landing.repo.register](../user-blocks/landing-repo-register.md), `<CODE>` — это `repo_<ID>`, где `<ID>` — идентификатор блока в репозитории из ответа метода. Например, `LANDING_BLOCK_repo_1132` ||
+|| `LANDING_BLOCK_*` | Пункт в меню действий всех блоков ||
 |#
+
+Регистр символов в коде не важен.
 
 ### Где находится в интерфейсе
 
-Откройте страницу в режиме редактирования и наведите курсор на блок. В стандартных действиях блока, справа от кнопки *Редактировать* отображается кнопка *Еще*. Пункт приложения с `PLACEMENT=LANDING_BLOCK_<CODE>` или `PLACEMENT=LANDING_BLOCK_*` отображается в выпадающем списке кнопки *Еще*.
+Откройте страницу в режиме редактирования и наведите курсор на блок. Справа от кнопки *Редактировать* появится кнопка *Еще* — пункт приложения находится в ее выпадающем списке. Подпись пункта — значение `TITLE` из регистрации, а если оно пустое, — название приложения. Если приложение зарегистрировало для блока и `<CODE>`, и `*`, в списке будут оба пункта.
+
+Пункт видят все, кто открывает страницу в редакторе: права на изменение блока при показе пункта не проверяются. Если действие приложения меняет блок, проверяйте права в обработчике.
 
 ## Что получает обработчик
 
@@ -57,7 +68,7 @@ Array
     [member_id] => abcdef1234567890abcdef1234567890
     [status] => F
     [PLACEMENT] => LANDING_BLOCK_*
-    [PLACEMENT_OPTIONS] => {"ID":"996","CODE":"43.4.cover_with_price_text_button_bgimg","LID":"30"}
+    [PLACEMENT_OPTIONS] => {"ID":"996","CODE":"43.4.cover_with_price_text_button_bgimg","LID":"30","URI":"\/sites\/site\/12\/view\/30\/"}
 )
 ```
 
@@ -65,32 +76,32 @@ Array
 
 {% include notitle [описание стандартных данных](../../widgets/_includes/widget_data.md) %}
 
-### Дополнительные данные
+Часть кода после `LANDING_BLOCK_` в параметре `PLACEMENT` приходит в нижнем регистре: `LANDING_BLOCK_*`, `LANDING_BLOCK_04.1.one_col_fix_with_title` или `LANDING_BLOCK_repo_1132`.
 
-#|
-|| **Параметр**
-`тип` | **Описание** ||
-|| **APPLICATION_SCOPE**
-[`string`](../../data-types.md) | Список scope, доступных приложению ||
-|| **APPLICATION_TOKEN**
-[`string`](../../data-types.md) | Токен приложения для безопасной обработки событий ||
-|| **SERVER_ENDPOINT**
-[`string`](../../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
-|#
-
-### PLACEMENT_OPTIONS
+### PLACEMENT_OPTIONS {#placement-options}
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
-Для `LANDING_BLOCK_<CODE>` в контекст передаются ключи:
+Для `LANDING_BLOCK_<CODE>` и `LANDING_BLOCK_*` в контекст передаются одинаковые ключи:
 
-- `ID` — идентификатор блока
-- `CODE` — символьный код блока
-- `LID` — идентификатор страницы, на которой открыт блок
+#|
+|| **Ключ**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор блока на странице. Его принимают методы раздела [Блоки](../block/index.md), например [landing.block.getbyid](../block/methods/landing-block-get-by-id.md). Это не идентификатор блока в репозитории из кода `LANDING_BLOCK_repo_<ID>` ||
+|| **CODE**
+[`string`](../../data-types.md) | Символьный код блока, например `04.1.one_col_fix_with_title` или `repo_1132` ||
+|| **LID**
+[`string`](../../data-types.md) | Идентификатор страницы, на которой открыт блок ||
+|| **URI**
+[`string`](../../data-types.md) | Путь с query-строкой страницы, из которой открыт виджет. Если адрес страницы определить не удалось, ключ не передается ||
+|#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Примеры регистрируют пункт для стандартного блока `04.1.one_col_fix_with_title`. Чтобы пункт появился у всех блоков, передайте в `PLACEMENT` значение `LANDING_BLOCK_*`, остальные поля те же.
 
 {% list tabs %}
 
@@ -128,7 +139,7 @@ Array
           fields: {
             PLACEMENT: 'LANDING_BLOCK_04.1.one_col_fix_with_title',
             PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-block-handler.php',
-            TITLE: 'My widget for block',
+            TITLE: 'Мой виджет для блока',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -164,7 +175,7 @@ Array
               fields: {
                 PLACEMENT: 'LANDING_BLOCK_04.1.one_col_fix_with_title',
                 PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-block-handler.php',
-                TITLE: 'My widget for block',
+                TITLE: 'Мой виджет для блока',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -196,7 +207,7 @@ Array
     fields = {
         "PLACEMENT": "LANDING_BLOCK_04.1.one_col_fix_with_title",
         "PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
-        "TITLE": "Действие блока",
+        "TITLE": "Мой виджет для блока",
     }
 
     try:
@@ -234,11 +245,7 @@ Array
             );
 
         $result = $response->getResponseData()->getResult();
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error binding landing block: ' . $e->getMessage();
@@ -304,70 +311,38 @@ Array
     	return fmt.Errorf("landing.repo.bind: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // Ответ приходит как json.RawMessage. При успехе result = true.
+    // Форма ответа описана на странице метода landing.repo.bind.
     fmt.Printf("%s\n", res.Result)
     ```
 
 {% endlist %}
 
-### Зарегистрировать виджет для всех блоков
+## Как обновить блок из приложения {#refresh-block}
 
-Если приложению нужен единый обработчик для всех блоков, используйте код `LANDING_BLOCK_*`.
+Если приложение изменило содержимое блока, например методом [landing.block.updatenodes](../block/methods/landing-block-update-nodes.md), редактор продолжает показывать старую версию. Чтобы перерисовать блок, вызовите из фрейма виджета команду `refreshBlock` метода [BX24.placement.call](../../widgets/ui-interaction/bx24-placement-call.md).
+
+Команда работает только внутри открытого виджета `LANDING_BLOCK_<CODE>` или `LANDING_BLOCK_*`: ее выполняет редактор страницы, отдельного REST-метода для нее нет.
+
+Команде передают `id` — идентификатор блока на странице, строкой или числом. Возьмите его из ключа `ID` в [PLACEMENT_OPTIONS](#placement-options).
+
+Функция обратного вызова срабатывает после того, как редактор перезагрузит блок. Если блока с таким `id` нет на открытой странице, команда ничего не делает и функция обратного вызова не вызывается.
 
 {% list tabs %}
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{
-        "fields": {
-          "PLACEMENT": "LANDING_BLOCK_*",
-          "PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
-          "TITLE": "Мой виджет для блока"
-        },
-        "auth": "**put_access_token_here**"
-      }' \
-      https://**put_your_bitrix24_address**/rest/landing.repo.bind
-    ```
 
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'landing.repo.bind',
-        params: {
-          fields: {
-            PLACEMENT: 'LANDING_BLOCK_*',
-            PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-block-handler.php',
-            TITLE: 'My widget for block',
-          },
-        },
-        requestId: Text.getUuidRfc4122()
-      })
+    // Block ID from PLACEMENT_OPTIONS.ID
+    const options = $b24.placement.options as { ID: string }
 
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('Binding result:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
+    await $b24.placement.call('refreshBlock', { id: Number(options.ID) })
+    console.info('Block refreshed')
     ```
 
 - JS (UMD)
@@ -376,339 +351,31 @@ Array
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function bindAllLandingBlocks() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
+      document.addEventListener('DOMContentLoaded', async () => {
+        const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v2.call.make({
-            method: 'landing.repo.bind',
-            params: {
-              fields: {
-                PLACEMENT: 'LANDING_BLOCK_*',
-                PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-block-handler.php',
-                TITLE: 'My widget for block',
-              },
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
+        // Block ID from PLACEMENT_OPTIONS.ID
+        const blockId = Number($b24.placement.options.ID)
 
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('Binding result:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', bindAllLandingBlocks)
-    </script>
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.landing.repo.bind(
-            fields={
-                "PLACEMENT": "LANDING_BLOCK_*",
-                "PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
-                "TITLE": "Мой виджет для блока",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'landing.repo.bind',
-                [
-                    'fields' => [
-                        'PLACEMENT' => 'LANDING_BLOCK_*',
-                        'PLACEMENT_HANDLER' => 'https://your-domain.com/widgets/landing-block-handler.php',
-                        'TITLE' => 'Мой виджет для блока',
-                    ],
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult();
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error binding landing block: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'landing.repo.bind',
-        {
-            fields: {
-                PLACEMENT: 'LANDING_BLOCK_*',
-                PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-block-handler.php',
-                TITLE: 'Мой виджет для блока'
-            }
-        },
-        function(result)
-        {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
-        }
-    );
-    ```
-
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'landing.repo.bind',
-        [
-            'fields' => [
-                'PLACEMENT' => 'LANDING_BLOCK_*',
-                'PLACEMENT_HANDLER' => 'https://your-domain.com/widgets/landing-block-handler.php',
-                'TITLE' => 'Мой виджет для блока',
-            ],
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-
-- Go
-
-    ```go
-    // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "landing.repo.bind", b24.Params{
-    	"fields": b24.Params{
-    		"PLACEMENT":         "LANDING_BLOCK_*",
-    		"PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
-    		"TITLE":             "Мой виджет для блока",
-    	},
-    })
-    if err != nil {
-    	return fmt.Errorf("landing.repo.bind: %w", err)
-    }
-
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
-    ```
-
-{% endlist %}
-
-## Как обновить блок из приложения
-
-После работы с блоком, приложение может обновить его через команду `refreshBlock` метода [BX24.placement.call](../../widgets/ui-interaction/bx24-placement-call.md).
-
-{% list tabs %}
-
-- cURL (OAuth)
-
-    ```bash
-    curl -X POST \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{"PLACEMENT":"refreshBlock","PARAMS":{"id":123}}' \
-      "https://**put_your_bitrix24_address**/rest/placement.call?auth=**put_access_token_here**"
-    ```
-
-- JS (TS)
-
-    ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame } from '@bitrix24/b24jssdk'
-
-    declare const $b24: B24Frame
-
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'placement.call',
-        params: {
-          type: 'refreshBlock',
-          params: {
-            id: 123,
-          },
-        },
-        requestId: Text.getUuidRfc4122()
+        await $b24.placement.call('refreshBlock', { id: blockId })
+        console.info('Block refreshed')
       })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('Block refreshed:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
-    ```
-
-- JS (UMD)
-
-    ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
-    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
-    <script>
-      async function refreshBlock() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
-
-          const response = await $b24.actions.v2.call.make({
-            method: 'placement.call',
-            params: {
-              type: 'refreshBlock',
-              params: {
-                id: 123,
-              },
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('Block refreshed:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', refreshBlock)
     </script>
-    ```
-
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.placement.call(
-            placement="refreshBlock",
-            params={
-                "id": 123,
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-- PHP
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'placement.call',
-                [
-                    'PLACEMENT' => 'refreshBlock',
-                    'PARAMS' => [
-                        'id' => 123,
-                    ]
-                ]
-            );
-
-        $result = $response->getResponseData()->getResult();
-        echo 'Success: ' . print_r($result, true);
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Ошибка при обновлении блока: ' . $e->getMessage();
-    }
     ```
 
 - BX24.js
 
     ```js
-    BX24.placement.call(
-        'refreshBlock',
-        {
-            id: 123
-        },
-        function()
-        {
-            console.log('Блок успешно обновлен');
-        }
-    );
-    ```
+    BX24.ready(function () {
+        BX24.init(function () {
+            // Идентификатор блока из PLACEMENT_OPTIONS.ID
+            var blockId = Number(BX24.placement.info().options.ID);
 
-- PHP CRest
-
-    ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'placement.call',
-        [
-            'PLACEMENT' => 'refreshBlock',
-            'PARAMS' => [
-                'id' => 123,
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+            BX24.placement.call('refreshBlock', { id: blockId }, function () {
+                console.log('Блок обновлен');
+            });
+        });
+    });
     ```
 
 {% endlist %}
@@ -716,6 +383,11 @@ Array
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./landing-repo-bind.md)
 - [{#T}](./landing-repo-unbind.md)
+- [{#T}](./settings.md)
+- [{#T}](../block/methods/landing-block-update-nodes.md)
+- [{#T}](../block/methods/landing-block-get-repository.md)
+- [{#T}](../user-blocks/landing-repo-register.md)
 - [{#T}](../../widgets/ui-interaction/bx24-placement-call.md)
 - [{#T}](../../widgets/bx24-widget-methods.md)
