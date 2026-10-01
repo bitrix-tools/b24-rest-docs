@@ -9,32 +9,36 @@
 
 {% endnote %}
 
+> Scope: [`базовый`](../scopes/permissions.md)
+>
 > Кто может выполнять метод: любой пользователь
 
-Метод `event.bind` регистрирует новый обработчик события. 
+Метод `event.bind` регистрирует новый обработчик события.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Может работать как при авторизации под пользователем с правами администрирования портала, так и под обычным пользователем. Метод для пользователя без прав администратора доступен с ограничениями:
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Через вебхук метод вернет ошибку `WRONG_AUTH_TYPE`.
 
-1. Офлайн-события недоступны, попытка установки будет порождать исключение
-2. События устанавливаются от имени текущего пользователя (см. описание параметра `auth_type`). Явное указание `auth_type`, отличного от `ID` текущего пользователя, также будет порождать исключение
+Для пользователя без прав администратора действуют ограничения:
+
+- офлайн-события недоступны: подписка с `event_type=offline` вернет ошибку `ACCESS_DENIED`
+- в `auth_type` можно указать только свой идентификатор, для другого пользователя метод вернет ошибку `ACCESS_DENIED`
 
 {% note info %}
 
-Поскольку запросы будут идти с серверов Битрикс, то любой URL должен быть доступен для GET/POST запросов извне.
+Битрикс24 отправляет данные события POST-запросом на URL обработчика, поэтому адрес должен быть доступен из интернета. Как проверить обработчик, описано в статье [{#T}](./test-handler.md).
 
 {% endnote %}
 
-Интерфейс для данного метода — [BX24.callBind](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-bind.md).
+Метод можно вызвать через [BX24.callBind](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-bind.md).
 
 {% note info %}
 
-При удалении и обновлении приложения его действия будут удаляться. Поэтому в инсталляторе каждой версии нужно их выставлять с нуля.
+При удалении приложения его обработчики событий удаляются, при обновлении — сохраняются. Если установщик новой версии снова зарегистрирует тот же обработчик, метод вернет ошибку `ERROR_CORE`. Перед регистрацией проверьте текущие обработчики методом [event.get](./event-get.md).
 
 {% endnote %}
 
 {% note info "" %}
 
-События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../settings/app-installation/installation-finish.md)
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../settings/app-installation/installation-finish.md).
 
 {% endnote %}
 
@@ -46,19 +50,19 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../data-types.md) | Имя события ||
+[`string`](../data-types.md) | Код события, например `ONCRMLEADADD`. Событие должно входить в scope приложения или быть базовым, иначе метод вернет ошибку `ERROR_EVENT_NOT_FOUND`. Список доступных событий возвращает метод [events](./events.md) ||
 || **handler***
-[`string`](../data-types.md) | Ссылка на обработчик события ||
+[`string`](../data-types.md) | URL обработчика со схемой `http` или `https`. В имени хоста должна быть точка, поэтому адрес `localhost` не подходит. Обязателен для онлайн-событий, при `event_type=offline` значение игнорируется ||
 || **auth_type**
-[`integer`](../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. По умолчанию будет использоваться авторизация пользователя, действия которого привели к срабатыванию события ||
+[`integer`](../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. По умолчанию для администратора — пользователь, действие которого вызвало событие; для пользователя без прав администратора — он сам. При `event_type=offline` параметр не учитывается ||
 || **event_type**
-[`string`](../data-types.md) | Значения: ```online|offline```. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](./offline-events.md) ||
+[`string`](../data-types.md) | Тип подписки: `online` или `offline`. По умолчанию `online`. При `offline` событие попадает в [очередь офлайн-событий](./offline-events.md) ||
 || **auth_connector**
-[`string`](../data-types.md) |  Ключ источника. Параметр предназначен для [офлайн-событий](./offline-events.md). Позволяет исключать ложные срабатывания событий ||
+[`string`](../data-types.md) | Ключ источника для [офлайн-событий](./offline-events.md). С этим ключом создается отдельная очередь, в которую не попадают изменения из запросов самого приложения с тем же `auth_connector`. То же значение передают в методы `event.offline.*`. Параметр доступен не на всех тарифах: проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_auth_connector`, иначе метод вернет ошибку `WRONG_LICENSE` ||
 || **options**
 [`object`](../data-types.md) | Дополнительные настройки регистрируемого события. Набор полей зависит от события.
 
-Для события `ONOFFLINEEVENT` поддерживается параметр `minTimeout` — минимальный интервал между уведомлениями в секундах. По умолчанию 1. Подробнее в статье [{#T}](./on-offline-event.md#min-timeout) ||
+Для события `ONOFFLINEEVENT` поддерживается поле `minTimeout` — минимальный интервал между уведомлениями в секундах. По умолчанию 1. Подробнее в статье [{#T}](./on-offline-event.md#min-timeout) ||
 |#
 
 ## Примеры кода
@@ -162,7 +166,7 @@
     try:
         bitrix_response = client.event.bind(
             event="ONCRMLEADADD",
-            handler="https://www.my-domain.com/handler/",
+            handler="https://www.my-domain.ru/handler/",
             auth_type=15,
         ).response
         result = bitrix_response.result
@@ -180,7 +184,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-- PHP
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -266,17 +270,29 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Статус** | **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `400` | `ERROR_EVENT_NOT_FOUND` | Event not found | Неверно указано событие ||
-|| `403` | `ACCESS_DENIED` | Access denied! Offline events binding requires administrator access rights | Метод запустил не администратор при регистрации обработчика офлайн-события ||
-|| `403` | `ACCESS_DENIED` | Access denied! Event binding with AUTH_TYPE requires administrator access rights | Метод запустил не администратор и указал `auth_type` другого пользователя ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_EVENT_NOT_FOUND` | Event not found | Событие не найдено или не входит в scope приложения ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'EVENT' is null or empty | Не передан параметр `event` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'HANDLER' is null or empty | Не передан параметр `handler` для онлайн-события ||
+|| `400` | `ERROR_ARGUMENT` | ```Value must be one of {online|offline}``` | Передано недопустимое значение `event_type` ||
+|| `400` | `ERROR_ARGUMENT` | Offline event cannot be registered for this event. | Событие нельзя получать офлайн, например `ONOFFLINEEVENT` ||
+|| `400` | `ERROR_WRONG_HANDLER_URL` | Wrong handler URL | В URL обработчика нет хоста или в имени хоста нет точки ||
+|| `400` | `ERROR_UNSUPPORTED_PROTOCOL` | Unsupported handler protocol | Схема URL обработчика не `http` и не `https` ||
+|| `400` | `ERROR_CORE` | Unable to set event handler: Handler already binded | Такой обработчик уже зарегистрирован ||
+|| `400` | `ERROR_CORE` | Unable to set event handler: Process of binding the handler has already started | Тот же обработчик регистрируется параллельным запросом ||
+|| `403` | `ACCESS_DENIED` | Access denied! Offline events binding requires administrator access rights | Обработчик офлайн-события регистрирует пользователь без прав администратора ||
+|| `403` | `ACCESS_DENIED` | Access denied! Event binding with AUTH_TYPE requires administrator access rights | Пользователь без прав администратора указал в `auth_type` другого пользователя ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `WRONG_LICENSE` | This feature is not enabled for the current license: auth_connector | Передан `auth_connector`, а тариф не поддерживает ключи источников ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./events.md)
+- [{#T}](./test-handler.md)
 - [{#T}](./event-get.md)
 - [{#T}](./event-unbind.md)
 - [{#T}](./safe-event-handlers.md)
@@ -286,4 +302,3 @@ HTTP-статус: **400**, **403**
 - [{#T}](./event-offline-clear.md)
 - [{#T}](./event-offline-error.md)
 - [{#T}](./on-offline-event.md)
-- [{#T}](../../tutorials/openlines/example-connector.md)

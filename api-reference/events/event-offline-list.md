@@ -9,11 +9,11 @@
 
 {% endnote %}
 
+> Scope: [`базовый`](../scopes/permissions.md)
+>
 > Кто может выполнять метод: администратор
 
-Метод `event.offline.list` для чтения текущей очереди без внесения изменений в ее состояние в отличие от [event.offline.get](./event-offline-get.md). Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
-
-Метод не помечает события обработанными и не формирует `process_id`. В записях поле `PROCESS_ID` пустое, пока события не зарезервированы вызовом [event.offline.get](./event-offline-get.md) с параметром `clear=0`.
+Метод `event.offline.list` читает очередь [офлайн-событий](./offline-events.md) приложения, которое его вызвало. В отличие от [event.offline.get](./event-offline-get.md), он не резервирует записи и не выдает `process_id`. Чтобы подтвердить или пометить записи ошибочными, получите их методом `event.offline.get` с `clear=0`.
 
 Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
 
@@ -25,9 +25,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter**
-[`array`](../data-types.md) | Фильтр записей. По умолчанию отдаются все записи, без фильтрации. Поддерживается фильтрация по полям: `ID`, `TIMESTAMP_X`, `EVENT_NAME`, `MESSAGE_ID`. `PROCESS_ID`, `ERROR` со стандартными операциями типа `=`, `>`, `<`, `<=` и так далее ||
+[`object`](../data-types.md) | Фильтр записей. Без фильтра метод возвращает все записи. Фильтровать можно по полям: `ID`, `TIMESTAMP_X`, `EVENT_NAME`, `MESSAGE_ID`, `PROCESS_ID`, `ERROR`.
+
+`TIMESTAMP_X` передается в формате ISO 8601, `ERROR` — `0` или `1`.
+
+Перед именем поля ставится операция: `=`, `>`, `<`, `>=`, `<=`, `@` — значение входит в массив, `%` — подстрока. Без операции работает точное совпадение. Пример: `{">ID": 100, "=EVENT_NAME": "ONCRMLEADADD"}`. Отрицание `!` не поддерживается: метод вернет ошибку `ERROR_ARGUMENT` ||
 || **order**
-[`array`](../data-types.md) | Сортировка записей. Поддерживается сортировка по тем же полям, что и в фильтре, на вход принимается массив вида ```[поле=>ASC|DESC]```. По умолчанию — `[ID:ASC]` ||
+[`object`](../data-types.md) | Сортировка записей по тем же полям, что и в фильтре, в виде `{"поле": "ASC"}` или `{"поле": "DESC"}`. По умолчанию — `{"ID": "ASC"}` ||
 || **start**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -39,7 +43,7 @@
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 || **auth_connector**
-[`string`](../data-types.md) | Ключ источника. Очередь офлайн-событий разделена по источникам. Передайте то же значение `auth_connector`, что и при подписке методом [event.bind](./event-bind.md), иначе метод вернет только события без источника. Параметр доступен на тарифе Профессиональный и выше ||
+[`string`](../data-types.md) | Ключ источника. Очередь офлайн-событий разделена по источникам. Передайте то же значение `auth_connector`, что и при подписке методом [event.bind](./event-bind.md), иначе метод вернет только события без источника. Параметр доступен не на всех тарифах: проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_auth_connector`, иначе метод вернет ошибку `WRONG_LICENSE` ||
 |#
 
 ## Примеры кода
@@ -92,8 +96,8 @@
       // event.offline.list returns a single page (max 50 records). For the whole result set
       // use a list helper: $b24.actions.v2.callList.make() returns every record as one
       // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // NOTE: the list helpers ignore `order` (they always sort by ID ASC and log a warning)
+      // — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<OfflineEventItem[]>({
         method: 'event.offline.list',
         params: {
@@ -135,8 +139,8 @@
           // event.offline.list returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // NOTE: the list helpers ignore `order` (they always sort by ID ASC and log a warning)
+          // — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'event.offline.list',
             params: {
@@ -238,9 +242,6 @@
         bitrix_response = client.event.offline.list(
             filter={
                 "ERROR": 0,
-            },
-            order={
-                "ID": "DESC",
             },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
@@ -357,12 +358,12 @@
     }
 
     var items []struct {
-    	ID              b24.ID `json:"ID"`
-    	TimestampX      string `json:"TIMESTAMP_X"`
-    	EventName       string `json:"EVENT_NAME"`
-    	EventData       bool   `json:"EVENT_DATA"`
-    	EventAdditional bool   `json:"EVENT_ADDITIONAL"`
-    	MessageID       b24.ID `json:"MESSAGE_ID"`
+    	ID              b24.ID          `json:"ID"`
+    	TimestampX      string          `json:"TIMESTAMP_X"`
+    	EventName       string          `json:"EVENT_NAME"`
+    	EventData       json.RawMessage `json:"EVENT_DATA"`
+    	EventAdditional json.RawMessage `json:"EVENT_ADDITIONAL"`
+    	MessageID       string          `json:"MESSAGE_ID"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -391,9 +392,15 @@ HTTP-статус: **200**
             "ID": "2",
             "TIMESTAMP_X": "2024-07-18T12:32:31+02:00",
             "EVENT_NAME": "ONCRMCOMPANYADD",
-            "EVENT_DATA": false,
-            "EVENT_ADDITIONAL": false,
-            "MESSAGE_ID": "2",
+            "EVENT_DATA": {
+                "FIELDS": {
+                    "ID": "45"
+                }
+            },
+            "EVENT_ADDITIONAL": {
+                "user_id": "1"
+            },
+            "MESSAGE_ID": "4f2a9c1e7b3d5a6f8e0c2b4d6a8f1e3c",
             "PROCESS_ID": "",
             "ERROR": "0"
         },
@@ -401,9 +408,15 @@ HTTP-статус: **200**
             "ID": "1",
             "TIMESTAMP_X": "2024-07-18T12:32:31+02:00",
             "EVENT_NAME": "ONCRMLEADADD",
-            "EVENT_DATA": false,
-            "EVENT_ADDITIONAL": false,
-            "MESSAGE_ID": "1",
+            "EVENT_DATA": {
+                "FIELDS": {
+                    "ID": "123"
+                }
+            },
+            "EVENT_ADDITIONAL": {
+                "user_id": 0
+            },
+            "MESSAGE_ID": "b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3",
             "PROCESS_ID": "",
             "ERROR": "0"
         }
@@ -427,11 +440,36 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
+[`array`](../data-types.md) | Записи очереди [(подробное описание)](#event). Если подходящих записей нет, возвращается пустой массив ||
 || **total**
 [`integer`](../data-types.md) | Общее количество найденных записей ||
+|| **next**
+[`integer`](../data-types.md) | Значение `start` для следующей страницы. Возвращается, если найдено больше записей, чем помещается на текущей странице ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент списка {#event}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../data-types.md) | Идентификатор записи в очереди ||
+|| **TIMESTAMP_X**
+[`datetime`](../data-types.md) | Время записи события в очередь или его последнего повтора ||
+|| **EVENT_NAME**
+[`string`](../data-types.md) | Код события, например `ONCRMLEADADD` ||
+|| **EVENT_DATA**
+[`object`](../data-types.md) или [`boolean`](../data-types.md) | Данные события — те же, что приходят в обработчик онлайн-события, например `FIELDS.ID`. Если у события нет данных, поле пустое: `false` или `null` ||
+|| **EVENT_ADDITIONAL**
+[`object`](../data-types.md) | Данные авторизации события. Поле `user_id` содержит идентификатор пользователя, который выполнил действие. Если действие выполнено без пользователя, например агентом, `user_id` равен `0` ||
+|| **MESSAGE_ID**
+[`string`](../data-types.md) | Ключ записи. Повторное событие с теми же данными обновляет незарезервированную запись, а не добавляет новую. Если запись уже зарезервирована пакетом, повтор создаст новую запись. Передайте значение в параметр `message_id` методов [event.offline.clear](./event-offline-clear.md) и [event.offline.error](./event-offline-error.md) ||
+|| **PROCESS_ID**
+[`string`](../data-types.md) | Идентификатор пакета, которым запись зарезервирована методом [event.offline.get](./event-offline-get.md) с `clear=0`. Пустая строка, если запись не зарезервирована ||
+|| **ERROR**
+[`string`](../data-types.md) | `1` — запись помечена ошибочной методом [event.offline.error](./event-offline-error.md), `0` — нет ||
 |#
 
 ## Обработка ошибок
@@ -451,15 +489,25 @@ HTTP-статус: **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
+|| `400` | `ERROR_ARGUMENT` | Filter field not allowed: … | В `filter` передано поле не из списка ||
+|| `400` | `ERROR_ARGUMENT` | Filter operation not allowed: … | В `filter` передана неподдерживаемая операция, например `!` ||
+|| `400` | `ERROR_ARGUMENT` | The filter is not an array. | Параметр `filter` передан не объектом ||
+|| `400` | `ERROR_ARGUMENT` | The order is not an array. | Параметр `order` передан не объектом ||
+|| `400` | `ERROR_ARGUMENT` | Order field not allowed: … | В `order` передано поле не из списка ||
+|| `400` | `ERROR_ARGUMENT` | ```Order direction should be one of {ASC|DESC}``` | В `order` передано направление не `ASC` и не `DESC` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `WRONG_LICENSE` | This feature is not enabled for the current license: auth_connector | Передан `auth_connector`, а тариф не поддерживает ключи источников ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./events.md)
 - [{#T}](./event-bind.md)
+- [{#T}](./test-handler.md)
 - [{#T}](./event-get.md)
 - [{#T}](./event-unbind.md)
 - [{#T}](./safe-event-handlers.md)

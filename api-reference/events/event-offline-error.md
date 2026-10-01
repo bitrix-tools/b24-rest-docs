@@ -9,11 +9,15 @@
 
 {% endnote %}
 
+> Scope: [`базовый`](../scopes/permissions.md)
+>
 > Кто может выполнять метод: администратор
 
-Метод `event.offline.error` сохраняет запись в базе с пометкой об ошибке при использовании офлайн-событий. Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
+Метод `event.offline.error` помечает записи зарезервированного пакета [офлайн-событий](./offline-events.md) как ошибочные. Такие записи снимаются с резерва и больше не попадают в обычную выдачу [event.offline.get](./event-offline-get.md). Получить их можно методом `event.offline.get` с параметром `error=1`.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
+Режим с резервированием пакетов доступен не на всех тарифах. Проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`.
+
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Права на методы событий описаны в разделе [Права доступа](./index.md#access).
 
 ## Параметры метода
 
@@ -23,10 +27,18 @@
 || **Название**
 `тип` | **Описание** ||
 || **process_id***
-[`string`](../data-types.md) | Идентификатор процесса, который занимается обработкой записей ||
-|| **message_id**
-[`array`](../data-types.md) | Массив значений поля `MESSAGE_ID` записей, которые нужно пометить как ошибочные ||
+[`string`](../data-types.md) | Идентификатор зарезервированного пакета событий. Его возвращает метод [event.offline.get](./event-offline-get.md) при вызове с параметром `clear=0` ||
+|| **message_id***
+[`array`](../data-types.md) | Массив значений поля `MESSAGE_ID` из ответа `event.offline.get` — ключи записей, которые нужно пометить ошибочными. Ключ — строка из 32 символов. Длину метод не проверяет: с неверным ключом запись не найдется, ошибки не будет. Записи, уже помеченные ошибочными, метод не изменяет. Если передать пустой массив, метод вернет `true` и ничего не изменит ||
+|| **auth_connector**
+[`string`](../data-types.md) | Ключ источника. Передайте то же значение, с которым пакет получен методом `event.offline.get`, иначе метод не найдет записи. Параметр доступен не на всех тарифах: проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_auth_connector`, иначе метод вернет ошибку `WRONG_LICENSE` ||
 |#
+
+{% note warning %}
+
+Метод помечает ошибочными только записи пакета с переданным `process_id`. Записи с теми же `MESSAGE_ID`, которые еще не обработаны и не входят в этот пакет, метод удаляет из очереди. Поэтому с чужим или неверным `process_id` метод ничего не пометит, удалит записи и вернет `true`. С пустой строкой в `process_id` метод пометит ошибочными записи, которые еще не зарезервированы в пакет, а записи с теми же ключами из других пакетов удалит.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -42,7 +54,7 @@
     -H "Accept: application/json" \
     -d '{
         "process_id": "yh3gu929sf0d32lsfysqas2y1hlpp09q",
-        "message_id": [2],
+        "message_id": ["b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3"],
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/event.offline.error
@@ -63,7 +75,7 @@
         method: 'event.offline.error',
         params: {
           process_id: 'yh3gu929sf0d32lsfysqas2y1hlpp09q',
-          message_id: [2],
+          message_id: ['b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3'],
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -96,7 +108,7 @@
             method: 'event.offline.error',
             params: {
               process_id: 'yh3gu929sf0d32lsfysqas2y1hlpp09q',
-              message_id: [2],
+              message_id: ['b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3'],
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -128,7 +140,7 @@
         bitrix_response = client.event.offline.error(
             process_id="yh3gu929sf0d32lsfysqas2y1hlpp09q",
             message_id=[
-                2,
+                "b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3",
             ],
         ).response
         result = bitrix_response.result
@@ -148,7 +160,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -157,7 +168,7 @@
                 'event.offline.error',
                 [
                     'process_id' => 'yh3gu929sf0d32lsfysqas2y1hlpp09q',
-                    'message_id' => [2],
+                    'message_id' => ['b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3'],
                 ]
             );
     
@@ -184,7 +195,7 @@
         "event.offline.error",
         {
             "process_id": "yh3gu929sf0d32lsfysqas2y1hlpp09q",
-            "message_id": [2]
+            "message_id": ["b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3"]
         },
         function(result)
         {
@@ -205,7 +216,7 @@
         'event.offline.error',
         [
             'process_id' => 'yh3gu929sf0d32lsfysqas2y1hlpp09q',
-            'message_id' => [2]
+            'message_id' => ['b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3']
         ]
     );
 
@@ -220,7 +231,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "event.offline.error", b24.Params{
     	"process_id": "yh3gu929sf0d32lsfysqas2y1hlpp09q",
-    	"message_id": []int{2},
+    	"message_id": []string{"b0c7f7c2a3f1e4d5c6b7a8f9e0d1c2b3"},
     })
     if err != nil {
     	return fmt.Errorf("event.offline.error: %w", err)
@@ -260,7 +271,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Успешность выполнения ||
+[`boolean`](../data-types.md) | Всегда `true`, если метод не вернул ошибку. Количество помеченных записей метод не возвращает ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -282,13 +293,18 @@ HTTP-статус: **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'PROCESS_ID' is null or empty | Не передан параметр `process_id` ||
+|| `400` | `ERROR_ARGUMENT` | Value must be array of MESSAGE_ID values | Параметр `message_id` не передан или передан не массивом ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `WRONG_LICENSE` | This feature is not enabled for the current license: auth_connector | Передан `auth_connector`, а тариф не поддерживает ключи источников ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./events.md)
 - [{#T}](./event-bind.md)
 - [{#T}](./event-get.md)
