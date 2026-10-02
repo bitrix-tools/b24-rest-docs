@@ -9,13 +9,17 @@
 
 {% endnote %}
 
-Метод `BX24.proxy` создает прокси-функцию для вызова `func` в контексте `thisObject`. Метод аналогичен `BX.proxy`. При повторном вызове с теми же `func` и `thisObject` возвращается та же прокси-функция.
-
 ```js
-Function BX24.proxy(Function func, Object thisObject)
+BX24.proxy(func: callable, thisObject: object): callable;
 ```
 
-## Параметры
+Метод `BX24.proxy` создает прокси-функцию. Прокси-функция вызывает `func`, и внутри `func` значение `this` указывает на объект `thisObject`. Это нужно, когда метод объекта назначают обработчиком события: без прокси `this` в обработчике укажет на элемент страницы, а не на объект.
+
+По назначению метод похож на `Function.prototype.bind`, но для одной и той же пары `func` и `thisObject` всегда возвращает одну и ту же функцию. Поэтому обработчик, назначенный через прокси, можно снять: [BX24.unbind](./bx24-unbind.md) получит ту же функцию, что и [BX24.bind](./bx24-bind.md).
+
+Метод работает на странице приложения, где подключена [библиотека BX24.js](../index.md), и не обращается к Битрикс24, поэтому ждать [BX24.init](../system-functions/bx24-init.md) не нужно. Собственный scope методу не нужен.
+
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -23,32 +27,43 @@ Function BX24.proxy(Function func, Object thisObject)
 || **Название**
 `тип` | **Описание** ||
 || **func***
-`function` | Исходная функция, для которой создается прокси ||
+[`callable`](../../../api-reference/data-types.md) | Исходная функция: объявленная через `function` или как метод объекта. У стрелочной функции и функции, привязанной через `Function.prototype.bind`, `this` не подменяется ||
 || **thisObject***
-`object` | Объект, который будет использоваться как `this` при вызове `func` ||
+[`object`](../../../api-reference/data-types.md) | Объект, на который будет указывать `this` внутри `func` ||
 |#
 
 ## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-```js
-BX24.init(function () {
-    const context = {
-        value: 10,
-        print: function (step) {
-            console.log(this.value + step);
-        }
-    };
+Назначить метод объекта обработчиком кнопки, а после третьего нажатия снять его:
 
-    const proxy = BX24.proxy(context.print, context);
-    proxy(5); // 15
-});
+```html
+<button id="counter">Нажать</button>
+
+<script>
+    BX24.ready(function () {
+        const counter = {
+            clicks: 0,
+            onClick: function () {
+                this.clicks++;
+                console.log('Нажатий:', this.clicks);
+
+                if (this.clicks === 3) {
+                    BX24.unbind(button, 'click', BX24.proxy(this.onClick, this));
+                }
+            }
+        };
+
+        const button = document.getElementById('counter');
+        BX24.bind(button, 'click', BX24.proxy(counter.onClick, counter));
+    });
+</script>
 ```
 
 ## Обработка ответа
 
-Метод синхронно возвращает результат типа `function`.
+Метод синхронно возвращает результат типа `function`. Прокси-функция передает в `func` все свои параметры и возвращает ее результат.
 
 ### Возвращаемые данные
 
@@ -56,10 +71,34 @@ BX24.init(function () {
 || **Название**
 `тип` | **Описание** ||
 || **result**
-`function` | Прокси-функция для вызова `func` в контексте `thisObject` ||
+[`function`](../../../api-reference/data-types.md) | Прокси-функция, которая вызывает `func` с `this`, равным `thisObject` ||
+|#
+
+Повторный вызов с той же парой `func` и `thisObject` вернет ту же функцию:
+
+```js
+const counter = { onClick: function () {} };
+
+BX24.proxy(counter.onClick, counter) === BX24.proxy(counter.onClick, counter); // true
+```
+
+## Обработка ошибок
+
+Кодов ошибок метод не возвращает.
+
+#|
+|| **Ситуация** | **Что происходит** | **Что делать** ||
+|| `thisObject` или `func` не передан или равен `null`, `0`, `false` либо пустой строке | Метод возвращает `func` как есть, без прокси | Передать оба параметра ||
+|| В `func` передана непустая строка | Метод выбрасывает исключение `TypeError` | Передать функцию ||
+|| В `func` передан объект, а не функция | Метод возвращает прокси-функцию, но при ее вызове возникает исключение `TypeError` | Передать функцию ||
+|| В `thisObject` передан не объект, например строка `'text'` или число `5` | Метод выбрасывает исключение `TypeError` | Передать объект ||
+|| `thisObject` унаследован через `Object.create` от объекта, с которым метод уже вызывали для той же `func` | Метод возвращает прокси-функцию родительского объекта: `this` внутри `func` указывает на родителя, ошибки нет | Передавать объект, созданный без наследования от уже переданного ||
+|| `func` или `thisObject` впервые передан в метод нерасширяемым — после `Object.freeze`, `Object.seal` или `Object.preventExtensions` | Метод выбрасывает исключение `TypeError`: библиотеке не удается записать в них служебное свойство | Передать обычный объект и функцию ||
+|| Внутри `func` возникло исключение | Исключение выходит из прокси-функции наружу. После этого [BX24.proxyContext](./bx24-proxy-context.md) может возвращать контекст прерванного вызова | Перехватывать исключения внутри `func` ||
 |#
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./bx24-proxy-context.md)
 - [{#T}](./bx24-bind.md)

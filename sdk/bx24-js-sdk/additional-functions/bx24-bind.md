@@ -9,13 +9,17 @@
 
 {% endnote %}
 
-Метод `BX24.bind` устанавливает функцию `func` в качестве обработчика события `eventName` для элемента страницы `element`.
-
 ```js
-void BX24.bind(DOMNode element, String eventName, Function func)
+BX24.bind(element: object, eventName: string, func: callable): void;
 ```
 
-## Параметры
+Метод `BX24.bind` назначает функцию `func` обработчиком события `eventName` у элемента страницы приложения `element`.
+
+По сути это упрощенный `addEventListener`. Для событий `mousewheel` и `transitionend` метод сразу подписывается и на их варианты для старых браузеров. Метод не принимает настройки `addEventListener`, например `capture` или `once`: обработчик срабатывает на самом элементе и при всплытии события от вложенных элементов, но не на этапе перехвата. Если нужны эти настройки, вызывайте `addEventListener` напрямую.
+
+Метод работает на странице приложения, где подключена [библиотека BX24.js](../index.md), и не обращается к Битрикс24. Собственный scope методу не нужен. Вызывайте метод, когда элемент уже есть на странице, например в обработчике [BX24.ready](./bx24-ready.md).
+
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -23,32 +27,50 @@ void BX24.bind(DOMNode element, String eventName, Function func)
 || **Название**
 `тип` | **Описание** ||
 || **element***
-`DOMNode` | HTML-элемент страницы (DOM-элемент), для которого нужно установить обработчик ||
+[`object`](../../../api-reference/data-types.md) | Элемент страницы приложения, например результат `document.getElementById` ||
 || **eventName***
-`string` | Название события. Для `mousewheel` дополнительно подключается `DOMMouseScroll`. Для `transitionend` дополнительно подключаются `webkitTransitionEnd`, `msTransitionEnd`, `oTransitionEnd` ||
+[`string`](../../../api-reference/data-types.md) | Название события без префикса `on`, например `click`. Для `mousewheel` метод дополнительно назначает обработчик события `DOMMouseScroll`, для `transitionend` — событий `webkitTransitionEnd`, `msTransitionEnd` и `oTransitionEnd` ||
 || **func***
-`function` | Функция-обработчик события ||
+[`callable`](../../../api-reference/data-types.md) | Функция-обработчик. Получает объект события браузера [(подробное описание)](#response). Если функция объявлена через `function` и не привязана через `Function.prototype.bind`, `this` внутри нее указывает на `element` ||
 |#
 
 ## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-```js
-BX24.init(function () {
-    const button = document.getElementById('run-action');
+```html
+<button id="run-action">Запустить</button>
 
-    BX24.bind(button, 'click', function () {
-        console.log('Кнопка нажата');
+<script>
+    BX24.ready(function () {
+        const button = document.getElementById('run-action');
+
+        BX24.bind(button, 'click', function (event) {
+            console.log('Событие', event.type, 'на кнопке', this.id); // Событие click на кнопке run-action
+        });
     });
-});
+</script>
 ```
 
-## Обработка ответа
+## Обработка ответа {#response}
 
-Метод не возвращает данные (`void`).
+Метод не возвращает данные (`void`). Когда событие произойдет, браузер вызовет `func` и передаст ей объект события, например `MouseEvent` для `click`. Набор полей зависит от типа события. Среди них всегда есть строка `type` с названием события и два элемента страницы: в `target` — тот, на котором событие произошло, в `currentTarget` — `element`, на который назначен обработчик. Они различаются, если событие пришло от вложенного элемента.
+
+Чтобы потом снять обработчик через [BX24.unbind](./bx24-unbind.md), сохраните функцию в переменную: снять обработчик можно только по той же ссылке на функцию.
+
+## Обработка ошибок
+
+Кодов ошибок метод не возвращает.
+
+#|
+|| **Ситуация** | **Что происходит** | **Что делать** ||
+|| Элемента нет на странице: в `element` передан `null`, например результат `getElementById` для несуществующего `id` | Обработчик не назначается, ошибки нет | Проверить `id` элемента и вызывать метод после готовности страницы, в обработчике [BX24.ready](./bx24-ready.md) ||
+|| В `element` передан обычный объект, а не элемент страницы | Библиотека записывает обработчик в свойство объекта, например `onclick` для события `click`. Событие браузера при этом не отслеживается, ошибки нет | Передать элемент страницы, например результат `document.getElementById` ||
+|| В `func` не передана функция | Если `func` не передан или равен `null`, обработчик не назначается, ошибки нет. Если `element` — элемент страницы, а в `func` передана строка или число, возникает исключение `TypeError` | Передать функцию ||
+|#
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./bx24-unbind.md)
 - [{#T}](./bx24-ready.md)
