@@ -232,9 +232,13 @@ result = client.crm.deal.add(
 Через объект приложения:
 
 ```python
-oauth_token = bitrix_app.get_oauth_token(code)
+renewed_oauth = bitrix_app.get_oauth_token(code)
+oauth_token = renewed_oauth.oauth_token
+
 renewed_oauth = bitrix_app.refresh_oauth_token(refresh_token)
-app_info = bitrix_app.get_app_info(auth_token)
+
+app_info_response = bitrix_app.get_app_info(auth_token)
+app_info = app_info_response.result
 ```
 
 Через объект токена:
@@ -242,7 +246,9 @@ app_info = bitrix_app.get_app_info(auth_token)
 ```python
 renewed_oauth = bitrix_token.refresh_oauth_token()
 bitrix_token.refresh_and_set_oauth_token()
-app_info = bitrix_token.get_app_info()
+
+app_info_response = bitrix_token.get_app_info()
+app_info = app_info_response.result
 ```
 
 `refresh_oauth_token()` получает новые OAuth-данные и возвращает их, но не меняет текущий объект токена. `refresh_and_set_oauth_token()` получает новые OAuth-данные и сохраняет их в текущем `bitrix_token`.
@@ -611,10 +617,13 @@ else:
 Пример обработки ошибок REST API v3:
 
 ```python
+from b24pysdk import Client
 from b24pysdk.errors.v3 import BitrixAPIError
 
+client_v3 = Client(bitrix_token, prefer_version=3)
+
 try:
-    result = client.tasks.task.get(bitrix_id=51).result
+    result = client_v3.tasks.task.get(bitrix_id=51).result
 except BitrixAPIError as error:
     print(error.code)
     print(error.error.message)
@@ -638,13 +647,21 @@ except BitrixAPIError as error:
 Типизированные модели входящих данных можно использовать и без интеграций с веб-фреймворками. Передайте словарь входящих параметров в `from_dict()`, а при необходимости проверьте данные приложения через `validate_against_app_info()`:
 
 ```python
+from b24pysdk import BitrixApp
 from b24pysdk.credentials import OAuthEventData, OAuthPlacementData, OAuthWorkflowData
+
+bitrix_app = BitrixApp(
+    client_id="put-your-client-id-here",
+    client_secret="put-your-client-secret-here",
+)
 
 placement_data = OAuthPlacementData.from_dict(placement_payload)
 event_data = OAuthEventData.from_dict(event_payload)
 workflow_data = OAuthWorkflowData.from_dict(workflow_payload)
 
 payload = placement_data.to_dict()
+
+app_info = placement_data.get_app_info(bitrix_app)
 placement_data.validate_against_app_info(app_info)
 ```
 
@@ -1198,8 +1215,7 @@ departments = (
     .using(client=client)
     .select_related(
         "parent",
-        "uf_head.name",
-        "uf_head.email",
+        "uf_head",
     )
     .all()
 )
@@ -1215,7 +1231,7 @@ departments = (
 select_related("uf_head")
 ```
 
-или конкретные поля связанного объекта:
+или конкретные поля связанного объекта, если связанный менеджер поддерживает `select()`:
 
 ```python
 select_related(
@@ -1323,19 +1339,28 @@ Department.objects.select_related("uf_head").all()
 ```python
 departments = (
     Department.objects
-    .select(
-        "bitrix_id",
-        "name",
-    )
     .select_related(
-        "uf_head.name",
-        "uf_head.email",
+        "uf_head",
     )
     .all()
 )
 ```
 
-Даже если исходное поле внешнего ключа связи не указано в `.select()`, SDK добавляет его автоматически, если оно нужно для `select_related()`.
+Для менеджеров, которые поддерживают `select()`, его можно комбинировать с `select_related()`. Даже если исходное поле внешнего ключа связи не указано в `.select()`, SDK добавляет его автоматически, если оно нужно для `select_related()`.
+
+```python
+workgroups = (
+    Workgroup.objects
+    .select(
+        "bitrix_id",
+        "name",
+    )
+    .select_related(
+        "owner",
+    )
+    .all()
+)
+```
 
 #### Конечная связь и конечные поля
 
@@ -1424,6 +1449,7 @@ result = users.delete()
 ```python
 department = Department.objects.add(
     name="Development",
+    parent_id=1,
     sort=100,
 )
 ```
@@ -1434,10 +1460,12 @@ department = Department.objects.add(
 result = Department.objects.add_many([
     {
         "name": "Backend",
+        "parent_id": 1,
         "sort": 100,
     },
     {
         "name": "Frontend",
+        "parent_id": 1,
         "sort": 200,
     },
 ])
@@ -1464,7 +1492,7 @@ result.has_errors
 
 ```python
 result = (
-    Department.objects
+    User.objects
     .filter(name__contains="Old")
     .update(name="Renamed")
 )
@@ -2114,7 +2142,7 @@ from b24pysdk.constants.crm import EntityTypeID
 
 fields = client.crm.item.fields(
     entity_type_id=EntityTypeID.DEAL,
-    use_original_uf_names="N",
+    use_original_uf_names=False,
 ).result
 ```
 
