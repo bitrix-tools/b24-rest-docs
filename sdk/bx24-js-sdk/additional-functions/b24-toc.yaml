@@ -1,6 +1,6 @@
 title: Интерфейс, навигация и контекст
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Изменить размер фрейма
@@ -19,25 +19,25 @@ items:
     href: bx24-scroll-parent-window.md
   - name: Установить обработчик события готовности DOM-структуры документа
     href: bx24-ready.md
-  - name: Установить флаг готовности DOM-структуры документа
+  - name: Проверить готовность DOM-структуры документа
     href: bx24-is-ready.md
   - name: Получить прокси-функцию
     href: bx24-proxy.md
-  - name: Получить ссылку на контекст
+  - name: Получить контекст вызова прокси-функции
     href: bx24-proxy-context.md
   - name: Установить функцию в качестве обработчика события
     href: bx24-bind.md
   - name: Отключить функцию в качестве обработчика события
     href: bx24-unbind.md
-  - name: Проверить администраторский доступ пользователя
+  - name: Проверить право пользователя на установку приложения
     href: bx24-is-admin.md
-  - name: Получить идентификатор языка в текущем Битрикс24
+  - name: Получить код языка интерфейса
     href: bx24-get-lang.md
   - name: Получить адрес Битрикс24
     href: bx24-get-domain.md
-  - name: Получить размеры фрейма
+  - name: Получить размеры страницы приложения
     href: bx24-get-scroll-size.md
-  - name: Запустить javascript-файл
+  - name: Загрузить javascript-файлы
     href: bx24-load-script.md
   - name: Открыть путь в слайдере
     href: bx24-open-path.md

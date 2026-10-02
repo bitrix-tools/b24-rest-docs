@@ -9,13 +9,21 @@
 
 {% endnote %}
 
-Метод `BX24.unbind` удаляет функцию `func` из обработчиков события `eventName` для элемента страницы `element`.
-
 ```js
-void BX24.unbind(DOMNode element, String eventName, Function func)
+BX24.unbind(element: object, eventName: string, func: callable): void;
 ```
 
-## Параметры
+Метод `BX24.unbind` снимает с элемента страницы `element` обработчик `func` события `eventName`, который назначил [BX24.bind](./bx24-bind.md).
+
+Метод работает на странице приложения, где подключена [библиотека BX24.js](../index.md), и не обращается к Битрикс24. Собственный scope методу не нужен.
+
+{% note warning "" %}
+
+Снять обработчик можно только по той же ссылке на функцию, которую передали в [BX24.bind](./bx24-bind.md). Если передать новую функцию, даже с тем же кодом, обработчик останется, а ошибки не будет. Поэтому функцию, которую понадобится снять, сохраняйте в переменную или создавайте через [BX24.proxy](./bx24-proxy.md).
+
+{% endnote %}
+
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -23,35 +31,52 @@ void BX24.unbind(DOMNode element, String eventName, Function func)
 || **Название**
 `тип` | **Описание** ||
 || **element***
-`DOMNode` | HTML-элемент страницы (DOM-элемент), для которого нужно удалить обработчик ||
+[`object`](../../../api-reference/data-types.md) | Элемент страницы, у которого нужно снять обработчик ||
 || **eventName***
-`string` | Название события. Для `mousewheel` дополнительно удаляется обработчик `DOMMouseScroll` ||
+[`string`](../../../api-reference/data-types.md) | Название события без префикса `on`, например `click`. Для `mousewheel` метод снимает и обработчик события `DOMMouseScroll` ||
 || **func***
-`function` | Функция-обработчик, которую нужно удалить ||
+[`callable`](../../../api-reference/data-types.md) | Та же функция, которую передали в [BX24.bind](./bx24-bind.md) ||
 |#
 
 ## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-```js
-BX24.init(function () {
-    const button = document.getElementById('run-action');
+Обработчик, который срабатывает только один раз:
 
-    function onClick() {
-        console.log('Кнопка нажата');
-    }
+```html
+<button id="run-action">Запустить</button>
 
-    BX24.bind(button, 'click', onClick);
-    BX24.unbind(button, 'click', onClick);
-});
+<script>
+    BX24.ready(function () {
+        const button = document.getElementById('run-action');
+
+        function onClick() {
+            console.log('Кнопка нажата');
+            BX24.unbind(button, 'click', onClick);
+        }
+
+        BX24.bind(button, 'click', onClick);
+    });
+</script>
 ```
 
 ## Обработка ответа
 
 Метод не возвращает данные (`void`).
 
+## Обработка ошибок
+
+Кодов ошибок метод не возвращает. Если снимать нечего, метод ничего не делает.
+
+#|
+|| **Ситуация** | **Что происходит** | **Что делать** ||
+|| Обработчик был назначен событию `transitionend` | Метод снимает обработчик только с `transitionend`. С событий `webkitTransitionEnd`, `msTransitionEnd` и `oTransitionEnd`, которые добавил [BX24.bind](./bx24-bind.md), он не снимается | Снять обработчик с каждого из этих событий отдельным вызовом `BX24.unbind` ||
+|| В `element` передан `null` | Ничего не происходит, ошибки нет | Передать элемент страницы ||
+|#
+
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./bx24-bind.md)
-- [{#T}](./bx24-ready.md)
+- [{#T}](./bx24-proxy.md)
