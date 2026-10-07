@@ -260,8 +260,6 @@ fields: {
             ->getResult();
     
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());

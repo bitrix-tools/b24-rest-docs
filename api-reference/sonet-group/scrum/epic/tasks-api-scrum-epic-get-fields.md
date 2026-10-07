@@ -169,9 +169,12 @@
     BX24.callMethod(
         'tasks.api.scrum.epic.getFields',
         {},
-        function(res)
-        {
-            console.log(res);
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data().fields);
+            }
         }
     );
     ```
@@ -188,11 +191,11 @@
     );
 
     // Обработка ответа от Битрикс24
-    if ($result['error']) {
+    if (isset($result['error'])) {
         echo 'Error: '.$result['error_description'];
     }
     else {
-        print_r($result['result']);
+        print_r($result['result']['fields']);
     }
     ```
 
@@ -262,9 +265,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Объект с ключом `fields` [(подробное описание)](#fields) ||
+[`object`](../../../data-types.md) | Объект с описанием полей эпика [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields**
+[`object`](../../../data-types.md) | Объект с именами полей эпика и их типами [(подробное описание)](#fields) ||
 |#
 
 #### Объект fields {#fields}

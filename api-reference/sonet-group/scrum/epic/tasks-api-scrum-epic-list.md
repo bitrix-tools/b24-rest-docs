@@ -605,18 +605,25 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-У метода нет своих ошибок. Пример общей ошибки — токен приложения без scope `task`:
+Если не удалось получить список эпиков, метод возвращает ошибку:
 
-HTTP-статус: **401**
+HTTP-статус: **400**
 
 ```json
 {
-    "error": "insufficient_scope",
-    "error_description": "The request requires higher privileges than provided by the access token"
+    "error": "0",
+    "error_description": "Could not load list"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | `Could not load list` | Не удалось получить список эпиков ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

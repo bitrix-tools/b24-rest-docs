@@ -118,7 +118,7 @@
 
     ```ts
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
@@ -132,8 +132,12 @@
         position: number
         createdBy: number
         updatedBy: number
-        createdAt: string
-        updatedAt: string
+        createdAt: ISODate
+        updatedAt: ISODate
+        contentUpdatedAt: ISODate
+        isArchived: boolean
+        isTrashed: boolean
+        isOrphan: boolean
       }
     }
 
@@ -207,7 +211,7 @@
 
     fields = {
         "title": "Глава 1 (обновлено)",
-        "markdown": "# Глава 1\n\nОбновленный текст",
+        "markdown": "# Глава 1\n\nОбновленный текст\n\n[[image fileId=5001 width=30.98 align=left]]",
     }
 
     try:
@@ -390,35 +394,35 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с результатом обновления документа ||
-|| **item**
+|| **result.item**
 [`object`](../../data-types.md) | Объект документа после обновления ||
-|| **item.id**
+|| **result.item.id**
 [`integer`](../../data-types.md) | Идентификатор документа ||
-|| **item.collectionId**
+|| **result.item.collectionId**
 [`integer`](../../data-types.md) | Идентификатор базы знаний или `null`, если документ доступен через прямой доступ к документу ||
-|| **item.parentId**
+|| **result.item.parentId**
 [`integer`](../../data-types.md) | Идентификатор родительского документа или `null` ||
-|| **item.title**
+|| **result.item.title**
 [`string`](../../data-types.md) | Заголовок документа ||
-|| **item.markdown**
+|| **result.item.markdown**
 [`string`](../../data-types.md) | Содержимое документа в Markdown ||
-|| **item.position**
+|| **result.item.position**
 [`integer`](../../data-types.md) | Позиция документа среди соседних страниц ||
-|| **item.createdBy**
+|| **result.item.createdBy**
 [`integer`](../../data-types.md) | Идентификатор автора документа ||
-|| **item.updatedBy**
+|| **result.item.updatedBy**
 [`integer`](../../data-types.md) | Идентификатор последнего редактора документа ||
-|| **item.createdAt**
+|| **result.item.createdAt**
 [`datetime`](../../data-types.md) | Дата и время создания документа в формате ISO 8601 со смещением часового пояса ||
-|| **item.updatedAt**
+|| **result.item.updatedAt**
 [`datetime`](../../data-types.md) | Дата и время последнего изменения документа в формате ISO 8601 со смещением часового пояса ||
-|| **item.contentUpdatedAt**
+|| **result.item.contentUpdatedAt**
 [`datetime`](../../data-types.md) | Дата и время изменения содержимого в формате ISO 8601 со смещением часового пояса ||
-|| **item.isArchived**
+|| **result.item.isArchived**
 [`boolean`](../../data-types.md) | Признак архивации документа ||
-|| **item.isTrashed**
+|| **result.item.isTrashed**
 [`boolean`](../../data-types.md) | Признак нахождения документа в корзине ||
-|| **item.isOrphan**
+|| **result.item.isOrphan**
 [`boolean`](../../data-types.md) | Признак отсутствия связанной базы знаний ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||

@@ -256,17 +256,18 @@
     }
 
     var item struct {
-    	ID         b24.ID `json:"id"`
-    	DocumentID b24.ID `json:"documentId"`
-    	Name       string `json:"name"`
-    	Size       int    `json:"size"`
-    	MimeType   string `json:"mimeType"`
-    	AssetType  string `json:"assetType"`
+        ID            b24.ID `json:"id"`
+        DocumentID    b24.ID `json:"documentId"`
+        Name          string `json:"name"`
+        Size          int    `json:"size"`
+        MimeType      string `json:"mimeType"`
+        AssetType     string `json:"assetType"`
+        AssetMarkdown string `json:"assetMarkdown"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ID, item.DocumentID)
+    fmt.Println(item.ID, item.AssetMarkdown)
     ```
 
 {% endlist %}
@@ -308,7 +309,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с результатом получения данных файла ||
-|| **item**
+|| **result.item**
 [`object`](../../data-types.md) | Объект с метаданными файла в `result.item`. [Описание свойств](#item) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||

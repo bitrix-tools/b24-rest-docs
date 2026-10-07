@@ -11,10 +11,10 @@
 
 При отправке REST-запросов специальные символы в параметрах могут нарушить структуру URL. Это приведет к ошибкам или неверным данным.
 
-Например, нужно создать лид с названием `John&Martin` через входящий вебхук. Согласно документации метода [crm.lead.add](../../api-reference/crm/leads/crm-lead-add.md), URL запроса должен выглядеть так:
+Например, нужно создать лид с названием `John&Martin` через входящий вебхук методом [crm.lead.add](../../api-reference/crm/leads/crm-lead-add.md). Если не закодировать `&` в названии, получится такой URL:
 
 ```curl
-https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/crm.lead.add?fields[TITLE]=John&Martin
+https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/crm.lead.add?fields%5BTITLE%5D=John&Martin
 ```
 
 После выполнения запроса можно обнаружить, что в названии лида осталось только `John`. Это произошло из-за того, что символ `&` разделяет параметры запроса. Если он встречается внутри значения, сервер воспримет его как начало нового параметра, а не как часть данных.
@@ -29,26 +29,42 @@ https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/crm.lead.add?fields[TITLE]=John&Ma
 Правильный URL для поставленной задачи:
 
 ```curl
-https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/crm.lead.add?fields[TITLE]=John%26Martin
+https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/crm.lead.add?fields%5BTITLE%5D=John%26Martin
 ```
+
 ## Какие символы нужно кодировать
 
-В URL особую роль играют: `&`, `?`, `%`, `[`, `]`, `#` и другие. Если они встречаются в значении параметра, их обязательно кодируют. Иначе сервер интерпретирует их как служебные, и результат запроса станет непредсказуемым.
+Кодируйте имя и значение каждого параметра отдельно. Разделители между ними оставляйте без изменений: `?` отделяет строку параметров от пути, `=` — имя от значения, `&` — параметры друг от друга. Квадратные скобки в имени `fields[TITLE]` задают вложенную структуру; в URL такое имя записывают как `fields%5BTITLE%5D`. После разбора запроса сервер получает исходное имя `fields[TITLE]`.
+
+#|
+|| **Символ** | **Код** ||
+|| `&` | `%26` ||
+|| `?` | `%3F` ||
+|| `=` | `%3D` ||
+|| `%` | `%25` ||
+|| `[` | `%5B` ||
+|| `]` | `%5D` ||
+|| `#` | `%23` ||
+|| `+` | `%2B` ||
+|| пробел | `%20` ||
+|#
+
+Таблица показывает кодирование символов внутри имени или значения. Например, для значения `John&Martin` замените `&` на `%26`, а `&` между двумя параметрами оставьте как разделитель. Для кодирования произвольного текста применяйте функцию языка программирования, а не заменяйте символы вручную.
 
 ## Как кодировать в разных языках
 
 Каждый язык программирования предоставляет встроенную функцию:
 
--  JavaScript — `encodeURIComponent`
--  PHP — `urlencode`
--  Python — `urllib.parse.quote_plus`
--  Java — `URLEncoder.encode`
+- JavaScript — `encodeURIComponent`
+- PHP — `urlencode`
+- Python — `urllib.parse.quote_plus`
+- Java — `URLEncoder.encode`
 
-Если вы формируете запрос вручную, используйте любой онлайн-сервис по запросу «url кодирование онлайн».
+Эти функции кодируют отдельное имя или значение параметра, а не URL целиком. Функции `urlencode`, `quote_plus` и `URLEncoder.encode` передают пробел как `+`; при разборе параметров формы он снова станет пробелом. Если нужен код `%20`, используйте `rawurlencode` в PHP или `urllib.parse.quote` в Python.
 
 {% note tip "" %}
 
-Проверить корректность запроса можно с помощью сервиса [https://webhook.site](https://webhook.site). Он показывает полный запрос, включая заголовки и параметры.
+Посмотреть, какие заголовки и параметры получит сервер, можно на тестовом адресе [webhook.site](https://webhook.site). Отправляйте туда только тестовые данные без токена вебхука и персональных данных.
 
 {% endnote %}
 
@@ -62,9 +78,12 @@ https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/crm.lead.add?fields[TITLE]=John%26
 Если бы требовалось создать лид из примера выше в рамках пакетного выполнения запросов, URL выглядел бы так:
 
 ```curl
-https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/batch?cmd[0]=crm.lead.add%3Ffields%5BTITLE%5D%3DJohn%2526Martin
+https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/batch?cmd%5B0%5D=crm.lead.add%3Ffields%5BTITLE%5D%3DJohn%2526Martin
 ```
+
 Обратите внимание: `%26` превратилось в `%2526`, потому что символ `%` сам был закодирован как `%25`.
+
+Если передаете `cmd` в JSON-теле POST-запроса, всю строку подзапроса дополнительно кодировать не нужно. Подробнее о форматах пакетного запроса читайте в статье [Как выполнить пакет запросов batch](./batch.md).
 
 {% note info "" %}
 
@@ -104,7 +123,7 @@ https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/batch?cmd[0]=crm.lead.add%3Ffields
                   }
               ]
           }
-      }' \ 
+      }' \
   https://***/rest/***/crm.lead.add
   ```
 
@@ -143,7 +162,7 @@ https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/batch?cmd[0]=crm.lead.add%3Ffields
 - JS
 
   ```js
-  data = {
+  const data = {
       fields: {
           TITLE: 'My company',
           PHONE: [
@@ -203,7 +222,7 @@ https://b24-abcdef.bitrix24.ru/rest/1/xxxxxxx/batch?cmd[0]=crm.lead.add%3Ffields
 GET-запрос для примера выше:
 
 ```curl
-https://***/rest/***/crm.lead.add.json?fields[TITLE]=My%20company&fields[PHONE][0][VALUE]=112233&fields[PHONE][0][VALUE_TYPE]=WORK&fields[PHONE][1][VALUE]=555888112&fields[PHONE][1][VALUE_TYPE]=OTHER
+https://***/rest/***/crm.lead.add.json?fields%5BTITLE%5D=My%20company&fields%5BPHONE%5D%5B0%5D%5BVALUE%5D=112233&fields%5BPHONE%5D%5B0%5D%5BVALUE_TYPE%5D=WORK&fields%5BPHONE%5D%5B1%5D%5BVALUE%5D=555888112&fields%5BPHONE%5D%5B1%5D%5BVALUE_TYPE%5D=OTHER
 ```
 
 Как собрать такую строку программно:
@@ -223,7 +242,7 @@ https://***/rest/***/crm.lead.add.json?fields[TITLE]=My%20company&fields[PHONE][
 - application/x-www-form-urlencoded
 
   ```curl
-  fields[TITLE]=My%20company&fields[PHONE][0][VALUE]=112233&fields[PHONE][0][VALUE_TYPE]=WORK&fields[PHONE][1][VALUE]=555888112&fields[PHONE][1][VALUE_TYPE]=OTHER
+  fields%5BTITLE%5D=My%20company&fields%5BPHONE%5D%5B0%5D%5BVALUE%5D=112233&fields%5BPHONE%5D%5B0%5D%5BVALUE_TYPE%5D=WORK&fields%5BPHONE%5D%5B1%5D%5BVALUE%5D=555888112&fields%5BPHONE%5D%5B1%5D%5BVALUE_TYPE%5D=OTHER
   ```
 
 - multipart/form-data
@@ -249,7 +268,7 @@ https://***/rest/***/crm.lead.add.json?fields[TITLE]=My%20company&fields[PHONE][
   Content-Disposition: form-data; name="fields[PHONE][1][VALUE_TYPE]"
   
   OTHER
-  --SomeBoundary
+  --SomeBoundary--
   ```
 
 {% endlist %}
@@ -267,7 +286,7 @@ https://***/rest/***/crm.lead.add.json?fields[TITLE]=My%20company&fields[PHONE][
 - cURL
 
   ```bash
-  curl 'https://***/rest/***/task.commentitem.add?TASKID=123&FIELDS[POST_MESSAGE]=test'
+  curl 'https://***/rest/***/task.commentitem.add?TASKID=123&FIELDS%5BPOST_MESSAGE%5D=test'
   ```
 
 - PHP 
@@ -303,7 +322,7 @@ https://***/rest/***/crm.lead.add.json?fields[TITLE]=My%20company&fields[PHONE][
 - cURL
 
   ```bash
-  curl 'https://***/rest/***/task.commentitem.add?0=123&1[POST_MESSAGE]=test'
+  curl 'https://***/rest/***/task.commentitem.add?0=123&1%5BPOST_MESSAGE%5D=test'
   ```
 
 - PHP

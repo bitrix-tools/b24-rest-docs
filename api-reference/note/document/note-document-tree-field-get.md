@@ -345,7 +345,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
-|| **item**
+|| **result.item**
 [`object`](../../data-types.md) | Описание поля в `result.item`. [Свойства объекта](#item) зависят от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||

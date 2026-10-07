@@ -82,6 +82,9 @@
         name: string
         position: number
         policyLevel: string
+        accessLevel: string
+        isArchived: boolean
+        markdownDescription: string | null
         createdBy: number
         updatedBy: number
         createdAt: ISODate
@@ -302,29 +305,29 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с данными базы знаний ||
-|| **item**
+|| **result.item**
 [`object`](../../data-types.md) | Объект базы знаний ||
-|| **item.id**
+|| **result.item.id**
 [`integer`](../../data-types.md) | Идентификатор базы знаний ||
-|| **item.name**
+|| **result.item.name**
 [`string`](../../data-types.md) | Название базы знаний ||
-|| **item.position**
+|| **result.item.position**
 [`integer`](../../data-types.md) | Позиция базы знаний в общем списке ||
-|| **item.policyLevel**
+|| **result.item.policyLevel**
 [`string`](../../data-types.md) | Код политики доступа базы знаний, например `private` или `portal` ||
-|| **item.accessLevel**
+|| **result.item.accessLevel**
 [`string`](../../data-types.md) | Код уровня доступа текущего пользователя, например `full` ||
-|| **item.isArchived**
+|| **result.item.isArchived**
 [`boolean`](../../data-types.md) | Признак архивации базы знаний ||
-|| **item.markdownDescription**
+|| **result.item.markdownDescription**
 [`string`](../../data-types.md) или `null` | Дополнительное описание в Markdown. Может быть `null` ||
-|| **item.createdBy**
+|| **result.item.createdBy**
 [`integer`](../../data-types.md) | Идентификатор автора базы знаний ||
-|| **item.createdAt**
+|| **result.item.createdAt**
 [`datetime`](../../data-types.md) | Дата и время создания базы знаний в формате ISO 8601 со смещением часового пояса ||
-|| **item.updatedBy**
+|| **result.item.updatedBy**
 [`integer`](../../data-types.md) | Идентификатор последнего редактора базы знаний ||
-|| **item.updatedAt**
+|| **result.item.updatedAt**
 [`datetime`](../../data-types.md) | Дата и время последнего изменения базы знаний в формате ISO 8601 со смещением часового пояса ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||

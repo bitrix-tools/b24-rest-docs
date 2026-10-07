@@ -93,7 +93,7 @@
 
     type DocumentTreeListResult = {
       items: TreeNode[]
-      truncated: boolean
+      truncated?: boolean
     }
 
     try {
@@ -109,7 +109,10 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Tree roots:', result.items.length, result.truncated)
+        console.info('Tree roots:', result.items.length)
+        if (result.truncated !== undefined) {
+          console.info('Tree truncated:', result.truncated)
+        }
       }
     } catch (error) {
       console.error(error)
@@ -139,7 +142,10 @@
           }
 
           const result = response.getData().result
-          console.info('Tree roots:', result.items.length, result.truncated)
+          console.info('Tree roots:', result.items.length)
+          if (result.truncated !== undefined) {
+            console.info('Tree truncated:', result.truncated)
+          }
         } catch (error) {
           console.error(error)
         }
@@ -246,13 +252,25 @@
     	return fmt.Errorf("note.document.tree.list: %w", err)
     }
 
-    var item struct {
-    	Truncated bool `json:"truncated"`
+    type TreeNode struct {
+        ID           int        `json:"id"`
+        CollectionID int        `json:"collectionId"`
+        ParentID     *int       `json:"parentId"`
+        Title        string     `json:"title"`
+        Position     int        `json:"position"`
+        Children     []TreeNode `json:"children"`
     }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
+    var result struct {
+        Items     []TreeNode `json:"items"`
+        Truncated *bool      `json:"truncated"`
+    }
+    if err := json.Unmarshal(res.Result, &result); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Truncated)
+    fmt.Println("Корневых документов:", len(result.Items))
+    if result.Truncated != nil {
+        fmt.Println("Дерево обрезано:", *result.Truncated)
+    }
     ```
 
 {% endlist %}
@@ -305,10 +323,27 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с деревом документов ||
-|| **items**
-[`array`](../../data-types.md) | Корневые узлы дерева документов ||
-|| **items[]**
-[`object`](../../data-types.md) | Объект документа дерева ||
+|| **result.items**
+[`array`](../../data-types.md) | Корневые [узлы дерева](#tree-node) документов ||
+|| **result.items[]**
+[`object`](../../data-types.md) | Корневой [узел дерева](#tree-node) документов ||
+|| **result.truncated**
+[`boolean`](../../data-types.md) | Значение `true`, если дерево превышало внутренний лимит `TREE_MAX_NODES = 5000` и было обрезано по корневым узлам.
+
+Исключение — первый корневой документ. Если он один превышает внутренний лимит `TREE_MAX_NODES`, метод вернет его начальную часть в порядке обхода в ширину, чтобы ответ не оказался пустым.
+
+Поле может отсутствовать в ответе. В таком случае по ответу нельзя определить, было ли дерево обрезано ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Узел дерева {#tree-node}
+
+Каждый элемент массива `result.items` и вложенного массива `children` имеет одинаковую структуру.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор документа ||
 || **collectionId**
@@ -320,13 +355,7 @@ HTTP-статус: **200**
 || **position**
 [`integer`](../../data-types.md) | Позиция документа среди соседних страниц ||
 || **children**
-[`array`](../../data-types.md) | Дочерние страницы документа ||
-|| **truncated**
-[`boolean`](../../data-types.md) | Значение `true`, если дерево превышало внутренний лимит `TREE_MAX_NODES = 5000` и было обрезано по корневым узлам.
-
-Исключение — первый корневой документ. Если он один превышает внутренний лимит `TREE_MAX_NODES`, метод вернет его начальную часть в порядке обхода в ширину, чтобы ответ не оказался пустым ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`array`](../../data-types.md) | Дочерние [узлы дерева](#tree-node). Пустой массив, если дочерних документов нет ||
 |#
 
 ## Обработка ошибок

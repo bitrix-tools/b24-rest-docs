@@ -116,6 +116,9 @@
         name: string
         position: number
         policyLevel: string
+        accessLevel: string
+        isArchived: boolean
+        markdownDescription: string | null
         createdBy: number
         updatedBy: number
         createdAt: ISODate
@@ -321,8 +324,25 @@
     	return fmt.Errorf("note.collection.list: %w", err)
     }
 
-    // Форма ответа показана ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    var result struct {
+        Items []struct {
+            ID   int    `json:"id"`
+            Name string `json:"name"`
+        } `json:"items"`
+        NextCursor *struct {
+            Position int `json:"position"`
+            ID       int `json:"id"`
+        } `json:"nextCursor"`
+    }
+    if err := json.Unmarshal(res.Result, &result); err != nil {
+        return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, item := range result.Items {
+        fmt.Println(item.ID, item.Name)
+    }
+    if result.NextCursor != nil {
+        fmt.Println("Следующий курсор:", result.NextCursor.Position, result.NextCursor.ID)
+    }
     ```
 
 {% endlist %}

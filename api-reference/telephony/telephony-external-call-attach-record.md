@@ -28,13 +28,13 @@
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md).
 
 Если вызвать метод повторно для одного и того же звонка, новая запись заменит ранее прикрепленную ||
-|| **RECORD_URL**
+|| **RECORD_URL***
 [`string`](../data-types.md) | URL записи на внешнем сервере. Если параметр передан, Битрикс24 скачивает файл по ссылке.
 
 Рекомендуется использовать только если файл доступен стабильно и быстро.
 
 Адрес должен быть доступен из интернета. Если домен из ссылки указывает на непубличный IP-адрес, например из локальной сети, Битрикс24 не скачивает файл и метод возвращает ошибку. Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl` ||
-|| **FILENAME**
+|| **FILENAME***
 [`string`](../data-types.md) | Имя файла записи.
 
 Возможные расширения:
@@ -42,7 +42,13 @@
 - `mp3`
 
 В режиме `RECORD_URL`:
-- если `FILENAME` не передан, имя берется из URL ||
+- если `FILENAME` не передан, имя берется из URL
+
+{% note info "" %}
+
+Необходимо указать хотя бы один из параметров: `RECORD_URL` или `FILENAME`
+
+{% endnote %} ||
 || **FILE_CONTENT**
 [`string`](../data-types.md) | Файл в кодировке [Base64](../files/how-to-upload-files.md) ||
 |#
@@ -350,7 +356,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_CORE",
+    "error": "",
     "error_description": "Required parameters are not set. Request should contain or URL or FILENAME parameter"
 }
 ```
@@ -361,14 +367,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ERROR_CORE` | Required parameters are not set. Request should contain or URL or FILENAME parameter | Не переданы `RECORD_URL` и `FILENAME` ||
-|| `ERROR_CORE` | Call is not found in the statistic table. Looks like it is not finished yet. | Звонок не найден в статистике. Убедитесь, что звонок завершен ||
+|| Пустое значение | Required parameters are not set. Request should contain or URL or FILENAME parameter | Не переданы `RECORD_URL` и `FILENAME` ||
+|| Пустое значение | Call is not found in the statistic table. Looks like it is not finished yet. | Звонок не найден в статистике. Убедитесь, что звонок завершен ||
 || `ERROR_CORE` | File name is empty | Пустой `FILENAME` ||
 || `ERROR_CORE` | Wrong file extension. Only wav and mp3 are allowed | Недопустимое расширение файла ||
 || `ERROR_CORE` | File content is empty. | Пустой `FILE_CONTENT` ||
 || `ERROR_CORE` | File content is not properly encoded. Base64 encoding is expected. | `FILE_CONTENT` передан не в Base64 ||
 || `ERROR_CORE` | Server returns HTTP error code {N} | Ошибка HTTP при загрузке записи по `RECORD_URL` ||
-|| — | Record URL resolves to a non-public address and was blocked. | `RECORD_URL` указывает на непубличный IP-адрес, например из локальной сети. Передайте запись в `FILE_CONTENT` или загрузите по `uploadUrl` ||
+|| Пустое значение | Record URL resolves to a non-public address and was blocked. | `RECORD_URL` указывает на непубличный IP-адрес, например из локальной сети. Передайте запись в `FILE_CONTENT` или загрузите по `uploadUrl` ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

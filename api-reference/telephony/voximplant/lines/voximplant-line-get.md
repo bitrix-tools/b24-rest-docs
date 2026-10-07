@@ -15,6 +15,8 @@
 
 Метод `voximplant.line.get` возвращает список доступных исходящих линий.
 
+Ключи ответа — идентификаторы `LINE_ID` для [voximplant.line.outgoing.set](./voximplant-line-outgoing-set.md). В списке могут быть SIP-линии.
+
 ## Параметры метода
 
 Без параметров.
@@ -200,17 +202,13 @@
     	return fmt.Errorf("voximplant.line.get: %w", err)
     }
 
-    var item struct {
-    	Reg150907 string `json:"reg150907"`
-    	Sip7      string `json:"sip7"`
-    	Reg151083 string `json:"reg151083"`
-    	Sip11     string `json:"sip11"`
-    	Reg151085 string `json:"reg151085"`
-    }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
+    var lines map[string]string
+    if err := json.Unmarshal(res.Result, &lines); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Reg150907, item.Sip7)
+    for id, name := range lines {
+        fmt.Printf("%s: %s\n", id, name)
+    }
     ```
 
 {% endlist %}
