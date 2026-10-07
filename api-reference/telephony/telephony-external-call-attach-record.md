@@ -31,7 +31,9 @@
 || **RECORD_URL**
 [`string`](../data-types.md) | URL записи на внешнем сервере. Если параметр передан, Битрикс24 скачивает файл по ссылке.
 
-Рекомендуется использовать только если файл доступен стабильно и быстро ||
+Рекомендуется использовать только если файл доступен стабильно и быстро.
+
+Адрес должен быть доступен из интернета. Если домен из ссылки указывает на непубличный IP-адрес, например из локальной сети, Битрикс24 не скачивает файл и метод возвращает ошибку. Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl` ||
 || **FILENAME**
 [`string`](../data-types.md) | Имя файла записи.
 
@@ -366,6 +368,7 @@ HTTP-статус: **400**
 || `ERROR_CORE` | File content is empty. | Пустой `FILE_CONTENT` ||
 || `ERROR_CORE` | File content is not properly encoded. Base64 encoding is expected. | `FILE_CONTENT` передан не в Base64 ||
 || `ERROR_CORE` | Server returns HTTP error code {N} | Ошибка HTTP при загрузке записи по `RECORD_URL` ||
+|| — | Record URL resolves to a non-public address and was blocked. | `RECORD_URL` указывает на непубличный IP-адрес, например из локальной сети. Передайте запись в `FILE_CONTENT` или загрузите по `uploadUrl` ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
