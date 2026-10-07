@@ -42,9 +42,13 @@
 
 Допустимые значения: от `1` до `200`
 
-По умолчанию: `50` ||
+По умолчанию: `50`.
+
+Значение приводится к целому числу. Значения больше `200` уменьшаются до `200`; нулевое, отрицательное или нечисловое значение заменяется на `50` без ошибки валидации ||
 || **afterCursor**
-[`object`](../../data-types.md) | Курсор следующей страницы. Передавайте значение `nextCursor` из предыдущего ответа. [Описание структуры объекта](#aftercursor) ||
+[`object`](../../data-types.md) | Курсор следующей страницы. Передавайте значение `result.nextCursor` из предыдущего ответа. [Описание структуры объекта](#aftercursor).
+
+По умолчанию: первая страница. Если курсор не содержит оба поля `position` и `id` или передан не объектом, он игнорируется без ошибки валидации ||
 |#
 
 ### Параметр afterCursor {#aftercursor}
@@ -61,6 +65,8 @@
 
 Обязателен, если задан `afterCursor` ||
 |#
+
+Поля курсора приводятся к целым числам. Чтобы не начать обход заново и не пропустить записи, передавайте курсор из ответа без изменений. Для следующего запроса сохраняйте тот же `pagination.limit`; завершайте обход при `result.nextCursor = null`.
 
 ## Примеры кода
 
@@ -328,31 +334,44 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
+        "nextCursor": null,
         "items": [
             {
-                "id": 1,
-                "name": "Продуктовая документация",
+                "id": 9,
+                "name": "База знаний 1",
                 "position": 100,
-                "policyLevel": "view",
+                "policyLevel": "private",
+                "accessLevel": "full",
+                "isArchived": false,
                 "createdBy": 1,
+                "createdAt": "2026-06-23T22:01:03+03:00",
                 "updatedBy": 1,
-                "createdAt": "2026-04-20T12:00:00Z",
-                "updatedAt": "2026-04-21T09:15:30Z"
+                "updatedAt": "2026-06-23T22:05:39+03:00",
+                "markdownDescription": null
+            },
+            {
+                "id": 7,
+                "name": "База знаний 2",
+                "position": 100,
+                "policyLevel": "private",
+                "accessLevel": "full",
+                "isArchived": false,
+                "createdBy": 1,
+                "createdAt": "2026-06-22T12:16:33+03:00",
+                "updatedBy": 1,
+                "updatedAt": "2026-06-22T12:16:33+03:00",
+                "markdownDescription": null
             }
-        ],
-        "nextCursor": {
-            "position": 100,
-            "id": 1
-        }
+        ]
     },
     "time": {
-        "start": 1780639200,
-        "finish": 1780639200.224321,
-        "duration": 0.2243211269378662,
-        "processing": 0.18721413612365723,
-        "date_start": "2026-06-19T10:00:00+03:00",
-        "date_finish": "2026-06-19T10:00:00+03:00",
-        "operating_reset_at": 1780639800,
+        "start": 1791206039,
+        "finish": 1791206039.885758,
+        "duration": 0.8857579231262207,
+        "processing": 0,
+        "date_start": "2026-10-05T16:13:59+03:00",
+        "date_finish": "2026-10-05T16:13:59+03:00",
+        "operating_reset_at": 1791206639,
         "operating": 0
     }
 }
@@ -364,36 +383,37 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект со списком баз знаний ||
-|| **items**
-[`array`](../../data-types.md) | Список баз знаний, доступных пользователю ||
-|| **items[]**
-[`object`](../../data-types.md) | Объект базы знаний ||
-|| **id**
+[`object`](../../data-types.md) | Объект со списком баз знаний и курсором ||
+|| **result.items**
+[`array`](../../data-types.md) | Массив объектов баз знаний, доступных пользователю ||
+|| **result.items[].id**
 [`integer`](../../data-types.md) | Идентификатор базы знаний ||
-|| **name**
+|| **result.items[].name**
 [`string`](../../data-types.md) | Название базы знаний ||
-|| **position**
-[`integer`](../../data-types.md) | Позиция базы знаний в общем списке ||
-|| **policyLevel**
-[`string`](../../data-types.md) | Базовая политика доступа базы знаний.
-
-Возможные значения:
-
-- `none` — нет доступа
-- `view` — просмотр
-- `manage` — редактирование
-- `moderate` — администрирование ||
-|| **createdBy**
+|| **result.items[].position**
+[`integer`](../../data-types.md) | Позиция базы знаний в списке ||
+|| **result.items[].policyLevel**
+[`string`](../../data-types.md) | Код политики доступа базы знаний, например `private` или `portal`. Уровень доступа текущего пользователя возвращается отдельно в `accessLevel` ||
+|| **result.items[].accessLevel**
+[`string`](../../data-types.md) | Код уровня доступа текущего пользователя к базе знаний. В примере — `full` ||
+|| **result.items[].isArchived**
+[`boolean`](../../data-types.md) | `true` — база знаний архивирована, `false` — не архивирована ||
+|| **result.items[].createdBy**
 [`integer`](../../data-types.md) | Идентификатор автора базы знаний ||
-|| **updatedBy**
+|| **result.items[].updatedBy**
 [`integer`](../../data-types.md) | Идентификатор последнего редактора базы знаний ||
-|| **createdAt**
-[`datetime`](../../data-types.md) | Дата и время создания базы знаний в UTC ||
-|| **updatedAt**
-[`datetime`](../../data-types.md) | Дата и время последнего изменения базы знаний в UTC ||
-|| **nextCursor**
-[`object`](../../data-types.md) | Курсор следующей страницы или `null`, если страниц больше нет ||
+|| **result.items[].createdAt**
+[`datetime`](../../data-types.md) или `null` | Дата и время создания в формате ISO 8601 с часовым поясом ||
+|| **result.items[].updatedAt**
+[`datetime`](../../data-types.md) или `null` | Дата и время последнего изменения в формате ISO 8601 с часовым поясом ||
+|| **result.items[].markdownDescription**
+[`string`](../../data-types.md) или `null` | Дополнительное описание Markdown. В приведенном ответе — `null` ||
+|| **result.nextCursor**
+[`object`](../../data-types.md) или `null` | Курсор следующей страницы. `null` означает, что страниц больше нет ||
+|| **result.nextCursor.position**
+[`integer`](../../data-types.md) | Позиция последней базы знаний на странице. Присутствует, если `nextCursor` не равен `null` ||
+|| **result.nextCursor.id**
+[`integer`](../../data-types.md) | Идентификатор последней базы знаний на странице. Присутствует, если `nextCursor` не равен `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -414,6 +434,8 @@ HTTP-статус: **403**
 {% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
 
 ### Возможные коды ошибок
+
+Выход `pagination.limit` за диапазон и неполный `pagination.afterCursor` не вызывают ошибки валидации: значения нормализуются по правилам из раздела «Параметры метода».
 
 #### Ошибки доступа
 

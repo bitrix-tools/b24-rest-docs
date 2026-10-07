@@ -21,6 +21,8 @@
 
 Метод `note.document.get` возвращает один документ с содержимым в Markdown.
 
+Архивный документ или документ в корзине может оставаться доступным для чтения. Проверяйте его состояние по полям `isArchived` и `isTrashed`.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -280,7 +282,11 @@ HTTP-статус: **200**
             "createdBy": 1,
             "updatedBy": 1,
             "createdAt": "2026-04-20T12:00:00Z",
-            "updatedAt": "2026-04-21T09:15:30Z"
+            "updatedAt": "2026-04-21T09:15:30Z",
+            "contentUpdatedAt": "2026-04-21T09:15:30Z",
+            "isArchived": false,
+            "isTrashed": false,
+            "isOrphan": false
         }
     },
     "time": {
@@ -305,26 +311,34 @@ HTTP-статус: **200**
 [`object`](../../data-types.md) | Объект с данными документа ||
 || **item**
 [`object`](../../data-types.md) | Объект документа ||
-|| **id**
+|| **item.id**
 [`integer`](../../data-types.md) | Идентификатор документа ||
-|| **collectionId**
+|| **item.collectionId**
 [`integer`](../../data-types.md) | Идентификатор базы знаний или `null`, если документ доступен через прямой доступ к документу ||
-|| **parentId**
+|| **item.parentId**
 [`integer`](../../data-types.md) | Идентификатор родительского документа или `null` ||
-|| **title**
+|| **item.title**
 [`string`](../../data-types.md) | Заголовок документа ||
-|| **markdown**
+|| **item.markdown**
 [`string`](../../data-types.md) | Содержимое документа в Markdown ||
-|| **position**
+|| **item.position**
 [`integer`](../../data-types.md) | Позиция документа среди соседних страниц ||
-|| **createdBy**
+|| **item.createdBy**
 [`integer`](../../data-types.md) | Идентификатор автора документа ||
-|| **updatedBy**
+|| **item.updatedBy**
 [`integer`](../../data-types.md) | Идентификатор последнего редактора документа ||
-|| **createdAt**
-[`datetime`](../../data-types.md) | Дата и время создания документа в UTC ||
-|| **updatedAt**
-[`datetime`](../../data-types.md) | Дата и время последнего изменения документа в UTC ||
+|| **item.createdAt**
+[`datetime`](../../data-types.md) | Дата и время создания документа в формате ISO 8601 со смещением часового пояса ||
+|| **item.updatedAt**
+[`datetime`](../../data-types.md) | Дата и время последнего изменения документа в формате ISO 8601 со смещением часового пояса ||
+|| **item.contentUpdatedAt**
+[`datetime`](../../data-types.md) | Дата и время изменения содержимого в формате ISO 8601 со смещением часового пояса ||
+|| **item.isArchived**
+[`boolean`](../../data-types.md) | Признак архивации документа ||
+|| **item.isTrashed**
+[`boolean`](../../data-types.md) | Признак нахождения документа в корзине ||
+|| **item.isOrphan**
+[`boolean`](../../data-types.md) | Признак отсутствия связанной базы знаний ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -377,7 +391,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Документ не найден | Проверьте, что документ существует, не архивирован, не находится в корзине и доступен пользователю ||
+|| `id` | Документ не найден | Проверьте, что документ существует и доступен пользователю ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -46,7 +46,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"custom-info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU"}' \
+    -d '{"code":"custom-info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg=="}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.icon.add
     ```
 
@@ -56,7 +56,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"code":"custom-info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU","auth":"**put_access_token_here**"}' \
+    -d '{"code":"custom-info","fileContent":"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.icon.add
     ```
 
@@ -84,7 +84,7 @@
         method: 'crm.timeline.icon.add',
         params: {
           code: 'custom-info',
-          fileContent: 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU',
+          fileContent: 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -117,7 +117,7 @@
             method: 'crm.timeline.icon.add',
             params: {
               code: 'custom-info',
-              fileContent: 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU',
+              fileContent: 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -148,7 +148,7 @@
     try:
         bitrix_response = client.crm.timeline.icon.add(
             code="custom-info",
-            file_content="iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
+            file_content="iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==",
         ).response
         result = bitrix_response.result
         print(result)
@@ -176,7 +176,7 @@
                 'crm.timeline.icon.add',
                 [
                     'code'        => 'custom-info',
-                    'fileContent' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU',
+                    'fileContent' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==',
                 ]
             );
     
@@ -184,11 +184,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -203,7 +199,7 @@
         "crm.timeline.icon.add",
         {
             code: "custom-info",
-            fileContent: "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
+            fileContent: "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==",
         },
         result => {
             if (result.error())
@@ -223,7 +219,7 @@
         'crm.timeline.icon.add',
         [
             'code' => 'custom-info',
-            'fileContent' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU'
+            'fileContent' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg=='
         ]
     );
 
@@ -238,7 +234,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.timeline.icon.add", b24.Params{
         "code":        "custom-info",
-    	"fileContent": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TRdGqgx1UHDLUgmBBVMRRq1CECqFWaNXB5NIvaNKQpLg4Cq4FBz8Wqw4uzro6uAqC4AeIo5OToouU",
+        "fileContent": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJUlEQVR4nGNQK7n5n5aYYdSCUQtGLRi1YNSCUQtGLRi1YGhYAAB4NoDM8ji1dQAAAABJRU5ErkJggg==",
     })
     if err != nil {
     	return fmt.Errorf("crm.timeline.icon.add: %w", err)
@@ -299,7 +295,7 @@ HTTP-статус: **200**
 
 Поле `result` содержит [объект с добавленной иконкой](#result) ||
 || **time**
-[`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Объект result {#result}

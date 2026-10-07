@@ -42,9 +42,15 @@
 - `createdBy` — идентификатор автора документа
 - `createdAt` — дата и время создания
 - `updatedBy` — идентификатор последнего редактора
-- `updatedAt` — дата и время последнего изменения ||
+- `updatedAt` — дата и время последнего изменения
+- `contentUpdatedAt` — дата и время последнего изменения содержимого
+- `isArchived` — признак архивации
+- `isTrashed` — признак нахождения в корзине
+- `isOrphan` — признак отсутствия базы знаний документа ||
 || **select**
-[`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе.
+[`array`](../../data-types.md) | Массив строк с именами свойств описания, которые нужно вернуть в ответе.
+
+По умолчанию: все свойства описания. Пустой массив `[]` также возвращает все свойства. Значение `["*"]` не поддерживается.
 
 Доступные поля:
 
@@ -57,6 +63,7 @@
 - `filterable` — признак доступности в фильтре
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
+- `editableGroups` — группы операций, в которых поле редактируется
 - `multiple` — признак множественного значения
 - `elementType` — тип элемента для составных полей ||
 |#
@@ -327,13 +334,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1780802100,
-        "finish": 1780802100.082114,
-        "duration": 0.08211398124694824,
+        "start": 1791205954,
+        "finish": 1791205954.530845,
+        "duration": 0.5308449268341064,
         "processing": 0,
-        "date_start": "2026-06-22T09:15:00+03:00",
-        "date_finish": "2026-06-22T09:15:00+03:00",
-        "operating_reset_at": 1780802700,
+        "date_start": "2026-10-05T16:12:34+03:00",
+        "date_finish": "2026-10-05T16:12:34+03:00",
+        "operating_reset_at": 1791206554,
         "operating": 0
     }
 }
@@ -347,9 +354,42 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **item**
-[`object`](../../data-types.md) | Объект с описанием поля. Структура ответа зависит от `select` ||
+[`object`](../../data-types.md) | Описание поля в `result.item`. [Свойства объекта](#item) зависят от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект item {#item}
+
+Состав описания зависит от `select`. Таблица содержит все свойства, которые можно запросить.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name**
+[`string`](../../data-types.md) | Имя поля: `id`, `collectionId`, `parentId`, `title`, `markdown`, `position`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`, `contentUpdatedAt`, `isArchived`, `isTrashed`, `isOrphan` ||
+|| **type**
+[`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `object`, `bool`. Для полей даты возвращается `object`, хотя значения дат в ответах методов передаются строками ISO 8601 ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок поля. Совпадает с `name` ||
+|| **description**
+[`string`](../../data-types.md) или `null` | Описание поля. Для полей этого объекта — `null` ||
+|| **validationRules**
+[`array`](../../data-types.md) | Массив объектов с правилами валидации. Для `title` возвращаются два объекта `[{}, {}]`; для остальных полей — `[]`. Параметры правил не сериализуются. Ограничения заголовка и Markdown описаны в [note.document.add](./note-document-add.md) ||
+|| **requiredGroups**
+[`array`](../../data-types.md) или `null` | Массив строк с именами операций, в которых поле обязательно. Для `collectionId` и `title` — `["add"]`; для остальных полей — `null` ||
+|| **filterable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для фильтрации, `false` — недоступно. Для всех полей — `false` ||
+|| **sortable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для сортировки, `false` — недоступно. Для всех полей — `false` ||
+|| **editable**
+[`boolean`](../../data-types.md) | `true` — поле можно передавать в операциях из `editableGroups`, `false` — нельзя. Признак не заменяет проверку прав пользователя ||
+|| **editableGroups**
+[`array`](../../data-types.md) или `null` | Массив строк с именами операций, в которых поле можно задавать. Для `collectionId` и `parentId` — `["add"]`, для `title` и `markdown` — `["add", "update"]`; для остальных полей — `null` ||
+|| **multiple**
+[`boolean`](../../data-types.md) | Признак множественного значения в метаданных: `true` — множественное, `false` — одиночное. Для всех полей — `false` ||
+|| **elementType**
+[`string`](../../data-types.md) или `null` | Тип элемента составного поля. Для всех полей — `null` ||
 |#
 
 ## Обработка ошибок
@@ -388,6 +428,8 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_REALISATION_EXCEPTION_FIELDNOTFOUNDEXCEPTION`
 
+HTTP-статус: **404**.
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `name` | Поле `#FIELD#` не найдено | Укажите существующее имя поля ||
@@ -408,7 +450,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `multiple`, `elementType` ||
+|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `editableGroups`, `multiple`, `elementType` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`

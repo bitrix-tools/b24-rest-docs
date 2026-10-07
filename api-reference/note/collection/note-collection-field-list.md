@@ -29,7 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе.
+[`array`](../../data-types.md) | Массив строк с именами свойств описания, которые нужно вернуть в ответе.
+
+По умолчанию: все свойства описания. Пустой массив `[]` также возвращает все свойства. Значение `["*"]` не поддерживается.
 
 Доступные поля:
 
@@ -42,6 +44,7 @@
 - `filterable` — признак доступности в фильтре
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
+- `editableGroups` — группы операций, в которых поле редактируется
 - `multiple` — признак множественного значения
 - `elementType` — тип элемента для составных полей ||
 |#
@@ -348,6 +351,20 @@ HTTP-статус: **200**
                 "sortable": false
             },
             {
+                "name": "accessLevel",
+                "type": "string",
+                "title": "accessLevel",
+                "filterable": false,
+                "sortable": false
+            },
+            {
+                "name": "isArchived",
+                "type": "bool",
+                "title": "isArchived",
+                "filterable": false,
+                "sortable": false
+            },
+            {
                 "name": "createdBy",
                 "type": "int",
                 "title": "createdBy",
@@ -356,7 +373,7 @@ HTTP-статус: **200**
             },
             {
                 "name": "createdAt",
-                "type": "string",
+                "type": "object",
                 "title": "createdAt",
                 "filterable": false,
                 "sortable": false
@@ -370,21 +387,28 @@ HTTP-статус: **200**
             },
             {
                 "name": "updatedAt",
-                "type": "string",
+                "type": "object",
                 "title": "updatedAt",
+                "filterable": false,
+                "sortable": false
+            },
+            {
+                "name": "markdownDescription",
+                "type": "string",
+                "title": "markdownDescription",
                 "filterable": false,
                 "sortable": false
             }
         ]
     },
     "time": {
-        "start": 1780801200,
-        "finish": 1780801200.105441,
-        "duration": 0.10544109344482422,
+        "start": 1791205953,
+        "finish": 1791205953.916937,
+        "duration": 0.9169371128082275,
         "processing": 0,
-        "date_start": "2026-06-22T09:00:00+03:00",
-        "date_finish": "2026-06-22T09:00:00+03:00",
-        "operating_reset_at": 1780801800,
+        "date_start": "2026-10-05T16:12:33+03:00",
+        "date_finish": "2026-10-05T16:12:33+03:00",
+        "operating_reset_at": 1791206553,
         "operating": 0
     }
 }
@@ -398,9 +422,42 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Описания полей в `result.items`. [Свойства каждого элемента](#items) зависят от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива items {#items}
+
+Состав описания зависит от `select`. Таблица содержит все свойства, которые можно запросить.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name**
+[`string`](../../data-types.md) | Имя поля: `id`, `name`, `position`, `policyLevel`, `accessLevel`, `isArchived`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`, `markdownDescription` ||
+|| **type**
+[`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `bool`, `object`. Для полей даты возвращается `object`, хотя значения дат в ответах методов передаются строками ISO 8601 ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок поля. Совпадает с `name` ||
+|| **description**
+[`string`](../../data-types.md) или `null` | Описание поля. Для полей этого объекта — `null` ||
+|| **validationRules**
+[`array`](../../data-types.md) | Массив объектов с правилами валидации. Для `name` возвращаются два объекта `[{}, {}]`; для остальных полей — `[]`. Параметры правил не сериализуются. Ограничения названия описаны в [note.collection.add](./note-collection-add.md) ||
+|| **requiredGroups**
+[`array`](../../data-types.md) или `null` | Массив строк с именами операций, в которых поле обязательно. Для `name` — `["add", "update"]`; для остальных полей — `null` ||
+|| **filterable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для фильтрации, `false` — недоступно. Для всех полей — `false` ||
+|| **sortable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для сортировки, `false` — недоступно. Для всех полей — `false` ||
+|| **editable**
+[`boolean`](../../data-types.md) | `true` — поле можно передавать в операциях из `editableGroups`, `false` — нельзя. Признак не заменяет проверку прав пользователя ||
+|| **editableGroups**
+[`array`](../../data-types.md) или `null` | Массив строк с именами операций, в которых поле можно задавать. Для `name` — `["add", "update"]`, для `position` — `["add"]`; для остальных полей — `null` ||
+|| **multiple**
+[`boolean`](../../data-types.md) | Признак множественного значения в метаданных: `true` — множественное, `false` — одиночное. Для всех полей — `false` ||
+|| **elementType**
+[`string`](../../data-types.md) или `null` | Тип элемента составного поля. Для всех полей — `null` ||
 |#
 
 ## Обработка ошибок
@@ -435,7 +492,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `multiple`, `elementType` ||
+|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `editableGroups`, `multiple`, `elementType` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`

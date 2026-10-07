@@ -29,7 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе.
+[`array`](../../data-types.md) | Массив строк с именами свойств описания, которые нужно вернуть в ответе.
+
+По умолчанию: все свойства описания. Пустой массив `[]` также возвращает все свойства. Значение `["*"]` не поддерживается.
 
 Доступные поля:
 
@@ -42,6 +44,7 @@
 - `filterable` — признак доступности в фильтре
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
+- `editableGroups` — группы операций, в которых поле редактируется
 - `multiple` — признак множественного значения
 - `elementType` — тип элемента для составных полей ||
 |#
@@ -364,13 +367,13 @@ HTTP-статус: **200**
         ]
     },
     "time": {
-        "start": 1780802400,
-        "finish": 1780802400.110991,
-        "duration": 0.11099076271057129,
+        "start": 1791205960,
+        "finish": 1791205960.699581,
+        "duration": 0.6995809078216553,
         "processing": 0,
-        "date_start": "2026-06-22T09:20:00+03:00",
-        "date_finish": "2026-06-22T09:20:00+03:00",
-        "operating_reset_at": 1780803000,
+        "date_start": "2026-10-05T16:12:40+03:00",
+        "date_finish": "2026-10-05T16:12:40+03:00",
+        "operating_reset_at": 1791206560,
         "operating": 0
     }
 }
@@ -384,9 +387,42 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Описания полей в `result.items`. [Свойства каждого элемента](#items) зависят от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива items {#items}
+
+Состав описания зависит от `select`. Таблица содержит все свойства, которые можно запросить.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name**
+[`string`](../../data-types.md) | Имя поля: `id`, `collectionId`, `parentId`, `title`, `position`, `children` ||
+|| **type**
+[`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `array` ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок поля. Совпадает с `name` ||
+|| **description**
+[`string`](../../data-types.md) или `null` | Описание поля. Для полей этого объекта — `null` ||
+|| **validationRules**
+[`array`](../../data-types.md) | Массив объектов с правилами валидации. Для всех полей — пустой массив `[]` ||
+|| **requiredGroups**
+[`array`](../../data-types.md) или `null` | Массив строк с именами операций, в которых поле обязательно. Для всех полей — `null` ||
+|| **filterable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для фильтрации, `false` — недоступно. Для всех полей — `false` ||
+|| **sortable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для сортировки, `false` — недоступно. Для всех полей — `false` ||
+|| **editable**
+[`boolean`](../../data-types.md) | `true` — поле можно передавать в операциях из `editableGroups`, `false` — нельзя. Признак не заменяет проверку прав пользователя ||
+|| **editableGroups**
+[`array`](../../data-types.md) или `null` | Массив строк с именами операций, в которых поле можно задавать. Для всех полей — `null` ||
+|| **multiple**
+[`boolean`](../../data-types.md) | Признак множественного значения в метаданных: `true` — множественное, `false` — одиночное. Для всех полей, включая `children`, возвращается `false`. Тип самого `children` при этом — `array` ||
+|| **elementType**
+[`string`](../../data-types.md) или `null` | Тип элемента составного поля. Для всех полей, включая `children`, возвращается `null`. Дочерние элементы `children` имеют структуру узла дерева, описанную в [note.document.tree.list](./note-document-tree-list.md) ||
 |#
 
 ## Обработка ошибок
@@ -421,7 +457,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `multiple`, `elementType` ||
+|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `editableGroups`, `multiple`, `elementType` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
