@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для новой разработки получите текущие `contactIds` методом [crm.item.get](../../universal/crm-item-get.md) и удалите нужный идентификатор из массива методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7`. Универсальный метод заменяет весь набор контактов и не позволяет отдельно задать `SORT` и `IS_PRIMARY`.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «изменения» коммерческих предложений

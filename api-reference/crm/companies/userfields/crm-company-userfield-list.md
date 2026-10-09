@@ -15,6 +15,8 @@
 
 Метод `crm.company.userfield.list` возвращает список пользовательских полей компаний по фильтру.
 
+Метод возвращает все найденные поля одним ответом. Параметр `start` в обработчике этого метода не используется; постраничная выдача по 50 записей для него не предусмотрена.
+
 ## Параметры метода
 
 #|
@@ -195,11 +197,6 @@
     }
 
     try {
-      // crm.company.userfield.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<CrmCompanyUserfieldListItem[]>({
         method: 'crm.company.userfield.list',
         params: {
@@ -212,7 +209,6 @@
             USER_TYPE_ID: 'ASC',
             SORT: 'ASC',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -222,7 +218,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Userfields on this page:', result.length, result)
+        console.info('Userfields:', result.length, result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -241,11 +237,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.company.userfield.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.company.userfield.list',
             params: {
@@ -258,7 +249,6 @@
                 USER_TYPE_ID: 'ASC',
                 SORT: 'ASC',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -270,7 +260,7 @@
           }
 
           const result = response.getData().result
-          console.info('Userfields on this page:', result.length, result)
+          console.info('Userfields:', result.length, result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -757,7 +747,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержит список пользовательских полей.
+[`object[]`](../../../data-types.md) | Список пользовательских полей. Основные поля каждого объекта описаны в ответе метода [crm.company.userfield.get](./crm-company-userfield-get.md#result-fields).
 
 Структура отдельно взятого пользовательского поля зависит от его типа. Поля `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE` возвращаются в виде `string` при передаче `filter.LANG` ||
 || **total**
@@ -783,8 +773,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `400`     | Parameter 'order' must be array | Переданный `order` не является объектом ||
-|| `400`     | Parameter 'filter' must be array | Переданный `filter` не является объектом ||
+|| Пустое значение | Parameter 'order' must be array | Переданный `order` не является объектом ||
+|| Пустое значение | Parameter 'filter' must be array | Переданный `filter` не является объектом ||
+|| Пустое значение | Access denied | У пользователя нет прав на чтение компаний ||
 |#
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для новой разработки очистите набор контактов методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7` и пустым массивом `contactIds`.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами «чтение» и «изменение» коммерческих предложений

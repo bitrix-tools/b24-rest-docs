@@ -11,6 +11,10 @@
 
 Пользовательские поля хранят информацию о компании в различных форматах данных: строка, число, ссылка, адрес и другие. Группа методов `crm.company.userfield.*` создает, изменяет, получает и удаляет такие поля, а [события подраздела](./events/index.md) сообщают приложению об изменениях в них.
 
+Методы [get](./crm-company-userfield-get.md) и [list](./crm-company-userfield-list.md) возвращают данные о поле: `ID`, код `FIELD_NAME`, тип `USER_TYPE_ID` и настройки `SETTINGS`. Метод `get` возвращает подписи по языкам Битрикс24; метод `list` — строки для языка, заданного в `filter.LANG`. Основные поля объекта описаны в [ответе метода get](./crm-company-userfield-get.md#result-fields).
+
+Чтобы создать поле, сначала определите его тип и доступные настройки, затем вызовите [add](./crm-company-userfield-add.md). Созданное поле проверьте через [get](./crm-company-userfield-get.md) или [list](./crm-company-userfield-list.md); для изменения используйте [update](./crm-company-userfield-update.md), для удаления — [delete](./crm-company-userfield-delete.md).
+
 Общие сведения о компаниях и остальные группы методов — в разделе [Компании в CRM](../index.md).
 
 > Быстрый переход: [все методы и события](#all-methods)

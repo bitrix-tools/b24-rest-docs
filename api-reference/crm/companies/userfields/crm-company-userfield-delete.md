@@ -153,7 +153,8 @@
     try {
         $userfieldId = 123; // Replace with the actual userfield ID you want to delete
         $result = $serviceBuilder
-            ->getCRMScope()`r`n            ->companyUserfield()
+            ->getCRMScope()
+            ->companyUserfield()
             ->delete($userfieldId);
 
         if ($result->isSuccess()) {
@@ -267,12 +268,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `400` | ID is not defined or invalid | Переданный `id` либо меньше или равен нулю, либо же не передан вовсе ||
-|| `403` | Access denied | Возникает в случаях, когда:
+|| Пустое значение | ID is not defined or invalid | Переданный `id` меньше или равен нулю либо не передан ||
+|| Пустое значение | Access denied | Возникает в случаях, когда:
 - у пользователя нет административных прав
 - пользователь пытается удалить пользовательское поле, не привязанное к компаниям ||
 || `ERROR_NOT_FOUND` | The entity with ID 'id' is not found | Пользовательское поле с переданным `id` не существует ||
-|| `400` | Ошибка удаления FIELD_NAME для объекта ENTITY_ID | Неизвестная ошибка при удалении ||
+|| `ERROR_CORE` | Ошибка удаления пользовательского поля | Удаление не выполнено. Текст ошибки зависит от причины ||
 |#
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

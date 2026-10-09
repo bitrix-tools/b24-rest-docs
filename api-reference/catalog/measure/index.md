@@ -13,11 +13,20 @@
 
 Чтобы установить основную единицу измерения, укажите в параметре `isDefault` значение `Y`. Тогда при создании нового товара она будет автоматически выбрана в карточке.
 
+У единицы измерения есть уникальный числовой `code`, название `measureTitle` и условное обозначение `symbol`. Поле `isDefault` показывает, выбрана ли она по умолчанию. Состав объекта приведен в [типе `catalog_measure`](../data-types.md#catalog_measure), а свойства полей возвращает [catalog.measure.getFields](./catalog-measure-get-fields.md).
+
 > Быстрый переход: [все методы и события](#all-methods)
 >
 > Пользовательская документация:
 > - [Как добавить и настроить единицы измерения в CRM](https://helpdesk.bitrix24.ru/open/5488453/)
 > - [Единицы измерения в услугах](https://helpdesk.bitrix24.ru/open/17277938/)
+
+## Как начать работу
+
+1. Получите доступные поля и их свойства методом [catalog.measure.getFields](./catalog-measure-get-fields.md)
+2. Найдите существующую единицу методом [catalog.measure.list](./catalog-measure-list.md) или создайте свою методом [catalog.measure.add](./catalog-measure-add.md), указав `code` и `measureTitle`
+3. Получите ее `id` из ответа метода добавления или списка и передайте его в [catalog.measure.get](./catalog-measure-get.md) для проверки данных
+4. При необходимости измените единицу методом [catalog.measure.update](./catalog-measure-update.md) или удалите методом [catalog.measure.delete](./catalog-measure-delete.md)
 
 ## Коэффициент единицы измерения
 
@@ -41,7 +50,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы: пользователь с правом чтения каталога или просмотра складов. Для добавления, обновления и удаления также нужно право изменения единиц измерения
 
 {% list tabs %}
 
