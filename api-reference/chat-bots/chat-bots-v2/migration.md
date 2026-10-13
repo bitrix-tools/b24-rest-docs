@@ -135,7 +135,8 @@
 {
     "result": {
         "id": 789,
-        "uuidMap": {}
+        "uuidMap": [],
+        "failureMap": []
     },
     "time": {
         "start": 1728626400.123,

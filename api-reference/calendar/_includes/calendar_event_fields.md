@@ -10,7 +10,9 @@
 || **DELETED**
 [`string`](/api-reference/data-types.html) | Флаг отображающий удалено ли событие. Возможные значения:
 - `Y` — событие удалено
-- `N` — событие не удалено  ||
+- `N` — событие не удалено
+
+Значение `Y` приходит только в ответе [calendar.event.get](/api-reference/calendar/calendar-event/calendar-event-get.html) с параметром `modified_since` ||
 || **CAL_TYPE**
 [`string`](/api-reference/data-types.html) | Тип календаря в котором находится событие ||
 || **OWNER_ID**
@@ -34,9 +36,13 @@
 || **TZ_OFFSET_TO**
 [`string`](/api-reference/data-types.html) | Смещение времени окончания события относительно UTC в секундах ||
 || **DATE_FROM_TS_UTC**
-[`string`](/api-reference/data-types.html) | Дата и время начала события в UTC в формате timestamp ||
+[`string`](/api-reference/data-types.html) | Дата и время начала события в формате timestamp.
+
+Несмотря на название, значение сдвинуто на смещение часового пояса сервера, поэтому читать его как время UTC нельзя. Точное время начала задают поля `DATE_FROM` и `TZ_FROM` ||
 || **DATE_TO_TS_UTC**
-[`string`](/api-reference/data-types.html) | Дата и время окончания события в UTC в формате timestamp ||
+[`string`](/api-reference/data-types.html) | Дата и время окончания события в формате timestamp.
+
+Несмотря на название, значение сдвинуто на смещение часового пояса сервера, поэтому читать его как время UTC нельзя. Точное время окончания задают поля `DATE_TO` и `TZ_TO` ||
 || **DT_SKIP_TIME**
 [`string`](/api-reference/data-types.html) | Флаг отображающий что событие длится целый день. Возможные значения: 
 - `Y` — целый день
@@ -51,6 +57,14 @@
 [`datetime`](/api-reference/data-types.html) | Дата создания события ||
 || **TIMESTAMP_X**
 [`datetime`](/api-reference/data-types.html) | Дата изменения события ||
+|| **DATE_CREATE_ISO**
+[`string`](/api-reference/data-types.html) | Дата создания события в формате ISO 8601 со смещением часового пояса портала, например `2026-10-08T10:27:29+03:00`.
+
+Поле не возвращается, если дата создания не заполнена ||
+|| **TIMESTAMP_X_ISO**
+[`string`](/api-reference/data-types.html) | Дата изменения события в формате ISO 8601 со смещением часового пояса портала.
+
+Значение можно передать в параметр `modified_since` метода [calendar.event.get](/api-reference/calendar/calendar-event/calendar-event-get.html), чтобы получить события, измененные с этого момента. У всех экземпляров повторяющегося события значение одинаковое. Поле не возвращается, если дата изменения не заполнена ||
 || **DESCRIPTION**
 [`string`](/api-reference/data-types.html) | Описание события ||
 || **PRIVATE_EVENT**
