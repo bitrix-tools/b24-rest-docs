@@ -21,6 +21,8 @@
 
 ## Примеры кода
 
+{% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
 {% list tabs %}
 
 - cURL (Webhook)
@@ -210,39 +212,53 @@ HTTP-статус: **200**
 
 ```json
 {
-    "fields": 
-    {
-        "entityId": 
-        {
-            "type": "integer"
-        },
-        "storyPoints": 
-        {
-            "type": "string"
-        },
-        "epicId": 
-        {
-            "type": "integer"
-        },
-        "sort": 
-        {
-            "type": "integer"
-        },
-        "createdBy": 
-        {
-            "type": "integer"
-        },
-        "modifiedBy": 
-        {
-            "type": "integer"
+    "result": {
+        "fields": {
+            "entityId": {
+                "type": "integer"
+            },
+            "storyPoints": {
+                "type": "string"
+            },
+            "epicId": {
+                "type": "integer"
+            },
+            "sort": {
+                "type": "integer"
+            },
+            "sortFloat": {
+                "type": "float"
+            },
+            "createdBy": {
+                "type": "integer"
+            },
+            "modifiedBy": {
+                "type": "integer"
+            }
         }
     }
 }
 ```
 
-### Возвращаемые данные {#fields}
+### Возвращаемые данные
 
-В качестве ответа возвращается объект `fields`, который содержит все поля задачи скрама и их типы `type`.
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields**
+[`object`](../../../data-types.md) | Поля задачи Скрама и их типы [(подробное описание)](#fields) ||
+|#
+
+#### Объект fields {#fields}
 
 #|
 || **Название**
@@ -257,6 +273,8 @@ HTTP-статус: **200**
 `integer` | Идентификатор эпика ||
 || **sort**
 `integer` | Сортировка ||
+|| **sortFloat**
+`float` | Значение сортировки с дробной частью ||
 || **createdBy**
 `integer` | Кем создана задача ||
 || **modifiedBy**
@@ -265,9 +283,13 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+Специфичных ошибок метод не возвращает.
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-task-update.md)

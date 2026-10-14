@@ -102,5 +102,12 @@
     "language",
     "moduleId",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "botToken": "my_bot_token",
+    "filter": {
+      "type": "bot"
+    },
+    "limit": 10
+  }
 }

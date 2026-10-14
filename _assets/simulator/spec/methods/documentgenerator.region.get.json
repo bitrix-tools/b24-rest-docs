@@ -72,5 +72,8 @@
     "languageId",
     "phrases",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "id": "1"
+  }
 }

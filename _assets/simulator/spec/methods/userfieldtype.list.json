@@ -1,0 +1,93 @@
+{
+  "$v": 1,
+  "method": "userfieldtype.list",
+  "scope": "placement",
+  "kind": "read",
+  "title": "Получить список зарегистрированных типов пользовательских полей userfieldtype.list",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение для постраничной навигации. Метод возвращает не более 50 записей за вызов. Чтобы получить следующую страницу, передайте значение next из предыдущего ответа: для второй страницы это 50, для третьей — 100. Подробнее — в статье Особенности списочных методов"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/widgets/user-field/userfieldtype-list.md"
+  },
+  "resultExample": {
+    "result": [
+      {
+        "USER_TYPE_ID": "my_custom_type_2",
+        "HANDLER": "http://test.com/test2.php",
+        "TITLE": "test title 2",
+        "DESCRIPTION": "test desc 2"
+      },
+      {
+        "USER_TYPE_ID": "my_custom_type_1",
+        "HANDLER": "http://test.com/test1.php",
+        "TITLE": "test title 1",
+        "DESCRIPTION": "test desc 1"
+      },
+      {
+        "USER_TYPE_ID": "test_user_type",
+        "HANDLER": "http://test.com/test.php",
+        "TITLE": "test title",
+        "DESCRIPTION": "test desc"
+      }
+    ],
+    "total": 3,
+    "time": {
+      "start": 1724423274.842117,
+      "finish": 1724423275.558021,
+      "duration": 0.7159039974212646,
+      "processing": 0.0018908977508544922,
+      "date_start": "2024-08-23T16:27:54+02:00",
+      "date_finish": "2024-08-23T16:27:55+02:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Список зарегистрированных типов пользовательских полей (подробное описание). Если приложение не зарегистрировало ни одного типа, список пустой"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение для следующей страницы. Передайте значение в параметр start, чтобы получить следующие 50 записей. Ключ есть в ответе, только если записи остались"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество типов, которые зарегистрировало приложение"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/widgets/user-field/userfieldtype-list.html",
+  "executable": false,
+  "entityFields": [
+    "DESCRIPTION",
+    "HANDLER",
+    "TITLE",
+    "USER_TYPE_ID"
+  ]
+}

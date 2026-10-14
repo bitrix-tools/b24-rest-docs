@@ -1,4 +1,4 @@
-# Удалить элемент коллекции sale.shipmentitem.delete
+# Удалить элемент табличной части отгрузки sale.shipmentitem.delete
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.shipmentitem.delete` удаляет элемент табличной части отгрузки. 
+Метод `sale.shipmentitem.delete` удаляет элемент табличной части отгрузки — убирает товар из отгрузки. Позиция корзины при этом остается в заказе, а количество товара возвращается в системную отгрузку. Элементы системной отгрузки и отгрузки с `deducted` = `Y` удалить нельзя.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_shipment_item.id`](../data-types.md) | Идентификатор элемента табличной части отгрузки ||
+[`sale_order_shipment_item.id`](../data-types.md#sale_order_shipment_item) | Идентификатор элемента табличной части отгрузки.
+
+Можно получить методом [sale.shipmentitem.list](./sale-shipment-item-list.md) ||
 |#
 
 ## Примеры кода
@@ -34,8 +36,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":5}' \
@@ -44,8 +46,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":5,"auth":"**put_access_token_here**"}' \
@@ -163,9 +165,7 @@
             ->getResponseData()
             ->getResult();
     
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
+        echo 'Deleted: ' . var_export($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -181,6 +181,8 @@
             "id": 5
         },
         function(result) {
+            if (result.error()) {
+                console.error(result.error());
             } else {
                 console.info(result.data());
             }
@@ -249,9 +251,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления элемента табличной части отгрузки ||
+[`boolean`](../../data-types.md) | `true` — элемент табличной части отгрузки удален ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -260,7 +262,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":201240400001,
+    "error":"201240400001",
     "error_description":"shipment item is not exists"
 }
 ```
@@ -271,16 +273,29 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `201240400001` | Удаляемый элемент табличной части отгрузки не найден ||
-|| `200040300020` | Недостаточно прав для удаления элемента табличной части отгрузки ||
-|| `100` | Не указан параметр `id` ||
+|| `201240400001` | `shipment item is not exists`
+
+Удаляемый элемент табличной части отгрузки не найден. Ошибка возникает и при повторном удалении уже удаленного элемента ||
+|| `200040300020` | `Access Denied`
+
+Недостаточно прав для удаления элемента табличной части отгрузки ||
+|| `100` | `Bitrix\Sale\ShipmentItem constructor must be is public`
+
+Не указан параметр `id` ||
+|| `0` | `System shipment not empty`
+
+Элемент относится к системной отгрузке ||
+|| `SALE_SHIPMENT_ITEM_SHIPMENT_ALREADY_SHIPPED_CANNOT_EDIT` | `Отгрузка уже отправлена. Изменения невозможны.`
+
+Отгрузка уже отгружена (`deducted` = `Y`) ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-shipment-item-add.md)
 - [{#T}](./sale-shipment-item-update.md)
 - [{#T}](./sale-shipment-item-get.md)

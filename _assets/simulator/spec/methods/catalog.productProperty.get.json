@@ -116,5 +116,8 @@
     "userTypeSettings",
     "withDescription",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 659
+  }
 }

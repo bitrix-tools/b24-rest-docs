@@ -296,7 +296,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о папке ||
+[`object`](../../data-types.md) | Объект с данными о папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**
@@ -306,7 +306,7 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится папка ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Значение — `folder` ||
 || **REAL_OBJECT_ID**
 [`integer`](../../data-types.md) | Идентификатор объекта ||
 || **PARENT_ID**
@@ -372,3 +372,4 @@ HTTP-статус: **400**
 - [{#T}](./disk-folder-restore.md)
 - [{#T}](./disk-folder-share-to-user.md)
 - [{#T}](./disk-folder-upload-file.md)
+- [Папки Диска](./index.md)

@@ -78,5 +78,15 @@
     "successor": "catalog.measure.add"
   },
   "page": "/api-reference/crm/outdated/measure/crm-measure-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "CODE": "212",
+      "MEASURE_TITLE": "Ватт",
+      "SYMBOL_RUS": "Вт",
+      "SYMBOL_INTL": "W",
+      "SYMBOL_LETTER_INTL": "WTT",
+      "IS_DEFAULT": "N"
+    }
+  }
 }

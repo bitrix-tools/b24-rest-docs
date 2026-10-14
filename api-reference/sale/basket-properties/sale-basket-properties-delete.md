@@ -11,7 +11,7 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор магазина
+> Кто может выполнять метод: администратор
 
 Метод `sale.basketproperties.delete` удаляет свойство для элемента корзины в заказе.
 
@@ -164,11 +164,9 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -184,25 +182,18 @@
         {
             id: 17
         },
-    )
-        .then(
-            function(result)
+        function(result)
+        {
+            if (result.error())
             {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result.data());
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                console.error(result.error());
             }
-        );
-
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
     ```
 
 - PHP CRest
@@ -278,8 +269,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200240400003",
+    "error_description": "basket property is not exists"
 }
 ```
 
@@ -289,11 +280,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200140400001` | basket item is not exists
-
-Не найдена позиция корзины   ||
-|| `200040300010` | Недостаточно прав для удаления ||
-|| `100` | Не переданы обязательные параметры ||
+|| `200240400003` | `basket property is not exists` — свойства с таким `id` нет ||
+|| `100` | `Bitrix\Sale\BasketPropertyItem constructor must be is public` — не передан параметр `id` ||
+|| `200040300020` | `Access Denied` — недостаточно прав для удаления ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
@@ -305,5 +294,5 @@ HTTP-статус: **400**
 - [{#T}](./sale-basket-properties-add.md)
 - [{#T}](./sale-basket-properties-update.md)
 - [{#T}](./sale-basket-properties-get.md)
-- [{#T}](./sale-basket-properties-update.md)
+- [{#T}](./sale-basket-properties-list.md)
 - [{#T}](./sale-basket-properties-get-fields.md)

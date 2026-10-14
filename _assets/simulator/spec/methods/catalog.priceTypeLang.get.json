@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "read",
   "title": "Получить значения полей перевода названия типа цены catalog.priceTypeLang.get",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»",
   "params": [
     {
       "name": "id",
@@ -69,5 +69,8 @@
     "id",
     "lang",
     "name"
-  ]
+  ],
+  "requestExample": {
+    "id": 2
+  }
 }

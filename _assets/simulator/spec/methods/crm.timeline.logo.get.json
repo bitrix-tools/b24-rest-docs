@@ -61,5 +61,8 @@
     "code",
     "fileUri",
     "isSystem"
-  ]
+  ],
+  "requestExample": {
+    "code": "info"
+  }
 }

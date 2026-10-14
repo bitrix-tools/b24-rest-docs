@@ -11,7 +11,7 @@
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Возвращает значение, определённое в crm.enum.settings.mode"
+      "description": "Идентификатор текущего режима работы CRM. Возможные значения описаны ниже"
     },
     {
       "name": "time",
@@ -48,7 +48,7 @@
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Возвращает значение, определённое в crm.enum.settings.mode"
+      "description": "Идентификатор текущего режима работы CRM. Возможные значения описаны ниже"
     },
     {
       "name": "time",

@@ -67,5 +67,8 @@
   "entityFields": [
     "entityId",
     "entityTypeId"
-  ]
+  ],
+  "requestExample": {
+    "activityId": 999
+  }
 }

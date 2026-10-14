@@ -130,5 +130,18 @@
     "name",
     "sort",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "sort"
+    ],
+    "filter": {
+      "<=sort": 100
+    },
+    "order": {
+      "sort": "DESC"
+    }
+  }
 }

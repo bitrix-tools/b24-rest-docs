@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.order.list` получает список заказов.
+Метод `sale.order.list` возвращает список заказов с фильтрацией, сортировкой и постраничной навигацией. В ответ попадают только поля заказа: позиции корзины, оплаты, отгрузки и значения свойств отдает метод [sale.order.get](./sale-order-get.md).
+
+{% note warning "" %}
+
+Метод не проверяет имена полей в `select` и `filter`. Условие с опечаткой в имени поля не применится, и метод вернет заказы без учета этого условия. Точные имена полей возвращает [sale.order.getFields](./sale-order-get-fields.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -21,63 +27,37 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта [sale_order](../data-types.md#sale_order)).
+[`array`](../../data-types.md) | Поля заказа, которые нужно вернуть. Имена полей — в объекте [sale_order](../data-types.md#sale_order).
 
-Если не передан или передан пустой массив, то будут выбраны все доступные поля заказов. ||
+Если параметр не передан, массив пуст или в нем нет ни одного существующего поля, метод вернет все поля заказа ||
 || **filter**
-[`object`](../../data-types.md) | Объект для фильтрации выбранных заказов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
- 
-Возможные значения для `field` соответствуют полям объекта [sale_order](../data-types.md#sale_order).
+[`object`](../../data-types.md) | Условия отбора заказов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — поле объекта [sale_order](../data-types.md#sale_order).
 
-Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+К ключу можно добавить префикс, который задает условие сравнения:
 
+- `=` — равно, используется по умолчанию
+- `!=` или `!` — не равно
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `@` — IN (в качестве значения передаётся массив)
-- `!@`— NOT IN (в качестве значения передаётся массив)
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, начинающиеся с «мол»
-    - "%мол" — ищем значения, заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где «мол» может быть в любой позиции
-
-- `%=` — LIKE (см. описание выше)
-
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
-
-- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, не начинающиеся с «мол»
-    - "%мол" — ищем значения, не заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
-
-- `!%=` — NOT LIKE (см. описание выше)
-
-- `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно
-- `!` — не равно ||
+- `@` — входит в список, значение — массив
+- `!@` — не входит в список, значение — массив
+- `%` — содержит подстроку, символ `%` в значении передавать не нужно
+- `!%` — не содержит подстроку, символ `%` в значении передавать не нужно
+- `=%` или `%=` — LIKE по шаблону, символ `%` передается в значении: `мол%` — начинается с «мол», `%мол` — заканчивается на «мол», `%мол%` — содержит «мол»
+- `!=%` или `!%=` — NOT LIKE по шаблону, символ `%` передается в значении ||
 || **order**
-[`object`](../../data-types.md) | Объект для сортировки выбранных заказов в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
- 
-Возможные значения для `field` соответствуют полям объекта [sale_order](../data-types.md#sale_order).
- 
-Возможные значения для `order`:
+[`object`](../../data-types.md) | Порядок сортировки в формате `{"field_1": "order_1", ... "field_N": "order_N"}`, где `field` — поле объекта [sale_order](../data-types.md#sale_order), а `order` — направление:
 
-- asc — в порядке возрастания
-- desc — в порядке убывания
- ||
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+Если параметр не передан, заказы идут по возрастанию `id` ||
 || **start**
-[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
- 
-Размер страницы результатов всегда статичный: 50 записей.
- 
-Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
- 
-Формула расчета значения параметра `start`:
- 
-`start = (N-1) * 50`, где `N` — номер нужной страницы
- ||
+[`integer`](../../data-types.md) | Смещение для постраничной навигации. На странице до 50 заказов, размер страницы изменить нельзя.
+
+Значение считается по формуле `start = (N-1) * 50`, где `N` — номер страницы. Для второй страницы передайте `50`. По умолчанию `0` ||
 |#
 
 ## Примеры кода
@@ -92,7 +72,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","lid","dateInsert","dateUpdate","personTypeId","personTypeXmlId","statusId","dateStatus","empStatusId","marked","dateMarked","empMarkedId","reasonMarked","price","discountValue","taxValue","userDescription","additionalInfo","comments","companyId","responsibleId","recurringId","lockedBy","dateLock","recountFlag","affiliateId","updated1c","orderTopic","xmlId","statusXmlId","id1c","version","version1c","externalOrder","canceled","dateCanceled","empCanceledId","reasonCanceled","userId","currency","accountNumber","payed","deducted"],"filter":{"<id":10,"@personTypeId":[3,4],"payed":"N"},"order":{"id":"desc"}}' \
+    -d '{"select":["id","accountNumber","statusId","price","currency","payed","dateInsert","userId"],"filter":{"<id":1000,"@personTypeId":[3,4],"payed":"N"},"order":{"id":"desc"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.order.list
     ```
 
@@ -102,7 +82,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","lid","dateInsert","dateUpdate","personTypeId","personTypeXmlId","statusId","dateStatus","empStatusId","marked","dateMarked","empMarkedId","reasonMarked","price","discountValue","taxValue","userDescription","additionalInfo","comments","companyId","responsibleId","recurringId","lockedBy","dateLock","recountFlag","affiliateId","updated1c","orderTopic","xmlId","statusXmlId","id1c","version","version1c","externalOrder","canceled","dateCanceled","empCanceledId","reasonCanceled","userId","currency","accountNumber","payed","deducted"],"filter":{"<id":10,"@personTypeId":[3,4],"payed":"N"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","accountNumber","statusId","price","currency","payed","dateInsert","userId"],"filter":{"<id":1000,"@personTypeId":[3,4],"payed":"N"},"order":{"id":"desc"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.order.list
     ```
 
@@ -119,49 +99,14 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type SaleOrderListResult = {
       orders: {
-        id: number
         accountNumber: string
-        additionalInfo: string
-        affiliateId: number | null
-        canceled: string
-        comments: string
-        companyId: number | null
         currency: string
-        dateCanceled: ISODate | null
-        dateInsert: ISODate
-        dateLock: ISODate | null
-        dateMarked: ISODate | null
-        dateStatus: ISODate
-        dateUpdate: ISODate
-        deducted: string
-        discountValue: number
-        empCanceledId: number | null
-        empMarkedId: number | null
-        empStatusId: number
-        externalOrder: string
-        id1c: string
-        lid: string
-        lockedBy: string
-        marked: string
-        orderTopic: string
+        dateInsert: ISODate | null
+        id: number
         payed: string
-        personTypeId: number
-        personTypeXmlId: string
         price: number
-        reasonCanceled: string
-        reasonMarked: string
-        recountFlag: string
-        recurringId: string
-        responsibleId: number
         statusId: string
-        statusXmlId: string
-        taxValue: number
-        updated1c: string
-        userDescription: string
         userId: number
-        version: number
-        version1c: string
-        xmlId: string
       }[]
     }
 
@@ -176,51 +121,16 @@
         params: {
           select: [
             'id',
-            'lid',
-            'dateInsert',
-            'dateUpdate',
-            'personTypeId',
-            'personTypeXmlId',
-            'statusId',
-            'dateStatus',
-            'empStatusId',
-            'marked',
-            'dateMarked',
-            'empMarkedId',
-            'reasonMarked',
-            'price',
-            'discountValue',
-            'taxValue',
-            'userDescription',
-            'additionalInfo',
-            'comments',
-            'companyId',
-            'responsibleId',
-            'recurringId',
-            'lockedBy',
-            'dateLock',
-            'recountFlag',
-            'affiliateId',
-            'updated1c',
-            'orderTopic',
-            'xmlId',
-            'statusXmlId',
-            'id1c',
-            'version',
-            'version1c',
-            'externalOrder',
-            'canceled',
-            'dateCanceled',
-            'empCanceledId',
-            'reasonCanceled',
-            'userId',
-            'currency',
             'accountNumber',
+            'statusId',
+            'price',
+            'currency',
             'payed',
-            'deducted',
+            'dateInsert',
+            'userId',
           ],
           filter: {
-            '<id': 10,
+            '<id': 1000,
             '@personTypeId': [3, 4],
             payed: 'N',
           },
@@ -266,51 +176,16 @@
             params: {
               select: [
                 'id',
-                'lid',
-                'dateInsert',
-                'dateUpdate',
-                'personTypeId',
-                'personTypeXmlId',
-                'statusId',
-                'dateStatus',
-                'empStatusId',
-                'marked',
-                'dateMarked',
-                'empMarkedId',
-                'reasonMarked',
-                'price',
-                'discountValue',
-                'taxValue',
-                'userDescription',
-                'additionalInfo',
-                'comments',
-                'companyId',
-                'responsibleId',
-                'recurringId',
-                'lockedBy',
-                'dateLock',
-                'recountFlag',
-                'affiliateId',
-                'updated1c',
-                'orderTopic',
-                'xmlId',
-                'statusXmlId',
-                'id1c',
-                'version',
-                'version1c',
-                'externalOrder',
-                'canceled',
-                'dateCanceled',
-                'empCanceledId',
-                'reasonCanceled',
-                'userId',
-                'currency',
                 'accountNumber',
+                'statusId',
+                'price',
+                'currency',
                 'payed',
-                'deducted',
+                'dateInsert',
+                'userId',
               ],
               filter: {
-                '<id': 10,
+                '<id': 1000,
                 '@personTypeId': [3, 4],
                 payed: 'N',
               },
@@ -349,51 +224,16 @@
         bitrix_response = client.sale.order.list(
             select=[
                 "id",
-                "lid",
-                "dateInsert",
-                "dateUpdate",
-                "personTypeId",
-                "personTypeXmlId",
-                "statusId",
-                "dateStatus",
-                "empStatusId",
-                "marked",
-                "dateMarked",
-                "empMarkedId",
-                "reasonMarked",
-                "price",
-                "discountValue",
-                "taxValue",
-                "userDescription",
-                "additionalInfo",
-                "comments",
-                "companyId",
-                "responsibleId",
-                "recurringId",
-                "lockedBy",
-                "dateLock",
-                "recountFlag",
-                "affiliateId",
-                "updated1c",
-                "orderTopic",
-                "xmlId",
-                "statusXmlId",
-                "id1c",
-                "version",
-                "version1c",
-                "externalOrder",
-                "canceled",
-                "dateCanceled",
-                "empCanceledId",
-                "reasonCanceled",
-                "userId",
-                "currency",
                 "accountNumber",
+                "statusId",
+                "price",
+                "currency",
                 "payed",
-                "deducted",
+                "dateInsert",
+                "userId",
             ],
             filter={
-                "<id": 10,
+                "<id": 1000,
                 "@personTypeId": [
                     3,
                     4,
@@ -403,7 +243,7 @@
             order={
                 "id": "desc",
             },
-            start='1712847891.436862',
+            start=0,
         ).response
         result = bitrix_response.result
         print(result)
@@ -422,7 +262,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -432,57 +271,23 @@
                 [
                     'select' => [
                         'id',
-                        'lid',
-                        'dateInsert',
-                        'dateUpdate',
-                        'personTypeId',
-                        'personTypeXmlId',
-                        'statusId',
-                        'dateStatus',
-                        'empStatusId',
-                        'marked',
-                        'dateMarked',
-                        'empMarkedId',
-                        'reasonMarked',
-                        'price',
-                        'discountValue',
-                        'taxValue',
-                        'userDescription',
-                        'additionalInfo',
-                        'comments',
-                        'companyId',
-                        'responsibleId',
-                        'recurringId',
-                        'lockedBy',
-                        'dateLock',
-                        'recountFlag',
-                        'affiliateId',
-                        'updated1c',
-                        'orderTopic',
-                        'xmlId',
-                        'statusXmlId',
-                        'id1c',
-                        'version',
-                        'version1c',
-                        'externalOrder',
-                        'canceled',
-                        'dateCanceled',
-                        'empCanceledId',
-                        'reasonCanceled',
-                        'userId',
-                        'currency',
                         'accountNumber',
+                        'statusId',
+                        'price',
+                        'currency',
                         'payed',
-                        'deducted',
+                        'dateInsert',
+                        'userId',
                     ],
                     'filter' => [
-                        '<id'          => 10,
+                        '<id'          => 1000,
                         '@personTypeId' => [3, 4],
                         'payed'        => 'N',
                     ],
                     'order' => [
                         'id' => 'desc',
                     ],
+                    'start' => 0,
                 ]
             );
     
@@ -505,57 +310,23 @@
         "sale.order.list", {
             "select": [
                 "id",
-                "lid",
-                "dateInsert",
-                "dateUpdate",
-                "personTypeId",
-                "personTypeXmlId",
-                "statusId",
-                "dateStatus",
-                "empStatusId",
-                "marked",
-                "dateMarked",
-                "empMarkedId",
-                "reasonMarked",
-                "price",
-                "discountValue",
-                "taxValue",
-                "userDescription",
-                "additionalInfo",
-                "comments",
-                "companyId",
-                "responsibleId",
-                "recurringId",
-                "lockedBy",
-                "dateLock",
-                "recountFlag",
-                "affiliateId",
-                "updated1c",
-                "orderTopic",
-                "xmlId",
-                "statusXmlId",
-                "id1c",
-                "version",
-                "version1c",
-                "externalOrder",
-                "canceled",
-                "dateCanceled",
-                "empCanceledId",
-                "reasonCanceled",
-                "userId",
-                "currency",
                 "accountNumber",
+                "statusId",
+                "price",
+                "currency",
                 "payed",
-                "deducted",
+                "dateInsert",
+                "userId",
             ],
             "filter": {
-                "<id": 10,
+                "<id": 1000,
                 "@personTypeId": [3, 4],
                 "payed": "N",
             },
             "order": {
                 "id": "desc",
-            }
+            },
+            "start": 0
         },
         function(result) {
             if (result.error()) {
@@ -577,57 +348,23 @@
         [
             'select' => [
                 "id",
-                "lid",
-                "dateInsert",
-                "dateUpdate",
-                "personTypeId",
-                "personTypeXmlId",
-                "statusId",
-                "dateStatus",
-                "empStatusId",
-                "marked",
-                "dateMarked",
-                "empMarkedId",
-                "reasonMarked",
-                "price",
-                "discountValue",
-                "taxValue",
-                "userDescription",
-                "additionalInfo",
-                "comments",
-                "companyId",
-                "responsibleId",
-                "recurringId",
-                "lockedBy",
-                "dateLock",
-                "recountFlag",
-                "affiliateId",
-                "updated1c",
-                "orderTopic",
-                "xmlId",
-                "statusXmlId",
-                "id1c",
-                "version",
-                "version1c",
-                "externalOrder",
-                "canceled",
-                "dateCanceled",
-                "empCanceledId",
-                "reasonCanceled",
-                "userId",
-                "currency",
                 "accountNumber",
+                "statusId",
+                "price",
+                "currency",
                 "payed",
-                "deducted",
+                "dateInsert",
+                "userId",
             ],
             'filter' => [
-                "<id" => 10,
+                "<id" => 1000,
                 "@personTypeId" => [3, 4],
                 "payed" => "N",
             ],
             'order' => [
                 "id" => "desc",
-            ]
+            ],
+            'start' => 0,
         ]
     );
 
@@ -641,15 +378,16 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "sale.order.list", b24.Params{
-    	"select": []string{"id", "lid", "dateInsert", "dateUpdate", "personTypeId", "personTypeXmlId", "statusId", "dateStatus", "empStatusId", "marked", "dateMarked", "empMarkedId", "reasonMarked", "price", "discountValue", "taxValue", "userDescription", "additionalInfo", "comments", "companyId", "responsibleId", "recurringId", "lockedBy", "dateLock", "recountFlag", "affiliateId", "updated1c", "orderTopic", "xmlId", "statusXmlId", "id1c", "version", "version1c", "externalOrder", "canceled", "dateCanceled", "empCanceledId", "reasonCanceled", "userId", "currency", "accountNumber", "payed", "deducted"},
+    	"select": []string{"id", "accountNumber", "statusId", "price", "currency", "payed", "dateInsert", "userId"},
     	"filter": b24.Params{
-    		"<id":           10,
+    		"<id":           1000,
     		"@personTypeId": []int{3, 4},
     		"payed":         "N",
     	},
     	"order": b24.Params{
     		"id": "desc",
     	},
+    	"start": 0,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("sale.order.list: %w", err)
@@ -671,60 +409,38 @@ HTTP-статус: **200**
     "result": {
         "orders": [
             {
-                "accountNumber": "165",
-                "additionalInfo": "",
-                "affiliateId": null,
-                "canceled": "N",
-                "comments": "",
-                "companyId": null,
+                "accountNumber": "923",
                 "currency": "RUB",
-                "dateCanceled": null,
-                "dateInsert": "2022-10-14T17:19:11+03:00",
-                "dateLock": null,
-                "dateMarked": null,
-                "dateStatus": "2022-10-14T17:19:03+03:00",
-                "dateUpdate": "2022-10-14T17:19:11+03:00",
-                "deducted": "N",
-                "discountValue": 0,
-                "empCanceledId": null,
-                "empMarkedId": null,
-                "empStatusId": 1,
-                "externalOrder": "N",
-                "id": 9,
-                "id1c": "",
-                "lid": "s1",
-                "lockedBy": "",
-                "marked": "N",
-                "orderTopic": "",
+                "dateInsert": "2026-09-23T09:06:07+03:00",
+                "id": 923,
                 "payed": "N",
-                "personTypeId": 4,
-                "personTypeXmlId": "",
-                "price": 1176,
-                "reasonCanceled": "",
-                "reasonMarked": "",
-                "recountFlag": "Y",
-                "recurringId": "",
-                "responsibleId": 1,
+                "price": 300,
                 "statusId": "N",
-                "statusXmlId": "",
-                "taxValue": 196,
-                "updated1c": "N",
-                "userDescription": "",
-                "userId": 2,
-                "version": 0,
-                "version1c": "",
-                "xmlId": "bx_63498bf7c8d31"
+                "userId": 1
             },
+            {
+                "accountNumber": "909",
+                "currency": "RUB",
+                "dateInsert": "2026-09-04T23:03:40+03:00",
+                "id": 909,
+                "payed": "N",
+                "price": 100.5,
+                "statusId": "N",
+                "userId": 1295
+            }
         ]
     },
-    "total": 1,
+    "next": 50,
+    "total": 189,
     "time": {
-        "start": 1712847891.436862,
-        "finish": 1712847892.028163,
-        "duration": 0.5913009643554688,
-        "processing": 0.1332709789276123,
-        "date_start": "2024-04-11T18:04:51+03:00",
-        "date_finish": "2024-04-11T18:04:52+03:00"
+        "start": 1790576208,
+        "finish": 1790576208.881895,
+        "duration": 0.8818950653076172,
+        "processing": 0,
+        "date_start": "2026-09-28T09:16:48+03:00",
+        "date_finish": "2026-09-28T09:16:48+03:00",
+        "operating_reset_at": 1790576808,
+        "operating": 0
     }
 }
 ```
@@ -735,13 +451,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **orders**
-[`sale_order[]`](../data-types.md) | Массив объектов с информацией о выбранных заказах ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество заказов, подходящих под фильтр ||
+|| **next**
+[`integer`](../../data-types.md) | Значение `start` для следующей страницы. Приходит, только если после текущей страницы есть еще заказы ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **orders**
+[`sale_order[]`](../data-types.md#sale_order) | Массив заказов, до 50 за вызов. Набор полей задает `select` ||
 |#
 
 ## Обработка ошибок
@@ -750,8 +475,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "100",
+    "error_description": "Invalid order \"SIDEWAYS\""
 }
 ```
 
@@ -760,15 +485,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения заказов ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | `Invalid order "SIDEWAYS"` | В `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `400` | `200040300010` | `Access Denied` | Недостаточно прав для чтения заказов ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-order-add.md)
 - [{#T}](./sale-order-update.md)
 - [{#T}](./sale-order-get.md)

@@ -78,5 +78,9 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONFIG_ID": 5,
+    "TITLE": "SIP line 1 (updated)"
+  }
 }

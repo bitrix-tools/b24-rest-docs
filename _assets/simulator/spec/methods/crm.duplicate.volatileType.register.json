@@ -73,5 +73,9 @@
     }
   ],
   "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 1,
+    "fieldCode": "TITLE"
+  }
 }

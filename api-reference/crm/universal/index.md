@@ -40,6 +40,35 @@
 4. Получите данные конкретного элемента методом [crm.item.get](./crm-item-get.md).
 5. Измените элемент методом [crm.item.update](./crm-item-update.md) или удалите методом [crm.item.delete](./crm-item-delete.md).
 
+## Как выбрать группу методов
+
+Для новой разработки используйте универсальные методы `crm.item.*` и передавайте тип объекта в параметре `entityTypeId`:
+
+- `1` — лид
+- `2` — сделка
+- `3` — контакт
+- `4` — компания
+- от `128` — смарт-процесс
+
+Развитие базовых методов [crm.lead.*](../leads/index.md), [crm.deal.*](../deals/index.md), [crm.contact.*](../contacts/index.md) и [crm.company.*](../companies/index.md) остановлено. Они продолжают работать, но предназначены для поддержки существующих интеграций.
+
+## Форма ответа
+
+Методы [crm.item.add](./crm-item-add.md), [crm.item.get](./crm-item-get.md) и [crm.item.update](./crm-item-update.md) возвращают объект CRM в `result.item`. Метод [crm.item.delete](./crm-item-delete.md) возвращает идентификатор удаленного элемента в `result.item.id`, а [crm.item.fields](./crm-item-fields.md) — описание доступных полей в `result.fields`.
+
+Метод [crm.item.list](./crm-item-list.md) возвращает массив объектов в `result.items` и общее количество найденных элементов в `total`. Состав полей объекта зависит от `entityTypeId`, прав пользователя и параметра `select`.
+
+```json
+{
+  "result": {
+    "items": [
+      { "id": 1024, "title": "Новая сделка" }
+    ]
+  },
+  "total": 1
+}
+```
+
 ## Связи универсальных методов с другими объектами
 
 **Тип объекта CRM.** Тип задается параметром `entityTypeId`. Он определяет структуру полей и логику работы метода.

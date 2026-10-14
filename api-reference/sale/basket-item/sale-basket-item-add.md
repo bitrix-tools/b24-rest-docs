@@ -1,4 +1,4 @@
-# Добавить элемент (позицию) в корзину существующего заказа sale.basketitem.add
+# Добавить произвольную позицию в корзину заказа sale.basketitem.add
 
 {% note tip "" %}
 
@@ -23,61 +23,48 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания элемента (позиции) корзины в заказе ||
+[`object`](../../data-types.md) | Значения полей позиции корзины [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
-Значения полей, отмеченных **, будут взяты из данных о товаре на сайте, если в поле `productid` передан реальный идентификатор товара. Если товар не существует на сайте, поле нужно заполнить самостоятельно. {.b24-info}
+Значения полей, отмеченных **, будут взяты из данных о товаре в каталоге, если в поле `productId` передан реальный идентификатор товара. Переданные значения этих полей для товара из каталога не сохраняются. Для произвольной позиции заполните эти поля самостоятельно. {.b24-info}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **orderId***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа ||
 || **sort**
-[`integer`](../../data-types.md) | Положение в списке позиций заказа ||
-|| **productid***
-[`catalog_product.id`](../../catalog/data-types.md#catalog_product) | Идентификатор товара/вариации.
+[`integer`](../../data-types.md) | Положение в списке позиций заказа. По умолчанию `100` ||
+|| **productId***
+[`catalog_product.id`](../../catalog/data-types.md#catalog_product) | Идентификатор товара или вариации из каталога.
 
-Для товаров, которых нет на сайте/портале, может быть равен нулю
+Для произвольной позиции, которой нет в каталоге, передайте `0`. Для товара из каталога удобнее метод [sale.basketitem.addCatalogProduct](./sale-basket-item-add-catalog-product.md)
  ||
 || **price**
-[`double`](../../data-types.md) | Цена с учетом наценок и скидок (смотрите поле `customPrice` ниже).
+[`double`](../../data-types.md) | Цена за единицу с учетом наценок и скидок.
 
-Поле будет заполнено автоматически, если `customPrice !== ‘Y’`
+Если передать `price`, цена сохранится как указанная вручную: в ответе будет `customPrice` = `Y`, а пересчета из каталога не будет. Если не передать, для товара из каталога цена берется из каталога, для произвольной позиции — `0`
  ||
 || **basePrice**
-[`double`](../../data-types.md) | Исходная цена без учета наценок и скидок (смотрите поле `customPrice` ниже).
-
-Поле будет заполнено автоматически, если `customPrice !== ‘Y’`
- ||
+[`double`](../../data-types.md) | Исходная цена без учета наценок и скидок. Для товара из каталога по умолчанию берется из каталога. У произвольной позиции без `basePrice` поле равно `0`, даже если передан `price` ||
 || **discountPrice**
-[`double`](../../data-types.md) | Величина итоговой скидки или наценки (смотрите поле `customPrice` ниже).
-
-Поле будет заполнено автоматически, если `customPrice !== ‘Y’`
- ||
+[`double`](../../data-types.md) | Величина итоговой скидки или наценки. Если передаете `price`, `basePrice` и `discountPrice` сами, соблюдайте условие `basePrice = price + discountPrice` ||
 || **currency***
-[`crm_currency.CURRENCY`](../../crm/data-types.md) | Валюта цены. Должна совпадать с валютой заказа ||
-|| **customPrice**
-[`string`](../../data-types.md) | Указана ли цена вручную. Возможные значения:
-- `Y` — да
-- `N` — нет
-
-Если указывается значение `Y`, то данные каталога будут игнорироваться. Необходимо явно задать параметры `price`, `basePrice` и `discountPrice` так, чтобы выполнялось условие `basePrice = price + discountPrice`
- ||
+[`crm_currency.CURRENCY`](../../crm/data-types.md) | Валюта цены. Должна совпадать с валютой заказа, иначе метод вернет ошибку `200140400011`. Валюту заказа возвращает метод [sale.order.get](../order/sale-order-get.md) ||
 || **quantity***
 [`double`](../../data-types.md) | Количество товара ||
 || **xmlId**
-[`string`](../../data-types.md) | Внешний код позиции корзины ||
-|| **name***,**
-[`string`](../../data-types.md) | Название товара ||
+[`string`](../../data-types.md) | Внешний код позиции корзины. Если не передать, Битрикс24 создаст код вида `bx_6ab9ff3cc2d0a` ||
+|| **name****
+[`string`](../../data-types.md) | Название товара. Для произвольной позиции передайте его явно: без `name` позиция создастся без названия ||
 || **weight****
-[`integer`](../../data-types.md) | Вес товара ||
+[`double`](../../data-types.md) | Вес товара. Сохраняется в том виде, в котором передан ||
 || **dimensions****
-[`string`](../../data-types.md) | Размеры товара (сериализованный массив) ||
+[`string`](../../data-types.md) | Размеры товара — строка с сериализованным PHP-массивом с ключами `WIDTH`, `HEIGHT`, `LENGTH`, например `a:3:{s:5:"WIDTH";i:100;s:6:"HEIGHT";i:200;s:6:"LENGTH";i:300;}`. Если передать объект, вместо размеров сохранится строка `Array` ||
 || **measureCode****
 [`catalog_measure.code`](../../catalog/data-types.md#catalog_measure) | Код единицы измерения товара ||
 || **measureName****
@@ -85,13 +72,17 @@
 || **canBuy****
 [`string`](../../data-types.md) | Флаг доступности товара. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+У произвольной позиции по умолчанию `Y` ||
 || **vatRate****
-[`double`](../../data-types.md) | Ставка налога долей от единицы: `0.1` — это 10 %. Для указания ставки «Без НДС» нужно передать пустую строку ||
+[`double`](../../data-types.md) | Ставка налога долей от единицы: `0.1` — это 10 %. Для ставки «Без НДС» передайте пустую строку ||
 || **vatIncluded****
 [`string`](../../data-types.md) | Флаг того, включен ли НДС или налог в цену товара. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+У произвольной позиции по умолчанию `Y` ||
 || **catalogXmlId****
 [`string`](../../data-types.md) | Внешний код каталога товаров ||
 || **productXmlId****
@@ -110,7 +101,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"orderId":5147,"quantity":2,"productId":6544,"currency":"RUB"}}' \
+    -d '{"fields":{"orderId":923,"productId":0,"name":"Доставка крупногабаритного груза","price":1500,"currency":"RUB","quantity":1,"measureCode":"796","measureName":"шт"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.basketitem.add
     ```
 
@@ -120,7 +111,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"orderId":5147,"quantity":2,"productId":6544,"currency":"RUB"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"orderId":923,"productId":0,"name":"Доставка крупногабаритного груза","price":1500,"currency":"RUB","quantity":1,"measureCode":"796","measureName":"шт"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.basketitem.add
     ```
 
@@ -143,21 +134,21 @@
         name: string
         sort: number
         quantity: number
-        price: number
+        price?: number
         basePrice: number
-        discountPrice: number
+        discountPrice?: number
         currency: string
         customPrice: string
         vatRate: number | null
-        vatIncluded: string
-        weight: number
-        dimensions: string
-        measureCode: string
-        measureName: string
+        vatIncluded?: string
+        weight?: number
+        dimensions?: string
+        measureCode?: string
+        measureName?: string
         canBuy: string
         xmlId: string
-        catalogXmlId: string
-        productXmlId: string
+        catalogXmlId?: string
+        productXmlId?: string
         dateInsert: ISODate | null
         dateUpdate: ISODate | null
         properties: unknown[]
@@ -170,10 +161,14 @@
         method: 'sale.basketitem.add',
         params: {
           fields: {
-            orderId: 5147,
-            quantity: 2,
-            productId: 6544,
+            orderId: 923,
+            productId: 0,
+            name: 'Доставка крупногабаритного груза',
+            price: 1500,
             currency: 'RUB',
+            quantity: 1,
+            measureCode: '796',
+            measureName: 'шт',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -207,10 +202,14 @@
             method: 'sale.basketitem.add',
             params: {
               fields: {
-                orderId: 5147,
-                quantity: 2,
-                productId: 6544,
+                orderId: 923,
+                productId: 0,
+                name: 'Доставка крупногабаритного груза',
+                price: 1500,
                 currency: 'RUB',
+                quantity: 1,
+                measureCode: '796',
+                measureName: 'шт',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -240,10 +239,14 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     fields = {
-        "orderId": 5147,
-        "quantity": 2,
-        "productId": 6544,
+        "orderId": 923,
+        "productId": 0,
+        "name": "Доставка крупногабаритного груза",
+        "price": 1500,
         "currency": "RUB",
+        "quantity": 1,
+        "measureCode": "796",
+        "measureName": "шт",
     }
 
     try:
@@ -264,8 +267,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -275,20 +278,24 @@
                 'sale.basketitem.add',
                 [
                     'fields' => [
-                        'orderId'   => 5147,
-                        'quantity'  => 2,
-                        'productId' => 6544,
-                        'currency'  => 'RUB',
+                        'orderId'     => 923,
+                        'productId'   => 0,
+                        'name'        => 'Доставка крупногабаритного груза',
+                        'price'       => 1500,
+                        'currency'    => 'RUB',
+                        'quantity'    => 1,
+                        'measureCode' => '796',
+                        'measureName' => 'шт',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding basket item: ' . $e->getMessage();
@@ -301,11 +308,15 @@
     BX24.callMethod(
         "sale.basketitem.add",
         {
-            fields: { // минимальный набор необходимых полей
-                orderId: 5147,
-                quantity: 2,
-                productId: 6544,
+            fields: {
+                orderId: 923,
+                productId: 0,
+                name: 'Доставка крупногабаритного груза',
+                price: 1500,
                 currency: 'RUB',
+                quantity: 1,
+                measureCode: '796',
+                measureName: 'шт',
             }
         },
     )
@@ -338,10 +349,14 @@
         [
             'fields' =>
             [
-                'orderId' => 5147,
-                'quantity' => 2,
-                'productId' => 6544,
+                'orderId' => 923,
+                'productId' => 0,
+                'name' => 'Доставка крупногабаритного груза',
+                'price' => 1500,
                 'currency' => 'RUB',
+                'quantity' => 1,
+                'measureCode' => '796',
+                'measureName' => 'шт',
             ]
         ]
     );
@@ -357,10 +372,14 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "sale.basketitem.add", b24.Params{
     	"fields": b24.Params{
-    		"orderId":   5147,
-    		"quantity":  2,
-    		"productId": 6544,
-    		"currency":  "RUB",
+    		"orderId":     923,
+    		"productId":   0,
+    		"name":        "Доставка крупногабаритного груза",
+    		"price":       1500,
+    		"currency":    "RUB",
+    		"quantity":    1,
+    		"measureCode": "796",
+    		"measureName": "шт",
     	},
     })
     if err != nil {
@@ -374,17 +393,21 @@
     }
 
     var item struct {
-    	BasePrice    int    `json:"basePrice"`
-    	CanBuy       string `json:"canBuy"`
-    	CatalogXmlID string `json:"catalogXmlId"`
-    	Currency     string `json:"currency"`
-    	CustomPrice  string `json:"customPrice"`
-    	DateInsert   string `json:"dateInsert"`
+    	ID          int     `json:"id"`
+    	OrderID     int     `json:"orderId"`
+    	ProductID   int     `json:"productId"`
+    	Name        string  `json:"name"`
+    	Price       float64 `json:"price"`
+    	Currency    string  `json:"currency"`
+    	Quantity    float64 `json:"quantity"`
+    	MeasureCode string  `json:"measureCode"`
+    	MeasureName string  `json:"measureName"`
+    	CustomPrice string  `json:"customPrice"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.BasePrice, item.CanBuy)
+    fmt.Println(item.ID, item.Name, item.Price)
     ```
 
 {% endlist %}
@@ -403,42 +426,37 @@ HTTP-статус: **200**
 {
     "result": {
         "basketItem": {
-            "basePrice": 1000,
+            "basePrice": 0,
             "canBuy": "Y",
-            "catalogXmlId": "FUTURE-ERP-CATALOG",
             "currency": "RUB",
-            "customPrice": "N",
-            "dateInsert": "2024-04-23T15:59:37+02:00",
-            "dateUpdate": "2024-04-23T15:59:37+02:00",
-            "dimensions": "a:3:{s:5:\"WIDTH\";N;s:6:\"HEIGHT\";N;s:6:\"LENGTH\";N;}",
-            "discountPrice": 100,
-            "id": 6790,
-            "measureCode": "163",
-            "measureName": "г",
-            "name": "Товар",
-            "orderId": 5147,
-            "price": 900,
-            "productId": 1245,
-            "productXmlId": "1245",
+            "customPrice": "Y",
+            "dateInsert": "2026-09-28T08:49:12+03:00",
+            "dateUpdate": "2026-09-28T08:49:12+03:00",
+            "id": 1313,
+            "measureCode": "796",
+            "measureName": "шт",
+            "name": "Доставка крупногабаритного груза",
+            "orderId": 923,
+            "price": 1500,
+            "productId": 0,
             "properties": [],
             "quantity": 1,
             "reservations": [],
             "sort": 100,
-            "vatIncluded": "N",
             "vatRate": null,
-            "weight": 0,
-            "xmlId": "bx_6627bec8c4fdc"
+            "xmlId": "bx_6aba0de846c91"
         }
     },
     "total": 1,
     "time": {
-        "start": 1713880776.108755,
-        "finish": 1713880777.704221,
-        "duration": 1.595465898513794,
-        "processing": 0.973701000213623,
-        "date_start": "2024-04-23T15:59:36+02:00",
-        "date_finish": "2024-04-23T15:59:37+02:00",
-        "operating": 0
+        "start": 1790578152,
+        "finish": 1790578153.972347,
+        "duration": 1.9723470211029053,
+        "processing": 1,
+        "date_start": "2026-09-28T09:49:12+03:00",
+        "date_finish": "2026-09-28T09:49:13+03:00",
+        "operating_reset_at": 1790578752,
+        "operating": 1.7863950729370117
     }
 }
 ```
@@ -451,11 +469,20 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`sale_basket_item`](../data-types.md) | Объект с данными созданного элемента (позиции) корзины ||
+[`sale_basket_item`](../data-types.md#sale_basket_item) | Объект с данными созданной позиции корзины. Основные поля:
+- `id` — идентификатор позиции, его передают в [sale.basketitem.update](./sale-basket-item-update.md), [sale.basketitem.get](./sale-basket-item-get.md) и [sale.basketitem.delete](./sale-basket-item-delete.md)
+- `orderId`, `productId`, `name`, `quantity`, `currency` — данные позиции
+- `price`, `basePrice`, `discountPrice` — цена за единицу, исходная цена и скидка
+- `customPrice` — `Y`, если цена задана вручную, `N` — если взята из каталога
+- `xmlId` — внешний код позиции
+- `properties` — свойства позиции, массив [sale_basket_item_property](../data-types.md#sale_basket_item_property)
+- `reservations` — резервы позиции, массив [sale_basket_item_reservation](../data-types.md#sale_basket_item_reservation)
+
+В ответе `add` для произвольной позиции нет полей, которые не переданы в запросе: в примере выше это `discountPrice`, `weight`, `dimensions`, `vatIncluded`, `catalogXmlId`, `productXmlId`, `type`, `barcodeMulti`. Их значения возвращает [sale.basketitem.get](./sale-basket-item-get.md). Полный список полей — в описании типа [sale_basket_item](../data-types.md#sale_basket_item) ||
 || **total**
 [`integer`](../../data-types.md) | Число обработанных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -464,8 +491,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200140400011",
+    "error_description": "Currency must be the currency of the order"
 }
 ```
 
@@ -477,37 +504,40 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `200140400007` | `basket item is not saved - bad data`
 
-Позиция не была создана. Ошибка возникает, если передан неверный идентификатор товара или же товар неактивен
-|| 
-|| `200140400008` | `Required fields: fields[ORDER_ID]`
-
-Не указан идентификатор заказа
-|| 
+Позиция не создана. Ошибка возникает, если передан несуществующий идентификатор товара или товар неактивен
+||
 || `200140400009` | `Order not found`
 
-Заказ не найден
-|| 
+Заказ с переданным `orderId` не найден
+||
 || `200140400011` | `Currency must be the currency of the order`
 
 Валюта позиции не совпадает с валютой заказа
-|| 
+||
 || `200040300010` | Недостаточно прав для добавления
-|| 
-|| `100` | Не указаны обязательные параметры
+||
+|| `100` | `Could not find value for parameter {fields}`
+
+Не передан параметр `fields`
+||
+|| `0` | `Required fields: orderId`
+
+В `fields` не передано обязательное поле. Вместо `orderId` в тексте будет имя пропущенного поля: `productId`, `quantity` или `currency`
 ||
 || `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-get.md)
 - [{#T}](./sale-basket-item-list.md)
 - [{#T}](./sale-basket-item-delete.md)
-- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-add-catalog-product.md)
 - [{#T}](./sale-basket-item-update-catalog-product.md)
+- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-get-catalog-product-fields.md)

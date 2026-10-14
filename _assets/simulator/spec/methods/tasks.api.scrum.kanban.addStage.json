@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Создать стадию канбана Скрама tasks.api.scrum.kanban.addStage",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правом редактирования задач группы Скрама",
   "params": [
     {
       "name": "fields",
@@ -42,21 +42,21 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип стадии канбана. Возможные значения: NEW, WORK, FINISH"
+          "description": "Тип стадии канбана. Возможные значения: NEW, WORK, FINISH По умолчанию — WORK"
         },
         {
           "name": "sort",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Порядок сортировки. Значение поля должно быть кратно 100"
+          "description": "Порядок сортировки. Стадии выводятся по возрастанию значения По умолчанию — 100"
         },
         {
           "name": "color",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Цвет стадии канбана"
+          "description": "Цвет стадии канбана в виде шестизначного HEX-кода без символа #. По умолчанию — 00C4FB"
         }
       ]
     }
@@ -77,6 +77,31 @@
       "date_finish": "2024-04-03T12:50:17+03:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Идентификатор созданной стадии канбана"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-add-stage.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "sprintId": 1,
+      "name": "Первая стадия",
+      "type": "NEW",
+      "color": "00C4FB",
+      "sort": 100
+    }
+  }
 }

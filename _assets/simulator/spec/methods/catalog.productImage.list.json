@@ -66,5 +66,17 @@
   "entityFields": [
     "productId",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "productId": 1,
+    "select": [
+      "id",
+      "name",
+      "productId",
+      "type",
+      "createTime",
+      "downloadUrl",
+      "detailUrl"
+    ]
+  }
 }

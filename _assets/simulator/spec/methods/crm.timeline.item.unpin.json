@@ -64,5 +64,10 @@
     }
   ],
   "page": "/api-reference/crm/timeline/actions/crm-timeline-item-unpin.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 999,
+    "ownerTypeId": 2,
+    "ownerId": 10
+  }
 }

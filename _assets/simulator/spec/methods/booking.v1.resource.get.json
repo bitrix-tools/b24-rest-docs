@@ -107,5 +107,8 @@
     "templateTypeInfo",
     "templateTypeReminder",
     "typeId"
-  ]
+  ],
+  "requestExample": {
+    "id": 15
+  }
 }

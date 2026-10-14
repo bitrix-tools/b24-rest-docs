@@ -24,5 +24,8 @@
     "successor": "tasks.task.disapprove"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-disapprove.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13
+  }
 }

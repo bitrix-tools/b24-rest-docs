@@ -213,5 +213,16 @@
     }
   ],
   "page": "/api-reference/sonet-group/sonet-group-create.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NAME": "Новый проект",
+    "PROJECT": "Y",
+    "VISIBLE": "Y",
+    "OPENED": "N",
+    "INITIATE_PERMS": "K",
+    "IMAGE": [
+      "avatar.png",
+      "iVBORw0KGgoAAAANSUhEUgAA..."
+    ]
+  }
 }

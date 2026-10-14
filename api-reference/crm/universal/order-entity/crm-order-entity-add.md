@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор интернет-магазина
 
-Метод добавляет привязку заказа к объекту CRM.
+Метод `crm.orderentity.add` добавляет привязку заказа к объекту CRM.
 
 ## Параметры метода
 
@@ -23,12 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей для создания привязки ||
+[`object`](../../../data-types.md) | Значения полей для создания привязки [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
-
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+### Параметр fields {#fields}
 
 #|
 || **Название**
@@ -38,14 +36,16 @@
 || **ownerTypeId***
 [`integer`](../../../data-types.md) | Идентификатор [типа объекта CRM](../../data-types.md#object_type).
 
-Привязка возможна только к сделке или счету
+Возможные значения:
+- `2` — сделка
+- `31` — счет
 ||
 || **ownerId***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM.
 
 Для сделок может быть получен методом [crm.deal.list](../../deals/crm-deal-list.md).
 
-Для счетов может быть получен методом [crm.invoice.list](../../outdated/invoice/crm-invoice-list.md)
+Для счетов может быть получен методом [crm.item.list](../crm-item-list.md) с `entityTypeId = 31`
 ||
 |#
 
@@ -191,6 +191,39 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
+- PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'crm.orderentity.add',
+                [
+                    'fields' => [
+                        'orderId' => 5125,
+                        'ownerId' => 6933,
+                        'ownerTypeId' => 2,
+                    ],
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        if ($result->error()) {
+            error_log($result->error());
+            echo 'Error: ' . $result->error();
+        } else {
+            echo 'Success: ' . print_r($result->data(), true);
+        }
+    } catch (Throwable $e) {
+        error_log($e->getMessage());
+        echo 'Error adding order entity: ' . $e->getMessage();
+    }
+    ```
+
 - BX24.js
 
     ```js
@@ -309,11 +342,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **dealOrder**
 [`crm_orderentity`](../../data-types.md#crm_orderentity) | Объект с информацией о созданной привязке ||
-|| **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -329,30 +369,22 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
-#|  
-|| **Код** | **Описание** ||
-|| `200040300020` | `Access Denied` 
-Недостаточно прав доступа
-||
-|| `201650000001` | `Duplicate entry for key [ownerId, ownerTypeId, orderId]` 
-Привязка уже существует
-||
-|| `200540400001` | `order does not exist` 
-Не найден заказ
-||
-|| `0` | `Required fields: #FIELDS#` 
-Не указаны обязательные поля (`#FIELDS#` — список полей через запятую)
-||
-|| `0` | Различные ошибки сохранения заказа
-||
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | `Access Denied` | Недостаточно прав доступа ||
+|| `400` | `201650000001` | `Duplicate entry for key [ownerId, ownerTypeId, orderId]` | Привязка уже существует ||
+|| `400` | `200540400001` | `order does not exist` | Заказ не найден ||
+|| `400` | `0` | `Required fields: #FIELDS#` | Не указаны обязательные поля. В `#FIELDS#` перечислены поля через запятую ||
+|| `400` | `0` | Текст ошибки сохранения заказа | Ошибка при сохранении заказа ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-order-entity-list.md)
 - [{#T}](./crm-order-entity-delete-by-filter.md)
 - [{#T}](./crm-order-entity-get-fields.md)

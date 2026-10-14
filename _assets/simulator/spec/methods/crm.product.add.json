@@ -28,5 +28,13 @@
     "successor": "catalog.product.add"
   },
   "page": "/api-reference/crm/outdated/products/crm-product-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "NAME": "Стул пластиковый",
+      "CURRENCY_ID": "RUB",
+      "PRICE": 4900,
+      "SORT": 500
+    }
+  }
 }

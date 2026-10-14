@@ -100,5 +100,22 @@
     }
   ],
   "page": "/api-reference/document-generator/numerators/document-generator-numerator-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "REST Invoice Numerator",
+      "template": "INV-{NUMBER}",
+      "settings": {
+        "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+          "start": 1000,
+          "step": 5,
+          "length": 8,
+          "padString": "0",
+          "periodicBy": "year",
+          "timezone": "Europe/Moscow",
+          "isDirectNumeration": false
+        }
+      }
+    }
+  }
 }

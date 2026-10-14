@@ -24,5 +24,8 @@
     "successor": "catalog.measure.delete"
   },
   "page": "/api-reference/crm/outdated/measure/crm-measure-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "**put_id_here**"
+  }
 }

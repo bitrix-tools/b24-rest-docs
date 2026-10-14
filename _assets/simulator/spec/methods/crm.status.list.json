@@ -215,5 +215,27 @@
     "SORT",
     "STATUS_ID",
     "SYSTEM"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "SORT": "ASC"
+    },
+    "filter": {
+      "ENTITY_ID": "DEAL_STAGE"
+    }
+  },
+  "datasetHint": {
+    "entity": "statuses",
+    "count": 23,
+    "idFrom": 100,
+    "idTo": 122,
+    "runnableExample": {
+      "order": {
+        "SORT": "ASC"
+      },
+      "filter": {
+        "ENTITY_ID": "DEAL_STAGE"
+      }
+    }
+  }
 }

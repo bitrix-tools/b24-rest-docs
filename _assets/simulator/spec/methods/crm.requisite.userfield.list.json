@@ -212,5 +212,14 @@
     "SORT",
     "USER_TYPE_ID",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "SORT": "ASC"
+    },
+    "filter": {
+      "MANDATORY": "N",
+      "LANG": "ru"
+    }
+  }
 }

@@ -3,8 +3,8 @@
   "method": "biconnector.connector.update",
   "scope": "biconnector",
   "kind": "write",
-  "title": "Изменить коннектор biconnector.connector.update",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "title": "Обновить коннектор biconnector.connector.update",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "id",
@@ -35,7 +35,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Новое название коннектора"
+          "description": "Новое название коннектора, максимальная длина — 512 символов"
         },
         {
           "name": "logo",
@@ -56,35 +56,49 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Новый эндпоинт для проверки доступности коннектора, (подробное описание)"
+          "description": "Новый эндпоинт для проверки доступности коннектора, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "urlTableList",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Новый эндпоинт для получения списка таблиц, (подробное описание)"
+          "description": "Новый эндпоинт для получения списка таблиц, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "urlTableDescription",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Новый эндпоинт для получения описания конкретной таблицы, (подробное описание)"
+          "description": "Новый эндпоинт для получения описания конкретной таблицы, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "urlData",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Новый эндпоинт для получения данных по выбранной таблице, (подробное описание)"
+          "description": "Новый эндпоинт для получения данных по выбранной таблице, максимальная длина — 2048 символов, (подробное описание)"
         },
         {
           "name": "settings",
           "type": "array",
           "base": "array",
           "required": false,
-          "description": "Новый список параметров подключения, (подробное описание)"
+          "description": "Новый массив параметров подключения. Заменяет прежний целиком (подробное описание)"
+        },
+        {
+          "name": "supportMapping",
+          "type": "boolean",
+          "base": "boolean",
+          "required": false,
+          "description": "Поддержка сопоставления полей таблицы с полями внешней системы. Если поле не передать, у коннектора останется прежнее значение. Значение проверяется строгим сравнением с булевым типом, поэтому в запросе с типом application/x-www-form-urlencoded оно не пройдет — передавайте его с заголовком Content-Type: application/json"
+        },
+        {
+          "name": "sourceCode",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Символьный код внешней системы, максимальная длина — 64 символа"
         },
         {
           "name": "sort",
@@ -118,7 +132,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Корневой элемент ответа, содержит true в случае успеха"
+      "description": "Корневой элемент ответа. При успешном обновлении содержит true — объекта с данными коннектора в ответе нет. Чтобы увидеть новые значения полей, вызовите biconnector.connector.get"
     },
     {
       "name": "time",

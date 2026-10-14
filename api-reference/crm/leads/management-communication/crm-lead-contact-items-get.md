@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: пользователь с правом «Чтение» лида
 
-Метод получает список связанных с лидом контактов.
+Метод `crm.lead.contact.items.get` возвращает набор контактов, связанных с указанным лидом.
+
+Он отдает все привязки лида целиком: параметров фильтрации, выборки полей и постраничной навигации у него нет. Чтобы изменить набор, используйте [crm.lead.contact.items.set](./crm-lead-contact-items-set.md), а чтобы добавить или убрать один контакт — [crm.lead.contact.add](./crm-lead-contact-add.md) и [crm.lead.contact.delete](./crm-lead-contact-delete.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -23,7 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор лида. Идентификатор лида можно получить методом [получения списка лидов](../crm-lead-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор лида. Должен быть больше `0`.
+
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 1` ||
 |#
 
 ## Примеры кода
@@ -136,7 +140,7 @@
 
     try:
         bitrix_response = client.crm.lead.contact.items.get(
-            bitrix_id=1201,
+            bitrix_id=1,
         ).response
         result = bitrix_response.result
         print(result)
@@ -170,14 +174,9 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Data: ' . print_r($result, true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting lead contact items: ' . $e->getMessage();
@@ -254,14 +253,30 @@ HTTP-статус: **200**
             "SORT": 20,
             "ROLE_ID": 0,
             "IS_PRIMARY": "N"
-        },
+        }
     ],
     "time": {
         "start": 1715091541.642592,
         "finish": 1715091541.730599,
         "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
+        "operating": 0
+    }
+}
+```
+
+Ответ, когда у лида нет привязанных контактов:
+
+```json
+{
+    "result": [],
+    "time": {
+        "start": 1715091541.642592,
+        "finish": 1715091541.730599,
+        "duration": 0.08800697326660156,
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
         "operating": 0
     }
 }
@@ -273,23 +288,30 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../data-types.md) | Результат в виде массива объектов ||
+[`lead_contact_binding[]`](#lead_contact_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к лиду контактах, отсортированный по возрастанию `SORT`.
+
+Метод отдельно не проверяет, существует ли лид: если проверка прав пройдена, для несуществующего `id` он вернет пустой массив, а не ошибку ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-Результат в виде массива объектов, каждый из которых содержит следующие поля:
+#### Объект lead_contact_binding {#lead_contact_binding}
 
 #|
-|| **Поле** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **CONTACT_ID**
-[`integer`](../../../data-types.md) | Идентификатор контакта ||
+[`integer`](../../../data-types.md) | Идентификатор связанного контакта.
+
+Получить данные контакта можно методом [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 3` ||
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
 || **ROLE_ID**
-[`integer`](../../../data-types.md) | Идентификатор роли (зарезервировано) ||
+[`integer`](../../../data-types.md) | Идентификатор роли. Поле зарезервировано: методы связи не принимают его при записи, новые привязки получают `0` ||
 || **IS_PRIMARY**
-[`string`](../../../data-types.md) | Флаг первичного контакта ||
+[`char`](../../../data-types.md#standart-types) | Основной ли это контакт лида. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 |#
 
 ## Обработка ошибок
@@ -298,8 +320,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "",
+    "error_description": "The parameter ownerEntityID is invalid or not defined."
 }
 ```
 
@@ -308,17 +330,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| ` ` | Не переданы обязательные поля ||
-|| ` ` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | The parameter ownerEntityID is invalid or not defined. | Параметр `id` не передан или меньше либо равен `0` ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет права на чтение лида ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-lead-contact-add.md)
 - [{#T}](./crm-lead-contact-delete.md)
 - [{#T}](./crm-lead-contact-items-set.md)

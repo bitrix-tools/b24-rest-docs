@@ -75,5 +75,11 @@
     }
   ],
   "page": "/api-reference/crm/quote/contacts/crm-quote-contact-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 113,
+    "fields": {
+      "CONTACT_ID": 2647
+    }
+  }
 }

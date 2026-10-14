@@ -22,10 +22,74 @@
 - **Файл.** Поле не связано с Диском, в него файлы загружаются напрямую, через [строку формата Base64](../../api-reference/files/how-to-upload-files.md)
 - **Файл (диск).** Поле связано с Диском, в поле хранится ID объекта Диска. Формат Base64 в поле не обрабатывается, поэтому сначала файл необходимо загрузить на Диск Битрикс24
 
-Чтобы прикрепить файл в задачу, последовательно выполните два метода:
+Сценарий состоит из трех шагов:
 
-1. [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md) — метод загружает файл на Диск
-2. [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md) — метод прикрепляет файл Диска к задаче
+1. Загрузите файл на Диск методом [disk.folder.uploadFile](../../api-reference/disk/folder/disk-folder-upload-file.md)
+2. Передайте `ID` объекта Диска в [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md), чтобы прикрепить файл к задаче
+3. Проверьте связь файла с задачей методом [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md)
+
+В результате файл появится в существующей задаче. Проверку выполняйте после прикрепления: `attachmentId` для третьего шага возвращает метод второго шага.
+
+## Перед началом
+
+Для выполнения примера нужны:
+
+- входящий вебхук со scope `disk` и `task`, созданный пользователем с правом добавления файла в папку Диска, редактирования задачи и чтения файла
+- идентификатор папки Диска `folderId`, в которую нужно загрузить файл. Получите его методом [disk.storage.getChildren](../../api-reference/disk/storage/disk-storage-get-children.md) для папки в корне хранилища или [disk.folder.getChildren](../../api-reference/disk/folder/disk-folder-get-children.md) для вложенной папки. В примерах `folderId` равен `1739`
+- идентификатор существующей задачи `taskId`. Получите его методом [tasks.task.list](../../api-reference/tasks/tasks-task-list.md). В примерах `taskId` равен `3709`
+- файл, который нужно прикрепить к задаче, в каталоге запуска скрипта. В примерах исходное имя — `avatar.jpg`, а имя на Диске из `data.NAME` — `ava555.jpg`
+- содержимое файла в виде строки Base64 без префикса `data:*/*;base64,`. Передайте в `fileContent` массив из имени файла и этой строки
+
+Вебхук выполняет запросы с правами пользователя, который его создал. Адрес вебхука дает доступ к методам с его scope: храните его в переменных окружения сервера, не добавляйте в браузерный код и репозиторий. Для JS и PHP задайте переменную `B24_HOOK` с полным URL вебхука. Для Python задайте `B24_DOMAIN` с доменом Битрикс24 и `B24_WEBHOOK_TOKEN` со значением вида `USER_ID/TOKEN`.
+
+Для JS-примера нужны Node.js 22 или новее и пакет `@bitrix24/b24jssdk`. Код использует ES-модули: сохраните его в файле `.mjs` или добавьте `"type": "module"` в `package.json`. Для Python-примера нужны Python 3.9 или новее и пакет `b24pysdk`. Для PHP-примера нужны PHP 8.4 или новее и пакет `bitrix24/b24phpsdk` версии `^3.0`.
+
+Инициализируйте SDK до первого вызова метода. Разместите код инициализации и следующие фрагменты выбранного языка в одном скрипте.
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+{% list tabs %}
+
+- JS
+
+    ```javascript
+    import { readFile } from 'node:fs/promises'
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    ```
+
+- PHP
+
+    ```php
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Monolog\Logger;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    $log = new Logger('b24');
+    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook(getenv('B24_HOOK'));
+    ```
+
+- Python
+
+    ```python
+    import base64
+    import os
+    from pathlib import Path
+
+    from b24pysdk import BitrixWebhook, Client
+
+    token = BitrixWebhook(
+        domain=os.environ["B24_DOMAIN"],
+        webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
+    )
+    client = Client(token)
+    ```
+
+{% endlist %}
 
 ## 1. Загружаем файл на диск Битрикс24
 
@@ -37,19 +101,15 @@
 
 Загрузка файла на Диск — необходимый шаг, так как поле `UF_TASK_WEBDAV_FILES` в задачах принимает только ID файлов Диска.
 
-{% include [Сноска о примерах](../../_includes/examples.md) %}
-
 {% list tabs %}
 
 - JS
 
     ```javascript
-    import { B24Hook } from '@bitrix24/b24jssdk'
+    const fileName = 'avatar.jpg'
+    const fileBase64 = (await readFile(fileName)).toString('base64')
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/'
-
-    const response = await $b24.actions.v2.call.make({
+    const uploadResponse = await $b24.actions.v2.call.make({
         method: 'disk.folder.uploadFile',
         params: {
             id: 1739,
@@ -57,67 +117,60 @@
                 NAME: 'ava555.jpg'
             },
             fileContent: [
-                'avatar.jpg',
-                '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q=='
+                fileName,
+                fileBase64
             ]
         },
         requestId: 'disk-uploadfile'
     })
 
-    if (!response.isSuccess) {
-        throw new Error(response.getErrorMessages().join('; '))
+    if (!uploadResponse.isSuccess) {
+        throw new Error(uploadResponse.getErrorMessages().join('; '))
     }
 
-    const result = response.getData().result
+    const uploadedFile = uploadResponse.getData().result
+    ```
+
+- PHP
+
+    ```php
+    $fileName = 'avatar.jpg';
+    $fileBytes = file_get_contents($fileName);
+    if ($fileBytes === false) {
+        throw new RuntimeException('Не удалось прочитать файл');
+    }
+    $fileBase64 = base64_encode($fileBytes);
+
+    $uploadedFile = $serviceBuilder->getDiskScope()->folder()->uploadFile(
+        1739,
+        ['NAME' => 'ava555.jpg'],
+        [
+            $fileName,
+            $fileBase64
+        ]
+    )->getFile();
+
+    echo '<PRE>';
+    print_r($uploadedFile);
+    echo '</PRE>';
     ```
 
 - Python
 
     ```python
-    from b24pysdk import BitrixWebhook, Client
+    file_name = "avatar.jpg"
+    file_base64 = base64.b64encode(Path(file_name).read_bytes()).decode("ascii")
 
-    token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
-    )
-    client = Client(token)
-
-    result = client.disk.folder.uploadfile(
+    uploaded_file = client.disk.folder.uploadfile(
         bitrix_id=1739,
         data={
             "NAME": "ava555.jpg",
         },
         file_content=[
-            "avatar.jpg",
-            "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q==",
+            file_name,
+            file_base64,
         ],
     ).response.result
-    ```
-
-
-- PHP
-
-    ```php
-    require_once 'vendor/autoload.php';
-
-    use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-
-    $serviceBuilder = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-        ->initFromWebhook('https://your-domain.bitrix24.com/rest/USER_ID/TOKEN/');
-
-    $result = $serviceBuilder->getDiskScope()->folder()->uploadFile(
-        1739,
-        ['NAME' => 'ava555.jpg'],
-        [
-            'avatar.jpg',
-            '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAQDAwQDAwQEAwQ///+dAYq6YFKoAv/AFnAa6ArKv8AAtFJVppxCEAulxQ2DWgfMR//2Q=='
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result->getFile());
-    echo '</PRE>';
     ```
 {% endlist %}
 
@@ -146,53 +199,53 @@
 Для прикрепления файла к задаче используем метод [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md) с параметрами:
 
 - `taskId` — ID задачи. Для получения значения ID используйте метод [tasks.task.list](../../api-reference/tasks/tasks-task-list.md)
-- `fileId` — укажем ID файла из результата предыдущего метода `6687`
+- `fileId` — передайте `ID` объекта Диска из ответа предыдущего метода. В примере ответа это `6687`
 
 {% list tabs %}
 
 - JS
 
     ```javascript
-    const response = await $b24.actions.v2.call.make({
+    const attachResponse = await $b24.actions.v2.call.make({
         method: 'tasks.task.files.attach',
         params: {
             taskId: 3709,
-            fileId: 6687
+            fileId: Number(uploadedFile.ID)
         },
         requestId: 'task-files-attach'
     })
 
-    if (!response.isSuccess) {
-        throw new Error(response.getErrorMessages().join('; '))
+    if (!attachResponse.isSuccess) {
+        throw new Error(attachResponse.getErrorMessages().join('; '))
     }
 
-    const result = response.getData().result
+    const attachment = attachResponse.getData().result
+    ```
+
+- PHP
+
+    ```php
+    // Для этого метода нет типизированной обертки, поэтому вызываем его через ядро SDK
+    $attachment = $serviceBuilder->core->call(
+        'tasks.task.files.attach',
+        [
+            'taskId' => 3709,
+            'fileId' => $uploadedFile['ID']
+        ]
+    )->getResponseData()->getResult();
+
+    echo '<PRE>';
+    print_r($attachment);
+    echo '</PRE>';
     ```
 
 - Python
 
     ```python
-    result = client.tasks.task.files.attach(
+    attachment = client.tasks.task.files.attach(
         task_id=3709,
-        file_id=6687,
+        file_id=int(uploaded_file["ID"]),
     ).response.result
-    ```
-
-
-- PHP
-
-    ```php
-    $result = $serviceBuilder->core->call(
-        'tasks.task.files.attach',
-        [
-            'taskId' => 3709,
-            'fileId' => 6687
-        ]
-    )->getResponseData()->getResult();
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
     ```
 {% endlist %}
 
@@ -208,7 +261,7 @@
 
 ## Проверим результат
 
-Передайте `attachmentId` из ответа метода [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md) в параметр `id` метода [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md).
+Передайте `attachmentId` из ответа метода [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md) в параметр `id` метода [disk.attachedObject.get](../../api-reference/disk/attached-object/disk-attached-object-get.md). В примере ответа значение равно `423`, в коде используется идентификатор текущего прикрепления.
 
 {% list tabs %}
 
@@ -218,7 +271,7 @@
     const checkResponse = await $b24.actions.v2.call.make({
         method: 'disk.attachedObject.get',
         params: {
-            id: result.attachmentId
+            id: Number(attachment.attachmentId)
         },
         requestId: 'disk-attached-object-get'
     })
@@ -230,31 +283,32 @@
     console.log(checkResponse.getData().result)
     ```
 
-- Python
-
-    ```python
-    file = token.call_method(
-        "disk.attachedObject.get",
-        {
-            "id": result["attachmentId"],
-        },
-    )["result"]
-
-    print(file)
-    ```
-
-
 - PHP
 
     ```php
+    // Для этого метода нет типизированной обертки, поэтому вызываем его через ядро SDK
     $file = $serviceBuilder->core->call(
         'disk.attachedObject.get',
         [
-            'id' => $result['attachmentId']
+            'id' => $attachment['attachmentId']
         ]
     )->getResponseData()->getResult();
 
     print_r($file);
+    ```
+
+- Python
+
+    ```python
+    # Для этого метода нет типизированной обертки, поэтому используем прямой вызов
+    file = token.call_method(
+        "disk.attachedObject.get",
+        {
+            "id": attachment["attachmentId"],
+        },
+    )["result"]
+
+    print(file)
     ```
 {% endlist %}
 
@@ -265,6 +319,8 @@
 - `ENTITY_TYPE` равен `tasks_task`
 - `ENTITY_ID` равен идентификатору задачи
 - `NAME` содержит имя прикрепленного файла
+
+Откройте задачу в Битрикс24 и проверьте, что файл `ava555.jpg` появился среди прикрепленных файлов.
 
 ```json
 {
@@ -297,6 +353,10 @@
 |#
 
 Повторяйте сценарий с того шага, который вернул ошибку. Если файл уже загружен на Диск, не загружайте его повторно: исправьте `taskId` или `fileId` и повторите только вызов [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md).
+
+## Что важно учитывать
+
+Если файл уже находится на Диске, пропустите загрузку и передайте его `ID` в `fileId` метода [tasks.task.files.attach](../../api-reference/tasks/tasks-task-files-attach.md). Для другой задачи замените `taskId`. В обоих случаях проверьте права пользователя вебхука на файл и задачу.
 
 ## Продолжите изучение
 

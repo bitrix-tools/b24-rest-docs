@@ -211,5 +211,21 @@
     }
   ],
   "page": "/api-reference/sale/shipment/sale-shipment-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "orderId": 2068,
+      "allowDelivery": "Y",
+      "deducted": "Y",
+      "deliveryId": 2,
+      "statusId": "DN",
+      "deliveryDocDate": "2024-02-13T14:05:48",
+      "deliveryDocNum": "DocumentNumber123456",
+      "trackingNumber": "trackingNumber",
+      "basePriceDelivery": 999.99,
+      "comments": "My comment for manager",
+      "responsibleId": 25,
+      "xmlId": "myXmlId"
+    }
+  }
 }

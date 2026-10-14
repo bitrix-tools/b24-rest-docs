@@ -151,5 +151,17 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-upload.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "entityTypeId": 2,
+      "entityId": 101,
+      "fileContent": "**base64_docx_content**",
+      "region": "ru",
+      "title": "Демонстрационная реализация товара",
+      "number": "2026-001",
+      "pdfContent": "**base64_pdf_content**",
+      "imageContent": "**base64_image_content**"
+    }
+  }
 }

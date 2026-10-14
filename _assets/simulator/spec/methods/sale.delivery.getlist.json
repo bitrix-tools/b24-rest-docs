@@ -112,5 +112,27 @@
     }
   ],
   "page": "/api-reference/sale/delivery/delivery/sale-delivery-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "SELECT": [
+      "ID",
+      "PARENT_ID",
+      "NAME",
+      "ACTIVE",
+      "DESCRIPTION",
+      "SORT",
+      "CURRENCY"
+    ],
+    "FILTER": {
+      "@ID": [
+        196,
+        197,
+        198
+      ]
+    },
+    "ORDER": {
+      "SORT": "ASC",
+      "ID": "DESC"
+    }
+  }
 }

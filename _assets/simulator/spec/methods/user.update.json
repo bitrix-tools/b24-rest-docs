@@ -424,5 +424,10 @@
     }
   ],
   "page": "/api-reference/user/user-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 1,
+    "NAME": "Administrator",
+    "LAST_NAME": "SomeLastName"
+  }
 }

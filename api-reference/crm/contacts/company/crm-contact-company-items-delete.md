@@ -11,9 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «изменения» контактов
+> Кто может выполнять метод: пользователь с правом «Изменение» контакта
 
 Метод `crm.contact.company.items.delete` очищает набор компаний, связанных с указанным контактом.
+
+Он отвязывает все компании сразу, сами компании остаются в CRM. Поле контакта `COMPANY_ID` очищается. Чтобы убрать одну компанию, используйте [crm.contact.company.delete](./crm-contact-company-delete.md).
+
+Чтобы восстановить набор, привяжите компании заново методом [crm.contact.company.items.set](./crm-contact-company-items-set.md) или [crm.contact.company.add](./crm-contact-company-add.md). Прежние значения `SORT` и `IS_PRIMARY` Битрикс24 не хранит: если они понадобятся, получите набор методом [crm.contact.company.items.get](./crm-contact-company-items-get.md) до очистки. Что означают эти поля, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -23,9 +27,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор контакта.
+[`integer`](../../../data-types.md) | Идентификатор контакта. Должен быть больше `0`.
 
-Идентификатор можно получить с помощью методов [crm.contact.list](../crm-contact-list.md) или [crm.contact.add](../crm-contact-add.md) ||
+Идентификатор можно получить с помощью метода [crm.item.list](../../universal/crm-item-list.md) по `entityTypeId = 3` ||
 |#
 
 ## Примеры кода
@@ -166,13 +170,9 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . var_export($result[0], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting contact company item: ' . $e->getMessage();
@@ -257,9 +257,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха.
+
+Метод возвращает `true` и в том случае, когда у контакта не было привязанных компаний. Для несуществующего `id` ответ тоже будет `true`, если проверка прав пройдена: существование контакта метод отдельно не проверяет ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -278,15 +280,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The parameter 'ownerEntityID' is invalid or not defined` | Передан `id` меньше 0 или не передан вовсе ||
-|| `ACCESS_DENIED` | `Access denied!` | У пользователя нет прав на изменение контактов ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | The parameter ownerEntityID is invalid or not defined. | Параметр `id` не передан или меньше либо равен `0` ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет права на изменение контакта ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите обучение
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-contact-company-add.md)
 - [{#T}](./crm-contact-company-delete.md)
 - [{#T}](./crm-contact-company-fields.md)

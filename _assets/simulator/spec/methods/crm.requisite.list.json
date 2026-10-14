@@ -87,5 +87,19 @@
     }
   ],
   "page": "/api-reference/crm/requisites/universal/crm-requisite-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "order": {
+      "DATE_CREATE": "ASC"
+    },
+    "filter": {
+      "PRESET_ID": "1"
+    },
+    "select": [
+      "ENTITY_TYPE_ID",
+      "ENTITY_ID",
+      "ID",
+      "NAME"
+    ]
+  }
 }

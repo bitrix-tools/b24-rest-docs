@@ -211,5 +211,26 @@
     "LINE_NAME",
     "QUEUE",
     "QUEUE_USERS_FIELDS"
-  ]
+  ],
+  "requestExample": {
+    "PARAMS": {
+      "select": [
+        "ID",
+        "LINE_NAME",
+        "ACTIVE"
+      ],
+      "order": {
+        "ID": "ASC"
+      },
+      "filter": {
+        "ACTIVE": "Y"
+      },
+      "limit": 50,
+      "offset": 0
+    },
+    "OPTIONS": {
+      "QUEUE": "Y",
+      "CONFIG_QUEUE": "Y"
+    }
+  }
 }

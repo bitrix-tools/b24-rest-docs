@@ -85,5 +85,10 @@
   "entityFields": [
     "code",
     "counter"
-  ]
+  ],
+  "requestExample": {
+    "userId": 547,
+    "groupId": 0,
+    "type": "view_all"
+  }
 }

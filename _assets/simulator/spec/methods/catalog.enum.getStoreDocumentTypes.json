@@ -106,5 +106,6 @@
     }
   ],
   "page": "/api-reference/catalog/enum/catalog-enum-get-store-document-types.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

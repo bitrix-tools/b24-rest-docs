@@ -3,15 +3,25 @@
   "method": "landing.repowidget.debug",
   "scope": "landing",
   "kind": "write",
-  "title": "Включить режим отладки landing.repowidget.debug",
+  "title": "Включить или выключить режим отладки landing.repowidget.debug",
   "permissions": "любой пользователь",
   "params": [
     {
       "name": "enable",
       "type": "boolean",
       "base": "boolean",
-      "required": false,
-      "description": "Флаг активности режима отладки"
+      "required": true,
+      "description": "Режим отладки. Возможные значения: - true — включить - false — выключить В запросе с полями формы передавайте 1 или 0: строка false включит режим",
+      "values": [
+        {
+          "value": "true",
+          "title": "включить"
+        },
+        {
+          "value": "false",
+          "title": "выключить В запросе с полями формы передавайте 1 или 0: строка false включит реж"
+        }
+      ]
     }
   ],
   "defs": {},
@@ -38,7 +48,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "В случае успеха — true, в противном случае — ошибка"
+      "description": "true, если режим отладки установлен в переданное значение"
     },
     {
       "name": "time",

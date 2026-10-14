@@ -101,5 +101,8 @@
     "templateTypeDelayed",
     "templateTypeFeedback",
     "templateTypeReminder"
-  ]
+  ],
+  "requestExample": {
+    "id": 15
+  }
 }

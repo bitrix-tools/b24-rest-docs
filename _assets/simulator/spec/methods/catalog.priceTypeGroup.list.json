@@ -115,6 +115,13 @@
       "description": "Общее количество найденных записей"
     },
     {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Значение параметра start для получения следующей страницы. Поле отсутствует, если получена последняя страница"
+    },
+    {
       "name": "time",
       "type": "time",
       "base": "object",
@@ -129,5 +136,21 @@
     "catalogGroupId",
     "groupId",
     "id"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "catalogGroupId",
+      "groupId",
+      "access"
+    ],
+    "filter": {
+      "catalogGroupId": 9,
+      "groupId": 23
+    },
+    "order": {
+      "id": "ASC"
+    },
+    "start": 0
+  }
 }

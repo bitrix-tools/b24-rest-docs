@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.clienttype.list` возвращает список доступных типов клиентов. Метод может не вернуть тип клиента, если с ним не было создано ни одной брони. 
+Метод `booking.v1.clienttype.list` возвращает список доступных типов клиентов. Метод может не вернуть тип клиента, если с ним не было создано ни одной брони.
 Стандартно доступно два типа клиента: контакт и компания.
 
 ## Параметры метода
@@ -65,16 +65,9 @@
     }
 
     try {
-      // booking.v1.clienttype.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<ClientTypeListResult>({
         method: 'booking.v1.clienttype.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -103,16 +96,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // booking.v1.clienttype.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.clienttype.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -282,19 +268,39 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Объект, содержащий список типов клиентов ||
+[`object`](../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **clientType**
+[`object[]`](../data-types.md) | Список типов клиентов [(подробное описание)](#client-type) ||
+|#
+
+#### Объект clientType {#client-type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../data-types.md) | Код типа клиента, например `CONTACT` или `COMPANY` ||
+|| **module**
+[`string`](../data-types.md) | Идентификатор модуля, которому принадлежит тип клиента, например `crm` ||
 |#
 
 ## Обработка ошибок
 
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./booking/client/booking-v1-booking-client-set.md)
+- [{#T}](./booking/client/booking-v1-booking-client-unset.md)
+- [{#T}](./booking/client/booking-v1-booking-client-list.md)

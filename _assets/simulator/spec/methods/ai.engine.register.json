@@ -25,7 +25,33 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Категория сервиса. Возможные значения: - text - image - audio - call"
+      "description": "Категория сервиса. Возможные значения: - text — текстовые запросы - image — генерация изображений - audio — обработка аудио - call — обработка аудиозаписей звонков - vision — анализ изображений - classify — классификация данных",
+      "values": [
+        {
+          "value": "text",
+          "title": "текстовые запросы"
+        },
+        {
+          "value": "image",
+          "title": "генерация изображений"
+        },
+        {
+          "value": "audio",
+          "title": "обработка аудио"
+        },
+        {
+          "value": "call",
+          "title": "обработка аудиозаписей звонков"
+        },
+        {
+          "value": "vision",
+          "title": "анализ изображений"
+        },
+        {
+          "value": "classify",
+          "title": "классификация данных"
+        }
+      ]
     },
     {
       "name": "completions_url",
@@ -39,7 +65,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Дополнительные настройки сервиса (подробное описание)",
+      "description": "Дополнительные настройки сервиса (подробное описание). Если параметр не передан, сохраняется пустой набор настроек",
       "ref": "#/defs/settingsFields"
     }
   ],
@@ -63,7 +89,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Способ подсчета контекста. Возможные значения: - token - symbol По умолчанию используется token"
+          "description": "Способ подсчета контекста. Возможные значения: - token — подсчет по токенам - symbol — подсчет по символам По умолчанию используется token",
+          "values": [
+            {
+              "value": "token",
+              "title": "подсчет по токенам"
+            },
+            {
+              "value": "symbol",
+              "title": "подсчет по символам По умолчанию используется token"
+            }
+          ]
         },
         {
           "name": "model_context_limit",
@@ -110,5 +146,16 @@
     }
   ],
   "page": "/api-reference/ai/ai-engine-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "name": "Acme GPT",
+    "code": "acme_gpt",
+    "category": "text",
+    "completions_url": "https://api.example.com/bitrix24/ai/completions",
+    "settings": {
+      "code_alias": "ChatGPT",
+      "model_context_type": "token",
+      "model_context_limit": 15666
+    }
+  }
 }

@@ -333,5 +333,15 @@
     }
   ],
   "page": "/api-reference/catalog/product-property/catalog-product-property-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 115,
+    "fields": {
+      "iblockId": 19,
+      "name": "Размер",
+      "propertyType": "L",
+      "isRequired": "Y",
+      "active": "Y"
+    }
+  }
 }

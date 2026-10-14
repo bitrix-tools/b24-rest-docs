@@ -11,7 +11,7 @@
 
 > Scope: [`task`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: владелец или модератор Скрама, администратор Битрикс24
 
 Метод `tasks.api.scrum.sprint.complete` завершает активный спринт выбранного Скрама.
 
@@ -25,7 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор группы с активным спринтом ||
+[`integer`](../../../data-types.md) | Идентификатор Скрама — группы с активным спринтом. Это не идентификатор спринта.
+
+Идентификатор можно получить методом [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
 |#
 
 ## Примеры кода
@@ -164,8 +166,12 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
     ```php
+    $groupId = 1;
+
     try {
         $response = $b24Service
             ->core
@@ -181,8 +187,6 @@
             ->getResult();
     
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -260,10 +264,9 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result":
-    {
+    "result": {
         "id": 1,
-        "groupId": 143,
+        "groupId": 1,
         "entityType": "sprint",
         "name": "Спринт 1",
         "goal": "Цель",
@@ -273,6 +276,16 @@ HTTP-статус: **200**
         "dateStart": "2024-07-19T15:03:01+00:00",
         "dateEnd": "2024-08-02T15:03:01+00:00",
         "status": "completed"
+    },
+    "time": {
+        "start": 1790580587,
+        "finish": 1790580587.569156,
+        "duration": 0.5691559314727783,
+        "processing": 0,
+        "date_start": "2026-09-28T10:29:47+03:00",
+        "date_finish": "2026-09-28T10:29:47+03:00",
+        "operating_reset_at": 1790581187,
+        "operating": 0
     }
 }
 ```
@@ -283,19 +296,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result** 
-[`object`](../../../data-types.md) | Объект, содержащий данные о спринте ||
+[`object`](../../../data-types.md) | Данные спринта [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id** 
 [`integer`](../../../data-types.md) | Идентификатор спринта ||
 || **groupId** 
 [`integer`](../../../data-types.md) | Идентификатор группы (Скрама), к которой относится спринт ||
 || **entityType** 
-[`string`](../../../data-types.md) | Тип сущности (в данном случае `sprint`) ||
+[`string`](../../../data-types.md) | Тип объекта, для спринтов всегда `sprint` ||
 || **name** 
 [`string`](../../../data-types.md) | Название спринта ||
 || **goal** 
 [`string`](../../../data-types.md) | Цель спринта. Устанавливается только в интерфейсе при запуске спринта ||
 || **sort** 
-[`integer`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Порядок сортировки спринта ||
 || **createdBy** 
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего спринт ||
 || **modifiedBy** 
@@ -305,7 +327,7 @@ HTTP-статус: **200**
 || **dateEnd** 
 [`string`](../../../data-types.md) | Дата окончания спринта в формате `ISO 8601` ||
 || **status** 
-[`string`](../../../data-types.md) | Статус спринта ||
+[`string`](../../../data-types.md) | Статус спринта: `planned` — запланирован, `active` — активен, `completed` — завершен ||
 |#
 
 ## Обработка ошибок
@@ -324,11 +346,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `0` | `Access denied` | Нет доступа к Cкраму ||
-|| `0` | `Sprint not found` | Не найден активный спринт в группе ||
-|| `100` | `Could not find value for parameter {id}` | Неверно указано имя параметра или не задан параметр ||
-|| `100` | `Invalid value {stringValue} to match with parameter {id}. Should be value of type int` | Неверный тип параметра ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | `Group id not found` | В параметре `id` передан `0` ||
+|| `400` | `0` | `Access denied` | Пользователь не владелец и не модератор Скрама или у него нет доступа к задачам Скрама ||
+|| `400` | `0` | `Sprint not found` | Не найден активный спринт в группе ||
+|| `400` | `100` | `Could not find value for parameter {id}` | Не передан параметр `id` ||
+|| `400` | `100` | `Invalid value {stringValue} to match with parameter {id}. Should be value of type int` | Параметр `id` не является числом ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -337,8 +360,8 @@ HTTP-статус: **400**
 
 - [{#T}](./tasks-api-scrum-sprint-add.md)
 - [{#T}](./tasks-api-scrum-sprint-update.md)
-- [{#T}](./tasks-api-scrum-sprint-start.md)
 - [{#T}](./tasks-api-scrum-sprint-get.md)
 - [{#T}](./tasks-api-scrum-sprint-list.md)
 - [{#T}](./tasks-api-scrum-sprint-delete.md)
+- [{#T}](./tasks-api-scrum-sprint-start.md)
 - [{#T}](./tasks-api-scrum-sprint-get-fields.md)

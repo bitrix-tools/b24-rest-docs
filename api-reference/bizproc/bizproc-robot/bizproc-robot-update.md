@@ -25,24 +25,29 @@
 || **Название**
 `тип` | **Описание**||
 || **CODE***
-[`string`](../../data-types.md) | Внутренний идентификатор робота ||
+[`string`](../../data-types.md) | Код робота, который это приложение передало в `CODE` при регистрации. Получить коды можно методом [bizproc.robot.list](./bizproc-robot-list.md) ||
 || **FIELDS***
 [`object`](../../data-types.md) | Объект с [полями](#parametr-fields) робота ||
 |#
 
 ### Параметр FIELDS {#parametr-fields}
 
-Передайте в `FIELDS` хотя бы одно поле для обновления.
+Как метод обновляет поля:
+
+- в `FIELDS` должно быть хотя бы одно поле, иначе метод вернет ошибку `No fields to update`
+- `PLACEMENT_HANDLER` таким полем не считается: передайте его вместе с другим полем, например `USE_PLACEMENT: 'Y'`
+- поля, которых нет в `FIELDS`, не меняются
+- `PROPERTIES` и `RETURN_PROPERTIES` заменяются целиком: чтобы добавить параметр, передайте весь набор
 
 #|
 || **Название**
 `тип` | **Описание**||
 || **HANDLER**
-[`string`](../../data-types.md) | URL, на который робот будет отправлять данные через сервер очередей bitrix24.
+[`string`](../../data-types.md) | Адрес обработчика, на который Битрикс24 отправляет данные робота через сервер очередей.
 
-В ссылке должен быть тот же домен, на котором установлено приложение  ||
+Он должен начинаться с `http://` или `https://`, а имя хоста — содержать точку, например `https://example.com/robot.php` ||
 || **AUTH_USER_ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя, токен которого будет передан приложению ||
+[`integer`](../../data-types.md) | Идентификатор пользователя, токен которого Битрикс24 передаст обработчику по умолчанию. Администратор может выбрать другого пользователя в настройках робота ||
 || **USE_SUBSCRIPTION**
 [`boolean`](../../data-types.md) | Должен ли робот ожидать ответа от приложения. Возможные значения:
 - `Y` — да
@@ -82,12 +87,12 @@
 || **RETURN_PROPERTIES**
 [`object`](../../data-types.md) | Объект с дополнительными результатами робота. Содержит объекты, каждый из которых описывает [параметр робота](#property).
 
-Параметр управляет возможностью робота ожидать ответа приложения и работать с данными, которые [придут в ответе](./bizproc-event-send.md).
+Значения этих параметров приложение возвращает методом [bizproc.event.send](./bizproc-event-send.md), и они становятся доступны следующим шагам. Ждать ли ответа, задает параметр `USE_SUBSCRIPTION`.
 
 Системное название параметра должно начинаться с буквы и может содержать символы `a-z`, `A-Z`, `0-9` и нижнее подчеркивание `_`
 ||
 || **DOCUMENT_TYPE**
-[`array`](../../data-types.md) | Тип документа, который будет определять типы данных для параметров `PROPERTIES` и `RETURN_PROPERTIES`. Состоит из трех элементов типа строка: 
+[`array`](../../data-types.md) | Тип документа, который будет определять типы данных для параметров `PROPERTIES` и `RETURN_PROPERTIES`. Состоит из трех элементов типа строка:
 - идентификатор модуля
 - идентификатор объекта
 - тип документа
@@ -135,9 +140,11 @@
 || **USE_PLACEMENT**
 [`boolean`](../../data-types.md) | Дает возможность открывать дополнительные настройки робота в слайдере приложения. Возможные значения:
 - `Y` — да
-- `N` — нет  ||
+- `N` — нет ||
 || **PLACEMENT_HANDLER**
-[`string`](../../data-types.md) | URL обработчика встройки на стороне приложения ||
+[`string`](../../data-types.md) | URL обработчика встройки на стороне приложения. Проверяется так же, как `HANDLER`.
+
+Чтобы включить встройку, передайте адрес вместе с `USE_PLACEMENT: 'Y'`. Значение `USE_PLACEMENT: 'N'` удаляет регистрацию обработчика, поэтому при повторном включении адрес нужно передать снова ||
 |#
 
 ### Объект PROPERTY {#property}
@@ -145,32 +152,32 @@
 #|
 || **Название**
 `тип` | **Описание**||
-|| **Name**
-[`string` \| `object`](../../data-types.md) | Наименование параметра ||
+|| **Name***
+[`string` \| `object`](../../data-types.md) | Название параметра. Без него метод вернет ошибку `Empty property NAME` ||
 || **Description**
 [`string` \| `object`](../../data-types.md) | Описание параметра ||
 || **Type**
-[`string`](../../data-types.md) | Тип параметра. Базовые значения: 
+[`string`](../../data-types.md) | Тип параметра. Базовые значения:
   - `bool` — да или нет
   - `date` — дата
   - `datetime` — дата и время
   - `double` — число
   - `file` — файл
-  - `int` — целое число 
+  - `int` — целое число
   - `select` — список
   - `string` — строка
   - `text` — текст
-  - `user` — пользователь  ||
+  - `user` — пользователь ||
 || **Options**
-[`array`](../../data-types.md) | Массив значений параметра типа список `'TYPE': select'` вида:
+[`object`](../../data-types.md) | Варианты значений для параметра типа список `Type: 'select'`. Ключ — значение варианта, значение — его название:
 
 ```js
-[
+{
     'value1': 'title1',
     'value2': 'title2',
     'value3': 'title3',
     'value4': 'title4'
-]
+}
 ```
 ||
 || **Required**
@@ -182,7 +189,7 @@
 - `Y` — да
 - `N` — нет ||
 || **Default**
-[`any`](../../data-types.md) | Значение параметра по умолчанию ||
+[`any`](../../data-types.md) | Значение параметра по умолчанию. Для `Type = 'select'` указывайте ключ из `Options` ||
 |#
 
 #### Примеры объектов
@@ -199,7 +206,7 @@
       },
       'Required': 'Y',
       'Multiple': 'N',
-      'Default': 'PDF',
+      'Default': 'pdf',
       'Type': 'select',
       'Options': {
           'pdf': 'PDF',
@@ -285,9 +292,9 @@
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'bizproc.robot.update',
-    		{
+    	const response = await $b24.actions.v2.call.make({
+    		method: 'bizproc.robot.update',
+    		params: {
     			'CODE': 'test_robot',
     			'FIELDS': {
     				'NAME': 'Отправить сообщение автору',
@@ -299,10 +306,12 @@
     				}
     			}
     		}
-    	);
-    	
-    	const result = response.getData().result;
-    	alert("Успешно: " + result);
+    	});
+
+    	if (!response.isSuccess)
+    		console.error(response.getErrorMessages().join('; '));
+    	else
+    		console.log('Success:', response.getData().result);
     }
     catch( error )
     {
@@ -359,9 +368,9 @@
                 1,
                 ['en' => 'Localized Name'],
                 true,
-                ['property1' => 'value1'],
+                ['property1' => ['Name' => 'Параметр', 'Type' => 'string']],
                 false,
-                ['returnProperty1']
+                ['outputString' => ['Name' => 'Результат', 'Type' => 'string']]
             );
 
         // Process the result
@@ -504,25 +513,27 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Application context required | Необходим контекст приложения ||
-|| `ACCESS_DENIED` | Access denied! | Метод выполнил не администратор ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty activity code! | Не указан код робота ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity code! | Некорректный код робота ||
-|| `ERROR_ACTIVITY_NOT_FOUND` | Activity or Robot not found! | Робот не найден ||
-|| `ERROR_UNSUPPORTED_PROTOCOL` | Unsupported handler protocol | Некорректный протокол хендлера http, https ||
-|| `ERROR_WRONG_HANDLER_URL` | Wrong handler URL | Невалидный урл хендлера ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong properties array! | Некорректно заполнены параметры `PROPERTIES` или `RETURN_PROPERTIES` ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong property key <ключ>! | Некорректный идентификатор свойства ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty property NAME <ключ>! | Не указано название свойства ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity FILTER! | Некорректный фильтр ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity DOCUMENT_TYPE! | Некорректный `DOCUMENT_TYPE` ||
-|| `ERROR_ACTIVITY_VALIDATION_FAILURE` | No fields to update | Нет полей для обновления ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Необходим контекст приложения ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty activity code! | Не указан код робота ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity code! | Некорректный код робота ||
+|| `400` | `ERROR_ACTIVITY_NOT_FOUND` | Activity or Robot not found! | Робот не найден ||
+|| `400` | `ERROR_UNSUPPORTED_PROTOCOL` | Unsupported handler protocol | Некорректный протокол хендлера http, https ||
+|| `400` | `ERROR_WRONG_HANDLER_URL` | Wrong handler URL | Невалидный урл хендлера ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong properties array! | Некорректно заполнены параметры `PROPERTIES` или `RETURN_PROPERTIES` ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong property key (<ключ>)! | Некорректный идентификатор свойства ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Empty property NAME (<ключ>)! | Не указано название свойства ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity FILTER! | Некорректный фильтр ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | Wrong activity DOCUMENT_TYPE! | Некорректный `DOCUMENT_TYPE` ||
+|| `400` | `ERROR_ACTIVITY_VALIDATION_FAILURE` | No fields to update | Нет полей для обновления ||
+|| `400` | `ERROR_CORE` | Unable to set placement handler: Handler already binded | Адрес уже используется обработчиком настроек другого робота или действия этого приложения: у каждого `CODE` должен быть свой адрес ||
+|| `400` | `ERROR_CORE` | Unable to set placement handler: <текст ошибки> | Не удалось сохранить обработчик встройки ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./bizproc-robot-add.md)

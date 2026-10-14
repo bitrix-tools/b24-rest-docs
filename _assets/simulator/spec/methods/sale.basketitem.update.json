@@ -3,7 +3,7 @@
   "method": "sale.basketitem.update",
   "scope": "sale",
   "kind": "write",
-  "title": "Изменить позицию корзины существующего заказа sale.basketitem.update",
+  "title": "Изменить позицию корзины заказа sale.basketitem.update",
   "permissions": "администратор",
   "params": [
     {
@@ -11,14 +11,14 @@
       "type": "sale_basket_item.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор позиции заказа"
+      "description": "Идентификатор позиции корзины. Получить идентификаторы позиций можно методом sale.basketitem.list"
     },
     {
       "name": "fields",
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Значения изменяемых полей",
+      "description": "Значения изменяемых полей (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -31,39 +31,39 @@
       },
       "fields": [
         {
+          "name": "quantity",
+          "type": "double",
+          "base": "number",
+          "required": true,
+          "description": "Количество товара. Передавайте в каждом вызове, даже если количество не меняется, иначе метод вернет ошибку Required fields: quantity. Нулевое, отрицательное или нечисловое значение метод игнорирует без ошибки"
+        },
+        {
           "name": "sort",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Положение в списке позиций заказа"
+          "description": "Положение в списке позиций корзины"
         },
         {
           "name": "price",
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Цена с учетом наценок и скидок"
+          "description": "Цена с учетом наценок и скидок. Если передать цену, Битрикс24 установит позиции customPrice = Y — цена считается указанной вручную и больше не берется из каталога"
         },
         {
           "name": "basePrice",
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Исходная цена без учета наценок и скидок"
+          "description": "Исходная цена без учета наценок и скидок. Передавайте вместе с price и discountPrice так, чтобы выполнялось условие basePrice = price + discountPrice"
         },
         {
           "name": "discountPrice",
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Величина итоговой скидки или наценки"
-        },
-        {
-          "name": "quantity",
-          "type": "double",
-          "base": "number",
-          "required": false,
-          "description": "Количество товара"
+          "description": "Величина итоговой скидки или наценки. Для наценки значение отрицательное"
         },
         {
           "name": "xmlId",
@@ -81,17 +81,17 @@
         },
         {
           "name": "weight",
-          "type": "integer",
-          "base": "integer",
+          "type": "double",
+          "base": "number",
           "required": false,
-          "description": "Вес товара"
+          "description": "Вес товара. Позиция из каталога получает значение поля weight товара без пересчета, поэтому передавайте вес в тех же единицах, что в каталоге"
         },
         {
           "name": "dimensions",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Размеры товара (сериализованный массив)"
+          "description": "Размеры товара — строка с PHP-сериализованным массивом с ключами WIDTH, HEIGHT и LENGTH, например a:3:{s:5:\"WIDTH\";i:244;s:6:\"HEIGHT\";i:100;s:6:\"LENGTH\";i:31;}. В таком виде размеры хранятся у позиций, добавленных из каталога. Метод не проверяет формат и сохраняет любую строку как есть. Если передать объект вместо строки, сохранится значение Array"
         },
         {
           "name": "measureCode",
@@ -129,7 +129,7 @@
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Ставка налога долей от единицы: 0.1 — это 10 %. Для указания ставки «Без НДС» нужно передать пустую строку"
+          "description": "Ставка налога долей от единицы: 0.1 — это 10 %. Для ставки «Без НДС» передайте пустую строку, в ответе будет null"
         },
         {
           "name": "vatIncluded",
@@ -147,20 +147,6 @@
               "title": "нет"
             }
           ]
-        },
-        {
-          "name": "catalogXmlId",
-          "type": "string",
-          "base": "string",
-          "required": false,
-          "description": "Внешний код каталога товаров"
-        },
-        {
-          "name": "productXmlId",
-          "type": "string",
-          "base": "string",
-          "required": false,
-          "description": "Внешний код товара"
         }
       ]
     }
@@ -173,6 +159,7 @@
   "resultExample": {
     "result": {
       "basketItem": {
+        "barcodeMulti": "N",
         "basePrice": 1000,
         "canBuy": "Y",
         "catalogXmlId": "",
@@ -196,7 +183,7 @@
         "sort": 400,
         "type": null,
         "vatIncluded": "Y",
-        "vatRate": 10,
+        "vatRate": 0.1,
         "weight": 40,
         "xmlId": "BasketPositionId"
       }
@@ -225,7 +212,7 @@
       "type": "sale_basket_item",
       "base": "any",
       "required": false,
-      "description": "Объект с данными обновленного элемента (позиции) корзины"
+      "description": "Обновленная позиция корзины. Содержит все поля позиции, а не только измененные. Ключевые поля: - id, orderId, productId — идентификаторы позиции, заказа и товара - name, quantity, currency — название товара, количество и валюта позиции - price, basePrice, discountPrice — цена за единицу, цена без скидок и размер скидки - customPrice — Y, если цена задана вручную, N, если рассчитана по каталогу - w…"
     },
     {
       "name": "total",
@@ -243,5 +230,13 @@
     }
   ],
   "page": "/api-reference/sale/basket-item/sale-basket-item-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 6791,
+    "fields": {
+      "quantity": 7,
+      "price": 10,
+      "discountPrice": 990
+    }
+  }
 }

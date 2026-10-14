@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-get-content-from-repository.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "01.big_with_text"
+  }
 }

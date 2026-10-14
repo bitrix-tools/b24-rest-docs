@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Получить доступные для перевода языки catalog.priceTypeLang.getLanguages",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»",
   "params": [
     {
       "name": "result",
@@ -27,6 +27,13 @@
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество языков"
     },
     {
       "name": "time",
@@ -163,6 +170,13 @@
       "description": "Массив объектов с информацией о доступных для перевода языках"
     },
     {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Общее количество языков"
+    },
+    {
       "name": "time",
       "type": "time",
       "base": "object",
@@ -171,5 +185,6 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-get-languages.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

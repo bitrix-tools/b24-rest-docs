@@ -290,13 +290,25 @@
     	return fmt.Errorf("note.document.search.list: %w", err)
     }
 
-    var item struct {
-    	HasMore bool `json:"hasMore"`
+    type SearchItem struct {
+        DocumentID   int     `json:"documentId"`
+        CollectionID *int    `json:"collectionId"`
+        Title        string  `json:"title"`
+        Score        float64 `json:"score"`
+        Snippet      string  `json:"snippet"`
+        SharedAccess bool    `json:"sharedAccess"`
     }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
+    var result struct {
+        Items   []SearchItem `json:"items"`
+        HasMore bool         `json:"hasMore"`
+    }
+    if err := json.Unmarshal(res.Result, &result); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.HasMore)
+    for _, item := range result.Items {
+        fmt.Println(item.DocumentID, item.Title)
+    }
+    fmt.Println("Есть еще результаты:", result.HasMore)
     ```
 
 {% endlist %}
@@ -348,28 +360,28 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с результатами поиска ||
-|| **items**
+|| **result.items**
 [`array`](../../data-types.md) | Список найденных документов ||
-|| **items[]**
+|| **result.items[]**
 [`object`](../../data-types.md) | Объект найденного документа ||
-|| **documentId**
+|| **result.items[].documentId**
 [`integer`](../../data-types.md) | Идентификатор найденного документа ||
-|| **collectionId**
+|| **result.items[].collectionId**
 [`integer`](../../data-types.md) | Идентификатор базы знаний или `null`, если документ доступен через прямой доступ к документу ||
-|| **title**
+|| **result.items[].title**
 [`string`](../../data-types.md) | Заголовок документа ||
-|| **score**
+|| **result.items[].score**
 [`double`](../../data-types.md) | Относительная релевантность совпадения ||
-|| **snippet**
+|| **result.items[].snippet**
 [`string`](../../data-types.md) | HTML-фрагмент с выделением совпадений (теги <b>…</b>) ||
-|| **sharedAccess**
+|| **result.items[].sharedAccess**
 [`boolean`](../../data-types.md) | Признак прямого доступа к документу без доступа ко всей базе знаний.
 
 Возможные значения:
 
 - `true` — документ доступен через прямой доступ
 - `false` — документ доступен через доступ к базе знаний ||
-|| **hasMore**
+|| **result.hasMore**
 [`boolean`](../../data-types.md) | Значение `true`, если за пределами страницы есть еще результаты ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||

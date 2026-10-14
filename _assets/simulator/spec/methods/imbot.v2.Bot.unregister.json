@@ -41,5 +41,9 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/bots/bot-unregister.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token"
+  }
 }

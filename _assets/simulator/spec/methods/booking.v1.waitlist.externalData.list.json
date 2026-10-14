@@ -67,5 +67,8 @@
     "entityTypeId",
     "moduleId",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "waitListId": 257
+  }
 }

@@ -9,17 +9,21 @@
 
 {% endnote %}
 
-> Scope: [`imconnector`](../../scopes/permissions.md)
+> Scope: [`imopenlines`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `imconnector.chat.name.set` устанавливает новое имя чата.
+Метод `imconnector.chat.name.set` переименовывает в Битрикс24 чат открытой линии, который соответствует диалогу внешней системы с указанным `CHAT_ID`. Во внешней системе название диалога остается прежним.
+
+Битрикс24 ищет открытую сессию по сочетанию `CONNECTOR`, `LINE` и `CHAT_ID`. Если такой сессии нет, метод возвращает ошибку `CHAT_RENAMING_FAILED`.
+
+У коннекторов с `CHAT_GROUP: false` в поиске участвует еще и `USER_ID`, но ведет он себя иначе: если собеседник с таким идентификатором не найден, метод отвечает `SUCCESS: true` и чат не переименовывает.
 
 {% note info "" %}
 
 Метод работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
-{% endnote %} 
+{% endnote %}
 
 ## Параметры метода
 
@@ -31,15 +35,17 @@
 || **CONNECTOR***
 [`string`](../../data-types.md) | Строковый код коннектора, который задали в параметре `ID` при вызове [imconnector.register](./imconnector-register.md) ||
 || **LINE***
-[`integer`](../../data-types.md) | Идентификатор открытой линии
+[`integer`](../../data-types.md) | Идентификатор открытой линии.
 
 Идентификатор можно получить методами [imopenlines.config.get](../openlines/imopenlines-config-get.md) и [imopenlines.config.list.get](../openlines/imopenlines-config-list-get.md) ||
 || **CHAT_ID***
-[`string`](../../data-types.md) | Идентификатор чата во внешней системе ||
+[`string`](../../data-types.md) | Идентификатор чата во внешней системе — то же значение, что передают в `chat.id` метода [imconnector.send.messages](./imconnector-send-messages.md) ||
 || **NAME***
 [`string`](../../data-types.md) | Новое имя чата ||
 || **USER_ID**
-[`string`](../../data-types.md) | Идентификатор пользователя. Параметр является обязательным только для коннекторов без групповых чатов с внешней стороны. У такого коннектора в методе [imconnector.register](./imconnector-register.md) параметр `CHAT_GROUP` должен быть равен `false` ||
+[`string`](../../data-types.md) | Идентификатор собеседника во внешней системе — то же значение, что передают в `user.id` метода [imconnector.send.messages](./imconnector-send-messages.md). Идентификатор пользователя Битрикс24 здесь не подходит.
+
+Параметр обязателен для коннекторов, у которых при регистрации методом [imconnector.register](./imconnector-register.md) параметр `CHAT_GROUP` равен `false`. Если `CHAT_GROUP` равен `true`, переданное значение игнорируется ||
 |#
 
 ## Примеры кода
@@ -170,7 +176,6 @@
 
 - PHP
 
-
     ```php
     try {
         $params = [
@@ -268,8 +273,6 @@
 
 {% endlist %}
 
-
-
 ## Обработка ответа
 
 HTTP-статус: **200**
@@ -310,14 +313,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **SUCCESS**
-[`boolean`](../../data-types.md) | Возвращает `true` при успешной установке нового имени чата ||
+[`boolean`](../../data-types.md) | Возвращает `true`, если запрос принят и передан обработчику коннектора.
+
+Значение `false` метод не возвращает: отказы приходят ошибкой с HTTP-статусом `400`. Единственное исключение — нераспознанный `USER_ID`, оно описано ниже в разделе «Обработка ошибок» ||
 || **DATA**
-[`object`](../../data-types.md) | Содержит объект `RESULT` c параметрами нового имени чата ||
+[`object`](../../data-types.md) | Служебный объект. Поле `RESULT` зарезервировано под результат обработчика коннектора и в ответе всегда приходит пустым объектом `{}` ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -331,12 +336,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Статус** | **Код** | **Описание** ||
-|| `400` | `NOT_ACTIVE_LINE` | Линия c таким ID неактивна или не существует ||
-|| `400` | `IMCONNECTOR_NO_CORRECT_PROVIDER` | Не удалось найти подходящий провайдер для коннектора ||
-|| `400` | `ERROR_ARGUMENT` | Не указаны обязательные параметры `NAME`, `CHAT_ID`, `USER_ID`, `CONNECTOR` или `LINE` ||
-|| `400` | `CHAT_RENAMING_FAILED` | Не удалось переименовать чат ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения OAuth ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'NAME' is null or empty | Не передан или пуст один из параметров: `CONNECTOR`, `LINE`, `CHAT_ID`, `NAME` или условно обязательный `USER_ID`. Имя параметра приходит в сообщении и в отдельном поле `argument` ||
+|| `400` | `NOT_ACTIVE_LINE` | Линия c таким ID неактивна или не существует | Коннектор не включен на этой линии или линии с таким `LINE` нет. Включите коннектор методом [imconnector.activate](./imconnector-activate.md) ||
+|| `400` | `IMCONNECTOR_NO_CORRECT_PROVIDER` | Не удалось найти подходящий провайдер для коннектора | Коннектор с таким кодом не зарегистрирован в Битрикс24 ||
+|| `400` | `CHAT_RENAMING_FAILED` | Chat renaming failed | По переданному сочетанию параметров нет открытой сессии или переименовать чат не удалось ||
 |#
+
+Не все отказы приходят ошибкой: если по `USER_ID` не удалось определить собеседника во внешней системе, метод отвечает `SUCCESS: true`, но чат не переименовывается.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
@@ -352,4 +360,4 @@ HTTP-статус: **400**
 - [{#T}](./imconnector-update-messages.md)
 - [{#T}](./imconnector-delete-messages.md)
 - [{#T}](./imconnector-send-status-delivery.md)
-- [{#T}](./imconnector-chat-name-set.md)
+- [{#T}](../../../tutorials/openlines/example-connector.md)

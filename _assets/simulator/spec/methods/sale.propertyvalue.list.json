@@ -183,5 +183,24 @@
     "orderPropsId",
     "orderPropsXmlId",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "code",
+      "id",
+      "name",
+      "orderId",
+      "orderPropsId",
+      "orderPropsXmlId",
+      "value"
+    ],
+    "filter": {
+      "=code": "FIO",
+      "%value": "Борис",
+      ">orderId": 1600
+    },
+    "order": {
+      "orderId": "desc"
+    }
+  }
 }

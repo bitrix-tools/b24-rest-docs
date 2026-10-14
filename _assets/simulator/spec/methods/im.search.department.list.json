@@ -145,5 +145,11 @@
     "manager_user_data",
     "manager_user_id",
     "name"
-  ]
+  ],
+  "requestExample": {
+    "FIND": "Отдел",
+    "USER_DATA": "Y",
+    "OFFSET": 0,
+    "LIMIT": 10
+  }
 }

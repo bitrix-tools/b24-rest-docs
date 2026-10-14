@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/booking/client/booking-v1-booking-client-unset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "bookingId": 14
+  }
 }

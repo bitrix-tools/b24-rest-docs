@@ -107,5 +107,12 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "catalogGroupId": 9,
+      "groupId": 23,
+      "access": "Y"
+    }
+  }
 }

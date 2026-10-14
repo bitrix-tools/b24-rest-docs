@@ -103,5 +103,14 @@
     }
   ],
   "page": "/api-reference/crm/status/crm-status-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "ENTITY_ID": "DEAL_STAGE_1",
+      "STATUS_ID": "DECISION",
+      "NAME": "Принятие решения",
+      "SORT": 70,
+      "COLOR": "#FFA900"
+    }
+  }
 }

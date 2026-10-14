@@ -9,28 +9,36 @@
 
 {% endnote %}
 
-К записи в листе ожидания можно добавить клиента: контакт или компанию. Клиенту придет уведомление, когда его запись перенесут на конкретное время.
+Клиенты записи в листе ожидания — контакты и компании CRM. Например, приложение может связать заявку на услугу с контактом клиента и компанией, которую он представляет.
 
 > Быстрый переход: [все методы](#all-methods)
 
-## Как начать работу
-
-1. Создайте или найдите запись в листе ожидания методами [booking.v1.waitlist.*](../index.md)
-2. Получите `ID` контакта или компании в CRM
-3. Добавьте клиента методом [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md)
-4. Проверьте привязанных клиентов методом [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md)
-
 ## Связь с другими объектами
 
-**Лист ожидания.** Чтобы добавить или заменить клиента, используйте `ID` записи в листе ожидания в параметре `waitListId` методов [booking.v1.waitlist.client.*](./index.md). Получить `ID` записи можно методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) или [booking.v1.waitlist.list](../booking-v1-waitlist-list.md).
+**Лист ожидания.** Передайте `ID` записи в параметре `waitListId`, чтобы [установить список клиентов](./booking-v1-waitlist-client-set.md), [получить его](./booking-v1-waitlist-client-list.md) или [удалить все привязки](./booking-v1-waitlist-client-unset.md). Получить `ID` записи можно методами [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) или [booking.v1.waitlist.list](../booking-v1-waitlist-list.md).
 
-**Контакт.** Чтобы прикрепить к записи в листе ожидания контакт, передайте `ID` контакта в методе [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md). Получить `ID` контакта можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 3`.
+**Контакт.** В массиве `clients` метода [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md) передайте объект с `id` контакта и типом `type: {"module": "crm", "code": "CONTACT"}`. Получить `id` контакта можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 3`.
 
-**Компания.** Чтобы прикрепить к записи в листе ожидания компанию, передайте `ID` компании в методе [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md). Получить `ID` компании можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4`.
+**Компания.** В массиве `clients` метода [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md) передайте объект с `id` компании и типом `type: {"module": "crm", "code": "COMPANY"}`. Получить `id` компании можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4`.
 
 {% note info "" %}
 
 Если клиент новый, предварительно добавьте его в CRM методом [crm.item.add](../../../crm/universal/crm-item-add.md) с параметром `entityTypeId = 3` для контакта или `entityTypeId = 4` для компании.
+
+{% endnote %}
+
+## Как начать работу
+
+1. Создайте запись в листе ожидания методом [booking.v1.waitlist.add](../booking-v1-waitlist-add.md) или найдите существующую методом [booking.v1.waitlist.list](../booking-v1-waitlist-list.md)
+2. Найдите клиентов в CRM методом [crm.item.list](../../../crm/universal/crm-item-list.md)
+3. Передайте `waitListId` и массив `clients` в метод [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md)
+4. Проверьте привязки методом [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md)
+
+{% note warning "" %}
+
+Метод [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md) заменяет весь список клиентов записи переданным набором. Ранее привязанные клиенты, которых нет в новом списке, потеряют связь с записью.
+
+Если список уже пуст, а к записи привязана [сделка](../external-data/index.md), метод [booking.v1.waitlist.client.unset](./booking-v1-waitlist-client-unset.md) и вызов [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md#empty-clients) с `clients: []` привяжут к записи контакты и компанию этой сделки.
 
 {% endnote %}
 
@@ -42,7 +50,7 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md) | Добавляет контакт или компанию к записи в листе ожидания ||
-|| [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md) | Возвращает контакт и компанию, привязанные к записи в листе ожидания ||
-|| [booking.v1.waitlist.client.unset](./booking-v1-waitlist-client-unset.md) | Удаляет контакт или компанию из записи в листе ожидания ||
+|| [booking.v1.waitlist.client.set](./booking-v1-waitlist-client-set.md) | Устанавливает список клиентов записи ||
+|| [booking.v1.waitlist.client.list](./booking-v1-waitlist-client-list.md) | Возвращает список клиентов записи ||
+|| [booking.v1.waitlist.client.unset](./booking-v1-waitlist-client-unset.md) | Удаляет все привязки клиентов к записи ||
 |#

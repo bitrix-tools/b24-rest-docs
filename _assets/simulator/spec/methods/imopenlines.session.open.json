@@ -52,5 +52,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-open.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_CODE": "livechat|22|1761|587"
+  }
 }

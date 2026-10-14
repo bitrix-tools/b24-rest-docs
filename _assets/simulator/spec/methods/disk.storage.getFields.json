@@ -227,5 +227,6 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

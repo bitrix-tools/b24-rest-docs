@@ -72,5 +72,8 @@
     "filterHint",
     "propertyId",
     "smartFilter"
-  ]
+  ],
+  "requestExample": {
+    "propertyId": 901
+  }
 }

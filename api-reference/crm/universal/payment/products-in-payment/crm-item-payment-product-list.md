@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на чтение заказа оплаты
+> Кто может выполнять метод: пользователь с правом «Чтение» для объекта CRM, к которому относится оплата
 
-Метод получает список товарных позиций (товары или услуги) по конкретной оплате.
+Метод `crm.item.payment.product.list` возвращает список товарных позиций конкретной оплаты.
 
 ## Параметры метода
 
@@ -25,8 +25,10 @@
 || **paymentId***
 [`sale_order_payment.id`](../../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты.
 Можно получить с помощью метода [`sale.payment.list`](../../../../sale/payment/sale-payment-list.md) ||
-|| **filter***
+|| **filter**
 [`object`](../../../../data-types.md) | Объект для фильтрации выбранных товарных позиций оплаты в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+
+По умолчанию фильтр не применяется.
  
 Возможные значения для `field`:
 - `id`
@@ -39,7 +41,7 @@
 - `>` — больше
 - `<` — меньше
 - `!=` — не равно
-- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обеих сторон
 - `>=` — больше либо равно
 - `<=` — меньше либо равно
 - `@` — IN, в качестве значения передается массив
@@ -57,6 +59,8 @@
 ||
 || **order**
 [`object`](../../../../data-types.md) | Объект для сортировки выбранных товарных позиций оплаты в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+
+По умолчанию записи сортируются по `id` в порядке возрастания.
  
 Возможные значения для `field`:
 - `id`
@@ -110,15 +114,11 @@
       id: number,
       paymentId: number,
       quantity: number,
-      rowId: number,
+      entityId?: number,
+      rowId?: number,
     }
 
     try {
-      // crm.item.payment.product.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<PaymentProductItem[]>({
         method: 'crm.item.payment.product.list',
         params: {
@@ -127,7 +127,6 @@
             '>=quantity': 2,
             '@id': [1195, 1196],
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -156,11 +155,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.item.payment.product.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.item.payment.product.list',
             params: {
@@ -169,7 +163,6 @@
                 '>=quantity': 2,
                 '@id': [1195, 1196],
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -377,10 +370,11 @@
     }
 
     var items []struct {
-    	ID        b24.ID `json:"id"`
-    	PaymentID b24.ID `json:"paymentId"`
-    	Quantity  int    `json:"quantity"`
-    	RowID     b24.ID `json:"rowId"`
+        ID        b24.ID  `json:"id"`
+        PaymentID b24.ID  `json:"paymentId"`
+        Quantity  int     `json:"quantity"`
+        EntityID  *b24.ID `json:"entityId"`
+        RowID     *b24.ID `json:"rowId"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -406,25 +400,21 @@ HTTP-статус: **200**
 {
    "result":[
       {
-         "id":1195,
-         "paymentId":1039,
+         "id":433,
+         "paymentId":553,
          "quantity":2,
-         "rowId":17587
-      },
-      {
-         "id":1196,
-         "paymentId":1039,
-         "quantity":3,
-         "rowId":17588
+         "entityId":1349
       }
    ],
    "time":{
-      "start":1716286140.489916,
-      "finish":1716286140.802505,
-      "duration":0.3125889301300049,
-      "processing":0.053195953369140625,
-      "date_start":"2024-05-21T13:09:00+03:00",
-      "date_finish":"2024-05-21T13:09:00+03:00"
+      "start":1790581835,
+      "finish":1790581835.956596,
+      "duration":0.9565958976745605,
+      "processing":0,
+      "date_start":"2026-09-28T10:50:35+03:00",
+      "date_finish":"2026-09-28T10:50:35+03:00",
+      "operating_reset_at":1790582435,
+      "operating":0
    }
 }
 ```
@@ -440,7 +430,7 @@ HTTP-статус: **200**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
-### Ключ result. Объект типа crm_item_payment_product 
+### Ключ result. Объект типа crm_item_payment_product
 
 #|
 || **Название**
@@ -451,8 +441,10 @@ HTTP-статус: **200**
 [`sale_order_payment.id`](../../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты ||
 || **quantity**
 [`double`](../../../../data-types.md) | Количество товара ||
+|| **entityId**
+[`integer`](../../../../data-types.md) | Идентификатор товарной позиции заказа. Возвращается, если позиция оплаты не сопоставлена с товарной строкой объекта CRM ||
 || **rowId**
-[`integer`](../../../../data-types.md) | Идентификатор товарной позиции в сущности CRM ||
+[`integer`](../../../../data-types.md) | Идентификатор товарной строки объекта CRM. Возвращается, если позиция оплаты сопоставлена с товарной строкой объекта CRM ||
 |#
 
 ## Обработка ошибок
@@ -473,7 +465,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `0` | Оплата не найдена ||
-|| `0` | Доступ запрещен ||
+|| `ACCESS_DENIED` | Доступ запрещен: у пользователя нет права на чтение оплаты ||
 || `100` | Не переданы обязательные поля ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
@@ -487,5 +479,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-item-payment-product-add.md)
-- [{#T}](./crm-item-payment-product-set-quantity.md)
 - [{#T}](./crm-item-payment-product-delete.md)
+- [{#T}](./crm-item-payment-product-set-quantity.md)

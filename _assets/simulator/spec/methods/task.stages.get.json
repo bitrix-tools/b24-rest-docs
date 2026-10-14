@@ -69,5 +69,8 @@
     "TITLE",
     "TO_UPDATE",
     "TO_UPDATE_ACCESS"
-  ]
+  ],
+  "requestExample": {
+    "entityId": 0
+  }
 }

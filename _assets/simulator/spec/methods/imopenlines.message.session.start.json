@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-message-session-start.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2043,
+    "MESSAGE_ID": 18971
+  }
 }

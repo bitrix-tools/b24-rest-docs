@@ -55,5 +55,8 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-event/calendar-meeting-status-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "eventId": 651
+  }
 }

@@ -4,14 +4,25 @@
   "scope": "biconnector",
   "kind": "read",
   "title": "Получить поля источника biconnector.source.fields",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей источника. Структура элемента массива описана в статье Коннектор: обзор методов",
+      "description": "Корневой элемент ответа. Содержит единственный ключ fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "result.fields",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив дескрипторов полей источника, один элемент — одно поле (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -145,6 +156,30 @@
       "date_finish": "2025-03-25T09:49:16+00:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит единственный ключ fields"
+    },
+    {
+      "name": "result.fields",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив дескрипторов полей источника, один элемент — одно поле (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/biconnector/source/biconnector-source-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

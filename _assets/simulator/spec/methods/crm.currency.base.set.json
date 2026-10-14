@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/currency/crm-currency-base-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "RUB"
+  }
 }

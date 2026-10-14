@@ -110,5 +110,18 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-favorite-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 6428,
+    "meta": {
+      "name": "Блок с преимуществами",
+      "section": [
+        "text",
+        "features"
+      ],
+      "preview": 918273,
+      "tpl_code": "bitrix24"
+    }
+  }
 }

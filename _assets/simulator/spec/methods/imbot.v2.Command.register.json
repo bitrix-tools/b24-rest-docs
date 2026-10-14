@@ -108,5 +108,20 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "fields": {
+      "command": "help",
+      "title": {
+        "en": "Show help",
+        "ru": "Показать помощь"
+      },
+      "params": {
+        "en": "query",
+        "ru": "запрос"
+      }
+    }
+  }
 }

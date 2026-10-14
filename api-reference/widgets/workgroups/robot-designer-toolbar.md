@@ -13,7 +13,11 @@
 
 Виджет добавляет свою кнопку в дизайнер роботов, где настраивают автоматизацию задач рабочей группы или проекта.
 
+Кнопка подходит, когда приложению нужен свой интерфейс рядом с настройками автоматизации: например, чтобы подготовить сценарий для задач группы или настроить передачу правил во внешний сервис. Точка открывает обработчик приложения и сама по себе не добавляет робота.
+
 Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
+
+Регистрацию выполняет администратор в контексте приложения.
 
 {% note info "" %}
 
@@ -36,6 +40,10 @@
 
 ![Кнопка в панели дизайнера роботов группы](./_images/SONET_GROUP_ROBOT_DESIGNER_TOOLBAR.png "Кнопка в панели дизайнера роботов группы")
 
+### Как проверить
+
+После регистрации точки и завершения установки приложения откройте автоматизацию задач проекта и нажмите кнопку приложения. Проверьте, что обработчик получил `PLACEMENT` со значением `SONET_GROUP_ROBOT_DESIGNER_TOOLBAR` и `GROUP_ID` этого проекта в `PLACEMENT_OPTIONS`.
+
 ## Что получает обработчик
 
 Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
@@ -52,7 +60,7 @@ Array
     [REFRESH_ID] => 4dd5e16600705a0700005a4b00000001f0f107a934a327935855b75f8c3686204e3bd5
     [SERVER_ENDPOINT] => https://oauth.bitrix24.tech/rest/
     [APPLICATION_TOKEN] => 5b2f8c1d7e3a9046b8c5d2f1a7e3b904
-    [APPLICATION_SCOPE] => sonet_group,task,placement
+    [APPLICATION_SCOPE] => sonet_group,placement
     [member_id] => da45a03b265edd8787f8a258d793cc5d
     [status] => L
     [PLACEMENT] => SONET_GROUP_ROBOT_DESIGNER_TOOLBAR
@@ -68,9 +76,22 @@ Array
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
-Для `SONET_GROUP_ROBOT_DESIGNER_TOOLBAR` в контекст передается ключ:
+Кроме общего ключа `URI`, для `SONET_GROUP_ROBOT_DESIGNER_TOOLBAR` в контекст передается ключ:
 
 - `GROUP_ID` — идентификатор рабочей группы или проекта, чью автоматизацию настраивает пользователь. По нему можно получить данные группы методом [sonet_group.get](../../sonet-group/sonet-group-get.md)
+
+Строка из примера после разбора выглядит так:
+
+```json
+{
+    "GROUP_ID": "10",
+    "URI": "/workgroups/group/10/tasks/"
+}
+```
+
+## OPTIONS при регистрации через placement.bind
+
+Собственных параметров `OPTIONS` у этой точки нет. Переданные значения метод `placement.bind` не сохраняет.
 
 ## Примеры кода
 
@@ -87,7 +108,6 @@ Array
       -d '{
         "PLACEMENT": "SONET_GROUP_ROBOT_DESIGNER_TOOLBAR",
         "HANDLER": "https://your-domain.com/widgets/sonet-group-robot-designer-handler.php",
-        "TITLE": "Моя автоматизация группы",
         "LANG_ALL": {
           "ru": {
             "TITLE": "Моя автоматизация группы"
@@ -117,7 +137,6 @@ Array
         params: {
           PLACEMENT: 'SONET_GROUP_ROBOT_DESIGNER_TOOLBAR',
           HANDLER: 'https://your-domain.com/widgets/sonet-group-robot-designer-handler.php',
-          TITLE: 'My group automation',
           LANG_ALL: {
             ru: {
               TITLE: 'Моя автоматизация группы',
@@ -159,7 +178,6 @@ Array
             params: {
               PLACEMENT: 'SONET_GROUP_ROBOT_DESIGNER_TOOLBAR',
               HANDLER: 'https://your-domain.com/widgets/sonet-group-robot-designer-handler.php',
-              TITLE: 'My group automation',
               LANG_ALL: {
                 ru: {
                   TITLE: 'Моя автоматизация группы',
@@ -201,7 +219,6 @@ Array
                 [
                     'PLACEMENT' => 'SONET_GROUP_ROBOT_DESIGNER_TOOLBAR',
                     'HANDLER' => 'https://your-domain.com/widgets/sonet-group-robot-designer-handler.php',
-                    'TITLE' => 'Моя автоматизация группы',
                     'LANG_ALL' => [
                         'ru' => [
                             'TITLE' => 'Моя автоматизация группы',
@@ -233,7 +250,6 @@ Array
         {
             PLACEMENT: 'SONET_GROUP_ROBOT_DESIGNER_TOOLBAR',
             HANDLER: 'https://your-domain.com/widgets/sonet-group-robot-designer-handler.php',
-            TITLE: 'Моя автоматизация группы',
             LANG_ALL: {
                 ru: { TITLE: 'Моя автоматизация группы' },
                 en: { TITLE: 'My group automation' }
@@ -259,7 +275,6 @@ Array
         [
             'PLACEMENT' => 'SONET_GROUP_ROBOT_DESIGNER_TOOLBAR',
             'HANDLER' => 'https://your-domain.com/widgets/sonet-group-robot-designer-handler.php',
-            'TITLE' => 'Моя автоматизация группы',
             'LANG_ALL' => [
                 'ru' => [
                     'TITLE' => 'Моя автоматизация группы',
@@ -283,7 +298,6 @@ Array
     res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
     	"PLACEMENT": "SONET_GROUP_ROBOT_DESIGNER_TOOLBAR",
     	"HANDLER":   "https://your-domain.com/widgets/sonet-group-robot-designer-handler.php",
-    	"TITLE":     "Моя автоматизация группы",
     	"LANG_ALL": b24.Params{
     		"ru": b24.Params{
     			"TITLE": "Моя автоматизация группы",

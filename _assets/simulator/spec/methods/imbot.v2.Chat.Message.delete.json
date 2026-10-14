@@ -55,5 +55,10 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "messageId": 789
+  }
 }

@@ -139,5 +139,14 @@
     }
   ],
   "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 128,
+    "ACTIVE": "N",
+    "CODE": "door_delivery",
+    "NAME": "Door Delivery New Name",
+    "DESCRIPTION": "Door Delivery New Description",
+    "SORT": 200,
+    "PRICE": 399.99
+  }
 }

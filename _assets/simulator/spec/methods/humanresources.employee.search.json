@@ -92,5 +92,17 @@
     }
   ],
   "page": "/api-reference/departments/employee/humanresources-employee-search.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "name": "Иван",
+    "select": [
+      "userId",
+      "name",
+      "workPosition",
+      "avatar",
+      "url",
+      "departments",
+      "teams"
+    ]
+  }
 }

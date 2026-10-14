@@ -23,7 +23,7 @@
 
 {% note warning "" %}
 
-Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку.
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку или изменит другой пункт.
 
 {% endnote %}
 
@@ -41,7 +41,7 @@
 
 Идентификатор пункта можно получить при [добавлении нового пункта](./task-checklist-item-add.md) или методом [получения списка пунктов чек-листа](./task-checklist-item-get-list.md) ||
 || **FIELDS***
-[`object`](../../data-types.md) | Объект с [полями пункта чек-листа](#fields) ||
+[`object`](../../data-types.md) | Объект с [полями пункта чек-листа](#fields). Передайте только поля, которые нужно изменить ||
 |#
 
 ### Параметр FIELDS {#fields}
@@ -56,30 +56,31 @@
 || **SORT_INDEX**
 [`integer`](../../data-types.md) | Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке ||
 || **IS_COMPLETE**
-[`boolean`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
+[`string`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
 - `Y` — выполнен
 - `N` — не выполнен
 
-По умолчанию — `N` ||
+Принимает также `true` и `false`. При смене статуса система заполняет поля `TOGGLED_BY` и `TOGGLED_DATE` ||
 || **IS_IMPORTANT**
-[`boolean`](../../data-types.md) | Отметка, что пункт важный. Возможные значения:
+[`string`](../../data-types.md) | Отметка, что пункт важный. Возможные значения:
 - `Y` — важный
-- `N` — обычный ||
+- `N` — обычный
+
+Принимает также `true` и `false` ||
 || **MEMBERS**
 [`object`](../../data-types.md) | Объект с описанием участников пункта чек-листа. Ключ — идентификатор пользователя, значение — объект с параметром типа участника `TYPE`. Возможные значения типа участника:
 - `'TYPE': 'A'` — соисполнитель
 - `'TYPE': 'U'` — наблюдатель
 
-Поле `MEMBERS` заменяется полностью. Чтобы сохранить текущих участников, передайте их вместе с новыми значениями.
+Поле `MEMBERS` заменяется полностью. Чтобы сохранить текущих участников, передайте их вместе с новыми значениями. Если у участника указан другой `TYPE`, метод без ошибки пропустит весь `MEMBERS`.
 
 Система добавит участников пункта чек-листа в задачу в тех же ролях ||
 || **PARENT_ID**
 [`integer`](../../data-types.md) | Идентификатор родительского пункта. Используйте для вложенных чек-листов.
 
 - Если передать `PARENT_ID` со значением `0`, система создаст в задаче новый чек-лист
-- Если в задаче нет пункта чек-листа с указанным `PARENT_ID`, система создаст новый чек-лист
-- Если переместить главный пункт чек-листа под пункт другого чек-листа, то он переместится вместе со своими подпунктами с сохранением иерархии. Чек-листы объединятся в один
-||
+- Если пункта с указанным `PARENT_ID` нет, пункт сохранится с этим `PARENT_ID` и не попадет ни в один чек-лист. Передавайте только идентификаторы существующих пунктов задачи
+- Если переместить корневой пункт чек-листа под пункт другого чек-листа, то он переместится вместе со своими подпунктами с сохранением иерархии. Чек-листы объединятся в один ||
 |#
 
 ## Примеры кода
@@ -128,7 +129,7 @@
           TASKID: 13,
           ITEMID: 475,
           FIELDS: {
-            TITLE: 'Prepare report',
+            TITLE: 'Подготовить отчет',
             PARENT_ID: 447,
             SORT_INDEX: 100,
             IS_COMPLETE: 'N',
@@ -172,7 +173,7 @@
               TASKID: 13,
               ITEMID: 475,
               FIELDS: {
-                TITLE: 'Prepare report',
+                TITLE: 'Подготовить отчет',
                 PARENT_ID: 447,
                 SORT_INDEX: 100,
                 IS_COMPLETE: 'N',
@@ -245,6 +246,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -378,8 +380,7 @@
     	return fmt.Errorf("task.checklistitem.update: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // При успехе result равен null
     fmt.Printf("%s\n", res.Result)
     ```
 
@@ -411,7 +412,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-`null` | Возвращает `null`, если пункт чек-листа успешно обновлен ||
+`null` | Возвращает `null`, если пункт чек-листа успешно обновлен.
+
+Метод вернет `null` и в том случае, если передать пустой `FIELDS` или пустой `TITLE`: пункт при этом не изменится. Чтобы проверить результат, получите пункт методом [task.checklistitem.get](./task-checklist-item-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -423,7 +426,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_CORE",
-    "error_description":"TASKS_ERROR_EXCEPTION_#4; Нет доступа к редактированию задачи; 4\/TE\/ACTION_NOT_ALLOWED\u003Cbr\u003E"
+    "error_description":"TASKS_ERROR_EXCEPTION_#4; Нет доступа к редактированию задачи; 4/TE/ACTION_NOT_ALLOWED<br>"
 }
 ```
 
@@ -433,11 +436,17 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#4; Нет доступа к редактированию задачи; 4\/TE\/ACTION_NOT_ALLOWED\u003Cbr\u003E | Нет прав доступа к редактированию задачи, чтобы изменять пункт чек-листа ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, Подготовить отчет]; 8\/TE\/ACTION_FAILED_TO_BE_PROCESSED\u003Cbr\u003E | Нарушен порядок передачи параметров ||
-|| `ERROR_CORE` | "TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) for method ctaskchecklistitem::update() expected to be of type \u0022integer\u0022, but given something else.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Не передан обязательный параметр `TASKID` или указан неверный тип значения для `TASKID` ||
-|| `ERROR_CORE` | "TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::update(), but not given.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Не передан обязательный параметр `ITEMID` или указан неверный тип значения для `ITEMID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFields) expected by method ctaskchecklistitem::update(), but not given.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Не передан обязательный параметр `FIELDS` или передан пустой ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#4; Нет доступа к редактированию задачи; 4/TE/ACTION_NOT_ALLOWED<br> | У пункта есть участники `MEMBERS`, а у пользователя нет права изменять задачу, чтобы добавить их в нее. Изменения пункта при этом уже сохранены ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, Подготовить отчет]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Пункта с идентификатором `ITEMID` нет или параметры переданы не по порядку ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::update(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::update() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::update(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) for method ctaskchecklistitem::update() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFields) expected by method ctaskchecklistitem::update(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `FIELDS` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Bitrix\Tasks\CheckList\Internals\CheckListTree::canAttach: Невозможно создать зацикленную связь [261, 267]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `PARENT_ID` передан подпункт изменяемого пункта ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Bitrix\Tasks\CheckList\Internals\CheckListTree::canAttach: Невозможно привязать узел к себе [261, 261]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `PARENT_ID` передан идентификатор самого пункта ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFields) for method ctaskchecklistitem::update() must not contain key "ID".; 256/TE/WRONG_ARGUMENTS<br> | В `FIELDS` передано поле, которое нельзя изменить. Изменять можно только поля из таблицы [параметра FIELDS](#fields) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -57,5 +57,8 @@
     }
   ],
   "page": "/api-reference/landing/page/special-pages/landing-syspage-delete-for-landing.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8593
+  }
 }

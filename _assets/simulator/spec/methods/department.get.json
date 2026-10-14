@@ -143,5 +143,10 @@
     "NAME",
     "PARENT",
     "SORT"
-  ]
+  ],
+  "requestExample": {
+    "sort": "NAME",
+    "order": "DESC",
+    "PARENT": 1
+  }
 }

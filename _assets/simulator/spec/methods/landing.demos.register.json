@@ -96,5 +96,50 @@
     }
   ],
   "page": "/api-reference/landing/demos/landing-demos-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "data": {
+      "charset": "UTF-8",
+      "code": "ftmlt",
+      "site_code": "/ftmlt/",
+      "name": "Бизнес",
+      "description": null,
+      "type": "page",
+      "fields": {
+        "TITLE": "Бизнес",
+        "LANDING_ID_INDEX": "0",
+        "LANDING_ID_404": "0",
+        "ADDITIONAL_FIELDS": {}
+      },
+      "folders": [],
+      "items": {
+        "ftmlt": {
+          "old_id": "16",
+          "code": "ftmlt",
+          "name": "Бизнес",
+          "description": null,
+          "preview": "",
+          "preview2x": "",
+          "preview3x": "",
+          "preview_url": "",
+          "show_in_list": "Y",
+          "type": "page",
+          "version": 3,
+          "fields": {
+            "TITLE": "Бизнес"
+          },
+          "layout": [],
+          "items": {}
+        }
+      },
+      "layout": [],
+      "preview": "",
+      "preview2x": "",
+      "preview3x": "",
+      "preview_url": "",
+      "show_in_list": "Y",
+      "syspages": [],
+      "version": 3
+    }
+  }
 }

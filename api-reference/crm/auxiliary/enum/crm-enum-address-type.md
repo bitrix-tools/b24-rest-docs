@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
-Метод `crm.enum.addresstype` возвращает список типов адресов. `ID` типа адреса используйте в значении параметра `TYPE_ID` методов [crm.address.*](../../requisites/addresses/index.md).
+Метод `crm.enum.addresstype` возвращает типы адресов: юридический, фактический, адрес доставки и другие. Номер типа передают в параметре `TYPE_ID` методов [crm.address.*](../../requisites/addresses/index.md). Например, чтобы найти юридические адреса клиентов, вызовите метод [crm.address.list](../../requisites/addresses/crm-address-list.md) с фильтром `TYPE_ID: 6`.
 
 ## Параметры метода
 
@@ -155,13 +155,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $addressType) {
+            echo $addressType['ID'] . ' — ' . $addressType['NAME'] . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.addresstype: ' . $e->getMessage();
@@ -295,21 +291,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор типа адреса ||
+[`integer`](../../../data-types.md) | Идентификатор типа адреса, например `6` — юридический адрес ||
 || **NAME**
 [`string`](../../../data-types.md) | Название типа адреса ||
 || **SYMBOL_CODE**
-[`string`](../../../data-types.md) | Символьный код ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Символьный код. У типов адресов всегда `null` ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Краткий символьный код. У типов адресов всегда `null` ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../requisites/addresses/crm-address-list.md)

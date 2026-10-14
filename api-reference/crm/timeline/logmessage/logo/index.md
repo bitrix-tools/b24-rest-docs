@@ -1,4 +1,4 @@
-# Логотипы лог-записей: обзор методов
+# Логотипы записей таймлайна: обзор методов
 
 {% note tip "" %}
 
@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Логотипы лог-записей помогают визуально выделять записи в таймлайне CRM.
+Логотипы помогают визуально выделять конфигурируемые дела в таймлайне CRM.
 
 С помощью методов раздела можно добавить пользовательский логотип, получить данные по коду, вывести список доступных логотипов и удалить логотип.
 
@@ -21,7 +21,7 @@
 
 - Методами [crm.timeline.logo.add](./crm-timeline-logo-add.md) и [crm.timeline.logo.delete](./crm-timeline-logo-delete.md) управляет только администратор.
 - Методы [crm.timeline.logo.get](./crm-timeline-logo-get.md) и [crm.timeline.logo.list](./crm-timeline-logo-list.md) доступны любому пользователю.
-- Для создания логотипа передавайте `fileContent` в `base64`. Используйте файл в формате `PNG` размером `60x60` пикселей с прозрачным фоном.
+- Для создания логотипа передавайте `fileContent` в `base64`. Используйте файл в формате `PNG` размером `60x60` пикселей.
 
 ## Как работать с логотипами
 
@@ -32,7 +32,9 @@
 
 ## Связь с другими объектами
 
-**Журнал лог-записей.** Логотипы относятся к разделу [Журнал лог-записей](../index.md), где собраны методы создания, чтения и удаления лог-записей.
+**Конфигурируемые дела.** Код логотипа передается в поле `layout.body.logo.code` методов [crm.activity.configurable.add](../../activities/configurable/crm-activity-configurable-add.md) и [crm.activity.configurable.update](../../activities/configurable/crm-activity-configurable-update.md). Структура поля описана в объекте [LogoDto](../../activities/configurable/structure/body.md#logo-dto).
+
+**Иконки лог-записей.** Логотип и иконка относятся к разным элементам таймлайна. Для поля `fields.iconCode` метода [crm.timeline.logmessage.add](../crm-timeline-logmessage-add.md) получайте коды методами [crm.timeline.icon.*](../icons/index.md).
 
 ## Обзор методов {#all-methods}
 

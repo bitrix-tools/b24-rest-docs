@@ -372,5 +372,8 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-disapprove.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8017
+  }
 }

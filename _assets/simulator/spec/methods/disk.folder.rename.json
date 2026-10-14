@@ -192,5 +192,9 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-rename.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8968,
+    "newName": "Новое имя папки"
+  }
 }

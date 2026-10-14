@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.enum.getorderownertypes` возвращает список типов объектов, к которым можно привязать заказ. `id` типа объекта используйте в значении параметра `ownerTypeId` методов [crm.orderentity.*](../../universal/order-entity/crm-order-entity-add.md).
+Метод `crm.enum.getorderownertypes` возвращает типы объектов CRM, к которым можно привязать заказ. Например, чтобы связать заказ со сделкой, передайте в параметре `ownerTypeId` метода [crm.orderentity.add](../../universal/order-entity/crm-order-entity-add.md) значение `2` — это `id` типа «Сделка».
 
 {% note info " " %}
 
-В настоящий момент [привязку заказа](../../universal/order-entity/crm-order-entity-add.md) можно осуществить только к [сделке](../../deals/index.md).
+Доступные для [привязки заказа](../../universal/order-entity/crm-order-entity-add.md) типы определяйте по ответу метода, а не по списку из документации. Обычно в ответе только [сделка](../../deals/index.md).
 
 {% endnote %}
 
@@ -161,13 +161,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
+        foreach ($result as $ownerType) {
+            echo $ownerType['id'] . ' — ' . $ownerType['name'] . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching order owner types: ' . $e->getMessage();
@@ -273,11 +269,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **attribute**
-[`string`](../../../data-types.md) | Атрибут типа объекта ||
+[`string`](../../../data-types.md) | Служебный признак. У всех типов приходит значение `DYN`, для привязки заказа он не нужен ||
 || **code**
-[`string`](../../../data-types.md) | Код типа объекта ||
+[`string`](../../../data-types.md) | Код типа объекта, например `DEAL` ||
 || **id**
-[`integer`](../../../data-types.md) | Идентификатор типа объекта ||
+[`integer`](../../../data-types.md) | Идентификатор типа объекта, например `2` — сделка. Его передают в параметре `ownerTypeId` ||
 || **name**
 [`string`](../../../data-types.md) | Название типа объекта ||
 |#

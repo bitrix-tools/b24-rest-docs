@@ -70,5 +70,11 @@
     }
   ],
   "page": "/api-reference/departments/department-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NAME": "Отдел изучения маглов",
+    "SORT": 450,
+    "UF_HEAD": 1,
+    "PARENT": 15
+  }
 }

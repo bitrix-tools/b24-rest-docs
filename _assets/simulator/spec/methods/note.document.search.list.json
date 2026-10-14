@@ -176,5 +176,11 @@
     "sharedAccess",
     "snippet",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "query": "рецепт борща",
+    "pagination": {
+      "limit": 50
+    }
+  }
 }

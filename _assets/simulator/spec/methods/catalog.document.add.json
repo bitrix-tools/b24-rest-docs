@@ -183,5 +183,15 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "docType": "A",
+      "currency": "RUB",
+      "responsibleId": 29,
+      "docNumber": "IN-00042",
+      "title": "Поступление от Поставщик-1",
+      "commentary": "Плановое пополнение склада"
+    }
+  }
 }

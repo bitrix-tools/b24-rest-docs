@@ -139,5 +139,20 @@
     "isEnabled",
     "moduleId",
     "propertyId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "propertyId",
+      "moduleId",
+      "featureId",
+      "isEnabled"
+    ],
+    "filter": {
+      "propertyId": 901
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

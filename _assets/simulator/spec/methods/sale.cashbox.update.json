@@ -151,5 +151,11 @@
     }
   ],
   "page": "/api-reference/sale/cashbox/sale-cashbox-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 1,
+    "FIELDS": {
+      "NAME": "Новое имя"
+    }
+  }
 }

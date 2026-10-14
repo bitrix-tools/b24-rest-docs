@@ -25,7 +25,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор группы.
+[`integer`](../../../data-types.md) | Идентификатор группы (Скрама), а не идентификатор бэклога из поля `result.id` ответа.
 
 Можно получить при создании новой группы [sonet_group.create](../../sonet-group-create.md) или при получении списка существующих групп [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
 |#
@@ -172,12 +172,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Backlog ID: ' . $result['id'];
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -268,6 +263,17 @@ HTTP-статус: **200**
 ```
 
 ## Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Бэклог группы [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект result {#result}
 
 #|
 || **Название**

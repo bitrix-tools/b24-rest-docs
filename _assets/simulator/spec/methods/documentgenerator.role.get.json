@@ -74,5 +74,8 @@
     "id",
     "name",
     "permissions"
-  ]
+  ],
+  "requestExample": {
+    "id": 9
+  }
 }

@@ -15,6 +15,14 @@
 >
 > Пользовательская документация: [Как настроить права доступа к каталогу товаров](https://helpdesk.bitrix24.ru/open/25376682/)
 
+## Как начать работу
+
+1. Получите идентификаторы `catalogGroupId` и `groupId`, затем выберите тип доступа `access`
+2. При необходимости проверьте доступные поля и их типы методом [catalog.priceTypeGroup.getFields](./catalog-price-type-group-get-fields.md)
+3. Создайте привязку методом [catalog.priceTypeGroup.add](./catalog-price-type-group-add.md)
+4. Проверьте результат методом [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md)
+5. Если привязка больше не нужна, удалите ее методом [catalog.priceTypeGroup.delete](./catalog-price-type-group-delete.md)
+
 ## Связь с другими объектами
 
 **Тип цены.** Привязка создается для конкретного типа цены в поле `catalogGroupId`. Получить идентификатор типа цены можно методами [catalog.priceType.list](../catalog-price-type-list.md) и [catalog.priceType.get](../catalog-price-type-get.md).
@@ -28,19 +36,11 @@
 - `Y` — группа может покупать по типу цены
 - `N` — группа может только просматривать тип цены
 
-## Как начать работу
-
-1. Получите идентификаторы `catalogGroupId` и `groupId`, затем выберите тип доступа `access`
-2. При необходимости проверьте доступные поля и их типы методом [catalog.priceTypeGroup.getFields](./catalog-price-type-group-get-fields.md)
-3. Создайте привязку методом [catalog.priceTypeGroup.add](./catalog-price-type-group-add.md)
-4. Проверьте результат методом [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md)
-5. Если привязка больше не нужна, удалите ее методом [catalog.priceTypeGroup.delete](./catalog-price-type-group-delete.md)
-
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода
+> Кто может выполнять методы: зависит от метода
 
 #|
 || **Метод** | **Описание** ||

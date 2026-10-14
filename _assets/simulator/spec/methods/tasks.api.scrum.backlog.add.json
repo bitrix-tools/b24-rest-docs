@@ -69,5 +69,11 @@
     }
   },
   "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "groupId": 1,
+      "createdBy": 1
+    }
+  }
 }

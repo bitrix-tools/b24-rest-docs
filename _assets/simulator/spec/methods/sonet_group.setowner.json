@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/sonet-group/sonet-group-setowner.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "GROUP_ID": 77,
+    "USER_ID": 1269
+  }
 }

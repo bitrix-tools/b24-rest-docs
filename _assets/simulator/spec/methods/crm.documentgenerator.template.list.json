@@ -135,5 +135,22 @@
     "sort",
     "users",
     "withStamps"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "region",
+      "entityTypeId",
+      "users"
+    ],
+    "order": {
+      "id": "desc"
+    },
+    "filter": {
+      "region": "ru",
+      "active": "Y"
+    },
+    "start": 0
+  }
 }

@@ -350,6 +350,12 @@
 }
 ```
 
+{% note warning "" %}
+
+Метод возвращает только признак успешного выполнения. Ответ не содержит `messageId`, идентификатор созданного дела CRM или данные связи. Если письмо потребуется получить позднее методом `mail.message.get`, сохраните `messageId` из ответа `mail.message.list` в своей системе до создания дела.
+
+{% endnote %}
+
 ## 4. Проверим связь письма
 
 Метод [mail.message.get](../../api-reference/mail/message/mail-message-get.md) возвращает письмо по идентификатору.
@@ -474,6 +480,7 @@
 
 - `mail.message.createcrmactivity` создает дело CRM из существующего письма и не отправляет новое письмо
 - параметр `messageId` метода `mail.message.createcrmactivity` берется из ответа [mail.message.list](../../api-reference/mail/message/mail-message-list.md) или [mail.message.get](../../api-reference/mail/message/mail-message-get.md)
+- `mail.message.createcrmactivity` не возвращает `messageId` или идентификатор созданного дела CRM. Сохраните `messageId` в своей системе, если позже потребуется получить исходное письмо
 - целевой объект CRM нельзя передать параметром: у `mail.message.createcrmactivity` нет полей для идентификатора лида, сделки, контакта или компании
 - повторный вызов `mail.message.createcrmactivity` для того же письма может вернуть ошибку или не изменить уже созданную связь, проверяйте `bindings` перед повтором
 - связь можно удалить методом [mail.message.removecrmactivity](../../api-reference/mail/message/mail-message-removecrmactivity.md)

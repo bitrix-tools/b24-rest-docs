@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/catalog/product/service/catalog-product-service-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1264
+  }
 }

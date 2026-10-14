@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов
 
-Метод `documentgenerator.numerator.list` возвращает список нумераторов для генератора документов. Возвращает все нумераторы, доступные в текущем Битрикс24, в том числе [CRM нумераторы](../../crm/document-generator/numerator/index.md).
+Метод `documentgenerator.numerator.list` возвращает постраничный список нумераторов для генератора документов. В выборку входят доступные нумераторы этого типа, в том числе [CRM нумераторы](../../crm/document-generator/numerator/index.md).
 
 ## Параметры метода
 
@@ -31,6 +31,12 @@
 
 `start = (N - 1) * 50`, где `N` — номер нужной страницы ||
 |#
+
+{% note info "" %}
+
+Метод не возвращает общее количество нумераторов и значение `next`. Для последовательной загрузки увеличивайте `start` на 50, пока массив `numerators` не станет пустым или не вернет меньше 50 элементов.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -72,7 +78,6 @@
       id: string
       name: string
       template: string
-      code: string | null
       settings: {
         Bitrix_Main_Numerator_Generator_SequentNumberGenerator?: {
           start: number
@@ -92,11 +97,6 @@
     }
 
     try {
-      // documentgenerator.numerator.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<NumeratorListResult>({
         method: 'documentgenerator.numerator.list',
         params: {
@@ -129,11 +129,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // documentgenerator.numerator.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'documentgenerator.numerator.list',
             params: {
@@ -207,7 +202,9 @@
   ```js
   BX24.callMethod(
       'documentgenerator.numerator.list',
-      {},
+      {
+          start: 0
+      },
       function(result)
       {
           if (result.error())
@@ -217,11 +214,6 @@
           else
           {
               console.log(result.data());
-
-              if (result.more())
-              {
-                  result.next();
-              }
           }
       }
   );
@@ -268,7 +260,6 @@ HTTP-статус: **200**
 {
     "result": {
         "numerators": [
-            ..., // описание других нумераторов, в том числе CRM
             {
                 "id": "53",
                 "name": "Общий номер",
@@ -303,7 +294,7 @@ HTTP-статус: **200**
             }
         ]
     },
-    "total": 20,
+    "total": 2,
     "time": {
         "start": 1774363478,
         "finish": 1774363478.809978,
@@ -325,7 +316,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **total**
-[`integer`](../../data-types.md) | Количество нумераторов в текущей выборке ||
+[`integer`](../../data-types.md) | Количество нумераторов на текущей странице. Поле не содержит общее количество записей во всей выборке ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -350,8 +341,6 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Название нумератора ||
 || **template**
 [`string`](../../data-types.md) | Шаблон номера ||
-|| **code**
-[`string`](../../data-types.md) | Символьный код нумератора. Может быть `null` ||
 || **settings**
 [`object`](../../data-types.md) | Настройки генераторов нумератора [(подробное описание)](#numerators-settings) ||
 |#
@@ -379,9 +368,9 @@ HTTP-статус: **200**
 || **padString**
 [`string`](../../data-types.md) | Символ добивки слева при `length > 0` ||
 || **periodicBy**
-[`string`](../../data-types.md) | Период сброса счетчика. Может быть `null` ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Период сброса счетчика. Возвращается `null`, если периодический сброс выключен ||
 || **timezone**
-[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Возвращается `null`, если часовой пояс не задан ||
 || **isDirectNumeration**
 [`boolean`](../../data-types.md) | Признак прямой нумерации ||
 |#
@@ -410,6 +399,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./document-generator-numerator-add.md)
 - [{#T}](./document-generator-numerator-update.md)
 - [{#T}](./document-generator-numerator-get.md)

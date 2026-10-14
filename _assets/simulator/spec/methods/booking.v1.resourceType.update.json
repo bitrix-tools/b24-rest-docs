@@ -325,5 +325,29 @@
     }
   ],
   "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 10,
+    "fields": {
+      "name": "Новое название",
+      "code": "updated-code",
+      "isInfoNotificationOn": "Y",
+      "isConfirmationNotificationOn": "Y",
+      "templateTypeConfirmation": "animate",
+      "isReminderNotificationOn": "Y",
+      "templateTypeReminder": "base",
+      "isFeedbackNotificationOn": "N",
+      "templateTypeFeedback": "animate",
+      "isDelayedNotificationOn": "N",
+      "templateTypeDelayed": "animate",
+      "infoNotificationDelay": 300,
+      "reminderNotificationDelay": -1,
+      "delayedNotificationDelay": 300,
+      "delayedCounterDelay": 7200,
+      "confirmationNotificationDelay": 86400,
+      "confirmationNotificationRepetitions": 0,
+      "confirmationNotificationRepetitionsInterval": 0,
+      "confirmationCounterDelay": 7200
+    }
+  }
 }

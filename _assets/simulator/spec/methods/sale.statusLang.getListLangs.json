@@ -201,5 +201,6 @@
     }
   ],
   "page": "/api-reference/sale/status-lang/sale-status-lang-get-list-langs.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: менеджер интернет-магазина
 
-Метод возвращает список привязок заказов к объектам CRM.
+Метод `crm.orderentity.list` возвращает список привязок заказов к объектам CRM.
 
 ## Параметры метода
 
@@ -60,7 +60,7 @@
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
 
-Если объект не передан или передан пустой объект, сортировка будет по возрастанию поля [crm_orderentity.OWNER_ID](../../data-types.md#crm_orderentity)
+Если объект не передан или передан пустой объект, сортировка будет по возрастанию поля [crm_orderentity.ownerId](../../data-types.md#crm_orderentity)
 ||
 || **start**
 [`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
@@ -72,8 +72,6 @@
 Формула расчета значения параметра `start`:
 
 `start = (N-1) * 50`, где `N` — номер нужной страницы.
-
-Если указать значение `-1`, будут выбраны все записи, отвечающие условиям фильтра
 ||
 |#
 
@@ -216,6 +214,8 @@
 
 - Python
 
+    Пример
+
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
@@ -223,15 +223,14 @@
         bitrix_response = client.crm.orderentity.list(
             select=[
                 "orderId",
-                "ownerTypeId",
                 "ownerId",
             ],
             filter={
-                "ownerTypeId": 2,
-                "ownerId": 15,
+                "=ownerTypeId": 2,
+                "@ownerId": [6938, 6937, 6933],
             },
             order={
-                "orderId": "desc",
+                "orderId": "asc",
             },
         ).response
         result = bitrix_response.result
@@ -258,15 +257,14 @@
         bitrix_response = client.crm.orderentity.list(
             select=[
                 "orderId",
-                "ownerTypeId",
                 "ownerId",
             ],
             filter={
-                "ownerTypeId": 2,
-                "ownerId": 15,
+                "=ownerTypeId": 2,
+                "@ownerId": [6938, 6937, 6933],
             },
             order={
-                "orderId": "desc",
+                "orderId": "asc",
             },
         ).as_list().response
         result = bitrix_response.result
@@ -294,15 +292,11 @@
         bitrix_response = client.crm.orderentity.list(
             select=[
                 "orderId",
-                "ownerTypeId",
                 "ownerId",
             ],
             filter={
-                "ownerTypeId": 2,
-                "ownerId": 15,
-            },
-            order={
-                "orderId": "desc",
+                "=ownerTypeId": 2,
+                "@ownerId": [6938, 6937, 6933],
             },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
@@ -502,13 +496,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **orderEntity**
-[`crm_orderentity[]`](../../data-types.md#crm_orderentity) | Массив объектов с информацией о выбранных заказах ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **total**
 [`integer`](../../../data-types.md) | Общее число выбранных записей ||
+|| **next**
+[`integer`](../../../data-types.md) | Смещение для следующей страницы результатов. Ключ присутствует, если есть следующая страница ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **orderEntity**
+[`crm_orderentity[]`](../../data-types.md#crm_orderentity) | Массив объектов с информацией о выбранных заказах ||
 |#
 
 ## Обработка ошибок
@@ -524,22 +527,19 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
-#|  
-|| **Код** | **Описание** ||
-|| `200040300010` | `Access Denied` 
-Недостаточно прав доступа
-||
-|| `200540400002` | `module sale does not exist` 
-Отсутствует модуль `Интернет-магазин` (sale)
-||
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Недостаточно прав доступа ||
+|| `400` | `200540400002` | `module sale does not exist` | Модуль Интернет-магазин (sale) не установлен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-order-entity-add.md)
 - [{#T}](./crm-order-entity-delete-by-filter.md)
 - [{#T}](./crm-order-entity-get-fields.md)

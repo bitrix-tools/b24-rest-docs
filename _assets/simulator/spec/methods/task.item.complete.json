@@ -24,5 +24,8 @@
     "successor": "tasks.task.complete"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-complete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13
+  }
 }

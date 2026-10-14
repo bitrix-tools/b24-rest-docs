@@ -9,11 +9,15 @@
 
 {% endnote %}
 
+> Scope: [`базовый`](../scopes/permissions.md)
+>
 > Кто может выполнять метод: администратор
 
-Метод `event.offline.clear` производит очистку записей в очереди офлайн-событий. Доступность офлайн-событий можно проверить через метод [feature.get](../common/system/feature-get.md).
+Метод `event.offline.clear` удаляет из очереди записи пакета, полученного методом [event.offline.get](./event-offline-get.md) с `clear=0`. Так приложение подтверждает, что обработало эти записи. Записи, которые не удалось обработать, пометьте методом [event.offline.error](./event-offline-error.md). Порядок работы с пакетами описан в статье [{#T}](./offline-events.md).
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
+Режим с резервированием пакетов доступен не на всех тарифах. Проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`.
+
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Права на методы событий описаны в разделе [Права доступа](./index.md#access).
 
 ## Параметры метода
 
@@ -23,11 +27,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **process_id***
-[`string`](../data-types.md) | Идентификатор зарезервированного пакета событий. Его возвращает метод [event.offline.get](./event-offline-get.md) при вызове с параметром `clear=0`. Метод [event.offline.list](./event-offline-list.md) `process_id` не возвращает ||
+[`string`](../data-types.md) | Идентификатор зарезервированного пакета событий. Его возвращает метод [event.offline.get](./event-offline-get.md) при вызове с параметром `clear=0`. Значение также есть в поле `PROCESS_ID` записей, которые возвращает метод [event.offline.list](./event-offline-list.md). Не передавайте пустую строку: метод не вернет ошибку и удалит из очереди все записи приложения вне пакетов, в том числе помеченные ошибкой ||
 || **id**
-[`array`](../data-types.md) | Массив идентификаторов записей, которые нужно вычистить. По умолчанию будут вычищены все записи, помеченные переданным `process_id` ||
+[`array`](../data-types.md) | Массив значений поля `ID` записей, которые нужно удалить, — целые числа больше `0`. Игнорируется, если передан параметр `message_id`. По умолчанию и при пустом массиве удаляются все записи пакета `process_id` ||
 || **message_id**
-[`array`](../data-types.md) | Массив значений поля `MESSAGE_ID` записей, которые нужно вычистить. Игнорируется, если указан параметр `id`. По умолчанию будут вычищены все записи, помеченные переданным `process_id` ||
+[`array`](../data-types.md) | Массив значений поля `MESSAGE_ID` записей, которые нужно удалить, — строки из 32 символов. По умолчанию и при пустом массиве удаляются все записи пакета `process_id` ||
+|| **auth_connector**
+[`string`](../data-types.md) | Ключ источника. Передайте то же значение, с которым пакет получен методом `event.offline.get`, иначе метод ничего не удалит. Параметр доступен не на всех тарифах: проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_auth_connector`, иначе метод вернет ошибку `WRONG_LICENSE` ||
 |#
 
 ## Примеры кода
@@ -129,6 +135,7 @@
     try:
         bitrix_response = client.event.offline.clear(
             process_id="yh3gu929sf0d32lsfysqas2y1hlpp09q",
+            bitrix_id=[2],
         ).response
         result = bitrix_response.result
         print(result)
@@ -146,7 +153,6 @@
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -259,7 +265,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Успешность выполнения ||
+[`boolean`](../data-types.md) | Всегда `true`, если метод не вернул ошибку. Количество удаленных записей метод не возвращает: ответ `true`, даже если по переданным значениям записи не найдены ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -281,14 +287,19 @@ HTTP-статус: **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'PROCESS_ID' is null or empty | Не передан параметр `process_id` ||
+|| `400` | `ERROR_ARGUMENT` | Value must be array of integers | Параметр `id` передан не массивом или содержит значение меньше `1` ||
+|| `400` | `ERROR_ARGUMENT` | Value must be array of MESSAGE_ID values | Параметр `message_id` передан не массивом или содержит строку не из 32 символов ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `WRONG_LICENSE` | This feature is not enabled for the current license: auth_connector | Передан `auth_connector`, а тариф не поддерживает ключи источников ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./events.md)
 - [{#T}](./event-bind.md)
 - [{#T}](./event-get.md)

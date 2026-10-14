@@ -24,5 +24,8 @@
     "successor": "tasks.task.delete"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13
+  }
 }

@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает доступные поля коэффициента единицы измерения.
+Метод `catalog.ratio.getFields` возвращает поля коэффициента единицы измерения и их типы. Признаки `isRequired` и `isReadOnly` описывают поля объекта, но изменить коэффициент через REST нельзя: его задают в карточке товара.
 
 Без параметров.
 
@@ -153,17 +153,13 @@
                 'catalog.ratio.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result['ratio'], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting ratio fields: ' . $e->getMessage();
@@ -252,12 +248,14 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1729676085.640063,
-        "finish": 1729676086.017719,
-        "duration": 0.3776559829711914,
-        "processing": 0.013904094696044922,
-        "date_start": "2024-10-23T12:34:45+03:00",
-        "date_finish": "2024-10-23T12:34:46+03:00",
+        "start": 1790847999,
+        "finish": 1790847999.998849,
+        "duration": 0.9988489151000977,
+        "processing": 0,
+        "date_start": "2026-10-01T12:46:39+03:00",
+        "date_finish": "2026-10-01T12:46:39+03:00",
+        "operating_reset_at": 1790848599,
+        "operating": 0
     }
 }
 ```
@@ -270,9 +268,9 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **ratio**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_ratio](../data-types.md#catalog_ratio), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": {...}, ... "field_N": {...}}`, где `field` — идентификатор поля объекта [catalog_ratio](../data-types.md#catalog_ratio), а значение — описание поля типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -281,8 +279,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -291,16 +289,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения коэффициента единицы измерения
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление типами цен» ||
+|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-ratio-get.md)
 - [{#T}](./catalog-ratio-list.md)

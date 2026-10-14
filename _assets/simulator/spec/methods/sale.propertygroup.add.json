@@ -94,5 +94,12 @@
     }
   ],
   "page": "/api-reference/sale/property-group/sale-property-group-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "personTypeId": 3,
+      "name": "Новая группа свойств",
+      "sort": 100
+    }
+  }
 }

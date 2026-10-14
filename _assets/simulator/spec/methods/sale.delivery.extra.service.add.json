@@ -160,5 +160,26 @@
     }
   ],
   "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DELIVERY_ID": 198,
+    "ACTIVE": "Y",
+    "CODE": "cargo_type",
+    "NAME": "Cargo Type",
+    "DESCRIPTION": "Cargo Type Description",
+    "TYPE": "enum",
+    "SORT": 100,
+    "ITEMS": [
+      {
+        "TITLE": "Small Package(s)",
+        "CODE": "small_package",
+        "PRICE": 129.99
+      },
+      {
+        "TITLE": "Documents",
+        "CODE": "documents",
+        "PRICE": 69.99
+      }
+    ]
+  }
 }

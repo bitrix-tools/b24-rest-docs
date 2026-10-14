@@ -129,5 +129,15 @@
     }
   ],
   "page": "/api-reference/catalog/measure/catalog-measure-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "code": 715,
+      "measureTitle": "Пара",
+      "symbol": "пар",
+      "symbolLetterIntl": "NPR",
+      "symbolIntl": "pr; 2",
+      "isDefault": "N"
+    }
+  }
 }

@@ -143,5 +143,19 @@
     }
   ],
   "page": "/api-reference/crm/requisites/addresses/crm-address-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TYPE_ID": 1,
+      "ENTITY_TYPE_ID": 8,
+      "ENTITY_ID": 1,
+      "ADDRESS_1": "проспект Мира, 4",
+      "ADDRESS_2": "Калининградский областной драматический театр",
+      "CITY": "Калининград",
+      "POSTAL_CODE": "236036",
+      "REGION": "городской округ Калининград",
+      "PROVINCE": "Калининградская область",
+      "COUNTRY": "Россия"
+    }
+  }
 }

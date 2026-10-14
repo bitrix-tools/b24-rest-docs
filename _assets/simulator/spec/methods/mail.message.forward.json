@@ -123,5 +123,14 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-forward.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "forwardMessageId": 15,
+    "from": "user@example.com",
+    "to": [
+      "manager@example.com"
+    ],
+    "subject": "Fwd: Договор",
+    "body": "Пересылаю письмо."
+  }
 }

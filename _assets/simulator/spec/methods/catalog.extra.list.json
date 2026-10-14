@@ -112,5 +112,17 @@
     }
   ],
   "page": "/api-reference/catalog/extra/catalog-extra-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "select": [
+      "id",
+      "percentage"
+    ],
+    "filter": {
+      ">percentage": 5
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

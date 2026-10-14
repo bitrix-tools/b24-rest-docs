@@ -109,5 +109,10 @@
     "id",
     "log_id",
     "text"
-  ]
+  ],
+  "requestExample": {
+    "USER_ID": 28,
+    "FIRST_ID": 215,
+    "LAST_ID": 216
+  }
 }

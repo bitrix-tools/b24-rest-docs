@@ -9,26 +9,47 @@
 
 {% endnote %}
 
-Методы `crm.item.payment.delivery.*` управляют позициями доставки внутри оплаты CRM. Позиция доставки хранит параметры услуги и связывает оплату с конкретным документом доставки.
+Позиция доставки — строка оплаты CRM, которая показывает, какую доставку оплачивает клиент. Например, если клиент платит сразу за товар и курьерскую доставку, в оплате будут товарная позиция и позиция доставки.
 
-Это нужно, чтобы учитывать стоимость логистики в общем счете. Например, можно добавить доставку к оплате за товар и привязать ее к накладной транспортной компании.
+Сама доставка — отдельный документ в заказе сделки или счета. В нем хранятся служба доставки, стоимость и статус отгрузки. Позиция доставки только ссылается на этот документ и берет из него цену. Позициями управляют методы [crm.item.payment.delivery.*](#all-methods), а прочитать документы доставки объекта CRM можно методами [crm.item.delivery.*](../../delivery/index.md).
 
 > Быстрый переход: [все методы](#all-methods)
 
 ## Связь доставок в оплатах с другими объектами
 
-**Оплата CRM.** Все методы группы работают с конкретной оплатой по идентификатору `paymentId`.
+**Оплата CRM.** Методы группы работают с позициями конкретной оплаты. Чтобы добавить позицию или получить список позиций, передают `paymentId` оплаты, чтобы удалить или перепривязать позицию — ее `id`. Когда позицию добавляют, перепривязывают к другому документу или удаляют, Битрикс24 пересчитывает сумму оплаты по стоимости ее позиций.
 
-**Документ доставки.** Метод [crm.item.payment.delivery.setDelivery](./crm-item-payment-delivery-set-delivery.md) связывает позицию доставки с нужным документом через `deliveryId`. Список документов доставки объекта CRM возвращает метод [crm.item.delivery.list](../../delivery/crm-item-delivery-list.md).
+Менять позиции можно только в неоплаченной оплате. Если клиент уже оплатил ее, методы изменения вернут ошибку `ACCESS_DENIED` — такую же, как при нехватке прав.
 
-**Объект CRM.** Оплата всегда принадлежит сделке или счету — только эти объекты поддерживают оплаты. Значит, и позиции доставки в оплате есть только у них.
+**Документ доставки.** Метод [crm.item.payment.delivery.add](./crm-item-payment-delivery-add.md) привязывает позицию к документу при создании, а [crm.item.payment.delivery.setDelivery](./crm-item-payment-delivery-set-delivery.md) перепривязывает ее к другому. Документ передают в параметре `deliveryId`, список документов объекта CRM возвращает метод [crm.item.delivery.list](../../delivery/crm-item-delivery-list.md).
+
+**Объект CRM.** Создать оплату методом [crm.item.payment.add](../crm-item-payment-add.md) можно только у сделки или счета, поэтому позиции доставки бывают в оплатах этих объектов.
+
+## Из чего состоит позиция доставки
+
+Позиции доставки в оплате возвращает метод [crm.item.payment.delivery.list](./crm-item-payment-delivery-list.md). У каждой позиции четыре поля:
+
+#|
+|| **Поле** | **Описание** ||
+|| `id` | Идентификатор позиции. Его передают в методы [crm.item.payment.delivery.setDelivery](./crm-item-payment-delivery-set-delivery.md) и [crm.item.payment.delivery.delete](./crm-item-payment-delivery-delete.md) ||
+|| `paymentId` | Идентификатор оплаты, в которую входит позиция ||
+|| `deliveryId` | Идентификатор документа доставки — поле `id` из ответа [crm.item.delivery.list](../../delivery/crm-item-delivery-list.md) ||
+|| `quantity` | Количество. У позиции доставки всегда `1` ||
+|#
+
+{% note warning "" %}
+
+В параметре `deliveryId` методов группы передавайте `id` документа доставки из ответа [crm.item.delivery.list](../../delivery/crm-item-delivery-list.md), а не поле `deliveryId` из того же ответа: там так называется номер службы доставки. Документ должен относиться к тому же заказу, что и оплата. Если такого документа в заказе нет, метод [crm.item.payment.delivery.add](./crm-item-payment-delivery-add.md) вернет ошибку `Доставка не найдена`.
+
+{% endnote %}
 
 ## Как работать с доставками в оплате
 
-1. Подготовьте `paymentId` нужной оплаты. Получить его можно основными методами оплат [crm.item.payment.*](../index.md).
-2. Добавьте позицию доставки методом [crm.item.payment.delivery.add](./crm-item-payment-delivery-add.md).
-3. Проверьте состав позиций методом [crm.item.payment.delivery.list](./crm-item-payment-delivery-list.md).
-4. При необходимости измените привязку к другому документу через [crm.item.payment.delivery.setDelivery](./crm-item-payment-delivery-set-delivery.md) или удалите позицию методом [crm.item.payment.delivery.delete](./crm-item-payment-delivery-delete.md).
+1. Подготовьте `paymentId` неоплаченной оплаты. Получить его можно основными методами оплат [crm.item.payment.*](../index.md)
+2. Получите `id` документа доставки методом [crm.item.delivery.list](../../delivery/crm-item-delivery-list.md)
+3. Добавьте позицию доставки методом [crm.item.payment.delivery.add](./crm-item-payment-delivery-add.md)
+4. Проверьте состав позиций методом [crm.item.payment.delivery.list](./crm-item-payment-delivery-list.md)
+5. При необходимости перепривяжите позицию к другому документу методом [crm.item.payment.delivery.setDelivery](./crm-item-payment-delivery-set-delivery.md) или удалите ее методом [crm.item.payment.delivery.delete](./crm-item-payment-delivery-delete.md)
 
 ## Обзор методов {#all-methods}
 

@@ -398,5 +398,8 @@
     }
   ],
   "page": "/api-reference/tasks/user-actions/tasks-task-mute.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8017
+  }
 }

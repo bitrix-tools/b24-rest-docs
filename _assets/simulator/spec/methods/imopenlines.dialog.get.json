@@ -150,5 +150,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-dialog-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_CODE": "livechat|1|1373|211"
+  }
 }

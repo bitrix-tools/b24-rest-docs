@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для новой разработки получайте идентификаторы связанных контактов в поле `contactIds` методом [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 7`. Этот метод не возвращает `SORT` и `IS_PRIMARY` для каждой привязки.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «чтения» коммерческих предложений

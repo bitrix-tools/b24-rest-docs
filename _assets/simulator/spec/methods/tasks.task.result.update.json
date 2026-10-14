@@ -98,5 +98,11 @@
     }
   ],
   "page": "/api-reference/tasks/result/tasks-task-result-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 17,
+    "fields": {
+      "text": "Работа по задаче выполнена и проверена"
+    }
+  }
 }

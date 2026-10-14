@@ -127,5 +127,8 @@
     "name",
     "personal_gender",
     "work_position"
-  ]
+  ],
+  "requestExample": {
+    "DEPARTMENT_ID": 15
+  }
 }

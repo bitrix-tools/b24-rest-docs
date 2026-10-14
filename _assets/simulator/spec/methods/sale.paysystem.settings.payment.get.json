@@ -66,5 +66,9 @@
     "PS_WORK_MODE_IFRAME",
     "REST_SERVICE_ID_IFRAME",
     "REST_SERVICE_KEY_IFRAME"
-  ]
+  ],
+  "requestExample": {
+    "PAYMENT_ID": 10,
+    "PAY_SYSTEM_ID": 11
+  }
 }

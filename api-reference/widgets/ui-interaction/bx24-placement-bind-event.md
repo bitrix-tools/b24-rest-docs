@@ -45,7 +45,7 @@ BX24.placement.bindEvent(event, callback);
 #|
 || **Точка встраивания** | **События** ||
 || [`CALL_CARD`](./call-card/index.md) | `CallCard::EntityChanged`, `CallCard::BeforeClose`, `CallCard::CallStateChanged` ||
-|| [`PAGE_BACKGROUND_WORKER`](./page-background-worker/events/index.md) | 17 событий `BackgroundCallCard::*` — от `initialized` до нажатий кнопок оператора ||
+|| [`PAGE_BACKGROUND_WORKER`](./page-background-worker/events/index.md) | 16 событий `BackgroundCallCard::*` — от `initialized` до нажатий кнопок оператора ||
 || [`CALENDAR_GRIDVIEW`](../../calendar/calendar-grid-view.md) | `Calendar.customView:refreshEntries`, `Calendar.customView:decreaseViewRangeDate`, `Calendar.customView:increaseViewRangeDate`, `Calendar.customView:adjustToDate` ||
 || [Поиск клиента и автозаполнение реквизитов](../crm/detail-search.md) | `onCrmEntityIsNeedToCreate` — пользователь выбрал вариант, предложенный приложением ||
 |#

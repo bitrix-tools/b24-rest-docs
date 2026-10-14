@@ -106,5 +106,12 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 61,
+    "values": {
+      "DocumentNumber": "2026-002"
+    },
+    "stampsEnabled": 1
+  }
 }

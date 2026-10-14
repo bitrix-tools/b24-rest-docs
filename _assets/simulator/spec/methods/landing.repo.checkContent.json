@@ -60,5 +60,9 @@
     }
   ],
   "page": "/api-reference/landing/user-blocks/landing-repo-check-content.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "content": "<div style=\"color:red\" onclick=\"alert(1)\"><iframe src=\"//evil.com\"></iframe></div>",
+    "splitter": "#AAA#"
+  }
 }

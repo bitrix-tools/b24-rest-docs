@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/imopenlines-network-join.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "ab515f5d85a8b844d484f6ea75a2e494"
+  }
 }

@@ -131,5 +131,8 @@
     }
   ],
   "page": "/api-reference/tasks/template/tasks-template-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139
+  }
 }

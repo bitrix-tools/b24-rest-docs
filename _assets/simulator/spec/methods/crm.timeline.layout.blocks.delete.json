@@ -65,5 +65,10 @@
     }
   ],
   "page": "/api-reference/crm/timeline/layout-blocks/crm-timeline-layout-blocks-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 2,
+    "entityId": 4,
+    "timelineId": 8
+  }
 }

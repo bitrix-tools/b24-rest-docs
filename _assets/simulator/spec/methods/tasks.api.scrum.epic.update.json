@@ -15,10 +15,10 @@
     },
     {
       "name": "fields",
-      "type": "array",
-      "base": "array",
+      "type": "object",
+      "base": "object",
       "required": true,
-      "description": "Значения полей (подробное описание приведено ниже) для добавления нового эпика в виде структуры:",
+      "description": "Поля эпика, которые нужно изменить (подробное описание), в виде структуры:",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -34,8 +34,8 @@
           "name": "name",
           "type": "string",
           "base": "string",
-          "required": true,
-          "description": "Название эпика"
+          "required": false,
+          "description": "Название эпика, до 255 символов. Пустую строку метод не сохраняет"
         },
         {
           "name": "description",
@@ -48,22 +48,36 @@
           "name": "groupId",
           "type": "integer",
           "base": "integer",
-          "required": true,
-          "description": "Идентификатор группы (скрама), к которой относится эпик"
+          "required": false,
+          "description": "Идентификатор Скрама, в который нужно перенести эпик. Нужен доступ к задачам обеих групп"
         },
         {
           "name": "color",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Цвет эпика"
+          "description": "Цвет эпика, например #bbecf1, до 18 символов"
         },
         {
           "name": "files",
           "type": "array",
           "base": "array",
           "required": false,
-          "description": "Массив файлов, привязанных к эпику. В files можно передать массив значений с идентификаторами файлов, указав префикс n для каждого идентификатора. Если передать пустой массив — файлы удалятся"
+          "description": "Массив идентификаторов файлов Диска с префиксом n, например [\"n429\"]. Новые файлы добавляются к уже прикрепленным. Если передать пустой массив, метод открепит от эпика все файлы. Идентификатор без префикса n метод пропускает без ошибки"
+        },
+        {
+          "name": "createdBy",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, который будет указан создателем эпика"
+        },
+        {
+          "name": "modifiedBy",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, который будет указан последним изменившим эпик. По умолчанию — текущий пользователь"
         }
       ]
     }
@@ -74,65 +88,54 @@
     "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-update.md"
   },
   "resultExample": {
-    "id": 1,
-    "groupId": 143,
-    "name": "Updated epic name",
-    "description": "Updated description text",
-    "createdBy": 1,
-    "modifiedBy": 1,
-    "color": "#bbecf1"
+    "result": {
+      "id": 1,
+      "groupId": 143,
+      "name": "Updated epic name",
+      "description": "Updated description text",
+      "createdBy": 1,
+      "modifiedBy": 1,
+      "color": "#bbecf1"
+    },
+    "time": {
+      "start": 1790263154,
+      "finish": 1790263154.532794,
+      "duration": 0.5327939987182617,
+      "processing": 0,
+      "date_start": "2026-09-24T18:19:14+03:00",
+      "date_finish": "2026-09-24T18:19:14+03:00",
+      "operating_reset_at": 1790263754,
+      "operating": 0
+    }
   },
   "returns": [
     {
-      "name": "id",
-      "type": "integer",
-      "base": "integer",
+      "name": "result",
+      "type": "object",
+      "base": "object",
       "required": false,
-      "description": "Идентификатор эпика"
+      "description": "Данные эпика после изменения (подробное описание)"
     },
     {
-      "name": "groupId",
-      "type": "integer",
-      "base": "integer",
+      "name": "time",
+      "type": "time",
+      "base": "object",
       "required": false,
-      "description": "Идентификатор группы (скрама), к которой привязан эпик"
-    },
-    {
-      "name": "name",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Название эпика"
-    },
-    {
-      "name": "description",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Описание эпика"
-    },
-    {
-      "name": "createdBy",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, создавшего эпик"
-    },
-    {
-      "name": "modifiedBy",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, который последним изменял эпик"
-    },
-    {
-      "name": "color",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Цвет эпика"
+      "description": "Информация о времени выполнения запроса"
     }
   ],
   "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "name": "Updated epic name",
+      "description": "Updated description text",
+      "color": "#bbecf1",
+      "files": [
+        "n429",
+        "n243"
+      ]
+    }
+  }
 }

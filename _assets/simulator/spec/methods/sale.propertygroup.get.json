@@ -68,5 +68,8 @@
     "name",
     "personTypeId",
     "sort"
-  ]
+  ],
+  "requestExample": {
+    "id": 10
+  }
 }

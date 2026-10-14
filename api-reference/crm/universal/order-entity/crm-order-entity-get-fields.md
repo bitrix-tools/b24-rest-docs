@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: менеджер интернет-магазина
 
-Метод возвращает список доступных полей привязки заказа. Каждое поле описывается в виде структуры настроек поля [crm_rest_field_description](../../data-types.md#crm_rest_field_description).
+Метод `crm.orderentity.getFields` возвращает список доступных полей привязки заказа. Каждое поле описывается в виде структуры настроек поля [crm_rest_field_description](../../data-types.md#crm_rest_field_description).
+
+## Параметры метода
 
 Без параметров.
 
@@ -277,11 +279,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **orderEntity**
-[`object`](../../../data-types.md) | Объект со списком доступных полей в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field_N` — идентификатор поля объекта [crm_orderentity](../../data-types.md#crm_orderentity), а `value` — объект типа [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **orderEntity**
+[`object`](../../../data-types.md) | Объект со списком доступных полей. Ключ объекта — идентификатор поля [crm_orderentity](../../data-types.md#crm_orderentity), значение — описание поля типа [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
 |#
 
 ## Обработка ошибок
@@ -297,19 +306,18 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
-#|  
-|| **Код** | **Описание** ||
-|| `200040300010` | `Access Denied` 
-Недостаточно прав доступа
-||
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Недостаточно прав доступа ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-order-entity-add.md)
 - [{#T}](./crm-order-entity-list.md)
 - [{#T}](./crm-order-entity-delete-by-filter.md)

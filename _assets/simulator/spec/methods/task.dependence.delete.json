@@ -44,5 +44,9 @@
     }
   ],
   "page": "/api-reference/tasks/task-dependence-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskIdFrom": 100,
+    "taskIdTo": 101
+  }
 }

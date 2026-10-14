@@ -59,5 +59,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-fields/crm-userfield-settings-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "double"
+  }
 }

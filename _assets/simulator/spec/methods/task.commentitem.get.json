@@ -142,5 +142,9 @@
     }
   ],
   "page": "/api-reference/tasks/comment-item/task-comment-item-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "ITEMID": 3157
+  }
 }

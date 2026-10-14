@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`imconnector`](../../../scopes/permissions.md)
+> Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
 > Кто может подписаться: любой пользователь
 
@@ -35,7 +35,7 @@
         "access_token": "9d8008440000007ca8c95362050a514e8cd",
         "expires": 1773764765,
         "expires_in": 3600,
-        "scope": "imconnector, imopenlines",
+        "scope": "imopenlines",
         "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "F",

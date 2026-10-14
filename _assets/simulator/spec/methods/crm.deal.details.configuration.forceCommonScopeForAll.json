@@ -71,5 +71,10 @@
     }
   ],
   "page": "/api-reference/crm/deals/custom-form/crm-deal-details-configuration-force-common-scope-for-all.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "extras": {
+      "dealCategoryId": 32
+    }
+  }
 }

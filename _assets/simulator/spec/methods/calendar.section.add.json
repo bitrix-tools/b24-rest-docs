@@ -142,5 +142,17 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-section-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "user",
+    "ownerId": 2,
+    "name": "New Section",
+    "description": "Description for section",
+    "color": "#9cbeee",
+    "text_color": "#283000",
+    "export": {
+      "ALLOW": false,
+      "SET": "3_9"
+    }
+  }
 }

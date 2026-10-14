@@ -53,10 +53,10 @@
         },
         {
           "name": "attach",
-          "type": "array",
-          "base": "array",
+          "type": "object",
+          "base": "object",
           "required": false,
-          "description": "Новые вложения. Подробнее: Как использовать вложения"
+          "description": "Новое вложение в полной форме: объект с массивом BLOCKS. Краткую форму — массив блоков — метод не принимает и удаляет вложение. Пустая строка удаляет вложение. Подробнее: Как использовать вложения"
         },
         {
           "name": "keyboard",
@@ -94,5 +94,13 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/messages/chat-message-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "messageId": 789,
+    "fields": {
+      "message": "Updated text"
+    }
+  }
 }

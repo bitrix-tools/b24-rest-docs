@@ -1,4 +1,4 @@
-# Добавить позицию с товаром или услугой из модуля catalog в корзину существующего заказа sale.basketitem.addCatalogProduct
+# Добавить позицию с товаром из каталога в корзину заказа sale.basketitem.addCatalogProduct
 
 {% note tip "" %}
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания элемента (позиции) корзины в заказе ||
+[`object`](../../data-types.md) | Значения полей для создания позиции корзины в заказе [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -34,48 +34,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **orderId***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа. Может быть указан только при создании позиции корзины.
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа. Изменить его после создания позиции нельзя.
 
-Должен быть получен ранее методами [sale.order.add](../order/sale-order-add.md) или [sale.order.list](../order/sale-order-list.md)
- ||
-|| **sort**
-[`integer`](../../data-types.md) | Положение в списке позиций заказа ||
-|| **productid***
-[`catalog_product.id`](../../catalog/data-types.md#catalog_product) | Идентификатор товара/вариации
-||
-|| **price**
-[`double`](../../data-types.md) | Цена с учетом наценок и скидок (смотрите поле `customPrice` ниже). Если не указать, будет рассчитана на основе данных каталога.
+Получите идентификатор методом [sale.order.add](../order/sale-order-add.md) или [sale.order.list](../order/sale-order-list.md) ||
+|| **productId***
+[`catalog_product.id`](../../catalog/data-types.md#catalog_product) | Идентификатор товара, услуги или вариации из каталога. Изменить его после создания позиции нельзя.
 
-Поле будет заполнено автоматически, если `customPrice !== ‘Y’`
- ||
-|| **basePrice**
-[`double`](../../data-types.md) | Исходная цена без учета наценок и скидок (смотрите поле `customPrice` ниже). Если не указать, будет рассчитана на основе данных каталога.
-
-Поле будет заполнено автоматически, если `customPrice !== ‘Y’`
- ||
-|| **discountPrice**
-[`double`](../../data-types.md) | Величина итоговой скидки или наценки (смотрите поле `customPrice` ниже). Если не указать, будет рассчитана на основе данных каталога.
-
-Поле будет заполнено автоматически, если `customPrice !== ‘Y’`
- ||
-|| **currency***
-[`crm_currency.CURRENCY`](../../crm/data-types.md) | Валюта цены. Должна совпадать с валютой заказа ||
-|| **customPrice**
-[`string`](../../data-types.md) | Указана ли цена вручную:
-- `Y` — цена задана вручную
-- `N` — цена получена из каталога товаров
-
-По умолчанию значение `N`.
-
-Если указывается значение `Y`, то данные цены из каталога будут игнорироваться. Необходимо явно задать параметры `price`, `basePrice` и `discountPrice` так, чтобы выполнялось условие `basePrice = price + discountPrice`
- ||
+Получите идентификатор методом [catalog.product.list](../../catalog/product/catalog-product-list.md) ||
 || **quantity***
-[`double`](../../data-types.md) | Количество товара ||
+[`double`](../../data-types.md) | Количество товара. Передавайте значение больше `0`: при `0` метод создаст позицию без цены и названия. Можно передать дробное число, например `1.5` ||
+|| **currency***
+[`crm_currency.CURRENCY`](../../crm/data-types.md) | Валюта цены, например `RUB`. Должна совпадать с валютой заказа, иначе метод вернет ошибку `200140400011`. Изменить ее после создания позиции нельзя ||
+|| **price**
+[`double`](../../data-types.md) | Цена за единицу с учетом скидок и наценок.
+
+Если параметр не передан, цену рассчитает Битрикс24 по данным каталога. Если параметр передан, у позиции будет `customPrice` = `Y`.
+
+Если у товара в каталоге нет цены, передайте `price`, иначе метод вернет ошибку `200140400007` ||
+|| **sort**
+[`integer`](../../data-types.md) | Положение в списке позиций заказа. По умолчанию `100` ||
 || **xmlId**
-[`string`](../../data-types.md) | Внешний код позиции корзины ||
-|| **name***
-[`string`](../../data-types.md) | Название товара ||
+[`string`](../../data-types.md) | Внешний код позиции корзины. Если не передан, Битрикс24 создаст код сам, например `bx_662675fba6516` ||
 |#
+
+Название, единицу измерения, базовую цену `basePrice`, скидку `discountPrice`, вес и НДС метод берет из карточки товара в каталоге. Если передать их в `fields`, значения будут проигнорированы. Чтобы задать название и цену позиции вручную, используйте метод [sale.basketitem.add](./sale-basket-item-add.md).
+
+Полный список полей с признаками обязательности и изменяемости возвращает метод [sale.basketitem.getFieldsCatalogProduct](./sale-basket-item-get-catalog-product-fields.md).
 
 ## Примеры кода
 
@@ -116,6 +100,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type AddCatalogProductResult = {
       basketItem: {
+        barcodeMulti: string
         basePrice: number
         canBuy: string
         catalogXmlId: string
@@ -244,8 +229,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -355,12 +340,12 @@
     }
 
     var item struct {
-    	BasePrice    int    `json:"basePrice"`
-    	CanBuy       string `json:"canBuy"`
-    	CatalogXmlID string `json:"catalogXmlId"`
-    	Currency     string `json:"currency"`
-    	CustomPrice  string `json:"customPrice"`
-    	DateInsert   string `json:"dateInsert"`
+    	BasePrice    float64 `json:"basePrice"`
+    	CanBuy       string  `json:"canBuy"`
+    	CatalogXmlID string  `json:"catalogXmlId"`
+    	Currency     string  `json:"currency"`
+    	CustomPrice  string  `json:"customPrice"`
+    	DateInsert   string  `json:"dateInsert"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -378,6 +363,7 @@ HTTP-статус: **200**
 {
     "result": {
         "basketItem": {
+            "barcodeMulti": "N",
             "basePrice": 1234,
             "canBuy": "Y",
             "catalogXmlId": "FUTURE-ERP-CATALOG",
@@ -427,11 +413,18 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`sale_basket_item`](../data-types.md) | Объект с данными созданного элемента (позиции) корзины ||
+[`sale_basket_item`](../data-types.md#sale_basket_item) | Созданная позиция корзины. Ключевые поля:
+- `id` — идентификатор позиции, его передают в методы [sale.basketitem.updateCatalogProduct](./sale-basket-item-update-catalog-product.md), [sale.basketitem.get](./sale-basket-item-get.md) и [sale.basketitem.delete](./sale-basket-item-delete.md)
+- `name`, `measureCode`, `measureName`, `catalogXmlId`, `productXmlId` — данные из карточки товара в каталоге
+- `price`, `basePrice`, `discountPrice` — цена за единицу, цена без скидок и размер скидки
+- `customPrice` — `Y`, если цена задана вручную в `price`, `N`, если рассчитана по каталогу
+- `type` — тип позиции: `2` для услуги, `null` для обычного товара, товара с вариациями и вариации
+
+Описание всех полей — в типе [sale_basket_item](../data-types.md#sale_basket_item) ||
 || **total**
 [`integer`](../../data-types.md) | Число обработанных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -440,8 +433,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200140400011",
+    "error_description": "Currency must be the currency of the order"
 }
 ```
 
@@ -451,43 +444,46 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
+|| `100` | `Could not find value for parameter {fields}`
+
+Не передан параметр `fields`
+||
+|| `0` | `Required fields: productId`
+
+Не переданы обязательные поля. В тексте ошибки перечислены все пропущенные поля из `orderId`, `productId`, `quantity` и `currency`, например `Required fields: orderId, currency, quantity`. С этим же кодом метод возвращает другие ошибки, например фатальные
+||
 || `200140400006` | `Module catalog is not exists`
 
-Отсутствует модуль Торговый каталог (catalog)
-|| 
+Не установлен модуль «Торговый каталог»
+||
 || `200140400007` | `basket item is not saved - bad data`
 
-Позиция не была создана. Ошибка возникает, если передан неверный идентификатор товара или же товар неактивен
-|| 
-|| `200140400008` | `Required fields: fields[ORDER_ID]`
+Позиция не создана: товара с таким `productId` нет, он неактивен или у него нет цены в каталоге, а `price` не передан.
 
-Не указан идентификатор заказа
-|| 
+В заказе при этом может остаться пустая позиция без товара и цены. Найдите ее методом [sale.basketitem.list](./sale-basket-item-list.md) и удалите методом [sale.basketitem.delete](./sale-basket-item-delete.md)
+||
 || `200140400009` | `Order not found`
 
-Заказ не найден
-|| 
+Заказ с таким `orderId` не найден
+||
 || `200140400011` | `Currency must be the currency of the order`
 
-Валюта позиции не совпадает с валютой заказа
-|| 
-|| `200040300010` | Недостаточно прав для добавления
-|| 
-|| `100` | Не указаны обязательные параметры
+Валюта `currency` не совпадает с валютой заказа
 ||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| `200040300010` | Недостаточно прав для добавления позиции
+||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-add.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-get.md)
 - [{#T}](./sale-basket-item-list.md)
 - [{#T}](./sale-basket-item-delete.md)
-- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-update-catalog-product.md)
+- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-get-catalog-product-fields.md)

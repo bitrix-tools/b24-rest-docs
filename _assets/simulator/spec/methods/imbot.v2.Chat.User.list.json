@@ -3,7 +3,7 @@
   "method": "imbot.v2.Chat.User.list",
   "scope": "imbot",
   "kind": "read",
-  "title": "Список участников чата imbot.v2.Chat.User.list",
+  "title": "Получить список участников чата imbot.v2.Chat.User.list",
   "permissions": "владелец зарегистрированного бота",
   "params": [
     {
@@ -18,21 +18,21 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+      "description": "Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен. Передавайте тот же botToken, который указали при регистрации бота"
     },
     {
       "name": "dialogId",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "ID диалога. Для групповых чатов — chat{chatId}"
+      "description": "ID группового чата в формате dialogId: chat{chatId}"
     },
     {
       "name": "order",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Сортировка. Доступные поля: id, lastSendMessageId, userId. Значение: ASC или DESC. Пример: {\"id\": \"ASC\"}",
+      "description": "Сортировка. Доступные поля: - id — порядок вступления в чат - lastSendMessageId — ID последнего сообщения участника - userId — ID пользователя Направление сортировки: ASC или DESC. Если передать несколько полей, метод учтет одно — то, что стоит выше в списке доступных полей. Без order порядок не гарантирован. Пример: {\"id\": \"ASC\"}",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -43,7 +43,7 @@
       "type": "integer",
       "base": "integer",
       "required": false,
-      "description": "Количество записей (1–200). По умолчанию 50"
+      "description": "Количество записей, от 1 до 200. По умолчанию 50. Значение вне диапазона не вызывает ошибку — метод вернет до 50 записей"
     }
   ],
   "defs": {},
@@ -72,12 +72,16 @@
         "status": "online",
         "idle": false,
         "lastActivityDate": "2025-01-15T14:25:00+03:00",
+        "mobileLastDate": false,
+        "desktopLastDate": "2025-01-15T14:25:00+03:00",
         "absent": false,
         "departments": [
           7
         ],
         "phones": false,
-        "type": "employee"
+        "type": "user",
+        "website": "",
+        "email": ""
       },
       {
         "id": 2,
@@ -97,12 +101,16 @@
         "status": "online",
         "idle": false,
         "lastActivityDate": "2025-01-15T14:20:00+03:00",
+        "mobileLastDate": false,
+        "desktopLastDate": "2025-01-15T14:20:00+03:00",
         "absent": false,
         "departments": [
           12
         ],
         "phones": false,
-        "type": "employee"
+        "type": "user",
+        "website": "",
+        "email": ""
       }
     ],
     "time": {
@@ -125,6 +133,8 @@
     "color",
     "connector",
     "departments",
+    "desktopLastDate",
+    "email",
     "externalAuthId",
     "extranet",
     "firstName",
@@ -133,10 +143,21 @@
     "idle",
     "lastActivityDate",
     "lastName",
+    "mobileLastDate",
     "name",
     "phones",
     "status",
     "type",
+    "website",
     "workPosition"
-  ]
+  ],
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "dialogId": "chat5",
+    "order": {
+      "id": "ASC"
+    },
+    "limit": 50
+  }
 }

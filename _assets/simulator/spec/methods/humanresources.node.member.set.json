@@ -119,5 +119,21 @@
     }
   ],
   "page": "/api-reference/departments/node-member/humanresources-node-member-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "nodeId": 15,
+    "userIds": {
+      "MEMBER_HEAD": [
+        7
+      ],
+      "MEMBER_DEPUTY_HEAD": [
+        12
+      ],
+      "MEMBER_EMPLOYEE": [
+        18,
+        25,
+        31
+      ]
+    }
+  }
 }

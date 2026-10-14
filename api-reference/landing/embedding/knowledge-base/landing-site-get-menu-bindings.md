@@ -11,9 +11,9 @@
 
 > Scope: [`landing`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом Просмотр в разделе Сайты
+> Кто может выполнять метод: пользователь с правом «Просмотр» в разделе «Сайты»
 
-Метод `landing.site.getMenuBindings` возвращает привязки Баз знаний к меню.
+Метод `landing.site.getMenuBindings` возвращает привязки Баз знаний к меню. Используйте его, чтобы проверить результат [landing.site.bindingToMenu](./landing-site-binding-to-menu.md) и получить `id` Базы знаний и код меню для [landing.site.unbindingFromMenu](./landing-site-unbinding-from-menu.md).
 
 ## Параметры метода
 
@@ -25,11 +25,9 @@
 || **menuCode**
 [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Код меню для фильтрации.
 
-Если не передан, возвращаются привязки для всех меню.
+Если не передан, возвращаются привязки ко всем меню, а коды меню приходят в поле `BINDING_ID`.
 
-`menuCode` можно получить:
-- в интерфейсе через пункт «Выбрать Базу знаний»: в URL открывшегося фрейма параметр `menuId` содержит код меню (например, `menuId=crm_switcher:deal`)
-- из результата метода [landing.site.getMenuBindings](./landing-site-get-menu-bindings.md) в поле `BINDING_ID` ||
+`menuCode` можно получить в интерфейсе через пункт «Выбрать Базу знаний»: в URL открывшегося фрейма параметр `menuId` содержит код меню, например `menuId=crm_switcher:deal` ||
 |#
 
 ## Примеры кода
@@ -76,7 +74,7 @@
 
     // Shape of each MenuBinding returned in result[]
     type MenuBinding = {
-      ENTITY_ID: string | number
+      ENTITY_ID: string
       ENTITY_TYPE: string
       BINDING_ID: string
       TITLE: string
@@ -165,7 +163,9 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
     ```php
     try {
         $response = $b24Service
@@ -270,9 +270,9 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "ENTITY_ID": "39",
+            "ENTITY_ID": "31",
             "ENTITY_TYPE": "S",
-            "BINDING_ID": "socialnetwork:group_notifications",
+            "BINDING_ID": "crm_switcher:deal",
             "TITLE": "База знаний",
             "PUBLIC_URL": "https://bitrix24.ru/knowledge/baza_znaniy/"
         }
@@ -296,29 +296,31 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object[]`](../../../data-types.md) | Список привязок к меню [подробнее](#menu-binding-item) ||
+[`object[]`](../../../data-types.md) | Список привязок к меню [(подробное описание)](#menu-binding-item). Новые привязки идут первыми, постраничной навигации нет. Если привязок нет, возвращается пустой массив.
+
+В список попадают только Базы знаний с типом `KNOWLEDGE`: если Базу знаний привязали к группе, ее привязки к меню из списка пропадают. Привязки Баз знаний из корзины не возвращаются ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Тип элемента result {#menu-binding-item}
+#### Объект result {#menu-binding-item}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ENTITY_ID**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор сайта ||
+[`string`](../../../data-types.md) | Идентификатор привязанного объекта: сайта Базы знаний при `ENTITY_TYPE` = `S` или страницы при `ENTITY_TYPE` = `L` ||
 || **ENTITY_TYPE**
-[`string`](../../../data-types.md) | Тип объекта:
+[`string`](../../../data-types.md) | Тип привязанного объекта:
 
-- `S` — сайт
-- `L` — лендинг ||
+- `S` — сайт. Метод [landing.site.bindingToMenu](./landing-site-binding-to-menu.md) привязывает только сайты
+- `L` — страница ||
 || **BINDING_ID**
 [`string`](../../../data-types.md) | Код меню ||
 || **TITLE**
-[`string`](../../../data-types.md) | Название привязанного сайта ||
+[`string`](../../../data-types.md) | Название привязанного сайта или страницы ||
 || **PUBLIC_URL**
-[`string`](../../../data-types.md) | Публичный URL привязанного сайта ||
+[`string`](../../../data-types.md) | Публичный URL привязанного сайта или страницы ||
 |#
 
 ## Обработка ошибок
@@ -337,9 +339,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `TYPE_ERROR` | Ошибка типа данных | Параметр `menuCode` передан в несовместимом типе ||
-|| `ACCESS_DENIED` | Недостаточно прав | Пользователь не прошел общие проверки доступа ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `TYPE_ERROR` | Неверный тип аргумента вызова: menuCode | Параметр `menuCode` передан массивом ||
+|| `400` | `ACCESS_DENIED` | Недостаточно прав. | Метод вызывает пользователь экстранета, или у пользователя нет права «Просмотр» в разделе «Сайты» ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

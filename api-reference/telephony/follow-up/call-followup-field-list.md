@@ -273,6 +273,11 @@ HTTP-статус: **200**
                 "description": "Call type: 1 = instant ad-hoc, 2 = permanent conference room, 3 = large room."
             },
             {
+                "name": "chatId",
+                "type": "int",
+                "description": "Id of the chat the call belongs to. Opt-in: list this in `select` to receive it."
+            },
+            {
                 "name": "initiatorId",
                 "type": "int",
                 "description": "User id of who initiated the call."

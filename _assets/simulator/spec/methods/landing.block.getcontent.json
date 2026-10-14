@@ -143,5 +143,13 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-get-content.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 4858,
+    "block": 39556,
+    "editMode": true,
+    "params": {
+      "wrapper_show": false
+    }
+  }
 }

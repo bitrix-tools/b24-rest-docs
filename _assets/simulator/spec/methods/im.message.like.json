@@ -71,5 +71,9 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-message-like.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "MESSAGE_ID": 34247,
+    "ACTION": "plus"
+  }
 }

@@ -9,25 +9,43 @@
 
 {% endnote %}
 
-Методы перечислений возвращают информацию о значениях типов: тип адреса, тип дела, тип объекта и другие.
+Методы перечислений возвращают номера, которые другие методы CRM принимают вместо названий. Например, юридический адрес — это тип `6`, а сделка — тип объекта `2`. Такие номера передают в фильтры и параметры методов адресов, дел и универсальных методов.
 
 > Быстрый переход: [все методы](#all-methods)
 
 ## Как работать с методами перечислений
 
-Методы перечислений вызывают без параметров. В ответе приходит массив элементов с полями `ID`, `NAME`, `SYMBOL_CODE` и `SYMBOL_CODE_SHORT` — их описание возвращает метод [crm.enum.fields](./crm-enum-fields.md). У метода [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) формат другой: поля `id`, `name`, `code` и `attribute`.
+Перечисления запрашивают без параметров. Методы [crm.enum.ownertype](./crm-enum-owner-type.md), [crm.enum.addresstype](./crm-enum-address-type.md) и [crm.enum.settings.mode](./crm-enum-settings-mode.md) возвращают массив элементов с полями `ID`, `NAME`, `SYMBOL_CODE` и `SYMBOL_CODE_SHORT`. Описание этих полей дает метод [crm.enum.fields](./crm-enum-fields.md). Если символьных кодов у перечисления нет, в полях `SYMBOL_CODE` и `SYMBOL_CODE_SHORT` приходит `null`, как у типов адресов:
 
-Полученный идентификатор подставляйте в параметр метода, для которого запрашивали перечисление.
+```json
+{
+    "ID": 6,
+    "NAME": "Юридический адрес",
+    "SYMBOL_CODE": null,
+    "SYMBOL_CODE_SHORT": null
+}
+```
 
-Определите, какие данные вам нужны, и выберите метод перечисления. Например, вам надо получить все юридические адреса контакта:
+У метода [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) другой формат — поля `id`, `name`, `code` и `attribute`:
 
-1. используйте метод [crm.enum.addresstype](./crm-enum-address-type.md), чтобы узнать идентификатор типа для юридического адреса
+```json
+{
+    "attribute": "DYN",
+    "code": "DEAL",
+    "id": 2,
+    "name": "Сделка"
+}
+```
 
-2. используйте полученный идентификатор в параметре `TYPE_ID` фильтра в методе [crm.address.list](../../requisites/addresses/crm-address-list.md)
+Полученный идентификатор подставляйте в параметр метода, для которого запрашивали перечисление. Например, чтобы получить юридические адреса контакта:
+
+1. получите идентификатор типа «Юридический адрес» методом [crm.enum.addresstype](./crm-enum-address-type.md), это `6`
+
+2. вызовите метод [crm.address.list](../../requisites/addresses/crm-address-list.md) с фильтром `TYPE_ID: 6`, `ANCHOR_TYPE_ID: 3` (контакт) и `ANCHOR_ID` с идентификатором контакта. Без `ANCHOR_ID` в выборку попадут юридические адреса всех контактов
 
 ## Связь методов перечислений с объектами CRM
 
-**Объект CRM.** Метод [crm.enum.ownertype](./crm-enum-owner-type.md) возвращает идентификаторы типов объектов. `ID` типа объекта используйте в значении параметра `entityTypeId` методов [crm.item.*](../../universal/index.md), [crm.activity.*](../../timeline/activities/index.md).
+**Объект CRM.** Метод [crm.enum.ownertype](./crm-enum-owner-type.md) возвращает идентификаторы типов объектов. `ID` типа объекта передают в параметре `entityTypeId` универсальных методов [crm.item.*](../../universal/index.md) и в параметре `OWNER_TYPE_ID` или `ownerTypeId` методов [дел](../../timeline/activities/index.md). Старый счет с идентификатором `5` и реквизиты с идентификатором `8` универсальные методы не поддерживают.
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -35,7 +53,7 @@
 
 {% endnote %}
 
-**Заказ.** Метод [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) возвращает типы объектов, к которым можно добавить связь с заказом. `id` типа объекта используйте в значении параметра `ownerTypeId` методов [crm.orderentity.*](../../universal/order-entity/crm-order-entity-add.md).
+**Заказ.** Метод [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) возвращает типы объектов, к которым можно добавить связь с заказом. `id` типа объекта используйте в значении параметра `ownerTypeId` метода [crm.orderentity.add](../../universal/order-entity/crm-order-entity-add.md).
 
 **Адрес.** Метод [crm.enum.addresstype](./crm-enum-address-type.md) возвращает типы адресов. `ID` типа адреса используйте в значении параметра `TYPE_ID` методов [crm.address.*](../../requisites/addresses/index.md).
 
@@ -45,13 +63,13 @@
 
 {% endnote %}
 
-**Режим работы CRM.** Метод [crm.enum.settings.mode](./crm-enum-settings-mode.md) возвращает список режимов работы CRM. Используйте его, чтобы расшифровать значение `ID`, которое вернул метод [crm.settings.mode.get](../../crm-settings-mode-get.md).
+**Режим работы CRM.** Метод [crm.enum.settings.mode](./crm-enum-settings-mode.md) возвращает список режимов работы CRM. Используйте его, чтобы расшифровать номер текущего режима, который вернул метод [crm.settings.mode.get](../../crm-settings-mode-get.md): `1` — классическая CRM, `2` — простая CRM без лидов.
 
 ### Перечисления дел
 
-Перечисления дел устарели и не развиваются. Актуальные типы, статусы и направления дел описывает раздел [Дела CRM](../../timeline/activities/index.md).
+Перечисления дел устарели и не развиваются. Значения всех шести перечислений собраны в описании [типов данных CRM](../../data-types.md#activity-enums), а работу с делами описывает раздел [Дела CRM](../../timeline/activities/index.md).
 
-Группа методов `crm.activity.*` использует значения этих перечислений:
+Эти значения принимают методы [дел](../../timeline/activities/index.md):
 
 - **Дело.** Метод [crm.enum.activitytype](./outdated/crm-enum-activity-type.md) возвращает типы дел для параметра `TYPE_ID`
 - **Статус.** Метод [crm.enum.activitystatus](./outdated/crm-enum-activity-status.md) возвращает статусы дел для параметра `STATUS`
@@ -70,7 +88,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: любой пользователь
+> Кто может выполнять методы: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах. Метод [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) может вызвать любой пользователь
 
 #|
 || **Метод** | **Описание** ||

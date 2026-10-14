@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом на просмотр каталога товаров
 
-Метод скачивает файлы товара торгового каталога по переданным параметрам.
+Метод `catalog.product.download` скачивает файлы товара торгового каталога по переданным параметрам.
 
 ## Параметры метода
 
@@ -46,17 +46,19 @@
 || **fieldName*** 
 [`string`](../../data-types.md) | Имя поля (свойства или поля элемента информационного блока) в котором хранится файл.
 
-- `DETAIL_PICTURE` — детальная картинка, поле доступно в старой карточке товара
-- `PREVIEW_PICTURE` — картинка для анонса, поле доступно в старой карточке товара
-- `PROPERTY_N` — свойство, где `N` — идентификатор свойства, либо код свойства
+- `detailPicture` — детальная картинка
+- `previewPicture` — картинка для анонса
+- `propertyN` — файловое свойство, где `N` — идентификатор или код свойства
+
+В ответах [catalog.product.get](./catalog-product-get.md) и [catalog.product.list](./catalog-product-list.md) значение `fieldName` уже включено в адрес `url` и `urlMachine` файла. Передавайте его в том же виде. Внутри метода имена полей преобразуются в `DETAIL_PICTURE`, `PREVIEW_PICTURE` и `PROPERTY_N`
 
 Для получения существующих идентификаторов, либо кодов свойств товаров, необходимо использовать [catalog.productProperty.list](../product-property/catalog-product-property-list.md)
  ||
 |#
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
-
 ## Примеры кода
+
+Для сохранения бинарного ответа в примерах используются прямые HTTP-запросы.
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -65,221 +67,77 @@
 - cURL (Webhook)
 
     ```bash
-    curl -X POST \
+    curl --fail -X POST \
     -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
     -d '{"fields":{"fileId":6439,"productId":1243,"fieldName":"detailPicture"}}' \
+    -o product-picture.png \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.download
     ```
 
 - cURL (OAuth)
 
     ```bash
-    curl -X POST \
+    curl --fail -X POST \
     -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
     -d '{"fields":{"fileId":6439,"productId":1243,"fieldName":"detailPicture"},"auth":"**put_access_token_here**"}' \
+    -o product-picture.png \
     https://**put_your_bitrix24_address**/rest/catalog.product.download
     ```
 
-- JS (TS)
-
-    ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame } from '@bitrix24/b24jssdk'
-
-    declare const $b24: B24Frame
-
-    try {
-      const response = await $b24.actions.v2.call.make<boolean>({
-        method: 'catalog.product.download',
-        params: {
-          fields: {
-            fileId: 6439,
-            productId: 1243,
-            fieldName: 'detailPicture',
-          },
-        },
-        requestId: Text.getUuidRfc4122()
-      })
-
-      // The payload is available only on a successful response
-      if (!response.isSuccess) {
-        console.error(response.getErrorMessages().join('; '))
-      } else {
-        const result = response.getData()!.result
-        console.info('Download result:', result)
-      }
-    } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-      console.error(error)
-    }
-    ```
-
-- JS (UMD)
-
-    ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
-    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
-    <script>
-      async function downloadProduct() {
-        try {
-          // Initialize the SDK inside a Bitrix24 frame
-          const $b24 = await B24Js.initializeB24Frame()
-
-          const response = await $b24.actions.v2.call.make({
-            method: 'catalog.product.download',
-            params: {
-              fields: {
-                fileId: 6439,
-                productId: 1243,
-                fieldName: 'detailPicture',
-              },
-            },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
-
-          // The payload is available only on a successful response
-          if (!response.isSuccess) {
-            console.error(response.getErrorMessages().join('; '))
-            return
-          }
-
-          const result = response.getData().result
-          console.info('Download result:', result)
-        } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
-          console.error(error)
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', downloadProduct)
-    </script>
-    ```
-
-- Python
+- Python (Webhook)
 
     ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    import json
+    from urllib.request import Request, urlopen
 
-    try:
-        bitrix_response = client.catalog.product.download(
-            fields={
-                "fileId": 6439,
-                "productId": 1243,
-                "fieldName": "detailPicture",
-            },
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-- PHP
-
-
-    ```php
-    try {
-        $response = $b24Service
-            ->core
-            ->call(
-                'catalog.product.download',
-                [
-                    'fields' => [
-                        'fileId'    => 6439,
-                        'productId' => 1243,
-                        'fieldName' => 'detailPicture',
-                    ],
-                ]
-            );
-    
-        $result = $response
-            ->getResponseData()
-            ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
-    } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error downloading product file: ' . $e->getMessage();
-    }
-    ```
-
-- BX24.js
-
-    ```js
-    BX24.callMethod(
-        'catalog.product.download',
-        {
-            fields: {
-                fileId: 6439,
-                productId: 1243,
-                fieldName: 'detailPicture',
-            }
-        },
-        function(result) {
-            if (result.error()) {
-                console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+    url = "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.download"
+    payload = {
+        "fields": {
+            "fileId": 6439,
+            "productId": 1243,
+            "fieldName": "detailPicture",
         }
-    );
+    }
+    request = Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+
+    with urlopen(request) as response, open("product-picture.png", "wb") as output:
+        output.write(response.read())
     ```
 
-- PHP CRest
+- PHP (Webhook)
 
     ```php
-    require_once('crest.php');
+    <?php
+    $url = 'https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.download';
+    $payload = json_encode([
+        'fields' => [
+            'fileId' => 6439,
+            'productId' => 1243,
+            'fieldName' => 'detailPicture',
+        ],
+    ], JSON_THROW_ON_ERROR);
 
-    $result = CRest::call(
-        'catalog.product.download',
-        [
-            'fields' => [
-                'fileId' => 6439,
-                'productId' => 1243,
-                'fieldName' => 'detailPicture',
-            ]
-        ]
-    );
+    $request = curl_init($url);
+    curl_setopt_array($request, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => true,
+    ]);
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-- Go
-
-    ```go
-    // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "catalog.product.download", b24.Params{
-    	"fields": b24.Params{
-    		"fileId":    6439,
-    		"productId": 1243,
-    		"fieldName": "detailPicture",
-    	},
-    })
-    if err != nil {
-    	return fmt.Errorf("catalog.product.download: %w", err)
+    $file = curl_exec($request);
+    $status = curl_getinfo($request, CURLINFO_HTTP_CODE);
+    $error = curl_error($request);
+    curl_close($request);
+    if ($file === false || $status !== 200) {
+        throw new RuntimeException('Не удалось скачать файл товара: HTTP ' . $status . ' ' . $error);
     }
-
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    file_put_contents('product-picture.png', $file);
     ```
 
 {% endlist %}
@@ -288,11 +146,11 @@
 
 HTTP-статус: **200**
 
-В качестве ответа приходит файл по переданным параметрам.
+В ответ приходит содержимое файла. Метод проверяет, что `fileId` относится к указанному товару и полю `fieldName`. Сохраняйте ответ как файл: успешный вызов не содержит JSON-поля `result`.
 
 ### Возвращаемые данные
 
-Возвращается файл по переданным параметрам.
+Возвращается содержимое файла, а не JSON-объект `result`. Идентификатор и адрес файла можно получить из `detailPicture`, `previewPicture` или файлового свойства в ответе [catalog.product.get](./catalog-product-get.md).
 
 ## Обработка ошибок
 
@@ -310,13 +168,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога ||
-|| `0` | Товар с указанным идентификатором не существует ||
-|| `0` | Указанное свойство не существует, либо не является файловым ||
-|| `0` | Файл с указанным идентификатором не существует ||
-|| `0` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Нет права на просмотр каталога товаров ||
+|| `400` | Пустой код | `product does not exist.` | Товар с указанным `productId` не найден ||
+|| `400` | `0` | `Required fields: fieldName, fileId, productId` | Не переданы обязательные поля; в описании перечисляются отсутствующие поля ||
+|| `400` | `0` | `Name file field is not available` | Поле `fieldName` не является допустимым полем файла товара ||
+|| `400` | `0` | `Product file wrong` | Файл `fileId` не относится к указанному товару и полю ||
+|| `400` | `0` | `Product is empty` | Запись файла не найдена ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

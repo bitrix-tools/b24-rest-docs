@@ -68,5 +68,12 @@
     }
   ],
   "page": "/api-reference/log/log-blogpost-share.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "POST_ID": 217,
+    "DEST": [
+      "SG69",
+      "DR4"
+    ]
+  }
 }

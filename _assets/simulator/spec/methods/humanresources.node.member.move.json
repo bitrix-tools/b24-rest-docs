@@ -99,5 +99,13 @@
     }
   ],
   "page": "/api-reference/departments/node-member/humanresources-node-member-move.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "nodeId": 28,
+    "userIds": [
+      12,
+      18
+    ],
+    "role": "MEMBER_EMPLOYEE"
+  }
 }

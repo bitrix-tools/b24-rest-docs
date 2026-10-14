@@ -41,37 +41,13 @@
 
 
     ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
     try {
-      const response = await $b24.callListMethod(
-        'bizproc.robot.list',
-        {},
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('bizproc.robot.list', {}, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
+      const response = await $b24.actions.v2.call.make({ method: 'bizproc.robot.list', params: {} })
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        for (const code of response.getData().result) { console.log('Robot code:', code) }
       }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('bizproc.robot.list', {}, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
     } catch (error) {
       console.error('Request failed', error)
     }
@@ -108,16 +84,8 @@
             ->robot()
             ->list();
 
-        foreach ($result->getRobots() as $robot) {
-            print($robot->code);
-            print($robot->name);
-            print($robot->handlerUrl);
-            print($robot->authUserId);
-            print($robot->isUseSubscription ? 'Yes' : 'No');
-            print($robot->isUsePlacement ? 'Yes' : 'No');
-            if ($robot->createdDate instanceof DateTime) {
-                print($robot->createdDate->format(DateTime::ATOM));
-            }
+        foreach ($result->getRobots() as $code) {
+            print($code . PHP_EOL);
         }
     } catch (Throwable $e) {
         // Handle the exception
@@ -203,19 +171,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Список идентификаторов роботов приложения ||
+[`array`](../../data-types.md) | Коды `CODE` роботов, которые зарегистрировало это приложение. Если роботов нет, приходит пустой массив `[]` ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **403**
 
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied!"
+    "error_description": "Access denied! Application context required"
 }
 ```
 
@@ -224,14 +192,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Application context required | Необходим контекст приложения ||
-|| `ACCESS_DENIED` | Access denied! | Метод выполнил не администратор ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван не из приложения, например через вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./bizproc-robot-add.md)

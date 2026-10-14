@@ -54,5 +54,8 @@
     }
   ],
   "page": "/api-reference/chats/chat-users/im-chat-user-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2935
+  }
 }

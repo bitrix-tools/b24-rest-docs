@@ -11,9 +11,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на изменение объекта CRM, товарная позиция которого удаляется
+> Кто может выполнять метод: требуется право на изменение объекта CRM, которому принадлежит товарная позиция
 
-Метод удаляет товарную позицию из объекта CRM.  
+Метод `crm.item.productrow.delete` удаляет товарную позицию из объекта CRM.
+
+После удаления CRM пересчитывает сумму объекта: например, сумма сделки уменьшится на стоимость удаленной позиции. Восстановить удаленную позицию нельзя — ее придется добавить заново методом [crm.item.productrow.add](./crm-item-productrow-add.md).
+
+Если позиция уже попала в оплату, метод удалит вместе с ней и соответствующую [товарную позицию в оплате](../payment/products-in-payment/index.md).
+
+Метод удаляет одну позицию. Чтобы удалить несколько позиций сразу, передайте нужный набор методом [crm.item.productrow.set](./crm-item-productrow-set.md): он заменит все товарные позиции объекта CRM.
 
 ## Параметры метода
 
@@ -23,7 +29,8 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`crm_item_product_row.id`](../../data-types.md#crm_item_product_row) | Идентификатор товарной позиции ||
+[`crm_item_product_row.id`](../../data-types.md#crm_item_product_row) | Идентификатор товарной позиции.
+Получить его можно методом [crm.item.productrow.list](./crm-item-productrow-list.md) ||
 |#
 
 ## Примеры кода
@@ -209,16 +216,15 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "crm.item.productrow.delete", b24.Params{
+    _, err := client.Core().Call(ctx, "crm.item.productrow.delete", b24.Params{
     	"id": 17655,
     })
     if err != nil {
     	return fmt.Errorf("crm.item.productrow.delete: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    // Метод возвращает null — разбирать нечего, достаточно убедиться, что ошибки нет.
+    fmt.Println("товарная позиция удалена")
     ```
 
 {% endlist %}
@@ -247,9 +253,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`any`](../../../data-types.md) | Результат операции. Значение всегда null ||
+[`null`](../../../data-types.md) | Метод не возвращает данных. Признак успеха — отсутствие ошибки в ответе ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -269,9 +275,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ENTITY_TYPE_NOT_SUPPORTED` | Работа с данным типом объектов не поддерживается ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
-|| `NOT_FOUND` | Товарная позиция не найдена  ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | Этот тип объектов CRM не поддерживает товарные позиции ||
+|| `ACCESS_DENIED` | У пользователя нет права на изменение объекта CRM, которому принадлежит товарная позиция ||
+|| `NOT_FOUND` | Товарная позиция не найдена. Эту же ошибку вернет повторное удаление уже удаленной позиции ||
 || `100` | Не переданы обязательные параметры ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
@@ -282,10 +288,9 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./crm-item-productrow-add.md)
-- [{#T}](./crm-item-productrow-fields.md)
-- [{#T}](./crm-item-productrow-get.md)
-- [{#T}](./crm-item-productrow-set.md)
 - [{#T}](./crm-item-productrow-update.md)
-- [{#T}](./crm-item-productrow-get-available-for-payment.md)
+- [{#T}](./crm-item-productrow-get.md)
 - [{#T}](./crm-item-productrow-list.md)
-
+- [{#T}](./crm-item-productrow-set.md)
+- [{#T}](./crm-item-productrow-get-available-for-payment.md)
+- [{#T}](./crm-item-productrow-fields.md)

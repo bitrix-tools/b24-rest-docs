@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-dialog-writing.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DIALOG_ID": "chat2935"
+  }
 }

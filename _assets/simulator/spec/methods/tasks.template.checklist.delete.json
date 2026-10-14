@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 29
+  }
 }

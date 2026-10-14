@@ -110,5 +110,13 @@
     "id",
     "text",
     "title"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 1,
+    "entityId": 1,
+    "order": {
+      "created": "desc"
+    },
+    "start": 0
+  }
 }

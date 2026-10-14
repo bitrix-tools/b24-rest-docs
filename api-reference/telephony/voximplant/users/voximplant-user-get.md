@@ -298,11 +298,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Массив настроек пользователей ||
+[`object[]`](../../../data-types.md) | Массив настроек пользователей ||
 || **ID**
 [`string`](../../../data-types.md) | Идентификатор пользователя ||
 || **DEFAULT_LINE**
-[`string`](../../../data-types.md) | Номер исходящей линии по умолчанию ||
+[`string`](../../../data-types.md) | Номер исходящей линии по умолчанию. Может быть `null` ||
 || **PHONE_ENABLED**
 [`string`](../../../data-types.md) | Признак наличия SIP-аппарата.
 
@@ -314,9 +314,9 @@ HTTP-статус: **200**
 || **SIP_LOGIN**
 [`string`](../../../data-types.md) | Логин для подключения SIP-аппарата ||
 || **SIP_PASSWORD**
-[`string`](../../../data-types.md) | Пароль для подключения SIP-аппарата ||
+[`string`](../../../data-types.md) | Пароль для подключения SIP-аппарата. Может быть `null` ||
 || **INNER_NUMBER**
-[`string`](../../../data-types.md) | Внутренний номер пользователя ||
+[`string`](../../../data-types.md) | Внутренний номер пользователя. Может быть `null` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -339,7 +339,7 @@ HTTP-статус: **400**, **401**, **403**
 #|
 || **Код** | **Описание** | **Значение** ||
 || — | `Parameter USER_ID is not set` | Не указан обязательный параметр `USER_ID` ||
-|| `METHOD_CONFIRM_WAITING` | `Waiting for confirmation` | Ожидается подтверждение администратора портала на вызов метода ||
+|| `METHOD_CONFIRM_WAITING` | `Waiting for confirmation` | Ожидается подтверждение администратора Битрикс24 на вызов метода ||
 || `METHOD_CONFIRM_DENIED` | `Method call denied` | Администратор запретил вызов метода для текущего токена ||
 || `ACCESS_DENIED` | `Access denied! You have no permission to query selected users` | Недостаточно прав для получения настроек пользователей ||
 |#
@@ -348,6 +348,6 @@ HTTP-статус: **400**, **401**, **403**
 
 ## Продолжите изучение
 
-- [{#T}](./voximplant-user-get.md)
+- [{#T}](./index.md)
 - [{#T}](./voximplant-user-activate-phone.md)
 - [{#T}](../../../scopes/confirmation.md)

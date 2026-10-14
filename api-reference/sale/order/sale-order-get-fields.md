@@ -1,4 +1,4 @@
-# Получить поля заказа sale.order.getfields
+# Получить поля заказа sale.order.getFields
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.order.getfields` получает доступные поля заказа.
+Метод `sale.order.getFields` возвращает описание полей заказа: тип каждого поля, обязательно ли оно при создании и можно ли его изменить. По ответу проверяйте имена полей для `select` и `filter` в [sale.order.list](./sale-order-list.md) и состав `fields` для [sale.order.add](./sale-order-add.md) и [sale.order.update](./sale-order-update.md).
 
 ## Параметры метода
 
@@ -146,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -160,11 +159,8 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Fields: ' . print_r($result->data(), true);
-        }
+        // SDK throws an exception on API errors, so here the call has succeeded
+        echo 'Fields: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -507,21 +503,43 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **order**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [sale_order](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **order**
+[`object`](../../data-types.md) | Ключ — имя поля объекта [sale_order](../data-types.md#sale_order), значение — описание поля [(подробное описание)](#field-description) ||
+|#
+
+#### Описание поля {#field-description}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../data-types.md) | Тип значения поля: `integer`, `double`, `string`, `char`, `datetime`. Значение типа `char` передается строкой. Поля-флаги, например `canceled` или `marked`, принимают значения `Y` или `N` ||
+|| **isRequired**
+[`boolean`](../../data-types.md) | `true` — поле обязательно при создании заказа. Обязательны `lid`, `personTypeId` и `currency` ||
+|| **isReadOnly**
+[`boolean`](../../data-types.md) | `true` — значение формирует Битрикс24, передавать его в `sale.order.add` и `sale.order.update` не нужно. Например, `id`, `accountNumber`, `payed`, `dateUpdate` ||
+|| **isImmutable**
+[`boolean`](../../data-types.md) | `true` — значение задается только при создании заказа. Метод `sale.order.update` не изменит такое поле и не вернет ошибку. Такие поля: `lid`, `personTypeId`, `currency` и `userId` ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **401**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the webhook token"
 }
 ```
 
@@ -530,15 +548,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения доступных полей заказа ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Недостаточно прав для чтения полей заказа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-order-add.md)
 - [{#T}](./sale-order-update.md)
 - [{#T}](./sale-order-get.md)

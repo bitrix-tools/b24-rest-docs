@@ -128,5 +128,20 @@
     "documentId",
     "documentType",
     "field7097"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "documentType",
+      "documentId",
+      "field7097"
+    ],
+    "filter": {
+      "documentType": "A",
+      "documentId": 81
+    },
+    "order": {
+      "documentId": "ASC"
+    },
+    "start": 0
+  }
 }

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Chat.User.delete` удаляет участника из чата. Бот должен быть администратором чата.
+Метод `imbot.v2.Chat.User.delete` удаляет участника из чата. По умолчанию бот должен быть менеджером или владельцем чата — роли описаны в разделе [Роли в чате](./index.md#roles).
 
 {% note info "" %}
 
@@ -27,15 +27,15 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **botId***
 [`integer`](../../../../data-types.md) | ID бота ||
 || **botToken**
-[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
+[`string`](../../../../data-types.md) | Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же `botToken`, который указали при регистрации бота ||
 || **dialogId***
-[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}` ||
+[`string`](../../../../data-types.md) | ID группового чата в [формате dialogId](../../index.md#dialog-id): `chat{chatId}` ||
 || **userId***
 [`integer`](../../../../data-types.md) | ID пользователя для удаления ||
 |#
@@ -225,7 +225,7 @@ HTTP-статус: **200**
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../../../../data-types.md) | Результат операции ||
 || **result.result**
@@ -236,12 +236,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied"
+    "error_description": "ACCESS_DENIED"
 }
 ```
 
@@ -251,11 +251,13 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `ACCESS_DENIED` | Access denied | Бот не является участником чата или не имеет прав на удаление пользователей ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением ||
+|| `CHAT_NOT_FOUND` | CHAT_NOT_FOUND | Чат с указанным `dialogId` не найден ||
+|| `ACCESS_DENIED` | ACCESS_DENIED | У бота нет роли, которой разрешено удалять участников в этом чате или это личный чат ||
+|| `USER_INVITED_FROM_STRUCTURE` | USER_INVITED_FROM_STRUCTURE | Пользователь добавлен в чат синхронизацией со структурой компании, удалить его нельзя ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -266,3 +268,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-user-add.md)
 - [{#T}](./chat-user-list.md)
 - [{#T}](./chat-leave.md)
+- [{#T}](./index.md)
+- [{#T}](../../migration.md)

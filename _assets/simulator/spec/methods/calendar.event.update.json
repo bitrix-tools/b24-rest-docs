@@ -379,5 +379,55 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-event/calendar-event-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 699,
+    "type": "user",
+    "ownerId": 2,
+    "name": "Changed Event Name",
+    "description": "New description for event",
+    "from": "2024-06-17",
+    "to": "2024-06-17",
+    "skip_time": "Y",
+    "section": 5,
+    "color": "#9cbe1c",
+    "text_color": "#283033",
+    "accessibility": "free",
+    "importance": "normal",
+    "is_meeting": "Y",
+    "private_event": "Y",
+    "recurrence_mode": "next",
+    "current_date_from": "2024-12-04",
+    "remind": [
+      {
+        "type": "min",
+        "count": 10
+      }
+    ],
+    "location": "London",
+    "attendees": [
+      1,
+      2,
+      3
+    ],
+    "meeting": {
+      "notify": true,
+      "reinvite": false,
+      "allow_invite": false,
+      "hide_guests": false
+    },
+    "rrule": {
+      "FREQ": "WEEKLY",
+      "BYDAY": [
+        "MO",
+        "WE"
+      ],
+      "COUNT": 10,
+      "INTERVAL": 1
+    },
+    "crm_fields": [
+      "C_5",
+      "L_11"
+    ]
+  }
 }

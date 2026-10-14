@@ -211,5 +211,49 @@
     "utmSource",
     "utmTerm",
     "webformId"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 1,
+    "select": [
+      "id",
+      "title",
+      "lastName",
+      "name",
+      "stageId",
+      "sourceId",
+      "assignedById",
+      "opportunity",
+      "isManualOpportunity"
+    ],
+    "filter": {
+      "0": {
+        "0": {
+          "!=name": ""
+        },
+        "1": {
+          "!=lastName": ""
+        },
+        "logic": "OR"
+      },
+      "@stageId": [
+        "NEW",
+        "IN_PROCESS"
+      ],
+      "@sourceId": [
+        "WEB",
+        "ADVERTISING"
+      ],
+      "@assignedById": [
+        1,
+        6
+      ],
+      ">=opportunity": 5000,
+      "<=opportunity": 20000,
+      "isManualOpportunity": "Y"
+    },
+    "order": {
+      "lastName": "ASC",
+      "name": "ASC"
+    }
+  }
 }

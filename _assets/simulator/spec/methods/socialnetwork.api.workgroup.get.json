@@ -138,5 +138,14 @@
     }
   ],
   "page": "/api-reference/sonet-group/socialnetwork-api-workgroup-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "groupId": 622,
+      "select": [
+        "DEPARTMENTS",
+        "TAGS"
+      ]
+    }
+  }
 }

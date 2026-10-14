@@ -100,5 +100,22 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Нумератор из REST",
+      "template": "{NUMBER}",
+      "settings": {
+        "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+          "start": 1,
+          "step": 1,
+          "length": 6,
+          "padString": "0",
+          "periodicBy": "",
+          "timezone": "",
+          "isDirectNumeration": false
+        }
+      }
+    }
+  }
 }

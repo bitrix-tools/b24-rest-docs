@@ -476,5 +476,6 @@
     }
   ],
   "page": "/api-reference/crm/quote/crm-quote-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

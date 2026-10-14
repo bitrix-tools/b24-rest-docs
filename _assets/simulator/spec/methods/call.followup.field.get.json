@@ -87,5 +87,17 @@
     "sortable",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "name": "callId",
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "filterable",
+      "sortable",
+      "multiple"
+    ]
+  }
 }

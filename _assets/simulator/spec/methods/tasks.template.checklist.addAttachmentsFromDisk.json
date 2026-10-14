@@ -99,5 +99,13 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-add-attachments-from-disk.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 37,
+    "filesIds": [
+      "n5065",
+      "n5067"
+    ]
+  }
 }

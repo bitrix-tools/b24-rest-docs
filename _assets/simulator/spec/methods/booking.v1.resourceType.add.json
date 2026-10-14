@@ -319,5 +319,28 @@
     }
   ],
   "page": "/api-reference/booking/resource/resource-type/booking-v1-resourcetype-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Название",
+      "code": "meeting-room",
+      "isInfoNotificationOn": "Y",
+      "isConfirmationNotificationOn": "Y",
+      "templateTypeConfirmation": "animate",
+      "isReminderNotificationOn": "N",
+      "templateTypeReminder": "base",
+      "isFeedbackNotificationOn": "Y",
+      "templateTypeFeedback": "inanimate",
+      "isDelayedNotificationOn": "Y",
+      "templateTypeDelayed": "inanimate",
+      "infoNotificationDelay": 300,
+      "reminderNotificationDelay": -1,
+      "delayedNotificationDelay": 300,
+      "delayedCounterDelay": 7200,
+      "confirmationNotificationDelay": 86400,
+      "confirmationNotificationRepetitions": 0,
+      "confirmationNotificationRepetitionsInterval": 0,
+      "confirmationCounterDelay": 7200
+    }
+  }
 }

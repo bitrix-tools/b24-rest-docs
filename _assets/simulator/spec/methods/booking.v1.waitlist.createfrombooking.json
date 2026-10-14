@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/booking-v1-waitlist-createfrombooking.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "bookingId": 5
+  }
 }

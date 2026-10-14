@@ -132,5 +132,64 @@
     "updated1c",
     "version1c",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "paySystemXmlId",
+      "paySystemIsCash",
+      "accountNumber",
+      "id",
+      "orderId",
+      "paid",
+      "datePaid",
+      "empPaidId",
+      "paySystemId",
+      "psStatus",
+      "psStatusCode",
+      "psStatusDescription",
+      "psStatusMessage",
+      "psSum",
+      "psCurrency",
+      "psResponseDate",
+      "payVoucherNum",
+      "payVoucherDate",
+      "datePayBefore",
+      "dateBill",
+      "xmlId",
+      "sum",
+      "currency",
+      "paySystemName",
+      "companyId",
+      "payReturnNum",
+      "priceCod",
+      "payReturnDate",
+      "empReturnId",
+      "payReturnComment",
+      "responsibleId",
+      "empResponsibleId",
+      "dateResponsibleId",
+      "isReturn",
+      "comments",
+      "updated1c",
+      "id1c",
+      "version1c",
+      "externalPayment",
+      "psInvoiceId",
+      "marked",
+      "reasonMarked",
+      "dateMarked",
+      "empMarkedId"
+    ],
+    "filter": {
+      "<id": 10,
+      "@personTypeId": [
+        3,
+        4
+      ],
+      "payed": "N"
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

@@ -100,5 +100,13 @@
     }
   ],
   "page": "/api-reference/crm/deals/contacts/crm-deal-contact-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1875,
+    "fields": {
+      "CONTACT_ID": 55,
+      "IS_PRIMARY": "Y",
+      "SORT": 1000
+    }
+  }
 }

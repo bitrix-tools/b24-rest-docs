@@ -100,5 +100,8 @@
     }
   ],
   "page": "/api-reference/document-generator/templates/document-generator-template-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 57
+  }
 }

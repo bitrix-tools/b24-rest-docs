@@ -64,5 +64,34 @@
     }
   ],
   "page": "/api-reference/crm/quote/crm-quote-product-rows-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "rows": [
+      {
+        "PRODUCT_ID": 459,
+        "PRICE": 3000,
+        "QUANTITY": 1,
+        "DISCOUNT_TYPE_ID": 2,
+        "DISCOUNT_RATE": 0,
+        "TAX_RATE": 0,
+        "TAX_INCLUDED": "Y",
+        "MEASURE_CODE": 796,
+        "MEASURE_NAME": "шт",
+        "SORT": 10
+      },
+      {
+        "PRODUCT_NAME": "Услуга сопровождения",
+        "PRICE": 1500,
+        "QUANTITY": 2,
+        "DISCOUNT_TYPE_ID": 2,
+        "DISCOUNT_RATE": 0,
+        "TAX_RATE": 0,
+        "TAX_INCLUDED": "Y",
+        "MEASURE_CODE": 796,
+        "MEASURE_NAME": "шт",
+        "SORT": 20
+      }
+    ]
+  }
 }

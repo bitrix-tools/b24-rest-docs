@@ -76,5 +76,11 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-chat-message-send.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "taskId": 51,
+      "text": "Сообщение из внешней системы"
+    }
+  }
 }

@@ -145,5 +145,6 @@
     }
   ],
   "page": "/api-reference/catalog/price/catalog-price-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

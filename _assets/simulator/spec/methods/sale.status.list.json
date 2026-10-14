@@ -125,5 +125,21 @@
     "sort",
     "type",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "type",
+      "notify",
+      "color",
+      "sort",
+      "xmlId"
+    ],
+    "filter": {
+      "id": "N"
+    },
+    "order": {
+      "type": "asc"
+    }
+  }
 }

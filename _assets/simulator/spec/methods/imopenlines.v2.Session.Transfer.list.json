@@ -100,5 +100,11 @@
     "toConfigId",
     "toOperatorId",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "sessionId": [
+      1024,
+      1025
+    ]
+  }
 }

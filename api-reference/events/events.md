@@ -11,9 +11,9 @@
 
 > Кто может выполнять метод: любой пользователь
 
-Метод `events` возвращает общий список доступных событий.
+Метод `events` возвращает коды событий Битрикс24. По этому списку приложение выбирает, на какие события подписаться методом [event.bind](./event-bind.md). Какие события попадут в список, зависит от параметров `SCOPE` и `FULL`.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Через вебхук он вернет ошибку `WRONG_AUTH_TYPE`.
 
 ## Параметры метода
 
@@ -23,10 +23,16 @@
 || **Название**
 `тип` | **Описание** ||
 || **SCOPE**
-[`string`](../data-types.md) | Метод вернет события, принадлежащие указанному разрешению ||
+[`string`](../data-types.md) | [Scope](../scopes/permissions.md), события которого нужно получить, например `crm` или `user`. Метод вернет события только этого scope, даже если у приложения нет такого разрешения.
+
+Если передать пустую строку, метод вернет только общие события приложения. Для неизвестного scope метод вернет пустой массив без ошибки ||
 || **FULL**
-[`boolean`](../data-types.md) | Метод вернет весь список событий. Параметр будет проигнорирован, если будет передан параметр `SCOPE` ||
+[`boolean`](../data-types.md) | Если передать `true`, метод вернет все события Битрикс24 независимо от разрешений приложения.
+
+Параметр не работает, если передан `SCOPE`, даже пустой ||
 |#
+
+Если не передать параметры, метод вернет события из scope приложения и общие события, которые доступны любому приложению: например, [ONAPPINSTALL](../common/events/on-app-install.md) и [ONOFFLINEEVENT](./on-offline-event.md).
 
 ## Примеры кода
 
@@ -48,9 +54,9 @@
     }' \
     https://**put_your_bitrix24_address**/rest/events
     ```
-    
+
     Пример №2
-    
+
     ```curl
     curl -X POST \
     -H "Content-Type: application/json" \
@@ -81,9 +87,9 @@
         }
     );
     ```
-    
+
     Пример №2
-    
+
     ```js
     BX24.callMethod(
         "events",
@@ -150,10 +156,10 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-- PHP
+- PHP CRest
 
     Пример №1
-    
+
     ```php
     require_once('crest.php');
 
@@ -170,7 +176,7 @@
     ```
 
     Пример №2
-    
+
     ```php
     require_once('crest.php');
 
@@ -192,121 +198,23 @@
 
 HTTP-статус: **200**
 
+Ответ на первый пример — запрос с `SCOPE: "user"`:
+
 ```json
 {
-    "result":[
-        "ONAPPUNINSTALL",
-        "ONAPPINSTALL",
-        "ONAPPUPDATE",
-        "ONAPPPAYMENT",
-        "ONAPPTEST",
-        "ONAPPMETHODCONFIRM",
-        "ONOFFLINEEVENT",
-        "ONUSERADD",
-        "ONCRMINVOICEADD",
-        "ONCRMINVOICEUPDATE",
-        "ONCRMINVOICEDELETE",
-        "ONCRMINVOICESETSTATUS",
-        "ONCRMLEADADD",
-        "ONCRMLEADUPDATE",
-        "ONCRMLEADDELETE",
-        "ONCRMLEADUSERFIELDADD",
-        "ONCRMLEADUSERFIELDUPDATE",
-        "ONCRMLEADUSERFIELDDELETE",
-        "ONCRMLEADUSERFIELDSETENUMVALUES",
-        "ONCRMDEALADD",
-        "ONCRMDEALUPDATE",
-        "ONCRMDEALDELETE",
-        "ONCRMDEALMOVETOCATEGORY",
-        "ONCRMDEALUSERFIELDADD",
-        "ONCRMDEALUSERFIELDUPDATE",
-        "ONCRMDEALUSERFIELDDELETE",
-        "ONCRMDEALUSERFIELDSETENUMVALUES",
-        "ONCRMCOMPANYADD",
-        "ONCRMCOMPANYUPDATE",
-        "ONCRMCOMPANYDELETE",
-        "ONCRMCOMPANYUSERFIELDADD",
-        "ONCRMCOMPANYUSERFIELDUPDATE",
-        "ONCRMCOMPANYUSERFIELDDELETE",
-        "ONCRMCOMPANYUSERFIELDSETENUMVALUES",
-        "ONCRMCONTACTADD",
-        "ONCRMCONTACTUPDATE",
-        "ONCRMCONTACTDELETE",
-        "ONCRMCONTACTUSERFIELDADD",
-        "ONCRMCONTACTUSERFIELDUPDATE",
-        "ONCRMCONTACTUSERFIELDDELETE",
-        "ONCRMCONTACTUSERFIELDSETENUMVALUES",
-        "ONCRMQUOTEADD",
-        "ONCRMQUOTEUPDATE",
-        "ONCRMQUOTEDELETE",
-        "ONCRMQUOTEUSERFIELDADD",
-        "ONCRMQUOTEUSERFIELDUPDATE",
-        "ONCRMQUOTEUSERFIELDDELETE",
-        "ONCRMQUOTEUSERFIELDSETENUMVALUES",
-        "ONCRMINVOICEUSERFIELDADD",
-        "ONCRMINVOICEUSERFIELDUPDATE",
-        "ONCRMINVOICEUSERFIELDDELETE",
-        "ONCRMINVOICEUSERFIELDSETENUMVALUES",
-        "ONCRMCURRENCYADD",
-        "ONCRMCURRENCYUPDATE",
-        "ONCRMCURRENCYDELETE",
-        "ONCRMPRODUCTADD",
-        "ONCRMPRODUCTUPDATE",
-        "ONCRMPRODUCTDELETE",
-        "ONCRMPRODUCTPROPERTYADD",
-        "ONCRMPRODUCTPROPERTYUPDATE",
-        "ONCRMPRODUCTPROPERTYDELETE",
-        "ONCRMPRODUCTSECTIONADD",
-        "ONCRMPRODUCTSECTIONUPDATE",
-        "ONCRMPRODUCTSECTIONDELETE",
-        "ONCRMACTIVITYADD",
-        "ONCRMACTIVITYUPDATE",
-        "ONCRMACTIVITYDELETE",
-        "ONCRMREQUISITEADD",
-        "ONCRMREQUISITEUPDATE",
-        "ONCRMREQUISITEDELETE",
-        "ONCRMREQUISITEUSERFIELDADD",
-        "ONCRMREQUISITEUSERFIELDUPDATE",
-        "ONCRMREQUISITEUSERFIELDDELETE",
-        "ONCRMREQUISITEUSERFIELDSETENUMVALUES",
-        "ONCRMBANKDETAILADD",
-        "ONCRMBANKDETAILUPDATE",
-        "ONCRMBANKDETAILDELETE",
-        "ONCRMADDRESSREGISTER",
-        "ONCRMADDRESSUNREGISTER",
-        "ONCRMMEASUREADD",
-        "ONCRMMEASUREUPDATE",
-        "ONCRMMEASUREDELETE",
-        "ONCRMDEALRECURRINGADD",
-        "ONCRMDEALRECURRINGUPDATE",
-        "ONCRMDEALRECURRINGDELETE",
-        "ONCRMDEALRECURRINGEXPOSE",
-        "ONCRMINVOICERECURRINGADD",
-        "ONCRMINVOICERECURRINGUPDATE",
-        "ONCRMINVOICERECURRINGDELETE",
-        "ONCRMINVOICERECURRINGEXPOSE",
-        "ONCRMTIMELINECOMMENTADD",
-        "ONCRMTIMELINECOMMENTUPDATE",
-        "ONCRMTIMELINECOMMENTDELETE",
-        "ONCRMDYNAMICITEMADD",
-        "ONCRMDYNAMICITEMUPDATE",
-        "ONCRMDYNAMICITEMDELETE",
-        "ONCRMDYNAMICITEMADD_147",
-        "ONCRMDYNAMICITEMUPDATE_147",
-        "ONCRMDYNAMICITEMDELETE_147",
-        "ONCRMTYPEADD",
-        "ONCRMTYPEUPDATE",
-        "ONCRMTYPEDELETE",
-        "ONCRMDOCUMENTGENERATORDOCUMENTADD",
-        "ONCRMDOCUMENTGENERATORDOCUMENTUPDATE",
-        "ONCRMDOCUMENTGENERATORDOCUMENTDELETE",
-        "ONTASKADD",
-        "ONTASKUPDATE",
-        "ONTASKDELETE",
-        "ONTASKCOMMENTADD",
-        "ONTASKCOMMENTUPDATE",
-        "ONTASKCOMMENTDELETE"
-    ]
+    "result": [
+        "ONUSERADD"
+    ],
+    "time": {
+        "start": 1790304784,
+        "finish": 1790304784.638336,
+        "duration": 0.6383359432220459,
+        "processing": 0,
+        "date_start": "2026-09-25T05:53:04+03:00",
+        "date_finish": "2026-09-25T05:53:04+03:00",
+        "operating_reset_at": 1790305384,
+        "operating": 0
+    }
 }
 ```
 
@@ -316,15 +224,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
+[`array`](../data-types.md) | Массив строк — символьных кодов событий в верхнем регистре, например `ONCRMDEALADD`. Код передают в параметре `event` метода [event.bind](./event-bind.md).
+
+Какие коды попадут в массив, зависит от параметров `SCOPE` и `FULL` ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "WRONG_AUTH_TYPE",
+    "error_description": "Current authorization type is denied for this method"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Сообщение об ошибке** | **Описание** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не из приложения, например через вебхук ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./event-bind.md)
 - [{#T}](./event-get.md)
 - [{#T}](./event-unbind.md)

@@ -88,5 +88,22 @@
     }
   ],
   "page": "/api-reference/sale/shipment-property-value/sale-shipment-property-value-modify.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "shipment": {
+        "id": 4120,
+        "propertyValues": [
+          {
+            "shipmentPropsId": 105,
+            "value": "Comments value"
+          },
+          {
+            "shipmentPropsId": 106,
+            "value": "Description value"
+          }
+        ]
+      }
+    }
+  }
 }

@@ -27,6 +27,15 @@
 
 {% endnote %}
 
+## Как начать работу
+
+1. Создайте тип ресурса — [booking.v1.resourceType.add](./resource/resource-type/booking-v1-resourcetype-add.md). Без типа ресурс создать нельзя: в методе создания ресурса параметр `typeId` обязательный.
+2. Создайте ресурс — [booking.v1.resource.add](./resource/booking-v1-resource-add.md).
+3. Настройте доступность ресурса по времени — [booking.v1.resource.slots.set](./resource/slots/booking-v1-resource-slots-set.md).
+4. Создайте бронирование — [booking.v1.booking.add](./booking/booking-v1-booking-add.md). Если подходящего времени нет, добавьте запись в лист ожидания — [booking.v1.waitlist.add](./waitlist/booking-v1-waitlist-add.md), а позже перенесите ее в бронь — [booking.v1.booking.createfromwaitlist](./booking/booking-v1-booking-createfromwaitlist.md).
+5. Привяжите к брони клиента — [booking.v1.booking.client.set](./booking/client/booking-v1-booking-client-set.md), и сделку CRM — [booking.v1.booking.externalData.set](./booking/external-data/booking-v1-booking-externaldata-set.md).
+6. Подпишитесь на [события раздела](#all-methods), чтобы приложение узнавало о создании, изменении и удалении объектов.
+
 ## Настройка ресурсов
 
 Ресурсы – это объекты, которые можно забронировать: помещения, техника, услуги. Методы этой группы позволяют:
@@ -51,14 +60,16 @@
 - создавать бронь из записи в лист ожидания — [booking.v1.booking.createfromwaitlist](./booking/booking-v1-booking-createfromwaitlist.md)
 - управлять связями брони с клиентами CRM — [booking.v1.booking.client.*](./booking/client/index.md) и другими объектами — [booking.v1.booking.externalData.*](./booking/external-data/index.md)
 
-## Как начать работу
+## Ошибки и ограничения
 
-1. Создайте тип ресурса — [booking.v1.resourceType.add](./resource/resource-type/booking-v1-resourcetype-add.md). Без типа ресурс создать нельзя: в методе создания ресурса параметр `typeId` обязательный.
-2. Создайте ресурс — [booking.v1.resource.add](./resource/booking-v1-resource-add.md).
-3. Настройте доступность ресурса по времени — [booking.v1.resource.slots.set](./resource/slots/booking-v1-resource-slots-set.md).
-4. Создайте бронирование — [booking.v1.booking.add](./booking/booking-v1-booking-add.md). Если подходящего времени нет, добавьте запись в лист ожидания — [booking.v1.waitlist.add](./waitlist/booking-v1-waitlist-add.md), а позже перенесите ее в бронь — [booking.v1.booking.createfromwaitlist](./booking/booking-v1-booking-createfromwaitlist.md).
-5. Привяжите к брони клиента — [booking.v1.booking.client.set](./booking/client/booking-v1-booking-client-set.md), и сделку CRM — [booking.v1.booking.externalData.set](./booking/external-data/booking-v1-booking-externaldata-set.md).
-6. Подпишитесь на [события раздела](#all-methods), чтобы приложение узнавало о создании, изменении и удалении объектов.
+Методы `booking.*` могут вернуть системные ошибки REST и ошибки логики онлайн-записи. Перед обработкой ответа учитывайте типовые ситуации:
+
+- ошибки авторизации и доступа возникают, если токен недействителен, у приложения или вебхука нет скоупа `booking` либо пользователю закрыт доступ к приложению
+- ошибка `Booking tool is disabled. Please contact your administrator.` означает, что администратор отключил инструмент «Онлайн-запись»
+- код `1018` с ошибкой `Empty resource collection` может возникнуть при создании или изменении брони, если ресурсы не найдены или недоступны в указанное время
+- код `1026` означает, что время новой или измененной брони пересекается с существующими бронированиями и правила ресурса не разрешают такое пересечение
+
+Системные ошибки авторизации, доступа и лимитов описаны в статье [Коды ошибок](../../error-codes.md). Остальные коды и причины приведены на страницах конкретных методов.
 
 ## Обзор методов и событий {#all-methods}
 

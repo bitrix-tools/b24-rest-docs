@@ -4,21 +4,21 @@
   "scope": "crm",
   "kind": "write",
   "title": "Изменить товарную позицию объекта CRM crm.item.productrow.update",
-  "permissions": "требуется право на изменение объекта CRM, товарная позиция которого изменяется",
+  "permissions": "требуется право на изменение объекта CRM, которому принадлежит товарная позиция",
   "params": [
     {
       "name": "id",
       "type": "crm_item_product_row.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор товарной позиции"
+      "description": "Идентификатор товарной позиции. Получить его можно методом crm.item.productrow.list"
     },
     {
       "name": "fields",
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Объект, содержащий значения полей для обновления товарной позиции объекта CRM",
+      "description": "Объект, содержащий значения полей для обновления товарной позиции объекта CRM (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -42,14 +42,14 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Название товара в товарной позиции"
+          "description": "Название товара в товарной позиции. Если сменить productId и не передать productName, метод подставит название нового товара из каталога"
         },
         {
           "name": "price",
           "type": "double",
           "base": "number",
           "required": false,
-          "description": "Цена за единицу товарной позиции с учетом скидок и налогов"
+          "description": "Цена за единицу товарной позиции с учетом скидок и налогов. Указывается в валюте объекта CRM. При смене productId цена из каталога не подставляется: чтобы изменить цену, передайте price"
         },
         {
           "name": "quantity",
@@ -101,7 +101,7 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Индикатор того, включен ли налог в стоимость. Возможные значения: - Y – налог включен - N – налог не включен",
+          "description": "Индикатор того, включен ли налог в стоимость. Возможные значения: - Y — налог включен - N — налог не включен",
           "values": [
             {
               "value": "Y",
@@ -114,11 +114,18 @@
           ]
         },
         {
+          "name": "taxName",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Название налоговой ставки. Например, НДС 20. Это только подпись: в расчете участвует значение taxRate, а taxName метод сохраняет как есть"
+        },
+        {
           "name": "measureCode",
           "type": "catalog_measure.code",
           "base": "any",
           "required": false,
-          "description": "Код единицы измерения"
+          "description": "Код единицы измерения. При смене productId единица измерения из каталога не подставляется"
         },
         {
           "name": "sort",
@@ -141,14 +148,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "productRow",
-      "type": "crm_item_product_row",
-      "base": "object",
-      "required": false,
-      "description": "Объект, содержащий информацию об обновленной товарной позиции"
+      "description": "Корневой элемент ответа (подробное описание). Если в fields передан пустой объект, метод вернет null"
     },
     {
       "name": "time",
@@ -159,5 +159,19 @@
     }
   ],
   "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 17648,
+    "fields": {
+      "productId": 9621,
+      "price": 90000,
+      "quantity": 3,
+      "discountTypeId": 2,
+      "discountRate": 10,
+      "taxRate": 10,
+      "taxIncluded": "Y",
+      "measureCode": 796,
+      "sort": 20
+    }
+  }
 }

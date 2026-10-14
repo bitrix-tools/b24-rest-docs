@@ -64,5 +64,6 @@
     }
   ],
   "page": "/api-reference/crm/companies/custom-form/crm-company-details-configuration-force-common-scope-for-all.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

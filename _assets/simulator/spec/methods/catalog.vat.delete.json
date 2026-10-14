@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/catalog/vat/catalog-vat-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 7
+  }
 }

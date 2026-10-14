@@ -81,5 +81,60 @@
     }
   ],
   "page": "/api-reference/crm/companies/custom-form/crm-company-details-configuration-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "userId": 1,
+    "data": [
+      {
+        "name": "main",
+        "title": "О компании",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TITLE"
+          },
+          {
+            "name": "LOGO"
+          },
+          {
+            "name": "COMPANY_TYPE"
+          },
+          {
+            "name": "POST"
+          },
+          {
+            "name": "PHONE",
+            "options": {
+              "defaultCountry": "RU"
+            }
+          },
+          {
+            "name": "EMAIL"
+          },
+          {
+            "name": "CONTACT"
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "INDUSTRY"
+          },
+          {
+            "name": "OPENED"
+          },
+          {
+            "name": "ASSIGNED_BY_ID"
+          },
+          {
+            "name": "COMMENTS"
+          }
+        ]
+      }
+    ]
+  }
 }

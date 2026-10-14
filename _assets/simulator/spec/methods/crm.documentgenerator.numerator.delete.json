@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 47
+  }
 }

@@ -98,5 +98,10 @@
     }
   ],
   "page": "/api-reference/landing/page/special-pages/landing-syspage-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1390,
+    "type": "personal",
+    "lid": 8593
+  }
 }

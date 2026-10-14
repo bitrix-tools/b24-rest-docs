@@ -120,5 +120,16 @@
   "entityFields": [
     "domain",
     "personTypeId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "personTypeId"
+    ],
+    "filter": {
+      "=domain": "I"
+    },
+    "order": {
+      "personTypeId": "DESC"
+    }
+  }
 }

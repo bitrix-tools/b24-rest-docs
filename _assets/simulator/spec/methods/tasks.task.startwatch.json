@@ -406,5 +406,8 @@
     }
   ],
   "page": "/api-reference/tasks/user-actions/tasks-task-start-watch.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8017
+  }
 }

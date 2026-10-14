@@ -11,7 +11,7 @@ items:
     href: sale-order-get.md 
   - name: Получить список заказов
     href: sale-order-list.md
-  - name: Удалить заказ и связанные объекты
+  - name: Удалить заказ
     href: sale-order-delete.md 
   - name: Получить поля заказа
     href: sale-order-get-fields.md

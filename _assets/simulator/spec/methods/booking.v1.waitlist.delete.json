@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/booking-v1-waitlist-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 15
+  }
 }

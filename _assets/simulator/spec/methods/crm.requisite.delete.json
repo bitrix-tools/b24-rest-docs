@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/requisites/universal/crm-requisite-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 27
+  }
 }

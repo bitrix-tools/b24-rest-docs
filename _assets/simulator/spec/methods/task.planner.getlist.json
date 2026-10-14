@@ -70,5 +70,6 @@
     }
   ],
   "page": "/api-reference/tasks/planner/task-planner-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

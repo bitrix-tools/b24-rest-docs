@@ -1182,5 +1182,5 @@
 - [Получить список товаров по фильтру catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md)
 - [Получить список цен по фильтру catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md)
 - [Создать новый элемент CRM crm.item.add](../../../api-reference/crm/universal/crm-item-add.md)
-- [Сохранить товарную позицию объекта CRM crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md)
-- [Получить список товарных позиций crm.item.productrow.list](../../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md)
+- [Сохранить товарные позиции объекта CRM crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md)
+- [Получить товарные позиции объекта CRM crm.item.productrow.list](../../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md)

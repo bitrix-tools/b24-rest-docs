@@ -93,5 +93,6 @@
     }
   ],
   "page": "/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-notify-type.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

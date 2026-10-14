@@ -167,5 +167,10 @@
   "entityFields": [
     "count",
     "source"
-  ]
+  ],
+  "requestExample": {
+    "dateFrom": "2026-06-01T00:00:00+03:00",
+    "dateTo": "2026-06-30T23:59:59+03:00",
+    "configId": 3
+  }
 }

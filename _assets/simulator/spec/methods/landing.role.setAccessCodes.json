@@ -68,5 +68,13 @@
     }
   ],
   "page": "/api-reference/landing/rights/role-model/landing-role-set-access-codes.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 11,
+    "codes": [
+      "U45",
+      "DR7",
+      "SG3_A"
+    ]
+  }
 }

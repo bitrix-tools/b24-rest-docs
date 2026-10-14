@@ -13,7 +13,17 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает список полей товарных позиций.
+Метод `crm.item.productrow.fields` получает описание полей товарной позиции: тип значения, обязательность и доступность для записи.
+
+Вызовите метод перед [crm.item.productrow.add](./crm-item-productrow-add.md), [crm.item.productrow.update](./crm-item-productrow-update.md) или [crm.item.productrow.set](./crm-item-productrow-set.md), чтобы узнать, какие значения можно передать. Поля с `isReadOnly: true` метод рассчитывает сам и переданные значения игнорирует без ошибки.
+
+Состав полей одинаковый для всех типов объектов CRM и не зависит от `ownerType`. Ограничения на длину текстовых полей — в статье [{#T}](../../field-length-limits.md).
+
+Значение `type` — это тип данных поля из [словаря типов](../../../data-types.md). Поля с типом `char` принимают только `Y` или `N`.
+
+Признак `isRequired` отражает описание поля в ядре и не всегда совпадает с проверками метода записи. Например, `productId` приходит с `isRequired: true`, но товарную позицию можно создать и без него — достаточно передать `productName`.
+
+## Параметры метода
 
 Без параметров.
 
@@ -39,8 +49,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/crm.item.productrow.fields?auth=**put_access_token_here**
+    -d '{"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/crm.item.productrow.fields
     ```
 
 - JS (TS)
@@ -353,6 +363,15 @@ HTTP-статус: **200**
             "isDynamic":false,
             "title":"Налог"
          },
+         "taxName":{
+            "type":"string",
+            "isRequired":false,
+            "isReadOnly":false,
+            "isImmutable":false,
+            "isMultiple":false,
+            "isDynamic":false,
+            "title":"TAX_NAME"
+         },
          "taxIncluded":{
             "type":"char",
             "isRequired":false,
@@ -408,14 +427,14 @@ HTTP-статус: **200**
             "title":"TYPE"
          },
          "storeId":{
-               "type": "integer",
-               "isRequired": false,
-               "isReadOnly": true,
-               "isImmutable": false,
-               "isMultiple": false,
-               "isDynamic": false,
-               "title": "STORE_ID"
-         }         
+            "type":"integer",
+            "isRequired":false,
+            "isReadOnly":true,
+            "isImmutable":false,
+            "isMultiple":false,
+            "isDynamic":false,
+            "title":"STORE_ID"
+         }
       }
    },
    "time":{
@@ -435,32 +454,29 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **fields**
-[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [crm_item_product_row](../../data-types.md#crm_item_product_row), а `value` — объект типа [crm_rest_field_descriptionon](../../data-types.md#crm_rest_field_description) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields**
+[`object`](../../../data-types.md) | Объект в формате `{"код поля": "описание поля"}`, где ключ — идентификатор поля объекта [crm_item_product_row](../../data-types.md#crm_item_product_row), а значение — объект типа [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+|#
+
+Чего в ответе нет: полей `priceAccount` и `xmlId`, которые нельзя записать, и признака `upperName` объекта [crm_rest_field_description](../../data-types.md#crm_rest_field_description). Полный состав товарной позиции — в описании объекта [crm_item_product_row](../../data-types.md#crm_item_product_row).
+
+Поля `measureName` и `customized` приходят с признаком `isReadOnly: false`, но методы записи их значения не сохраняют. Поле `customized` к тому же устаревшее — передавать его не нужно.
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
-
-```json
-{
-   "error":0,
-   "error_description":"some error"
-}
-```
+Своих кодов ошибок у метода нет: он не принимает параметров и не проверяет права на объекты CRM. В ответ приходят только системные ошибки — например, `insufficient_scope`, если у вебхука или приложения нет права `crm`.
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
-|#
 
 {% include notitle [системные ошибки](../../../../_includes/system-errors.md) %}
 
@@ -470,7 +486,7 @@ HTTP-статус: **400**
 - [{#T}](./crm-item-productrow-add.md)
 - [{#T}](./crm-item-productrow-update.md)
 - [{#T}](./crm-item-productrow-get.md)
-- [{#T}](./crm-item-productrow-set.md)
-- [{#T}](./crm-item-productrow-get-available-for-payment.md)
 - [{#T}](./crm-item-productrow-list.md)
 - [{#T}](./crm-item-productrow-delete.md)
+- [{#T}](./crm-item-productrow-set.md)
+- [{#T}](./crm-item-productrow-get-available-for-payment.md)

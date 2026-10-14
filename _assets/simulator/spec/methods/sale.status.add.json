@@ -127,5 +127,15 @@
     }
   ],
   "page": "/api-reference/sale/status/sale-status-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "id": "MS",
+      "type": "O",
+      "notify": "Y",
+      "sort": 500,
+      "color": "#FF0000",
+      "xmlId": "myStatusXmlId"
+    }
+  }
 }

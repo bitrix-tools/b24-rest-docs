@@ -11,17 +11,26 @@
 
 Чек-лист — это список шагов для задачи. Каждый пункт чек-листа можно выполнить отдельно.
 
-> Быстрый переход: [все методы и события](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
 > 
 > Пользовательская документация: [Чек-листы в задачах: как создать и работать с ними](https://helpdesk.bitrix24.ru/open/27333140/)
 
 ## Структура чек-листов
 
-Чек-лист в Битрикс24 — это иерархический список с древовидной структурой до трех уровней. Он привязан к задаче `TASK_ID`.
+Чек-лист в Битрикс24 — это иерархический список с древовидной структурой. Он привязан к задаче.
 
-Элементы чек-листа поддерживают вложенность. Поле `PARENT_ID` указывает на родительский элемент. У корневого элемента `PARENT_ID` равен `0`.
+Пункты чек-листа поддерживают вложенность. Поле `PARENT_ID` указывает на родительский пункт. У корневого пункта `PARENT_ID` равен `0`, его `TITLE` — название чек-листа.
 
-Поле `SORT_INDEX` задает позицию элемента. Чем меньше число, тем выше элемент.
+```plaintext
+Чек-лист 1 (431)            ← PARENT_ID=0
+├── первый пункт (433)      ← PARENT_ID=431
+│   ├── подпункт 1 (435)    ← PARENT_ID=433
+│   └── подпункт 2 (445)    ← PARENT_ID=433
+├── второй пункт (447)      ← PARENT_ID=431
+└── третий пункт (449)      ← PARENT_ID=431
+```
+
+Поле `SORT_INDEX` задает позицию пункта. Чем меньше число, тем выше пункт.
 
 Каждый пункт может иметь статус *Выполнен* `IS_COMPLETE = 'Y'` или *Не выполнен* `IS_COMPLETE = 'N'`. При смене статуса система автоматически заполняет поля *Кто сменил* `TOGGLED_BY` и *Когда сменил* `TOGGLED_DATE`.
 
@@ -29,11 +38,11 @@
 
 ## Связь чек-листа с другими объектами
 
-**Задача.** Чек-лист привязан к задаче по идентификатору `TASKID`. Получить идентификатор можно методом [создания новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md).
+**Задача.** Методы принимают идентификатор задачи в параметре `TASKID`, а в данных пункта он возвращается в поле `TASK_ID`. Получить идентификатор можно методом [создания новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md).
 
 **Пользователь.** Пункт чек-листа может иметь связь с пользователями в полях:
 
-- `TOGGLED_BY` — идентификатор пользователя, который выполнил пункт
+- `TOGGLED_BY` — идентификатор пользователя, который последним сменил статус пункта
 
 - `MEMBERS` — массив с информацией о наблюдателях `"TYPE": "U"` и соисполнителях `"TYPE": "A"` в пункте чек-листа
 
@@ -45,40 +54,22 @@
 
 {% endnote %}
 
-## Перенести пункт чек-листа
+## Как начать работу
 
-Изменить положение пункта можно методом [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md). Метод перемещает элемент `itemId` в позицию после элемента `afterItemId`. Оба элемента должны быть в одной задаче `taskId`. Элементы могут быть в разных подсписках, но после перемещения `itemId` получит тот же `PARENT_ID`, что и `afterItemId`.
+1. Получите идентификатор задачи методом [tasks.task.list](../tasks-task-list.md).
+2. Добавьте пункты методом [task.checklistitem.add](./task-checklist-item-add.md) — метод вернет идентификатор пункта.
+3. Получите пункты задачи методом [task.checklistitem.getlist](./task-checklist-item-get-list.md) или один пункт методом [task.checklistitem.get](./task-checklist-item-get.md).
+4. Измените пункт методом [task.checklistitem.update](./task-checklist-item-update.md), переместите — методом [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md), отметьте выполнение — методами [task.checklistitem.complete](./task-checklist-item-complete.md) и [task.checklistitem.renew](./task-checklist-item-renew.md), удалите — методом [task.checklistitem.delete](./task-checklist-item-delete.md). Для этих методов нужна пара `TASKID` и `ITEMID`.
 
-**Пример.** Поместим пункт с `ID=453` после пункта с `ID=447`.
+Все методы раздела принимают параметры по порядку, а не по имени: имена `TASKID`, `ITEMID`, `FIELDS` не учитываются, поэтому соблюдайте порядок из таблицы параметров метода. На несуществующий `ITEMID` методы реагируют по-разному: одни возвращают ошибку, другие — `false`, `true` или `null`. Как обработать такой ответ, описано на странице каждого метода.
 
-```plaintext
-ДО:                                            ПОСЛЕ:
-Чек-лист 1 (431)                               Чек-лист 1 (431)
-├── первый пункт (433)                         ├── первый пункт (433)
-│   ├── подпункт 1 (435)                       │   ├── подпункт 1 (435)
-│   ├── подпункт 2 (445)                       │   └── подпункт 2 (445)
-│   └── подпункт 3 (453) ← PARENT_ID=433       ├── второй пункт (447)
-├── второй пункт (447)                         ├── подпункт 3 (453) ← PARENT_ID=431
-└── третий пункт (449)                         └── третий пункт (449)
-```
+## Проверить права перед действием
 
-## Выполнить пункт чек-листа
-
-Метод [task.checklistitem.complete](./task-checklist-item-complete.md) отмечает элемент чек-листа как выполненный. Система устанавливает значение `'Y'` в поле `IS_COMPLETE` и автоматически заполняет поля:
-
-- `TOGGLED_BY` — идентификатор пользователя, который сменил статус пункта
-
-- `TOGGLED_DATE` — текущие дата и время, когда пользователь сменил пункт
-
-Метод [task.checklistitem.renew](./task-checklist-item-renew.md) возвращает пункт чек-листа в работу. Система устанавливает значение `'N'` в поле `IS_COMPLETE` и обновляет поля `TOGGLED_BY` и `TOGGLED_DATE`.
-
-## Кто может добавлять или менять запись
-
-Чтобы добавить, изменить или удалить пункт чек-листа, нужны права доступа. Проверить права можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
+Узнать, разрешено ли пользователю добавить, изменить, удалить, переместить пункт или сменить его статус, можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
 
 ## Справочная информация о методах
 
-Узнать актуальную информацию о методах работы с чек-листами в задачах вы можете с помощью метода [task.checklistitem.getmanifest](./task-checklist-item-get-manifest.md). Рекомендуем использовать его только в качестве справочника, так как структуру ответа метода разработчик может изменить в любой момент.
+Актуальное описание методов работы с чек-листами возвращает метод [task.checklistitem.getmanifest](./task-checklist-item-get-manifest.md). Структура его ответа может измениться, поэтому используйте метод только как справочник.
 
 ## Обзор методов {#all-methods}
 
@@ -88,14 +79,14 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [task.checklistitem.add](./task-checklist-item-add.md) | Добавляет новый элемент чек-листа к задаче ||
-|| [task.checklistitem.update](./task-checklist-item-update.md) | Обновляет элемент чек-листа ||
-|| [task.checklistitem.get](./task-checklist-item-get.md) | Получает элемент чек-листа по `id` ||
-|| [task.checklistitem.getlist](./task-checklist-item-get-list.md) | Получает список элементов чек-листа в задаче ||
-|| [task.checklistitem.delete](./task-checklist-item-delete.md) | Удаляет элемент чек-листа ||
-|| [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md) | Помещает элемент чек-листа в списке после указанного ||
-|| [task.checklistitem.complete](./task-checklist-item-complete.md) | Отмечает элемент чек-листа как выполненный ||
-|| [task.checklistitem.renew](./task-checklist-item-renew.md) | Отмечает выполненный элемент чек-листа как невыполненный ||
-|| [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md) | Проверяет, разрешено ли действие для элемента чек-листа ||
+|| [task.checklistitem.add](./task-checklist-item-add.md) | Добавляет новый пункт чек-листа к задаче ||
+|| [task.checklistitem.update](./task-checklist-item-update.md) | Обновляет пункт чек-листа ||
+|| [task.checklistitem.get](./task-checklist-item-get.md) | Получает пункт чек-листа по идентификатору ||
+|| [task.checklistitem.getlist](./task-checklist-item-get-list.md) | Получает все пункты чек-листов задачи одним ответом ||
+|| [task.checklistitem.delete](./task-checklist-item-delete.md) | Удаляет пункт чек-листа вместе с подпунктами ||
+|| [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md) | Помещает пункт чек-листа в списке после указанного ||
+|| [task.checklistitem.complete](./task-checklist-item-complete.md) | Отмечает пункт чек-листа как выполненный ||
+|| [task.checklistitem.renew](./task-checklist-item-renew.md) | Отмечает выполненный пункт чек-листа как невыполненный ||
+|| [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md) | Проверяет, разрешено ли действие с пунктом чек-листа ||
 || [task.checklistitem.getmanifest](./task-checklist-item-get-manifest.md) | Получает список методов и их описание ||
 |#

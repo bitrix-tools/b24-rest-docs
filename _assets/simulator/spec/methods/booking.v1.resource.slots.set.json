@@ -132,5 +132,23 @@
     }
   ],
   "page": "/api-reference/booking/resource/slots/booking-v1-resource-slots-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "resourceId": 15,
+    "slots": [
+      {
+        "from": 540,
+        "to": 1080,
+        "timezone": "Europe/Kaliningrad",
+        "weekDays": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri"
+        ],
+        "slotSize": 30
+      }
+    ]
+  }
 }

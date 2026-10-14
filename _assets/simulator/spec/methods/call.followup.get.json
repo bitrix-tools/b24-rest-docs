@@ -82,5 +82,9 @@
     }
   ],
   "page": "/api-reference/telephony/follow-up/call-followup-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "callId": 12345,
+    "mentionFormat": "html"
+  }
 }

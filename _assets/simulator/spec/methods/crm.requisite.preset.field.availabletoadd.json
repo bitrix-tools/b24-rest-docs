@@ -81,5 +81,10 @@
     }
   ],
   "page": "/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-available-to-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "preset": {
+      "ID": 27
+    }
+  }
 }

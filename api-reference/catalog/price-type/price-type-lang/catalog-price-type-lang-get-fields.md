@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает поля перевода названия типа цены.
+Метод `catalog.priceTypeLang.getFields` возвращает описание полей перевода названия типа цены.
 
 Без параметров.
 
@@ -277,7 +277,7 @@ HTTP-статус: **200**
 || **priceTypeLang**
 [`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price_type_lang](../../data-types.md#catalog_price_type_lang), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок

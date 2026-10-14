@@ -9,13 +9,15 @@
 
 {% endnote %}
 
-Действия приложений добавляют в дизайнер бизнес-процессов шаг, который вызывает обработчик приложения. Такой шаг принимает входные параметры, может ждать ответ приложения и возвращать выходные значения в процесс.
+Действие приложения — шаг шаблона бизнес-процесса, который выполняет приложение. Автор шаблона добавляет его в дизайнере бизнес-процессов наравне со стандартными действиями. Когда процесс доходит до этого шага, Битрикс24 отправляет данные на обработчик приложения. Приложение обрабатывает их и, если нужно, возвращает результат в процесс. Например, действие может проверить компанию из сделки во внешнем сервисе и вернуть ее статус.
 
-В REST API действия приложений и [роботы приложений](../bizproc-robot/bizproc-robot-add.md) близки по модели. Регистрация, обновление, удаление и список доступны отдельными методами для каждого типа. Внутри платформы обработка построена на общем механизме. Тип записи определяется внутренним системным признаком `IS_ROBOT`, который разделяет записи на действия и роботов. Значение `Y` означает робота, значение `N` — действие. В методах `bizproc.activity.*` этот признак не передается.
-
-Действия приложений подходят в первую очередь для поддержки уже существующих интеграций и доработки ранее добавленных действий. Для новой разработки рекомендуется использовать роботов приложений. Они работают в CRM-автоматизации и бизнес-процессах, покрывая больше сценариев.
+Похожим образом работают [роботы приложений](../bizproc-robot/index.md). Робот доступен и в CRM-автоматизации, и в дизайнере бизнес-процессов, а действие — только в дизайнере. Поэтому для новой разработки выбирайте роботов, а действия приложений нужны в первую очередь для поддержки существующих интеграций.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация:
+> - [Как работать в дизайнере бизнес-процессов](https://helpdesk.bitrix24.ru/open/22955798/)
+> - [Журнал отладки бизнес-процессов: как включить хранение логов](https://helpdesk.bitrix24.ru/open/21994508/)
 
 ## Для каких сценариев подходят действия приложений
 
@@ -24,38 +26,98 @@
 - Записать в журнал бизнес-процесса промежуточные сообщения
 - Ограничить доступность действия по типу документа и редакции Битрикс24
 - Точечно доработать логику внутри уже работающего шаблона без миграции на другой тип автоматизации
-- Реализовать вспомогательные сценарии контроля и выполнения заданий бизнес-процессов
 
 ## Как начать работу
 
-1. Зарегистрируйте действие через [bizproc.activity.add](./bizproc-activity-add.md)
-2. Если нужно вернуть результат, укажите `RETURN_PROPERTIES` с описанием выходных параметров и задайте `USE_SUBSCRIPTION` со значением `'Y'` при регистрации или обновлении действия через [bizproc.activity.add](./bizproc-activity-add.md) и [bizproc.activity.update](./bizproc-activity-update.md). Затем передайте значения через [bizproc.event.send](../bizproc-robot/bizproc-event-send.md)
-3. При необходимости ограничьте доступность действия через `FILTER` в [bizproc.activity.add](./bizproc-activity-add.md) и [bizproc.activity.update](./bizproc-activity-update.md). Используйте правила `INCLUDE` и `EXCLUDE`, например для облака `b24` или коробочной версии `box`
-4. Добавьте действие в шаблон и запустите процесс:
-   - через интерфейс в дизайнере бизнес-процессов
-   - через методы шаблонов [bizproc.workflow.template.add](../template/bizproc-workflow-template-add.md), [bizproc.workflow.template.update](../template/bizproc-workflow-template-update.md) и [bizproc.workflow.start](../bizproc-workflow-start.md)
-5. Для диагностики и контроля выполнения записывайте этапы в журнал через [bizproc.activity.log](./bizproc-activity-log.md)
-6. Проверяйте установленные действия через [bizproc.activity.list](./bizproc-activity-list.md)
-7. Удаляйте неактуальные действия через [bizproc.activity.delete](./bizproc-activity-delete.md)
+1. Подготовьте обработчик — страницу приложения с внешним URL, на которую Битрикс24 будет отправлять данные действия
+2. Зарегистрируйте действие методом [bizproc.activity.add](./bizproc-activity-add.md). Передайте код `CODE`, название `NAME` и адрес обработчика `HANDLER`. Входные параметры опишите в `PROPERTIES`, результаты действия — в `RETURN_PROPERTIES`
+3. Чтобы процесс ждал ответа приложения, передайте `USE_SUBSCRIPTION` со значением `Y`. Если параметр не передать, ждать ли ответа, решит автор шаблона в настройках действия
+4. При необходимости ограничьте, где показывать действие, параметром `FILTER`. Используйте правила `INCLUDE` и `EXCLUDE`, например `b24` для облачного Битрикс24 и `box` для коробочного
+5. В дизайнере бизнес-процессов добавьте действие в шаблон, затем запустите процесс вручную или методом [bizproc.workflow.start](../bizproc-workflow-start.md). Приложение может также загрузить шаблон с действием из файла `.bpt` методом [bizproc.workflow.template.add](../template/bizproc-workflow-template-add.md)
+6. Примите данные на обработчике и верните результат методом [bizproc.event.send](../bizproc-robot/bizproc-event-send.md). Как устроен обмен, описано в разделе [Как действие обменивается данными с приложением](#handler)
+7. Проверяйте действия приложения методом [bizproc.activity.list](./bizproc-activity-list.md), изменяйте методом [bizproc.activity.update](./bizproc-activity-update.md) и удаляйте ненужные методом [bizproc.activity.delete](./bizproc-activity-delete.md)
 
-{% note tip "Пользовательская документация" %}
+## Как действие обменивается данными с приложением {#handler}
 
-- [Журнал отладки бизнес-процессов: как включить хранение логов](https://helpdesk.bitrix24.ru/open/21994508/)
+Когда процесс доходит до действия, Битрикс24 отправляет POST-запрос на адрес `HANDLER` через сервер очередей. Запрос приходит с content-type `application/x-www-form-urlencoded`, в примере структура показана в формате JSON.
+
+```json
+{
+    "workflow_id": "6ab5bcfde8e8b0.39728274",
+    "code": "md5_action",
+    "document_id": [
+        "crm",
+        "CCrmDocumentDeal",
+        "DEAL_17"
+    ],
+    "document_type": [
+        "crm",
+        "CCrmDocumentDeal",
+        "DEAL"
+    ],
+    "event_token": "6ab5bcfde8e8b0.39728274|A1|rKrsZ31xjG1jMJL2iEjmSTP3h2K10FiI.e02ccd45c3520894e790a7b58f4f04932f5e9805a03cdc041b9c5dc5aff49653",
+    "properties": {
+        "inputString": "Проверка"
+    },
+    "use_subscription": "Y",
+    "timeout_duration": "0",
+    "ts": "1790295294",
+    "auth": {
+        "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
+        "refresh_token": "t5o5dbkqauh5cz11es8bg83djqda41ku",
+        "domain": "some-domain.bitrix24.ru",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
+        "application_token": "51856fefc120afa4b628cc82d3935cce"
+    }
+}
+```
+
+Что важно в запросе:
+
+- `event_token` — ключ этого запуска действия. Его передают в методы [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) и [bizproc.activity.log](./bizproc-activity-log.md)
+- `properties` — значения входных параметров из `PROPERTIES`, которые автор шаблона задал в настройках действия
+- `document_id` — документ, для которого запущен процесс. В примере это сделка с ID 17
+- `timeout_duration` — сколько секунд процесс будет ждать ответа. Значение `0` означает, что срок не ограничен
+- `auth` — данные авторизации с токенами `access_token` и `refresh_token` пользователя из `AUTH_USER_ID` или того, кого автор шаблона выбрал в настройках действия. Остальные ключи `auth` описаны в статье [События](../../events/index.md#auth)
+
+Чтобы вернуть результат, вызовите [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) с токеном из запроса. В `RETURN_VALUES` передайте значения с ключами из `RETURN_PROPERTIES`, в `LOG_MESSAGE` — текст для журнала бизнес-процесса:
+
+```json
+{
+    "EVENT_TOKEN": "6ab5bcfde8e8b0.39728274|A1|rKrsZ31xjG1jMJL2iEjmSTP3h2K10FiI.e02ccd45c3520894e790a7b58f4f04932f5e9805a03cdc041b9c5dc5aff49653",
+    "RETURN_VALUES": {
+        "outputString": "b4e5c9a2f7d3"
+    },
+    "LOG_MESSAGE": "Результат получен"
+}
+```
+
+Если шаг с этим токеном ждет ответа, он завершится, и процесс пойдет дальше. Значение `outputString` станет доступно следующим действиям шаблона. Ключи, которых нет в `RETURN_PROPERTIES`, Битрикс24 не сохранит.
+
+Пока приложение обрабатывает данные, оно может записывать промежуточные сообщения в журнал методом [bizproc.activity.log](./bizproc-activity-log.md) с тем же токеном. Шаг при этом продолжает ждать ответа.
+
+{% note warning "" %}
+
+Ответ `true` метода [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) не подтверждает, что процесс принял результат. Метод вернет `true` и на токен шага, который уже завершился, например при повторной отправке ответа. Процесс в этом случае не изменится.
 
 {% endnote %}
 
+Пошаговый пример с кодом обработчика на JS, PHP и Python — в туториале [Как создать свое действие для бизнес-процесса](../../../tutorials/bizproc/how-to-create-custom-activity.md).
+
 ## Что важно учитывать
 
-- Методы [bizproc.activity.add](./bizproc-activity-add.md), [bizproc.activity.update](./bizproc-activity-update.md), [bizproc.activity.list](./bizproc-activity-list.md), [bizproc.activity.delete](./bizproc-activity-delete.md) работают только в контексте установленного приложения
-- Для [bizproc.activity.log](./bizproc-activity-log.md) и [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) нужен уникальный ключ `EVENT_TOKEN`, который приходит на обработчик `HANDLER` во время выполнения действия в бизнес-процессе
+- Методы [bizproc.activity.add](./bizproc-activity-add.md), [bizproc.activity.update](./bizproc-activity-update.md), [bizproc.activity.list](./bizproc-activity-list.md) и [bizproc.activity.delete](./bizproc-activity-delete.md) работают только в контексте приложения и только от имени администратора. Через вебхук они вернут ошибку `ACCESS_DENIED` с текстом `Access denied! Application context required`
+- Методам [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) и [bizproc.activity.log](./bizproc-activity-log.md) контекст приложения не нужен: Битрикс24 проверяет токен `event_token`. С неверным токеном они вернут ошибку `ACCESS_DENIED`
 
 ## Связь с другими объектами
 
-**Шаблоны бизнес-процессов.** Действие становится доступным в дизайнере после регистрации через [bizproc.activity.add](./bizproc-activity-add.md) и используется внутри шаблона при его запуске.
+Действия приложений связаны с шаблонами бизнес-процессов, типами документов и роботами приложений.
 
-**Тип документа.** Через `DOCUMENT_TYPE` и `FILTER` действие связывается с нужным типом документа и показывается только в подходящем контексте.
+**Шаблоны бизнес-процессов.** После регистрации методом [bizproc.activity.add](./bizproc-activity-add.md) действие появляется в дизайнере бизнес-процессов, и автор шаблона может добавить его как обычный шаг.
 
-**Роботы приложений.** Действия и роботы используют общий внутренний механизм, поэтому важно учитывать пересечения по кодам и сценариям при регистрации.
+**Тип документа.** Параметр `DOCUMENT_TYPE` метода [bizproc.activity.add](./bizproc-activity-add.md) задает тип документа, по которому Битрикс24 определяет типы полей для `PROPERTIES` и `RETURN_PROPERTIES`, например поле адреса CRM. Где показывать действие, задает параметр `FILTER`: например, только в шаблонах для сделок.
+
+**Роботы приложений.** У действий и [роботов](../bizproc-robot/index.md) одного приложения общий набор кодов. Если у приложения уже есть робот с таким же `CODE`, действие не зарегистрируется: метод вернет ошибку `ERROR_ACTIVITY_ALREADY_INSTALLED`.
 
 ## Обзор методов {#all-methods}
 
@@ -69,5 +131,6 @@
 || [bizproc.activity.update](./bizproc-activity-update.md) | Обновляет действие ||
 || [bizproc.activity.list](./bizproc-activity-list.md) | Получает список действий, установленных приложением ||
 || [bizproc.activity.delete](./bizproc-activity-delete.md) | Удаляет действие, установленное приложением ||
-|| [bizproc.activity.log](./bizproc-activity-log.md) | Записывает информацию в лог бизнес-процесса ||
+|| [bizproc.activity.log](./bizproc-activity-log.md) | Записывает сообщение в журнал бизнес-процесса ||
+|| [bizproc.event.send](../bizproc-robot/bizproc-event-send.md) | Возвращает результат действия в бизнес-процесс ||
 |#

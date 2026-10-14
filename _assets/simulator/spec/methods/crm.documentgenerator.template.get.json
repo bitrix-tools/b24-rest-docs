@@ -92,5 +92,8 @@
     "updateTime",
     "users",
     "withStamps"
-  ]
+  ],
+  "requestExample": {
+    "id": 41
+  }
 }

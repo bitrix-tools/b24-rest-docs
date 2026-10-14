@@ -2,7 +2,10 @@
 
 > Scope: [`crm`](../../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять методы: пользователь с правом добавления лида. Для привязки трейса нужны права на изменение лида
+> Кто может выполнять методы: чтобы пройти сценарий целиком, пользователю нужны права на добавление и изменение лидов
+>
+> - [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) — пользователь с правом добавлять лиды
+> - [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) — пользователь с правом изменять созданный лид
 
 {% note tip "" %}
 
@@ -15,14 +18,16 @@
 
 Сквозная аналитика показывает источник привлечения клиента. Когда клиент заполняет форму на сайте, в карточку лида можно передать имя, телефон и данные о рекламном канале с маршрутом посещения.
 
-Сквозная аналитика создает трекер на сайте. Трекер собирает данные о посещении. При отправке формы код получает эти данные и связывает лид с источником привлечения клиента.
+Данные о посещении собирает скрипт сквозной аналитики, который Битрикс24 формирует для вашего сайта. Скрипт отдает их в виде трейса — JSON-строки с источником перехода и посещенными страницами. При отправке формы код получает трейс и связывает с ним созданный лид.
 
-Настройка передачи данных состоит из четырех этапов.
+Сценарий состоит из четырех шагов.
 
-1. Добавляем на страницу форму обратной связи и скрытое поле `TRACE`.
-2. Получаем трейс посетителя через `b24Tracker.guest.getTrace()` и сохраняем идентификатор визита в скрытое поле формы.
-3. Создаем лид методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md).
-4. Связываем лид с трейсом методом [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md).
+1. Добавить на страницу форму обратной связи со скрытым полем `TRACE`
+2. Получить трейс посетителя функцией `b24Tracker.guest.getTrace()` при отправке формы
+3. Создать лид методом [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md)
+4. Привязать лид к трейсу методом [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md)
+
+Метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) вернет идентификатор трейса, а в карточке лида появятся данные сквозной аналитики. Если трейс получить не удалось, бэкенд все равно создаст лид, но без связи с источником.
 
 {% note info "" %}
 
@@ -34,19 +39,33 @@
 
 {% endnote %}
 
+## Что нужно до начала
+
+- входящий вебхук со scope [`crm`](../../../api-reference/scopes/permissions.md) от имени пользователя с правами на добавление и изменение лидов
+- скрипт сквозной аналитики, сформированный Битрикс24, на всех страницах сайта, где нужно собирать маршрут посетителя, включая страницу с формой. После загрузки скрипта на странице доступна функция `b24Tracker.guest.getTrace()`
+- сервер для обработчика формы на JS, PHP или Python
+
+Требования к среде для примеров:
+
+- JS — Node.js 18, 20 или 22 и выше. B24JsSDK — ES module: сохраните код в файле `.mjs` или добавьте `"type": "module"` в `package.json`
+- PHP — PHP 8.4 или 8.5 для B24PhpSDK 3.x
+- Python — Python 3.9 или новее
+
 ## 1\. Добавляем форму на сайт
 
 Добавляем поля в форму обратной связи:
 
-- `NAME` — имя клиента,
-- `LAST_NAME` — фамилия клиента,
-- `PHONE` — телефон клиента,
-- `TRACE` — данные сквозной аналитики, скрытое поле формы.
+- `NAME` — имя клиента
+- `LAST_NAME` — фамилия клиента
+- `PHONE` — телефон клиента
+- `TRACE` — трейс сквозной аналитики, скрытое поле формы
 
 Форма отправляет данные на бэкенд обычным POST-запросом, поэтому ее разметка одинакова для всех языков:
 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
 ```html
-<form method="post" action="/">
+<form id="feedback-form" method="post" action="/">
     <input type="hidden" id="FORM_TRACE" name="TRACE">
     <input type="text" name="NAME" required>
     <input type="text" name="LAST_NAME" required>
@@ -57,33 +76,30 @@
 
 Пользователь не видит скрытое поле, но его значение отправляется вместе с остальными данными формы.
 
-## 2\. Получаем данные сквозной аналитики
+## 2\. Получаем трейс при отправке формы
 
-После загрузки страницы обращаемся к объекту `b24Tracker` и получаем трейс текущего посетителя. Значение записываем в скрытое поле `TRACE`. Это клиентский код — он выполняется в браузере на странице с формой:
+Функция `b24Tracker.guest.getTrace()` возвращает трейс — JSON-строку — и сразу очищает сохраненную историю прошлых визитов посетителя. Поэтому вызываем ее один раз, в момент отправки формы, а не при загрузке страницы. Если посетитель уйдет со страницы без отправки, история останется для следующего обращения.
+
+Трейс записываем в скрытое поле `TRACE`. Это клиентский код — он выполняется в браузере на странице с формой:
 
 ```html
 <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
 <script>
-    window.onload = function(e){
+    document.getElementById('feedback-form').addEventListener('submit', function() {
         var traceInput = document.getElementById('FORM_TRACE');
-        if(
-            traceInput
-            && typeof b24Tracker !== 'undefined'
-            && b24Tracker.guest
-            && typeof b24Tracker.guest.getTrace === 'function'
-        )
-        {
-            traceInput.value = b24Tracker.guest.getTrace();
+        var tracker = window.b24Tracker && window.b24Tracker.guest;
+        if (tracker && typeof tracker.getTrace === 'function') {
+            traceInput.value = tracker.getTrace();
         }
-    }
+    });
 </script>
 ```
 
-Полученное значение используется для связи лида с рекламным источником и отображается в отчетах сквозной аналитики.
+Если функция недоступна, форма отправится с пустым полем `TRACE`, и бэкенд создаст лид без связи со сквозной аналитикой.
 
 {% note warning "" %}
 
-Если скрипт сквозной аналитики не установлен на сайте или не успел загрузиться до вызова `b24Tracker.guest.getTrace()`, значение `TRACE` не будет получено. Проверьте подключение скрипта на странице с формой.
+Если скрипт сквозной аналитики не установлен на сайте или не успел загрузиться к моменту отправки формы, код не получит трейс. Проверьте подключение скрипта на странице с формой.
 
 {% endnote %}
 
@@ -93,20 +109,25 @@
 
 В `fields` передаем следующие параметры:
 
-- `title` — название лида,
-- `name` — имя клиента,
-- `lastName` — фамилия клиента,
-- `fm` — телефон в формате множественного поля CRM.
+- `title` — название лида
+- `name` — имя клиента
+- `lastName` — фамилия клиента
+- `fm` — телефон в формате множественного поля CRM
 
 Поле `fm` передаем массивом, потому что телефон в CRM хранится как множественное поле типа [crm_multifield](../../../api-reference/crm/data-types.md#crm_multifield). Для телефона указываем:
 
-- `typeId` — тип множественного поля `PHONE`,
-- `valueType` — тип значения, например `WORK`,
-- `value` — номер телефона.
+- `typeId` — тип множественного поля `PHONE`
+- `valueType` — тип значения, например `WORK`
+- `value` — номер телефона
 
 {% note warning "" %}
 
-Проверьте, какие обязательные поля настроены для лидов в вашем Битрикс24. Все обязательные поля нужно передать в метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md).
+Метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) создаст лид и не вернет ошибку в двух случаях:
+
+- телефон передан строкой вместо массива или без `typeId` — лид будет без телефона
+- не заполнены поля, которые настроены в карточке лида как обязательные, — метод проверяет их, только если в настройках CRM включена опция «Проверять наличие обязательных пользовательских полей»
+
+Передавайте `fm` в формате выше и заполняйте обязательные поля лида в `fields` сами.
 
 {% endnote %}
 
@@ -179,15 +200,10 @@
     require_once 'vendor/autoload.php';
 
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
 
-    $log = new Logger('b24');
-    $log->pushHandler(new StreamHandler('php://stdout'));
-
-    $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+    $b24 = ServiceBuilderFactory::createServiceBuilderFromWebhook(
+        'https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/'
+    );
 
     // $name, $lastName, $phone приходят из данных формы ($_POST)
     $leadId = $b24->getCRMScope()->item()->add(1, [
@@ -201,7 +217,7 @@
     ```
 {% endlist %}
 
-Метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) возвращает идентификатор лида в поле `result.item.id`.
+Метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) возвращает идентификатор лида в поле `result.item.id`. Сохраняем его: на шаге 4 он уйдет в параметр `ENTITIES`.
 
 Ниже приведен пример ответа в сокращенном виде. Полный формат ответа смотрите в описании метода [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md).
 
@@ -215,7 +231,7 @@
 }
 ```
 
-## 4\. Связываем лид с трейсом
+## 4\. Привязываем лид к трейсу
 
 После создания лида вызываем метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md), потому что `TRACE` нельзя передать напрямую в [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md).
 
@@ -223,8 +239,8 @@
 
 В метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) передаем параметры:
 
-- `TRACE` — строка с данными сквозной аналитики.
-- `ENTITIES` — массив объектов, которые нужно связать с трейсом. Для лида указываем `TYPE` со значением `LEAD` и `ID` из поля `result.item.id` ответа [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md).
+- `TRACE` — JSON-строка трейса из скрытого поля формы
+- `ENTITIES` — массив объектов, которые нужно связать с трейсом. Для лида указываем `TYPE` со значением `LEAD` и `ID` из поля `result.item.id` ответа [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md)
 
 {% list tabs %}
 
@@ -246,6 +262,8 @@
         if (!traceResponse.isSuccess) {
             throw new Error(traceResponse.getErrorMessages().join('; '))
         }
+
+        const traceId = traceResponse.getData().result
     }
     ```
 
@@ -253,31 +271,31 @@
 
     ```python
     if trace:
-        client.crm.tracking.trace.add(
+        trace_id = client.crm.tracking.trace.add(
             trace=trace,
             entities=[
                 {"TYPE": "LEAD", "ID": lead_id},
             ],
-        ).response
+        ).response.result
     ```
 
 
 - PHP
 
     ```php
-    if (!empty($trace)) {
+    if ($trace !== '') {
         // crm.tracking.* нет среди типизированных сервисов — вызываем напрямую через ядро
-        $b24->core->call('crm.tracking.trace.add', [
+        $traceId = $b24->core->call('crm.tracking.trace.add', [
             'TRACE' => $trace,
             'ENTITIES' => [
                 ['TYPE' => 'LEAD', 'ID' => $leadId],
             ],
-        ]);
+        ])->getResponseData()->getResult()[0];
     }
     ```
 {% endlist %}
 
-Если `TRACE` пустой, лид будет создан без связи со сквозной аналитикой.
+Если `TRACE` пустой, код пропускает этот шаг, и лид остается без связи со сквозной аналитикой.
 
 Метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) возвращает идентификатор созданного трейса в поле `result`.
 
@@ -287,9 +305,15 @@
 }
 ```
 
-### Полный пример кода
+## Полный пример кода
 
-В примерах ниже бэкенд отдает HTML-страницу с формой и обрабатывает ее отправку. Подставьте адрес вебхука своего Битрикс24 в переменную с URL.
+В примерах ниже бэкенд отдает HTML-страницу с формой и обрабатывает ее отправку. Подставьте адрес вебхука своего Битрикс24 в переменную с URL и запустите сервер:
+
+- JS — сохраните код в файле `app.mjs` и выполните `node app.mjs`
+- Python — сохраните код в файле `app.py` и выполните `python app.py`
+- PHP — сохраните код в файле `index.php` и выполните `php -S localhost:3000 index.php`
+
+Форма откроется по адресу `http://localhost:3000`. После отправки страница покажет, создан ли лид и привязан ли он к трейсу.
 
 {% list tabs %}
 
@@ -301,57 +325,74 @@
     import { B24Hook } from '@bitrix24/b24jssdk'
 
     const WEBHOOK = 'https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/'
-
     const app = express()
-    app.use(express.urlencoded({ extended: true }))
+    app.use(express.urlencoded({ extended: false }))
 
-    const formPage = (message = '') => `<!DOCTYPE html>
+    const PAGE = `<!DOCTYPE html>
     <html lang="ru">
-        <head>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        </head>
-        <body class="container">
-            <h1>Feedback</h1>
-            <div class="col-12"><p>${message}</p></div>
-            <form method="post" action="/">
-                <input type="hidden" id="FORM_TRACE" name="TRACE">
-                <div class="row"><div class="col-4 mt-3"><label>Name*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="NAME" required></div></div>
-                <div class="row"><div class="col-4 mt-3"><label>Last name*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="LAST_NAME" required></div></div>
-                <div class="row"><div class="col-4 mt-3"><label>Phone*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="PHONE" required></div></div>
-                <div class="row"><div class="col-sm-10">
-                    <input type="submit" name="SAVE" class="btn btn-primary" value="Send"></div></div>
-            </form>
-            <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
-            <script>
-                window.onload = function() {
-                    var traceInput = document.getElementById('FORM_TRACE');
-                    if (traceInput && typeof b24Tracker !== 'undefined'
-                        && b24Tracker.guest && typeof b24Tracker.guest.getTrace === 'function') {
-                        traceInput.value = b24Tracker.guest.getTrace();
-                    }
+    <head>
+        <meta charset="UTF-8">
+        <title>Обратная связь</title>
+    </head>
+    <body>
+        <h1>Обратная связь</h1>
+        <p id="message" aria-live="polite">__MESSAGE__</p>
+        <form id="feedback-form" method="post" action="/">
+            <input type="hidden" id="FORM_TRACE" name="TRACE">
+            <label>Имя <input type="text" name="NAME" required></label>
+            <label>Фамилия <input type="text" name="LAST_NAME" required></label>
+            <label>Телефон <input type="tel" name="PHONE" required></label>
+            <button type="submit">Отправить</button>
+        </form>
+        <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
+        <script>
+            document.getElementById('feedback-form').addEventListener('submit', function() {
+                var traceInput = document.getElementById('FORM_TRACE');
+                var tracker = window.b24Tracker && window.b24Tracker.guest;
+                if (tracker && typeof tracker.getTrace === 'function') {
+                    traceInput.value = tracker.getTrace();
                 }
-            </script>
-        </body>
+            });
+        </script>
+    </body>
     </html>`
+
+    const HTML_ESCAPES = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+    }
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char])
+    const formPage = (message = '') => PAGE.replace('__MESSAGE__', escapeHtml(message))
+    const formValue = (value) => (typeof value === 'string' ? value.trim() : '')
 
     app.get('/', (req, res) => res.send(formPage()))
 
     app.post('/', async (req, res) => {
-        const { NAME = '', LAST_NAME = '', PHONE = '', TRACE = '' } = req.body
+        const name = formValue(req.body.NAME)
+        const lastName = formValue(req.body.LAST_NAME)
+        const phone = formValue(req.body.PHONE)
+        const trace = formValue(req.body.TRACE)
+
+        if (!name || !lastName || !phone) {
+            return res.send(formPage('Заполните имя, фамилию и телефон'))
+        }
+
         const $b24 = B24Hook.fromWebhookUrl(WEBHOOK)
+        let leadId = 0
+
         try {
             const leadResponse = await $b24.actions.v2.call.make({
                 method: 'crm.item.add',
                 params: {
                     entityTypeId: 1,
                     fields: {
-                        title: `Feedback page: ${NAME} ${LAST_NAME}`,
-                        name: NAME,
-                        lastName: LAST_NAME,
-                        fm: [{ typeId: 'PHONE', valueType: 'WORK', value: PHONE }],
+                        title: `Feedback page: ${name} ${lastName}`,
+                        name: name,
+                        lastName: lastName,
+                        fm: [{ typeId: 'PHONE', valueType: 'WORK', value: phone }],
                     },
                 },
                 requestId: 'lead-add',
@@ -359,19 +400,31 @@
             if (!leadResponse.isSuccess) {
                 return res.send(formPage('Лид не создан: ' + leadResponse.getErrorMessages().join('; ')))
             }
-            const leadId = leadResponse.getData().result.item.id
+            leadId = leadResponse.getData().result.item.id
 
-            if (TRACE) {
-                await $b24.actions.v2.call.make({
-                    method: 'crm.tracking.trace.add',
-                    params: { TRACE, ENTITIES: [{ TYPE: 'LEAD', ID: leadId }] },
-                    requestId: 'trace-add',
-                })
-                return res.send(formPage('Лид создан'))
+            if (!trace) {
+                return res.send(formPage('Лид ' + leadId + ' создан без трейса'))
             }
-            res.send(formPage('Лид создан без трейса'))
+
+            const traceResponse = await $b24.actions.v2.call.make({
+                method: 'crm.tracking.trace.add',
+                params: { TRACE: trace, ENTITIES: [{ TYPE: 'LEAD', ID: leadId }] },
+                requestId: 'trace-add',
+            })
+            if (!traceResponse.isSuccess) {
+                return res.send(formPage(
+                    'Лид ' + leadId + ' создан, но трейс не привязан: '
+                    + traceResponse.getErrorMessages().join('; ')
+                ))
+            }
+
+            const traceId = traceResponse.getData().result
+            return res.send(formPage('Лид ' + leadId + ' создан и привязан к трейсу ' + traceId))
         } catch (error) {
-            res.send(formPage('Ошибка: ' + error.message))
+            if (leadId > 0) {
+                return res.send(formPage('Лид ' + leadId + ' создан, но трейс не привязан: ' + error.message))
+            }
+            return res.send(formPage('Лид не создан: ' + error.message))
         } finally {
             $b24.destroy()
         }
@@ -384,6 +437,8 @@
 
     ```python
     # pip install b24pysdk flask
+    import html
+
     from flask import Flask, request
     from b24pysdk import Client, BitrixWebhook
 
@@ -392,39 +447,38 @@
 
     app = Flask(__name__)
 
+    PAGE = """<!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Обратная связь</title>
+    </head>
+    <body>
+        <h1>Обратная связь</h1>
+        <p id="message" aria-live="polite">__MESSAGE__</p>
+        <form id="feedback-form" method="post" action="/">
+            <input type="hidden" id="FORM_TRACE" name="TRACE">
+            <label>Имя <input type="text" name="NAME" required></label>
+            <label>Фамилия <input type="text" name="LAST_NAME" required></label>
+            <label>Телефон <input type="tel" name="PHONE" required></label>
+            <button type="submit">Отправить</button>
+        </form>
+        <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
+        <script>
+            document.getElementById('feedback-form').addEventListener('submit', function() {
+                var traceInput = document.getElementById('FORM_TRACE');
+                var tracker = window.b24Tracker && window.b24Tracker.guest;
+                if (tracker && typeof tracker.getTrace === 'function') {
+                    traceInput.value = tracker.getTrace();
+                }
+            });
+        </script>
+    </body>
+    </html>"""
+
 
     def form_page(message: str = "") -> str:
-        return f"""<!DOCTYPE html>
-    <html lang="ru">
-        <head>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        </head>
-        <body class="container">
-            <h1>Feedback</h1>
-            <div class="col-12"><p>{message}</p></div>
-            <form method="post" action="/">
-                <input type="hidden" id="FORM_TRACE" name="TRACE">
-                <div class="row"><div class="col-4 mt-3"><label>Name*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="NAME" required></div></div>
-                <div class="row"><div class="col-4 mt-3"><label>Last name*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="LAST_NAME" required></div></div>
-                <div class="row"><div class="col-4 mt-3"><label>Phone*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="PHONE" required></div></div>
-                <div class="row"><div class="col-sm-10">
-                    <input type="submit" name="SAVE" class="btn btn-primary" value="Send"></div></div>
-            </form>
-            <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
-            <script>
-                window.onload = function() {{
-                    var traceInput = document.getElementById('FORM_TRACE');
-                    if (traceInput && typeof b24Tracker !== 'undefined'
-                        && b24Tracker.guest && typeof b24Tracker.guest.getTrace === 'function') {{
-                        traceInput.value = b24Tracker.guest.getTrace();
-                    }}
-                }}
-            </script>
-        </body>
-    </html>"""
+        return PAGE.replace("__MESSAGE__", html.escape(message))
 
 
     @app.get("/")
@@ -434,13 +488,18 @@
 
     @app.post("/")
     def submit():
+        name = request.form.get("NAME", "").strip()
+        last_name = request.form.get("LAST_NAME", "").strip()
+        phone = request.form.get("PHONE", "").strip()
+        trace = request.form.get("TRACE", "").strip()
+
+        if not name or not last_name or not phone:
+            return form_page("Заполните имя, фамилию и телефон")
+
         client = Client(BitrixWebhook(domain=WEBHOOK_DOMAIN, webhook_token=WEBHOOK_TOKEN))
-        name = request.form.get("NAME", "")
-        last_name = request.form.get("LAST_NAME", "")
-        phone = request.form.get("PHONE", "")
-        trace = request.form.get("TRACE", "")
+
         try:
-            bitrix_response = client.crm.item.add(
+            lead_id = client.crm.item.add(
                 fields={
                     "title": f"Feedback page: {name} {last_name}",
                     "name": name,
@@ -448,17 +507,26 @@
                     "fm": [{"typeId": "PHONE", "valueType": "WORK", "value": phone}],
                 },
                 entity_type_id=1,
-            ).response
-            lead_id = bitrix_response.result["item"]["id"]
-            if trace:
-                client.crm.tracking.trace.add(
-                    trace=trace,
-                    entities=[{"TYPE": "LEAD", "ID": lead_id}],
-                ).response
-                return form_page("Лид создан")
-            return form_page("Лид создан без трейса")
+            ).response.result["item"]["id"]
         except Exception as error:
             return form_page(f"Лид не создан: {error}")
+
+        if not trace:
+            return form_page(f"Лид {lead_id} создан без трейса")
+
+        try:
+            trace_id = client.crm.tracking.trace.add(
+                trace=trace,
+                entities=[{"TYPE": "LEAD", "ID": lead_id}],
+            ).response.result
+        except Exception as error:
+            return form_page(f"Лид {lead_id} создан, но трейс не привязан: {error}")
+
+        return form_page(f"Лид {lead_id} создан и привязан к трейсу {trace_id}")
+
+
+    if __name__ == "__main__":
+        app.run(port=3000)
     ```
 
 
@@ -470,86 +538,93 @@
     require_once 'vendor/autoload.php';
 
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
 
     $message = '';
 
-    if (!empty($_POST['SAVE'])) {
-        $log = new Logger('b24');
-        $log->pushHandler(new StreamHandler('php://stdout'));
-        $b24 = (new ServiceBuilderFactory(new EventDispatcher(), $log))
-            ->initFromWebhook('https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $formValue = static fn (string $key): string => is_string($_POST[$key] ?? null) ? trim($_POST[$key]) : '';
+        $name = $formValue('NAME');
+        $lastName = $formValue('LAST_NAME');
+        $phone = $formValue('PHONE');
+        $trace = $formValue('TRACE');
 
-        $name = htmlspecialchars($_POST['NAME'] ?? '');
-        $lastName = htmlspecialchars($_POST['LAST_NAME'] ?? '');
-        $phone = htmlspecialchars($_POST['PHONE'] ?? '');
-        $trace = $_POST['TRACE'] ?? '';
+        if ($name === '' || $lastName === '' || $phone === '') {
+            $message = 'Заполните имя, фамилию и телефон';
+        } else {
+            $b24 = ServiceBuilderFactory::createServiceBuilderFromWebhook(
+                'https://your-domain.bitrix24.ru/rest/1/xxxxxxxxxxxxxxxx/'
+            );
+            $leadId = 0;
 
-        try {
-            $leadId = $b24->getCRMScope()->item()->add(1, [
-                'title' => 'Feedback page: ' . $name . ' ' . $lastName,
-                'name' => $name,
-                'lastName' => $lastName,
-                'fm' => [
-                    ['typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => $phone],
-                ],
-            ])->item()->id;
-
-            if (!empty($trace)) {
-                $b24->core->call('crm.tracking.trace.add', [
-                    'TRACE' => $trace,
-                    'ENTITIES' => [
-                        ['TYPE' => 'LEAD', 'ID' => $leadId],
+            try {
+                $leadId = $b24->getCRMScope()->item()->add(1, [
+                    'title' => 'Feedback page: ' . $name . ' ' . $lastName,
+                    'name' => $name,
+                    'lastName' => $lastName,
+                    'fm' => [
+                        ['typeId' => 'PHONE', 'valueType' => 'WORK', 'value' => $phone],
                     ],
-                ]);
-                $message = 'Лид создан';
-            } else {
-                $message = 'Лид создан без трейса';
+                ])->item()->id;
+
+                if ($trace === '') {
+                    $message = "Лид $leadId создан без трейса";
+                } else {
+                    $traceId = $b24->core->call('crm.tracking.trace.add', [
+                        'TRACE' => $trace,
+                        'ENTITIES' => [
+                            ['TYPE' => 'LEAD', 'ID' => $leadId],
+                        ],
+                    ])->getResponseData()->getResult()[0];
+                    $message = "Лид $leadId создан и привязан к трейсу $traceId";
+                }
+            } catch (\Throwable $e) {
+                $message = $leadId > 0
+                    ? "Лид $leadId создан, но трейс не привязан: " . $e->getMessage()
+                    : 'Лид не создан: ' . $e->getMessage();
             }
-        } catch (\Throwable $e) {
-            $message = 'Лид не создан: ' . $e->getMessage();
         }
     }
     ?>
     <!DOCTYPE html>
     <html lang="ru">
-        <head>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        </head>
-        <body class="container">
-            <h1>Feedback</h1>
-            <div class="col-12"><p><?=$message?></p></div>
-            <form method="post" action="">
-                <input type="hidden" id="FORM_TRACE" name="TRACE">
-                <div class="row"><div class="col-4 mt-3"><label>Name*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="NAME" required></div></div>
-                <div class="row"><div class="col-4 mt-3"><label>Last name*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="LAST_NAME" required></div></div>
-                <div class="row"><div class="col-4 mt-3"><label>Phone*</label></div>
-                    <div class="col-6 mt-3"><input type="text" name="PHONE" required></div></div>
-                <div class="row"><div class="col-sm-10">
-                    <input type="submit" name="SAVE" class="btn btn-primary" value="Send"></div></div>
-            </form>
-            <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
-            <script>
-                window.onload = function() {
-                    var traceInput = document.getElementById('FORM_TRACE');
-                    if (traceInput && typeof b24Tracker !== 'undefined'
-                        && b24Tracker.guest && typeof b24Tracker.guest.getTrace === 'function') {
-                        traceInput.value = b24Tracker.guest.getTrace();
-                    }
+    <head>
+        <meta charset="UTF-8">
+        <title>Обратная связь</title>
+    </head>
+    <body>
+        <h1>Обратная связь</h1>
+        <p id="message" aria-live="polite"><?= htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
+        <form id="feedback-form" method="post" action="">
+            <input type="hidden" id="FORM_TRACE" name="TRACE">
+            <label>Имя <input type="text" name="NAME" required></label>
+            <label>Фамилия <input type="text" name="LAST_NAME" required></label>
+            <label>Телефон <input type="tel" name="PHONE" required></label>
+            <button type="submit">Отправить</button>
+        </form>
+        <!-- На странице должен быть установлен скрипт сквозной аналитики Битрикс24 -->
+        <script>
+            document.getElementById('feedback-form').addEventListener('submit', function() {
+                var traceInput = document.getElementById('FORM_TRACE');
+                var tracker = window.b24Tracker && window.b24Tracker.guest;
+                if (tracker && typeof tracker.getTrace === 'function') {
+                    traceInput.value = tracker.getTrace();
                 }
-            </script>
-        </body>
+            });
+        </script>
+    </body>
     </html>
     ```
 {% endlist %}
 
-## Проверяем результат
+## Проверим результат
 
-После отправки формы в CRM появится новый лид с именем, фамилией и телефоном клиента. Если поле `TRACE` заполнено, метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) свяжет лид с данными сквозной аналитики.
+Сценарий выполнен, если после отправки формы страница показала сообщение «Лид N создан и привязан к трейсу M»: метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) вернул идентификатор лида, а метод [crm.tracking.trace.add](../../../api-reference/crm/tracking/crm-tracking-trace-add.md) — идентификатор трейса.
+
+1. Откройте лид с этим идентификатором в CRM и проверьте имя, фамилию и телефон
+2. Проверьте поле «UTM-метки». Если посетитель пришел на сайт по ссылке с метками, Битрикс24 заполнит поле значениями из трейса. Метки, которые уже сохранены в лиде, трейс не перезаписывает. Через REST эти значения вернет метод [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md) в полях `utmSource`, `utmMedium` и `utmCampaign`
+3. Откройте поле «Сквозная аналитика» — в нем Битрикс24 показывает данные трейса. Если поля нет в карточке, добавьте его через «Выбрать поле»
+
+Если страница показала «Лид N создан без трейса», браузер отправил форму с пустым полем `TRACE`. Проверьте подключение скрипта сквозной аналитики на странице с формой.
 
 ## Ошибки и диагностика
 
@@ -557,18 +632,29 @@
 
 #|
 || **Код или текст ошибки** | **Причина и действие** ||
-|| `ACCESS_DENIED` | Нет права добавить лид. Проверьте права пользователя, от имени которого создан вебхук ||
-|| `CRM_FIELD_ERROR_REQUIRED` | Не заполнено обязательное поле. Проверьте обязательные поля лида ||
-|| `CRM_FIELD_ERROR_VALUE_NOT_VALID` | Значение или тип поля не прошли проверку. Проверьте значения и типы полей лида, для `fm` — структуру элементов массива ||
-|| `100` | Неверный тип значения множественного поля `fm`. Передайте `fm` массивом элементов ||
-|| ``Parameter `TRACE` required.`` | Не передан трейс. Проверьте загрузку скрипта сквозной аналитики и скрытое поле `TRACE` ||
-|| ``Can not parse JSON in parameter `TRACE`.`` | `TRACE` не является корректной JSON-строкой. Проверьте результат `b24Tracker.guest.getTrace()` ||
-|| ``Wrong TYPE in parameter `ENTITIES`. Allowed types: COMPANY,CONTACT,DEAL,LEAD,QUOTE`` | Передан недопустимый тип объекта. Проверьте значение `TYPE` в массиве `ENTITIES` ||
-|| ``Wrong ID in parameter `ENTITIES`.`` | Передан пустой, нечисловой или неположительный идентификатор. Проверьте значение `ID` в массиве `ENTITIES` ||
-|| ``You have no access to entity `LEAD` with ID `123`.`` | Нет права изменить лид. Проверьте права пользователя на указанный лид ||
+|| `ACCESS_DENIED` | Нет права добавить лид. Проверьте права пользователя, от имени которого создан вебхук, и повторите шаг 3 ||
+|| `CRM_FIELD_ERROR_REQUIRED` | Не заполнено обязательное поле лида. Ошибка возможна, если в настройках CRM включена проверка обязательных полей. Передайте поле в `fields` и повторите шаг 3 ||
+|| ``Parameter `TRACE` required.`` | Трейс не передан или пустой. Проверьте загрузку скрипта сквозной аналитики и скрытое поле `TRACE` на шаге 2 ||
+|| ``Can not parse JSON in parameter `TRACE`.`` | `TRACE` не является корректной JSON-строкой. Передайте результат `b24Tracker.guest.getTrace()` без изменений и повторите шаг 4 ||
+|| ``Wrong TYPE in parameter `ENTITIES`. Allowed types: COMPANY,CONTACT,DEAL,LEAD,QUOTE`` | Передан недопустимый тип объекта. Для лида укажите `LEAD` и повторите шаг 4 ||
+|| ``Wrong ID in parameter `ENTITIES`.`` | Передан пустой, нечисловой или неположительный идентификатор. Передайте `result.item.id` из ответа шага 3 и повторите шаг 4 ||
+|| ``You have no access to entity `LEAD` with ID `123`.`` | Нет права изменить лид. Проверьте права пользователя на этот лид и повторите шаг 4 ||
 |#
 
 В последнем сообщении `LEAD` и `123` приведены для примера. Метод подставляет фактические тип и идентификатор объекта.
+
+Вызовы выполняются последовательно и не объединены в транзакцию. Если привязка трейса завершилась ошибкой, лид уже сохранен в CRM. Не отправляйте форму повторно — это создаст второй лид. Повторите только шаг 4 с идентификатором созданного лида.
+
+Для повтора сохраняйте на сервере идентификатор лида и исходную строку `TRACE`, пока привязка не пройдет. Повторный вызов `b24Tracker.guest.getTrace()` не вернет очищенную историю визитов. Примеры на этой странице такое сохранение не делают.
+
+Если вызов прервался из-за сетевой ошибки, Битрикс24 мог успеть выполнить метод. Прежде чем повторять шаг, проверьте, появился ли лид в CRM.
+
+Если лид создан, но в нем нет телефона, проверьте структуру `fm` по шагу 3: метод [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md) в этом случае ошибку не возвращает.
+
+## Что важно учитывать
+
+- повторная отправка формы создаст новый лид
+- защищайте публичную форму от автоматических отправок, например с помощью CAPTCHA и ограничения частоты запросов
 
 ## Продолжите изучение
 

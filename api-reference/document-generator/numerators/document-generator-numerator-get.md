@@ -76,8 +76,8 @@
         step: number
         length: number
         padString: string
-        periodicBy: string
-        timezone: string
+        periodicBy: string | null
+        timezone: string | null
         isDirectNumeration: boolean
       }>
     }
@@ -321,7 +321,7 @@ HTTP-статус: **200**
 || **template**
 [`string`](../../data-types.md) | Шаблон номера ||
 || **code**
-[`string`](../../data-types.md) | Символьный код нумератора. Может быть `null` ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Символьный код нумератора. Возвращается `null`, если код не задан ||
 || **settings**
 [`object`](../../data-types.md) | Настройки генераторов нумератора [(подробное описание)](#result-numerator-settings) ||
 |#
@@ -349,9 +349,9 @@ HTTP-статус: **200**
 || **padString**
 [`string`](../../data-types.md) | Символ добивки слева при `length > 0` ||
 || **periodicBy**
-[`string`](../../data-types.md) | Период сброса счетчика ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Период сброса счетчика. Возвращается `null`, если периодический сброс выключен ||
 || **timezone**
-[`string`](../../data-types.md) | Идентификатор часового пояса для периодического сброса ||
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Идентификатор часового пояса для периодического сброса. Возвращается `null`, если часовой пояс не задан ||
 || **isDirectNumeration**
 [`boolean`](../../data-types.md) | Признак прямой нумерации ||
 |#
@@ -362,8 +362,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "DOCGEN_ACCESS_ERROR",
-    "error_description": "Access denied"
+    "error": "0",
+    "error_description": "Numerator was not found."
 }
 ```
 
@@ -375,6 +375,7 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Bitrix\Main\Numerator\Numerator constructor must be is public | Не передан обязательный параметр `id` ||
 || `400` | `100` | Could not construct parameter {numerator} | Передан несуществующий или некорректный идентификатор нумератора ||
+|| `400` | `0` | Numerator was not found. | Нумератор с указанным идентификатором не найден или относится к другому типу ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав на изменение шаблонов генератора документов ||
 |#
 
@@ -382,6 +383,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./document-generator-numerator-add.md)
 - [{#T}](./document-generator-numerator-update.md)
 - [{#T}](./document-generator-numerator-list.md)

@@ -192,5 +192,8 @@
     }
   ],
   "page": "/api-reference/tasks/user-actions/tasks-task-pin.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 3897
+  }
 }

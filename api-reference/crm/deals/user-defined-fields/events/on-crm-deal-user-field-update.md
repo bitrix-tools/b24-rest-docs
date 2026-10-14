@@ -1,4 +1,4 @@
-# Cобытие при изменении пользовательского поля onCrmDealUserFieldUpdate
+# Событие при изменении пользовательского поля onCrmDealUserFieldUpdate
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `onCrmDealUserFieldUpdate` сработает при изменении пользовательского поля.
+Событие `onCrmDealUserFieldUpdate` сработает при изменении пользовательского поля вручную или методом [crm.deal.userfield.update](../crm-deal-userfield-update.md).
 
 Событие относится к настройке пользовательского поля, а не к значению этого поля в конкретной сделке.
 
@@ -42,7 +42,6 @@
         "status": "L",
         "client_endpoint": "https://some-domain.bitrix24.com/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -58,11 +57,11 @@
 || **event_handler_id**
 [`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию об обновленном пользовательском поле.
+[`object`](../../../../data-types.md) | Объект, содержащий информацию об измененном пользовательском поле.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий свойства пользовательского поля.
+[`object`](../../../../data-types.md) | Объект с идентификатором и кодом пользовательского поля.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -81,10 +80,14 @@
 || **ID**
 [`integer`](../../../../data-types.md) | Идентификатор пользовательского поля ||
 || **ENTITY_ID**
-[`string`](../../../../data-types.md) | Символьный идентификатор объекта, для которого обновлено поле. В данном случае — `CRM_DEAL` ||
+[`string`](../../../../data-types.md) | Символьный код объекта, к которому относится поле. В данном случае — `CRM_DEAL` ||
 || **FIELD_NAME**
-[`string`](../../../../data-types.md) | Название обновленного пользовательского поля ||
+[`string`](../../../../data-types.md) | Код пользовательского поля с префиксом `UF_CRM_` ||
 |#
+
+Новые настройки поля в событие не передаются. Чтобы их получить, вызовите метод [crm.deal.userfield.get](../crm-deal-userfield-get.md) с `ID` из события.
+
+Если в метод `crm.deal.userfield.update` передан параметр `LIST`, следом придет событие [onCrmDealUserFieldSetEnumValues](./on-crm-deal-user-field-set-enum-values.md) — даже если набор значений не изменился.
 
 ### Параметр auth {#auth}
 
@@ -94,7 +97,7 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-crm-deal-user-field-add.md)
 - [{#T}](./on-crm-deal-user-field-delete.md)
 - [{#T}](./on-crm-deal-user-field-set-enum-values.md)
-

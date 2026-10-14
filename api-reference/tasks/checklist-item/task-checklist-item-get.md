@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":8017,"ITEMID":479}' \
+    -d '{"TASKID":8017,"ITEMID":495}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.checklistitem.get
     ```
 
@@ -60,7 +60,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":8017,"ITEMID":479,"auth":"**put_access_token_here**"}' \
+    -d '{"TASKID":8017,"ITEMID":495,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/task.checklistitem.get
     ```
 
@@ -70,7 +70,7 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame } from '@bitrix24/b24jssdk'
+    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
@@ -78,14 +78,14 @@
     type ChecklistItemResult = {
       ID: string
       TASK_ID: string
-      PARENT_ID: string
+      PARENT_ID: string | number
       CREATED_BY: string
       TITLE: string
       SORT_INDEX: string
-      IS_COMPLETE: string
-      IS_IMPORTANT: string
+      IS_COMPLETE: 'Y' | 'N'
+      IS_IMPORTANT: 'Y' | 'N'
       TOGGLED_BY: string | null
-      TOGGLED_DATE: string
+      TOGGLED_DATE: ISODate | ''
       MEMBERS: Array<{
         ID: string
         TYPE: string
@@ -102,7 +102,7 @@
         FILE_ID: string
         DOWNLOAD_URL: string
         VIEW_URL: string
-      }>
+      }> | []
     }
 
     try {
@@ -110,7 +110,7 @@
         method: 'task.checklistitem.get',
         params: {
           TASKID: 8017,
-          ITEMID: 479,
+          ITEMID: 495,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -143,7 +143,7 @@
             method: 'task.checklistitem.get',
             params: {
               TASKID: 8017,
-              ITEMID: 479,
+              ITEMID: 495,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -174,7 +174,7 @@
     try:
         bitrix_response = client.task.checklistitem.get(
             task_id=8017,
-            item_id=479,
+            item_id=495,
         ).response
         result = bitrix_response.result
         print(result)
@@ -190,6 +190,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -200,7 +201,7 @@
                 'task.checklistitem.get',
                 [
                     'TASKID' => 8017,
-                    'ITEMID' => 479
+                    'ITEMID' => 495
                 ]
             );
 
@@ -224,7 +225,7 @@
         'task.checklistitem.get',
         {
             TASKID: 8017,
-            ITEMID: 479
+            ITEMID: 495
         },
         function(result){
             console.info(result.data());
@@ -242,7 +243,7 @@
         'task.checklistitem.get',
         [
             'TASKID' => 8017,
-            'ITEMID' => 479
+            'ITEMID' => 495
         ]
     );
 
@@ -257,7 +258,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "task.checklistitem.get", b24.Params{
     	"TASKID": 8017,
-    	"ITEMID": 479,
+    	"ITEMID": 495,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("task.checklistitem.get: %w", err)
@@ -372,7 +373,7 @@ HTTP-статус: **200**
 || **PARENT_ID**
 [`string`](../../data-types.md) | Идентификатор родительского пункта.
 
-Значение `0` означает корневой пункт ||
+У корневого пункта возвращается число `0`, у остальных пунктов — строка ||
 || **CREATED_BY**
 [`string`](../../data-types.md) | Идентификатор автора пункта ||
 || **TITLE**
@@ -384,25 +385,27 @@ HTTP-статус: **200**
 
 Чем меньше значение, тем выше пункт в списке или подсписке ||
 || **IS_COMPLETE**
-[`boolean`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
-- `Y` — выполнен,
+[`string`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
+- `Y` — выполнен
 - `N` — не выполнен ||
 || **IS_IMPORTANT**
-[`boolean`](../../data-types.md) | Отметка важности пункта. Возможные значения:
-- `Y` — важный,
+[`string`](../../data-types.md) | Отметка важности пункта. Возможные значения:
+- `Y` — важный
 - `N` — обычный ||
 || **TOGGLED_BY**
 [`string`](../../data-types.md) | Идентификатор пользователя, который последний раз сменил статус пункта.
 
-Может быть `null`, если статус не меняли ||
+Значение `null`, если статус пункта не меняли, в том числе у пункта, созданного сразу выполненным ||
 || **TOGGLED_DATE**
-[`string`](../../data-types.md) | Дата и время изменения статуса пункта в формате `ISO 8601` ||
+[`string`](../../data-types.md) | Дата и время изменения статуса пункта в формате `ISO 8601`.
+
+Пустая строка, если статус пункта не меняли, в том числе у пункта, созданного сразу выполненным ||
 || **MEMBERS**
 [`array`](../../data-types.md) | Список объектов с [описанием участников](#members) ||
 || **ATTACHMENTS**
 [`object`](../../data-types.md) | Объект с [описанием прикрепленных файлов](#attachments).
 
-Ключ — идентификатор прикрепления файла `ATTACHMENT_ID` ||
+Ключ — идентификатор прикрепления файла `ATTACHMENT_ID`. Если файлов нет, приходит пустой массив `[]`, а не объект ||
 |#
 
 #### Объект members {#members}
@@ -414,16 +417,18 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Идентификатор пользователя ||
 || **TYPE**
 [`string`](../../data-types.md) | Роль пользователя в пункте чек-листа. Возможные значения:
-- `A` — соисполнитель,
+- `A` — соисполнитель
 - `U` — наблюдатель ||
 || **NAME**
 [`string`](../../data-types.md) | Имя пользователя ||
 || **PERSONAL_PHOTO**
-[`string`](../../data-types.md) | Идентификатор файла с аватаром пользователя на Диске ||
+[`string`](../../data-types.md) | Идентификатор файла аватара пользователя ||
 || **PERSONAL_GENDER**
 [`string`](../../data-types.md) | Пол пользователя. Возможные значения:
-- `M` — мужчина,
-- `F` — женщина ||
+- `M` — мужчина
+- `F` — женщина
+
+Пустая строка, если пол не указан в профиле ||
 || **IMAGE**
 [`string`](../../data-types.md) | Ссылка на аватар пользователя ||
 || **IS_COLLABER**
@@ -456,7 +461,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_CORE",
-    "error_description":"TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::get(), but not given.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E"
+    "error_description":"TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::get(), but not given.; 256/TE/WRONG_ARGUMENTS<br>"
 }
 ```
 
@@ -466,11 +471,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::get(), but not given.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Не переданы обязательные параметры `TASKID` и `ITEMID`  ||
-|| `ERROR_CORE` | error_description":"TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::get() expected to be of type \u0022integer\u0022, but given something else.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Указан неверный тип значения для `TASKID` или `ITEMID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#512; Check listitem not found or not accessible; 512\/TE\/ITEM_NOT_FOUND_OR_NOT_ACCESSIBLE\u003Cbr\u003E | Возможные причины:
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::get(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::get(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `ITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::get() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#512; Check listitem not found or not accessible; 512/TE/ITEM_NOT_FOUND_OR_NOT_ACCESSIBLE<br> | Возможные причины:
 - нарушен порядок параметров в методе
 - указанный `TASKID` или `ITEMID` не существует
+- пункт `ITEMID` относится к другой задаче
 - у пользователя нет прав доступа к задаче ||
 |#
 

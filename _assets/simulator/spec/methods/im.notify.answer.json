@@ -61,5 +61,9 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-answer.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NOTIFY_ID": 270,
+    "ANSWER_TEXT": "Приму участие"
+  }
 }

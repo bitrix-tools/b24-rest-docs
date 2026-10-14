@@ -150,5 +150,11 @@
     "phones",
     "status",
     "work_position"
-  ]
+  ],
+  "requestExample": {
+    "FIND": "Иван",
+    "BUSINESS": "N",
+    "OFFSET": 0,
+    "LIMIT": 10
+  }
 }

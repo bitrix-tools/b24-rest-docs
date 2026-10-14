@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление типами цен»
 
-Метод удаляет тип цены.
+Метод `catalog.priceType.delete` удаляет тип цены.
 
 ## Параметры метода
 
@@ -270,7 +270,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": 200040300020,
-    "error_description": "Access Denied",
+    "error_description": "Access Denied"
 }
 ```
 

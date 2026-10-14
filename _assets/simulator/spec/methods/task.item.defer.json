@@ -24,5 +24,8 @@
     "successor": "tasks.task.defer"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-defer.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13
+  }
 }

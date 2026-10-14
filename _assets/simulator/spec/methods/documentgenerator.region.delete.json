@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/document-generator/region/document-generator-region-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

@@ -7,6 +7,13 @@
   "permissions": "пользователь с правом «изменение настроек» сайта. Чтобы удалить страницу или изменить дату ее публикации, дополнительно нужны права «удаление» и «публикация» на сайте",
   "params": [
     {
+      "name": "scope",
+      "type": "string",
+      "base": "string",
+      "required": false,
+      "description": "Внутренний скоуп лендингов. Он не связан с REST-скоупом landing в названии метода. Для страниц сайтов типов PAGE, STORE и SMN параметр не нужен. Для страниц сайтов типов GROUP, KNOWLEDGE и MAINPAGE передайте соответствующее значение scope (подробное описание)"
+    },
+    {
       "name": "lid",
       "type": "integer",
       "base": "integer",
@@ -152,5 +159,14 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 349,
+    "fields": {
+      "TITLE": "Весенняя акция 2026",
+      "CODE": "spring-sale-2026",
+      "DESCRIPTION": "Обновленное описание страницы акции",
+      "XML_ID": "promo-2026-landing"
+    }
+  }
 }

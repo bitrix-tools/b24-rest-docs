@@ -15,6 +15,12 @@
 
 Метод удаляет эпик.
 
+{% note warning "Внимание" %}
+
+Метод не открепляет задачи от эпика: после удаления метод [tasks.api.scrum.task.get](../task/tasks-api-scrum-task-get.md) продолжит возвращать у них `epicId` удаленного эпика. Чтобы не оставлять ссылку на несуществующий эпик, сначала открепите задачи методом [tasks.api.scrum.task.update](../task/tasks-api-scrum-task-update.md) со значением `epicId: 0`
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -50,9 +56,9 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
     -d '{
-    "id": 1
+    "id": 1,
+    "auth": "YOUR_ACCESS_TOKEN"
     }' \
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.delete
     ```
@@ -68,7 +74,8 @@
     declare const $b24: B24Frame
 
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      // On success, result is an empty array
+      const response = await $b24.actions.v2.call.make<unknown[]>({
         method: 'tasks.api.scrum.epic.delete',
         params: {
           id: 1,
@@ -232,7 +239,34 @@
 
 ## Обработка ответа
 
-При успешном удалении метод возвращает пустой массив.
+HTTP-статус: **200**
+
+```json
+{
+    "result": [],
+    "time": {
+        "start": 1790263165,
+        "finish": 1790263165.067531,
+        "duration": 0.06753110885620117,
+        "processing": 0,
+        "date_start": "2026-09-24T18:19:25+03:00",
+        "date_finish": "2026-09-24T18:19:25+03:00",
+        "operating_reset_at": 1790263765,
+        "operating": 0
+    }
+}
+```
+
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Пустой массив — эпик удален ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 
@@ -240,7 +274,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
+    "error": "0",
     "error_description": "Epic not found"
 }
 ```
@@ -250,16 +284,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание**  | **Значение** ||
-|| `0` | Access denied | Нет доступа к скраму ||
-|| `0` | Epic not found | Такого эпика не существует ||
-|| `100` | Could not find value for parameter {id} | Неверно указано имя параметра или не задан параметр ||
-|| `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Epic not found | Эпика с таким `id` не существует, в том числе если он уже удален ||
+|| `400` | `0` | Access denied | У пользователя нет доступа к задачам группы, к которой относится эпик ||
+|| `400` | `0` | Epic not deleted | Не удалось удалить эпик ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-epic-add.md)

@@ -13,27 +13,34 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `userfieldtype.add` регистрирует новый тип пользовательских полей. После регистрации типа, создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md).
+Метод `userfieldtype.add` регистрирует тип пользовательских полей приложения и работает только в контексте [приложения](../../../settings/app-installation/index.md). После регистрации создайте поле этого типа методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md): в `field.userTypeId` передайте полный код `rest_<APP_ID>_<USER_TYPE_ID>`, где `APP_ID` — идентификатор приложения из метода [app.info](../../common/system/app-info.md). Чтобы создать поле, приложению нужны еще scope `userfieldconfig` и `crm`.
 
-При открытии карточки с полем пользовательского типа на обработчик приложения передается массив `PLACEMENT_OPTIONS` с данными о поле и элементе.
+Собственный тип нужен, когда поле должно показывать интерфейс приложения, например данные внешнего сервиса. Для обычного текста, числа или списка достаточно стандартных типов полей.
+
+Когда пользователь открывает карточку с полем этого типа, Битрикс24 загружает адрес `HANDLER` во фрейме поля и передает в `PLACEMENT_OPTIONS` данные поля и элемента. Пример для поля в карточке сделки:
 
 ```json
 {
     "MODE": "view",
     "ENTITY_ID": "CRM_DEAL",
-    "FIELD_NAME": "UF_CRM_TEST_TYPE_1",
-    "ENTITY_VALUE_ID": "7303",
-    "VALUE": null,
+    "FIELD_NAME": "UF_CRM_DCTEST",
+    "ENTITY_VALUE_ID": "22",
+    "VALUE": "Значение поля",
     "MULTIPLE": "N",
     "MANDATORY": "N",
     "XML_ID": null,
     "ENTITY_DATA": {
         "entityTypeId": 2,
-        "entityId": "7303",
+        "entityId": "22",
         "module": "crm"
-    }
+    },
+    "URI": "/crm/deal/details/22/?IFRAME=Y&IFRAME_TYPE=SIDE_SLIDER"
 }
 ```
+
+Что означает каждый ключ и что еще приходит в запросе, описано в разделе [Что получает обработчик](./index.md#handler-data).
+
+Обработчик загружается в поле, только когда установка приложения завершена. Проверить это можно по значению `INSTALLED` в ответе метода [app.info](../../common/system/app-info.md).
 
 ## Параметры метода
 
@@ -41,23 +48,31 @@
 
 #|
 || **Название**
-`тип` | **Описание** | **Ограничения** ||
+`тип` | **Описание** ||
 || **USER_TYPE_ID***
-[`string`](../../data-types.md) | Строковый код типа | 
-- a-z0-9
-- должен быть уникальным
-- итоговый код формируется как `rest_<APP_ID>_<USER_TYPE_ID>` и не может превышать 50 символов, поэтому длина `USER_TYPE_ID` должна быть не больше `50 - длина("rest_<APP_ID>_")` ||
+[`string`](../../data-types.md) | Код типа. Метод приводит его к нижнему регистру.
+
+Код должен быть уникальным среди типов всех приложений Битрикс24: если он уже занят, метод вернет ошибку `Handler already binded`.
+
+Полный код типа `rest_<APP_ID>_<USER_TYPE_ID>` должен укладываться в 50 символов. Метод примет и более длинный код, но у созданного поля код типа обрежется до 50 символов, и Битрикс24 не найдет тип ||
 || **HANDLER***
-[`string`](../../data-types.md) | Адрес обработчика пользовательского типа | 
-- в том же домене, что и основной адрес приложения
-- уникальным ||
+[`string`](../../data-types.md) | Адрес обработчика, который Битрикс24 загрузит в поле. Он должен начинаться с `http://` или `https://`, а имя хоста — содержать точку.
+
+У каждого типа приложения должен быть свой адрес: если адрес уже занят, метод вернет ошибку `Handler already binded`.
+
+Для Битрикс24 по HTTPS используйте адрес с HTTPS, иначе браузер не загрузит содержимое поля ||
 || **TITLE**
-[`string`](../../data-types.md) | Текстовое название типа. Будет выводиться в административном интерфейсе настройки пользовательских полей | ||
+[`string`](../../data-types.md) | Название типа до 255 символов. Выводится в административном интерфейсе настройки пользовательских полей. Если не передать, названием станет код типа ||
 || **DESCRIPTION**
-[`string`](../../data-types.md) | Текстовое описание типа. Будет выводиться в административном интерфейсе настройки пользовательских полей | ||
+[`string`](../../data-types.md) | Описание типа до 255 символов. Выводится в административном интерфейсе настройки пользовательских полей ||
 || **OPTIONS**
-[`array`](../../data-types.md) | Дополнительные настройки. На данный момент доступен один ключ: `height` — указывает высоту пользовательского поля в пикселях. Применится любое положительное значение.
-По умолчанию — `0`. Если указано `0`, то будет использована стандартная высота для отображения этого виджета | ||
+[`object`](../../data-types.md) | Дополнительные настройки. Сейчас доступен один ключ: `height` — высота поля в пикселях, целое число.
+
+По умолчанию — `0`: поле получит стандартную высоту, в карточке CRM это 200 пикселей ||
+|| **LANG_ALL**
+[`object`](../../data-types.md) | Название и описание типа для разных языков. Ключ объекта — двухбуквенный код языка, например `ru` или `en`. Значение — объект со строковыми полями `TITLE` и `DESCRIPTION` до 255 символов. Если передан непустой `LANG_ALL`, метод не учитывает параметры `TITLE` и `DESCRIPTION`.
+
+Метод сохраняет все переданные переводы, а [userfieldtype.list](./userfieldtype-list.md) возвращает одну версию названия и описания, выбранную при регистрации: на языке Битрикс24, если она передана, иначе другую из переданных ||
 |#
 
 ## Примеры кода
@@ -65,24 +80,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "USER_TYPE_ID": "test_type",
-        "HANDLER": "https://www.myapplication.com/handler/",
-        "TITLE": "Updated test type",
-        "DESCRIPTION": "Test userfield type for documentation with updated description",
-        "OPTIONS": {
-            "height": 60
-        }
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldtype.add
-    ```
 
 - cURL (OAuth)
 
@@ -234,17 +231,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . var_export($result[0], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding user field type: ' . $e->getMessage();
@@ -285,7 +278,7 @@
         [
             'USER_TYPE_ID' => 'test_type',
             'HANDLER' => 'https://www.myapplication.com/handler/',
-            'TITLE' => 'Upd ated test type',
+            'TITLE' => 'Updated test type',
             'DESCRIPTION' => 'Test userfield type for documentation with updated description',
             'OPTIONS' => [
                 'height' => 60
@@ -364,15 +357,20 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %} 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_CORE` | Unable to set placement handler: Handler already binded | `HANDLER` уже занят другим типом пользовательских полей этого приложения или `USER_TYPE_ID` уже используется другим приложением ||
-|| `ERROR_ARGUMENT` | Argument 'USER_TYPE_ID' is null or empty | Не задан `USER_TYPE_ID` ||
-|| `ERROR_ARGUMENT` | Argument 'HANDLER' is null or empty | Не задан `HANDLER` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения, например через вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
+|| `400` | `ERROR_CORE` | Unable to set placement handler: Handler already binded | `HANDLER` уже занят другим типом этого приложения или такой `USER_TYPE_ID` уже зарегистрирован ||
+|| `400` | `ERROR_CORE` | Error: Для значения поля "TITLE" превышена максимальная длина: 255 | Название, описание или код языка длиннее допустимого. Метод успевает создать запись о типе, и она появится в [userfieldtype.list](./userfieldtype-list.md), но регистрация не завершена — создать поле с этим типом нельзя. Удалите тип методом [userfieldtype.delete](./userfieldtype-delete.md) и зарегистрируйте заново ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'USER_TYPE_ID' is null or empty | Не передан `USER_TYPE_ID` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'HANDLER' is null or empty | Не передан `HANDLER` ||
+|| `400` | `ERROR_WRONG_HANDLER_URL` | Wrong handler URL | В `HANDLER` не указано имя хоста или в имени хоста нет точки. Например, адрес записан без `https://` или указывает на `localhost` ||
+|| `400` | `ERROR_UNSUPPORTED_PROTOCOL` | Unsupported handler protocol | Имя хоста в `HANDLER` корректное, но протокол не `http` и не `https`, например `ftp://` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

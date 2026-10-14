@@ -91,5 +91,24 @@
     }
   ],
   "page": "/api-reference/booking/booking/client/booking-v1-booking-client-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "bookingId": 14,
+    "clients": [
+      {
+        "id": 1,
+        "type": {
+          "module": "crm",
+          "code": "CONTACT"
+        }
+      },
+      {
+        "id": 2,
+        "type": {
+          "module": "crm",
+          "code": "CONTACT"
+        }
+      }
+    ]
+  }
 }

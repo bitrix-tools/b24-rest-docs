@@ -370,5 +370,6 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

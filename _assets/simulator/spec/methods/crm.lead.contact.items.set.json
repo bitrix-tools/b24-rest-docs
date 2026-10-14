@@ -59,5 +59,20 @@
     }
   ],
   "page": "/api-reference/crm/leads/management-communication/crm-lead-contact-items-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "items": [
+      {
+        "CONTACT_ID": 1010,
+        "SORT": 10,
+        "IS_PRIMARY": "Y"
+      },
+      {
+        "CONTACT_ID": 1020,
+        "SORT": 20,
+        "IS_PRIMARY": "N"
+      }
+    ]
+  }
 }

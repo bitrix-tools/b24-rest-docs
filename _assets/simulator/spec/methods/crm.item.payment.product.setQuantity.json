@@ -4,21 +4,21 @@
   "scope": "crm",
   "kind": "write",
   "title": "Изменить количество товара crm.item.payment.product.setQuantity",
-  "permissions": "требуется право на изменение заказа оплаты",
+  "permissions": "пользователь с правом «Изменение» для объекта CRM, к которому относится оплата",
   "params": [
     {
       "name": "id",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор товарной позиции в оплате"
+      "description": "Идентификатор товарной позиции в оплате. Можно получить методом crm.item.payment.product.list"
     },
     {
       "name": "quantity",
-      "type": "double",
-      "base": "number",
+      "type": "integer",
+      "base": "integer",
       "required": true,
-      "description": "Количество товара"
+      "description": "Новое количество товара. Значение должно быть больше нуля, а общее количество этой товарной позиции во всех оплатах не должно превышать количество в исходной товарной строке"
     }
   ],
   "defs": {},
@@ -44,5 +44,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-set-quantity.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1195,
+    "quantity": 3
+  }
 }

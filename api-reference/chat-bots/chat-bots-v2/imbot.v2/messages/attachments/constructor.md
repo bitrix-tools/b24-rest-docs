@@ -793,7 +793,7 @@
 
 Замените в примере данные и набор блоков — все типы блоков собраны в разделе [Коллекция блоков ATTACH](./block-collections/index.md). Отправленное вложение возвращает метод [imbot.v2.Chat.Message.get](../chat-message-get.md) в поле `params` объекта Message — [Объекты и поля](../../../entities.md#message).
 
-Отправленное вложение заменяют целиком: новый набор блоков передают в `fields.attach` методу [imbot.v2.Chat.Message.update](../chat-message-update.md).
+Отправленное вложение заменяют целиком: новый набор блоков передают в `fields.attach` методу [imbot.v2.Chat.Message.update](../chat-message-update.md) в полной форме, с массивом `BLOCKS`, как в Примере 2. Краткую форму, как в Примере 1, этот метод не принимает и удаляет вложение.
 
 Кнопки под сообщением задают не вложением, а отдельным параметром `fields.keyboard` — [Работа с клавиатурами](../message-keyboards.md).
 

@@ -193,5 +193,17 @@
     }
   ],
   "page": "/api-reference/document-generator/templates/document-generator-template-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 57,
+    "fields": {
+      "name": "SUPPLY_CONTRACT_NEW Template",
+      "numeratorId": 3,
+      "code": "REST_TEMPLATE",
+      "users": [
+        "U503"
+      ],
+      "sort": 700
+    }
+  }
 }

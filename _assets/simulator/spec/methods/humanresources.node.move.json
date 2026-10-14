@@ -154,5 +154,9 @@
     }
   ],
   "page": "/api-reference/departments/node/humanresources-node-move.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 44,
+    "parentId": 2
+  }
 }

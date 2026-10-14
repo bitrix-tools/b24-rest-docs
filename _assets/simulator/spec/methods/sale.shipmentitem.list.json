@@ -136,5 +136,27 @@
     "quantity",
     "reservedQuantity",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "orderDeliveryId",
+      "basketId",
+      "quantity",
+      "xmlId",
+      "dateInsert",
+      "reservedQuantity"
+    ],
+    "filter": {
+      "<id": 10,
+      "@orderDeliveryId": [
+        2431,
+        2430
+      ],
+      "basketId": 2716
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

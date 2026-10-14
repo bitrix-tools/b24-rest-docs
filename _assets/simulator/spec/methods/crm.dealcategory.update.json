@@ -35,5 +35,11 @@
     "successor": "crm.category.update"
   },
   "page": "/api-reference/crm/outdated/category-old/crm-deal-category-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "1",
+    "fields": {
+      "SORT": "100"
+    }
+  }
 }

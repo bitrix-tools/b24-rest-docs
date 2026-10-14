@@ -189,5 +189,37 @@
     }
   ],
   "page": "/api-reference/event-log/main-eventlog-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "select": [
+      "id",
+      "timestampX",
+      "severity",
+      "auditTypeId",
+      "moduleId",
+      "itemId",
+      "userId",
+      "description"
+    ],
+    "filter": [
+      [
+        "timestampX",
+        ">=",
+        "2026-01-30T00:00:00+03:00"
+      ],
+      [
+        "timestampX",
+        "<",
+        "2026-01-31T00:00:00+03:00"
+      ]
+    ],
+    "order": {
+      "id": "ASC"
+    },
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

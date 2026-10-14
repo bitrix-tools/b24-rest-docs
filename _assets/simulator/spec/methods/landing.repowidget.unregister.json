@@ -4,14 +4,14 @@
   "scope": "landing",
   "kind": "write",
   "title": "Удалить виджет для Вайба landing.repowidget.unregister",
-  "permissions": "любой пользователь",
+  "permissions": "любой пользователь при вызове из приложения, при вызове вебхуком — администратор",
   "params": [
     {
       "name": "code",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Уникальный код удаляемого виджета"
+      "description": "Уникальный код удаляемого виджета — который передавали в code при регистрации методом landing.repowidget.register. Код можно получить из поля XML_ID в ответе метода landing.repowidget.getlist"
     }
   ],
   "defs": {},
@@ -38,7 +38,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Результат удаления виджета"
+      "description": "Результат удаления виджета: - true — виджет найден и удален - false — code пустой или виджет с таким кодом не найден"
     },
     {
       "name": "time",

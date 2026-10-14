@@ -1,4 +1,4 @@
-# Удалить элемент (позицию) корзины из заказа sale.basketitem.delete
+# Удалить позицию из корзины заказа sale.basketitem.delete
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.basketitem.delete` удаляет элемент корзины из заказа.
+Метод `sale.basketitem.delete` удаляет позицию корзины из заказа. После удаления сумма заказа пересчитывается. Если удалить последнюю позицию, заказ остается без позиций с суммой `0`.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_basket_item.id`](../data-types.md) | Идентификатор элемента (позиции) корзины.
+[`sale_basket_item.id`](../data-types.md#sale_basket_item) | Идентификатор позиции корзины.
 
 Можно получить методом [sale.basketitem.list](./sale-basket-item-list.md)
 ||
@@ -147,8 +147,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -265,9 +265,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления элемента корзины ||
+[`boolean`](../../data-types.md) | Результат удаления позиции корзины. При успешном удалении возвращается `true` ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -276,8 +276,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200140400001",
+    "error_description": "basket item is not exists"
 }
 ```
 
@@ -289,25 +289,28 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `200140400001` | `basket item is not exists`
 
-Не найдена позиция корзины
-|| 
-|| `200040300010` | Недостаточно прав для удаления
-|| 
-|| `100` | Не указаны обязательные параметры
+Позиции корзины с таким `id` нет. Ошибка возникает и при повторном удалении уже удаленной позиции
 ||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| `200040300010` | Недостаточно прав для удаления
+||
+|| `100` | `Bitrix\Sale\BasketItem constructor must be is public`
+
+Не передан параметр `id`
+||
+|| `0` | Другие ошибки, например фатальные
+||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-add.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-get.md)
 - [{#T}](./sale-basket-item-list.md)
-- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-add-catalog-product.md)
 - [{#T}](./sale-basket-item-update-catalog-product.md)
+- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-get-catalog-product-fields.md)

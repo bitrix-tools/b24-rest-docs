@@ -13,7 +13,17 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Chat.Manager.delete` удаляет пользователей из списка менеджеров чата. Бот должен быть владельцем чата.
+Метод `imbot.v2.Chat.Manager.delete` удаляет пользователей из списка менеджеров чата.
+
+По умолчанию бот должен быть владельцем чата. Если в чате право менять настройки (`permissions.manageSettings` в ответе [imbot.v2.Chat.get](./chat-get.md)) выдано менеджерам, метод доступен и боту с ролью менеджера. Метод работает только в групповых чатах, кроме чатов Открытых линий, коллаб и задач.
+
+{% note info "" %}
+
+Метод пропускает ID пользователей, которые не состоят в чате или не являются менеджерами, и возвращает `result.result: true`.
+
+{% endnote %}
+
+Если передать ID владельца чата, этот ID исчезнет из `managerList` в ответе [imbot.v2.Chat.get](./chat-get.md), но владелец сохранит свои права: роль владельца определяется полем `owner`, а не списком менеджеров.
 
 ## Параметры метода
 
@@ -21,15 +31,15 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **botId***
 [`integer`](../../../../data-types.md) | ID бота ||
 || **botToken**
-[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
+[`string`](../../../../data-types.md) | Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же `botToken`, который указали при регистрации бота ||
 || **dialogId***
-[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}` ||
+[`string`](../../../../data-types.md) | ID группового чата в [формате dialogId](../../index.md#dialog-id): `chat{chatId}` ||
 || **userIds***
 [`integer[]`](../../../../data-types.md) | Массив ID пользователей для снятия роли менеджера ||
 |#
@@ -222,23 +232,23 @@ HTTP-статус: **200**
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../../../../data-types.md) | Результат операции ||
 || **result.result**
-[`boolean`](../../../../data-types.md) | `true` при успешном удалении менеджеров ||
+[`boolean`](../../../../data-types.md) | `true`, если запрос обработан. Значение не показывает, снята ли роль хотя бы с одного пользователя ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied"
+    "error_description": "ACCESS_DENIED"
 }
 ```
 
@@ -248,12 +258,14 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
-|| `EMPTY_USER_IDS` | Empty user IDs | Не передан массив `userIds` или он пустой ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `ACCESS_DENIED` | Access denied | Бот не является участником чата или не имеет прав (требуется роль владельца) ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением ||
+|| `CHAT_NOT_FOUND` | CHAT_NOT_FOUND | Чат с указанным `dialogId` не найден ||
+|| `ACCESS_DENIED` | ACCESS_DENIED | У бота нет права управлять менеджерами (по умолчанию нужна роль владельца), бот не состоит в закрытом чате или в чатах этого типа менеджеров нет: личный чат, чат Открытой линии, коллабы или задачи ||
+|| `WRONG_MESSAGE_TYPE` | WRONG_MESSAGE_TYPE | Чат не групповой ||
+|| `EMPTY_USER_IDS` | userIds is required | Не передан массив `userIds` или он пустой ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -263,3 +275,7 @@ HTTP-статус: **400**, **403**
 - [Журнал изменений API imbot.v2](../../change-log.md)
 - [{#T}](./chat-manager-add.md)
 - [{#T}](./chat-set-owner.md)
+- [{#T}](./chat-user-list.md)
+- [{#T}](./chat-get.md)
+- [{#T}](./index.md)
+- [{#T}](../../migration.md)

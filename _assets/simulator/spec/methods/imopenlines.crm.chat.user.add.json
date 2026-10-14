@@ -73,5 +73,11 @@
     }
   },
   "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-user-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CRM_ENTITY_TYPE": "lead",
+    "CRM_ENTITY": 1205,
+    "USER_ID": 503,
+    "CHAT_ID": 1763
+  }
 }

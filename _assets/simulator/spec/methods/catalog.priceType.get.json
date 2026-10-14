@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "read",
   "title": "Получить значения полей типа цены catalog.priceType.get",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»",
   "params": [
     {
       "name": "id",
@@ -79,5 +79,8 @@
     "sort",
     "timestampX",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

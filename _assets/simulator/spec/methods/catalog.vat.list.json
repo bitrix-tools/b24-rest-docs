@@ -124,5 +124,18 @@
     "name",
     "rate",
     "sort"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "rate"
+    ],
+    "filter": {
+      ">=sort": 200
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

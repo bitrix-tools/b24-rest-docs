@@ -29,22 +29,16 @@
 
 ## Как начать работу
 
-1. Создайте базу знаний методом [note.collection.add](./collection/note-collection-add.md), если у вас еще нет контейнера для документов
-2. Получите список доступных баз знаний методом [note.collection.list](./collection/note-collection-list.md), если нужно работать с уже существующей структурой
-3. Получите данные одной базы знаний методом [note.collection.get](./collection/note-collection-get.md), если нужно открыть выбранную базу знаний по идентификатору
-4. Уточните поля базы знаний методами [note.collection.field.list](./collection/note-collection-field-list.md) и [note.collection.field.get](./collection/note-collection-field-get.md), если строите форму или таблицу на своей стороне
-5. Создайте корневой документ методом [note.document.add](./document/note-document-add.md)
-6. Получите дерево документов методом [note.document.tree.list](./document/note-document-tree-list.md), если нужно показать структуру страниц
-7. Читайте отдельный документ методом [note.document.get](./document/note-document-get.md) или ищите документы методом [note.document.search.list](./document/note-document-search-list.md)
-8. Уточните поля документов, дерева и поиска методами `note.document.field.*`, `note.document.tree.field.*`, `note.document.search.field.*`
-9. Обновляйте заголовок и содержимое документа методом [note.document.update](./document/note-document-update.md)
-10. Загружайте изображения, видео и обычные файлы методом [note.file.add](./file/note-file-add.md)
-11. Используйте `assetMarkdown` из ответа [note.file.add](./file/note-file-add.md) или получайте его методом [note.file.get](./file/note-file-get.md), а затем добавляйте вложение в документ через [note.document.update](./document/note-document-update.md)
-12. Уточните поля файла методами [note.file.field.list](./file/note-file-field-list.md) и [note.file.field.get](./file/note-file-field-get.md), если строите свою форму или таблицу
-13. Архивируйте или удаляйте базу знаний и документы соответствующими методами, когда нужно завершить работу с материалами
+1. Создайте базу знаний методом [note.collection.add](./collection/note-collection-add.md) или выберите существующую через [note.collection.list](./collection/note-collection-list.md)
+2. Создайте документ методом [note.document.add](./document/note-document-add.md). Для вложенной страницы передайте `parentId` родительского документа
+3. Получите структуру через [note.document.tree.list](./document/note-document-tree-list.md), содержимое страницы — через [note.document.get](./document/note-document-get.md), а совпадения по тексту — через [note.document.search.list](./document/note-document-search-list.md)
+4. При необходимости загрузите вложение через [note.file.add](./file/note-file-add.md), добавьте его `assetMarkdown` к тексту и сохраните документ методом [note.document.update](./document/note-document-update.md)
+5. Для настройки интеграции уточните поля баз знаний, документов и файлов методами `*.field.list` и `*.field.get` из [таблицы методов](#all-methods)
 
 ## Ограничения и рекомендации
 
+- Архивация и удаление базы знаний затрагивают все документы внутри нее. Удаление переносит данные в корзину; восстановление выполняется через интерфейс
+- Размер `markdown` при создании и обновлении документа не должен превышать 1 048 576 байт. Превышение вызывает `NOTE_MARKDOWN_TOO_LARGE`. Дополнительные ограничения приведены в обзорах [документов](./document/index.md) и [файлов](./file/index.md)
 - Методы архивации и удаления документов работают не с одной страницей, а со всем поддеревом ниже нее. Если у документа есть дочерние страницы, они тоже будут архивированы или перенесены в корзину
 - Доступ к просмотру и изменению баз знаний, документов и файлов зависит от прав текущего пользователя. Один и тот же сценарий может быть доступен одним сотрудникам и недоступен другим
 
@@ -56,9 +50,9 @@
 
 ## Связь с другими объектами
 
-**Документы.** База знаний наполняется документами. Сначала можно создать корневую страницу, а затем добавлять в нее дочерние страницы, чтобы собрать дерево материалов по темам. Для этого при создании документа указывают базу знаний, в которой он должен появиться, а для вложенных страниц дополнительно передают родительский документ.
+**Документы.** Поле `collectionId` связывает документ с [базой знаний](./collection/index.md), а `parentId` — с родительской страницей. Модель дерева и основные поля описаны в [обзоре документов](./document/index.md).
 
-**Файлы.** Файлы добавляются не в базу знаний целиком, а в конкретный документ. Сначала файл загружают методом [note.file.add](./file/note-file-add.md), затем берут `assetMarkdown` из ответа метода или получают его методом [note.file.get](./file/note-file-get.md). После этого содержимое документа обновляют методом [note.document.update](./document/note-document-update.md), чтобы вложение появилось в тексте страницы.
+**Файлы.** Вложения связаны с документом через `documentId` и представлены в его Markdown специальными блоками. Типы вложений и ограничения загрузки описаны в [обзоре файлов](./file/index.md).
 
 ## Обзор методов {#all-methods}
 

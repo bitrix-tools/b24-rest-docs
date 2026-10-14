@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение контактов и компаний
 
-Метод возвращает список шаблонов реквизитов по фильтру.
+Метод `crm.requisite.preset.list` возвращает список шаблонов реквизитов по фильтру.
 
 ## Параметры метода
 
@@ -490,7 +490,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../data-types.md)| Массив объектов с информацией о выбранных шаблонах. Каждый элемент содержит выбранные [поля шаблона](#fields) ||
+[`array`](../../../data-types.md) | Массив объектов с информацией о выбранных шаблонах. Каждый элемент содержит выбранные [поля шаблона](#fields) ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество найденных записей ||
 || **time**
@@ -499,12 +499,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **40x**, **50x**
+Пример ошибки при `select: ["BAD_FIELD"]`, HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"Access denied."
+    "error": "100",
+    "error_description": "Unknown field definition `BAD_FIELD` (BAD_FIELD) for \\Bitrix\\Crm\\Preset Entity."
 }
 ```
 
@@ -513,19 +513,22 @@ HTTP-статус: **40x**, **50x**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `Access denied` | Недостаточно прав доступа для получения списка шаблонов ||
+|| **Статус** | **Код `error`** | **Текст `error_description`** | **Причина** ||
+|| `400` | `100` | `Unknown field definition ...` | В `order` или `select` указано неизвестное поле шаблона ||
+|| `400` | `ERROR_ARGUMENT` | `Invalid order ...` | В `order` указано недопустимое направление сортировки ||
+|| `400` | Пустое значение | `Parameter 'filter' must be array.` | Параметр `filter` передан не как объект ||
+|| — | — | `Access denied` | Недостаточно прав доступа для получения списка шаблонов ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-requisite-preset-add.md)
 - [{#T}](./crm-requisite-preset-update.md)
-- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-get.md)
 - [{#T}](./crm-requisite-preset-delete.md)
+- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-fields.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-company-with-requisite.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contact-with-requisite.md)

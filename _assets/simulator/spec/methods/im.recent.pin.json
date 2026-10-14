@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/chats/special-operations/im-recent-pin.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DIALOG_ID": "chat1489",
+    "PIN": "Y"
+  }
 }

@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-delete-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 6428
+  }
 }

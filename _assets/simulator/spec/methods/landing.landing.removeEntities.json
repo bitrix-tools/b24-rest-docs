@@ -89,5 +89,24 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-remove-entities.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 648,
+    "data": {
+      "blocks": [
+        12167,
+        123
+      ],
+      "images": [
+        {
+          "block": 12269,
+          "image": 6866
+        },
+        {
+          "block": 12268,
+          "image": 6861
+        }
+      ]
+    }
+  }
 }

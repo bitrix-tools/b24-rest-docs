@@ -114,5 +114,6 @@
     }
   ],
   "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

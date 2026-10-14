@@ -68,5 +68,14 @@
     }
   ],
   "page": "/api-reference/crm/call-list/crm-calllist-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ENTITY_TYPE": "CONTACT",
+    "ENTITIES": [
+      1,
+      2,
+      3
+    ],
+    "WEBFORM_ID": 5
+  }
 }

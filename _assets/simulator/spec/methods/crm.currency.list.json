@@ -66,5 +66,11 @@
     "CURRENCY",
     "LANG",
     "SORT"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "sort": "asc",
+      "currency": "asc"
+    }
+  }
 }

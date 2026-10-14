@@ -132,5 +132,20 @@
     "filterHint",
     "propertyId",
     "smartFilter"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "propertyId",
+      "smartFilter",
+      "displayType",
+      "displayExpanded",
+      "filterHint"
+    ],
+    "filter": {
+      "propertyId": 901
+    },
+    "order": {
+      "propertyId": "ASC"
+    }
+  }
 }

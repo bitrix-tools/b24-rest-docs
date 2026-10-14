@@ -8,8 +8,8 @@
   "params": [
     {
       "name": "order",
-      "type": "string",
-      "base": "string",
+      "type": "array",
+      "base": "array",
       "required": "unknown",
       "description": "Сортировка выбранных пользовательских полей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field_N: - ID — идентификатор пользовательского поля - FIELD_NAME — название поля - USER_TYPE_ID — тип данных поля - XML_ID — внешний код - SORT — порядок сортировки поля - MULTIPLE — возможность ввода нескольких значений - MANDATORY — обязательность заполнения - SHOW_FILT…",
       "values": [
@@ -41,7 +41,11 @@
           "value": "MANDATORY",
           "title": "обязательность заполнения - SHOW_FILT…"
         }
-      ]
+      ],
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     },
     {
       "name": "filter",
@@ -138,10 +142,10 @@
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
+      "type": "array",
+      "base": "array",
       "required": "unknown",
-      "description": "Корневой элемент ответа"
+      "description": "Массив объектов с описанием пользовательских полей"
     },
     {
       "name": "total",
@@ -181,5 +185,13 @@
     "SORT",
     "USER_TYPE_ID",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "id": "desc"
+    },
+    "filter": {
+      "id": 13
+    }
+  }
 }

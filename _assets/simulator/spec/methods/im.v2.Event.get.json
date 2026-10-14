@@ -56,5 +56,9 @@
     "date",
     "eventId",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "offset": 2000,
+    "limit": 50
+  }
 }

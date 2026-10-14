@@ -12,6 +12,13 @@
       "base": "integer",
       "required": true,
       "description": "Идентификатор эпика. Получить идентификаторы эпиков можно методом tasks.api.scrum.epic.list"
+    },
+    {
+      "name": "withFiles",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Вернуть ли файлы эпика в поле files. По умолчанию true. Чтобы получить эпик без файлов, передайте false или 0"
     }
   ],
   "defs": {},
@@ -21,117 +28,114 @@
     "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get.md"
   },
   "resultExample": {
-    "id": 1,
-    "groupId": 143,
-    "name": "эпик",
-    "description": "",
-    "createdBy": 1,
-    "modifiedBy": 0,
-    "color": "#69dafc",
-    "files": {
-      "ID": "136",
-      "ENTITY_ID": "TASKS_SCRUM_EPIC",
-      "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
-      "USER_TYPE_ID": "disk_file",
-      "XML_ID": null,
-      "SORT": "100",
-      "MULTIPLE": "Y",
-      "MANDATORY": "N",
-      "SHOW_FILTER": "N",
-      "SHOW_IN_LIST": "N",
-      "EDIT_IN_LIST": "N",
-      "IS_SEARCHABLE": "N",
-      "SETTINGS": {
-        "IBLOCK_ID": null,
-        "SECTION_ID": null,
-        "UF_TO_SAVE_ALLOW_EDIT": false
-      },
-      "USER_TYPE": {
+    "result": {
+      "id": 2,
+      "groupId": 2,
+      "name": "Регистрация пользователей",
+      "description": "Форма входа, регистрация и восстановление пароля",
+      "createdBy": 1,
+      "modifiedBy": 1,
+      "color": "#69dafc",
+      "files": {
+        "ID": "60",
+        "ENTITY_ID": "TASKS_SCRUM_EPIC",
+        "FIELD_NAME": "UF_SCRUM_EPIC_FILES",
         "USER_TYPE_ID": "disk_file",
-        "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
-        "DESCRIPTION": "Файл (Диск)",
-        "BASE_TYPE": "int",
-        "TAG": [
-          "DISK FILE ID",
-          "DOCUMENT ID"
-        ]
-      },
-      "VALUE": [],
-      "ENTITY_VALUE_ID": 1,
-      "CUSTOM_DATA": {
-        "PHOTO_TEMPLATE": ""
-      },
-      "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
-      "TAG": "DOCUMENT ID"
+        "XML_ID": null,
+        "SORT": "100",
+        "MULTIPLE": "Y",
+        "MANDATORY": "N",
+        "SHOW_FILTER": "N",
+        "SHOW_IN_LIST": "N",
+        "EDIT_IN_LIST": "N",
+        "IS_SEARCHABLE": "N",
+        "SETTINGS": {
+          "IBLOCK_ID": null,
+          "SECTION_ID": null,
+          "UF_TO_SAVE_ALLOW_EDIT": false
+        },
+        "USER_TYPE": {
+          "USER_TYPE_ID": "disk_file",
+          "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
+          "DESCRIPTION": "Файл (Диск)",
+          "BASE_TYPE": "int",
+          "TAG": [
+            "DISK FILE ID",
+            "DOCUMENT ID"
+          ]
+        },
+        "VALUE": [
+          6
+        ],
+        "ENTITY_VALUE_ID": 2,
+        "VALUE_EXISTS": true,
+        "VALUE_RAW": "a:1:{i:0;i:6;}",
+        "CUSTOM_DATA": {
+          "PHOTO_TEMPLATE": ""
+        },
+        "EDIT_FORM_LABEL": "UF_SCRUM_EPIC_FILES",
+        "TAG": "DOCUMENT ID"
+      }
+    },
+    "time": {
+      "start": 1790263942,
+      "finish": 1790263942.418237,
+      "duration": 0.4182369709014893,
+      "processing": 0,
+      "date_start": "2026-09-24T18:32:22+03:00",
+      "date_finish": "2026-09-24T18:32:22+03:00",
+      "operating_reset_at": 1790264542,
+      "operating": 0
     }
   },
   "returns": [
     {
-      "name": "id",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор эпика"
-    },
-    {
-      "name": "groupId",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор группы (скрама), к которой привязан эпик"
-    },
-    {
-      "name": "name",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Название эпика"
-    },
-    {
-      "name": "description",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Описание эпика"
-    },
-    {
-      "name": "createdBy",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, создавшего эпик"
-    },
-    {
-      "name": "modifiedBy",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, который последним изменял эпик"
-    },
-    {
-      "name": "color",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Цвет эпика в формате HEX"
-    },
-    {
-      "name": "files",
+      "name": "result",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Объект с данными обо всех файлах, прикрепленных к эпику"
+      "description": "Данные эпика (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
     }
   ],
   "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get.html",
   "executable": false,
   "entityFields": [
+    "CUSTOM_DATA",
+    "EDIT_FORM_LABEL",
+    "EDIT_IN_LIST",
+    "ENTITY_ID",
+    "ENTITY_VALUE_ID",
+    "FIELD_NAME",
+    "ID",
+    "IS_SEARCHABLE",
+    "MANDATORY",
+    "MULTIPLE",
+    "SETTINGS",
+    "SHOW_FILTER",
+    "SHOW_IN_LIST",
+    "SORT",
+    "TAG",
+    "USER_TYPE",
+    "USER_TYPE_ID",
+    "VALUE",
+    "VALUE_EXISTS",
+    "VALUE_RAW",
+    "XML_ID",
     "color",
     "createdBy",
     "description",
     "files",
     "groupId",
-    "modifiedBy",
     "name"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

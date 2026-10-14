@@ -71,5 +71,8 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 101
+  }
 }

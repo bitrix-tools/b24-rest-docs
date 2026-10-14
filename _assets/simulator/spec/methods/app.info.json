@@ -1,0 +1,81 @@
+{
+  "$v": 1,
+  "method": "app.info",
+  "scope": "базовый",
+  "kind": "write",
+  "title": "Показать информацию о приложении app.info",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о приложении (подробное описание)",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/common/system/app-info.md"
+  },
+  "resultExample": {
+    "result": {
+      "ID": 5,
+      "CODE": "telefum24.kp10",
+      "VERSION": 4,
+      "STATUS": "F",
+      "INSTALLED": true,
+      "PAYMENT_EXPIRED": "N",
+      "DAYS": null,
+      "LANGUAGE_ID": "ru",
+      "LICENSE": "ru_ent10000",
+      "LICENSE_TYPE": "ent10000",
+      "LICENSE_FAMILY": "ent"
+    },
+    "time": {
+      "start": 1722841503.0585,
+      "finish": 1722841503.09885,
+      "duration": 0.0403509140014648,
+      "processing": 0.00533103942871094,
+      "date_start": "2024-08-05T07:05:03+00:00",
+      "date_finish": "2024-08-05T07:05:03+00:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о приложении (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/common/system/app-info.html",
+  "executable": false,
+  "requestExample": {}
+}

@@ -1,4 +1,4 @@
-# Определить набор прав пользователя user.access
+# Проверить коды доступа пользователя user.access
 
 {% note tip "" %}
 
@@ -13,30 +13,34 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `user.access` определяет, обладает ли текущий пользователь хотя бы одним из заданного параметром `ACCESS` набора прав.
+Метод `user.access` проверяет, есть ли у текущего пользователя хотя бы один из кодов доступа, переданных в параметре `ACCESS`.
 
 ## Параметры метода
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **ACCESS***
-[`array`](../../data-types.md) | Список кодов доступа, которые нужно проверить.
+|| **ACCESS**
+[`string[]`](../../data-types.md)\|[`string`](../../data-types.md) | Список кодов доступа, которые нужно проверить, например `["D1", "SG1_K"]`. Один код можно передать строкой, например `"D1"`.
 
 Форматы кодов:
 
 - `U<id>` — пользователь, например `U1`
-- `G<id>` — группа пользователей, например `G2`
-- `AU` — все авторизованные пользователи
+- `G<id>` — группа пользователей, например `G1`. Код `G2` — «Все посетители», с ним метод всегда возвращает `true`
+- `AU` — все авторизованные пользователи. При вызове через REST пользователь всегда авторизован, поэтому с `AU` метод всегда возвращает `true`
+- `D<id>` — отдел, в котором состоит пользователь, например `D1`
+- `DR<id>` — отдел вместе со всеми подотделами, например `DR1`
+- `IU<id>` — сотрудник и его руководители: `true`, если текущий пользователь — сотрудник `<id>` или его руководитель
+- `SG<id>_A` — владелец группы или проекта, `SG<id>_E` — владелец и модераторы, `SG<id>_K` — все участники, например `SG1_K`
 
-Названия кодов получает метод [access.name](../system/access-name.md) ||
+Код `CR` (автор) в Битрикс24 не закрепляется за пользователем, поэтому с ним метод возвращает `false` всем, кроме администратора. Названия кодов получает метод [access.name](../system/access-name.md).
+
+Если параметр не передан, пуст или содержит только несуществующие коды, метод не возвращает ошибку: администратору вернет `true`, остальным — `false` ||
 |#
 
 {% note info "" %}
 
-Для пользователя с правами на управление настройками приложений метод всегда возвращает `true`, независимо от переданных кодов доступа. Сами права проверяет метод [user.admin](./user-admin.md).
+Для администратора Битрикс24 метод всегда возвращает `true`, независимо от переданных кодов доступа. Права администратора проверяет метод [user.admin](./user-admin.md).
 
 {% endnote %}
 
@@ -53,7 +57,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "ACCESS": ["G2", "AU"]
+        "ACCESS": ["D1", "SG1_K"]
     }' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.access
     ```
@@ -65,7 +69,7 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "ACCESS": ["G2", "AU"],
+        "ACCESS": ["D1", "SG1_K"],
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/user.access
@@ -85,7 +89,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'user.access',
         params: {
-          ACCESS: ['G2', 'AU'],
+          ACCESS: ['D1', 'SG1_K'],
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -117,7 +121,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'user.access',
             params: {
-              ACCESS: ['G2', 'AU'],
+              ACCESS: ['D1', 'SG1_K'],
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -148,8 +152,8 @@
     try:
         bitrix_response = client.user.access(
             access=[
-                "G2",
-                "AU",
+                "D1",
+                "SG1_K",
             ],
         ).response
         result = bitrix_response.result
@@ -177,7 +181,7 @@
             ->call(
                 'user.access',
                 [
-                    'ACCESS' => ["G2", "AU"]
+                    'ACCESS' => ["D1", "SG1_K"]
                 ]
             );
     
@@ -203,7 +207,7 @@
     BX24.callMethod(
         "user.access",
         {
-            "ACCESS": ["G2", "AU"]
+            "ACCESS": ["D1", "SG1_K"]
         },
         function(result)
         {
@@ -223,7 +227,7 @@
     $result = CRest::call(
         'user.access',
         [
-            'ACCESS' => ['G2','AU']
+            'ACCESS' => ['D1','SG1_K']
         ]
     );
 
@@ -237,7 +241,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "user.access", b24.Params{
-    	"ACCESS": []string{"G2", "AU"},
+    	"ACCESS": []string{"D1", "SG1_K"},
     })
     if err != nil {
     	return fmt.Errorf("user.access: %w", err)
@@ -277,16 +281,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Возвращается `true`, если текущий пользователь обладает хотя бы одним из перечисленных в параметре `ACCESS` кодов доступа или правами на управление настройками приложений, `false` — в противном случае ||
+[`boolean`](../../data-types.md) | Возвращается `true`, если текущий пользователь обладает хотя бы одним из перечисленных в параметре `ACCESS` кодов доступа или является администратором Битрикс24, `false` — в противном случае ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
+Собственных ошибок у метода нет.
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./user-admin.md)
 - [{#T}](./profile.md)
+- [{#T}](../system/access-name.md)

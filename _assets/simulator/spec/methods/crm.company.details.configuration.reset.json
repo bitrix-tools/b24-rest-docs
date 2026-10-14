@@ -70,5 +70,9 @@
     }
   ],
   "page": "/api-reference/crm/companies/custom-form/crm-company-details-configuration-reset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "P",
+    "userId": 1
+  }
 }

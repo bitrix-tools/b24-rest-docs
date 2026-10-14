@@ -61,5 +61,19 @@
     }
   ],
   "page": "/api-reference/tasks/template/tasks-template-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "fields": {
+      "TITLE": "Подготовка еженедельного статуса по проекту и согласование",
+      "DESCRIPTION": "Обновленный шаблон задачи для подготовки еженедельного статуса по проекту и финального согласования перед отправкой",
+      "PRIORITY": 1,
+      "TASK_CONTROL": "Y",
+      "ADD_IN_REPORT": "Y",
+      "UF_CRM_TASK": [
+        "L_1179",
+        "D_1833"
+      ]
+    }
+  }
 }

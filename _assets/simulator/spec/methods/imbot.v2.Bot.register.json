@@ -167,5 +167,17 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/bots/bot-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "code": "support_bot",
+      "botToken": "my_bot_token",
+      "properties": {
+        "name": "Support Bot",
+        "workPosition": "AI Assistant"
+      },
+      "type": "bot",
+      "eventMode": "fetch"
+    }
+  }
 }

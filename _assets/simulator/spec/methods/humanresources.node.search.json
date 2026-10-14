@@ -200,5 +200,13 @@
     }
   ],
   "page": "/api-reference/departments/node/humanresources-node-search.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "DEPARTMENT",
+    "name": "Продажи",
+    "parentId": 1,
+    "pagination": {
+      "limit": 20
+    }
+  }
 }

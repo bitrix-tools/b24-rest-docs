@@ -174,5 +174,10 @@
     "id",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "SKIP_OPENLINES": "N",
+    "SKIP_CHAT": "N",
+    "SKIP_DIALOG": "N"
+  }
 }

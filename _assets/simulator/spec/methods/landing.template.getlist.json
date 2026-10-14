@@ -120,5 +120,26 @@
     }
   ],
   "page": "/api-reference/landing/template/landing-template-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "select": [
+        "ID",
+        "TITLE",
+        "XML_ID",
+        "SORT",
+        "ACTIVE",
+        "DATE_MODIFY"
+      ],
+      "filter": {
+        "=ACTIVE": "Y"
+      },
+      "order": {
+        "SORT": "ASC",
+        "ID": "ASC"
+      },
+      "limit": 2,
+      "offset": 0
+    }
+  }
 }

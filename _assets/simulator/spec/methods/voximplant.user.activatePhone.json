@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/users/voximplant-user-activate-phone.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 1269
+  }
 }

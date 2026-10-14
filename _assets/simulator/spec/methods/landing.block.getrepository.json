@@ -108,5 +108,8 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-get-repository.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "section": "text"
+  }
 }

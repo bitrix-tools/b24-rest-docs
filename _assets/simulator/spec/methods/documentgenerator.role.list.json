@@ -82,5 +82,8 @@
     "id",
     "name",
     "permissions"
-  ]
+  ],
+  "requestExample": {
+    "start": 0
+  }
 }

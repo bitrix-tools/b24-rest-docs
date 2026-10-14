@@ -131,5 +131,27 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 39,
+    "entityTypeId": 2,
+    "entityId": 101,
+    "values": {
+      "DocumentNumber": "2026-001"
+    },
+    "fields": {
+      "DocumentTitle": {
+        "title": "Название документа",
+        "value": "Демонстрационная реализация товара 1",
+        "required": "Y",
+        "default": "Демонстрационная реализация товара 1",
+        "chain": [
+          {},
+          "getTitle"
+        ],
+        "VALUE": "Тест через fields"
+      }
+    },
+    "stampsEnabled": 1
+  }
 }

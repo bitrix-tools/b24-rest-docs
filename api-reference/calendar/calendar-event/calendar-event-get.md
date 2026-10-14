@@ -41,7 +41,33 @@
 Значение по умолчанию — три месяца после текущей даты ||
 || **section**
 [`array`](../../data-types.md) | Массив идентификаторов календарей ||
+|| **modified_since**
+[`string`](../../data-types.md) | Момент, начиная с которого нужны измененные события. Формат — ISO 8601 с обязательным часовым поясом: `2026-10-13T09:00:00+03:00` или `2026-10-13T06:00:00Z`. Дробная часть секунд допускается и отбрасывается.
+
+Метод вернет события, у которых дата изменения больше или равна переданному значению, включая удаленные. Подробнее — в разделе [Получение изменений](#modified-since).
+
+Пустая строка равнозначна отсутствию параметра ||
 |#
+
+### Получение изменений {#modified-since}
+
+Параметр `modified_since` позволяет синхронизировать календарь с внешней системой без повторной загрузки всех событий.
+
+1. При первой синхронизации получите события без `modified_since` и запомните наибольшее значение поля `TIMESTAMP_X_ISO` из ответа.
+
+2. При следующей синхронизации передайте это значение в `modified_since`. Значение из поля `TIMESTAMP_X_ISO` можно передать без преобразования.
+
+Как работает выборка изменений:
+
+- граница включительная, точность — одна секунда. События, измененные в ту же секунду, придут повторно, поэтому обрабатывайте их по `ID` без дублей
+
+- ограничение по датам `from` и `to` действует и вместе с `modified_since`. Если событие находится за пределами периода выборки, его изменение не придет
+
+- удаленные события приходят со значением `DELETED` = `Y`, а в `TIMESTAMP_X_ISO` у них — момент удаления. Без `modified_since` метод удаленные события не возвращает
+
+- повторяющееся событие приходит отдельной записью на каждое повторение в периоде выборки, все записи с одним `ID`. Это относится и к удаленным повторяющимся событиям
+
+- ответ участника на приглашение не меняет дату изменения события, поэтому в выборку изменений не попадает
 
 ## Примеры кода
 
@@ -260,6 +286,112 @@
 
     {% endlist %}
 
+3. Получить события пользователя с `id` = `1`, измененные начиная с `2026-10-13T09:00:00+03:00`, включая удаленные
+
+    {% list tabs %}
+
+    - cURL (Webhook)
+
+        ```bash
+        curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"type":"user","ownerId":1,"modified_since":"2026-10-13T09:00:00+03:00"}' \
+        https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.get
+        ```
+
+    - cURL (OAuth)
+
+        ```bash
+        curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/json" \
+        -d '{"type":"user","ownerId":1,"modified_since":"2026-10-13T09:00:00+03:00","auth":"**put_access_token_here**"}' \
+        https://**put_your_bitrix24_address**/rest/calendar.event.get
+        ```
+
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            'calendar.event.get',
+            {
+                type: 'user',
+                ownerId: 1,
+                modified_since: '2026-10-13T09:00:00+03:00'
+            }
+        );
+        ```
+
+    - Python
+
+        ```python
+        from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+        try:
+            # У параметра modified_since нет аргумента в обертке b24pysdk, поэтому вызываем метод по имени
+            bitrix_response = bitrix_token.call_method(
+                "calendar.event.get",
+                {
+                    "type": "user",
+                    "ownerId": 1,
+                    "modified_since": "2026-10-13T09:00:00+03:00",
+                },
+            )
+            result = bitrix_response["result"]
+            print(result)
+        except BitrixAPIError as error:
+            print(
+                "Ошибка Bitrix API",
+                f"error: {error.error}",
+                f"error_description: {error.error_description}",
+                sep="\n",
+            )
+        except BitrixSDKException as error:
+            print(f"Ошибка Bitrix SDK: {error.message}")
+        except Exception as error:
+            print(f"Непредвиденная ошибка: {error}")
+        ```
+
+    - PHP
+
+        ```php
+        require_once('crest.php');
+
+        $result = CRest::call(
+            'calendar.event.get',
+            [
+                'type' => 'user',
+                'ownerId' => 1,
+                'modified_since' => '2026-10-13T09:00:00+03:00'
+            ]
+        );
+
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+        ```
+
+    - Go
+
+        ```go
+        // client и ctx уже созданы — см. раздел «SDK для Go»
+        res, err := client.Core().Call(ctx, "calendar.event.get", b24.Params{
+        	"type":           "user",
+        	"ownerId":        1,
+        	"modified_since": "2026-10-13T09:00:00+03:00",
+        }, b24.WithIdempotent())
+        if err != nil {
+        	return fmt.Errorf("calendar.event.get: %w", err)
+        }
+
+        // Ответ приходит как json.RawMessage — разберите его
+        // в структуру под форму ответа, показанную ниже на этой странице.
+        fmt.Printf("%s\n", res.Result)
+        ```
+
+    {% endlist %}
+
 ## Обработка ответа
 
 HTTP-статус: **200**
@@ -289,6 +421,8 @@ HTTP-статус: **200**
             "CREATED_BY": "1",
             "DATE_CREATE": "12/05/2024 01:48:41 pm",
             "TIMESTAMP_X": "12/05/2024 01:48:41 pm",
+            "DATE_CREATE_ISO": "2024-12-05T13:48:41+02:00",
+            "TIMESTAMP_X_ISO": "2024-12-05T13:48:41+02:00",
             "DESCRIPTION": "Description for event",
             "PRIVATE_EVENT": "",
             "ACCESSIBILITY": "free",
@@ -408,6 +542,7 @@ HTTP-статус: **400**
 || **Код** | **Сообщение об ошибке** | **Описание** ||
 || Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.get" | Не передан обязательный параметр `type` ||
 || Пустое значение | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
+|| `ERROR_ARGUMENT` | Недопустимое значение параметра "modified_since" | В `modified_since` передано значение без часового пояса, без секунд, с пробелом вместо `T`, несуществующая дата или значение не строкового типа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

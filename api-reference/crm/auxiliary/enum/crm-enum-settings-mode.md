@@ -11,9 +11,17 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
-Метод `crm.enum.settings.mode` возвращает список режимов работы CRM. Используйте метод для расшифровки значения `ID` типа, которое возвращает метод [crm.settings.mode.get](../../crm-settings-mode-get.md).
+Метод `crm.enum.settings.mode` возвращает список режимов работы CRM: их номера и названия. Этот список пригодится, чтобы показать пользователю название текущего режима вместо номера. Например, метод [crm.settings.mode.get](../../crm-settings-mode-get.md) вернул `1` — в списке этому номеру соответствует «Классическая CRM».
+
+Режимов два:
+
+#|
+|| **ID** | **Режим** | **Что это значит** ||
+|| `1` | Классическая CRM | Лиды включены. Лид можно конвертировать в другие объекты CRM ||
+|| `2` | Простая CRM | Лиды выключены. Если создать лид, Битрикс24 сразу конвертирует его — по умолчанию в сделку и контакт ||
+|#
 
 ## Параметры метода
 
@@ -152,13 +160,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $mode) {
+            echo $mode['ID'] . ' — ' . $mode['NAME'] . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.settings.mode: ' . $e->getMessage();
@@ -168,7 +172,7 @@
 - BX24.js
 
     ```js
-    BX24.callMethod("crm.enum.settings.mode", result => {
+    BX24.callMethod("crm.enum.settings.mode", {}, result => {
         if (result.error())
             console.error(result.error());
         else
@@ -264,18 +268,34 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор режима работы ||
+[`integer`](../../../data-types.md) | Идентификатор режима работы: `1` или `2` ||
 || **NAME**
 [`string`](../../../data-types.md) | Название режима работы ||
 || **SYMBOL_CODE**
-[`string`](../../../data-types.md) | Символьный код ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Символьный код. У режимов работы всегда `null` ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Краткий символьный код. У режимов работы всегда `null` ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

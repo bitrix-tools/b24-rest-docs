@@ -13,9 +13,15 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `task.checklistitem.isactionallowed` проверяет, разрешено ли действие с пунктом чек-листа в задаче.
+Метод `task.checklistitem.isactionallowed` проверяет, разрешено ли действие с пунктом чек-листа в задаче. Права проверяются для пользователя, от имени которого выполнен запрос: владельца вебхука или пользователя, для которого получен токен приложения.
 
 ## Параметры метода
+
+{% note warning "" %}
+
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку или результат проверки для другой задачи.
+
+{% endnote %}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -32,11 +38,13 @@
 Идентификатор пункта можно получить при [добавлении нового пункта](./task-checklist-item-add.md) или методом [получения списка пунктов чек-листа](./task-checklist-item-get-list.md) ||
 || **ACTIONID***
 [`integer`](../../data-types.md) | Идентификатор проверяемого действия:
-- `1` — добавить пункт `ACTION_ADD`
-- `2` — изменить пункт `ACTION_MODIFY`
-- `3` — удалить пункт `ACTION_REMOVE`
-- `4` — отметить выполнение `ACTION_TOGGLE`
-- `5` — переместить пункт `ACTION_REORDER` ||
+- `1` — добавить пункт `ACTION_ADD`, метод [task.checklistitem.add](./task-checklist-item-add.md)
+- `2` — изменить пункт `ACTION_MODIFY`, метод [task.checklistitem.update](./task-checklist-item-update.md)
+- `3` — удалить пункт `ACTION_REMOVE`, метод [task.checklistitem.delete](./task-checklist-item-delete.md)
+- `4` — отметить выполнение `ACTION_TOGGLE`, методы [task.checklistitem.complete](./task-checklist-item-complete.md) и [task.checklistitem.renew](./task-checklist-item-renew.md)
+- `5` — переместить пункт `ACTION_REORDER`, метод [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md)
+
+Для `1` проверяется право добавлять пункты, для `4` — право менять статус пункта. Для `2`, `3`, `5` и любых других значений проверяется право изменять пункт ||
 |#
 
 ## Примеры кода
@@ -163,6 +171,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -244,7 +253,7 @@
     if err := json.Unmarshal(res.Result, &ok); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println("выполнено:", ok)
+    fmt.Println("разрешено:", ok)
     ```
 
 {% endlist %}
@@ -277,7 +286,9 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../data-types.md) | Результат проверки:
 - `true` — действие разрешено
-- `false` — действие не разрешено или переданы несуществующие идентификаторы ||
+- `false` — действие не разрешено
+
+Для несуществующего пункта или пункта другой задачи метод возвращает `false`, кроме проверки `ACTIONID = 1`. Администратор Битрикс24 получает `true` для любых значений `TASKID`, `ITEMID` и `ACTIONID` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -289,7 +300,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_CORE",
-    "error_description":"TASKS_ERROR_EXCEPTION_#256; Param #2 (actionId) expected by method ctaskchecklistitem::isactionallowed(), but not given.; 256/TE/WRONG_ARGUMENTS"
+    "error_description":"TASKS_ERROR_EXCEPTION_#256; Param #2 (actionId) expected by method ctaskchecklistitem::isactionallowed(), but not given.; 256/TE/WRONG_ARGUMENTS<br>"
 }
 ```
 
@@ -299,8 +310,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (actionId) expected by method ctaskchecklistitem::isactionallowed(), but not given.; 256/TE/WRONG_ARGUMENTS | Не указан обязательный параметр: `TASKID`, `ITEMID` или `ACTIONID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::isactionallowed() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS | Указан неверный тип значения для параметров `TASKID`, `ITEMID` или `ACTIONID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (actionId) expected by method ctaskchecklistitem::isactionallowed(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр. Номер и имя параметра в сообщении: `Param #0 (taskId)`, `Param #1 (itemId)` или `Param #2 (actionId)` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::isactionallowed() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

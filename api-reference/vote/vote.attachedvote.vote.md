@@ -17,7 +17,7 @@
 
 ## Параметры метода
 
-Доступно два варианта вызова метода.
+Доступно три варианта вызова метода.
 
 ### 1. Через идентификатор прикрепленного опроса
 
@@ -38,7 +38,7 @@
 }
 ```
 
-Ключ - ID вопроса, значение - массив ID выбранных ответов. Получить ID вопроса и ответов можно методами [vote.AttachedVote.get](./vote.attachedvote.get.md) или [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md).
+Ключ — ID вопроса, значение — массив ID выбранных ответов. Получить ID вопроса и ответов можно методами [vote.AttachedVote.get](./vote.attachedvote.get.md) или [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md).
 Несколько вопросов в одном голосовании доступно в постах ленты, в сообщении чата в опросе доступен только один вопрос ||
 |#
 
@@ -96,6 +96,15 @@
 
 Ключ - ID вопроса, значение - массив ID выбранных ответов. Получить ID вопроса и ответов можно методами [vote.AttachedVote.get](./vote.attachedvote.get.md) или [vote.AttachedVote.getMany](./vote.attachedvote.getMany.md).
 Несколько вопросов в одном голосовании доступно в постах ленты, в сообщении чата в опросе доступен только один вопрос ||
+|#
+
+### Общий необязательный параметр
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **actionUuid**
+[`string`](../data-types.md) | Идентификатор действия на стороне клиента длиной до 1000 символов. Значение возвращается инициатору вызова в Pull-событии об изменении голосования и позволяет сопоставить событие с запросом. По умолчанию — пустая строка ||
 |#
 
 ## Примеры кода
@@ -282,7 +291,7 @@
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error adding product row: ' . $e->getMessage();
+        echo 'Error voting in poll: ' . $e->getMessage();
     }
     ```
 
@@ -493,13 +502,13 @@ HTTP-статус: **200**
 || **COUNTER**
 [`integer`](../data-types.md) | Счетчик голосов ||
 || **QUESTIONS**
-[`array`](../data-types.md) | Массив с вопросами опроса ||
+[`object`](../data-types.md) | Вопросы опроса. Ключ объекта — идентификатор вопроса, значение — данные вопроса и объект `ANSWERS` с вариантами ответа, сгруппированными по их идентификаторам ||
 || **ANONYMITY**
 [`integer`](../data-types.md) | Уровень анонимности опроса ||
 || **OPTIONS**
 [`integer`](../data-types.md) | Доступность переголосования ||
 || **userAnswerMap**
-[`array`](../data-types.md) | Карта ответов текущего пользователя ||
+[`object`](../data-types.md) | Ответы текущего пользователя. Ключ первого уровня — идентификатор вопроса, ключ второго уровня — идентификатор ответа ||
 || **canEdit**
 [`boolean`](../data-types.md) | Может ли текущий пользователь редактировать опрос ||
 || **canVote**
@@ -540,7 +549,8 @@ HTTP-статус: **403**
 || `100` | Bitrix\Vote\Attach All parameters in the constructor must have real class type | Не передан или некорректен обязательный параметр. Передайте `attachId`, `signedAttachId` либо связку `moduleId` + `entityType` + `entityId` ||
 || `400` | Cannot save poll. | Не удалось сохранить голосование ||
 || `403` | The poll is inactive. | Опрос неактивен ||
-|| `ATTACH_READ_ACCESS_DENIED` | Attach read access denied | Нет прав для участия в голосовании ||
+|| `ATTACH_NOT_FOUND` | Attach not found | Прикрепленное голосование не найдено ||
+|| `0` | Attach read access denied | Нет прав для участия в голосовании ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

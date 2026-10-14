@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 16
+  }
 }

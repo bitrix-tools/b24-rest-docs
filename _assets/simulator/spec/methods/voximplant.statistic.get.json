@@ -194,5 +194,16 @@
     "SESSION_ID",
     "TRANSCRIPT_ID",
     "TRANSCRIPT_PENDING"
-  ]
+  ],
+  "requestExample": {
+    "FILTER": {
+      "ID": [
+        1,
+        7
+      ],
+      ">=CALL_START_DATE": "2025-01-01T00:00:00+03:00"
+    },
+    "SORT": "ID",
+    "ORDER": "ASC"
+  }
 }

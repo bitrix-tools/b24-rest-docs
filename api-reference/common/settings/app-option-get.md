@@ -1,4 +1,4 @@
-# Получить привязанные к приложению данные app.option.get
+# Получить общие настройки приложения app.option.get
 
 {% note tip "" %}
 
@@ -11,9 +11,9 @@
 
 > Scope: [`базовый`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой авторизованный пользователь в контексте приложения
 
-Метод `app.option.get` получает данные, привязанные к приложению. Если ничего не подать на вход, вернет все записанные через [app.option.set](./app-option-set.md) свойства.
+Метод `app.option.get` получает общие настройки приложения, сохраненные через [app.option.set](./app-option-set.md). Настройки одни для всех пользователей Битрикс24.
 
 ## Параметры метода
 
@@ -34,30 +34,6 @@
 
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    Пример №1
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "option": "data"
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/app.option.get
-    ```
-
-    Пример №2
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/app.option.get
-    ```
 
 - cURL (OAuth)
 
@@ -80,7 +56,9 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
+    -d '{
+        "auth": "**put_access_token_here**"
+    }' \
     https://**put_your_bitrix24_address**/rest/app.option.get
     ```
 
@@ -95,11 +73,11 @@
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type AppOptionResult = Record<string, string>
+    type AppOptionResult = Record<string, unknown> | []
 
     // Example 1: get a specific option by key
     try {
-      const response = await $b24.actions.v2.call.make<string | null>({
+      const response = await $b24.actions.v2.call.make<unknown>({
         method: 'app.option.get',
         params: {
           option: 'data',
@@ -255,7 +233,7 @@
     );
     ```
 
-- PHP
+- PHP CRest
 
     Пример №1
     
@@ -354,24 +332,25 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md)\|[`string`](../../data-types.md)\|[`null`](../../data-types.md) | Зависит от параметра `option`:
+[`object`](../../data-types.md)\|[`array`](../../data-types.md)\|[`string`](../../data-types.md)\|[`integer`](../../data-types.md)\|[`double`](../../data-types.md)\|[`boolean`](../../data-types.md)\|[`null`](../../data-types.md) | Зависит от параметра `option`:
 
-- параметр не передан — объект, где ключ это название настройки, а значение это сохраненное значение. Если настроек нет, объект пустой
-- параметр передан — сохраненное значение ключа
-- параметр передан, но такого ключа нет — `null` ||
+- параметр не передан — объект, где ключ — название настройки, значение — сохраненное значение. Если настроек нет, возвращается пустой массив `[]`
+- параметр передан — сохраненное значение ключа: строка, целое или дробное число, логическое значение, массив или объект
+- параметр передан, но такого ключа нет — `null`
+
+Значение возвращается в том виде, в каком его сохранил [app.option.set](./app-option-set.md): строкой, если настройку передавали параметром формы, или с исходным JSON-типом, если передавали в JSON-теле ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **403**
 
 ```json
 {
-    "error": "ERROR_ARGUMENT",
-    "error_description": "The value of an argument 'option' must be of type string",
-    "argument": "option"
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied! Application context required"
 }
 ```
 
@@ -380,16 +359,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_ARGUMENT` | The value of an argument 'option' must be of type string | Параметр `option` передан не строкой ||
-|| `AccessException` | Application context required | Метод вызван вне контекста приложения ||
-|| `AccessException` | User authorization required | Пользователь не авторизован ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван вне контекста приложения, например через входящий вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизованного пользователя ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./app-option-set.md)
 - [{#T}](./user-option-set.md)
 - [{#T}](./user-option-get.md)

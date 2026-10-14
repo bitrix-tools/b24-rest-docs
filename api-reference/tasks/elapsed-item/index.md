@@ -31,6 +31,28 @@
 
 {% endnote %}
 
+## Данные записи о затраченном времени
+
+Запись хранит идентификаторы задачи и автора, продолжительность работы, комментарий и дату создания. В классических методах `task.elapseditem.*` и REST 3.0 названия полей различаются.
+
+#|
+|| **Данные** | **Поле `task.elapseditem.*`** | **Поле REST 3.0** ||
+|| Идентификатор записи | `ID` | `id` ||
+|| Идентификатор задачи | `TASK_ID` | `taskId` ||
+|| Автор записи | `USER_ID` | `userId` ||
+|| Затраченное время | `SECONDS`, `MINUTES` | `seconds`, `minutes` ||
+|| Комментарий | `COMMENT_TEXT` | `text` ||
+|| Дата создания | `CREATED_DATE` | `createdAtTs` ||
+|#
+
+В REST 3.0 данные учета времени можно получить вместе с задачей методом [tasks.task.get](../tasks-task-get-rest-v3.md). Передайте нужные вложенные поля `elapsedTime` в параметре `select`, например `elapsedTime.minutes`, `elapsedTime.text`, `elapsedTime.createdAtTs` и `elapsedTime.userId`. Полный состав полей приведен в описании [объекта учета времени](../fields-rest-v3.md#elapsed-time).
+
+## Как начать работу
+
+1. Добавьте запись методом [task.elapseditem.add](./task-elapsed-item-add.md)
+2. Получите записи задачи методом [task.elapseditem.getlist](./task-elapsed-item-get-list.md)
+3. Перед изменением или удалением проверьте доступность действия методом [task.elapseditem.isactionallowed](./task-elapsed-item-is-action-allowed.md), затем вызовите [task.elapseditem.update](./task-elapsed-item-update.md) или [task.elapseditem.delete](./task-elapsed-item-delete.md)
+
 ## Кто может добавлять или менять запись
 
 Чтобы добавить, изменить или удалить запись о затраченном времени, нужны права доступа к задаче. Проверить права можно специальным методом [task.elapseditem.isactionallowed](./task-elapsed-item-is-action-allowed.md).
@@ -43,7 +65,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: зависит от метода
 
 #|
 || **Метод** | **Описание** ||

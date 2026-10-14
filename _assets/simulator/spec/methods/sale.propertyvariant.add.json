@@ -110,5 +110,14 @@
     }
   ],
   "page": "/api-reference/sale/property-variant/sale-property-variant-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Красный",
+      "orderPropsId": 49,
+      "value": "red",
+      "sort": 10,
+      "description": "Описание значения для красного цвета"
+    }
+  }
 }

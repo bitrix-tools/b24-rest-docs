@@ -74,5 +74,13 @@
     }
   ],
   "page": "/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-reset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 2,
+    "userId": 1,
+    "scope": "C",
+    "extras": {
+      "dealCategoryId": 9
+    }
+  }
 }

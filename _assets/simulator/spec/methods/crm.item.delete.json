@@ -40,5 +40,9 @@
     }
   },
   "page": "/api-reference/crm/universal/crm-item-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 1268,
+    "id": 1
+  }
 }

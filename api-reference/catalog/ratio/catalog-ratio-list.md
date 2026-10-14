@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает список коэффициентов единиц измерения.
+Метод `catalog.ratio.list` возвращает коэффициенты единиц измерения товаров по фильтру. Если у товара нет записи коэффициента, Битрикс24 использует для него коэффициент 1.
 
 ## Параметры метода
 
@@ -21,13 +21,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | 
-Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_ratio](../data-types.md#catalog_ratio)) 
+[`array`](../../data-types.md) |
+Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_ratio](../data-types.md#catalog_ratio)).
+
+Если массив не передан или пустой, метод вернет все поля
 ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных коэффициентов единиц измерения в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_ratio](../data-types.md#catalog_ratio). 
+Возможные значения для `field` соответствуют полям объекта [catalog_ratio](../data-types.md#catalog_ratio).
 
 Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -51,6 +53,10 @@
 - `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` — не равно
 - `!` — не равно
+
+Префиксы `@` и `!@` работают для полей `id`, `productId` и `isDefault`. С полем `ratio` метод вернет ошибку.
+
+Поиск по подстроке с префиксами `%`, `=%`, `%=`, `!%`, `!=%` и `!%=` работает только для поля `isDefault`. Значения числовых полей метод сравнивает целиком: фильтр `{"%productId": "64"}` не найдет товар с идентификатором `6461`
 ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных полей коэффициентов единиц измерения в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
@@ -60,6 +66,8 @@
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
+
+Если `order` не передан, метод вернет записи по возрастанию `id`
 ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
@@ -74,6 +82,12 @@
 ||
 |#
 
+{% note warning "" %}
+
+Имена полей в `filter` пишите так же, как в ответе: `productId`, `isDefault`. Условие с другим именем поля, например `PRODUCT_ID`, метод пропустит без ошибки. Если других условий нет, он вернет коэффициенты всех товаров.
+
+{% endnote %}
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
@@ -86,7 +100,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","productId","ratio","isDefault"],"filter":{"@productId":[1,2],">ratio":0.5,"isDefault":"Y"},"order":{"id":"desc"}}' \
+    -d '{"select":["id","productId","ratio","isDefault"],"filter":{"@productId":[533,6461],">ratio":0.5,"isDefault":"Y"},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.ratio.list
     ```
 
@@ -96,7 +110,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","productId","ratio","isDefault"],"filter":{"@productId":[1,2],">ratio":0.5,"isDefault":"Y"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","productId","ratio","isDefault"],"filter":{"@productId":[533,6461],">ratio":0.5,"isDefault":"Y"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.ratio.list
     ```
 
@@ -133,7 +147,7 @@
         params: {
           select: ['id', 'productId', 'ratio', 'isDefault'],
           filter: {
-            '@productId': [1, 2],
+            '@productId': [533, 6461],
             '>ratio': 0.5,
             isDefault: 'Y',
           },
@@ -179,7 +193,7 @@
             params: {
               select: ['id', 'productId', 'ratio', 'isDefault'],
               filter: {
-                '@productId': [1, 2],
+                '@productId': [533, 6461],
                 '>ratio': 0.5,
                 isDefault: 'Y',
               },
@@ -223,7 +237,9 @@
                 "isDefault",
             ],
             filter={
-                "productId": 1,
+                "@productId": [533, 6461],
+                ">ratio": 0.5,
+                "isDefault": "Y",
             },
             order={
                 "id": "desc",
@@ -262,7 +278,7 @@
                         'isDefault',
                     ],
                     'filter' => [
-                        '@productId' => [1, 2],
+                        '@productId' => [533, 6461],
                         '>ratio'     => 0.5,
                         'isDefault'  => 'Y',
                     ],
@@ -271,13 +287,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching ratio list: ' . $e->getMessage();
@@ -297,7 +313,7 @@
                     'isDefault',
                 ],
                 filter:{
-                    '@productId': [1, 2],
+                    '@productId': [533, 6461],
                     '>ratio': 0.5,
                     'isDefault': 'Y',
                 },
@@ -331,7 +347,7 @@
                 'isDefault',
             ],
             'filter' => [
-                '@productId' => [1, 2],
+                '@productId' => [533, 6461],
                 '>ratio' => 0.5,
                 'isDefault' => 'Y',
             ],
@@ -353,7 +369,7 @@
     res, err := client.Core().Call(ctx, "catalog.ratio.list", b24.Params{
     	"select": []string{"id", "productId", "ratio", "isDefault"},
     	"filter": b24.Params{
-    		"@productId": []int{1, 2},
+    		"@productId": []int{533, 6461},
     		">ratio":     0.5,
     		"isDefault":  "Y",
     	},
@@ -381,21 +397,29 @@ HTTP-статус: **200**
     "result": {
         "ratios": [
             {
-                "id": 1,
+                "id": 285,
                 "isDefault": "Y",
-                "productId": 1,
+                "productId": 6461,
+                "ratio": 10
+            },
+            {
+                "id": 279,
+                "isDefault": "Y",
+                "productId": 533,
                 "ratio": 1
             }
         ]
     },
-    "total": 1,
+    "total": 2,
     "time": {
-        "start": 1729676806.653016,
-        "finish": 1729676807.083635,
-        "duration": 0.4306190013885498,
-        "processing": 0.02678680419921875,
-        "date_start": "2024-10-23T12:46:46+03:00",
-        "date_finish": "2024-10-23T12:46:47+03:00",
+        "start": 1790852349,
+        "finish": 1790852349.935266,
+        "duration": 0.9352660179138184,
+        "processing": 0,
+        "date_start": "2026-10-01T13:59:09+03:00",
+        "date_finish": "2026-10-01T13:59:09+03:00",
+        "operating_reset_at": 1790852949,
+        "operating": 0
     }
 }
 ```
@@ -411,8 +435,10 @@ HTTP-статус: **200**
 [`catalog_ratio[]`](../data-types.md#catalog_ratio) | Массив объектов с информацией о выбранных коэффициентах единиц измерения ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
+|| **next**
+[`integer`](../../data-types.md) | Значение параметра `start` для получения следующей страницы. Поле отсутствует, если получена последняя страница ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -421,8 +447,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access denied"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -431,16 +457,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление типами цен» ||
+|| `400` | `100` | Invalid order "<VALUE>" | В `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `400` | `100` | Order must be a string | Направление сортировки в `order` передано не строкой ||
+|| `400` | `100` | Invalid value {<VALUE>} to match with parameter {filter}. Should be value of type array. | `filter` передан не объектом. Тот же текст с `{order}` или `{select}` значит, что `order` передан не объектом или `select` — не массивом ||
+|| `400` | `0` | Call to a member function compile() on float | В `filter` для поля `ratio` передан массив с префиксом `@` или `!@` ||
+|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-ratio-get.md)
 - [{#T}](./catalog-ratio-get-fields.md)
+- [{#T}](../product/catalog-product-list.md)

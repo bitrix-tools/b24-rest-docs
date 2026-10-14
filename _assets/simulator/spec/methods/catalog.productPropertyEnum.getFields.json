@@ -122,5 +122,6 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-enum/catalog-product-property-enum-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

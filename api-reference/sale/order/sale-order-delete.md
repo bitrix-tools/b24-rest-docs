@@ -1,4 +1,4 @@
-# Удалить заказ и связанные объекты sale.order.delete
+# Удалить заказ sale.order.delete
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.order.delete` предназначен для удаления заказа и связанных объектов. 
+Метод `sale.order.delete` удаляет заказ вместе с позициями корзины, оплатами и отгрузками. Восстановить удаленный заказ нельзя. Значения свойств заказа метод не удаляет — их по-прежнему возвращает [sale.propertyvalue.list](../property-value/sale-property-value-list.md) с фильтром по `orderId`.
+
+Метод не удалит заказ, у которого есть оплата с `paid` = `Y`. Сначала снимите отметку методом [sale.payment.update](../payment/sale-payment-update.md): передайте `id` оплаты, а в `fields` — `paid` = `N` и `paySystemId` этой оплаты. Оплаты заказа с их `id` и `paySystemId` возвращает [sale.payment.list](../payment/sale-payment-list.md) с фильтром по `orderId`.
 
 ## Параметры метода
 
@@ -23,7 +25,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа, который нужно удалить. Его возвращают методы [sale.order.add](./sale-order-add.md) и [sale.order.list](./sale-order-list.md) ||
 |#
 
 ## Примеры кода
@@ -34,8 +36,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":5}' \
@@ -44,8 +46,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":5,"auth":"**put_access_token_here**"}' \
@@ -147,7 +149,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -163,12 +164,8 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Info: ' . print_r($result->data(), true);
-        }
+        // SDK throws an exception on API errors, so here the call has succeeded
+        echo 'Info: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -254,9 +251,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления заказа ||
+[`boolean`](../../data-types.md) | `true`, если заказ удален ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -265,8 +262,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200540400001,
-    "error_description":"order is not exists"
+    "error": "SALE_ORDER_CANCEL_PAYMENT_EXIST_ACTIVE",
+    "error_description": "У заказа есть активные оплаты"
 }
 ```
 
@@ -275,18 +272,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `SALE_ORDER_CANCEL_PAYMENT_EXIST_ACTIVE` | У заказа есть активные оплаты ||
-|| `200540400001` | Удаляемый заказ не найден ||
-|| `200040300020` | Недостаточно прав для удаления заказа ||
-|| `100` | Не указан параметр `id` ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `SALE_ORDER_CANCEL_PAYMENT_EXIST_ACTIVE` | `У заказа есть активные оплаты` | Хотя бы одна оплата заказа отмечена как оплаченная, `paid` = `Y` ||
+|| `400` | `200540400001` | `order is not exists` | Заказа с таким `id` нет ||
+|| `400` | `100` | `Bitrix\Sale\Order constructor must be is public` | Не передан параметр `id` ||
+|| `400` | `200040300020` | `Access Denied` | Недостаточно прав для удаления заказа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-order-add.md)
 - [{#T}](./sale-order-update.md)
 - [{#T}](./sale-order-get.md)

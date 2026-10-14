@@ -1,7 +1,7 @@
 {
   "$v": 1,
   "method": "imconnector.chat.name.set",
-  "scope": "imconnector",
+  "scope": "imopenlines",
   "kind": "write",
   "title": "Установить новое имя чата imconnector.chat.name.set",
   "permissions": "любой пользователь",
@@ -18,14 +18,14 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор открытой линии Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
     },
     {
       "name": "CHAT_ID",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Идентификатор чата во внешней системе"
+      "description": "Идентификатор чата во внешней системе — то же значение, что передают в chat.id метода imconnector.send.messages"
     },
     {
       "name": "NAME",
@@ -39,7 +39,7 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Идентификатор пользователя. Параметр является обязательным только для коннекторов без групповых чатов с внешней стороны. У такого коннектора в методе imconnector.register параметр CHAT_GROUP должен быть равен false"
+      "description": "Идентификатор собеседника во внешней системе — то же значение, что передают в user.id метода imconnector.send.messages. Идентификатор пользователя Битрикс24 здесь не подходит. Параметр обязателен для коннекторов, у которых при регистрации методом imconnector.register параметр CHAT_GROUP равен false. Если CHAT_GROUP равен true, переданное значение игнорируется"
     }
   ],
   "defs": {},

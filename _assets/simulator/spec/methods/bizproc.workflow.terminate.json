@@ -44,5 +44,9 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-workflow-terminate.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": "65e5a449e8f135.21284909",
+    "STATUS": "Terminated by rest app."
+  }
 }

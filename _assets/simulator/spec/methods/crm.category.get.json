@@ -75,5 +75,9 @@
     "originId",
     "originatorId",
     "sort"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 2,
+    "id": 1
+  }
 }

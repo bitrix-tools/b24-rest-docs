@@ -180,5 +180,9 @@
     "name",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "scope": "P",
+    "userId": 6
+  }
 }

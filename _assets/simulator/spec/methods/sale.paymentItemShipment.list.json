@@ -123,5 +123,21 @@
     "paymentId",
     "shipmentId",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "shipmentId",
+      "paymentId",
+      "xmlId",
+      "dateInsert"
+    ],
+    "filter": {
+      "paymentId": 1025,
+      "shipmentId": 2467
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

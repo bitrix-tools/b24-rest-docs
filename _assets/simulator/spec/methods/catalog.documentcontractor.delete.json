@@ -34,5 +34,8 @@
     }
   },
   "page": "/api-reference/catalog/documentcontractor/catalog-documentcontractor-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 42
+  }
 }

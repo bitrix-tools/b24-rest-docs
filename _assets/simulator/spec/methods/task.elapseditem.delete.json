@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Удалить запись о затраченном времени task.elapseditem.delete",
-  "permissions": "любой пользователь",
+  "permissions": "автор записи или администратор с доступом к задаче",
   "params": [
     {
       "name": "TASKID",
@@ -38,6 +38,26 @@
       "date_finish": "2024-04-03T12:50:17+03:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "null",
+      "base": "any",
+      "required": false,
+      "description": "Возвращает null, если запись успешно удалена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 691,
+    "ITEMID": 5
+  }
 }

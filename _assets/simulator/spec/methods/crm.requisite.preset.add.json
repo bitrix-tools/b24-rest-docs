@@ -103,5 +103,15 @@
     }
   ],
   "page": "/api-reference/crm/requisites/presets/crm-requisite-preset-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "ENTITY_TYPE_ID": 8,
+      "COUNTRY_ID": 1,
+      "NAME": "ИП",
+      "XML_ID": "EXAMPLE_COMPANY__VALUE_1",
+      "ACTIVE": "Y",
+      "SORT": 520
+    }
+  }
 }

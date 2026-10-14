@@ -55,5 +55,9 @@
     }
   ],
   "page": "/api-reference/sale/delivery/delivery-request/sale-delivery-request-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DELIVERY_ID": 225,
+    "REQUEST_ID": "4757aca4931a4f029f49c0db4374d13d"
+  }
 }

@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Описание методов task.elapseditem.*",
+      "description": "Описание методов task.elapseditem.* (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -310,7 +310,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Описание методов task.elapseditem.*"
+      "description": "Описание методов task.elapseditem.* (подробное описание)"
     },
     {
       "name": "time",
@@ -321,5 +321,6 @@
     }
   ],
   "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-get-manifest.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

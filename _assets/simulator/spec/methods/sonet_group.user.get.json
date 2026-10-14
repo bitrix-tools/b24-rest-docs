@@ -95,5 +95,8 @@
   "entityFields": [
     "ROLE",
     "USER_ID"
-  ]
+  ],
+  "requestExample": {
+    "ID": 69
+  }
 }

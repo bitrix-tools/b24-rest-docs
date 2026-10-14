@@ -110,5 +110,6 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-group/catalog-price-type-group-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

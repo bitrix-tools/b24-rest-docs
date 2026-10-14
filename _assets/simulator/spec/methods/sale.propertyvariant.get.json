@@ -72,5 +72,8 @@
     "orderPropsId",
     "sort",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "id": 6
+  }
 }

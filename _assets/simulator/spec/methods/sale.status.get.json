@@ -72,5 +72,8 @@
     "sort",
     "type",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": "N"
+  }
 }

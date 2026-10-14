@@ -85,5 +85,8 @@
     "SMTP_SERVER",
     "SORT",
     "UPLOAD_OUTGOING"
-  ]
+  ],
+  "requestExample": {
+    "ID": 31
+  }
 }

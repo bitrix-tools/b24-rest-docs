@@ -23,23 +23,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter**
-[`array`](../data-types.md) | Массив формата:
+[`object`](../data-types.md) | Объект с условиями фильтрации. Ключ — название поля с необязательным префиксом оператора, значение — искомое значение. Например:
 
-```
+```json
 {
-    field_1: value_1,
-    field_2: value_2,
-    ...,
-    field_n: value_n,
+    "=CATEGORY": "text"
 }
 ```
 
-где:
-- `field_n` — название поля, по которому будет произведена фильтрация
-- `value_n` — значение фильтра
+Если параметр не передан, метод возвращает записи без дополнительной фильтрации.
 
-К ключам `field_n` можно добавить префикс, уточняющий работу фильтра.
-Возможные значения префикса:
+Возможные префиксы операторов:
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
@@ -58,7 +52,7 @@
 
 Список доступных для фильтрации полей приведен в разделе [(подробное описание)](#filter) ||
 || **limit**
-[`integer`](../data-types.md) | Максимальное количество элементов в ответе ||
+[`integer`](../data-types.md) | Максимальное количество элементов в ответе. Если параметр не передан, метод возвращает все найденные записи ||
 |#
 
 ### Параметр filter {#filter}
@@ -79,7 +73,15 @@
 || **CODE**
 [`string`](../data-types.md) | Символьный код сервиса ||
 || **CATEGORY**
-[`string`](../data-types.md) | Категория сервиса ||
+[`string`](../data-types.md) | Категория сервиса.
+
+Возможные значения:
+- `text` — текстовые запросы
+- `image` — генерация изображений
+- `audio` — обработка аудио
+- `call` — обработка аудиозаписей звонков
+- `vision` — анализ изображений
+- `classify` — классификация данных ||
 || **COMPLETIONS_URL**
 [`string`](../data-types.md) | URL endpoint сервиса ||
 || **DATE_CREATE**
@@ -146,11 +148,6 @@
     }
 
     try {
-      // ai.engine.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<AiEngineItem[]>({
         method: 'ai.engine.list',
         params: {
@@ -158,7 +155,6 @@
             '=CATEGORY': 'text',
           },
           limit: 2,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -187,11 +183,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // ai.engine.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'ai.engine.list',
             params: {
@@ -199,7 +190,6 @@
                 '=CATEGORY': 'text',
               },
               limit: 2,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -350,12 +340,6 @@
     for _, it := range items {
     	fmt.Println(it.ID, it.AppCode)
     }
-
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
     ```
 
 {% endlist %}
@@ -414,7 +398,7 @@ HTTP-статус: **200**
 || **id**
 [`integer`](../data-types.md) | Идентификатор сервиса ||
 || **app_code**
-[`string`](../data-types.md) | Код приложения, которому принадлежит сервис.
+[`string`](../data-types.md) \| [`null`](../data-types.md) | Код приложения, которому принадлежит сервис.
 
 Может вернуть `null`, если значение не задано ||
 || **name**
@@ -422,16 +406,26 @@ HTTP-статус: **200**
 || **code**
 [`string`](../data-types.md) | Символьный код сервиса ||
 || **category**
-[`string`](../data-types.md) | Категория сервиса ||
+[`string`](../data-types.md) | Категория сервиса.
+
+Возможные значения:
+- `text` — текстовые запросы
+- `image` — генерация изображений
+- `audio` — обработка аудио
+- `call` — обработка аудиозаписей звонков
+- `vision` — анализ изображений
+- `classify` — классификация данных ||
 || **completions_url**
 [`string`](../data-types.md) | URL endpoint сервиса ||
 || **settings**
-[`object`](../data-types.md) | Настройки сервиса, сохраненные при регистрации ||
+[`object`](../data-types.md) | Настройки сервиса, сохраненные при регистрации. Стандартные поля описаны в параметре [`settings`](./ai-engine-register.md#settings) метода `ai.engine.register` ||
 || **date_create**
 [`integer`](../data-types.md) | Дата создания сервиса в формате Unix Timestamp ||
 |#
 
 ## Обработка ошибок
+
+Метод не возвращает специфичных ошибок.
 
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
@@ -439,5 +433,6 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./ai-engine-register.md)
 - [{#T}](./ai-engine-unregister.md)

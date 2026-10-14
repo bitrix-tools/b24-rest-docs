@@ -89,5 +89,12 @@
     }
   ],
   "page": "/api-reference/crm/status/crm-status-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 123,
+    "fields": {
+      "NAME": "Новое название",
+      "COLOR": "#00A9F4"
+    }
+  }
 }

@@ -228,5 +228,23 @@
     }
   ],
   "page": "/api-reference/crm/quote/crm-quote-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TITLE": "КП на поставку мебели",
+      "STATUS_ID": "DRAFT",
+      "OPENED": "Y",
+      "ASSIGNED_BY_ID": 1,
+      "CURRENCY_ID": "RUB",
+      "OPPORTUNITY": 150000,
+      "COMPANY_ID": 1,
+      "MYCOMPANY_ID": 3,
+      "COMMENTS": "Подготовлено по запросу клиента",
+      "BEGINDATE": "2026-03-13T10:00:00+03:00",
+      "CLOSEDATE": "2026-03-20T18:00:00+03:00"
+    },
+    "params": {
+      "IMPORT": "N"
+    }
+  }
 }

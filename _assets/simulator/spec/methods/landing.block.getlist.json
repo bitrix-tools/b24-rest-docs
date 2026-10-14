@@ -121,5 +121,12 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 4858,
+    "params": {
+      "edit_mode": true,
+      "get_content": true
+    }
+  }
 }

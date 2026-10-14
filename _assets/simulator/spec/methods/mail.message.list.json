@@ -261,5 +261,15 @@
     "subject",
     "to",
     "url"
-  ]
+  ],
+  "requestExample": {
+    "mailboxId": 1,
+    "searchQuery": "договор",
+    "hasAttachments": true,
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

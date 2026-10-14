@@ -155,5 +155,13 @@
     "category_id",
     "deal_id",
     "id"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "deal_id": "ASC"
+    },
+    "filter": {
+      ">COUNTER_REPEAT": 0
+    }
+  }
 }

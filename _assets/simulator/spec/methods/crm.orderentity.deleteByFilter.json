@@ -81,5 +81,12 @@
     }
   ],
   "page": "/api-reference/crm/universal/order-entity/crm-order-entity-delete-by-filter.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "orderId": 5125,
+      "ownerId": 6933,
+      "ownerTypeId": 2
+    }
+  }
 }

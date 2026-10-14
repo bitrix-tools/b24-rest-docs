@@ -384,5 +384,33 @@
     }
   ],
   "page": "/api-reference/crm/leads/crm-lead-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TITLE": "ИП Титов",
+      "NAME": "Глеб",
+      "SECOND_NAME": "Егорович",
+      "LAST_NAME": "Титов",
+      "STATUS_ID": "NEW",
+      "OPENED": "Y",
+      "ASSIGNED_BY_ID": 1,
+      "CURRENCY_ID": "USD",
+      "OPPORTUNITY": 12500,
+      "PHONE": [
+        {
+          "VALUE": "555888",
+          "VALUE_TYPE": "WORK"
+        }
+      ],
+      "WEB": [
+        {
+          "VALUE": "www.mysite.com",
+          "VALUE_TYPE": "WORK"
+        }
+      ]
+    },
+    "params": {
+      "REGISTER_SONET_EVENT": "Y"
+    }
+  }
 }

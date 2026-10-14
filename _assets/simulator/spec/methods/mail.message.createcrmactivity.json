@@ -59,5 +59,8 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-createcrmactivity.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "messageId": 15
+  }
 }

@@ -1,4 +1,4 @@
-# Получить информацию об элементе (позиции) корзины заказа sale.basketitem.get
+# Получить позицию корзины sale.basketitem.get
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод `sale.basketitem.get` получает информацию об элементе корзины заказа.
+Метод `sale.basketitem.get` получает информацию о позиции корзины заказа по ее идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_basket_item.id`](../data-types.md) | Идентификатор элемента (позиции) корзины.
+[`sale_basket_item.id`](../data-types.md#sale_basket_item) | Идентификатор позиции корзины.
 
 Можно получить методом [sale.basketitem.list](./sale-basket-item-list.md)
 ||
@@ -178,8 +178,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -294,6 +294,7 @@ HTTP-статус: **200**
 {
     "result": {
         "basketItem": {
+            "barcodeMulti": "N",
             "basePrice": 1000,
             "canBuy": "Y",
             "catalogXmlId": "FUTURE-ERP-CATALOG",
@@ -315,6 +316,7 @@ HTTP-статус: **200**
             "quantity": 1,
             "reservations": [],
             "sort": 100,
+            "type": null,
             "vatIncluded": "N",
             "vatRate": null,
             "weight": 0,
@@ -341,9 +343,19 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`sale_basket_item`](../data-types.md) | Объект с данными элемента (позиции) корзины ||
+[`sale_basket_item`](../data-types.md#sale_basket_item) | Объект с данными позиции корзины. Ключевые поля:
+- `id`, `orderId`, `productId` — идентификаторы позиции, заказа и товара
+- `name`, `quantity`, `currency` — название товара, количество и валюта позиции
+- `price`, `basePrice`, `discountPrice` — цена за единицу, цена без скидок и размер скидки
+- `customPrice` — `Y`, если цена задана вручную, `N`, если рассчитана по каталогу
+- `vatRate`, `vatIncluded` — ставка налога и признак того, что налог включен в цену
+- `dateInsert`, `dateUpdate` — даты добавления и последнего изменения позиции
+- `properties` — массив [свойств позиции](../data-types.md#sale_basket_item_property). Если свойств нет, возвращается пустой массив
+- `reservations` — массив [резервов позиции на складах](../data-types.md#sale_basket_item_reservation). Если резервов нет, возвращается пустой массив
+
+Описание всех полей — в типе [sale_basket_item](../data-types.md#sale_basket_item) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -352,8 +364,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200140400001",
+    "error_description": "basket item is not exists"
 }
 ```
 
@@ -365,25 +377,28 @@ HTTP-статус: **400**
 || **Код** | **Описание** ||
 || `200140400001` | `basket item is not exists`
 
-Не найдена позиция корзины
-|| 
-|| `200040300010` | Недостаточно прав для чтения
-|| 
-|| `100` | Не указаны обязательные параметры
+Позиции корзины с таким `id` нет
 ||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| `200040300010` | Недостаточно прав для чтения
+||
+|| `100` | `Bitrix\Sale\BasketItem constructor must be is public`
+
+Не передан параметр `id`
+||
+|| `0` | Другие ошибки, например фатальные
+||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-add.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-list.md)
 - [{#T}](./sale-basket-item-delete.md)
-- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-add-catalog-product.md)
 - [{#T}](./sale-basket-item-update-catalog-product.md)
+- [{#T}](./sale-basket-item-get-fields.md)
 - [{#T}](./sale-basket-item-get-catalog-product-fields.md)

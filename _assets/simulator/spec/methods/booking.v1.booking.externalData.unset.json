@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/booking/external-data/booking-v1-booking-externaldata-unset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "bookingId": 14
+  }
 }

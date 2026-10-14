@@ -69,5 +69,14 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "paymentId": 1040,
+    "filter": {
+      "@id": [
+        1201
+      ],
+      ">=quantity": 1
+    }
+  }
 }

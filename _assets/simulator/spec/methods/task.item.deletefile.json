@@ -38,5 +38,9 @@
     "successor": "tasks.task.update"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-delete-file.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASK_ID": 3,
+    "ATTACHMENT_ID": 28
+  }
 }

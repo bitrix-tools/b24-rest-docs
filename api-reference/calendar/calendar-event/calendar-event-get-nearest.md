@@ -302,6 +302,8 @@ HTTP-статус: **200**
             "CREATED_BY": "1",
             "DATE_CREATE": "12/05/2024 01:48:41 pm",
             "TIMESTAMP_X": "12/05/2024 01:48:41 pm",
+            "DATE_CREATE_ISO": "2024-12-05T13:48:41+02:00",
+            "TIMESTAMP_X_ISO": "2024-12-05T13:48:41+02:00",
             "DESCRIPTION": "Description for event",
             "PRIVATE_EVENT": "",
             "ACCESSIBILITY": "free",

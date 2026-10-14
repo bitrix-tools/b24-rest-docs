@@ -222,5 +222,12 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TYPE": "cloud",
+    "TITLE": "SIP line 1",
+    "SERVER": "sip.provider.com",
+    "LOGIN": "sip_user",
+    "PASSWORD": "secret"
+  }
 }

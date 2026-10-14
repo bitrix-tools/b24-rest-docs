@@ -64,5 +64,12 @@
     }
   ],
   "page": "/api-reference/sonet-group/members/sonet-group-user-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "GROUP_ID": 69,
+    "USER_ID": [
+      1271,
+      1272
+    ]
+  }
 }

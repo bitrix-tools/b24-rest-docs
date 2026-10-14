@@ -61,5 +61,8 @@
     }
   ],
   "page": "/api-reference/landing/rights/role-model/landing-role-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "KNOWLEDGE"
+  }
 }

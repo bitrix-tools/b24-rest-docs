@@ -125,5 +125,19 @@
     "userTypeSettings",
     "withDescription",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "name",
+      "iblockId",
+      "propertyType"
+    ],
+    "filter": {
+      "iblockId": 19
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

@@ -169,5 +169,34 @@
     }
   ],
   "page": "/api-reference/sale/delivery/delivery-request/sale-delivery-request-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DELIVERY_ID": 225,
+    "REQUEST_ID": "4757aca4931a4f029f49c0db4374d13d",
+    "STATUS": {
+      "TEXT": "Performer found",
+      "SEMANTIC": "process"
+    },
+    "PROPERTIES": [
+      {
+        "NAME": "Car",
+        "VALUE": "Gray Skoda Octavia, a777zn"
+      },
+      {
+        "NAME": "Driver",
+        "VALUE": "John Smith"
+      },
+      {
+        "NAME": "Phone Number",
+        "VALUE": "+11111111111",
+        "TAGS": [
+          "phone"
+        ]
+      },
+      {
+        "NAME": "Something else",
+        "VALUE": "Some value"
+      }
+    ]
+  }
 }

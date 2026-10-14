@@ -3,7 +3,7 @@
   "method": "sale.basketitem.getFieldsCatalogProduct",
   "scope": "sale",
   "kind": "write",
-  "title": "Получить доступные поля элемента корзины (товар из каталога) sale.basketitem.getFieldsCatalogProduct",
+  "title": "Получить поля позиции с товаром из каталога sale.basketitem.getFieldsCatalogProduct",
   "permissions": "менеджер магазина",
   "params": [
     {
@@ -46,6 +46,40 @@
   "source": {
     "file": "api-reference/sale/basket-item/sale-basket-item-get-catalog-product-fields.md"
   },
+  "resultExample": {
+    "result": {
+      "basketItem": {
+        "basePrice": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "double"
+        },
+        "canBuy": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "char"
+        },
+        "catalogXmlId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1790578169,
+      "finish": 1790578169.100949,
+      "duration": 0.10094904899597168,
+      "processing": 0,
+      "date_start": "2026-09-28T09:49:29+03:00",
+      "date_finish": "2026-09-28T09:49:29+03:00",
+      "operating_reset_at": 1790578769,
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
@@ -70,5 +104,6 @@
     }
   ],
   "page": "/api-reference/sale/basket-item/sale-basket-item-get-catalog-product-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

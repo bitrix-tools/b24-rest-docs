@@ -15,32 +15,44 @@
 
 Метод `tasks.api.scrum.sprint.list` возвращает список спринтов.
 
-Метод аналогичен другим методам с фильтрацией по списку.
-
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+Все параметры необязательные. Метод возвращает только спринты Скрамов, в которых состоит пользователь, без параметров — все такие спринты. Имена полей в `order`, `filter` и `select` указывайте в верхнем регистре, доступные поля — в таблице [Доступные поля для filter, order и select](#fields).
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **order**
-[`object`](../../../data-types.md) | Объект для сортировки результата. Объект вида `{'поле_сортировки': 'направление сортировки' [, ...]}`. Доступные поля описаны в таблице [ниже](#fields).
+[`object`](../../../data-types.md) | Объект вида `{'поле_сортировки': 'направление_сортировки' [, ...]}`, например `{"ID": "desc"}`.
 
 Направление сортировки может принимать значения:
 - `asc` — по возрастанию
 - `desc` — по убыванию ||
 || **filter**
-[`object`](../../../data-types.md) | Объект вида `{'фильтруемое_поле': 'значение фильтра' [, ...]}`. Доступные поля описаны в таблице [ниже](#fields) ||
+[`object`](../../../data-types.md) | Объект вида `{'фильтруемое_поле': 'значение фильтра' [, ...]}`, например `{"GROUP_ID": 1, "STATUS": "active"}`.
+
+Перед именем поля можно указать оператор:
+- `>` и `<` — больше и меньше
+- `>=` и `<=` — больше или равно, меньше или равно
+- `!` — не равно
+- `%` — содержит подстроку
+
+Например, `{">ID": 20}` или `{"%NAME": "Спринт"}`.
+
+Если указано несуществующее поле, например `groupId` вместо `GROUP_ID`, метод вернет пустой массив без ошибки ||
 || **select**
-[`object`](../../../data-types.md) | Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы. 
+[`array`](../../../data-types.md) | Массив полей, которые нужно заполнить в ответе, например `["ID", "NAME", "STATUS"]`.
 
-Если в массиве присутствует значение `"*"`, то будут возвращены все доступные поля.
+Если в массиве есть значение `"*"` или массив не передан, заполняются все поля.
 
-Значение по умолчанию — пустой массив `array()`. В этом случае будут возвращены все поля основной таблицы запроса ||
+Ответ всегда содержит полный набор ключей спринта. Поля, которых нет в `select`, возвращаются с пустыми значениями: `0` для чисел и `""` для строк ||
 || **start**
-[`integer`](../../../data-types.md) | Номер страницы вывода. Работает для https запросов ||
+[`integer`](../../../data-types.md) | Смещение для постраничной навигации. Метод возвращает до 50 спринтов за вызов. Чтобы получить следующую страницу, увеличьте `start` на 50. Ответ не содержит полей `total` и `next`: если пришло меньше 50 спринтов, это последняя страница ||
 |#
 
-### Доступные поля фильтра {#fields}
+### Доступные поля для filter, order и select {#fields}
 
 #|
 || **Название**
@@ -48,26 +60,28 @@
 || **ID** 
 [`integer`](../../../data-types.md) | Идентификатор спринта ||
 || **GROUP_ID** 
-[`integer`](../../../data-types.md) | Идентификатор Скрама ||
+[`integer`](../../../data-types.md) | Идентификатор Скрама. Получить идентификатор можно методом [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md) ||
 || **ENTITY_TYPE** 
-[`string`](../../../data-types.md) | Тип элемента ||
+[`string`](../../../data-types.md) | Тип элемента, для спринтов всегда `sprint` ||
 || **NAME** 
-[`string`](../../../data-types.md) | Имя ||
+[`string`](../../../data-types.md) | Название спринта ||
 || **SORT** 
-[`integer`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Порядок сортировки спринта ||
 || **CREATED_BY** 
-[`integer`](../../../data-types.md) | Кем создан ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего спринт ||
 || **MODIFIED_BY** 
-[`integer`](../../../data-types.md) | Кем изменен ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, изменившего спринт ||
 || **DATE_START** 
-[`string`](../../../data-types.md) | Дата запуска ||
+[`string`](../../../data-types.md) | Дата начала спринта. Поле можно использовать в `order` и `select`. Фильтр по дате не срабатывает: метод возвращает пустой массив при любом формате значения ||
 || **DATE_END** 
-[`string`](../../../data-types.md) | Дата окончания ||
+[`string`](../../../data-types.md) | Дата окончания спринта. Поле можно использовать в `order` и `select`. Фильтр по дате не срабатывает, как и для `DATE_START` ||
 || **STATUS** 
-[`string`](../../../data-types.md) | Статус ||
+[`string`](../../../data-types.md) | Статус: `planned` — запланирован, `active` — активен, `completed` — завершен ||
 || **INFO** 
-[`object`](../../../data-types.md) | Информация ||
+[`object`](../../../data-types.md) | Служебное поле. В ответе метода не возвращается ||
 |#
+
+Поля `GOAL` в `filter`, `order` и `select` нет: с ним метод возвращает пустой массив. Цель спринта приходит только в ответе, в поле `goal`.
 
 ## Примеры кода
 
@@ -83,7 +97,7 @@
     -d '{
     "filter": {
         "GROUP_ID": 1,
-        ">=DATE_END": "2024-07-19T15:03:01+00:00"
+        "STATUS": "active"
     }
     }' \
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.sprint.list
@@ -97,7 +111,7 @@
     -d '{
     "filter": {
         "GROUP_ID": 1,
-        ">=DATE_END": "2024-07-19T15:03:01+00:00"
+        "STATUS": "active"
     },
     "auth": "YOUR_ACCESS_TOKEN"
     }' \
@@ -142,7 +156,7 @@
         params: {
           filter: {
             GROUP_ID: groupId,
-            '>=DATE_END': new Date().toISOString(),
+            STATUS: 'active',
           },
           start: 0,
         },
@@ -185,7 +199,7 @@
             params: {
               filter: {
                 GROUP_ID: groupId,
-                '>=DATE_END': new Date().toISOString(),
+                STATUS: 'active',
               },
               start: 0,
             },
@@ -219,7 +233,7 @@
         bitrix_response = client.tasks.api.scrum.sprint.list(
             filter={
                 "GROUP_ID": 1,
-                ">=DATE_END": "2024-07-19T15:03:01+00:00",
+                "STATUS": "active",
             },
             start=0,
         ).response
@@ -237,7 +251,9 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
     ```php
     $groupId = 1;
     
@@ -249,7 +265,7 @@
                 [
                     'filter' => [
                         'GROUP_ID'    => $groupId,
-                        '>=DATE_END' => new DateTime(),
+                        'STATUS'   => 'active',
                     ],
                 ]
             );
@@ -275,7 +291,7 @@
         {
             filter: {
                 GROUP_ID: groupId,
-                '>=DATE_END': new Date()
+                STATUS: 'active'
             }
         },
         function(res)
@@ -296,7 +312,7 @@
         [
             'filter' => [
                 'GROUP_ID' => 1,
-                '>=DATE_END' => '2024-07-19T15:03:01+00:00'
+                'STATUS' => 'active'
             ]
         ]
     );
@@ -315,8 +331,8 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "tasks.api.scrum.sprint.list", b24.Params{
     	"filter": b24.Params{
-    		"GROUP_ID":   1,
-    		">=DATE_END": "2024-07-19T15:03:01+00:00",
+    		"GROUP_ID": 1,
+    		"STATUS":   "active",
     	},
     }, b24.WithIdempotent())
     if err != nil {
@@ -335,34 +351,33 @@
 HTTP-статус: **200**
 
 ```json
-[
-    {
-        "id": 2,
-        "groupId": 143,
-        "entityType": "sprint",
-        "name": "Спринт 1",
-        "goal": "",
-        "sort": 1,
-        "createdBy": 1,
-        "modifiedBy": 1,
-        "dateStart": "2024-07-19T15:03:01+00:00",
-        "dateEnd": "2024-08-02T15:03:01+00:00",
-        "status": "planned"
-    },
-    {
-        "id": 3,
-        "groupId": 1,
-        "entityType": "sprint",
-        "name": "Sprint 1",
-        "goal": "",
-        "sort": 1,
-        "createdBy": 1,
-        "modifiedBy": 1,
-        "dateStart": "2021-11-21T22:00:00+00:00",
-        "dateEnd": "2021-11-28T22:00:00+00:00",
-        "status": "planned"
+{
+    "result": [
+        {
+            "id": 3,
+            "groupId": 1,
+            "entityType": "sprint",
+            "name": "Sprint 1",
+            "goal": "",
+            "sort": 1,
+            "createdBy": 1,
+            "modifiedBy": 1,
+            "dateStart": "2021-11-21T22:00:00+00:00",
+            "dateEnd": "2021-11-28T22:00:00+00:00",
+            "status": "active"
+        }
+    ],
+    "time": {
+        "start": 1790580587,
+        "finish": 1790580587.569156,
+        "duration": 0.5691559314727783,
+        "processing": 0,
+        "date_start": "2026-09-28T10:29:47+03:00",
+        "date_finish": "2026-09-28T10:29:47+03:00",
+        "operating_reset_at": 1790581187,
+        "operating": 0
     }
-]
+}
 ```
 
 ### Возвращаемые данные
@@ -371,19 +386,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result** 
-[`object`](../../../data-types.md) | Объект, содержащий данные о спринте ||
+[`array`](../../../data-types.md) | Массив спринтов. Если под фильтр не подошел ни один спринт, метод возвращает пустой массив, а не ошибку. Поля элемента массива [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id** 
 [`integer`](../../../data-types.md) | Идентификатор спринта ||
 || **groupId** 
 [`integer`](../../../data-types.md) | Идентификатор группы (Скрама), к которой относится спринт ||
 || **entityType** 
-[`string`](../../../data-types.md) | Тип сущности (в данном случае `sprint`) ||
+[`string`](../../../data-types.md) | Тип объекта, для спринтов всегда `sprint` ||
 || **name** 
 [`string`](../../../data-types.md) | Название спринта ||
 || **goal** 
 [`string`](../../../data-types.md) | Цель спринта. Устанавливается только в интерфейсе при запуске спринта ||
 || **sort** 
-[`integer`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Порядок сортировки спринта ||
 || **createdBy** 
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего спринт ||
 || **modifiedBy** 
@@ -393,7 +417,7 @@ HTTP-статус: **200**
 || **dateEnd** 
 [`string`](../../../data-types.md) | Дата окончания спринта в формате `ISO 8601` ||
 || **status** 
-[`string`](../../../data-types.md) | Статус спринта ||
+[`string`](../../../data-types.md) | Статус спринта: `planned` — запланирован, `active` — активен, `completed` — завершен ||
 |#
 
 ## Обработка ошибок
@@ -412,8 +436,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `0` | `Could not load list`| Не найдено ни одного спринта с указанными фильтрами ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | `Could not load list` | Ошибка при выполнении запроса к базе данных ||
+|| `400` | `0` | Текст системной ошибки PHP, например `Cannot access offset of type string on string` | Параметр `filter`, `order` или `select` передан строкой, а не объектом или массивом ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -422,8 +447,8 @@ HTTP-статус: **400**
 
 - [{#T}](./tasks-api-scrum-sprint-add.md)
 - [{#T}](./tasks-api-scrum-sprint-update.md)
-- [{#T}](./tasks-api-scrum-sprint-start.md)
-- [{#T}](./tasks-api-scrum-sprint-complete.md)
 - [{#T}](./tasks-api-scrum-sprint-get.md)
 - [{#T}](./tasks-api-scrum-sprint-delete.md)
+- [{#T}](./tasks-api-scrum-sprint-start.md)
+- [{#T}](./tasks-api-scrum-sprint-complete.md)
 - [{#T}](./tasks-api-scrum-sprint-get-fields.md)

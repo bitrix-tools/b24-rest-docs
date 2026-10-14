@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает значения полей коэффициента единицы измерения по идентификатору.
+Метод `catalog.ratio.get` возвращает запись коэффициента единицы измерения по ее идентификатору.
 
 ## Параметры метода
 
@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_ratio.id`](../data-types.md#catalog_ratio) | Идентификатор коэффициента единицы измерения.
+[`catalog_ratio.id`](../data-types.md#catalog_ratio) | Идентификатор записи коэффициента, а не товара.
 
-Для получения идентификаторов коэффициентов единиц измерения используйте метод [catalog.ratio.list](./catalog-ratio-list.md)
+Чтобы найти коэффициенты товара, используйте метод [catalog.ratio.list](./catalog-ratio-list.md) с фильтром по `productId`
 ||
 |#
 
@@ -41,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1}' \
+    -d '{"id":285}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.ratio.get
     ```
 
@@ -51,7 +51,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1,"auth":"**put_access_token_here**"}' \
+    -d '{"id":285,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.ratio.get
     ```
 
@@ -79,7 +79,7 @@
       const response = await $b24.actions.v2.call.make<RatioGetResult>({
         method: 'catalog.ratio.get',
         params: {
-          id: 1,
+          id: 285,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -111,7 +111,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.ratio.get',
             params: {
-              id: 1,
+              id: 285,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -141,7 +141,7 @@
 
     try:
         bitrix_response = client.catalog.ratio.get(
-            bitrix_id=1,
+            bitrix_id=285,
         ).response
         result = bitrix_response.result
         print(result)
@@ -168,18 +168,16 @@
             ->call(
                 'catalog.ratio.get',
                 [
-                    'id' => 1,
+                    'id' => 285,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        echo 'Success: ' . print_r($result['ratio'], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting catalog ratio: ' . $e->getMessage();
@@ -191,7 +189,7 @@
     ```js
     BX24.callMethod(
         'catalog.ratio.get', {
-            id: 1,
+            id: 285,
         },
         function(result) {
             if (result.error()) {
@@ -211,7 +209,7 @@
     $result = CRest::call(
         'catalog.ratio.get',
         [
-            'id' => 1
+            'id' => 285
         ]
     );
 
@@ -225,7 +223,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.ratio.get", b24.Params{
-    	"id": 1,
+    	"id": 285,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.ratio.get: %w", err)
@@ -246,19 +244,21 @@ HTTP-статус: **200**
 {
     "result": {
         "ratio": {
-            "id": 1,
+            "id": 285,
             "isDefault": "Y",
-            "productId": 1,
-            "ratio": 1
+            "productId": 6461,
+            "ratio": 10
         }
     },
     "time": {
-        "start": 1729601856.749788,
-        "finish": 1729601857.530307,
-        "duration": 0.7805190086364746,
-        "processing": 0.07734394073486328,
-        "date_start": "2024-10-22T15:57:36+03:00",
-        "date_finish": "2024-10-22T15:57:37+03:00",
+        "start": 1790848012,
+        "finish": 1790848012.042359,
+        "duration": 0.042359113693237305,
+        "processing": 0,
+        "date_start": "2026-10-01T12:46:52+03:00",
+        "date_finish": "2026-10-01T12:46:52+03:00",
+        "operating_reset_at": 1790848612,
+        "operating": 0
     }
 }
 ```
@@ -273,7 +273,7 @@ HTTP-статус: **200**
 || **ratio**
 [`catalog_ratio`](../data-types.md#catalog_ratio) | Объект с информацией о коэффициенте единицы измерения ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -281,9 +281,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":200040300010,
-    "error_description":"Access Denied"
+{
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -292,20 +292,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для просмотра коэффициента единицы измерения
-||
-|| `100` | Не указан параметр `id`
-||
-|| `0` | Коэффициент единицы измерения не существует
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | Пустое значение | ratio does not exist. | Коэффициента с таким `id` нет ||
+|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-ratio-list.md)
 - [{#T}](./catalog-ratio-get-fields.md)
+- [{#T}](../product/catalog-product-get.md)

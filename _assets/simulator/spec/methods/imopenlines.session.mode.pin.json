@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/sessions/imopenlines-session-mode-pin.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2043,
+    "ACTIVATE": "Y"
+  }
 }

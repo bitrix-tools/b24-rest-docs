@@ -139,5 +139,19 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-section-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 325,
+    "type": "user",
+    "ownerId": 2,
+    "name": "Changed Section Name",
+    "description": "New description for section",
+    "color": "#9cbeAA",
+    "text_color": "#283099",
+    "export": [
+      {
+        "ALLOW": false
+      }
+    ]
+  }
 }

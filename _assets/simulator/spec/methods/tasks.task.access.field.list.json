@@ -90,5 +90,16 @@
     "title",
     "type",
     "validationRules"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "filterable",
+      "sortable",
+      "multiple"
+    ]
+  }
 }

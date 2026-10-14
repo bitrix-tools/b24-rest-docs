@@ -113,5 +113,11 @@
     }
   ],
   "page": "/api-reference/landing/demos/landing-demos-get-site-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "page",
+    "filter": {
+      "TYPE": "page"
+    }
+  }
 }

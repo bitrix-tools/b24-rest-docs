@@ -57,5 +57,8 @@
     }
   ],
   "page": "/api-reference/landing/rights/landing-role-enable.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "mode": 1
+  }
 }

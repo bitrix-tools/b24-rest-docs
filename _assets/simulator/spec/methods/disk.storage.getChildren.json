@@ -286,5 +286,14 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-get-children.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1357,
+    "filter": {
+      "NAME": "%Папка%"
+    },
+    "order": {
+      "NAME": "DESC"
+    }
+  }
 }

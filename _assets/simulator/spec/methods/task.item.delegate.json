@@ -31,5 +31,9 @@
     "successor": "tasks.task.delegate"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-delegate.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13,
+    "USERID": 3
+  }
 }

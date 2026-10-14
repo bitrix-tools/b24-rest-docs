@@ -100,5 +100,12 @@
     "voteHead",
     "waitAnswer",
     "waitClose"
-  ]
+  ],
+  "requestExample": {
+    "sessionId": [
+      1024,
+      1025,
+      999999
+    ]
+  }
 }

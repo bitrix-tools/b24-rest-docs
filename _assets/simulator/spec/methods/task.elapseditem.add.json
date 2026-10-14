@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Добавить запись о затраченном времени task.elapseditem.add",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правом учета затраченного времени в задаче",
   "params": [
     {
       "name": "TASKID",
@@ -18,7 +18,7 @@
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Объект, содержащий записи о пользователе, времени и комментарии (подробное описание приведено ниже) в виде структуры:",
+      "description": "Поля записи о затраченном времени (подробное описание)",
       "ref": "#/defs/ARFIELDSFields"
     }
   ],
@@ -41,7 +41,7 @@
           "name": "COMMENT_TEXT",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "Текст комментария"
         },
         {
@@ -49,7 +49,35 @@
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Идентификатор пользователя"
+          "description": "Идентификатор автора записи. По умолчанию — идентификатор текущего пользователя. Передать идентификатор другого пользователя нельзя"
+        },
+        {
+          "name": "CREATED_DATE",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата создания записи. По умолчанию — текущие дата и время"
+        },
+        {
+          "name": "DATE_START",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата и время начала учета"
+        },
+        {
+          "name": "DATE_STOP",
+          "type": "datetime",
+          "base": "datetime",
+          "required": false,
+          "description": "Дата и время завершения учета"
+        },
+        {
+          "name": "SOURCE",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Источник записи. Метод всегда сохраняет значение 2 — запись добавлена вручную. Переданное значение заменяется на 2"
         }
       ]
     }
@@ -87,5 +115,12 @@
     }
   ],
   "page": "/api-reference/tasks/elapsed-item/task-elapsed-item-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 691,
+    "ARFIELDS": {
+      "SECONDS": 113,
+      "COMMENT_TEXT": "текст комментария"
+    }
+  }
 }

@@ -123,5 +123,15 @@
     }
   ],
   "page": "/api-reference/document-generator/region/document-generator-region-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "title": "Россия (Пользовательский)",
+      "formatDate": "YYYY-MM-DD",
+      "phrases": {
+        "TAX_INCLUDED": "Налог включен в цену"
+      }
+    }
+  }
 }

@@ -11,7 +11,7 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Строковый код типа"
+      "description": "Код типа, который приложение передало в userfieldtype.add. Регистр не важен. Получить коды можно методом userfieldtype.list"
     }
   ],
   "defs": {},

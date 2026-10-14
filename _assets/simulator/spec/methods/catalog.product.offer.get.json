@@ -170,5 +170,8 @@
     "width",
     "withoutOrder",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1286
+  }
 }

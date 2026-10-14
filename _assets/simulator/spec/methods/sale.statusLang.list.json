@@ -121,5 +121,20 @@
     "lid",
     "name",
     "statusId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "statusId",
+      "lid",
+      "name",
+      "description"
+    ],
+    "filter": {
+      "statusId": "N",
+      "lid": "ru"
+    },
+    "order": {
+      "statusId": "asc"
+    }
+  }
 }

@@ -59,5 +59,9 @@
     }
   ],
   "page": "/api-reference/document-generator/document-generator-document-enable-public-url.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 51,
+    "status": 1
+  }
 }

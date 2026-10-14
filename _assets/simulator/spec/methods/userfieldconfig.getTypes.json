@@ -121,5 +121,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-get-types.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "moduleId": "crm"
+  }
 }

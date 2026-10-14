@@ -137,5 +137,30 @@
     }
   ],
   "page": "/api-reference/pay-system/sale-pay-system-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NAME": "Оплата картой",
+    "DESCRIPTION": "Легко оплачивайте покупки картой.",
+    "XML_ID": "my_ps_id",
+    "PERSON_TYPE_ID": 1,
+    "BX_REST_HANDLER": "resthandlercode",
+    "ACTIVE": "Y",
+    "ENTITY_REGISTRY_TYPE": "ORDER",
+    "LOGOTYPE": "/* base64 image */",
+    "NEW_WINDOW": "N",
+    "SETTINGS": {
+      "REST_SERVICE_ID": {
+        "TYPE": "VALUE",
+        "VALUE": "SERVICE ID VALUE"
+      },
+      "REST_SERVICE_KEY": {
+        "TYPE": "VALUE",
+        "VALUE": "KEY ID VALUE"
+      },
+      "PAYMENT_ID": {
+        "TYPE": "PAYMENT",
+        "VALUE": "ACCOUNT_NUMBER"
+      }
+    }
+  }
 }

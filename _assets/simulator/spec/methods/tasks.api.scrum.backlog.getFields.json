@@ -58,5 +58,6 @@
     }
   },
   "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

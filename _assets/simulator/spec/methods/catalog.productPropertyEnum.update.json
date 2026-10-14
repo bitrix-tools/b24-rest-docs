@@ -130,5 +130,15 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-enum/catalog-product-property-enum-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1739,
+    "fields": {
+      "propertyId": 431,
+      "value": "Средний",
+      "xmlId": "M",
+      "def": "N",
+      "sort": 110
+    }
+  }
 }

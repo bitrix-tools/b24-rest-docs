@@ -3,19 +3,19 @@
   "method": "method.get",
   "scope": "базовый",
   "kind": "read",
-  "title": "Получить список доступных методов method.get",
+  "title": "Проверить доступность метода method.get",
   "permissions": "любой пользователь",
   "params": [
     {
       "name": "name",
       "type": "string",
       "base": "string",
-      "required": false,
-      "description": "Название метода для проверки в нижнем регистре, например user.get. Если параметр не передан или пуст, метод вернет isExisting и isAvailable со значением false"
+      "required": "unknown",
+      "description": "Название метода для проверки, например user.get. Передавайте имя метода в нижнем регистре, даже если в документации метод записан с заглавными буквами: для telephony.externalLine.get и User.Get метод вернет false, для telephony.externalline.get — true. У методов модулей вида crm.item.* и tasks.task.* действие не проверяется: для crm.item.lst и tasks.Task.list метод вернет true.…"
     }
   ],
   "defs": {},
-  "requiredConvention": true,
+  "requiredConvention": false,
   "confidence": "parsed",
   "source": {
     "file": "api-reference/common/system/method-get.md"
@@ -38,16 +38,16 @@
   "returns": [
     {
       "name": "result",
-      "type": "array",
-      "base": "array",
-      "required": false,
-      "description": "Возвращаются два параметра: - isExisting => true/false — определяет, существует ли метод именно в этом Битрикс24 - isAvailable => true/false — определяет доступность метода для вызова с текущими доступами (scope) приложения"
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Результат проверки (подробное описание)"
     },
     {
       "name": "time",
       "type": "time",
       "base": "object",
-      "required": false,
+      "required": "unknown",
       "description": "Информация о времени выполнения запроса"
     }
   ],
@@ -56,5 +56,8 @@
   "entityFields": [
     "isAvailable",
     "isExisting"
-  ]
+  ],
+  "requestExample": {
+    "name": "user.get"
+  }
 }

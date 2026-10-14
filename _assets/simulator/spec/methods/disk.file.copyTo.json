@@ -216,5 +216,9 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-copy-to.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 9035,
+    "targetFolderId": 8930
+  }
 }

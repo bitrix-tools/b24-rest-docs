@@ -11,7 +11,7 @@
       "type": "sale_order.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор заказа"
+      "description": "Идентификатор заказа. Его возвращают методы sale.order.add и sale.order.list. Не путайте с номером заказа accountNumber"
     }
   ],
   "defs": {},
@@ -336,14 +336,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "order",
-      "type": "sale_order",
-      "base": "any",
-      "required": false,
-      "description": "Информация о заказе"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -406,5 +399,8 @@
     "version",
     "version1c",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 236
+  }
 }

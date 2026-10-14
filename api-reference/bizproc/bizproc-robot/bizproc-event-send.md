@@ -15,6 +15,8 @@
 
 Метод `bizproc.event.send` возвращает роботу или действию выходные параметры, которые были заданы при регистрации или обновлении робота либо действия.
 
+Вызов завершает шаг, который ждет ответа, даже если `RETURN_VALUES` не передан. Чтобы записать промежуточное сообщение в журнал и не завершать шаг, используйте метод [bizproc.activity.log](../bizproc-activity/bizproc-activity-log.md).
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -23,25 +25,27 @@
 || **Название**
 `тип` | **Описание**||
 || **EVENT_TOKEN***
-[`string`](../../data-types.md) | Специальный токен, который приходит на обработчик приложения, когда выполняется действие или робот. Значение этого токена обработчик получает в массиве входных данных.
+[`string`](../../data-types.md) | Токен запуска робота или действия. Битрикс24 передает его на обработчик приложения в поле `event_token`.
 
-Отправить событие можно, если робот или действие зарегистрированы с `'USE_SUBSCRIPTION': 'Y'` ||
+Процесс примет результат, только если шаг с этим токеном еще ждет ответа. Ожидание включает параметр `USE_SUBSCRIPTION: 'Y'` при регистрации робота или действия. Если параметр не задали, по умолчанию шаг ответа не ждет, а включить ожидание можно в его настройках ||
 || **RETURN_VALUES**
-[`object`](../../data-types.md) | Массив возвращаемых значений действия или робота. Указываются значения свойств, которые были зарегистрированы как дополнительные результаты `RETURN_PROPERTIES` методами:
+[`object`](../../data-types.md) | Возвращаемые значения робота или действия. Ключи — коды параметров из `RETURN_PROPERTIES`, которые задали методами:
 - [bizproc.robot.add](./bizproc-robot-add.md), [bizproc.robot.update](./bizproc-robot-update.md)
-- [bizproc.activity.add](../bizproc-activity/bizproc-activity-add.md), [bizproc.activity.update](../bizproc-activity/bizproc-activity-update.md) ||
+- [bizproc.activity.add](../bizproc-activity/bizproc-activity-add.md), [bizproc.activity.update](../bizproc-activity/bizproc-activity-update.md)
+
+Регистр ключей не важен. Значение Битрикс24 приводит к типу `Type` этого параметра. Ключи, которых нет в `RETURN_PROPERTIES`, Битрикс24 не сохранит ||
 || **LOG_MESSAGE**
 [`string`](../../data-types.md) | Текст для журнала бизнес-процесса.
 
-Если параметр не передать, метод отправит пустую строку.
+Если параметр не передать, в журнал попадет стандартная запись «Получен ответ от приложения».
 
 Запись событий в журнал должна быть включена в шаблоне бизнес-процесса
 ||
 |#
 
-{% note info "" %}
+{% note warning "" %}
 
-`EVENT_TOKEN` должен быть валидным и актуальным. Если токен невалидный или устаревший, метод вернет ошибку доступа `ACCESS_DENIED`
+Метод проверяет только подпись `EVENT_TOKEN`: с неверным токеном он вернет ошибку `ACCESS_DENIED`. Метод отвечает до того, как Битрикс24 передаст значения в процесс. Если шаг уже завершился, прервался по тайм-ауту или не ждет ответа, метод все равно вернет `true`, а процесс не изменится.
 
 {% endnote %}
 
@@ -50,6 +54,16 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"event_token":"55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90","return_values":{"outputString":"846c55d14f552180874a628d2615e285"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.event.send
+    ```
 
 - cURL (OAuth)
 
@@ -67,22 +81,22 @@
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'bizproc.event.send',
-    		{
+    	const response = await $b24.actions.v2.call.make({
+    		method: 'bizproc.event.send',
+    		params: {
     			event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
     			return_values: {
     				outputString: '846c55d14f552180874a628d2615e285'
     			}
     		}
-    	);
-    	
-    	if(response.error())
-    		alert("Error: " + response.error());
+    	});
+
+    	if (!response.isSuccess)
+    		console.error(response.getErrorMessages().join('; '));
     	else
-    		alert("Success: " + response.getData().result);
+    		console.log('Success:', response.getData().result);
     }
-    catch( error )
+    catch (error)
     {
     	console.error('Error:', error);
     }
@@ -131,17 +145,13 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . $result->data();
-        }
-    
+
+        echo 'Success: ' . var_export($result[0], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error sending bizproc event: ' . $e->getMessage();
@@ -237,7 +247,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Возвращает `true`, если значения успешно переданы в процесс ||
+[`boolean`](../../data-types.md) | `true`, если Битрикс24 принял запрос. Это не подтверждает, что процесс применил значения ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -258,12 +268,15 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение** | **Описание** ||
-|| `ACCESS_DENIED` | Access denied! | Невалидный или устаревший `EVENT_TOKEN` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! | `EVENT_TOKEN` не передан или его подпись неверна ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./bizproc-robot-add.md)
+- [{#T}](../bizproc-activity/index.md)
+- [{#T}](../bizproc-activity/bizproc-activity-log.md)

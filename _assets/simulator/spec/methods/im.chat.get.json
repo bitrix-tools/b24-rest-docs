@@ -92,5 +92,9 @@
   "executable": false,
   "entityFields": [
     "ID"
-  ]
+  ],
+  "requestExample": {
+    "ENTITY_TYPE": "CRM",
+    "ENTITY_ID": "DEAL|1663"
+  }
 }

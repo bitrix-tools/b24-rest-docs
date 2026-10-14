@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Chat.add` создает новый групповой чат от имени бота. Если владелец не указан — им становится бот.
+Метод `imbot.v2.Chat.add` создает групповой чат от имени бота и добавляет бота в участники.
+
+Чтобы отправлять сообщения в созданный чат, передайте `result.chat.dialogId` из ответа в параметр `dialogId` методов группы [Сообщения](../messages/index.md).
 
 ## Параметры метода
 
@@ -21,22 +23,29 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **botId***
 [`integer`](../../../../data-types.md) | ID бота ||
 || **botToken**
-[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
+[`string`](../../../../data-types.md) | Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же `botToken`, который указали при регистрации бота ||
 || **fields**
-[`object`](../../../../data-types.md) | Свойства создаваемого чата. Структура объекта описана [ниже](#fields) ||
+[`object`](../../../../data-types.md) | Свойства создаваемого чата [(подробное описание)](#fields) ||
 |#
 
 ### Параметр fields {#fields}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../../../data-types.md) | Тип чата:
+
+- `chat` — закрытый групповой чат, по умолчанию
+- `open` — открытый чат, в который может вступить любой сотрудник
+
+С другим значением метод создаст закрытый чат ||
 || **title**
 [`string`](../../../../data-types.md) | Название чата ||
 || **description**
@@ -48,11 +57,9 @@
 || **avatar**
 [`file`](../../../../data-types.md) | Аватар чата в формате [Base64](../../../../files/how-to-upload-files.md) ||
 || **userIds**
-[`integer[]`](../../../../data-types.md) | Массив ID участников ||
+[`integer[]`](../../../../data-types.md) | Массив ID участников. Бота передавать не нужно — он добавляется в чат автоматически ||
 || **ownerId**
-[`integer`](../../../../data-types.md) | ID владельца чата. Если не указан — владельцем становится бот ||
-|| **message**
-[`string`](../../../../data-types.md) | Первое сообщение в чате ||
+[`integer`](../../../../data-types.md) | ID владельца чата, по умолчанию — бот. Владелец автоматически добавляется в чат участником и менеджером. Метод не проверяет, существует ли пользователь: с несуществующим ID чат создастся без ошибки и останется без владельца ||
 |#
 
 ### Доступные цвета {#available-colors}
@@ -278,73 +285,75 @@ HTTP-статус: **200**
             "entityData1": "",
             "entityData2": "",
             "entityData3": "",
-            "entityLink": {},
-            "diskFolderId": 42,
+            "entityLink": {
+                "type": "",
+                "url": "",
+                "id": ""
+            },
+            "diskFolderId": null,
             "role": "owner",
-            "permissions": {},
+            "permissions": {
+                "manageUsersAdd": "member",
+                "manageUsersDelete": "manager",
+                "manageUi": "member",
+                "manageSettings": "owner",
+                "manageMessages": "member",
+                "manageMessagesAutoDelete": "manager",
+                "manageGuestInvites": "manager",
+                "manageDelete": "member",
+                "canPost": "member"
+            },
+            "hasManageCapability": false,
+            "canHaveThreads": true,
             "muteList": [],
             "parentChatId": null,
             "parentMessageId": null,
-            "isNew": true,
-            "textFieldEnabled": "Y",
+            "isNew": false,
+            "textFieldEnabled": true,
             "backgroundId": null,
             "dateCreate": "2025-01-15T10:00:00+03:00",
             "lastMessageId": 789,
-            "lastMessageViews": "{}",
-            "lastId": null,
-            "managerList": [],
-            "markedId": null,
+            "lastMessageViews": {
+                "messageId": 789,
+                "firstViewers": [],
+                "countOfViewers": 0
+            },
+            "lastId": 0,
+            "managerList": [456],
+            "markedId": 0,
             "messageCount": 1,
             "public": "",
-            "unreadId": null,
-            "userCounter": 3
+            "unreadId": 0,
+            "userCounter": 3,
+            "guestCount": 0
         },
         "users": [
             {
-                "id": 1,
+                "id": 456,
                 "active": true,
-                "name": "John Smith",
-                "firstName": "John",
-                "lastName": "Smith",
-                "workPosition": "Developer",
-                "color": "#ab7761",
+                "name": "Support Bot",
+                "firstName": "Support Bot",
+                "lastName": "",
+                "workPosition": "",
+                "color": "#4ba984",
                 "avatar": "",
                 "gender": "M",
-                "birthday": "15-03",
+                "birthday": "",
                 "extranet": false,
-                "bot": false,
+                "bot": true,
                 "connector": false,
-                "externalAuthId": "default",
+                "externalAuthId": "bot",
                 "status": "online",
                 "idle": false,
-                "lastActivityDate": "2025-01-15T14:25:00+03:00",
+                "lastActivityDate": false,
+                "mobileLastDate": false,
+                "desktopLastDate": false,
                 "absent": false,
-                "departments": [7],
+                "departments": [],
                 "phones": false,
-                "type": "employee"
-            },
-            {
-                "id": 2,
-                "active": true,
-                "name": "Anna Davis",
-                "firstName": "Anna",
-                "lastName": "Davis",
-                "workPosition": "Manager",
-                "color": "#5b7e91",
-                "avatar": "",
-                "gender": "F",
-                "birthday": "22-08",
-                "extranet": false,
-                "bot": false,
-                "connector": false,
-                "externalAuthId": "default",
-                "status": "online",
-                "idle": false,
-                "lastActivityDate": "2025-01-15T14:20:00+03:00",
-                "absent": false,
-                "departments": [12],
-                "phones": false,
-                "type": "employee"
+                "type": "bot",
+                "website": "",
+                "email": ""
             }
         ]
     },
@@ -363,72 +372,109 @@ HTTP-статус: **200**
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../../../../data-types.md) | Результат создания чата ||
 || **result.chat**
 [`Chat`](../../entities.md#chat) | Объект созданного чата [(подробное описание)](#chat-object) ||
 || **result.users**
-[`User[]`](../../entities.md#user) | Массив участников чата [(подробное описание)](#user-object) ||
+[`User[]`](../../entities.md#user) | Массив с одним элементом — данными бота, от имени которого выполнен запрос. Участников чата возвращает [imbot.v2.Chat.User.list](./chat-user-list.md). Описание полей — [User](../../entities.md#user) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+Кроме `chat` и `users` ответ содержит служебные ключи интерфейса мессенджера: `recentConfig`, `parentChat`, `copilot`, `messagesAutoDeleteConfigs` и `callInfo`. Для работы бота они не нужны, поэтому в примере ответа не показаны.
+
 ### Поля объекта Chat {#chat-object}
 
 #|
-|| **Поле**
-`Тип` | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **id**
-[`integer`](../../../../data-types.md) | Уникальный идентификатор чата ||
+[`integer`](../../../../data-types.md) | Идентификатор чата ||
 || **dialogId**
-[`string`](../../../../data-types.md) | Идентификатор диалога: `chat5` для групповых, `123` для личных ||
+[`string`](../../../../data-types.md) | Идентификатор диалога. Для группового чата — `chat{id}`, например `chat5` ||
 || **name**
 [`string`](../../../../data-types.md) | Название чата ||
 || **description**
-[`string`](../../../../data-types.md) | Описание чата ||
+[`string`](../../../../data-types.md) | Описание чата. Пустая строка, если не задано ||
 || **type**
-[`string`](../../../../data-types.md) | Тип чата: `chat`, `open`, `channel` и другие ||
+[`string`](../../../../data-types.md) | Тип чата: `chat`, `open`, `channel`, `openChannel`, `copilot` и другие — [список значений](../../entities.md#chat) ||
+|| **messageType**
+[`string`](../../../../data-types.md) | Внутренний однобуквенный тип чата, например `C` для группового и `O` для открытого ||
 || **owner**
 [`integer`](../../../../data-types.md) | ID владельца чата ||
 || **color**
-[```string|null```](../../../../data-types.md) | Цвет чата в формате HEX ||
+[`string`](../../../../data-types.md) | Цвет чата в формате HEX ||
 || **avatar**
-[`string`](../../../../data-types.md) | URL аватара чата. Пустая строка, если не установлен ||
+[`string`](../../../../data-types.md) | URL аватара чата. Пустая строка, если аватар не установлен ||
+|| **extranet**
+[`boolean`](../../../../data-types.md) | Есть ли в чате экстранет-пользователи ||
+|| **containsCollaber**
+[`boolean`](../../../../data-types.md) | Есть ли в чате коллаберы ||
+|| **entityType**
+[`string`](../../../../data-types.md) | Тип связанного объекта, например `LINES` для Открытых линий. Пустая строка, если чат не связан с объектом ||
+|| **entityId**
+[`string`](../../../../data-types.md) | Идентификатор связанного объекта ||
+|| **entityData1**
+[`string`](../../../../data-types.md) | Дополнительные данные связанного объекта, поле 1 ||
+|| **entityData2**
+[`string`](../../../../data-types.md) | Дополнительные данные связанного объекта, поле 2 ||
+|| **entityData3**
+[`string`](../../../../data-types.md) | Дополнительные данные связанного объекта, поле 3 ||
+|| **entityLink**
+[`object`](../../../../data-types.md) | Ссылка на связанный объект — объект с ключами `type`, `url` и `id`. Если чат не связан с объектом, значения пустые ||
+|| **diskFolderId**
+[```integer|null```](../../../../data-types.md) | ID папки на Диске, где хранятся файлы чата ||
 || **role**
-[`string`](../../../../data-types.md) | Роль текущего пользователя: `owner`, `manager`, `member`, `guest`, `none` ||
+[`string`](../../../../data-types.md) | Роль бота в чате: `owner`, `manager`, `member` или `guest`. Роль `guest` — у бота, который не состоит в открытом чате ||
+|| **permissions**
+[`object`](../../../../data-types.md) | Минимальная роль для действий в чате. Ключи: `manageUsersAdd`, `manageUsersDelete`, `manageUi`, `manageSettings`, `manageMessages`, `manageMessagesAutoDelete`, `manageGuestInvites`, `manageDelete`, `canPost`. Значения: `member`, `manager`, `owner` или `none` — действие недоступно никому ||
+|| **canHaveThreads**
+[`boolean`](../../../../data-types.md) | Можно ли создавать треды в чате ||
+|| **hasManageCapability**
+[`boolean`](../../../../data-types.md) | Служебный признак расширенного доступа к управлению чатом ||
+|| **muteList**
+[`integer[]`](../../../../data-types.md) | Содержит ID бота, если бот отключил уведомления в чате, иначе пустой массив ||
+|| **parentChatId**
+[```integer|null```](../../../../data-types.md) | ID родительского чата, если это тред ||
+|| **parentMessageId**
+[```integer|null```](../../../../data-types.md) | ID родительского сообщения, если это тред ||
+|| **isNew**
+[`boolean`](../../../../data-types.md) | `true` для открытого канала, созданного меньше суток назад. Для остальных чатов — `false` ||
+|| **textFieldEnabled**
+[`boolean`](../../../../data-types.md) | Включено ли поле ввода сообщений ||
+|| **backgroundId**
+[```string|null```](../../../../data-types.md) | ID фона чата ||
 || **dateCreate**
 [```string|null```](../../../../data-types.md) | Дата создания чата в формате ISO 8601 ||
 || **lastMessageId**
 [```integer|null```](../../../../data-types.md) | ID последнего сообщения ||
-|| **muteList**
-[`array`](../../../../data-types.md) | Список ID пользователей, отключивших уведомления ||
+|| **lastMessageViews**
+[`object`](../../../../data-types.md) | Просмотры последнего сообщения: `messageId` — ID сообщения, `firstViewers` — первые просмотревшие, `countOfViewers` — число просмотревших ||
+|| **lastId**
+[`integer`](../../../../data-types.md) | ID последнего сообщения, прочитанного ботом ||
 || **managerList**
-[`array`](../../../../data-types.md) | Массив ID менеджеров чата ||
+[`integer[]`](../../../../data-types.md) | ID менеджеров чата ||
+|| **markedId**
+[`integer`](../../../../data-types.md) | ID сообщения, отмеченного ботом как непрочитанное. `0`, если отметки нет ||
+|| **messageCount**
+[`integer`](../../../../data-types.md) | Количество сообщений в чате ||
+|| **public**
+[```string|object```](../../../../data-types.md) | Публичная ссылка на чат — объект с полями `code` и `link`. Пустая строка, если ссылки нет ||
+|| **unreadId**
+[`integer`](../../../../data-types.md) | ID первого непрочитанного ботом сообщения. `0`, если непрочитанных нет ||
+|| **userCounter**
+[`integer`](../../../../data-types.md) | Количество участников чата ||
+|| **guestCount**
+[`integer`](../../../../data-types.md) | Количество гостей в чате ||
 |#
 
-Полное описание всех полей — на странице [Объекты и поля — Chat](../../entities.md#chat).
-
-### Поля объекта User {#user-object}
-
-#|
-|| **Поле**
-`Тип` | **Описание** ||
-|| **id**
-[`integer`](../../../../data-types.md) | Уникальный идентификатор пользователя ||
-|| **active**
-[`boolean`](../../../../data-types.md) | Активен ли пользователь в системе ||
-|| **name**
-[`string`](../../../../data-types.md) | Полное имя ||
-|| **type**
-[`string`](../../../../data-types.md) | Тип пользователя: `employee`, `extranet`, `bot` и другие ||
-|#
-
-Полное описание всех полей — на странице [Объекты и поля — User](../../entities.md#user).
+Какие из этих полей приходят в данных событий — на странице [Объекты и поля — Chat](../../entities.md#chat).
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
@@ -443,10 +489,12 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением ||
+|| `ACCESS_DENIED` | ACCESS_DENIED | Нет права создавать чаты ||
+|| `CREATION_ERROR` | Error creating chat | Не удалось создать чат ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -458,3 +506,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-update.md)
 - [{#T}](./chat-user-add.md)
 - [{#T}](./chat-leave.md)
+- [{#T}](./index.md)
+- [{#T}](../messages/index.md)
+- [{#T}](../../migration.md)

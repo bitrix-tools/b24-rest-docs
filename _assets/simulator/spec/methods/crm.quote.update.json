@@ -242,5 +242,15 @@
     }
   ],
   "page": "/api-reference/crm/quote/crm-quote-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 43,
+    "fields": {
+      "STATUS_ID": "SENT",
+      "COMMENTS": "Уточнены условия и сроки"
+    },
+    "params": {
+      "REGISTER_HISTORY_EVENT": "Y"
+    }
+  }
 }

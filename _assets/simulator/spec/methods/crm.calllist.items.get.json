@@ -82,5 +82,11 @@
     "ENTITY_TYPE",
     "ID",
     "STATUS"
-  ]
+  ],
+  "requestExample": {
+    "LIST_ID": 13,
+    "FILTER": {
+      "STATUS": "IN_WORK"
+    }
+  }
 }

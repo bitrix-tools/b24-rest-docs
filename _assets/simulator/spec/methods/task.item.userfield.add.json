@@ -144,5 +144,24 @@
     }
   ],
   "page": "/api-reference/tasks/user-field/task-item-user-field-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "PARAMS": {
+      "USER_TYPE_ID": "string",
+      "FIELD_NAME": "UF_TASK_CLIENT_REQUEST",
+      "XML_ID": "UF_TASK_CLIENT_REQUEST",
+      "EDIT_FORM_LABEL": {
+        "ru": "Запрос клиента",
+        "en": "Client request"
+      },
+      "LABEL": "Запрос клиента",
+      "SORT": 220,
+      "MULTIPLE": "N",
+      "MANDATORY": "Y",
+      "SETTINGS": {
+        "DEFAULT_VALUE": "Уточнить цель и ожидаемый результат",
+        "ROWS": 10
+      }
+    }
+  }
 }

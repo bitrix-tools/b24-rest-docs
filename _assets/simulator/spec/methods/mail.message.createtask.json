@@ -96,5 +96,10 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-createtask.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "messageId": 15,
+    "title": "Подготовить договор",
+    "responsibleId": 7
+  }
 }

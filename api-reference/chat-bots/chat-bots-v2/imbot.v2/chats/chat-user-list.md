@@ -1,4 +1,4 @@
-# Список участников чата imbot.v2.Chat.User.list
+# Получить список участников чата imbot.v2.Chat.User.list
 
 {% note tip "" %}
 
@@ -13,7 +13,17 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Chat.User.list` возвращает список участников чата.
+Метод `imbot.v2.Chat.User.list` возвращает список участников чата. Если бот состоит в чате, он тоже есть в списке — его отличает поле `bot: true`.
+
+Пользователи с деактивированной учетной записью в список не попадают.
+
+Бот должен быть участником чата. Список участников открытого чата или открытого канала метод возвращает и без участия бота.
+
+{% note warning "" %}
+
+Метод не поддерживает постраничную навигацию: параметров смещения нет, а ответ не содержит общего количества участников. За один вызов можно получить не более 200 участников. Число участников чата есть в поле `userCounter` ответа [imbot.v2.Chat.get](./chat-get.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -21,23 +31,29 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **botId***
 [`integer`](../../../../data-types.md) | ID бота ||
 || **botToken**
-[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
+[`string`](../../../../data-types.md) | Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же `botToken`, который указали при регистрации бота ||
 || **dialogId***
-[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}` ||
+[`string`](../../../../data-types.md) | ID группового чата в [формате dialogId](../../index.md#dialog-id): `chat{chatId}` ||
 || **order**
 [`object`](../../../../data-types.md) | Сортировка.
 
-Доступные поля: `id`, `lastSendMessageId`, `userId`. Значение: `ASC` или `DESC`.
+Доступные поля:
+
+- `id` — порядок вступления в чат
+- `lastSendMessageId` — ID последнего сообщения участника
+- `userId` — ID пользователя
+
+Направление сортировки: `ASC` или `DESC`. Если передать несколько полей, метод учтет одно — то, что стоит выше в списке доступных полей. Без `order` порядок не гарантирован.
 
 Пример: `{"id": "ASC"}` ||
 || **limit**
-[`integer`](../../../../data-types.md) | Количество записей (1–200). По умолчанию `50` ||
+[`integer`](../../../../data-types.md) | Количество записей, от `1` до `200`. По умолчанию `50`. Значение вне диапазона не вызывает ошибку — метод вернет до `50` записей ||
 |#
 
 ## Примеры кода
@@ -251,10 +267,14 @@ HTTP-статус: **200**
             "status": "online",
             "idle": false,
             "lastActivityDate": "2025-01-15T14:25:00+03:00",
+            "mobileLastDate": false,
+            "desktopLastDate": "2025-01-15T14:25:00+03:00",
             "absent": false,
             "departments": [7],
             "phones": false,
-            "type": "employee"
+            "type": "user",
+            "website": "",
+            "email": ""
         },
         {
             "id": 2,
@@ -274,10 +294,14 @@ HTTP-статус: **200**
             "status": "online",
             "idle": false,
             "lastActivityDate": "2025-01-15T14:20:00+03:00",
+            "mobileLastDate": false,
+            "desktopLastDate": "2025-01-15T14:20:00+03:00",
             "absent": false,
             "departments": [12],
             "phones": false,
-            "type": "employee"
+            "type": "user",
+            "website": "",
+            "email": ""
         }
     ],
     "time": {
@@ -295,7 +319,7 @@ HTTP-статус: **200**
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`User[]`](../../entities.md#user) | Массив участников чата. Описание полей объекта — [User](../../entities.md#user) ||
 || **time**
@@ -304,12 +328,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied"
+    "error_description": "ACCESS_DENIED"
 }
 ```
 
@@ -319,11 +343,12 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `ACCESS_DENIED` | Access denied | Бот не является участником чата ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением ||
+|| `CHAT_NOT_FOUND` | CHAT_NOT_FOUND | Чат с указанным `dialogId` не найден ||
+|| `ACCESS_DENIED` | ACCESS_DENIED | Бот не является участником закрытого чата ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -334,3 +359,6 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-user-add.md)
 - [{#T}](./chat-user-delete.md)
 - [{#T}](./chat-manager-add.md)
+- [{#T}](./chat-get.md)
+- [{#T}](./index.md)
+- [{#T}](../../migration.md)

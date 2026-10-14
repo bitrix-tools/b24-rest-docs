@@ -54,5 +54,12 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-conduct-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "documentIds": [
+      142,
+      143,
+      144
+    ]
+  }
 }

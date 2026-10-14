@@ -15,13 +15,13 @@
 
 ## Типы хранилищ
 
-В Битрикс24 есть три типа хранилищ:
+Метод [disk.storage.getTypes](./disk-storage-get-types.md) возвращает три основных типа хранилищ:
 
 - Мой диск — личное хранилище пользователя
 - Общий диск — хранилище компании
 - Диск группы — хранилище рабочей группы
 
-Получить список типов хранилищ можно методом [disk.storage.getTypes](./disk-storage-get-types.md).
+Для хранилища приложения используется специальный тип `restapp`. Такое хранилище можно получить или создать методом [disk.storage.getForApp](./disk-storage-get-for-app.md). В результат `disk.storage.getTypes` значение `restapp` не входит.
 
 {% note tip "Пользовательская документация" %}
 
@@ -34,25 +34,28 @@
 
 Для работы с хранилищем нужен его идентификатор.
 
-1. Получите список доступных хранилищ методом [disk.storage.getList](./disk-storage-get-list.md)
-2. Найдите в списке нужное хранилище и используйте его `ID`
+1. Получите список доступных хранилищ методом [disk.storage.getList](./disk-storage-get-list.md). Для хранилища приложения используйте метод [disk.storage.getForApp](./disk-storage-get-for-app.md)
+2. Выберите нужное хранилище и сохраните его `ID`
 3. Получите параметры хранилища методом [disk.storage.get](./disk-storage-get.md)
+4. Получите файлы и папки в корне методом [disk.storage.getChildren](./disk-storage-get-children.md)
 
-Описание всех полей хранилища возвращает метод [disk.storage.getFields](./disk-storage-get-fields.md). Для работы с хранилищем приложения используйте метод [disk.storage.getForApp](./disk-storage-get-for-app.md).
+В ответе `disk.storage.get` поле `ROOT_OBJECT_ID` содержит идентификатор корневой папки. Поля `ID` и `ROOT_OBJECT_ID` возвращаются как строки. Описание всех полей хранилища можно получить методом [disk.storage.getFields](./disk-storage-get-fields.md).
 
-## Работа с содержимым хранилища
+## Связь с другими объектами
 
-В корне хранилища можно выполнить следующие операции:
+Хранилище служит точкой входа для работы с папками, файлами и данными приложения.
 
-- получить список файлов и папок методом [disk.storage.getChildren](./disk-storage-get-children.md)
-- создать папку с помощью метода [disk.storage.addFolder](./disk-storage-add-folder.md)
-- загрузить файл методом [disk.storage.uploadFile](./disk-storage-upload-file.md)
+**Папки.** Поле `ROOT_OBJECT_ID` содержит идентификатор корневой папки. Метод [disk.storage.getChildren](./disk-storage-get-children.md) возвращает ее содержимое, а [disk.storage.addFolder](./disk-storage-add-folder.md) создает в ней папку. Для вложенных папок используйте методы [disk.folder.*](../folder/index.md).
 
-Для работы с вложенными папками и файлами используйте методы [disk.folder.*](../folder/index.md).
+**Файлы.** Метод [disk.storage.uploadFile](./disk-storage-upload-file.md) загружает файл в корень хранилища. Для дальнейшей работы с загруженным файлом используйте его `ID` в методах [disk.file.*](../file/index.md).
 
-## Как переименовать хранилище
+**Приложение.** Метод [disk.storage.getForApp](./disk-storage-get-for-app.md) возвращает хранилище текущего приложения. Только такое хранилище можно переименовать методом [disk.storage.rename](./disk-storage-rename.md).
 
-Переименовать можно только хранилище приложения — для этого используйте метод [disk.storage.rename](./disk-storage-rename.md). Личные, общие и групповые хранилища переименовать нельзя.
+## Ошибки при работе с хранилищами
+
+Методы, которые принимают идентификатор хранилища, возвращают `ERROR_NOT_FOUND`, если хранилище не найдено. При недостаточных правах методы чтения и изменения возвращают `ACCESS_DENIED`.
+
+Метод `disk.storage.getForApp` возвращает `ACCESS_DENIED` вне контекста приложения.
 
 ## Обзор методов {#all-methods}
 

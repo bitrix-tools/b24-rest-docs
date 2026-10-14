@@ -73,5 +73,11 @@
     }
   ],
   "page": "/api-reference/crm/leads/management-communication/crm-lead-contact-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "CONTACT_ID": 1010
+    }
+  }
 }

@@ -1,9 +1,9 @@
 {
   "$v": 1,
-  "method": "sale.order.getfields",
+  "method": "sale.order.getFields",
   "scope": "sale",
   "kind": "read",
-  "title": "Получить поля заказа sale.order.getfields",
+  "title": "Получить поля заказа sale.order.getFields",
   "permissions": "администратор",
   "params": [
     {
@@ -11,18 +11,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа",
-      "dynamic": {
-        "allowed": true,
-        "note": "Состав полей не описан подтаблицей на этой странице"
-      }
-    },
-    {
-      "name": "order",
-      "type": "object",
-      "base": "object",
-      "required": "unknown",
-      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта saleorder, а value — объект типа restfielddescription",
+      "description": "Корневой элемент ответа (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -324,14 +313,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "order",
-      "type": "object",
-      "base": "object",
-      "required": "unknown",
-      "description": "Объект в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Где field — идентификатор поля объекта saleorder, а value — объект типа restfielddescription"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -342,5 +324,6 @@
     }
   ],
   "page": "/api-reference/sale/order/sale-order-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

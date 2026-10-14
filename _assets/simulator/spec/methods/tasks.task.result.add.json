@@ -98,5 +98,11 @@
     }
   ],
   "page": "/api-reference/tasks/result/tasks-task-result-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "taskId": 51,
+      "text": "Работа по задаче выполнена"
+    }
+  }
 }

@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: требуется право на чтение объекта CRM, товарные позиции которого выбираются
 
-Метод получает товарные позиции объекта CRM, по которым клиенту еще не была выставлена оплата.
+Метод `crm.item.productrow.getAvailableForPayment` получает товарные позиции объекта CRM, по которым клиенту еще не была выставлена оплата.
+
+Метод сравнивает количество товара в позиции с количеством, которое уже попало в оплаты объекта CRM, и возвращает остаток. Позиции, полностью попавшие в оплаты, в ответ не войдут. Если нужны все позиции объекта CRM без учета оплат, вызовите [crm.item.productrow.list](./crm-item-productrow-list.md).
+
+Метод возвращает все подходящие позиции сразу, без постраничной навигации, в порядке возрастания значения `sort`. Если все позиции объекта CRM уже попали в оплаты, метод вернет пустой массив `"productRows":[]`.
+
+Вызывайте метод, когда собираете новую оплату: он показывает, какие позиции клиенту еще можно выставить. Саму оплату создают методы раздела [Оплаты и доставки](../payment/index.md), а позиции в нее добавляют методы раздела [Товарные позиции в оплате](../payment/products-in-payment/index.md).
 
 ## Параметры метода
 
@@ -23,9 +29,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **ownerId***
-[`integer`](../../../data-types.md) | Идентификатор объекта CRM ||
+[`integer`](../../../data-types.md) | Идентификатор объекта CRM.
+Получить его можно методом [crm.item.list](../crm-item-list.md) или из ответа метода [crm.item.add](../crm-item-add.md) ||
 || **ownerType***
-[`string`](../../../data-types.md) | Идентификатор [`типа объекта CRM`](../../data-types.md#object_type). Передавайте [Краткий символьный код типа](../../data-types.md#object_type) ||
+[`string`](../../../data-types.md) | Краткий символьный код [типа объекта CRM](../../data-types.md#object_type): `L` — лид, `D` — сделка, `Q` — предложение, `SI` — новый счет, `T` и шестнадцатеричный идентификатор типа — смарт-процесс. Например, для типа с `entityTypeId: 128` код — `T80` ||
 |#
 
 ## Примеры кода
@@ -83,6 +90,7 @@
         discountSum: number
         taxRate: number | null
         taxIncluded: string
+        taxName: string
         customized: string
         measureCode: number
         measureName: string
@@ -260,12 +268,12 @@
     }
 
     var items []struct {
-    	ID          b24.ID `json:"id"`
-    	OwnerID     b24.ID `json:"ownerId"`
-    	OwnerType   string `json:"ownerType"`
-    	ProductID   b24.ID `json:"productId"`
-    	ProductName string `json:"productName"`
-    	Price       int    `json:"price"`
+    	ID          b24.ID  `json:"id"`
+    	OwnerID     b24.ID  `json:"ownerId"`
+    	OwnerType   string  `json:"ownerType"`
+    	ProductID   b24.ID  `json:"productId"`
+    	ProductName string  `json:"productName"`
+    	Price       float64 `json:"price"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -302,6 +310,7 @@ HTTP-статус: **200**
             "discountSum":0,
             "taxRate":null,
             "taxIncluded":"Y",
+            "taxName":"Без НДС",
             "customized":"Y",
             "measureCode":796,
             "measureName":"шт",
@@ -326,6 +335,7 @@ HTTP-статус: **200**
             "discountSum":0,
             "taxRate":null,
             "taxIncluded":"Y",
+            "taxName":"Без НДС",
             "customized":"Y",
             "measureCode":796,
             "measureName":"шт",
@@ -352,12 +362,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **productRows**
-[`crm_item_product_row[]`](../../data-types.md#crm_item_product_row) |Массив объектов, содержащий информацию о всех товарных позициях объекта CRM, по которым клиенту еще не была выставлена оплата
- ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **productRows**
+[`crm_item_product_row[]`](../../data-types.md#crm_item_product_row) | Массив объектов с информацией о выбранных товарных позициях.
+В поле `quantity` каждой позиции — остаток, который еще не попал в оплаты, а не исходное количество товара ||
 |#
 
 ## Обработка ошибок
@@ -377,7 +394,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Доступ запрещен ||
+|| `ENTITY_TYPE_NOT_SUPPORTED` | Этот тип объектов CRM не поддерживает товарные позиции ||
+|| `ACCESS_DENIED` | У пользователя нет права на чтение объекта CRM ||
+|| `OWNER_NOT_FOUND` | Переданный объект CRM не найден ||
 || `100` | Не переданы обязательные параметры ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
@@ -388,9 +407,9 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./crm-item-productrow-add.md)
-- [{#T}](./crm-item-productrow-fields.md)
-- [{#T}](./crm-item-productrow-get.md)
-- [{#T}](./crm-item-productrow-set.md)
 - [{#T}](./crm-item-productrow-update.md)
+- [{#T}](./crm-item-productrow-get.md)
 - [{#T}](./crm-item-productrow-list.md)
 - [{#T}](./crm-item-productrow-delete.md)
+- [{#T}](./crm-item-productrow-set.md)
+- [{#T}](./crm-item-productrow-fields.md)

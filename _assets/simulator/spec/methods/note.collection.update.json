@@ -149,5 +149,11 @@
     }
   ],
   "page": "/api-reference/note/collection/note-collection-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 42,
+    "fields": {
+      "name": "Документация продукта"
+    }
+  }
 }

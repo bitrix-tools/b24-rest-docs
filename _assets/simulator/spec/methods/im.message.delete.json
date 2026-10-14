@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-message-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "MESSAGE_ID": 34247
+  }
 }

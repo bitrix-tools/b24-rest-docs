@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.booking.externalData.set` устанавливает связи для указанного бронирования.
+Метод `booking.v1.booking.externalData.set` заменяет весь набор связей для указанного бронирования.
 
 ## Параметры метода
 
@@ -26,7 +26,7 @@
 [`integer`](../../../data-types.md) | Идентификатор бронирования.
 Можно получить методами [booking.v1.booking.add](../booking-v1-booking-add.md) и [booking.v1.booking.list](../booking-v1-booking-list.md) ||
 || **externalData***
-[`array`](../../../data-types.md) | Массив объектов, содержащий объекты для привязки [(подробное описание)](#externalData) ||
+[`array`](../../../data-types.md) | Полный набор связей бронирования. Новое значение заменяет все существующие связи. Пустой массив удаляет все связи. Структура объектов описана [ниже](#externalData) ||
 |#
 
 ### Параметр externalData {#externalData}
@@ -54,8 +54,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"externalData":[{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.booking.externalData.set
+    -d '{"bookingId":14,"externalData":[{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.externalData.set
     ```
 
 - cURL (OAuth)
@@ -64,8 +64,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"externalData":[{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.externalData.set
+    -d '{"bookingId":14,"externalData":[{"moduleId":"crm","entityTypeId":"DEAL","value":"1"}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.booking.externalData.set
     ```
 
 - JS (TS)
@@ -343,7 +343,9 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `0` | `Required fields:` | Не передан обязательный параметр внутри `externalData` ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | Инструмент «Онлайн-запись» отключен администратором ||
 || `1021` | `Booking not found` | Бронирование с указанным `id` не найдено ||
+|| `1019` | `Failed updating booking` | Не удалось обновить бронирование ||
 || `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
 |#
 

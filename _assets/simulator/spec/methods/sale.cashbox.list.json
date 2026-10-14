@@ -115,5 +115,18 @@
     "OFD",
     "SORT",
     "USE_OFFLINE"
-  ]
+  ],
+  "requestExample": {
+    "SELECT": [
+      "ID",
+      "NAME"
+    ],
+    "FILTER": {
+      "=NAME": "Моя Rest-касса",
+      ">ID": 9
+    },
+    "ORDER": {
+      "ID": "DESC"
+    }
+  }
 }

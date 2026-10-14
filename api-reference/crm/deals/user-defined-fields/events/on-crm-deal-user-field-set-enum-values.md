@@ -1,4 +1,4 @@
-# Cобытие при изменении набора значений для пользовательского поля списочного типа onCrmDealUserFieldSetEnumValues
+# Событие при изменении набора значений для пользовательского поля списочного типа onCrmDealUserFieldSetEnumValues
 
 {% note tip "" %}
 
@@ -13,7 +13,12 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `onCrmDealUserFieldSetEnumValues` сработает при изменении набора значений для пользовательского поля списочного типа.
+Событие `onCrmDealUserFieldSetEnumValues` сработает при сохранении набора значений пользовательского поля типа `enumeration` (список):
+
+- при добавлении такого поля вручную или методом [crm.deal.userfield.add](../crm-deal-userfield-add.md)
+- при изменении списка вручную или методом [crm.deal.userfield.update](../crm-deal-userfield-update.md) с параметром `LIST`
+
+Событие приходит вместе с [onCrmDealUserFieldAdd](./on-crm-deal-user-field-add.md) или [onCrmDealUserFieldUpdate](./on-crm-deal-user-field-update.md). Битрикс24 отправляет его при каждом сохранении списка, даже если значения не изменились.
 
 Событие относится к набору значений в настройке поля списочного типа, а не к выбранному значению этого поля в конкретной сделке.
 
@@ -42,7 +47,6 @@
         "status": "L",
         "client_endpoint": "https://some-domain.bitrix24.com/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -62,7 +66,7 @@
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий свойства пользовательского поля списочного типа.
+[`object`](../../../../data-types.md) | Объект с идентификатором и кодом пользовательского поля списочного типа.
 
 Структура описана [ниже](#fields) ||
 || **ts**
@@ -81,10 +85,12 @@
 || **ID**
 [`integer`](../../../../data-types.md) | Идентификатор пользовательского поля списочного типа ||
 || **ENTITY_ID**
-[`string`](../../../../data-types.md) | Символьный идентификатор объекта, для которого обновлено поле списочного типа. В данном случае — `CRM_DEAL` ||
+[`string`](../../../../data-types.md) | Символьный код объекта, к которому относится поле. В данном случае — `CRM_DEAL` ||
 || **FIELD_NAME**
-[`string`](../../../../data-types.md) | Название обновленного пользовательского поля списочного типа ||
+[`string`](../../../../data-types.md) | Код пользовательского поля с префиксом `UF_CRM_` ||
 |#
+
+Набор значений списка в событие не передается. Чтобы получить актуальный набор значений, вызовите метод [crm.deal.userfield.get](../crm-deal-userfield-get.md) с `ID` из события — значения вернутся в ключе `LIST`.
 
 ### Параметр auth {#auth}
 
@@ -94,6 +100,7 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-crm-deal-user-field-add.md)
-- [{#T}](./on-crm-deal-user-field-delete.md)
 - [{#T}](./on-crm-deal-user-field-update.md)
+- [{#T}](./on-crm-deal-user-field-delete.md)

@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/chats/search/im-search-last-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DIALOG_ID": "chat17"
+  }
 }

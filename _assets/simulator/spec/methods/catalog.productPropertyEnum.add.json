@@ -123,5 +123,14 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-enum/catalog-product-property-enum-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "propertyId": 431,
+      "value": "Средний",
+      "xmlId": "M",
+      "def": "Y",
+      "sort": 100
+    }
+  }
 }

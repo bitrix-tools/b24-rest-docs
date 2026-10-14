@@ -136,5 +136,24 @@
     "shipmentPropsId",
     "shipmentPropsXmlId",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "code",
+      "id",
+      "name",
+      "shipmentId",
+      "shipmentPropsId",
+      "shipmentPropsXmlId",
+      "value"
+    ],
+    "filter": {
+      "@shipmentId": [
+        4120
+      ]
+    },
+    "order": {
+      "shipmentId": "desc"
+    }
+  }
 }

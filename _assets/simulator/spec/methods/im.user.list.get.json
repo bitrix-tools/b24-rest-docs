@@ -172,5 +172,13 @@
     "type",
     "website",
     "work_position"
-  ]
+  ],
+  "requestExample": {
+    "ID": [
+      4,
+      5
+    ],
+    "AVATAR_HR": "Y",
+    "RESULT_TYPE": "array"
+  }
 }

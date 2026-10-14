@@ -61,5 +61,6 @@
     }
   ],
   "page": "/api-reference/landing/rights/landing-role-is-enabled.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -220,5 +220,12 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-upload-version.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 9043,
+    "fileContent": [
+      "Тест №2.docx",
+      "UEsDBBQABgAIAAAAIQBKvAJxbQEAACgGAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAI...AAAAAA0ADQBAAwAAA2EAAAAA"
+    ]
+  }
 }

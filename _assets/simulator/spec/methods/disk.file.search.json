@@ -141,5 +141,12 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-search.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "QUERY": "тест",
+    "TYPE": "all",
+    "FILTER": {
+      "STORAGE_ID": 1
+    }
+  }
 }

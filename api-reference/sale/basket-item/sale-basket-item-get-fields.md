@@ -1,4 +1,4 @@
-# Получить доступные поля элемента (позиции) корзины sale.basketitem.getFields
+# Получить поля позиции корзины sale.basketitem.getFields
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: менеджер магазина
 
-Метод `sale.basketitem.getFields` возвращает список доступных полей элемента корзины. Каждое поле описывается в виде структуры настроек поля [rest_field_description](../data-types.md).
+Метод `sale.basketitem.getFields` возвращает список доступных полей позиции корзины. Каждое поле описывается в виде структуры настроек поля [rest_field_description](../data-types.md).
 
 ## Параметры метода
 
@@ -143,8 +143,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -232,6 +232,8 @@
 
 HTTP-статус: **200**
 
+В примере показаны три поля из 25.
+
 ```json
 {
     "result": {
@@ -246,24 +248,24 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "string"
+                "type": "char"
             },
             "catalogXmlId": {
                 "isImmutable": true,
                 "isReadOnly": false,
                 "isRequired": false,
                 "type": "string"
-            },
-        ...
+            }
         }
     },
     "time": {
-        "start": 1713798193.845268,
-        "finish": 1713798194.725574,
-        "duration": 0.8803060054779053,
-        "processing": 0.005295991897583008,
-        "date_start": "2024-04-22T17:03:13+02:00",
-        "date_finish": "2024-04-22T17:03:14+02:00",
+        "start": 1790578168,
+        "finish": 1790578168.809518,
+        "duration": 0.8095180988311768,
+        "processing": 0,
+        "date_start": "2026-09-28T09:49:28+03:00",
+        "date_finish": "2026-09-28T09:49:28+03:00",
+        "operating_reset_at": 1790578768,
         "operating": 0
     }
 }
@@ -277,22 +279,13 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **basketItem**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_basket_item](../data-types.md#sale_basket_item), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description)
 ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
-
-HTTP-статус: **400**
-
-```json
-{
-    "error":0,
-    "error_description":"error"
-}
-```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -301,15 +294,16 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `200040300010` | Недостаточно прав для чтения
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+||
+|| `0` | Другие ошибки, например фатальные
+||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-basket-item-add.md)
 - [{#T}](./sale-basket-item-update.md)
 - [{#T}](./sale-basket-item-get.md)

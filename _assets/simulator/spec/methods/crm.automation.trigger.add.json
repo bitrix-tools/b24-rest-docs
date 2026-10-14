@@ -55,5 +55,9 @@
     }
   ],
   "page": "/api-reference/crm/automation/triggers/crm-automation-trigger-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "c5u4m",
+    "NAME": "trigger name"
+  }
 }

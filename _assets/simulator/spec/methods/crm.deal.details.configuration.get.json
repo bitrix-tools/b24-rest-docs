@@ -179,5 +179,11 @@
     "name",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "scope": "C",
+    "extras": {
+      "dealCategoryId": 32
+    }
+  }
 }

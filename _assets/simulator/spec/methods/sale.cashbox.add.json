@@ -190,5 +190,28 @@
     }
   ],
   "page": "/api-reference/sale/cashbox/sale-cashbox-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "NAME": "Rest-касса",
+    "REST_CODE": "restcashbox01",
+    "EMAIL": "user@example.com",
+    "NUMBER_KKM": "123",
+    "ACTIVE": "Y",
+    "SORT": 100,
+    "OFD": "bx_ofdruofd",
+    "OFD_SETTINGS": {
+      "OFD_MODE": {
+        "IS_TEST": "N"
+      }
+    },
+    "SETTINGS": {
+      "AUTH": {
+        "KEYWORD": "top_secret!",
+        "PREFERENCE": "SECOND"
+      },
+      "INTERACTION": {
+        "MODE": "ACTIVE"
+      }
+    }
+  }
 }

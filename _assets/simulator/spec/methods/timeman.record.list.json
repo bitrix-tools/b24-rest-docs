@@ -139,5 +139,35 @@
     "endTime",
     "id",
     "startTime"
-  ]
+  ],
+  "requestExample": {
+    "filter": [
+      [
+        "userId",
+        1
+      ],
+      [
+        "startTime",
+        "between",
+        [
+          "2026-06-01T00:00:00+03:00",
+          "2026-06-30T23:59:59+03:00"
+        ]
+      ]
+    ],
+    "select": [
+      "id",
+      "startTime",
+      "endTime",
+      "duration"
+    ],
+    "order": {
+      "startTime": "DESC"
+    },
+    "pagination": {
+      "page": 1,
+      "limit": 50,
+      "offset": 0
+    }
+  }
 }

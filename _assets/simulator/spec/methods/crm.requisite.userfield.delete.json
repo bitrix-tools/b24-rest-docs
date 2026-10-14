@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/requisites/user-fields/crm-requisite-userfield-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 235
+  }
 }

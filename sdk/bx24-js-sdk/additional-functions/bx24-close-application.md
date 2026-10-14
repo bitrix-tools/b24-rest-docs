@@ -9,101 +9,62 @@
 
 {% endnote %}
 
-Метод `BX24.closeApplication` отправляет команду на закрытие всплывающего окна с приложением.
-
-Метод рекомендуется использовать в таких встройках, как `CRM_*_LIST_MENU` из раздела [Виджеты](../../../api-reference/widgets/index.md). Например, можно добавить кнопку, которая закрывает окно приложения.
-
 ```js
-void BX24.closeApplication([Function callback])
+BX24.closeApplication(callback?: callable): void;
 ```
 
-## Параметры
+Метод `BX24.closeApplication` закрывает окно, в котором Битрикс24 показывает приложение поверх страницы. Такое окно выезжает справа, как слайдер, и его открывает метод [BX24.openApplication](./bx24-open-application.md). Метод пригодится и в местах встраивания, которые открывают приложение в слайдере, например в [пункте меню списка CRM](../../../api-reference/widgets/crm/list-menu.md). В окне можно добавить кнопку, которая его закрывает.
+
+Закрыть окно может и приложение, которое его открыло: оно тоже вызывает `BX24.closeApplication` в своем фрейме.
+
+Метод работает только внутри фрейма приложения в Битрикс24. Вызывайте его после инициализации библиотеки в обработчике [BX24.init](../system-functions/bx24-init.md). Собственный scope методу не нужен: он управляет интерфейсом, а не обращается к REST API.
+
+## Параметры метода
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **callback**
-`function` | Функция обратного вызова, которая выполняется после отправки команды закрытия окна ||
+[`callable`](../../../api-reference/data-types.md) | Библиотека принимает параметр, но Битрикс24 эту функцию не вызывает. Как узнать о закрытии окна, описано в разделе [Обработка ответа](#response) ||
 |#
 
 ## Пример кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
-Единый пример для [BX24.openApplication](./bx24-open-application.md) и `BX24.closeApplication`:
+Закрыть окно по кнопке:
 
-```php
-<script src="//api.bitrix24.tech/api/v1/"></script>
-<?
-$placementOptions = array();
-if (array_key_exists('PLACEMENT_OPTIONS', $_REQUEST))
-{
-    $placementOptions = json_decode($_REQUEST['PLACEMENT_OPTIONS'], true);
-}
+```html
+<button id="close-window">Закрыть</button>
 
-if (!isset($placementOptions['opened']))
-{
-?>
-    <span onclick="openApplication()">Open</span>
-<?
-}
-else
-{
-?>
-    <span onclick="closeApplication()">Close</span>
-<?
-}
-?>
 <script>
-    function openApplication()
-    {
-        BX24.openApplication(
-            { opened: true },
-            function()
-            {
-                alert('Application closed!');
-            }
-        );
-
-        setTimeout(closeApplication, 15000);
-    }
-
-    function closeApplication()
-    {
-        BX24.closeApplication();
-    }
+    BX24.init(function () {
+        document.getElementById('close-window').addEventListener('click', function () {
+            BX24.closeApplication();
+        });
+    });
 </script>
 ```
 
-### Пример со слайдером
+Пример, в котором приложение открывает себя в окне и закрывает его, есть на странице [BX24.openApplication](./bx24-open-application.md).
 
-```js
-BX24.openApplication(
-    { opened: true },
-    function () {
-        console.log('Application closed');
-    },
-    {
-        width: 450,
-        label: {
-            bgColor: 'pink',
-            text: 'my task',
-            color: '#07ff0e'
-        },
-        title: 'my title'
-    }
-);
+## Обработка ответа {#response}
 
-setTimeout(function () {
-    BX24.closeApplication();
-}, 15000);
-```
+Метод не возвращает данные (`void`). Узнать о закрытии окна может приложение, которое его открыло: Битрикс24 вызовет функцию `closeCallback`, переданную в [BX24.openApplication](./bx24-open-application.md). Она получает один параметр — пустой массив `[]`.
 
-## Обработка ответа
+## Обработка ошибок
 
-Метод не возвращает данные (`void`).
+Кодов ошибок метод не возвращает.
+
+#|
+|| **Ситуация** | **Что происходит** | **Что делать** ||
+|| Окно приложения не открыто: приложение работает на своей странице в Битрикс24 и окно не открывало | Ничего не происходит | Показывать кнопку закрытия, только когда приложение открыто в окне. Например, передать признак окна в параметре `params` метода [BX24.openApplication](./bx24-open-application.md#params). Приложение в окне прочитает его в параметре запроса `PLACEMENT_OPTIONS` ||
+|| Поверх окна приложения открыт другой слайдер, например страница из [BX24.openPath](./bx24-open-path.md) | Ничего не происходит: метод закрывает только верхний слайдер и только если это окно приложения | Дождаться, пока пользователь закроет верхний слайдер ||
+|| Код ждет вызова `callback` после закрытия окна | Функция не вызывается | Выполнить нужный код в `closeCallback` метода [BX24.openApplication](./bx24-open-application.md) ||
+|#
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./bx24-open-application.md)
 - [{#T}](./bx24-open-path.md)

@@ -125,5 +125,14 @@
     "id",
     "name",
     "senderName"
-  ]
+  ],
+  "requestExample": {
+    "name": "work",
+    "email": "example.com",
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

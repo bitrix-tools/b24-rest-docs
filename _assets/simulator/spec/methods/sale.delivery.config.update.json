@@ -80,5 +80,34 @@
     }
   ],
   "page": "/api-reference/sale/delivery/delivery/sale-delivery-config-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 196,
+    "CONFIG": [
+      {
+        "CODE": "SETTING_1",
+        "VALUE": "New SETTING_1 string value"
+      },
+      {
+        "CODE": "SETTING_2",
+        "VALUE": "N"
+      },
+      {
+        "CODE": "SETTING_3",
+        "VALUE": 999.99
+      },
+      {
+        "CODE": "SETTING_4",
+        "VALUE": "Option2Code"
+      },
+      {
+        "CODE": "SETTING_5",
+        "VALUE": "25.03.2023"
+      },
+      {
+        "CODE": "SETTING_6",
+        "VALUE": "0000144962"
+      }
+    ]
+  }
 }

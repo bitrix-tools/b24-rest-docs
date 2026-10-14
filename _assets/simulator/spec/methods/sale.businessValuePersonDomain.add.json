@@ -84,5 +84,11 @@
     }
   ],
   "page": "/api-reference/sale/business-value-person-domain/sale-business-value-person-domain-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "personTypeId": 3,
+      "domain": "I"
+    }
+  }
 }

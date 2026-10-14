@@ -11,11 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом на просмотр каталога товаров
 
-Метод получает поля товара по фильтру.
+Метод `catalog.product.getFieldsByFilter` получает описания полей товара для указанного каталога. Ответ показывает доступные поля и их признаки `isRequired`, `isReadOnly` и `isImmutable`; по ним можно подготовить запросы [catalog.product.add](./catalog-product-add.md) и [catalog.product.update](./catalog-product-update.md).
 
-## Параметры
+## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -598,9 +598,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **product**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_product`](../data-types.md#catalog_product), а `value` — объект типа [`rest_field_description`](../data-types.md). ||
+[`object`](../../data-types.md) | Результат запроса с описанием полей товара ||
+|| **result.product**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_product`](../data-types.md#catalog_product), а `value` — объект типа [`rest_field_description`](../data-types.md#rest_field_description). ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -621,11 +621,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога ||
-|| `100` | Не указан или пустой параметр filter ||
-|| `0` | Не указан идентификатор информационного блока ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Нет права на просмотр каталога товаров ||
+|| `400` | `100` | `Could not find value for parameter {filter}` | Не передан обязательный параметр `filter` ||
+|| `400` | `0` | `Incorrect filter format` | Параметр `filter` передан не как объект ||
+|| `400` | `0` | `parameter - iblockId is empty` | Не указан `filter.iblockId` ||
+|| `400` | `0` | `iblock is not catalog` | Указанный инфоблок не является торговым каталогом ||
+|| `400` | `0` | `productType is not allowed for this catalog` | Тип товара не разрешен для указанного каталога ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

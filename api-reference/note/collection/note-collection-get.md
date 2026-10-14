@@ -82,6 +82,9 @@
         name: string
         position: number
         policyLevel: string
+        accessLevel: string
+        isArchived: boolean
+        markdownDescription: string | null
         createdBy: number
         updatedBy: number
         createdAt: ISODate
@@ -272,11 +275,14 @@ HTTP-статус: **200**
             "id": 42,
             "name": "Продуктовая документация",
             "position": 100,
-            "policyLevel": "manage",
+            "policyLevel": "private",
             "createdBy": 1,
             "createdAt": "2026-04-20T12:00:00Z",
             "updatedBy": 1,
-            "updatedAt": "2026-04-21T09:15:30Z"
+            "updatedAt": "2026-04-21T09:15:30Z",
+            "accessLevel": "full",
+            "isArchived": false,
+            "markdownDescription": null
         }
     },
     "time": {
@@ -299,31 +305,30 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с данными базы знаний ||
-|| **item**
+|| **result.item**
 [`object`](../../data-types.md) | Объект базы знаний ||
-|| **id**
+|| **result.item.id**
 [`integer`](../../data-types.md) | Идентификатор базы знаний ||
-|| **name**
+|| **result.item.name**
 [`string`](../../data-types.md) | Название базы знаний ||
-|| **position**
+|| **result.item.position**
 [`integer`](../../data-types.md) | Позиция базы знаний в общем списке ||
-|| **policyLevel**
-[`string`](../../data-types.md) | Базовая политика доступа базы знаний.
-
-Возможные значения:
-
-- `none` — нет доступа
-- `view` — просмотр
-- `manage` — редактирование
-- `moderate` — администрирование ||
-|| **createdBy**
+|| **result.item.policyLevel**
+[`string`](../../data-types.md) | Код политики доступа базы знаний, например `private` или `portal` ||
+|| **result.item.accessLevel**
+[`string`](../../data-types.md) | Код уровня доступа текущего пользователя, например `full` ||
+|| **result.item.isArchived**
+[`boolean`](../../data-types.md) | Признак архивации базы знаний ||
+|| **result.item.markdownDescription**
+[`string`](../../data-types.md) или `null` | Дополнительное описание в Markdown. Может быть `null` ||
+|| **result.item.createdBy**
 [`integer`](../../data-types.md) | Идентификатор автора базы знаний ||
-|| **createdAt**
-[`datetime`](../../data-types.md) | Дата и время создания базы знаний в UTC ||
-|| **updatedBy**
+|| **result.item.createdAt**
+[`datetime`](../../data-types.md) | Дата и время создания базы знаний в формате ISO 8601 со смещением часового пояса ||
+|| **result.item.updatedBy**
 [`integer`](../../data-types.md) | Идентификатор последнего редактора базы знаний ||
-|| **updatedAt**
-[`datetime`](../../data-types.md) | Дата и время последнего изменения базы знаний в UTC ||
+|| **result.item.updatedAt**
+[`datetime`](../../data-types.md) | Дата и время последнего изменения базы знаний в формате ISO 8601 со смещением часового пояса ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

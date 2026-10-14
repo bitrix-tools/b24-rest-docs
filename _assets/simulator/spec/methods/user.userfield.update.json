@@ -181,5 +181,13 @@
     }
   ],
   "page": "/api-reference/user/userfields/user-userfield-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 42,
+    "fields": {
+      "SORT": 150,
+      "LIST_FILTER_LABEL": "New Title",
+      "LIST_COLUMN_LABEL": "New List Title"
+    }
+  }
 }

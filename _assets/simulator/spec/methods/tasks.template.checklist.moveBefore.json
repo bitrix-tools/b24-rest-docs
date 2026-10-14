@@ -95,5 +95,10 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-move-before.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 37,
+    "beforeItemId": 29
+  }
 }

@@ -21,8 +21,10 @@
 2. Выберите платежную систему методом [sale.paysystem.list](../../pay-system/sale-pay-system-list.md).
 3. Создайте оплату методом [sale.payment.add](./sale-payment-add.md).
 4. При частичной оплате свяжите оплату с позициями корзины методами [sale.paymentitembasket.*](../payment-item-basket/index.md).
-5. Если оплата относится к конкретной отгрузке, создайте связь методами [sale.paymentItemShipment.*](../payment-item-shipment/index.md).
+5. Если оплата относится к конкретной отгрузке, создайте связь методами [sale.paymentitemshipment.*](../payment-item-shipment/index.md).
 6. Проверяйте состояние оплаты методом [sale.payment.get](./sale-payment-get.md) или отбирайте оплаты через [sale.payment.list](./sale-payment-list.md).
+
+Методы `sale.payment.add`, `sale.payment.get` и `sale.payment.update` возвращают оплату в объекте `payment`. Метод `sale.payment.list` возвращает массив оплат в поле `payments` и общее количество найденных записей в поле `total`.
 
 ## Связь оплат с другими объектами
 
@@ -32,7 +34,7 @@
 
 **Привязка элемента корзины к оплате.** Выберите элементы корзины, для которых хотите создать оплату. Используйте методы [sale.paymentitembasket.*](../payment-item-basket/index.md).
 
-**Привязка оплат к отгрузкам.** Укажите, какие отгрузки оплачены. Используйте методы [sale.paymentItemShipment.*](../payment-item-shipment/index.md).
+**Привязка оплат к отгрузкам.** Укажите, с какими отгрузками связана оплата. Используйте методы [sale.paymentitemshipment.*](../payment-item-shipment/index.md).
 
 ## Обзор методов {#all-methods}
 

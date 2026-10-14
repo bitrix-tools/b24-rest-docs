@@ -18,14 +18,14 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth. Передавайте тот же botToken, который был указан при регистрации чат-бота"
+      "description": "Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен. Передавайте тот же botToken, который указали при регистрации бота"
     },
     {
       "name": "fields",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Свойства создаваемого чата. Структура объекта описана ниже",
+      "description": "Свойства создаваемого чата (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -37,6 +37,13 @@
         "note": "Пользовательские поля UF_* в схеме не описаны"
       },
       "fields": [
+        {
+          "name": "type",
+          "type": "string",
+          "base": "string",
+          "required": false,
+          "description": "Тип чата: - chat — закрытый групповой чат, по умолчанию - open — открытый чат, в который может вступить любой сотрудник С другим значением метод создаст закрытый чат"
+        },
         {
           "name": "title",
           "type": "string",
@@ -70,21 +77,14 @@
           "type": "integer[]",
           "base": "array",
           "required": false,
-          "description": "Массив ID участников"
+          "description": "Массив ID участников. Бота передавать не нужно — он добавляется в чат автоматически"
         },
         {
           "name": "ownerId",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "ID владельца чата. Если не указан — владельцем становится бот"
-        },
-        {
-          "name": "message",
-          "type": "string",
-          "base": "string",
-          "required": false,
-          "description": "Первое сообщение в чате"
+          "description": "ID владельца чата, по умолчанию — бот. Владелец автоматически добавляется в чат участником и менеджером. Метод не проверяет, существует ли пользователь: с несуществующим ID чат создастся без ошибки и останется без владельца"
         }
       ]
     }
@@ -113,77 +113,77 @@
         "entityData1": "",
         "entityData2": "",
         "entityData3": "",
-        "entityLink": {},
-        "diskFolderId": 42,
+        "entityLink": {
+          "type": "",
+          "url": "",
+          "id": ""
+        },
+        "diskFolderId": null,
         "role": "owner",
-        "permissions": {},
+        "permissions": {
+          "manageUsersAdd": "member",
+          "manageUsersDelete": "manager",
+          "manageUi": "member",
+          "manageSettings": "owner",
+          "manageMessages": "member",
+          "manageMessagesAutoDelete": "manager",
+          "manageGuestInvites": "manager",
+          "manageDelete": "member",
+          "canPost": "member"
+        },
+        "hasManageCapability": false,
+        "canHaveThreads": true,
         "muteList": [],
         "parentChatId": null,
         "parentMessageId": null,
-        "isNew": true,
-        "textFieldEnabled": "Y",
+        "isNew": false,
+        "textFieldEnabled": true,
         "backgroundId": null,
         "dateCreate": "2025-01-15T10:00:00+03:00",
         "lastMessageId": 789,
-        "lastMessageViews": "{}",
-        "lastId": null,
-        "managerList": [],
-        "markedId": null,
+        "lastMessageViews": {
+          "messageId": 789,
+          "firstViewers": [],
+          "countOfViewers": 0
+        },
+        "lastId": 0,
+        "managerList": [
+          456
+        ],
+        "markedId": 0,
         "messageCount": 1,
         "public": "",
-        "unreadId": null,
-        "userCounter": 3
+        "unreadId": 0,
+        "userCounter": 3,
+        "guestCount": 0
       },
       "users": [
         {
-          "id": 1,
+          "id": 456,
           "active": true,
-          "name": "John Smith",
-          "firstName": "John",
-          "lastName": "Smith",
-          "workPosition": "Developer",
-          "color": "#ab7761",
+          "name": "Support Bot",
+          "firstName": "Support Bot",
+          "lastName": "",
+          "workPosition": "",
+          "color": "#4ba984",
           "avatar": "",
           "gender": "M",
-          "birthday": "15-03",
+          "birthday": "",
           "extranet": false,
-          "bot": false,
+          "bot": true,
           "connector": false,
-          "externalAuthId": "default",
+          "externalAuthId": "bot",
           "status": "online",
           "idle": false,
-          "lastActivityDate": "2025-01-15T14:25:00+03:00",
+          "lastActivityDate": false,
+          "mobileLastDate": false,
+          "desktopLastDate": false,
           "absent": false,
-          "departments": [
-            7
-          ],
+          "departments": [],
           "phones": false,
-          "type": "employee"
-        },
-        {
-          "id": 2,
-          "active": true,
-          "name": "Anna Davis",
-          "firstName": "Anna",
-          "lastName": "Davis",
-          "workPosition": "Manager",
-          "color": "#5b7e91",
-          "avatar": "",
-          "gender": "F",
-          "birthday": "22-08",
-          "extranet": false,
-          "bot": false,
-          "connector": false,
-          "externalAuthId": "default",
-          "status": "online",
-          "idle": false,
-          "lastActivityDate": "2025-01-15T14:20:00+03:00",
-          "absent": false,
-          "departments": [
-            12
-          ],
-          "phones": false,
-          "type": "employee"
+          "type": "bot",
+          "website": "",
+          "email": ""
         }
       ]
     },
@@ -197,5 +197,17 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/chats/chat-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "fields": {
+      "title": "Support Chat",
+      "color": "mint",
+      "userIds": [
+        1,
+        2
+      ]
+    }
+  }
 }

@@ -22,6 +22,15 @@
 3. Настройте доступ групп покупателей методами [catalog.priceTypeGroup.*](./price-type-group/index.md)
 4. Используйте тип цены при создании цены методом [catalog.price.add](../price/catalog-price-add.md)
 
+## Форма результатов
+
+Методы возвращают данные в следующих полях:
+
+- `catalog.priceType.add`, `catalog.priceType.get` и `catalog.priceType.update` — объект типа цены в `result.priceType`
+- `catalog.priceType.list` — массив объектов в `result.priceTypes` и общее количество записей в `total`
+- `catalog.priceType.delete` — результат удаления в `result`
+- `catalog.priceType.getFields` — описание полей в `result.priceType`
+
 ## Связь с другими объектами
 
 **Цена.** При создании цены обязательно укажите ее тип. Задать и изменить цену можно с помощью методов [catalog.price.*](../price/index.md).
@@ -34,7 +43,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы: зависит от метода
 
 ### Основные
 

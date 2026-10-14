@@ -125,5 +125,22 @@
     "paymentId",
     "quantity",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "paymentId",
+      "basketId",
+      "quantity",
+      "xmlId",
+      "dateInsert"
+    ],
+    "filter": {
+      "paymentId": 1025,
+      ">quantity": 2
+    },
+    "order": {
+      "quantity": "desc"
+    }
+  }
 }

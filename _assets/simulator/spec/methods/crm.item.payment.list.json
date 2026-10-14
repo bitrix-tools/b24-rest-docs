@@ -66,5 +66,15 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/crm-item-payment-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityId": 13123,
+    "entityTypeId": 2,
+    "filter": {
+      "@id": [
+        1036,
+        1037
+      ]
+    }
+  }
 }

@@ -31,5 +31,9 @@
     "successor": null
   },
   "page": "/api-reference/crm/outdated/products/crm-product-property-settings-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "propertyType": "S",
+    "userType": "HTML"
+  }
 }

@@ -4,58 +4,121 @@
   "scope": "crm",
   "kind": "read",
   "title": "Получить список доставок объекта CRM crm.item.delivery.list",
-  "permissions": "требуется право на чтение объекта crm, из которого выбираются доставки",
+  "permissions": "пользователь с правом на чтение объекта CRM, из которого выбираются доставки",
   "params": [
     {
       "name": "entityId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор объекта crm"
+      "description": "Идентификатор объекта CRM, доставки которого нужно получить. Например, идентификатор сделки"
     },
     {
       "name": "entityTypeId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор типа объекта crm"
+      "description": "Идентификатор типа объекта CRM. Доставки есть только у сделок и счетов: для них entityTypeId равен 2 и 31 соответственно"
     },
     {
       "name": "filter",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Дополнительный фильтр для случаев, когда нужно получить не все доставки объекта crm, а по какому-то более специфичному фильтру. Формат параметра filter соответствует описанному в методе sale.shipment.list",
-      "dynamic": {
-        "allowed": true,
-        "note": "Состав полей не описан подтаблицей на этой странице"
-      }
+      "description": "Фильтр, который сужает выборку доставок объекта CRM (подробное описание)",
+      "ref": "#/defs/filterFields"
     },
     {
       "name": "order",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Формат параметра order соответствует описанному в методе sale.shipment.list",
+      "description": "Порядок сортировки в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Допустимые значения order_N: - asc — по возрастанию - desc — по убыванию Сортировать можно по полям объекта saleordershipment. По умолчанию список сортируется по id в порядке возрастания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "по возрастанию"
+        },
+        {
+          "value": "desc",
+          "title": "по убыванию Сортировать можно по полям объекта saleordershipment"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
     }
   ],
-  "defs": {},
+  "defs": {
+    "filterFields": {
+      "dynamic": {
+        "allowed": false,
+        "ufAllowed": true,
+        "note": "Пользовательские поля UF_* в схеме не описаны"
+      },
+      "fields": [
+        {
+          "name": "result",
+          "type": "array",
+          "base": "array",
+          "required": false,
+          "description": "Массив объектов с краткой информацией о выбранных доставках (подробное описание)"
+        },
+        {
+          "name": "time",
+          "type": "time",
+          "base": "object",
+          "required": false,
+          "description": "Информация о времени выполнения запроса"
+        }
+      ]
+    }
+  },
   "requiredConvention": true,
   "confidence": "parsed",
   "source": {
     "file": "api-reference/crm/universal/delivery/crm-item-delivery-list.md"
   },
+  "resultExample": {
+    "result": [
+      {
+        "id": 4077,
+        "accountNumber": "3657/2",
+        "deducted": "N",
+        "dateDeducted": null,
+        "deliveryId": 228,
+        "priceDelivery": 79.99,
+        "currency": "RUB",
+        "deliveryName": "Uber Taxi (Cargo)"
+      },
+      {
+        "id": 4078,
+        "accountNumber": "3657/3",
+        "deducted": "N",
+        "dateDeducted": null,
+        "deliveryId": 228,
+        "priceDelivery": 79.99,
+        "currency": "RUB",
+        "deliveryName": "Uber Taxi (Cargo)"
+      }
+    ],
+    "time": {
+      "start": 1716369036.246855,
+      "finish": 1716369036.734466,
+      "duration": 0.4876110553741455,
+      "processing": 0.18442106246948242,
+      "date_start": "2024-05-22T12:10:36+03:00",
+      "date_finish": "2024-05-22T12:10:36+03:00"
+    }
+  },
   "returns": [
     {
       "name": "result",
-      "type": "sale_order_shipment_crm_simple",
-      "base": "any",
+      "type": "array",
+      "base": "array",
       "required": false,
-      "description": "Массив объектов, содержащий краткую информацию о выбранных доставках"
+      "description": "Массив объектов с краткой информацией о выбранных доставках (подробное описание)"
     },
     {
       "name": "time",
@@ -66,5 +129,15 @@
     }
   ],
   "page": "/api-reference/crm/universal/delivery/crm-item-delivery-list.html",
-  "executable": false
+  "executable": false,
+  "entityFields": [
+    "accountNumber",
+    "currency",
+    "dateDeducted",
+    "deducted",
+    "deliveryId",
+    "deliveryName",
+    "id",
+    "priceDelivery"
+  ]
 }

@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: менеджер магазина
+> Кто может выполнять метод: любой пользователь
 
-Метод `sale.basketproperties.getFields` возвращает список полей свойства. Каждое поле описывается в виде структуры настроек (`rest_field_description`).
+Метод `sale.basketproperties.getFields` возвращает описание полей свойства элемента (позиции) корзины. Каждое поле описывается в виде структуры настроек (`rest_field_description`).
 
 ## Параметры метода
 
@@ -159,11 +159,9 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
+        // Нужная вам логика обработки данных
+        processData($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -177,24 +175,18 @@
     BX24.callMethod(
         "sale.basketproperties.getFields",
         {},
-    )
-        .then(
-            function(result)
+        function(result)
+        {
+            if (result.error())
             {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result.data());
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                console.error(result.error());
             }
-        );
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
     ```
 
 - PHP CRest
@@ -311,24 +303,18 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **401**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the access token"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
-|#
+Своих ошибок у метода нет. Возможны только общие ошибки REST, например `insufficient_scope`, если у приложения или вебхука нет scope `sale`.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

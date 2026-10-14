@@ -64,5 +64,10 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-is-action-allowed.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 8017,
+    "ITEMID": 475,
+    "ACTIONID": 2
+  }
 }

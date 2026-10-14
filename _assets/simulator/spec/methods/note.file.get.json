@@ -146,5 +146,9 @@
     "mimeType",
     "name",
     "size"
-  ]
+  ],
+  "requestExample": {
+    "id": 5001,
+    "documentId": 77
+  }
 }

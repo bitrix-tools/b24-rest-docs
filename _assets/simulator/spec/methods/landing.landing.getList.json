@@ -146,5 +146,25 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "params": {
+      "select": [
+        "ID",
+        "TITLE",
+        "SITE_ID",
+        "DATE_MODIFY"
+      ],
+      "filter": {
+        "SITE_ID": 205,
+        "=DELETED": "N"
+      },
+      "order": {
+        "ID": "DESC"
+      },
+      "get_urls": true,
+      "get_preview": true,
+      "check_area": true
+    }
+  }
 }

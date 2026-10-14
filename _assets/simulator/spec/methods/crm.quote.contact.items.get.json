@@ -69,5 +69,8 @@
     "IS_PRIMARY",
     "ROLE_ID",
     "SORT"
-  ]
+  ],
+  "requestExample": {
+    "id": 113
+  }
 }

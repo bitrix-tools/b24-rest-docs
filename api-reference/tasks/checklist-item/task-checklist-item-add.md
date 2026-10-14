@@ -11,15 +11,23 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод:
-> - любой пользователь с доступом к редактированию задачи
-> - постановщик, исполнитель и соисполнители задачи
+> Кто может выполнять метод: пользователь с доступом к задаче на чтение, если он:
+> - администратор Битрикс24
+> - исполнитель или соисполнитель, если роль разрешает добавлять пункты чек-листа
+> - постановщик задачи или его руководитель
+> - участник группы с правом изменять задачи группы
 
 Метод `task.checklistitem.add` добавляет новый пункт чек-листа в задаче.
 
 Проверить права на добавление пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
 
 ## Параметры метода
+
+{% note warning "" %}
+
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку.
+
+{% endnote %}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -48,30 +56,31 @@
 || **SORT_INDEX**
 [`integer`](../../data-types.md) | Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке ||
 || **IS_COMPLETE**
-[`boolean`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
+[`string`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
 - `Y` — выполнен
 - `N` — не выполнен
 
-По умолчанию — `N` ||
+Принимает также `true` и `false`. По умолчанию — `N`.
+
+Если создать пункт сразу выполненным, поля `TOGGLED_BY` и `TOGGLED_DATE` останутся пустыми ||
 || **IS_IMPORTANT**
-[`boolean`](../../data-types.md) | Отметка, что пункт важный. Возможные значения:
+[`string`](../../data-types.md) | Отметка, что пункт важный. Возможные значения:
 - `Y` — важный
-- `N` — обычный ||
+- `N` — обычный
+
+Принимает также `true` и `false`. По умолчанию — `N` ||
 || **MEMBERS**
 [`object`](../../data-types.md) | Объект с описанием участников пункта чек-листа. Ключ — идентификатор пользователя, значение — объект с параметром типа участника `TYPE`. Возможные значения типа участника:
 - `'TYPE': 'A'` — соисполнитель
 - `'TYPE': 'U'` — наблюдатель
 
-Система добавит участников пункта чек-листа в задачу в тех же ролях
- ||
+Система добавит участников пункта чек-листа в задачу в тех же ролях ||
 || **PARENT_ID**
 [`integer`](../../data-types.md) | Идентификатор родительского пункта. Используйте для вложенных чек-листов.
 
 - Если передать `PARENT_ID` со значением `0`, система создаст в задаче новый чек-лист
-- Если в задаче нет пункта чек-листа с указанным `PARENT_ID`, система создаст новый чек-лист
-- Если не указать `PARENT_ID` в `FIELDS`, система добавит новый пункт в существующий верхний чек-лист. Если в задаче нет чек-листа, то создаст новый
-
-||
+- Если пункта с указанным `PARENT_ID` нет, пункт сохранится с этим `PARENT_ID` и не попадет ни в один чек-лист. Передавайте только идентификаторы существующих пунктов задачи
+- Если не указать `PARENT_ID` в `FIELDS`, система добавит новый пункт в существующий верхний чек-лист. Если в задаче нет чек-листа, то создаст новый ||
 |#
 
 ## Примеры кода
@@ -119,7 +128,7 @@
         params: {
           TASKID: 13,
           FIELDS: {
-            TITLE: 'Prepare the report',
+            TITLE: 'Подготовить отчет',
             PARENT_ID: 457,
             SORT_INDEX: 200,
             IS_COMPLETE: 'N',
@@ -163,7 +172,7 @@
             params: {
               TASKID: 13,
               FIELDS: {
-                TITLE: 'Prepare the report',
+                TITLE: 'Подготовить отчет',
                 PARENT_ID: 457,
                 SORT_INDEX: 200,
                 IS_COMPLETE: 'N',
@@ -233,6 +242,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -397,7 +407,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_CORE",
-    "error_description":"TASKS_ERROR_EXCEPTION_#8; Добавление элемента: действие недоступно; 8\/TE\/ACTION_FAILED_TO_BE_PROCESSED\u003Cbr\u003E"
+    "error_description":"TASKS_ERROR_EXCEPTION_#8; Добавление элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br>"
 }
 ```
 
@@ -407,10 +417,16 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Добавление элемента: действие недоступно; 8\/TE\/ACTION_FAILED_TO_BE_PROCESSED\u003Cbr\u003E | Нет доступа к задаче или недостаточно прав, чтобы работать с чек-листами в задаче ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::add() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS | Не передан обязательный параметр `TASKID` или указан неверный тип значения для `TASKID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arFields) expected by method ctaskchecklistitem::add(), but not given.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Не передан обязательный параметр `FIELDS` или передан пустой ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Не указано название элемента; 8\/TE\/ACTION_FAILED_TO_BE_PROCESSED\u003Cbr\u003E | Не передано обязательное поле `TITLE` в параметре `FIELDS` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Добавление элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Нет доступа к задаче или недостаточно прав, чтобы работать с чек-листами в задаче ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::add(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` меньше или равно нулю ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::add() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID` или параметры переданы не по порядку ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arFields) expected by method ctaskchecklistitem::add(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `FIELDS` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Не указано название элемента; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `FIELDS` нет поля `TITLE` или `FIELDS` пустой ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Указано некорректное значение [] для поля [TITLE] в элементе [, ]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `TITLE` передана пустая строка ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arFields) for method ctaskchecklistitem::add() must not contain key "FOO".; 256/TE/WRONG_ARGUMENTS<br> | В `FIELDS` передано поле, которого нет в таблице [параметра FIELDS](#fields) ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#4; Нет доступа к редактированию задачи; 4/TE/ACTION_NOT_ALLOWED<br> | В `MEMBERS` переданы участники, а у пользователя нет права изменять задачу, чтобы добавить их в нее. Пункт при этом уже создан ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Передан неизвестный тип пользователя [X]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `MEMBERS` указан тип участника, отличный от `A` и `U` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -58,5 +58,8 @@
     }
   ],
   "page": "/api-reference/landing/embedding/knowledge-base/landing-site-get-menu-bindings.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "menuCode": "crm_switcher:deal"
+  }
 }

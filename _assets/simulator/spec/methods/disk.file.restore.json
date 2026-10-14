@@ -209,5 +209,8 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-restore.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 9037
+  }
 }

@@ -24,5 +24,8 @@
     "successor": "tasks.task.get"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-get-data.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 2
+  }
 }

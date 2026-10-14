@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Создать тип цены catalog.priceType.add",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Управление типами цен»",
   "params": [
     {
       "name": "fields",
@@ -28,7 +28,7 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Код типа цены. Чтобы обеспечить стабильную работу внутренних сервисов, код типа цены необходимо указывать только английскими символами"
+          "description": "Код типа цены. Значение не должно быть пустым"
         },
         {
           "name": "base",
@@ -117,5 +117,13 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/catalog-price-type-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Wholesale price",
+      "base": "N",
+      "sort": 10,
+      "xmlId": "wholesale"
+    }
+  }
 }

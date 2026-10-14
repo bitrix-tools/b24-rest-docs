@@ -162,5 +162,13 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "filter": {
+      "NAME": "%Битрикс24%"
+    },
+    "order": {
+      "NAME": "DESC"
+    }
+  }
 }

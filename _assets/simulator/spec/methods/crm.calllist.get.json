@@ -100,5 +100,8 @@
     "ENTITY_TYPE_ID",
     "ID",
     "WEBFORM_ID"
-  ]
+  ],
+  "requestExample": {
+    "ID": 123
+  }
 }

@@ -52,5 +52,8 @@
     }
   ],
   "page": "/api-reference/catalog/document/outdated/catalog-document-unconfirm.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 42
+  }
 }

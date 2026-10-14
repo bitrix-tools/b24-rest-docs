@@ -25,7 +25,9 @@
 || **LINE_ID***
 [`string`](../../../data-types.md) | Идентификатор линии.
 
-Получить доступные идентификаторы можно методом [voximplant.line.get](./voximplant-line-get.md) ||
+Получить доступные идентификаторы можно методом [voximplant.line.get](./voximplant-line-get.md). Для SIP-линии из этого списка также передавайте ее `LINE_ID`, например `sip7`.
+
+Можно также передать `LINK_BASE_NUMBER` или идентификатор доступной линии приложения вида `REST_APP:<APP_ID>` ||
 |#
 
 {% note info "" %}

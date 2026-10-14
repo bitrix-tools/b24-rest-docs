@@ -153,5 +153,20 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "fields": {
+      "TITLE": "4. Подготовить дашборд",
+      "PARENT_ID": 23,
+      "SORT_INDEX": 200,
+      "IS_COMPLETE": "N",
+      "IS_IMPORTANT": "Y",
+      "MEMBERS": {
+        "547": {
+          "TYPE": "A"
+        }
+      }
+    }
+  }
 }

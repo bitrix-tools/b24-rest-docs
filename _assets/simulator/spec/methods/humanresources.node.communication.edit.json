@@ -136,5 +136,17 @@
     }
   ],
   "page": "/api-reference/departments/node-communication/humanresources-node-communication-edit.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "nodeId": 15,
+    "communicationType": "CHAT",
+    "ids": [
+      21
+    ],
+    "removeIds": [
+      18
+    ],
+    "createDefault": false,
+    "withChildren": false
+  }
 }

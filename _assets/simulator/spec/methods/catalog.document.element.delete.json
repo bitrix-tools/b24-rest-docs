@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/catalog/document/document-element/catalog-document-element-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 148
+  }
 }

@@ -160,5 +160,21 @@
     "ENTITY_TYPE",
     "FILES",
     "ID"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "ENTITY_ID": 10,
+      "ENTITY_TYPE": "deal"
+    },
+    "select": [
+      "ID",
+      "CREATED",
+      "ENTITY_ID",
+      "ENTITY_TYPE",
+      "AUTHOR_ID",
+      "COMMENT",
+      "FILES"
+    ],
+    "start": 50
+  }
 }

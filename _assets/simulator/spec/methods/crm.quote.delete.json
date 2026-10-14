@@ -53,5 +53,8 @@
     }
   ],
   "page": "/api-reference/crm/quote/crm-quote-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 43
+  }
 }

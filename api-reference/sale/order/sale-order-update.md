@@ -13,7 +13,20 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.order.update` обновляет поля заказа.
+Метод `sale.order.update` изменяет поля заказа и возвращает заказ после изменения.
+
+Позиции корзины, оплаты и отгрузки метод не меняет — для них есть методы [sale.basketitem.*](../basket-item/index.md), [sale.payment.*](../payment/index.md) и [sale.shipment.*](../shipment/index.md).
+
+{% note warning "" %}
+
+Поля, которые нельзя изменить, метод пропускает без ошибки: ответ будет успешным, но значения останутся прежними. Таких полей две группы:
+
+- `lid`, `personTypeId`, `currency`, `userId` — задаются только при создании заказа
+- `id`, `accountNumber`, `payed`, `deducted` и другие поля только для чтения — их формирует Битрикс24
+
+Какие поля можно изменить, показывают признаки `isImmutable` и `isReadOnly` в ответе [sale.order.getFields](./sale-order-get-fields.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,33 +36,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа. Его возвращают методы [sale.order.add](./sale-order-add.md) и [sale.order.list](./sale-order-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для изменения заказа ||
+[`object`](../../data-types.md) | Поля, которые нужно изменить. Непереданные поля сохраняют прежние значения, пустой объект вернет заказ без изменений [(подробное описание)](#params-fields) ||
 |#
 
-## Параметр fields
+### Параметр fields {#params-fields}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **price**
-[`double`](../../data-types.md) | Цена ||
+[`double`](../../data-types.md) | Сумма заказа с учетом доставки ||
 || **discountValue**
 [`double`](../../data-types.md) | Значение скидки ||
 || **statusId**
-[`sale_status.id`](../data-types.md) | Идентификатор статуса заказа ||
+[`sale_status.id`](../data-types.md#sale_status) | Идентификатор статуса заказа. Список статусов возвращает метод [sale.status.list](../status/sale-status-list.md) ||
 || **empStatusId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, изменившего статус заказа ||
 || **dateInsert**
 [`datetime`](../../data-types.md) | Дата создания заказа ||
 || **marked**
-[`string`](../../data-types.md) | Флаг маркировки. Признак того, является ли отгрузка отмеченной как проблемная. Значение `Y` ставится автоматически, если при сохранении произошла ошибка.
+[`string`](../../data-types.md) | Признак того, что заказ отмечен как проблемный. Битрикс24 ставит `Y` автоматически, если при сохранении заказа возникло предупреждение. Причину Битрикс24 записывает в поле `reasonMarked`.
 
 - `Y` — да
 - `N` — нет
-
-По умолчанию устанавливается `N` ||
+||
 || **empMarkedId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, поставившего маркировку ||
 || **reasonMarked**
@@ -62,34 +74,34 @@
 Дополнительная информация ||
 || **comments**
 [`string`](../../data-types.md) | Комментарий менеджера к заказу ||
+|| **companyId**
+[`integer`](../../data-types.md) | Идентификатор компании из модуля «Интернет-магазин» ||
 || **responsibleId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, ответственного за заказ ||
 || **recurringId**
-[`integer`](../../data-types.md) | Идентификатор продления подписки ||
+[`string`](../../data-types.md) | Идентификатор продления подписки ||
 || **lockedBy**
-[`user.id`](../../data-types.md) | Актуально только для коробочной версии.
+[`string`](../../data-types.md) | Актуально только для коробочной версии.
 
 Идентификатор пользователя, заблокировавшего заказ. Заказ блокируется в административной панели, когда пользователь открывает детальную карточку заказа ||
 || **recountFlag**
 [`string`](../../data-types.md) | Устаревший.
 
-Флаг пересчёта.
+Флаг пересчета.
 
 - `Y` — да
 - `N` — нет
-
-По умолчанию устанавливается Y ||
+||
 || **affiliateId**
 [`integer`](../../data-types.md) | Актуально только для коробочной версии.
 
 Идентификатор аффилиата ||
 || **updated1c**
-[`string`](../../data-types.md) | Обновлён ли через 1С.
+[`string`](../../data-types.md) | Обновлен ли заказ через 1С.
 
 - `Y` — да
 - `N` — нет
-
-По умолчанию устанавливается `N` ||
+||
 || **orderTopic**
 [`string`](../../data-types.md) | Устаревший.
 
@@ -99,21 +111,19 @@
 || **id1c**
 [`string`](../../data-types.md) | Идентификатор в 1С ||
 || **version1c**
-[`string`](../../data-types.md) | Версия в 1с ||
+[`string`](../../data-types.md) | Версия в 1С ||
 || **externalOrder**
 [`string`](../../data-types.md) | Заказ из внешней системы или нет.
 
 - `Y` — да
 - `N` — нет
-
-По умолчанию устанавливается `N` ||
+||
 || **canceled**
 [`string`](../../data-types.md) | Был ли отменен заказ.
 
 - `Y` — да
 - `N` — нет
-
-По умолчанию устанавливается `N` ||
+||
 || **empCanceledId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, отменившего заказ ||
 || **reasonCanceled**
@@ -132,7 +142,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":300,"fields":{"price":100,"discountValue":10,"statusId":"N","empStatusId":1,"dateInsert":"2024-03-01T14:00:00","marked":"Y","empMarkedId":1,"reasonMarked":"","userDescription":"","additionalInfo":"","comments":"","companyId":1,"responsibleId":1,"recurringId":1,"lockedBy":1,"recountFlag":"N","affiliateId":1,"updated1c":"N","orderTopic":"","xmlId":"","id1c":"","version1c":"","externalOrder":"N","canceled":"Y","empCanceledId":1,"reasonCanceled":""}}' \
+    -d '{"id":300,"fields":{"statusId":"P","responsibleId":1,"comments":"Оплата получена, заказ передан на сборку"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.order.update
     ```
 
@@ -142,7 +152,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":300,"fields":{"price":100,"discountValue":10,"statusId":"N","empStatusId":1,"dateInsert":"2024-03-01T14:00:00","marked":"Y","empMarkedId":1,"reasonMarked":"","userDescription":"","additionalInfo":"","comments":"","companyId":1,"responsibleId":1,"recurringId":1,"lockedBy":1,"recountFlag":"N","affiliateId":1,"updated1c":"N","orderTopic":"","xmlId":"","id1c":"","version1c":"","externalOrder":"N","canceled":"Y","empCanceledId":1,"reasonCanceled":""},"auth":"**put_access_token_here**"}' \
+    -d '{"id":300,"fields":{"statusId":"P","responsibleId":1,"comments":"Оплата получена, заказ передан на сборку"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.order.update
 
     ```
@@ -162,11 +172,11 @@
       order: {
         accountNumber: string
         additionalInfo: string
-        affiliateId: number
+        affiliateId: number | null
         canceled: string
-        clients: unknown[]
+        clients: Record<string, unknown>[]
         comments: string
-        companyId: number
+        companyId: number | null
         currency: string
         dateCanceled: ISODate | null
         dateInsert: ISODate | null
@@ -176,8 +186,8 @@
         dateUpdate: ISODate | null
         deducted: string
         discountValue: number
-        empCanceledId: number
-        empMarkedId: number
+        empCanceledId: number | null
+        empMarkedId: number | null
         empStatusId: number
         externalOrder: string
         id: number
@@ -190,15 +200,16 @@
         personTypeId: number
         personTypeXmlId: string
         price: number
+        propertyValues: Record<string, unknown>[]
         reasonCanceled: string
         reasonMarked: string
         recountFlag: string
         recurringId: string
-        requisiteLink: unknown[]
+        requisiteLink: Record<string, number>
         responsibleId: number
         statusId: string
         statusXmlId: string
-        taxValue: number | null
+        taxValue: number
         updated1c: string
         userDescription: string
         userId: number
@@ -214,32 +225,9 @@
         params: {
           id: 300,
           fields: {
-            price: 100,
-            discountValue: 10,
-            statusId: 'N',
-            empStatusId: 1,
-            dateInsert: '2024-03-01T14:00:00',
-            marked: 'Y',
-            empMarkedId: 1,
-            reasonMarked: '',
-            userDescription: '',
-            additionalInfo: '',
-            comments: '',
-            companyId: 1,
+            statusId: 'P',
             responsibleId: 1,
-            recurringId: 1,
-            lockedBy: 1,
-            recountFlag: 'N',
-            affiliateId: 1,
-            updated1c: 'N',
-            orderTopic: '',
-            xmlId: '',
-            id1c: '',
-            version1c: '',
-            externalOrder: 'N',
-            canceled: 'Y',
-            empCanceledId: 1,
-            reasonCanceled: '',
+            comments: 'Оплата получена, заказ передан на сборку',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -274,32 +262,9 @@
             params: {
               id: 300,
               fields: {
-                price: 100,
-                discountValue: 10,
-                statusId: 'N',
-                empStatusId: 1,
-                dateInsert: '2024-03-01T14:00:00',
-                marked: 'Y',
-                empMarkedId: 1,
-                reasonMarked: '',
-                userDescription: '',
-                additionalInfo: '',
-                comments: '',
-                companyId: 1,
+                statusId: 'P',
                 responsibleId: 1,
-                recurringId: 1,
-                lockedBy: 1,
-                recountFlag: 'N',
-                affiliateId: 1,
-                updated1c: 'N',
-                orderTopic: '',
-                xmlId: '',
-                id1c: '',
-                version1c: '',
-                externalOrder: 'N',
-                canceled: 'Y',
-                empCanceledId: 1,
-                reasonCanceled: '',
+                comments: 'Оплата получена, заказ передан на сборку',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -329,32 +294,9 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     fields = {
-        "price": 100,
-        "discountValue": 10,
-        "statusId": "N",
-        "empStatusId": 1,
-        "dateInsert": "2024-03-01T14:00:00",
-        "marked": "Y",
-        "empMarkedId": 1,
-        "reasonMarked": "",
-        "userDescription": "",
-        "additionalInfo": "",
-        "comments": "",
-        "companyId": 1,
+        "statusId": "P",
         "responsibleId": 1,
-        "recurringId": 1,
-        "lockedBy": 1,
-        "recountFlag": "N",
-        "affiliateId": 1,
-        "updated1c": "N",
-        "orderTopic": "",
-        "xmlId": "",
-        "id1c": "",
-        "version1c": "",
-        "externalOrder": "N",
-        "canceled": "Y",
-        "empCanceledId": 1,
-        "reasonCanceled": "",
+        "comments": "Оплата получена, заказ передан на сборку",
     }
 
     try:
@@ -376,8 +318,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -388,32 +330,9 @@
                 [
                     'id' => 300,
                     'fields' => [
-                        'price'           => 100,
-                        'discountValue'   => 10,
-                        'statusId'        => 'N',
-                        'empStatusId'     => 1,
-                        'dateInsert'      => '2024-03-01T14:00:00',
-                        'marked'          => 'Y',
-                        'empMarkedId'     => 1,
-                        'reasonMarked'    => '',
-                        'userDescription' => '',
-                        'additionalInfo'  => '',
-                        'comments'        => '',
-                        'companyId'       => 1,
-                        'responsibleId'   => 1,
-                        'recurringId'     => 1,
-                        'lockedBy'        => 1,
-                        'recountFlag'     => 'N',
-                        'affiliateId'     => 1,
-                        'updated1c'       => 'N',
-                        'orderTopic'      => '',
-                        'xmlId'           => '',
-                        'id1c'            => '',
-                        'version1c'       => '',
-                        'externalOrder'   => 'N',
-                        'canceled'        => 'Y',
-                        'empCanceledId'   => 1,
-                        'reasonCanceled'  => '',
+                        'statusId'      => 'P',
+                        'responsibleId' => 1,
+                        'comments'      => 'Оплата получена, заказ передан на сборку',
                     ],
                 ]
             );
@@ -438,32 +357,9 @@
         {
             id: 300,
             fields: {
-                price: 100,
-                discountValue: 10,
-                statusId: 'N',
-                empStatusId: 1,
-                dateInsert: '2024-03-01T14:00:00',
-                marked: 'Y',
-                empMarkedId: 1,
-                reasonMarked: '',
-                userDescription: '',
-                additionalInfo: '',
-                comments: '',
-                companyId: 1,
+                statusId: 'P',
                 responsibleId: 1,
-                recurringId: 1,
-                lockedBy: 1,
-                recountFlag: 'N',
-                affiliateId: 1,
-                updated1c: 'N',
-                orderTopic: '',
-                xmlId: '',
-                id1c: '',
-                version1c: '',
-                externalOrder: 'N',
-                canceled: 'Y',
-                empCanceledId: 1,
-                reasonCanceled: '',
+                comments: 'Оплата получена, заказ передан на сборку',
             }
         },
         function(result)
@@ -486,32 +382,9 @@
         [
             'id' => 300,
             'fields' => [
-                'price' => 100,
-                'discountValue' => 10,
-                'statusId' => 'N',
-                'empStatusId' => 1,
-                'dateInsert' => '2024-03-01T14:00:00',
-                'marked' => 'Y',
-                'empMarkedId' => 1,
-                'reasonMarked' => '',
-                'userDescription' => '',
-                'additionalInfo' => '',
-                'comments' => '',
-                'companyId' => 1,
+                'statusId' => 'P',
                 'responsibleId' => 1,
-                'recurringId' => 1,
-                'lockedBy' => 1,
-                'recountFlag' => 'N',
-                'affiliateId' => 1,
-                'updated1c' => 'N',
-                'orderTopic' => '',
-                'xmlId' => '',
-                'id1c' => '',
-                'version1c' => '',
-                'externalOrder' => 'N',
-                'canceled' => 'Y',
-                'empCanceledId' => 1,
-                'reasonCanceled' => '',
+                'comments' => 'Оплата получена, заказ передан на сборку',
             ]
         ]
     );
@@ -528,32 +401,9 @@
     res, err := client.Core().Call(ctx, "sale.order.update", b24.Params{
     	"id": 300,
     	"fields": b24.Params{
-    		"price":           100,
-    		"discountValue":   10,
-    		"statusId":        "N",
-    		"empStatusId":     1,
-    		"dateInsert":      "2024-03-01T14:00:00",
-    		"marked":          "Y",
-    		"empMarkedId":     1,
-    		"reasonMarked":    "",
-    		"userDescription": "",
-    		"additionalInfo":  "",
-    		"comments":        "",
-    		"companyId":       1,
-    		"responsibleId":   1,
-    		"recurringId":     1,
-    		"lockedBy":        1,
-    		"recountFlag":     "N",
-    		"affiliateId":     1,
-    		"updated1c":       "N",
-    		"orderTopic":      "",
-    		"xmlId":           "",
-    		"id1c":            "",
-    		"version1c":       "",
-    		"externalOrder":   "N",
-    		"canceled":        "Y",
-    		"empCanceledId":   1,
-    		"reasonCanceled":  "",
+    		"statusId":      "P",
+    		"responsibleId": 1,
+    		"comments":      "Оплата получена, заказ передан на сборку",
     	},
     })
     if err != nil {
@@ -567,17 +417,15 @@
     }
 
     var item struct {
-    	AccountNumber  string `json:"accountNumber"`
-    	AdditionalInfo string `json:"additionalInfo"`
-    	AffiliateID    b24.ID `json:"affiliateId"`
-    	Canceled       string `json:"canceled"`
-    	Comments       string `json:"comments"`
-    	CompanyID      b24.ID `json:"companyId"`
+    	ID            b24.ID `json:"id"`
+    	AccountNumber string `json:"accountNumber"`
+    	StatusID      string `json:"statusId"`
+    	Comments      string `json:"comments"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.AccountNumber, item.AdditionalInfo)
+    fmt.Println(item.ID, item.AccountNumber, item.StatusID, item.Comments)
     ```
 
 {% endlist %}
@@ -590,60 +438,95 @@ HTTP-статус: **200**
 {
     "result": {
         "order": {
-            "accountNumber": "456",
+            "accountNumber": "300",
             "additionalInfo": "",
-            "affiliateId": 1,
-            "canceled": "Y",
-            "clients": [],
-            "comments": "",
-            "companyId": 1,
+            "affiliateId": null,
+            "canceled": "N",
+            "clients": [
+                {
+                    "entityId": 2819,
+                    "entityTypeId": 3,
+                    "id": 1717,
+                    "isPrimary": "Y",
+                    "orderId": 300,
+                    "roleId": 0,
+                    "sort": 0
+                }
+            ],
+            "comments": "Оплата получена, заказ передан на сборку",
+            "companyId": null,
             "currency": "RUB",
-            "dateCanceled": "2024-04-12T14:06:05+03:00",
-            "dateInsert": "2024-03-01T13:00:00+03:00",
+            "dateCanceled": null,
+            "dateInsert": "2026-09-28T08:02:16+03:00",
             "dateLock": null,
-            "dateMarked": "2024-04-15T10:21:14+03:00",
-            "dateStatus": "2024-04-12T14:06:04+03:00",
-            "dateUpdate": "2024-04-15T10:21:15+03:00",
+            "dateMarked": null,
+            "dateStatus": "2026-09-28T08:02:16+03:00",
+            "dateUpdate": "2026-09-28T08:02:16+03:00",
             "deducted": "N",
-            "discountValue": 10,
-            "empCanceledId": 1,
-            "empMarkedId": 1,
+            "discountValue": 0,
+            "empCanceledId": null,
+            "empMarkedId": null,
             "empStatusId": 1,
             "externalOrder": "N",
             "id": 300,
             "id1c": "",
             "lid": "s1",
-            "lockedBy": "1",
+            "lockedBy": "",
             "marked": "N",
             "orderTopic": "",
             "payed": "N",
             "personTypeId": 1,
             "personTypeXmlId": "",
-            "price": 100,
+            "price": 0,
+            "propertyValues": [
+                {
+                    "code": "EMAIL",
+                    "id": 11287,
+                    "name": "E-Mail",
+                    "orderPropsId": 41,
+                    "orderPropsXmlId": "bx_60b605ba1d082",
+                    "value": null
+                },
+                {
+                    "code": "FIO",
+                    "id": 11289,
+                    "name": "Ф.И.О.",
+                    "orderPropsId": 39,
+                    "orderPropsXmlId": "bx_609bec7cc794c",
+                    "value": null
+                }
+            ],
             "reasonCanceled": "",
             "reasonMarked": "",
-            "recountFlag": "N",
-            "recurringId": "1",
-            "requisiteLink": [],
+            "recountFlag": "Y",
+            "recurringId": "",
+            "requisiteLink": {
+                "bankDetailId": 0,
+                "mcBankDetailId": 0,
+                "mcRequisiteId": 0,
+                "requisiteId": 467
+            },
             "responsibleId": 1,
-            "statusId": "N",
+            "statusId": "P",
             "statusXmlId": "",
-            "taxValue": null,
+            "taxValue": 0,
             "updated1c": "N",
-            "userDescription": "",
+            "userDescription": "Позвоните перед доставкой",
             "userId": 1,
-            "version": 3,
+            "version": 1,
             "version1c": "",
-            "xmlId": ""
+            "xmlId": "bx_6aba02e7a86af"
         }
     },
     "time": {
-        "start": 1713169274.29568,
-        "finish": 1713169275.698528,
-        "duration": 1.4028480052947998,
-        "processing": 0.9852678775787354,
-        "date_start": "2024-04-15T11:21:14+03:00",
-        "date_finish": "2024-04-15T11:21:15+03:00"
+        "start": 1790575336,
+        "finish": 1790575336.994123,
+        "duration": 0.9941229820251465,
+        "processing": 0,
+        "date_start": "2026-09-28T09:02:16+03:00",
+        "date_finish": "2026-09-28T09:02:16+03:00",
+        "operating_reset_at": 1790575936,
+        "operating": 0.22028803825378418
     }
 }
 ```
@@ -654,11 +537,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **order**
-[`sale_order`](../data-types.md) | Объект с информацией об обновленном заказе ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **order**
+[`sale_order`](../data-types.md#sale_order) | Заказ после изменения. Кроме полей заказа содержит `clients`, `requisiteLink`, `propertyValues`, а если они есть у заказа — `basketItems` и `shipments`. Связанные объекты описаны на странице [sale.order.get](./sale-order-get.md#order-related) ||
 |#
 
 ## Обработка ошибок
@@ -667,8 +557,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200540400001
-    "error_description":"order is not exists"
+    "error": "200540400001",
+    "error_description": "order is not exists"
 }
 ```
 
@@ -677,18 +567,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200540400001` | Обновляемый заказ не найден ||
-|| `200040300020` | Недостаточно прав для обновления заказа ||
-|| `100` | Не указан параметр `id` ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200540400001` | `order is not exists` | Заказа с таким `id` нет ||
+|| `400` | `100` | `Could not find value for parameter {fields}` | Не передан параметр `fields` ||
+|| `400` | `100` | `Bitrix\Sale\Order constructor must be is public` | Не передан параметр `id` ||
+|| `400` | `200040300020` | `Access Denied` | Недостаточно прав для изменения заказа ||
+|| `400` | `0` | Текст ошибки сохранения | Заказ не сохранен по другой причине, она указана в `error_description` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-order-add.md)
 - [{#T}](./sale-order-get.md)
 - [{#T}](./sale-order-list.md)

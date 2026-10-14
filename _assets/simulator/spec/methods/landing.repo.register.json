@@ -72,5 +72,26 @@
     }
   ],
   "page": "/api-reference/landing/user-blocks/landing-repo-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "myblockx",
+    "fields": {
+      "NAME": "Test block",
+      "DESCRIPTION": "Just try!",
+      "SECTIONS": "cover,about",
+      "PREVIEW": "https://www.bitrix24.ru/images/b24_screen.png",
+      "CONTENT": "<section class=\"landing-block\"><div class=\"container\">Test</div></section>"
+    },
+    "manifest": {
+      "block": {
+        "name": "Test block"
+      },
+      "nodes": {
+        ".landing-block-node-text": {
+          "name": "Text",
+          "type": "text"
+        }
+      }
+    }
+  }
 }

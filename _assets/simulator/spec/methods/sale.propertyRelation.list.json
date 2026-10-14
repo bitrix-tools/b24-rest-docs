@@ -99,5 +99,18 @@
     "entityId",
     "entityType",
     "propertyId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "entityId",
+      "entityType",
+      "propertyId"
+    ],
+    "filter": {
+      "entityId": 6
+    },
+    "order": {
+      "entityId": "asc"
+    }
+  }
 }

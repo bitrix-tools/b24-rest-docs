@@ -248,5 +248,6 @@
     }
   ],
   "page": "/api-reference/tasks/template/tasks-template-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

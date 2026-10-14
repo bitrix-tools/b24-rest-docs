@@ -7,7 +7,7 @@
   "permissions": "любой пользователь",
   "params": [
     {
-      "name": "ORDER",
+      "name": "order",
       "type": "object",
       "base": "object",
       "required": "unknown",
@@ -16,6 +16,13 @@
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
+    },
+    {
+      "name": "start",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Смещение для постраничной выборки. Размер страницы — 50 записей. Передавайте 0 для первой страницы, 50 для второй, 100 для третьей и так далее. Значение по умолчанию — 0"
     }
   ],
   "defs": {},

@@ -109,5 +109,8 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-status.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "REG_ID": 150907
+  }
 }

@@ -71,5 +71,8 @@
     "productId",
     "quantityReserved",
     "storeId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

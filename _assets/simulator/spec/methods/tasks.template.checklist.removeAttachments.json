@@ -96,5 +96,13 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-remove-attachments.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 37,
+    "attachmentsIds": [
+      1119,
+      1121
+    ]
+  }
 }

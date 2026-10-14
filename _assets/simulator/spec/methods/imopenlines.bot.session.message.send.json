@@ -73,5 +73,10 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-message-send.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 112,
+    "NAME": "DEFAULT",
+    "MESSAGE": "Здравствуйте! Чем могу помочь?"
+  }
 }

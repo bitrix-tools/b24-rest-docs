@@ -10,8 +10,8 @@
       "name": "params",
       "type": "object",
       "base": "object",
-      "required": true,
-      "description": "Массив полей для получения списка виджетов",
+      "required": "unknown",
+      "description": "Параметры выборки (подробное описание). Если не передан, метод вернет все виджеты",
       "ref": "#/defs/paramsFields"
     }
   ],
@@ -27,28 +27,28 @@
           "name": "select",
           "type": "array",
           "base": "array",
-          "required": false,
-          "description": "Массив со списком полей, которые необходимо выбрать. Если не передан или передан пустой массив, то будут выбраны все доступные доступные виджеты"
+          "required": "unknown",
+          "description": "Массив со списком полей, которые необходимо выбрать. Если не передан, будут выбраны все поля. Поле MANIFEST добавляется к выборке всегда, поэтому при пустом массиве метод вернет только его"
         },
         {
           "name": "filter",
           "type": "object",
           "base": "object",
-          "required": false,
-          "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field смотрите в таблице ниже. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…"
+          "required": "unknown",
+          "description": "Объект для фильтрации выбранных записей в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field смотрите в таблице ниже. Условие по APP_CODE метод добавляет в фильтр сам. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…"
         },
         {
           "name": "group",
           "type": "array",
           "base": "array",
-          "required": false,
+          "required": "unknown",
           "description": "Массив для группировки виджетов. Группировать можно по полям виджета"
         },
         {
           "name": "order",
           "type": "object",
           "base": "object",
-          "required": false,
+          "required": "unknown",
           "description": "Объект для сортировки выбранных записей в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field смотрите в таблице ниже. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
           "values": [
             {
@@ -60,28 +60,100 @@
               "title": "в порядке убывания"
             }
           ]
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Максимальное количество записей в выборке. Ограничение применяется ко всем блокам приложения в репозитории, включая блоки, добавленные методом landing.repo.register. Виджеты Вайба отбираются уже после этого, поэтому при limit: 10 метод может вернуть меньше 10 виджетов"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "base": "integer",
+          "required": "unknown",
+          "description": "Сколько записей пропустить от начала выборки. Используется вместе с limit"
         }
       ]
     }
   },
-  "requiredConvention": true,
+  "requiredConvention": false,
   "confidence": "parsed",
   "source": {
     "file": "api-reference/vibe/landing-repowidget-get-list.md"
   },
+  "resultExample": {
+    "result": [
+      {
+        "ID": "4",
+        "XML_ID": "my_widget",
+        "APP_CODE": "app.code",
+        "ACTIVE": "Y",
+        "NAME": "My widget",
+        "DESCRIPTION": null,
+        "SECTIONS": "widgets_company_life",
+        "SITE_TEMPLATE_ID": null,
+        "PREVIEW": "https://my-app.com/main_preview.jpg",
+        "MANIFEST": {
+          "block": {
+            "type": [
+              "vibe"
+            ],
+            "subtype": [
+              "widgetvue"
+            ],
+            "subtype_params": {
+              "rootNode": ".w-container",
+              "demoData": {
+                "desc": "JustSome widget data",
+                "count": "420"
+              },
+              "handler": "https://my-app.com/main.php",
+              "style": "https://my-app.com/main.css",
+              "lang": {
+                "ru": {
+                  "W_TITLE": "Люди и их возраст",
+                  "W_EMPTY": "Нет людей"
+                },
+                "en": {
+                  "W_TITLE": "Widget title",
+                  "W_EMPTY": "Empty!"
+                }
+              }
+            }
+          }
+        },
+        "CONTENT": "<div class=\"w-container\">not_var{{desc}}</div>",
+        "CREATED_BY_ID": "1",
+        "MODIFIED_BY_ID": "1",
+        "DATE_CREATE": "10.10.2024 15:55:30",
+        "DATE_MODIFY": "16.10.2024 16:12:57"
+      }
+    ],
+    "time": {
+      "start": 1729162340.81773,
+      "finish": 1729162344.800994,
+      "duration": 3.9832639694213867,
+      "processing": 3.8990869522094727,
+      "date_start": "2024-10-17T15:52:20+05:00",
+      "date_finish": "2024-10-17T15:52:24+05:00",
+      "operating": 3.899045944213867
+    }
+  },
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
-      "required": false,
-      "description": "Массив виджетов. Каждый элемент массива — объект, допустимые поля описаны выше."
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив виджетов. Каждый элемент массива — объект, допустимые поля описаны выше. Если подходящих виджетов нет, возвращается пустой массив. Если у приложения в репозитории есть и другие блоки, после отбора виджетов нумерация элементов может прерваться. Тогда массив придет в JSON объектом с числовыми ключами, например {\"1\": {...}, \"3\": {...}}.…"
     },
     {
       "name": "time",
       "type": "time",
       "base": "object",
-      "required": false,
+      "required": "unknown",
       "description": "Информация о времени выполнения запроса"
     }
   ],

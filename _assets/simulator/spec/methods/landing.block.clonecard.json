@@ -78,5 +78,10 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-clone-card.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 6428,
+    "selector": ".landing-block-card@0"
+  }
 }

@@ -103,5 +103,14 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-add-folder.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "siteId": 1817,
+    "fields": {
+      "TITLE": "Новая папка",
+      "CODE": "new-folder",
+      "ACTIVE": "Y",
+      "PARENT_ID": 736
+    }
+  }
 }

@@ -79,5 +79,8 @@
     "price",
     "roundPrecision",
     "roundType"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

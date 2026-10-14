@@ -75,5 +75,8 @@
     "symbol",
     "symbolIntl",
     "symbolLetterIntl"
-  ]
+  ],
+  "requestExample": {
+    "id": 6
+  }
 }

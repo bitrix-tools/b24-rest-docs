@@ -48,7 +48,7 @@
 || **message**
 [`string`](../../../../data-types.md) | Текст ответа. Максимальная длина — 20 000 символов ||
 || **attach**
-[`array`](../../../../data-types.md) | Вложения. Подробнее: [Как использовать вложения](../messages/attachments/index.md) ||
+[`object`](../../../../data-types.md) \| [`array`](../../../../data-types.md) | Вложение: объект с массивом `BLOCKS` или сразу массив блоков. Подробнее: [Как использовать вложения](../messages/attachments/index.md) ||
 || **keyboard**
 [`array`](../../../../data-types.md) | Клавиатура. Подробнее: [Работа с клавиатурами](../messages/message-keyboards.md) ||
 || **system**

@@ -304,5 +304,6 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-get-manifest.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

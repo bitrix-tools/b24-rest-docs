@@ -70,5 +70,6 @@
     }
   ],
   "page": "/api-reference/catalog/product-property/catalog-product-property-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

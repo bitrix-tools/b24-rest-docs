@@ -69,5 +69,8 @@
     }
   ],
   "page": "/api-reference/crm/contacts/custom-form/crm-contact-details-configuration-reset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "C"
+  }
 }

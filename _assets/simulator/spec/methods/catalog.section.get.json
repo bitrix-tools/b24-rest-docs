@@ -81,5 +81,8 @@
     "name",
     "sort",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 31
+  }
 }

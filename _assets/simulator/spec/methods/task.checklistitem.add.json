@@ -130,5 +130,20 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13,
+    "FIELDS": {
+      "TITLE": "Подготовить отчет",
+      "PARENT_ID": 457,
+      "SORT_INDEX": 200,
+      "IS_COMPLETE": "N",
+      "IS_IMPORTANT": "Y",
+      "MEMBERS": {
+        "547": {
+          "TYPE": "A"
+        }
+      }
+    }
+  }
 }

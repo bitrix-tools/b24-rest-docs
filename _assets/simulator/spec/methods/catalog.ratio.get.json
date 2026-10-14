@@ -44,5 +44,8 @@
     }
   ],
   "page": "/api-reference/catalog/ratio/catalog-ratio-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

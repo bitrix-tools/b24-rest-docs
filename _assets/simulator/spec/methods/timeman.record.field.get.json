@@ -83,5 +83,15 @@
     "sortable",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "name": "startTime",
+    "select": [
+      "name",
+      "type",
+      "title",
+      "filterable",
+      "sortable"
+    ]
+  }
 }

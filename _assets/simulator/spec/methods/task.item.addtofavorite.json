@@ -38,5 +38,11 @@
     "successor": "tasks.task.favorite.add"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-add-to-favourite.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASK_ID": 10,
+    "PARAMS": {
+      "AFFECT_CHILDREN": "Y"
+    }
+  }
 }

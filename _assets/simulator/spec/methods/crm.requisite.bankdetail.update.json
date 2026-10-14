@@ -250,5 +250,14 @@
     }
   ],
   "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 357,
+    "fields": {
+      "NAME": "ПАО Супербанк (не использовать)",
+      "COMMENTS": "Устаревший",
+      "SORT": 10000,
+      "ACTIVE": "N"
+    }
+  }
 }

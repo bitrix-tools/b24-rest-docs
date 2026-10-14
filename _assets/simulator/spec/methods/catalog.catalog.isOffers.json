@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/catalog/catalog/catalog-catalog-is-offers.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 23
+  }
 }

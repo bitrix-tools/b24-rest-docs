@@ -102,5 +102,15 @@
     }
   ],
   "page": "/api-reference/crm/requisites/links/crm-requisite-link-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "ENTITY_TYPE_ID": 31,
+      "ENTITY_ID": 315,
+      "REQUISITE_ID": 60,
+      "BANK_DETAIL_ID": 24,
+      "MC_REQUISITE_ID": 2,
+      "MC_BANK_DETAIL_ID": 2
+    }
+  }
 }

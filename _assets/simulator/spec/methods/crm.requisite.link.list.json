@@ -173,5 +173,18 @@
     "MC_BANK_DETAIL_ID",
     "MC_REQUISITE_ID",
     "REQUISITE_ID"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "ENTITY_ID": "ASC"
+    },
+    "filter": {
+      "@ENTITY_TYPE_ID": [
+        1,
+        2,
+        7,
+        31
+      ]
+    }
+  }
 }

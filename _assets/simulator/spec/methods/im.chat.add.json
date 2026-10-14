@@ -217,5 +217,18 @@
     }
   ],
   "page": "/api-reference/chats/im-chat-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USERS": [
+      103,
+      547
+    ],
+    "TYPE": "CHAT",
+    "TITLE": "Чат по сделке",
+    "DESCRIPTION": "Здесь обсуждаем сделку",
+    "COLOR": "PINK",
+    "MESSAGE": "Добро пожаловать в чат сделки",
+    "ENTITY_TYPE": "CRM",
+    "ENTITY_ID": "DEAL|1663"
+  }
 }

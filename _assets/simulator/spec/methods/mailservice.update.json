@@ -126,5 +126,15 @@
     }
   ],
   "page": "/api-reference/mailservice/mailservice-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 31,
+    "NAME": "Обновленный почтовый сервис",
+    "ACTIVE": "N",
+    "SERVER": "imap.my2-mail.ru",
+    "PORT": 993,
+    "ENCRYPTION": "Y",
+    "LINK": "https://mail.my2-mail.ru/",
+    "SORT": 600
+  }
 }

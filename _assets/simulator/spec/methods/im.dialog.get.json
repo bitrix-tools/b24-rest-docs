@@ -144,5 +144,8 @@
     "rename",
     "send",
     "user_list"
-  ]
+  ],
+  "requestExample": {
+    "DIALOG_ID": "chat1435"
+  }
 }

@@ -309,6 +309,30 @@ test('значение из перечня предупреждения не в�
     assert(!warning, 'верное значение вызвало предупреждение');
 });
 
+// tasks.task.get отвечал отказом на каждый вызов подряд: у задач в датасете
+// идентификаторы начинаются со 100, а подсказка звала пробовать единицу.
+test('подсказка по идентификаторам берётся из датасета, а не из длины', function () {
+    const taskGet = spec('tasks.task.get');
+    const ids = dataset.entities.tasks.map(function (t) { return Number(t.id); });
+    const low = Math.min.apply(null, ids);
+    const high = Math.max.apply(null, ids);
+
+    const miss = B24Sim.call(taskGet, { taskId: 1 }, dataset);
+    assertEqual(miss.error, 'NOT_FOUND', 'несуществующая задача');
+    assert(
+        miss.error_description.indexOf(low + '…' + high) !== -1,
+        'подсказка не назвала настоящий диапазон: ' + miss.error_description
+    );
+    assert(
+        miss.error_description.indexOf('1…' + ids.length) === -1,
+        'подсказка всё ещё считает идентификаторы по длине списка'
+    );
+
+    const hit = B24Sim.call(taskGet, { taskId: low }, dataset);
+    assert(!hit.error, 'настоящий идентификатор не нашёлся: ' + hit.error);
+});
+
+
 console.log('Пройдено: ' + passed + ', провалено: ' + failures.length);
 
 if (failures.length) {

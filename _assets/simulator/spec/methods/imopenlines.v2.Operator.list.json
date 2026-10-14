@@ -157,5 +157,10 @@
     "maxChat",
     "status",
     "userId"
-  ]
+  ],
+  "requestExample": {
+    "configId": 3,
+    "status": "online",
+    "limit": 50
+  }
 }

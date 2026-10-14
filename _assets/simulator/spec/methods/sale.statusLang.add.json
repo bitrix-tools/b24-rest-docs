@@ -175,5 +175,13 @@
     }
   ],
   "page": "/api-reference/sale/status-lang/sale-status-lang-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "statusId": "RD",
+      "lid": "ru",
+      "name": "Возвращен покупателем",
+      "description": "Покупатель вернул товар по причине наличия дефекта"
+    }
+  }
 }

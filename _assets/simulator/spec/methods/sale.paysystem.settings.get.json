@@ -66,5 +66,9 @@
     "PS_WORK_MODE_IFRAME",
     "REST_SERVICE_ID_IFRAME",
     "REST_SERVICE_KEY_IFRAME"
-  ]
+  ],
+  "requestExample": {
+    "ID": 11,
+    "PERSON_TYPE_ID": 1
+  }
 }

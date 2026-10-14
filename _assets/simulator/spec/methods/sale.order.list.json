@@ -11,7 +11,7 @@
       "type": "array",
       "base": "array",
       "required": "unknown",
-      "description": "Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта saleorder). Если не передан или передан пустой массив, то будут выбраны все доступные поля заказов.",
+      "description": "Поля заказа, которые нужно вернуть. Имена полей — в объекте saleorder. Если параметр не передан, массив пуст или в нем нет ни одного существующего поля, метод вернет все поля заказа",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -22,7 +22,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для фильтрации выбранных заказов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}. Возможные значения для field соответствуют полям объекта saleorder. Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра.…",
+      "description": "Условия отбора заказов в формате {\"field_1\": \"value_1\", ... \"field_N\": \"value_N\"}, где field — поле объекта saleorder. К ключу можно добавить префикс, который задает условие сравнения: - = — равно, используется по умолчанию - != или ! — не равно - >= — больше либо равно - > — больше - <= — меньше либо равно - < — меньше - @ — входит в список, значение — массив - !@ — не входит в список, значение —…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -33,17 +33,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Объект для сортировки выбранных заказов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта saleorder. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
-      "values": [
-        {
-          "value": "asc",
-          "title": "в порядке возрастания"
-        },
-        {
-          "value": "desc",
-          "title": "в порядке убывания"
-        }
-      ],
+      "description": "Порядок сортировки в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}, где field — поле объекта saleorder, а order — направление: - asc — по возрастанию - desc — по убыванию Если параметр не передан, заказы идут по возрастанию id",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -54,7 +44,7 @@
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Параметр используется для управления постраничной навигацией. Размер страницы результатов всегда статичный: 50 записей. Чтобы выбрать вторую страницу результатов необходимо передавать значение 50. Чтобы выбрать третью страницу результатов значение — 100 и так далее. Формула расчета значения параметра start: start = (N-1) * 50, где N — номер нужной страницы"
+      "description": "Смещение для постраничной навигации. На странице до 50 заказов, размер страницы изменить нельзя. Значение считается по формуле start = (N-1) * 50, где N — номер страницы. Для второй страницы передайте 50. По умолчанию 0"
     }
   ],
   "defs": {},
@@ -63,27 +53,65 @@
   "source": {
     "file": "api-reference/sale/order/sale-order-list.md"
   },
+  "resultExample": {
+    "result": {
+      "orders": [
+        {
+          "accountNumber": "923",
+          "currency": "RUB",
+          "dateInsert": "2026-09-23T09:06:07+03:00",
+          "id": 923,
+          "payed": "N",
+          "price": 300,
+          "statusId": "N",
+          "userId": 1
+        },
+        {
+          "accountNumber": "909",
+          "currency": "RUB",
+          "dateInsert": "2026-09-04T23:03:40+03:00",
+          "id": 909,
+          "payed": "N",
+          "price": 100.5,
+          "statusId": "N",
+          "userId": 1295
+        }
+      ]
+    },
+    "next": 50,
+    "total": 189,
+    "time": {
+      "start": 1790576208,
+      "finish": 1790576208.881895,
+      "duration": 0.8818950653076172,
+      "processing": 0,
+      "date_start": "2026-09-28T09:16:48+03:00",
+      "date_finish": "2026-09-28T09:16:48+03:00",
+      "operating_reset_at": 1790576808,
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "orders",
-      "type": "sale_order[]",
-      "base": "array",
-      "required": "unknown",
-      "description": "Массив объектов с информацией о выбранных заказах"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "total",
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Общее количество найденных записей"
+      "description": "Общее количество заказов, подходящих под фильтр"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Значение start для следующей страницы. Приходит, только если после текущей страницы есть еще заказы"
     },
     {
       "name": "time",
@@ -96,10 +124,12 @@
   "page": "/api-reference/sale/order/sale-order-list.html",
   "executable": false,
   "entityFields": [
+    "accountNumber",
     "additionalInfo",
     "affiliateId",
     "canceled",
     "comments",
+    "companyId",
     "currency",
     "dateInsert",
     "discountValue",
@@ -107,11 +137,13 @@
     "empMarkedId",
     "empStatusId",
     "externalOrder",
+    "id",
     "id1c",
     "lid",
     "lockedBy",
     "marked",
     "orderTopic",
+    "payed",
     "personTypeId",
     "price",
     "reasonCanceled",
@@ -125,5 +157,29 @@
     "userId",
     "version1c",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "accountNumber",
+      "statusId",
+      "price",
+      "currency",
+      "payed",
+      "dateInsert",
+      "userId"
+    ],
+    "filter": {
+      "<id": 1000,
+      "@personTypeId": [
+        3,
+        4
+      ],
+      "payed": "N"
+    },
+    "order": {
+      "id": "desc"
+    },
+    "start": 0
+  }
 }

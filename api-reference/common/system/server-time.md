@@ -13,9 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `server.time` возвращает текущее время сервера в формате `YYYY-MM-DDThh:mm:ss±hh:mm`.
+Метод `server.time` возвращает текущее время сервера Битрикс24 в формате ISO 8601 `YYYY-MM-DDThh:mm:ss±hh:mm`.
 
-Без параметров. 
+Время приходит в часовом поясе сервера, а не пользователя. Используйте метод, чтобы вычислить расхождение часов своего сервера с Битрикс24.
+
+## Параметры метода
+
+Без параметров.
 
 ## Примеры кода
 
@@ -39,7 +43,9 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
+    -d '{
+        "auth": "**put_access_token_here**"
+    }' \
     https://**put_your_bitrix24_address**/rest/server.time
     ```
 
@@ -230,20 +236,24 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`string`](../../data-types.md) | Время сервера в формате `YYYY-MM-DDThh:mm:ss±hh:mm` ||
+[`string`](../../data-types.md) | Время сервера в формате `YYYY-MM-DDThh:mm:ss±hh:mm`, например `2024-08-05T09:02:13+00:00` ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+Собственных ошибок у метода нет.
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./method-get.md)
 - [{#T}](./scope.md)
 - [{#T}](./app-info.md)
 - [{#T}](./access-name.md)
 - [{#T}](./feature-get.md)
-- [{#T}](./methods.md)

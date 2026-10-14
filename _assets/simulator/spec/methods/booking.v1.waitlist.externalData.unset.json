@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-unset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "waitListId": 14
+  }
 }

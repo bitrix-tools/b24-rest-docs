@@ -13,24 +13,35 @@
 
 Виджет `LANDING_SETTINGS` добавляет пункт приложения в меню настроек сайта или страницы в режиме редактирования.
 
-Для встраивания в разделе `landing` используется внутренний метод модуля [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md).
+Используйте его, когда приложение работает со всем сайтом или страницей целиком. Например:
+
+- проверяет метатеги и заголовки страницы перед публикацией
+- отправляет страницу на внешнюю модерацию или согласование
+
+Если действие относится к отдельному блоку, используйте [LANDING_BLOCK_<CODE> или LANDING_BLOCK_*](./block.md).
+
+Место встраивания регистрируют методом [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md). Метод работает только в контексте приложения, через вебхук место встраивания не зарегистрировать.
 
 {% note info "" %}
 
-Встройка не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
+Место встраивания не отображается в интерфейсе, пока установка приложения не завершена. [Проверьте установку приложения](../../../settings/app-installation/installation-finish.md)
 
 {% endnote %}
 
 ## Куда встраивается виджет
 
 #|
-|| **Код встройки** | **Место** ||
+|| **Код места встраивания** | **Место** ||
 || `LANDING_SETTINGS` | Пункт в меню настроек сайта или страницы ||
 |#
 
 ### Где находится в интерфейсе
 
-Откройте сайт или страницу в режиме редактирования. В правом верхнем углу перейдите в *Возможности сайта > Настройки (⚙️)*. Пункт приложения с `PLACEMENT=LANDING_SETTINGS` отображается последним пунктом в левом меню слайдера.
+Откройте сайт или страницу в режиме редактирования. В правом верхнем углу перейдите в *Возможности сайта > Настройки*. Пункты приложений выводятся в конце левого меню слайдера, новые выше старых. Подпись пункта — значение `TITLE` из регистрации: если оно пустое, пункт выводится без подписи, название приложения не подставляется.
+
+Настройки сайта и настройки страницы открываются в одном слайдере, поэтому пункт приложения один на оба раздела. Пункт видят все, кто открыл слайдер настроек, даже без права на изменение настроек.
+
+В настройках Главной страницы, сайта с типом `VIBE`, пункты приложений не выводятся.
 
 ## Что получает обработчик
 
@@ -52,7 +63,7 @@ Array
     [member_id] => abcdef1234567890abcdef1234567890
     [status] => F
     [PLACEMENT] => LANDING_SETTINGS
-    [PLACEMENT_OPTIONS] => {"SITE_ID":"30","LID":"30"}
+    [PLACEMENT_OPTIONS] => {"SITE_ID":"12","LID":"30"}
 )
 ```
 
@@ -60,27 +71,29 @@ Array
 
 {% include notitle [описание стандартных данных](../../widgets/_includes/widget_data.md) %}
 
-### Дополнительные данные
-
-#|
-|| **Параметр**
-`тип` | **Описание** ||
-|| **APPLICATION_SCOPE**
-[`string`](../../data-types.md) | Список scope, доступных приложению ||
-|| **APPLICATION_TOKEN**
-[`string`](../../data-types.md) | Токен приложения для безопасной обработки событий ||
-|| **SERVER_ENDPOINT**
-[`string`](../../data-types.md) | Адрес сервера авторизации Битрикс24, необходимый для обновления токенов OAuth 2.0 ||
-|#
-
-### PLACEMENT_OPTIONS
+### PLACEMENT_OPTIONS {#placement-options}
 
 Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
 
 Для `LANDING_SETTINGS` в контекст передаются ключи:
 
-- `SITE_ID` — идентификатор сайта, в настройках которого открыт виджет
-- `LID` — идентификатор страницы, из режима редактирования которой был вызван виджет
+#|
+|| **Ключ**
+`тип` | **Описание** ||
+|| **SITE_ID**
+[`string`](../../data-types.md) | Идентификатор сайта, в настройках которого открыт виджет ||
+|| **LID**
+[`string`](../../data-types.md) | Идентификатор страницы, из редактора которой открыты настройки. Если настройки открыты без привязки к странице, приходит `0` ||
+|| **URI**
+[`string`](../../data-types.md) | Путь с query-строкой страницы, из которой открыт виджет. Если адрес страницы определить не удалось, ключ не передается ||
+|#
+
+По идентификаторам из `PLACEMENT_OPTIONS` обработчик получает данные сайта и страницы:
+
+- сайт — методом [landing.site.getList](../site/landing-site-get-list.md) с фильтром по `ID`, его дополнительные поля — методом [landing.site.getadditionalfields](../site/landing-site-get-additional-fields.md)
+- страницу — методом [landing.landing.getList](../page/methods/landing-landing-get-list.md) с фильтром по `ID`, ее метатеги и другие дополнительные поля — методом [landing.landing.getadditionalfields](../page/methods/landing-landing-get-additional-fields.md)
+
+Если настройки открыты у Базы знаний или сайта группы, передайте в эти методы параметр `scope`, иначе они не найдут сайт. Значения описаны в статье [Работа с типами сайтов и скоупами](../types.md).
 
 ## Примеры кода
 
@@ -122,7 +135,7 @@ Array
           fields: {
             PLACEMENT: 'LANDING_SETTINGS',
             PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-settings-handler.php',
-            TITLE: 'My Settings',
+            TITLE: 'Мои настройки',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -158,7 +171,7 @@ Array
               fields: {
                 PLACEMENT: 'LANDING_SETTINGS',
                 PLACEMENT_HANDLER: 'https://your-domain.com/widgets/landing-settings-handler.php',
-                TITLE: 'My Settings',
+                TITLE: 'Мои настройки',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -209,6 +222,7 @@ Array
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -227,11 +241,7 @@ Array
             );
 
         $result = $response->getResponseData()->getResult();
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . var_export($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error binding landing settings: ' . $e->getMessage();
@@ -297,8 +307,8 @@ Array
     	return fmt.Errorf("landing.repo.bind: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // Ответ приходит как json.RawMessage. При успехе result = true.
+    // Форма ответа описана на странице метода landing.repo.bind.
     fmt.Printf("%s\n", res.Result)
     ```
 
@@ -307,6 +317,9 @@ Array
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./landing-repo-bind.md)
 - [{#T}](./landing-repo-unbind.md)
-- [{#T}](../../widgets/ui-interaction/index.md)
+- [{#T}](../page/methods/landing-landing-get-additional-fields.md)
+- [{#T}](../site/landing-site-get-additional-fields.md)
+- [{#T}](./block.md)
 - [{#T}](../../widgets/bx24-widget-methods.md)

@@ -166,5 +166,21 @@
     "sort",
     "value",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "propertyId",
+      "value",
+      "def",
+      "sort",
+      "xmlId"
+    ],
+    "filter": {
+      "propertyId": 431
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

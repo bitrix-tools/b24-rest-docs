@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.booking.externalData.unset` удаляет связи для указанного бронирования.
+Метод `booking.v1.booking.externalData.unset` удаляет все связи для указанного бронирования. Метод не принимает идентификатор отдельной связи, поэтому удалить только одну связь нельзя.
+
+Чтобы сохранить часть связей, получите текущий набор методом [booking.v1.booking.externalData.list](./booking-v1-booking-externaldata-list.md) и передайте нужные связи в метод [booking.v1.booking.externalData.set](./booking-v1-booking-externaldata-set.md).
 
 ## Параметры метода
 
@@ -39,8 +41,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.booking.externalData.unset
+    -d '{"bookingId":14}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.externalData.unset
     ```
 
 - cURL (OAuth)
@@ -49,8 +51,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.externalData.unset
+    -d '{"bookingId":14,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.booking.externalData.unset
     ```
 
 - JS (TS)
@@ -278,7 +280,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | Инструмент «Онлайн-запись» отключен администратором ||
 || `1021` | `Booking not found` | Бронирование с указанным `id` не найдено ||
+|| `1019` | `Failed updating booking` | Не удалось обновить бронирование ||
 || `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
 |#
 

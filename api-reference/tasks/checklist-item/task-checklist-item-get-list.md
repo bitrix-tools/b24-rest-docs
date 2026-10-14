@@ -15,7 +15,15 @@
 
 Метод `task.checklistitem.getlist` получает список пунктов чек-листов в задаче.
 
+Пункты всех чек-листов и уровней вложенности приходят одним плоским списком, без постраничной навигации: параметр `start` не учитывается, полей `next` и `total` в ответе нет. Чтобы восстановить дерево, группируйте пункты по `PARENT_ID`, приведя значение к числу.
+
 ## Параметры метода
+
+{% note warning "" %}
+
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку.
+
+{% endnote %}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -41,10 +49,14 @@
 - `TOGGLED_DATE` — дата и время изменения статуса пункта
 
 Направление сортировки может принимать значения:
-- `asc` — по возрастанию
-- `desc` — по убыванию
+- `asc` или `ASC` — по возрастанию
+- `desc` или `DESC` — по убыванию
 
-По умолчанию результат сортируется по `ID` в порядке убывания ||
+Значение в смешанном регистре, например `Desc`, метод молча пропустит. Для `TOGGLED_DATE` используйте только нижний регистр: `ASC` и `DESC` вернут ошибку
+
+Сортировка применяется ко всему списку, а не внутри каждого подсписка.
+
+По умолчанию результат сортируется по `SORT_INDEX`, затем по `ID` в порядке возрастания ||
 |#
 
 ## Примеры кода
@@ -86,14 +98,14 @@
     type ChecklistItem = {
       ID: string
       TASK_ID: string
-      PARENT_ID: string
+      PARENT_ID: string | number
       CREATED_BY: string
       TITLE: string
       SORT_INDEX: string
       IS_COMPLETE: 'Y' | 'N'
       IS_IMPORTANT: 'Y' | 'N'
       TOGGLED_BY: string | null
-      TOGGLED_DATE: ISODate | null
+      TOGGLED_DATE: ISODate | ''
       MEMBERS: Array<{
         ID: string
         TYPE: string
@@ -110,15 +122,12 @@
         FILE_ID: string
         DOWNLOAD_URL: string
         VIEW_URL: string
-      }>
+      }> | []
     }
 
     try {
-      // task.checklistitem.getlist returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // task.checklistitem.getlist returns all checklist items of the task in one response,
+      // without pagination, so a plain call.make is enough and `start` is not needed.
       const response = await $b24.actions.v2.call.make<ChecklistItem[]>({
         method: 'task.checklistitem.getlist',
         params: {
@@ -126,7 +135,6 @@
           ORDER: {
             IS_COMPLETE: 'ASC',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -155,11 +163,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // task.checklistitem.getlist returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // task.checklistitem.getlist returns all checklist items of the task in one response,
+          // without pagination, so a plain call.make is enough and `start` is not needed.
           const response = await $b24.actions.v2.call.make({
             method: 'task.checklistitem.getlist',
             params: {
@@ -167,7 +172,6 @@
               ORDER: {
                 IS_COMPLETE: 'ASC',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -218,6 +222,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -529,7 +534,7 @@ HTTP-статус: **200**
 || **PARENT_ID**
 [`string`](../../data-types.md) | Идентификатор родительского пункта.
 
-Значение `0` означает корневой пункт ||
+У корневого пункта возвращается число `0`, у остальных пунктов — строка ||
 || **CREATED_BY**
 [`string`](../../data-types.md) | Идентификатор автора пункта ||
 || **TITLE**
@@ -541,25 +546,27 @@ HTTP-статус: **200**
 
 Чем меньше значение, тем выше пункт в списке или подсписке ||
 || **IS_COMPLETE**
-[`boolean`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
-- `Y` — выполнен,
+[`string`](../../data-types.md) | Статус выполнения пункта. Возможные значения:
+- `Y` — выполнен
 - `N` — не выполнен ||
 || **IS_IMPORTANT**
-[`boolean`](../../data-types.md) | Отметка важности пункта. Возможные значения:
-- `Y` — важный,
+[`string`](../../data-types.md) | Отметка важности пункта. Возможные значения:
+- `Y` — важный
 - `N` — обычный ||
 || **TOGGLED_BY**
 [`string`](../../data-types.md) | Идентификатор пользователя, который последний раз сменил статус пункта.
 
-Может быть `null`, если статус не меняли ||
+Значение `null`, если статус пункта не меняли, в том числе у пункта, созданного сразу выполненным ||
 || **TOGGLED_DATE**
-[`string`](../../data-types.md) | Дата и время изменения статуса пункта в формате `ISO 8601` ||
+[`string`](../../data-types.md) | Дата и время изменения статуса пункта в формате `ISO 8601`.
+
+Пустая строка, если статус пункта не меняли, в том числе у пункта, созданного сразу выполненным ||
 || **MEMBERS**
 [`array`](../../data-types.md) | Список объектов с [описанием участников](#members) ||
 || **ATTACHMENTS**
 [`object`](../../data-types.md) | Объект с [описанием прикрепленных файлов](#attachments).
 
-Ключ — идентификатор прикрепления файла `ATTACHMENT_ID` ||
+Ключ — идентификатор прикрепления файла `ATTACHMENT_ID`. Если файлов нет, приходит пустой массив `[]`, а не объект ||
 |#
 
 #### Объект members {#members}
@@ -571,16 +578,18 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Идентификатор пользователя ||
 || **TYPE**
 [`string`](../../data-types.md) | Роль пользователя в пункте чек-листа. Возможные значения:
-- `A` — соисполнитель,
+- `A` — соисполнитель
 - `U` — наблюдатель ||
 || **NAME**
 [`string`](../../data-types.md) | Имя пользователя ||
 || **PERSONAL_PHOTO**
-[`string`](../../data-types.md) | Идентификатор файла с аватаром пользователя на Диске ||
+[`string`](../../data-types.md) | Идентификатор файла аватара пользователя ||
 || **PERSONAL_GENDER**
 [`string`](../../data-types.md) | Пол пользователя. Возможные значения:
-- `M` — мужчина,
-- `F` — женщина ||
+- `M` — мужчина
+- `F` — женщина
+
+Пустая строка, если пол не указан в профиле ||
 || **IMAGE**
 [`string`](../../data-types.md) | Ссылка на аватар пользователя ||
 || **IS_COLLABER**
@@ -613,7 +622,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_CORE",
-    "error_description":"TASKS_ERROR_EXCEPTION_#8; Action failed; 8\/TE\/ACTION_FAILED_TO_BE_PROCESSED\u003Cbr\u003E"
+    "error_description":"TASKS_ERROR_EXCEPTION_#8; Action failed; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br>"
 }
 ```
 
@@ -623,9 +632,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Action failed; 8\/TE\/ACTION_FAILED_TO_BE_PROCESSED\u003Cbr\u003E | У пользователя нет доступа к задаче ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::getlist() expected to be of type \u0022integer\u0022, but given something else.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Не передан обязательный параметр `TASKID` или указано значение неверного типа ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arOrder) for method ctaskchecklistitem::getlist() must not contain key \u0022IS_COMPLETED\u0022.; 256\/TE\/WRONG_ARGUMENTS\u003Cbr\u003E | Указано неверное поле в `ORDER` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Action failed; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Возможные причины:
+- задачи с указанным `TASKID` нет
+- у пользователя нет доступа к задаче
+- в `ORDER` указано направление сортировки, отличное от `asc` и `desc` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::getlist(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` меньше или равно нулю ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::getlist() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указано значение неверного типа для `TASKID` или параметры переданы не по порядку ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (arOrder) for method ctaskchecklistitem::getlist() must not contain key "IS_COMPLETED".; 256/TE/WRONG_ARGUMENTS<br> | В `ORDER` указано поле, по которому нельзя сортировать ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

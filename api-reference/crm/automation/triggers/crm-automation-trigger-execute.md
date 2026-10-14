@@ -11,11 +11,24 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор с доступом к CRM в контексте приложения 
+> Кто может выполнять метод: администратор
 
-Метод запускает выполнение триггера.
+Метод `crm.automation.trigger.execute` сообщает автоматизации CRM, что для объекта сработал триггер приложения. Если этот триггер привязан к стадии или статусу в настройках автоматизации, он может перевести объект на эту стадию или в этот статус. Например, приложение телефонии запускает триггер `call_done` после звонка, и сделка переходит на стадию «В работе».
 
-Запускать метод можно только в контексте приложения.
+Работает только в контексте [приложения](../../../../settings/app-installation/index.md). Триггер нужно заранее зарегистрировать методом [crm.automation.trigger.add](./crm-automation-trigger-add.md) и привязать к стадии в настройках автоматизации — порядок описан в [обзоре триггеров](./index.md).
+
+{% note warning "" %}
+
+Ответ `true` не подтверждает смену стадии. Метод вернет `true`, даже если стадия не изменилась:
+
+- триггер не привязан к стадии или не выполнены его условия
+- объект уже находится на стадии, к которой привязан триггер
+- стадия триггера в воронке раньше текущей стадии объекта, а переход на предыдущую стадию в настройках триггера запрещен
+- объекта с таким `OWNER_ID` нет
+
+Чтобы проверить результат, получите стадию объекта методом [crm.item.get](../../universal/crm-item-get.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -25,14 +38,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../../../data-types.md) | Внутренний уникальный (в рамках приложения) идентификатор триггера. Должен соответствовать маске `[a-z0-9\.\-_]` ||
+[`string`](../../../data-types.md) | Код триггера, который приложение передало при регистрации, например `call_done` ||
 || **OWNER_TYPE_ID***
-[`integer`](../../../data-types.md) | Тип объекта CRM по справочнику [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) (Например, `1` — лид)
+[`integer`](../../../data-types.md) | Тип объекта CRM по справочнику [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md), например `2` — сделка.
 
-Триггеры есть в лидах, сделках, предложениях, счетах и смарт-процессах
-||
+Триггеры есть в лидах, сделках, предложениях, счетах и смарт-процессах. Если передать контакт или компанию, триггер сработает для связанных с ними объектов, например сделок ||
 || **OWNER_ID***
-[`integer`](../../../data-types.md) | Идентификатор элемента ||
+[`integer`](../../../data-types.md) | Идентификатор объекта CRM, например сделки. Его возвращает метод [crm.item.list](../../universal/crm-item-list.md) ||
 |#
 
 ## Примеры кода
@@ -41,23 +53,13 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CODE":"c5u4m","OWNER_TYPE_ID":2,"OWNER_ID":6}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.automation.trigger.execute
-    ```
-
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CODE":"c5u4m","OWNER_TYPE_ID":2,"OWNER_ID":6,"auth":"**put_access_token_here**"}' \
+    -d '{"CODE":"call_done","OWNER_TYPE_ID":2,"OWNER_ID":6,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.automation.trigger.execute
     ```
 
@@ -75,7 +77,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'crm.automation.trigger.execute',
         params: {
-          CODE: 'c5u4m',
+          CODE: 'call_done',
           OWNER_TYPE_ID: 2,
           OWNER_ID: 6,
         },
@@ -87,7 +89,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Trigger executed successfully:', result)
+        console.info('Trigger event sent:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -109,7 +111,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.automation.trigger.execute',
             params: {
-              CODE: 'c5u4m',
+              CODE: 'call_done',
               OWNER_TYPE_ID: 2,
               OWNER_ID: 6,
             },
@@ -123,7 +125,7 @@
           }
 
           const result = response.getData().result
-          console.info('Trigger executed successfully:', result)
+          console.info('Trigger event sent:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -141,7 +143,7 @@
 
     try:
         bitrix_response = client.crm.automation.trigger.execute(
-            code="c5u4m",
+            code="call_done",
             owner_type_id=2,
             owner_id=6,
         ).response
@@ -162,30 +164,24 @@
 
 - PHP
 
-
     ```php
     try {
-        $response = $b24Service
+        $result = $b24Service
             ->core
             ->call(
                 'crm.automation.trigger.execute',
                 [
-                    'CODE'         => 'c5u4m',
+                    'CODE'          => 'call_done',
                     'OWNER_TYPE_ID' => 2,
-                    'OWNER_ID'     => 6,
+                    'OWNER_ID'      => 6,
                 ]
-            );
-    
-        $result = $response
+            )
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        // The SDK wraps the boolean result of the method in an array.
+        // true does not confirm the stage change: read the item to check it
+        echo $result[0] ? 'Trigger event sent' : 'Trigger event not sent';
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error executing automation trigger: ' . $e->getMessage();
@@ -198,11 +194,11 @@
     BX24.callMethod(
         'crm.automation.trigger.execute',
         {
-            CODE: 'c5u4m',
+            CODE: 'call_done',
             OWNER_TYPE_ID: 2,
             OWNER_ID: 6
         },
-        function(result) 
+        function(result)
         {
             if(result.error())
                 console.error(result.error());
@@ -220,7 +216,7 @@
     $result = CRest::call(
         'crm.automation.trigger.execute',
         [
-            'CODE' => 'c5u4m',
+            'CODE' => 'call_done',
             'OWNER_TYPE_ID' => 2,
             'OWNER_ID' => 6
         ]
@@ -236,7 +232,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.automation.trigger.execute", b24.Params{
-    	"CODE":          "c5u4m",
+    	"CODE":          "call_done",
     	"OWNER_TYPE_ID": 2,
     	"OWNER_ID":      6,
     })
@@ -259,14 +255,14 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result":true,
-    "time":{
-        "start":1718891973.429101,
-        "finish":1718891986.721889,
-        "duration":13.292788028717041,
-        "processing":13.012810945510864,
-        "date_start":"2024-06-20T13:59:33+00:00",
-        "date_finish":"2024-06-20T13:59:46+00:00"
+    "result": true,
+    "time": {
+        "start": 1790706808,
+        "finish": 1790706808.400356,
+        "duration": 0.4003560543060303,
+        "processing": 0,
+        "date_start": "2026-09-29T18:33:28+00:00",
+        "date_finish": "2026-09-29T18:33:28+00:00"
     }
 }
 ```
@@ -277,9 +273,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает true в случае успешного запуска триггера ||
+[`boolean`](../../../data-types.md) | `true`, если Битрикс24 принял событие триггера ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -288,8 +284,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"",
-    "error_description":"Incorrect parameter OWNER_TYPE_ID."
+    "error": "",
+    "error_description": "Incorrect parameter OWNER_TYPE_ID."
 }
 ```
 
@@ -298,21 +294,22 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| Пустая строка | Access denied. | Пользователь не прошел предварительную проверку прав на доступ к CRM ||
-|| ACCESS_DENIED | Access denied! Admin permissions required | Не пройдена проверка прав на администратора ||
-|| ACCESS_DENIED | Access denied! Application context required | Метод вызван вне контекста приложения ||
-|| Пустая строка | Empty trigger code! | Пустой параметр `CODE` ||
-|| Пустая строка | Wrong trigger code! | Параметр `CODE` не удовлетворяет маске `[a-z0-9\.\-_]` ||
-|| Пустая строка | Trigger with code {$code} is not registered. | Не найден триггер приложения ||
-|| Пустая строка | Incorrect parameter OWNER_TYPE_ID. | Передан `owner_type_id`, который не определён в CRM ||
-|| Пустая строка | Incorrect parameter OWNER_ID. | Передано некорректное значение параметра `owner_id` (значение не является положительным) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет доступа к CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызвал не администратор ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван не из приложения, например через вебхук ||
+|| `400` | Пустое значение | Empty trigger code! | Параметр `CODE` не передан, пустой или равен `0` ||
+|| `400` | Пустое значение | Wrong trigger code! | В `CODE` есть символы, кроме латинских букв, цифр и `.`, `-`, `_` ||
+|| `400` | Пустое значение | Trigger with code call_done is not registered. | У текущего приложения нет триггера с кодом из `CODE`. В тексте ошибки вместо `call_done` будет переданный код ||
+|| `400` | Пустое значение | Incorrect parameter OWNER_TYPE_ID. | В CRM нет типа объекта с таким `OWNER_TYPE_ID` ||
+|| `400` | Пустое значение | Incorrect parameter OWNER_ID. | `OWNER_ID` не передан или не больше нуля ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-automation-trigger-add.md)
 - [{#T}](./crm-automation-trigger-list.md)
 - [{#T}](./crm-automation-trigger-delete.md)

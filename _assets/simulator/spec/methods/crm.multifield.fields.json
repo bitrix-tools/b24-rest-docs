@@ -102,5 +102,6 @@
     }
   ],
   "page": "/api-reference/crm/auxiliary/multifield/crm-multifield-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

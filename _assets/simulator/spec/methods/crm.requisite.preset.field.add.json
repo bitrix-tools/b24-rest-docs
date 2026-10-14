@@ -100,5 +100,16 @@
     }
   ],
   "page": "/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "preset": {
+      "ID": 27
+    },
+    "fields": {
+      "FIELD_NAME": "RQ_NAME",
+      "FIELD_TITLE": "TEST",
+      "IN_SHORT_LIST": "N",
+      "SORT": 580
+    }
+  }
 }

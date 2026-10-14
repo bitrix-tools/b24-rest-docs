@@ -364,5 +364,27 @@
     }
   ],
   "page": "/api-reference/tasks/flow/tasks-flow-flow-create.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "flowData": {
+      "name": "Unique Flow Name",
+      "description": "Описание потока",
+      "plannedCompletionTime": 7200,
+      "distributionType": "manually",
+      "responsibleList": [
+        [
+          "user",
+          "3"
+        ]
+      ],
+      "taskCreators": [
+        [
+          "meta-user",
+          "all-users"
+        ]
+      ],
+      "matchWorkTime": 1,
+      "notifyAtHalfTime": 0
+    }
+  }
 }

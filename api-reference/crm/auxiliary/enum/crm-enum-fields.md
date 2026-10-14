@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
-Метод `crm.enum.fields` возвращает информацию о полях элементов перечислений.
+Метод `crm.enum.fields` описывает поля, из которых состоит элемент перечисления: `ID`, `NAME`, `SYMBOL_CODE` и `SYMBOL_CODE_SHORT`. Например, по ответу видно, что `ID` — целое число, а `NAME` — строка. Эти поля есть у элементов, которые возвращают методы [crm.enum.ownertype](./crm-enum-owner-type.md), [crm.enum.addresstype](./crm-enum-address-type.md) и [crm.enum.settings.mode](./crm-enum-settings-mode.md). У метода [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) другой формат ответа, это описание к нему не относится.
 
 ## Параметры метода
 
@@ -160,13 +160,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $code => $field) {
+            echo $code . ' — ' . $field['title'] . ' (' . $field['type'] . ')' . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.fields: ' . $e->getMessage();
@@ -327,10 +323,29 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./crm-enum-owner-type.md)
+- [{#T}](./crm-enum-address-type.md)
+- [{#T}](./crm-enum-settings-mode.md)

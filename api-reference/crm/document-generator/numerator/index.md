@@ -1,4 +1,4 @@
-# Нумераторы: обзор методов
+# Нумераторы документов CRM: обзор методов
 
 Нумератор задает шаблон номера и настройки счетчика для документов CRM. Например, нумератор с шаблоном `INV-{NUMBER}` присваивает документам номера вида `INV-1`, `INV-2`.
 
@@ -32,14 +32,14 @@
 
 ## Что важно учитывать
 
-- Методы [crm.documentgenerator.numerator.update](./crm-document-generator-numerator-update.md) и [crm.documentgenerator.numerator.delete](./crm-document-generator-numerator-delete.md) работают только с нумераторами, созданными методом [crm.documentgenerator.numerator.add](./crm-document-generator-numerator-add.md). Нумераторы, созданные в интерфейсе Битрикс24, изменить или удалить через REST нельзя
-- Нумераторы генератора документов в CRM и нумераторы раздела [Генератор документов](../../../document-generator/numerators/index.md) — разные группы методов. Для CRM-документов используйте `crm.documentgenerator.numerator.*`
+- При удалении нумератора его идентификатор остается в настройках связанных шаблонов. При создании новых документов по таким шаблонам система использует нумератор по умолчанию, если он доступен
+- Нумераторы CRM и [генератора документов](../../../document-generator/numerators/index.md) описаны разными группами методов. Для документов CRM используйте `crm.documentgenerator.numerator.*`
 
 ## Связь с другими объектами
 
 **Шаблоны документов.** Нумератор привязывают к шаблону через параметр `numeratorId` в методах [crm.documentgenerator.template.add](../templates/crm-document-generator-template-add.md) и [crm.documentgenerator.template.update](../templates/crm-document-generator-template-update.md).
 
-**Документы.** Номер документа формирует метод [crm.documentgenerator.document.add](../documents/crm-document-generator-document-add.md) при создании документа по шаблону. Если нумератор не возвращает следующий номер при генерации, метод вернет ошибку.
+**Документы.** Номер документа формирует метод [crm.documentgenerator.document.add](../documents/crm-document-generator-document-add.md) при создании документа по шаблону. Если получить следующий номер не удалось, метод возвращает ошибку `0` с описанием `Error getting next number`.
 
 ## Обзор методов {#all-methods}
 

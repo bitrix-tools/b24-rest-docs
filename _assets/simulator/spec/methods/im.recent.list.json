@@ -133,6 +133,23 @@
       ]
     },
     {
+      "name": "ONLY_OPENLINES",
+      "type": "string",
+      "base": "string",
+      "required": "unknown",
+      "description": "Возвращать только чаты открытых линий. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
+    },
+    {
       "name": "ONLY_COPILOT",
       "type": "string",
       "base": "string",
@@ -501,5 +518,20 @@
     "type",
     "unread",
     "user"
-  ]
+  ],
+  "requestExample": {
+    "LAST_MESSAGE_DATE": "2026-02-25T18:30:00+03:00",
+    "SKIP_OPENLINES": "N",
+    "SKIP_DIALOG": "N",
+    "SKIP_CHAT": "N",
+    "UNREAD_ONLY": "Y",
+    "PARSE_TEXT": "Y",
+    "GET_ORIGINAL_TEXT": "N",
+    "SKIP_UNDISTRIBUTED_OPENLINES": "Y",
+    "ONLY_COPILOT": "N",
+    "ONLY_CHANNEL": "N",
+    "CAN_MANAGE_MESSAGES": "Y",
+    "OFFSET": 0,
+    "LIMIT": 20
+  }
 }

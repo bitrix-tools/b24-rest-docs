@@ -167,5 +167,17 @@
     "templateTypeInfo",
     "templateTypeReminder",
     "typeId"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "searchQuery": "авто",
+      "typeId": [
+        3,
+        7
+      ]
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

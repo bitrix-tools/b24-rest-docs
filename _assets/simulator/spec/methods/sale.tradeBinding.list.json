@@ -127,5 +127,17 @@
   "entityFields": [
     "orderId",
     "tradingPlatformId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "orderId",
+      "tradingPlatformId"
+    ],
+    "filter": {
+      "!=tradingPlatformID": 10
+    },
+    "order": {
+      "tradingPlatformId": "DESC"
+    }
+  }
 }

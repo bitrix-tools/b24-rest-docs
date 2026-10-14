@@ -208,5 +208,16 @@
     }
   ],
   "page": "/api-reference/crm/universal/userfieldconfig/userfieldconfig-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "moduleId": "crm",
+    "id": 7095,
+    "field": {
+      "mandatory": "Y",
+      "editFormLabel": {
+        "ru": "Список характеристик (обновлено)",
+        "en": "List of characteristics (updated)"
+      }
+    }
+  }
 }

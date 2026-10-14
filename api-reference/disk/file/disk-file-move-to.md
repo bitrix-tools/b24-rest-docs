@@ -299,7 +299,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "0",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9ODk2NCZfPW1vbGtSSzFIQ25HclVzaDRldXdkTFhoT215M2t5UmhF%7CImRvd25sb2FkfGRpc2t8YVdROU9EazJOQ1pmUFcxdmJHdFNTekZJUTI1SGNsVnphRFJsZFhka1RGaG9UMjE1TTJ0NVVtaEZ8MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.0NfJeP8vn%2BqE9%2B5v9Crsh3W%2Bcf6HKgdfKQVTm9z0dto%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Картинка.png"
     },
     "time": {

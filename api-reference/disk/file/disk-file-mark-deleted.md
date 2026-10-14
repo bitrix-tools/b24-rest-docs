@@ -15,6 +15,8 @@
 
 Метод `disk.file.markDeleted` перемещает файл в корзину.
 
+Повторный вызов для файла, который уже находится в корзине, завершается успешно и не создает новую запись об удалении. Срок хранения файла в корзине зависит от настроек Битрикс24.
+
 {% note info "" %}
 
 Сохраните идентификатор файла после удаления, чтобы потом его можно было восстановить методом [disk.file.restore](./disk-file-restore.md)
@@ -287,7 +289,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "1269",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=904993690000071b006e2cf2000004f5000007bb5f672541f2cec7c7f0b65135f70180&token=disk%7CaWQ9OTAzNyZfPWVNNEllSjUwZEV7OUN1aEhETzBobFdDOWlMSEFZNk5x%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXpOeVpmUFdWTk5FbGxTalV3WkVWMk9VTjFhRWhFVHpCb2JGZERPV9xNU0VGWk5rNXh8OTA0OTkzNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDdiYjVmNjcyNTQxZjJjZWM3YzdmMGI2NTEzNWY3MDE4MCI%3D.nSSCKa7KdIxa0ToaCO31FIV3VZwvFxUTR1Mpl39508Y%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка в папке/picture.png"
     },
     "time": {

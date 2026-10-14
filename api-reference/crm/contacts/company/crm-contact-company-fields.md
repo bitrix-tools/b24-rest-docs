@@ -11,9 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
 Метод `crm.contact.company.fields` возвращает описание полей для связи контакт-компания.
+
+Состав полей привязки фиксирован, пользовательских полей у нее нет. Поле `ROLE_ID`, которое приходит в ответе [crm.contact.company.items.get](./crm-contact-company-items-get.md), в выдачу метода не попадает — записать его нельзя. Как устроен объект привязки, описано в [обзоре раздела](./index.md).
+
+## Параметры метода
 
 Без параметров.
 
@@ -160,13 +164,9 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching contact company fields: ' . $e->getMessage();
@@ -285,19 +285,53 @@ HTTP-статус: **200**
 
 где:
 - `field_n` — поле элемента
-- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description)
+
+Состав полей привязки описан [ниже](#binding-fields) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Поля привязки {#binding-fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **COMPANY_ID**
+[`integer`](../../../data-types.md) | Идентификатор связанной компании. Единственное обязательное поле привязки — в его описании приходит `isRequired: true` ||
+|| **SORT**
+[`integer`](../../../data-types.md) | Индекс сортировки ||
+|| **IS_PRIMARY**
+[`char`](../../../data-types.md#standart-types) | Основная ли это компания контакта. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 |#
 
 ## Обработка ошибок
 
-Метод не возвращает ошибок.
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-contact-company-add.md)
 - [{#T}](./crm-contact-company-delete.md)
 - [{#T}](./crm-contact-company-items-get.md)

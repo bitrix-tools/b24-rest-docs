@@ -23,7 +23,8 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_basket_item_property.id`](../data-types.md#sale_basket_item_property) | Идентификатор позиции заказа ||
+[`sale_basket_item_property.id`](../data-types.md#sale_basket_item_property) | Идентификатор свойства элемента (позиции) корзины.
+Можно получить методом [`sale.basketproperties.list`](./sale-basket-properties-list.md) ||
 || **fields***
 [`object`](../../data-types.md) | Значения изменяемых полей (подробное описание приведено [ниже](#parametr-fields)) свойства элемента (позиции) корзины:
 
@@ -39,24 +40,32 @@ fields: {
  ||
 |#
 
-### Параметр fields
+### Параметр fields {#parametr-fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+Поля `name`, `value` и `code` передавайте при каждом вызове, даже если меняете только одно из них. Строковые поля хранят до 255 символов: более длинное значение Битрикс24 обрежет без ошибки.
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **name**
+|| **name***
 [`string`](../../data-types.md) | Название свойства ||
-|| **value**
+|| **value***
 [`string`](../../data-types.md) | Значение свойства ||
-|| **code**
+|| **code***
 [`string`](../../data-types.md) | Символьный код свойства ||
 || **sort**
 [`integer`](../../data-types.md) | Положение в списке свойств ||
 || **xmlId**
 [`string`](../../data-types.md) | Внешний код свойства ||
 |#
+
+{% note warning "" %}
+
+Перенести свойство на другую позицию корзины нельзя. Если передать в `fields` новый `basketId`, метод не вернет ошибку, но свойство останется у прежней позиции. Чтобы свойство появилось у нужной позиции, удалите его методом [sale.basketproperties.delete](./sale-basket-properties-delete.md) и создайте заново методом [sale.basketproperties.add](./sale-basket-properties-add.md).
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -247,26 +256,21 @@ fields: {
             fields: {
                 name: 'Артикул',
                 value: '123-456-789',
-                code: 'ARTICUL',		}
-        },
-    )
-        .then(
-            function(result)
-            {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result);
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                code: 'ARTICUL',
             }
-        );
+        },
+        function(result)
+        {
+            if (result.error())
+            {
+                console.error(result.error());
+            }
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
     ```
 
 - PHP CRest
@@ -381,8 +385,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "0",
+    "error_description": "Required fields: name, code"
 }
 ```
 
@@ -392,9 +396,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `20004030001` | Недостаточно прав для изменения ||
-|| `100` | Не переданы обязательные параметры ||
-|| `0` | Другие ошибки (например, отсутствие требуемых полей) ||
+|| `0` | `Required fields: name, code` — в `fields` не переданы обязательные поля `name`, `value` или `code`. Имена пропущенных полей перечислены в `error_description` ||
+|| `200240400003` | `basket property is not exists` — свойства с таким `id` нет ||
+|| `100` | `Could not find value for parameter {fields}` — не передан параметр `fields` ||
+|| `100` | `Bitrix\Sale\BasketPropertyItem constructor must be is public` — не передан параметр `id` ||
+|| `200040300020` | `Access Denied` — недостаточно прав для изменения ||
+|| `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -95,5 +95,21 @@
     "title",
     "type",
     "validationRules"
-  ]
+  ],
+  "requestExample": {
+    "name": "userId",
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "validationRules",
+      "requiredGroups",
+      "filterable",
+      "sortable",
+      "editable",
+      "multiple",
+      "elementType"
+    ]
+  }
 }

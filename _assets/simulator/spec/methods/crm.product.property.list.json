@@ -31,5 +31,14 @@
     "successor": "catalog.productProperty.list"
   },
   "page": "/api-reference/crm/outdated/products/crm-product-property-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "order": {
+      "SORT": "ASC"
+    },
+    "filter": {
+      "PROPERTY_TYPE": "S",
+      "USER_TYPE": "HTML"
+    }
+  }
 }
