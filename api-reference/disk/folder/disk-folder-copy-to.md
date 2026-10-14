@@ -153,7 +153,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.copyto(
+        bitrix_response = client.disk.folder.copy_to(
             bitrix_id=8930,
             target_folder_id=8895,
         ).response

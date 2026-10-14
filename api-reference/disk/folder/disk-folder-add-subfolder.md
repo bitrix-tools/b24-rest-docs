@@ -185,7 +185,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.addsubfolder(
+        bitrix_response = client.disk.folder.add_sub_folder(
             bitrix_id=8907,
             data={
                 "NAME": "Папка в папке",

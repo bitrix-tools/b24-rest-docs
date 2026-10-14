@@ -158,7 +158,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.file.markdeleted(
+        bitrix_response = client.disk.file.mark_deleted(
             bitrix_id=9037,
         ).response
         result = bitrix_response.result

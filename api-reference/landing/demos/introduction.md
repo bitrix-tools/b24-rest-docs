@@ -146,15 +146,30 @@ OAuth-токен дает доступ к Битрикс24. Храните ег�
 - Python
 
     ```python
-    # client — предварительно инициализированный B24PySDK
-    export_data = client.landing.site.full_export(
-        bitrix_id=326,
-        params={
-            "code": "myfirstsite2026",
-            "name": "Сайт автомастерской",
-            "preview_url": "https://example.com/previews/myfirstsite2026",
-        },
-    ).response.result
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
+    try:
+        bitrix_response = client.landing.site.full_export(
+            bitrix_id=326,
+            params={
+                "code": "myfirstsite2026",
+                "name": "Сайт автомастерской",
+                "preview_url": "https://example.com/previews/myfirstsite2026",
+            },
+        ).response
+        export_data = bitrix_response.result
+        print(export_data)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 {% endlist %}
@@ -231,12 +246,27 @@ OAuth-токен дает доступ к Битрикс24. Храните ег�
 - Python
 
     ```python
-    registered_template_ids = client.landing.demos.register(
-        data=export_data,
-    ).response.result
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
-    if not registered_template_ids:
-        raise RuntimeError("Шаблон не зарегистрирован")
+    try:
+        bitrix_response = client.landing.demos.register(
+            data=export_data,
+        ).response
+        registered_template_ids = bitrix_response.result
+        if not registered_template_ids:
+            raise RuntimeError("Template was not registered")
+        print(registered_template_ids)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 {% endlist %}
@@ -308,19 +338,34 @@ OAuth-токен дает доступ к Битрикс24. Храните ег�
 - Python
 
     ```python
-    templates = client.landing.demos.get_list(
-        params={
-            "select": ["ID", "XML_ID", "TITLE", "TYPE"],
-        },
-    ).response.result
+    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
-    template = next(
-        (item for item in templates if item["XML_ID"] == "myfirstsite2026"),
-        None,
-    )
+    try:
+        bitrix_response = client.landing.demos.get_list(
+            params={
+                "select": ["ID", "XML_ID", "TITLE", "TYPE"],
+            },
+        ).response
+        templates = bitrix_response.result
 
-    if template is None:
-        raise RuntimeError("Шаблон не найден")
+        template = next(
+            (item for item in templates if item["XML_ID"] == "myfirstsite2026"),
+            None,
+        )
+        if template is None:
+            raise RuntimeError("Template was not found")
+        print(template)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 {% endlist %}

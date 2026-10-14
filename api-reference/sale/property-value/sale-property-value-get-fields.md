@@ -128,7 +128,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.sale.propertyvalue.get_fields().response
+        bitrix_response = client.sale.propertyvalue.getfields().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:

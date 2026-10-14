@@ -139,8 +139,8 @@
 
     try:
         bitrix_response = client.im.notify.answer(
-            bitrix_id=270,
-            answer_text="Ответ принят",
+            notify_id=270,
+            answer_text="Приму участие",
         ).response
         result = bitrix_response.result
         print(result)

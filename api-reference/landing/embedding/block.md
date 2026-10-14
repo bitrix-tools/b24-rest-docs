@@ -193,14 +193,14 @@ Array
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
-    fields = {
-        "PLACEMENT": "LANDING_BLOCK_04.1.one_col_fix_with_title",
-        "PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
-        "TITLE": "Действие блока",
-    }
-
     try:
-        bitrix_response = client.landing.repo.bind(fields=fields).response
+        bitrix_response = client.landing.repo.bind(
+            fields={
+                "PLACEMENT": "LANDING_BLOCK_04.1.one_col_fix_with_title",
+                "PLACEMENT_HANDLER": "https://your-domain.com/widgets/landing-block-handler.php",
+                "TITLE": "Мой виджет для блока",
+            },
+        ).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:

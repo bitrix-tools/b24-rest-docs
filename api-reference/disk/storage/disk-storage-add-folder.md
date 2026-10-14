@@ -185,7 +185,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.addfolder(
+        bitrix_response = client.disk.storage.add_folder(
             bitrix_id=1357,
             data={
                 "NAME": "Новая папка",

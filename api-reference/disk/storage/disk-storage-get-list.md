@@ -222,7 +222,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.getlist(
+        bitrix_response = client.disk.storage.get_list(
             filter={
                 "NAME": "%Битрикс24%",
             },

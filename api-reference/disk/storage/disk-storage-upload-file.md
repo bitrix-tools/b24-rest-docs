@@ -208,7 +208,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.uploadfile(
+        bitrix_response = client.disk.storage.upload_file(
             bitrix_id=1357,
             data={
                 "NAME": "picture.png",

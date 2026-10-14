@@ -150,7 +150,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.sharetouser(
+        bitrix_response = client.disk.folder.share_to_user(
             bitrix_id=8994,
             user_id=1271,
             task_name="disk_access_read",

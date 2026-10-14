@@ -242,7 +242,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.getchildren(
+        bitrix_response = client.disk.storage.get_children(
             bitrix_id=1357,
             filter={
                 "NAME": "%Папка%",

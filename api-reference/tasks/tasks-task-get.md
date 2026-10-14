@@ -184,7 +184,7 @@
 
     try:
         bitrix_response = client.tasks.task.get(
-            bitrix_id=8017,
+            task_id=8017,
             select=[
                 "ID",
                 "TITLE",

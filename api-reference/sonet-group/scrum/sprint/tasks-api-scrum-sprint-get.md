@@ -148,7 +148,7 @@
 
     try:
         bitrix_response = client.tasks.api.scrum.sprint.get(
-            bitrix_id=2,
+            sprint_id=2,
         ).response
         result = bitrix_response.result
         print(result)

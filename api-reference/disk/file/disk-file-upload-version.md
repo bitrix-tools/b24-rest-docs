@@ -161,7 +161,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.file.uploadversion(
+        bitrix_response = client.disk.file.upload_version(
             bitrix_id=9043,
             file_content=[
                 "Тест №2.docx",
