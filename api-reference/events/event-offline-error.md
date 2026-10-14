@@ -15,7 +15,7 @@
 
 Метод `event.offline.error` помечает записи зарезервированного пакета [офлайн-событий](./offline-events.md) как ошибочные. Такие записи снимаются с резерва и больше не попадают в обычную выдачу [event.offline.get](./event-offline-get.md). Получить их можно методом `event.offline.get` с параметром `error=1`.
 
-Режим с резервированием пакетов доступен не на всех тарифах. Проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`.
+В облачном Битрикс24 режим с резервированием пакетов зависит от тарифа — проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`. В коробочной версии режим доступен всегда, а `feature.get` вместо `Y` возвращает строку `<язык>_selfhosted`, например `ru_selfhosted`.
 
 Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Права на методы событий описаны в разделе [Права доступа](./index.md#access).
 
