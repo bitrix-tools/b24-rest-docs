@@ -116,7 +116,7 @@
 
 ### Проверка доступности
 
-Режим с подтверждением обработки доступен на отдельных тарифах. Проверьте доступность через метод [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`.
+В облачном Битрикс24 режим с подтверждением обработки зависит от тарифа — проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`. В коробочной версии режим доступен всегда, а `feature.get` вместо `Y` возвращает строку `<язык>_selfhosted`, например `ru_selfhosted`.
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 

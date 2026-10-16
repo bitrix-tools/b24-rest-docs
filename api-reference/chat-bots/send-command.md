@@ -119,7 +119,8 @@
 {
     "result": {
         "id": 789,
-        "uuidMap": {}
+        "uuidMap": [],
+        "failureMap": []
     }
 }
 ```

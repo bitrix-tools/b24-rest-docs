@@ -18,7 +18,7 @@
 - `clear=1`, по умолчанию — выдает записи и сразу удаляет их из очереди
 - `clear=0` — резервирует записи пакетом и возвращает его `process_id`. Обработку пакета подтверждают методом [event.offline.clear](./event-offline-clear.md), ошибки отмечают методом [event.offline.error](./event-offline-error.md)
 
-Режим с резервированием пакетов доступен не на всех тарифах. Проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`.
+В облачном Битрикс24 режим с резервированием пакетов зависит от тарифа — проверьте его методом [feature.get](../common/system/feature-get.md) с кодом `rest_offline_extended`. В коробочной версии режим доступен всегда, а `feature.get` вместо `Y` возвращает строку `<язык>_selfhosted`, например `ru_selfhosted`.
 
 Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Права на методы событий описаны в разделе [Права доступа](./index.md#access).
 
