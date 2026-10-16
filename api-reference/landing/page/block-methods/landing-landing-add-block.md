@@ -73,7 +73,7 @@
 || **CONTENT**
 [`string`](../../../data-types.md) | HTML-содержимое блока. Позволяет заменить стандартный контент блока своим HTML-кодом. При этом код блока все равно должен быть доступен в репозитории для текущего типа страницы и `scope`. Перед сохранением значение очищается и проверяется ||
 || **RETURN_CONTENT**
-[`string`](../../../data-types.md) | Если передать `Y`, после добавления блока метод вернет не только его идентификатор, но и данные блока [(подробное описание)](#result-content). При любом другом значении метод вернет только идентификатор блока ||
+[`string`](../../../data-types.md) | Если передать `Y`, после добавления блока метод вернет объект с данными блока, включая его идентификатор [(подробное описание)](#result-content). При любом другом значении метод вернет только идентификатор блока ||
 |#
 
 ## Примеры кода
@@ -351,6 +351,25 @@ HTTP-статус: **200**
 }
 ```
 
+### Пример ответа при `RETURN_CONTENT = 'Y'`
+
+HTTP-статус: **200**
+
+Ниже показан фрагмент ответа: остальные поля объекта `result` описаны в таблице.
+
+```json
+{
+    "result": {
+        "id": 29419,
+        "sections": "text,recommended,widgets_text",
+        "active": true,
+        "access": "X",
+        "anchor": "b29419",
+        "content": "<div id=\"block29419\" data-id=\"29419\" class=\"block-wrapper block-27-4-one-col-fix-text\"><section class=\"landing-block js-animation g-pt-30 g-pb-30\">\n\t<div class=\"landing-block-node-text js-animation fadeIn g-pb-1 container g-max-width-container\">\n\t\t<p>Sed feugiat porttitor nunc, non dignissim ipsum vestibulum in. Donec in blandit dolor. Vivamus a fringilla lorem, vel faucibus ante. Nunc ullamcorper, justo a iaculis elementum, enim orci viverra eros, fringilla porttitor lorem eros vel. </p>\n\t\t<p>Sed feugiat porttitor nunc, non dignissim ipsum vestibulum in. Donec in blandit dolor. Vivamus a fringilla lorem, vel faucibus ante. Nunc ullamcorper, justo a iaculis elementum, enim orci viverra eros, fringilla porttitor lorem eros vel. </p>\n\t</div>\n</section></div>"
+    }
+}
+```
+
 ### Возвращаемые данные
 
 #|
@@ -374,7 +393,12 @@ HTTP-статус: **200**
 || **active**
 [`boolean`](../../../data-types.md) | Признак активности блока ||
 || **access**
-[`string`](../../../data-types.md) | Уровень доступа к блоку ||
+[`string`](../../../data-types.md) | Уровень доступа к блоку. Возможные значения:
+- `A` — доступ к блокам запрещен для всех
+- `D` — доступ к блоку запрещен
+- `V` — можно менять только оформление
+- `W` — можно менять содержимое и оформление, но нельзя удалять блок
+- `X` — полный доступ ||
 || **anchor**
 [`string`](../../../data-types.md) | Локальный якорь блока. По умолчанию новый блок получает якорь вида `b<ID>`, например `b28597` ||
 || **php**
