@@ -123,7 +123,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.getforapp().response
+        bitrix_response = client.disk.storage.get_for_app().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:

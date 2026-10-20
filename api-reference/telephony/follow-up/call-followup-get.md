@@ -182,6 +182,34 @@
     </script>
     ```
 
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    try:
+        bitrix_response = client.call.followup.get(
+            call_id=12345,
+            mention_format="html",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API v3",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
+            sep="\n",
+        )
+        if error.has_validation:
+            print(f"validation: {error.validation}")
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
+    ```
+
 - PHP
 
     SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.

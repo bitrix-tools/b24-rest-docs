@@ -148,7 +148,7 @@
 
     try:
         bitrix_response = client.im.disk.file.save(
-            disk_id=5155,
+            file_id=5155,
         ).response
         result = bitrix_response.result
         print(result)

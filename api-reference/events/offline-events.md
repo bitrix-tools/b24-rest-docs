@@ -1530,7 +1530,9 @@
             fields={
                 "TITLE": "Новое название",
             },
-            auth_connector="my_connector",
+            params={
+                "auth_connector": "my_connector",
+            },
         ).response
         result = bitrix_response.result
         print(result)
