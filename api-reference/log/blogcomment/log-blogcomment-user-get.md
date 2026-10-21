@@ -33,7 +33,7 @@
 || **LAST_ID**
 [`integer`](../../data-types.md) | Метод вернет комментарии с идентификаторами, которые меньше указанного значения ||
 || **LIMIT**
-[`integer`](../../data-types.md) | Количество записей в ответе. Допустимое значение — от `1` до `100`.  По умолчанию возвращается `100` комментариев ||
+[`integer`](../../data-types.md) | Количество записей в ответе. Максимальное значение — `1000`, большее значение заменяется на `1000`. По умолчанию возвращается `100` комментариев ||
 |#
 
 ## Примеры кода
@@ -74,7 +74,7 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type BlogCommentUserGetResult = {
-      comments: {
+      COMMENTS: {
         id: number
         comment_id: number
         log_id: number
@@ -82,7 +82,8 @@
         text: string
         attach: number[]
       }[]
-      files: Record<string, {
+      // An empty array is returned when no files are attached
+      FILES: [] | Record<string, {
         id: number
         date: ISODate
         type: string
@@ -116,7 +117,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Comments:', result.comments, 'Files:', result.files)
+        console.info('Comments:', result.COMMENTS, 'Files:', result.FILES)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -152,7 +153,7 @@
           }
 
           const result = response.getData().result
-          console.info('Comments:', result.comments, 'Files:', result.files)
+          console.info('Comments:', result.COMMENTS, 'Files:', result.FILES)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -283,7 +284,7 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "comments": [
+        "COMMENTS": [
             {
                 "id": 4821,
                 "comment_id": 4821,
@@ -295,7 +296,7 @@ HTTP-статус: **200**
                 ]
             }
         ],
-        "files": {
+        "FILES": {
             "90210": {
                 "id": 90210,
                 "date": "2025-01-28T11:02:18+03:00",
@@ -342,12 +343,12 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **comments**
+|| **COMMENTS**
 [`object[]`](../../data-types.md) | Массив комментариев. Каждый элемент содержит поля:
 - `id`, `comment_id`, `log_id`, `date` — в формате ISO 8601
 - `text` и `attach` — массив идентификаторов файлов Диска из массива `FILES` ||
-|| **files**
-[`object`](../../data-types.md) | Ассоциативный массив с описанием файлов, где ключ — идентификатор объекта Диска. Для каждого файла передаются `id`, `date`, `type`, `name`, `size`, сведения об авторе, а также прямые ссылки `urlPreview`, `urlShow`, `urlDownload` ||
+|| **FILES**
+[`object`](../../data-types.md) | Ассоциативный массив с описанием файлов, где ключ — идентификатор объекта Диска. Если файлов нет, возвращается пустой массив `[]`. Для каждого файла передаются `id`, `date`, `type`, `name`, `size`, сведения об авторе, а также прямые ссылки `urlPreview`, `urlShow`, `urlDownload` ||
 |#
 
 ## Обработка ошибок
@@ -361,4 +362,5 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./log-blogcomment-add.md)
+- [{#T}](./log-blogcomment-get.md)
 - [{#T}](./log-blogcomment-delete.md)

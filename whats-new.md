@@ -5,6 +5,7 @@
 ### 21 октября, 2026
 
 - Добавили методы Базы знаний 2.0 в REST 3.0: [note.document.list](./api-reference/note/document/note-document-list.md) для получения всех доступных документов, [note.document.move](./api-reference/note/document/note-document-move.md) и [note.collection.move](./api-reference/note/collection/note-collection-move.md) для перемещения документов и баз знаний, [note.document.unarchive](./api-reference/note/document/note-document-unarchive.md) и [note.collection.unarchive](./api-reference/note/collection/note-collection-unarchive.md) для возврата из архива, [note.document.restore](./api-reference/note/document/note-document-restore.md) и [note.collection.restore](./api-reference/note/collection/note-collection-restore.md) для восстановления из корзины, [note.file.list](./api-reference/note/file/note-file-list.md) для получения списка файлов документа
+- Добавили метод [log.blogcomment.get](./api-reference/log/blogcomment/log-blogcomment-get.md): получает опубликованные комментарии к сообщению Ленты новостей с прикрепленными файлами и поддерживает постраничную выдачу
 
 ### 17 сентября, 2026
 

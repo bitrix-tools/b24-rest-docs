@@ -33,7 +33,7 @@
 
 1. Получите идентификатор сообщения `POST_ID` методом [log.blogpost.get](../log-blogpost-get.md)
 2. Добавьте комментарий методом [log.blogcomment.add](./log-blogcomment-add.md)
-3. Получите комментарии пользователя методом [log.blogcomment.user.get](./log-blogcomment-user-get.md), если нужно синхронизировать обсуждение
+3. Получите комментарии к сообщению методом [log.blogcomment.get](./log-blogcomment-get.md) или комментарии пользователя методом [log.blogcomment.user.get](./log-blogcomment-user-get.md), если нужно синхронизировать обсуждение
 4. Удалите комментарий методом [log.blogcomment.delete](./log-blogcomment-delete.md), если это разрешено правами пользователя
 
 ## Обзор методов {#all-methods}
@@ -45,6 +45,7 @@
 #|
 || **Метод** | **Описание** ||
 || [log.blogcomment.add](./log-blogcomment-add.md) | Добавляет комментарий к сообщению Ленты новостей ||
+|| [log.blogcomment.get](./log-blogcomment-get.md) | Возвращает комментарии к сообщению Ленты новостей ||
 || [log.blogcomment.user.get](./log-blogcomment-user-get.md) | Возвращает список комментариев к сообщению Ленты новостей ||
 || [log.blogcomment.delete](./log-blogcomment-delete.md) | Удаляет комментарий к сообщению ||
 |#

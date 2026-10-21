@@ -351,5 +351,6 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./log-blogcomment-delete.md)
+- [{#T}](./log-blogcomment-get.md)
 - [{#T}](./log-blogcomment-user-get.md)
+- [{#T}](./log-blogcomment-delete.md)

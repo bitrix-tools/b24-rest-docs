@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Добавить комментарий
     href: log-blogcomment-add.md
+  - name: Получить комментарии к сообщению
+    href: log-blogcomment-get.md
   - name: Получить комментарии пользователя
     href: log-blogcomment-user-get.md
   - name: Удалить комментарий

@@ -300,4 +300,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./log-blogcomment-add.md)
+- [{#T}](./log-blogcomment-get.md)
 - [{#T}](./log-blogcomment-user-get.md)
