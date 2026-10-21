@@ -28,8 +28,36 @@
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **filter**
+[`array`](../../data-types.md) | Фильтр списка в формате REST 3.0: массив условий вида `["поле", "оператор", "значение"]`. Фильтровать можно только по полю `state`. [Описание поля](#filter).
+
+Синтаксис фильтра описан в [обзоре REST 3.0](../../rest-v3.md#filter).
+
+По умолчанию возвращаются только активные базы знаний ||
 || **pagination**
 [`object`](../../data-types.md) | Объект постраничной навигации. [Описание структуры объекта](#pagination) ||
+|| **select**
+[`array`](../../data-types.md) | Список полей базы знаний, которые нужно вернуть в ответе, например `["id","name","state"]`. Имена полей совпадают с полями ответа.
+
+По умолчанию возвращаются все поля ||
+|#
+
+### Параметр filter {#filter}
+
+#|
+|| **Поле** | **Описание** ||
+|| **state**
+[`string`](../../data-types.md) | Состояние базы знаний. Поддерживаются операторы `=` и `in`.
+
+Возможные значения:
+
+- `live` — активная база знаний
+- `archived` — база знаний в архиве
+- `trashed` — база знаний в корзине. Возвращаются только базы знаний, для которых у пользователя есть право «Администрирование»
+
+По умолчанию: `live`.
+
+Условие по `state` можно указывать только на верхнем уровне фильтра, не внутри логики `or` и не в отрицании ||
 |#
 
 ### Параметр pagination {#pagination}
@@ -117,6 +145,7 @@
         position: number
         policyLevel: string
         accessLevel: string
+        state: 'live' | 'archived' | 'trashed'
         isArchived: boolean
         markdownDescription: string | null
         createdBy: number
@@ -362,6 +391,7 @@ HTTP-статус: **200**
                 "position": 100,
                 "policyLevel": "private",
                 "accessLevel": "full",
+                "state": "live",
                 "isArchived": false,
                 "createdBy": 1,
                 "createdAt": "2026-06-23T22:01:03+03:00",
@@ -375,6 +405,7 @@ HTTP-статус: **200**
                 "position": 100,
                 "policyLevel": "private",
                 "accessLevel": "full",
+                "state": "live",
                 "isArchived": false,
                 "createdBy": 1,
                 "createdAt": "2026-06-22T12:16:33+03:00",
@@ -416,6 +447,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Код политики доступа базы знаний, например `private` или `portal`. Уровень доступа текущего пользователя возвращается отдельно в `accessLevel` ||
 || **result.items[].accessLevel**
 [`string`](../../data-types.md) | Код уровня доступа текущего пользователя к базе знаний. В примере — `full` ||
+|| **result.items[].state**
+[`string`](../../data-types.md) | Состояние базы знаний: `live` — активная, `archived` — в архиве, `trashed` — в корзине ||
 || **result.items[].isArchived**
 [`boolean`](../../data-types.md) | `true` — база знаний архивирована, `false` — не архивирована ||
 || **result.items[].createdBy**
@@ -457,6 +490,27 @@ HTTP-статус: **403**
 
 Выход `pagination.limit` за диапазон и неполный `pagination.afterCursor` не вызывают ошибки валидации: значения нормализуются по правилам из раздела «Параметры метода».
 
+#### Ошибки валидации запроса
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `state` | unknown state: expected one of live, archived, trashed | Передайте `live`, `archived` или `trashed` ||
+|| `state` | operator "#OPERATOR#" is not supported for state: use "=" or "in" | Используйте для `state` оператор `=` или `in` ||
+|| `state` | state belongs to the top-level "and" of the filter: it cannot sit under "or" or under a negation | Перенесите условие по `state` на верхний уровень фильтра ||
+|| `#FIELD#` | В DTO `CollectionItemDto` в поле `#FIELD#` требуется наличие атрибута `Filterable` для такого запроса | Фильтруйте только по полю `state` ||
+|#
+
+#### Ошибка неизвестного поля
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Неизвестное поле `#FIELD#` для сущности `CollectionItemDto` | Укажите в `select` только поля из раздела «Возвращаемые данные» ||
+|#
+
 #### Ошибки доступа
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
@@ -472,4 +526,5 @@ HTTP-статус: **403**
 
 - [{#T}](./note-collection-add.md)
 - [{#T}](./note-collection-update.md)
+- [{#T}](./note-collection-move.md)
 - [{#T}](./index.md)

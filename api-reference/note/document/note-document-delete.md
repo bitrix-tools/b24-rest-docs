@@ -23,7 +23,7 @@
 
 {% note info "" %}
 
-Восстановить документ из корзины можно только через интерфейс.
+Восстановить документ из корзины можно методом [note.document.restore](./note-document-restore.md).
 
 {% endnote %}
 
@@ -342,4 +342,5 @@ HTTP-статус: **400**
 - [{#T}](./note-document-add.md)
 - [{#T}](./note-document-update.md)
 - [{#T}](./note-document-archive.md)
+- [{#T}](./note-document-restore.md)
 - [{#T}](./index.md)

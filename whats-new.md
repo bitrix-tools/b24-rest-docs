@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 21 октября, 2026
+
+- Добавили методы Базы знаний 2.0 в REST 3.0: [note.document.list](./api-reference/note/document/note-document-list.md) для получения всех доступных документов, [note.document.move](./api-reference/note/document/note-document-move.md) и [note.collection.move](./api-reference/note/collection/note-collection-move.md) для перемещения документов и баз знаний, [note.document.unarchive](./api-reference/note/document/note-document-unarchive.md) и [note.collection.unarchive](./api-reference/note/collection/note-collection-unarchive.md) для возврата из архива, [note.document.restore](./api-reference/note/document/note-document-restore.md) и [note.collection.restore](./api-reference/note/collection/note-collection-restore.md) для восстановления из корзины, [note.file.list](./api-reference/note/file/note-file-list.md) для получения списка файлов документа
+
 ### 17 сентября, 2026
 
 - Добавили методы [biconnector.table.*](./api-reference/biconnector/table/index.md) для работы с таблицами BI-Конструктора: создание, обновление описания, получение по идентификатору, список с фильтром, удаление, обновление состава колонок и описание полей

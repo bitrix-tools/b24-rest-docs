@@ -44,9 +44,10 @@
 - `updatedBy` — идентификатор последнего редактора
 - `updatedAt` — дата и время последнего изменения
 - `contentUpdatedAt` — дата и время последнего изменения содержимого
-- `isArchived` — признак архивации
-- `isTrashed` — признак нахождения в корзине
-- `isOrphan` — признак отсутствия базы знаний документа ||
+- `state` — состояние документа
+- `isArchived` — признак архивации, устаревшее поле
+- `isTrashed` — признак нахождения в корзине, устаревшее поле
+- `isOrphan` — признак отсутствия базы знаний документа, устаревшее поле ||
 || **select**
 [`array`](../../data-types.md) | Массив строк с именами свойств описания, которые нужно вернуть в ответе.
 
@@ -367,7 +368,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../data-types.md) | Имя поля: `id`, `collectionId`, `parentId`, `title`, `markdown`, `position`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`, `contentUpdatedAt`, `isArchived`, `isTrashed`, `isOrphan` ||
+[`string`](../../data-types.md) | Имя поля: `id`, `collectionId`, `parentId`, `title`, `markdown`, `position`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`, `contentUpdatedAt`, `state`, `isArchived`, `isTrashed`, `isOrphan` ||
 || **type**
 [`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `object`, `bool`. Для полей даты возвращается `object`, хотя значения дат в ответах методов передаются строками ISO 8601 ||
 || **title**

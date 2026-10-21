@@ -83,6 +83,7 @@
         position: number
         policyLevel: string
         accessLevel: string
+        state: 'live' | 'archived' | 'trashed'
         isArchived: boolean
         markdownDescription: string | null
         createdBy: number
@@ -281,6 +282,7 @@ HTTP-статус: **200**
             "updatedBy": 1,
             "updatedAt": "2026-04-21T09:15:30Z",
             "accessLevel": "full",
+            "state": "live",
             "isArchived": false,
             "markdownDescription": null
         }
@@ -317,6 +319,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Код политики доступа базы знаний, например `private` или `portal` ||
 || **result.item.accessLevel**
 [`string`](../../data-types.md) | Код уровня доступа текущего пользователя, например `full` ||
+|| **result.item.state**
+[`string`](../../data-types.md) | Состояние базы знаний: `live` — активная, `archived` — в архиве, `trashed` — в корзине. База знаний в корзине возвращается только пользователю с правом «Администрирование» для нее ||
 || **result.item.isArchived**
 [`boolean`](../../data-types.md) | Признак архивации базы знаний ||
 || **result.item.markdownDescription**
@@ -381,4 +385,6 @@ HTTP-статус: **400**
 
 - [{#T}](./note-collection-list.md)
 - [{#T}](./note-collection-update.md)
+- [{#T}](./note-collection-unarchive.md)
+- [{#T}](./note-collection-restore.md)
 - [{#T}](./index.md)

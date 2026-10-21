@@ -345,4 +345,5 @@ HTTP-статус: **409**
 - [{#T}](./note-collection-add.md)
 - [{#T}](./note-collection-update.md)
 - [{#T}](./note-collection-archive.md)
+- [{#T}](./note-collection-restore.md)
 - [{#T}](./index.md)

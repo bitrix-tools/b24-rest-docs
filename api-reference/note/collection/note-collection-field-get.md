@@ -38,6 +38,7 @@
 - `position` — позиция базы знаний
 - `policyLevel` — базовая политика доступа
 - `accessLevel` — уровень доступа текущего пользователя
+- `state` — состояние базы знаний
 - `isArchived` — признак архивации
 - `markdownDescription` — дополнительное описание Markdown
 - `createdBy` — идентификатор автора базы знаний
@@ -364,7 +365,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../data-types.md) | Имя поля: `id`, `name`, `position`, `policyLevel`, `accessLevel`, `isArchived`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`, `markdownDescription` ||
+[`string`](../../data-types.md) | Имя поля: `id`, `name`, `position`, `policyLevel`, `accessLevel`, `state`, `isArchived`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`, `markdownDescription` ||
 || **type**
 [`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `bool`, `object`. Для полей даты возвращается `object`, хотя значения дат в ответах методов передаются строками ISO 8601 ||
 || **title**

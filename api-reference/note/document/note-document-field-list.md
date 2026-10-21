@@ -333,7 +333,7 @@ HTTP-статус: **200**
                 "name": "collectionId",
                 "type": "int",
                 "title": "collectionId",
-                "filterable": false,
+                "filterable": true,
                 "sortable": false
             },
             {
@@ -400,6 +400,13 @@ HTTP-статус: **200**
                 "sortable": false
             },
             {
+                "name": "state",
+                "type": "string",
+                "title": "state",
+                "filterable": true,
+                "sortable": false
+            },
+            {
                 "name": "isArchived",
                 "type": "bool",
                 "title": "isArchived",
@@ -456,7 +463,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../data-types.md) | Имя поля: `id`, `collectionId`, `parentId`, `title`, `markdown`, `position`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`, `contentUpdatedAt`, `isArchived`, `isTrashed`, `isOrphan` ||
+[`string`](../../data-types.md) | Имя поля: `id`, `collectionId`, `parentId`, `title`, `markdown`, `position`, `createdBy`, `updatedBy`, `createdAt`, `updatedAt`, `contentUpdatedAt`, `state`, `isArchived`, `isTrashed`, `isOrphan` ||
 || **type**
 [`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `object`, `bool`. Для полей даты возвращается `object`, хотя значения дат в ответах методов передаются строками ISO 8601 ||
 || **title**

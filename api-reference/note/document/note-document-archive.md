@@ -334,4 +334,5 @@ HTTP-статус: **400**
 - [{#T}](./note-document-add.md)
 - [{#T}](./note-document-update.md)
 - [{#T}](./note-document-delete.md)
+- [{#T}](./note-document-unarchive.md)
 - [{#T}](./index.md)

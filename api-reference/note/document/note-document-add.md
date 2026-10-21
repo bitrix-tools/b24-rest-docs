@@ -112,6 +112,7 @@
         createdAt: ISODate
         updatedAt: ISODate
         contentUpdatedAt: ISODate
+        state: 'live' | 'archived' | 'trashed'
         isArchived: boolean
         isTrashed: boolean
         isOrphan: boolean
@@ -346,6 +347,7 @@ HTTP-статус: **200**
             "createdAt": "2026-04-20T12:00:00Z",
             "updatedAt": "2026-04-20T12:00:00Z",
             "contentUpdatedAt": "2026-04-20T12:00:00Z",
+            "state": "live",
             "isArchived": false,
             "isTrashed": false,
             "isOrphan": false
@@ -395,12 +397,14 @@ HTTP-статус: **200**
 [`datetime`](../../data-types.md) | Дата и время последнего изменения документа в формате ISO 8601 со смещением часового пояса ||
 || **result.item.contentUpdatedAt**
 [`datetime`](../../data-types.md) | Дата и время изменения содержимого в формате ISO 8601 со смещением часового пояса ||
+|| **result.item.state**
+[`string`](../../data-types.md) | Состояние документа: `live` — активный, `archived` — в архиве, `trashed` — в корзине ||
 || **result.item.isArchived**
-[`boolean`](../../data-types.md) | Признак архивации документа ||
+[`boolean`](../../data-types.md) | Устаревшее поле. Используйте `state`. Признак архивации документа ||
 || **result.item.isTrashed**
-[`boolean`](../../data-types.md) | Признак нахождения документа в корзине ||
+[`boolean`](../../data-types.md) | Устаревшее поле. Используйте `state`. Признак нахождения документа в корзине ||
 || **result.item.isOrphan**
-[`boolean`](../../data-types.md) | Признак отсутствия связанной базы знаний ||
+[`boolean`](../../data-types.md) | Устаревшее поле. Признак того, что документ в корзине, а его база знаний удалена ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -490,4 +494,5 @@ HTTP-статус: **400**
 - [{#T}](./note-document-update.md)
 - [{#T}](./note-document-archive.md)
 - [{#T}](./note-document-delete.md)
+- [{#T}](./note-document-move.md)
 - [{#T}](./index.md)
