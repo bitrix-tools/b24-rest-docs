@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара»
+> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара» и правом изменять цены товара в инфоблоке каталога
 
 Метод `catalog.price.modify` изменяет коллекцию цен товара. Позволяет добавлять, обновлять и удалять разные цены товара за один запрос.
 
@@ -58,7 +58,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены. Если указан, то цена будет обновлена. Если не указан, то будет создана новая цена. Цена, идентификатор которой не был передан, будет удалена. Получить идентификаторы цен можно методом [catalog.price.list](./catalog-price-list.md) ||
+[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены. Если указан, то цена будет обновлена. Если не указан, то будет создана новая цена. Цена, идентификатор которой не был передан, будет удалена. Получить идентификаторы цен можно методом [catalog.price.list](./catalog-price-list.md).
+
+Сейчас передача `id` приводит к ошибке, подробнее в предупреждении под таблицей ||
 || **catalogGroupId***
 [`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены, можно получить методом [catalog.priceType.list](../price-type/catalog-price-type-list.md) ||
 || **price***
@@ -66,6 +68,14 @@
 || **currency***
 [`string`](../../data-types.md) | Идентификатор валюты, можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
 |#
+
+{% note warning "" %}
+
+Сейчас метод не обновляет существующие цены. Если передать в `prices` цену с `id`, метод вернет ошибку `Validate price error. Catalog price group is wrong`, и цены товара не изменятся.
+
+Передавайте все цены товара без `id`. Метод удалит текущие цены товара и создаст новые с переданными значениями, поэтому идентификаторы цен изменятся. Чтобы изменить одну цену и сохранить ее идентификатор, используйте метод [catalog.price.update](./catalog-price-update.md).
+
+{% endnote %}
 
 
 ## Примеры кода
@@ -80,7 +90,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001,"id":122}]}}}' \
+    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001}]}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.price.modify
     ```
 
@@ -90,7 +100,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001,"id":122}]},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001}]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.price.modify
     ```
 
@@ -142,7 +152,6 @@
                   catalogGroupId: 5,
                   currency: 'RUB',
                   price: 2001,
-                  id: 122,
                 },
               ],
             },
@@ -196,7 +205,6 @@
                       catalogGroupId: 5,
                       currency: 'RUB',
                       price: 2001,
-                      id: 122,
                     },
                   ],
                 },
@@ -248,7 +256,6 @@
                             "catalogGroupId": 5,
                             "currency": "RUB",
                             "price": 2001,
-                            "id": 122,
                         },
                     ],
                 },
@@ -296,7 +303,6 @@
                                     'catalogGroupId' => 5,
                                     'currency' => 'RUB',
                                     'price' => 2001,
-                                    'id' => 122
                                 ]
                             ]
                         ]
@@ -344,7 +350,6 @@
                             catalogGroupId: 5,
                             currency: 'RUB',
                             price: 2001,                
-                            id: 122
                         },
                     ]
                 },
@@ -386,7 +391,6 @@
                             'catalogGroupId' => 5,
                             'currency' => 'RUB',
                             'price' => 2001,
-                            'id' => 122
                         ],
                     ]
                 ],
@@ -422,7 +426,6 @@
     					"catalogGroupId": 5,
     					"currency":       "RUB",
     					"price":          2001,
-    					"id":             122,
     				},
     			},
     		},
@@ -545,7 +548,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `200040300020` | Access Denied | Недостаточно прав на редактирование цены ||
-|| `200040300030` | Access Denied | Недостаточно прав на редактирование товара ||
+|| `200040300030` | Access Denied | Нет права изменять цены товара в инфоблоке каталога ||
 || `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` ||
 || `0` | Required fields:  | Не переданы обязательные поля ||
 || `0` | Validate price error. Catalog price group is wrong | Неправильный тип цены ||

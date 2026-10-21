@@ -244,6 +244,7 @@ HTTP-статус: **400**, **403**
 || `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
 || `FILE_ACCESS_ERROR` | File access error | Нет прав на скачивание файла ||
 || `FILE_NOT_FOUND` | File not found | Файл не найден ||
+|| `VIDEO_NOTE_DOWNLOAD_RESTRICTED` | Cannot download video notes. | Файл — видеосообщение, а скачивание видеосообщений отключено в настройках Битрикс24 ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}

@@ -667,10 +667,15 @@ HTTP-статус: **400**, **403**
 #|
 || **Код** | **Описание** | **Статус** ||
 || `ACCESS_DENIED` | Доступ запрещен. Приложение пытается изменить обработчик, добавленный другим приложением, либо недостаточно прав для обновления обработчика | 403 ||
-|| `ERROR_CHECK_FAILURE` | Не указано значение поля `ID` либо `FIELDS` | 400 ||
+|| `ERROR_CHECK_FAILURE` | Возможные причины:
+- не указано значение поля `ID` либо `FIELDS`
+- `FIELDS[SETTINGS]` передан не объектом или в нем указан недопустимый `CLIENT_TYPE`
+- в `FORM_DATA`, `CHECKOUT_DATA` или `IFRAME_DATA` параметр `FIELDS` передан не объектом — `Parameter SETTINGS[<режим>][FIELDS] is invalid`
+- описание поля формы не объект, в нем нет ключа `CODE` или `CODE` — пустая строка — `Parameter SETTINGS[<режим>][FIELDS] contains invalid field` | 400 ||
 || `ERROR_HANDLER_NOT_FOUND` | Обработчик с указанным `ID` не найден | 400 ||
 || `ERROR_HANDLER_UPDATE` | Прочие ошибки. Подробную информацию об ошибке смотрите в `error_description` | 400 ||
-|| `ERROR_UNEXPECTED_ANSWER` | Неожиданный ответ сервера. Одна из возможных причин — попытка указать обработчику неуникальный параметр `CODE`, уже существующий у другого обработчика | 400 ||
+|| `ERROR_HANDLER_ALREADY_EXIST` | Handler already exists! Обработчик с кодом, указанным в параметре `CODE`, уже существует | 400 ||
+|| `ERROR_UNEXPECTED_ANSWER` | Неожиданный ответ сервера | 400 ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

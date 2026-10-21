@@ -661,6 +661,7 @@ HTTP-статус: **400**
 || `400` | `SAVE_ERROR` | Error during saving file to chat | Возможные причины:
 - передан пустым `FILE_ID` или `UPLOAD_ID`
 - переданы несуществующие идентификаторы файлов ||
+|| `400` | `DISK_QUOTA_EXCEEDED` | Disk quota exceeded | На Диске не хватает места, чтобы скопировать файлы из `FILE_ID` в папку чата. В ответе дополнительно приходит поле `infoHelperCode` ||
 || `403` | `ACCESS_ERROR` | You do not have access to the specified dialog | Недостаточно прав на просмотр диалога или передан несуществующий диалог ||
 |#
 

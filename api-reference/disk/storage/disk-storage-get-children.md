@@ -31,7 +31,9 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор хранилища.
 
-Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md) ||
+Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md).
+
+Если передать нечисловое значение, метод вернет `"result": null` без ошибки ||
 || **filter**
 [`array`](../../data-types.md) | Массив формата:
 
