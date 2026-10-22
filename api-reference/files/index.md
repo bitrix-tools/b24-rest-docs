@@ -47,6 +47,7 @@
 || Комментарий CRM | Поле `FILES` | [crm.timeline.comment.add](../crm/timeline/comments/crm-timeline-comment-add.md), [crm.timeline.comment.update](../crm/timeline/comments/crm-timeline-comment-update.md) ||
 || Каталог | Поля `previewPicture` и `detailPicture` или свойство товара; у значения свойства есть свой `valueId`, он нужен при обновлении и удалении | [catalog.product.add](../catalog/product/catalog-product-add.md), [catalog.product.update](../catalog/product/catalog-product-update.md) ||
 || Дополнительные изображения товара | Параметр `fileContent` | [catalog.productImage.add](../catalog/product-image/catalog-product-image-add.md) ||
+|| Изображения товара в REST 3.0 | Поле `fields.file.upload`. Методы товаров REST v3 файлы пока не сохраняют, изображения загружает только этот метод | [catalog.product.image.add REST v3](../catalog/product-image/catalog-product-image-add-rest-v3.md) ||
 || Списки | Свойство элемента вида `PROPERTY_1075` | [lists.element.add](../lists/elements/lists-element-add.md), [lists.element.update](../lists/elements/lists-element-update.md) ||
 || Хранилище данных | Свойство типа «файл» | [entity.item.add](../entity/items/entity-item-add.md), [entity.item.update](../entity/items/entity-item-update.md) ||
 || Лента | Поле `FILES`, у постов также `UF_BLOG_POST_FILE` | [log.blogpost.add](../log/log-blogpost-add.md), [log.blogpost.update](../log/log-blogpost-update.md), [log.blogcomment.add](../log/blogcomment/log-blogcomment-add.md) ||
@@ -82,6 +83,7 @@
 || Элемент списка | Объект, где ключ — `ID` значения свойства, значение — `ID` файла | [lists.element.get.file.url](../lists/elements/lists-element-get-file-url.md) ||
 || Пост в ленте | Массив `ID` файлов | Ссылки в ответе нет: файлы поста лежат на Диске автора ||
 || Товар | В свойстве — массив объектов, где `value` содержит `id`, `url` и `urlMachine`, а `valueId` — идентификатор значения; в полях `previewPicture` и `detailPicture` — один объект с `id`, `url` и `urlMachine` | Ссылки приходят сразу в ответе [catalog.product.get](../catalog/product/catalog-product-get.md) ||
+|| Товар в REST 3.0 | В полях `previewPicture` и `detailPicture` — идентификатор файла строкой | [catalog.product.download REST v3](../catalog/product/catalog-product-download-rest-v3.md) возвращает ссылку в поле `src` ||
 || Файл на Диске | Объект файла: `ID`, имя, размер, `DOWNLOAD_URL` | Ссылка приходит сразу в ответе [disk.file.get](../disk/file/disk-file-get.md) ||
 |#
 
