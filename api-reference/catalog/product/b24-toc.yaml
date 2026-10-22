@@ -5,18 +5,42 @@ items:
     href: index.md
   - name: Добавить товар
     href: catalog-product-add.md
+  - name: Добавить товар v 3.0
+    href: catalog-product-add-rest-v3.md
   - name: Обновить товар
     href: catalog-product-update.md
+  - name: Обновить товар v 3.0
+    href: catalog-product-update-rest-v3.md
   - name: Получить товар по id
     href: catalog-product-get.md
+  - name: Получить товар по идентификатору v 3.0
+    href: catalog-product-get-rest-v3.md
   - name: Получить список товаров по фильтру
     href: catalog-product-list.md
+  - name: Получить список товаров по фильтру v 3.0
+    href: catalog-product-list-rest-v3.md
   - name: Скачать файлы товара
     href: catalog-product-download.md
+  - name: Скачать файлы товара v 3.0
+    href: catalog-product-download-rest-v3.md
   - name: Удалить товар
     href: catalog-product-delete.md
+  - name: Удалить товар v 3.0
+    href: catalog-product-delete-rest-v3.md
   - name: Получить поля товара по фильтру
     href: catalog-product-get-fields-by-filter.md
+  - name: Получить список полей товара v 3.0
+    href: catalog-product-field-list.md
+  - name: Получить поле товара
+    href: catalog-product-field-get.md
+  - name: Получить поля товара по фильтру v 3.0
+    href: catalog-product-fields-get-by-filter.md
+  - name: Получить список типов товаров
+    href: catalog-product-type-list.md
+  - name: Получить список полей типа товара
+    href: catalog-product-type-field-list.md
+  - name: Получить поле типа товара
+    href: catalog-product-type-field-get.md
   - name: Головные товары
     include:
       path: sku/b24-toc.yaml

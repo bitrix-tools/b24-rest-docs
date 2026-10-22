@@ -48,17 +48,37 @@
 - [catalog.product.sku.list](../product/sku/catalog-product-sku-list.md) — для головных товаров у товаров с вариациями
 - [catalog.product.offer.list](../product/offer/catalog-product-offer-list.md) — для вариаций товаров
 
+## Изображения в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для изображений есть методы добавления, получения, удаления и методы получения схемы полей `catalog.product.image.field.list` и `catalog.product.image.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- методы [catalog.product.image.get](./catalog-product-image-get-rest-v3.md) и [catalog.product.image.delete](./catalog-product-image-delete-rest-v3.md) требуют `id` изображения и `productId` товара, метод [catalog.product.image.list](./catalog-product-image-list-rest-v3.md) — фильтр по `productId`
+- файл передается в `fields.file.upload`: имя файла `name` и содержимое `data` в Base64 или ссылка `url`
+- изображения типов `PREVIEW_PICTURE` и `DETAIL_PICTURE` заменяют прежние, изображение типа `MORE_PHOTO` добавляется к имеющимся
+- идентификатор изображения совпадает с идентификатором файла
+- кроме прав каталога, методы проверяют права пользователя на инфоблок каталога: на чтение, изменение или удаление товара
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы:
+> - администратор — для методов прежней версии API
+> - пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение товара — для получения изображений в REST 3.0. Для добавления и удаления нужно право «Редактирование товара» и право на изменение товара
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.productImage.add](./catalog-product-image-add.md) | Добавляет изображение в товар или вариацию ||
+|| [catalog.product.image.add](./catalog-product-image-add-rest-v3.md) | Добавляет изображение в товар или вариацию v 3.0 ||
 || [catalog.productImage.get](./catalog-product-image-get.md) | Возвращает информацию о конкретном изображении товара или вариации ||
+|| [catalog.product.image.get](./catalog-product-image-get-rest-v3.md) | Возвращает информацию о конкретном изображении товара или вариации v 3.0 ||
 || [catalog.productImage.list](./catalog-product-image-list.md) | Возвращает список изображений товара или вариации ||
+|| [catalog.product.image.list](./catalog-product-image-list-rest-v3.md) | Возвращает список изображений товара или вариации v 3.0 ||
 || [catalog.productImage.delete](./catalog-product-image-delete.md) | Удаляет изображение из товара или вариации ||
+|| [catalog.product.image.delete](./catalog-product-image-delete-rest-v3.md) | Удаляет изображение из товара или вариации v 3.0 ||
 || [catalog.productImage.getFields](./catalog-product-image-get-fields.md) | Возвращает доступные поля изображения товара или вариации ||
+|| [catalog.product.image.field.list](./catalog-product-image-field-list.md) | Возвращает список полей изображения товара v 3.0 ||
+|| [catalog.product.image.field.get](./catalog-product-image-field-get.md) | Возвращает описание поля изображения товара ||
 |#

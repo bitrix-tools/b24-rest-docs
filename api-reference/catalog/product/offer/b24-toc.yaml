@@ -5,15 +5,31 @@ items:
     href: index.md
   - name: Добавить вариацию товара
     href: catalog-product-offer-add.md
+  - name: Добавить вариацию товара v 3.0
+    href: catalog-product-offer-add-rest-v3.md
   - name: Обновить поля вариации товара
     href: catalog-product-offer-update.md
+  - name: Обновить поля вариации товара v 3.0
+    href: catalog-product-offer-update-rest-v3.md
   - name: Получить значения полей вариации товара
     href: catalog-product-offer-get.md
+  - name: Получить значения полей вариации товара v 3.0
+    href: catalog-product-offer-get-rest-v3.md
   - name: Получить список вариаций товара
     href: catalog-product-offer-list.md
+  - name: Получить список вариаций товара v 3.0
+    href: catalog-product-offer-list-rest-v3.md
   - name: Скачать файлы вариации товара
     href: catalog-product-offer-download.md
+  - name: Скачать файлы вариации товара v 3.0
+    href: catalog-product-offer-download-rest-v3.md
   - name: Удалить вариацию товара
     href: catalog-product-offer-delete.md
+  - name: Удалить вариацию товара v 3.0
+    href: catalog-product-offer-delete-rest-v3.md
   - name: Получить поля вариации товара по фильтру
     href: catalog-product-offer-get-fields-by-filter.md
+  - name: Получить список полей вариации товара v 3.0
+    href: catalog-product-offer-field-list.md
+  - name: Получить поле вариации товара
+    href: catalog-product-offer-field-get.md

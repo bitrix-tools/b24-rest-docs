@@ -43,19 +43,38 @@
 4. При необходимости добавьте изображения методом [catalog.productImage.add](../../product-image/catalog-product-image-add.md)
 5. Укажите цены вариаций методами [catalog.price.*](../../price/index.md)
 
+## Головные товары в REST 3.0
+
+В [REST 3.0](../../../rest-v3.md) для головных товаров есть методы добавления, изменения, получения, удаления, скачивания файлов и методы получения схемы полей `catalog.product.sku.field.list` и `catalog.product.sku.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`. Общие особенности методов товаров новой версии описаны в [обзоре товаров](../index.md).
+
+Особенности методов новой версии:
+
+- головной товар без вариаций получает тип `6`, после добавления первой вариации — тип `3`. Если удалить последнюю вариацию, головной товар становится простым товаром и пропадает из выдачи методов `catalog.product.sku.*`
+- метод [catalog.product.sku.delete](./catalog-product-sku-delete-rest-v3.md) удаляет головной товар вместе со всеми его вариациями
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы:
+> - администратор — для методов прежней версии API
+> - пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правами на инфоблок — для получения головных товаров в REST 3.0. Для добавления, изменения и удаления нужны также права «Создание товара», «Редактирование товара» или «Удаление товара»
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.product.sku.add](./catalog-product-sku-add.md) | Добавляет головной товар в торговый каталог ||
+|| [catalog.product.sku.add](./catalog-product-sku-add-rest-v3.md) | Добавляет головной товар в торговый каталог v 3.0 ||
 || [catalog.product.sku.update](./catalog-product-sku-update.md) | Обновляет поля головного товара ||
+|| [catalog.product.sku.update](./catalog-product-sku-update-rest-v3.md) | Обновляет поля головного товара v 3.0 ||
 || [catalog.product.sku.get](./catalog-product-sku-get.md) | Возвращает значения полей головного товара по идентификатору ||
+|| [catalog.product.sku.get](./catalog-product-sku-get-rest-v3.md) | Возвращает значения полей головного товара по идентификатору v 3.0 ||
 || [catalog.product.sku.list](./catalog-product-sku-list.md) | Возвращает список головных товаров по фильтру ||
+|| [catalog.product.sku.list](./catalog-product-sku-list-rest-v3.md) | Возвращает список головных товаров по фильтру v 3.0 ||
 || [catalog.product.sku.download](./catalog-product-sku-download.md) | Скачивает файлы головного товара по переданным параметрам ||
+|| [catalog.product.sku.download](./catalog-product-sku-download-rest-v3.md) | Скачивает файлы головного товара по переданным параметрам v 3.0 ||
 || [catalog.product.sku.delete](./catalog-product-sku-delete.md) | Удаляет головной товар ||
+|| [catalog.product.sku.delete](./catalog-product-sku-delete-rest-v3.md) | Удаляет головной товар v 3.0 ||
 || [catalog.product.sku.getFieldsByFilter](./catalog-product-sku-get-fields-by-filter.md) | Возвращает поля головного товара по фильтру ||
+|| [catalog.product.sku.field.list](./catalog-product-sku-field-list.md) | Возвращает список полей головного товара v 3.0 ||
+|| [catalog.product.sku.field.get](./catalog-product-sku-field-get.md) | Возвращает описание поля головного товара ||
 |#

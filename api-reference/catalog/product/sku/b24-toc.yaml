@@ -5,18 +5,34 @@ items:
     href: index.md
   - name: Добавить головной товар
     href: catalog-product-sku-add.md
+  - name: Добавить головной товар v 3.0
+    href: catalog-product-sku-add-rest-v3.md
   - name: Обновить поля головного товара
     href: catalog-product-sku-update.md
+  - name: Обновить поля головного товара v 3.0
+    href: catalog-product-sku-update-rest-v3.md
   - name: Получить значения полей головного товара
     href: catalog-product-sku-get.md
+  - name: Получить значения полей головного товара v 3.0
+    href: catalog-product-sku-get-rest-v3.md
   - name: Получить список головных товаров
     href: catalog-product-sku-list.md
+  - name: Получить список головных товаров v 3.0
+    href: catalog-product-sku-list-rest-v3.md
   - name: Скачать файлы головного товара
     href: catalog-product-sku-download.md
+  - name: Скачать файлы головного товара v 3.0
+    href: catalog-product-sku-download-rest-v3.md
   - name: Удалить головной товар
     href: catalog-product-sku-delete.md
+  - name: Удалить головной товар v 3.0
+    href: catalog-product-sku-delete-rest-v3.md
   - name: Получить поля головного товара по фильтру
     href: catalog-product-sku-get-fields-by-filter.md
+  - name: Получить список полей головного товара v 3.0
+    href: catalog-product-sku-field-list.md
+  - name: Получить поле головного товара
+    href: catalog-product-sku-field-get.md
 
 
 

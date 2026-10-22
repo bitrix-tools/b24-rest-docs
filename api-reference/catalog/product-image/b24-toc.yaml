@@ -5,11 +5,23 @@ items:
     href: index.md
   - name: Добавить изображение в товар
     href: catalog-product-image-add.md
+  - name: Добавить изображение в товар v 3.0
+    href: catalog-product-image-add-rest-v3.md
   - name: Получить информацию об изображении товара
     href: catalog-product-image-get.md
+  - name: Получить информацию об изображении товара v 3.0
+    href: catalog-product-image-get-rest-v3.md
   - name: Получить список изображений товара
     href: catalog-product-image-list.md
+  - name: Получить список изображений товара v 3.0
+    href: catalog-product-image-list-rest-v3.md
   - name: Удалить изображение из товара
     href: catalog-product-image-delete.md
+  - name: Удалить изображение из товара v 3.0
+    href: catalog-product-image-delete-rest-v3.md
   - name: Получить поля изображения товара
     href: catalog-product-image-get-fields.md
+  - name: Получить список полей изображения товара v 3.0
+    href: catalog-product-image-field-list.md
+  - name: Получить поле изображения товара
+    href: catalog-product-image-field-get.md

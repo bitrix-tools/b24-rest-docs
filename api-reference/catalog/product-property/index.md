@@ -55,6 +55,16 @@
 4. Если свойство имеет тип Список, добавьте значения методами [catalog.productPropertyEnum.*](../product-property-enum/index.md)
 5. Используйте код свойства в методах товаров, услуг, головных товаров или вариаций
 
+## Свойства в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для свойств есть метод добавления [catalog.product.property.add](./catalog-product-property-add-rest-v3.md), методы получения схемы полей `catalog.product.property.field.list` и `catalog.product.property.field.get` и справочник типов свойств [catalog.product.property.type.list](./catalog-product-property-type-list.md). Получить, изменить и удалить свойство можно методами прежней версии API.
+
+Особенности метода добавления:
+
+- метод создает строковое свойство, тип свойства передать нельзя
+- флаги `multiple` и `isRequired` передаются строками `Y` или `N`
+- в ответе заполнены только `id` и `controlId`. Значения полей нового свойства можно получить методом [catalog.productProperty.get](./catalog-product-property-get.md)
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
@@ -64,9 +74,15 @@
 #|
 || **Метод** | **Описание** ||
 || [catalog.productProperty.add](./catalog-product-property-add.md) | Добавляет свойство товаров или вариаций ||
+|| [catalog.product.property.add](./catalog-product-property-add-rest-v3.md) | Добавляет свойство товаров или вариаций v 3.0 ||
 || [catalog.productProperty.update](./catalog-product-property-update.md) | Обновляет поля свойства товаров или вариаций ||
 || [catalog.productProperty.get](./catalog-product-property-get.md) | Возвращает значения полей свойства товаров или вариаций ||
 || [catalog.productProperty.list](./catalog-product-property-list.md) | Возвращает список свойств товаров или вариаций ||
 || [catalog.productProperty.delete](./catalog-product-property-delete.md) | Удаляет свойство товаров или вариаций ||
 || [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Возвращает поля свойства товаров или вариаций ||
+|| [catalog.product.property.field.list](./catalog-product-property-field-list.md) | Возвращает список полей свойства товара v 3.0 ||
+|| [catalog.product.property.field.get](./catalog-product-property-field-get.md) | Возвращает описание поля свойства товара ||
+|| [catalog.product.property.type.list](./catalog-product-property-type-list.md) | Возвращает список типов свойств товаров ||
+|| [catalog.product.property.type.field.list](./catalog-product-property-type-field-list.md) | Возвращает список полей типа свойства товара ||
+|| [catalog.product.property.type.field.get](./catalog-product-property-type-field-get.md) | Возвращает описание поля типа свойства товара ||
 |#

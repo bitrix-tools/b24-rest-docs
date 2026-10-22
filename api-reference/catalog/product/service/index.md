@@ -47,19 +47,35 @@
 4. При необходимости добавьте изображения методом [catalog.productImage.add](../../product-image/catalog-product-image-add.md)
 5. Укажите цену услуги методами [catalog.price.*](../../price/index.md)
 
+## Услуги в REST 3.0
+
+В [REST 3.0](../../../rest-v3.md) для услуг есть методы добавления, изменения, получения, удаления, скачивания файлов и методы получения схемы полей `catalog.product.service.field.list` и `catalog.product.service.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`. Общие особенности методов товаров новой версии описаны в [обзоре товаров](../index.md).
+
+Метод [catalog.product.service.add](./catalog-product-service-add-rest-v3.md) сам присваивает услуге тип `7`, передавать тип не нужно.
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы:
+> - администратор — для методов прежней версии API
+> - пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правами на инфоблок — для получения услуг в REST 3.0. Для добавления, изменения и удаления нужны также права «Создание товара», «Редактирование товара» или «Удаление товара»
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.product.service.add](./catalog-product-service-add.md) | Добавляет услугу ||
+|| [catalog.product.service.add](./catalog-product-service-add-rest-v3.md) | Добавляет услугу v 3.0 ||
 || [catalog.product.service.update](./catalog-product-service-update.md) | Обновляет поля услуги ||
+|| [catalog.product.service.update](./catalog-product-service-update-rest-v3.md) | Обновляет поля услуги v 3.0 ||
 || [catalog.product.service.get](./catalog-product-service-get.md) | Возвращает значения полей услуги по идентификатору ||
+|| [catalog.product.service.get](./catalog-product-service-get-rest-v3.md) | Возвращает значения полей услуги по идентификатору v 3.0 ||
 || [catalog.product.service.list](./catalog-product-service-list.md) | Возвращает список услуг по фильтру ||
+|| [catalog.product.service.list](./catalog-product-service-list-rest-v3.md) | Возвращает список услуг по фильтру v 3.0 ||
 || [catalog.product.service.download](./catalog-product-service-download.md) | Скачивает файлы услуги по переданным параметрам ||
+|| [catalog.product.service.download](./catalog-product-service-download-rest-v3.md) | Скачивает файлы услуги по переданным параметрам v 3.0 ||
 || [catalog.product.service.delete](./catalog-product-service-delete.md) | Удаляет услугу ||
+|| [catalog.product.service.delete](./catalog-product-service-delete-rest-v3.md) | Удаляет услугу v 3.0 ||
 || [catalog.product.service.getFieldsByFilter](./catalog-product-service-get-fields-by-filter.md) | Возвращает поля услуги по фильтру ||
+|| [catalog.product.service.field.list](./catalog-product-service-field-list.md) | Возвращает список полей услуги v 3.0 ||
+|| [catalog.product.service.field.get](./catalog-product-service-field-get.md) | Возвращает описание поля услуги ||
 |#

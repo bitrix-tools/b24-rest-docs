@@ -5,16 +5,32 @@ items:
     href: index.md
   - name: Добавить услугу
     href: catalog-product-service-add.md
+  - name: Добавить услугу v 3.0
+    href: catalog-product-service-add-rest-v3.md
   - name: Обновить поля услуги
     href: catalog-product-service-update.md
+  - name: Обновить поля услуги v 3.0
+    href: catalog-product-service-update-rest-v3.md
   - name: Получить значения полей услуги 
     href: catalog-product-service-get.md
+  - name: Получить значения полей услуги v 3.0
+    href: catalog-product-service-get-rest-v3.md
   - name: Получить список услуг
     href: catalog-product-service-list.md
+  - name: Получить список услуг v 3.0
+    href: catalog-product-service-list-rest-v3.md
   - name: Скачать файлы услуги
     href: catalog-product-service-download.md
+  - name: Скачать файлы услуги v 3.0
+    href: catalog-product-service-download-rest-v3.md
   - name: Удалить услугу
     href: catalog-product-service-delete.md
+  - name: Удалить услугу v 3.0
+    href: catalog-product-service-delete-rest-v3.md
   - name: Получить поля услуги по фильтру
     href: catalog-product-service-get-fields-by-filter.md
+  - name: Получить список полей услуги v 3.0
+    href: catalog-product-service-field-list.md
+  - name: Получить поле услуги
+    href: catalog-product-service-field-get.md
 
