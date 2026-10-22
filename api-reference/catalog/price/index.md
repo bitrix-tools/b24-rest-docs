@@ -28,6 +28,18 @@
 4. Проверьте цену методом [catalog.price.get](./catalog-price-get.md) или [catalog.price.list](./catalog-price-list.md)
 5. Отслеживайте изменения через [события цен](./events/index.md)
 
+## Цены в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для цен есть методы добавления, изменения, получения, удаления и методы получения схемы полей `catalog.price.field.list` и `catalog.price.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- метода `catalog.price.modify` в REST 3.0 нет. Чтобы изменить цену и сохранить ее идентификатор, используйте [catalog.price.update](./catalog-price-update-rest-v3.md)
+- товар и тип цены задаются при создании цены. Метод `catalog.price.update` не меняет `productId` и `catalogGroupId`, даже если передать их в `fields`
+- у цены базового типа наценки нет: `extraId` сбрасывается в `0`. Несуществующий `extraId` тоже сбрасывается в `0`
+- для несуществующего товара метод [catalog.price.add](./catalog-price-add-rest-v3.md) возвращает ошибку доступа `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`, а не ошибку «не найдено»
+- пустые `extraId`, `quantityFrom` и `quantityTo` приходят как `0`
+
 ## Связь с другими объектами
 
 **Тип цены.** Каждая цена принадлежит к определенному типу цен. Задать и изменить тип цены можно с помощью методов [catalog.priceType.*](../price-type/index.md).
@@ -65,12 +77,19 @@
     #|
     || **Метод** | **Описание** ||
     || [catalog.price.add](./catalog-price-add.md) | Добавляет цену товара ||
+    || [catalog.price.add](./catalog-price-add-rest-v3.md) | Добавляет цену товара v 3.0 ||
     || [catalog.price.update](./catalog-price-update.md) | Обновляет цену товара ||
+    || [catalog.price.update](./catalog-price-update-rest-v3.md) | Обновляет цену товара v 3.0 ||
     || [catalog.price.get](./catalog-price-get.md) | Возвращает значения полей цены товара по идентификатору ||
+    || [catalog.price.get](./catalog-price-get-rest-v3.md) | Возвращает значения полей цены товара по идентификатору v 3.0 ||
     || [catalog.price.list](./catalog-price-list.md) | Возвращает список цен товаров по фильтру ||
+    || [catalog.price.list](./catalog-price-list-rest-v3.md) | Возвращает список цен товаров по фильтру v 3.0 ||
     || [catalog.price.delete](./catalog-price-delete.md) | Удаляет цену товара ||
+    || [catalog.price.delete](./catalog-price-delete-rest-v3.md) | Удаляет цену товара v 3.0 ||
     || [catalog.price.modify](./catalog-price-modify.md) | Обновляет коллекцию цен товара ||
     || [catalog.price.getFields](./catalog-price-get-fields.md) | Возвращает поля цен товаров ||
+    || [catalog.price.field.list](./catalog-price-field-list.md) | Возвращает список полей цены v 3.0 ||
+    || [catalog.price.field.get](./catalog-price-field-get.md) | Возвращает описание поля цены ||
     |#
 
 - События

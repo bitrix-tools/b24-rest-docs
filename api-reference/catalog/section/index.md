@@ -24,6 +24,17 @@
 3. Проверьте раздел методом [catalog.section.get](./catalog-section-get.md) или [catalog.section.list](./catalog-section-list.md)
 4. Привяжите товары к разделу методами нужной группы товаров
 
+## Разделы в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для разделов каталога есть методы добавления, изменения, получения, удаления и методы получения схемы полей `catalog.section.field.list` и `catalog.section.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- метод [catalog.section.list](./catalog-section-list-rest-v3.md) требует в `filter` условие по `iblockId` с оператором `=`
+- метод [catalog.section.delete](./catalog-section-delete-rest-v3.md) удаляет раздел вместе со всеми вложенными разделами
+- у раздела верхнего уровня `iblockSectionId` равен `0`, пустые строковые поля приходят пустой строкой, а не `null`
+- для несуществующего раздела или инфоблока методы возвращают ошибку доступа `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`, а не ошибку «не найдено»
+
 ## Связь с другими объектами
 
 **Торговый каталог.** Укажите, к какому торговому каталогу относится раздел. Список каталогов можно получить с помощью метода [catalog.catalog.list](../catalog/catalog-catalog-list.md).
@@ -39,14 +50,23 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы:
+> - администратор — для методов прежней версии API
+> - пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога» и правами на разделы инфоблока — для методов REST 3.0. Для изменения разделов нужны также права «Создание товара», «Редактирование товара» или «Удаление товара»
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.section.add](./catalog-section-add.md) | Добавляет раздел торгового каталога ||
+|| [catalog.section.add](./catalog-section-add-rest-v3.md) | Добавляет раздел торгового каталога v 3.0 ||
 || [catalog.section.update](./catalog-section-update.md) | Изменяет поля раздела торгового каталога ||
+|| [catalog.section.update](./catalog-section-update-rest-v3.md) | Изменяет поля раздела торгового каталога v 3.0 ||
 || [catalog.section.get](./catalog-section-get.md) | Возвращает значения полей раздела торгового каталога ||
+|| [catalog.section.get](./catalog-section-get-rest-v3.md) | Возвращает значения полей раздела торгового каталога v 3.0 ||
 || [catalog.section.list](./catalog-section-list.md) | Возвращает список разделов торгового каталога ||
+|| [catalog.section.list](./catalog-section-list-rest-v3.md) | Возвращает список разделов торгового каталога v 3.0 ||
 || [catalog.section.delete](./catalog-section-delete.md) | Удаляет раздел торгового каталога ||
+|| [catalog.section.delete](./catalog-section-delete-rest-v3.md) | Удаляет раздел торгового каталога вместе с вложенными разделами v 3.0 ||
 || [catalog.section.getFields](./catalog-section-get-fields.md) | Возвращает поля раздела торгового каталога ||
+|| [catalog.section.field.list](./catalog-section-field-list.md) | Возвращает список полей раздела торгового каталога v 3.0 ||
+|| [catalog.section.field.get](./catalog-section-field-get.md) | Возвращает описание поля раздела торгового каталога ||
 |#

@@ -5,15 +5,27 @@ items:
     href: index.md
   - name: Добавить перевод
     href: catalog-price-type-lang-add.md
+  - name: Добавить перевод названия типа цены v 3.0
+    href: catalog-price-type-lang-add-rest-v3.md
   - name: Изменить перевод
     href: catalog-price-type-lang-update.md
+  - name: Изменить перевод названия типа цены v 3.0
+    href: catalog-price-type-lang-update-rest-v3.md
   - name: Получить значения полей перевода
     href: catalog-price-type-lang-get.md
   - name: Получить список переводов 
     href: catalog-price-type-lang-list.md
   - name: Удалить перевод
     href: catalog-price-type-lang-delete.md
+  - name: Удалить перевод названия типа цены v 3.0
+    href: catalog-price-type-lang-delete-rest-v3.md
   - name: Получить доступные для перевода языки
     href: catalog-price-type-lang-get-languages.md
+  - name: Получить доступные для перевода языки v 3.0
+    href: catalog-price-type-lang-get-languages-rest-v3.md
   - name: Получить поля перевода
     href: catalog-price-type-lang-get-fields.md
+  - name: Получить список полей перевода названия типа цены v 3.0
+    href: catalog-price-type-lang-field-list.md
+  - name: Получить поле перевода названия типа цены
+    href: catalog-price-type-lang-field-get.md

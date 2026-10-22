@@ -21,6 +21,10 @@
 2. Получите нужную наценку по идентификатору методом [catalog.extra.get](./catalog-extra-get.md).
 3. При необходимости проверьте структуру полей методом [catalog.extra.getFields](./catalog-extra-get-fields.md).
 
+## Наценки в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) наценки доступны только для чтения: есть методы получения наценки, списка наценок и методы получения схемы полей `catalog.extra.field.list` и `catalog.extra.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
 ## Связь с другими объектами
 
 **Цена товара.** Наценка связана с ценой через поле `extraId` в объекте цены. Получить цены и их поля можно методами [catalog.price.list](../price/catalog-price-list.md), [catalog.price.get](../price/catalog-price-get.md) и [catalog.price.getFields](../price/catalog-price-get-fields.md).
@@ -29,11 +33,17 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы:
+> - администратор — для методов прежней версии API
+> - пользователь с правом «Просмотр каталога товаров», «Изменение цены продажи товара» или «Управление наценками» — для методов REST 3.0
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.extra.get](./catalog-extra-get.md) | Возвращает информацию о наценке по идентификатору ||
+|| [catalog.extra.get](./catalog-extra-get-rest-v3.md) | Возвращает информацию о наценке по идентификатору v 3.0 ||
 || [catalog.extra.list](./catalog-extra-list.md) | Возвращает список наценок по фильтру ||
+|| [catalog.extra.list](./catalog-extra-list-rest-v3.md) | Возвращает список наценок по фильтру v 3.0 ||
 || [catalog.extra.getFields](./catalog-extra-get-fields.md) | Возвращает поля наценки ||
+|| [catalog.extra.field.list](./catalog-extra-field-list.md) | Возвращает список полей наценки v 3.0 ||
+|| [catalog.extra.field.get](./catalog-extra-field-get.md) | Возвращает описание поля наценки ||
 |#

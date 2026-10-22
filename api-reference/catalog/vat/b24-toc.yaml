@@ -5,13 +5,27 @@ items:
     href: index.md
   - name: Добавить ставку НДС
     href: catalog-vat-add.md
+  - name: Добавить ставку НДС v 3.0
+    href: catalog-vat-add-rest-v3.md
   - name: Изменить ставку НДС
     href: catalog-vat-update.md
+  - name: Изменить ставку НДС v 3.0
+    href: catalog-vat-update-rest-v3.md
   - name: Получить параметры ставки НДС
     href: catalog-vat-get.md
+  - name: Получить параметры ставки НДС v 3.0
+    href: catalog-vat-get-rest-v3.md
   - name: Получить список ставок НДС
     href: catalog-vat-list.md
+  - name: Получить список ставок НДС v 3.0
+    href: catalog-vat-list-rest-v3.md
   - name: Удалить ставку НДС
     href: catalog-vat-delete.md
+  - name: Удалить ставку НДС v 3.0
+    href: catalog-vat-delete-rest-v3.md
   - name: Получить поля ставки НДС
     href: catalog-vat-get-fields.md
+  - name: Получить список полей ставки НДС v 3.0
+    href: catalog-vat-field-list.md
+  - name: Получить поле ставки НДС
+    href: catalog-vat-field-get.md

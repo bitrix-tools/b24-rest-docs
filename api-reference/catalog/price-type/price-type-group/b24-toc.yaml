@@ -5,9 +5,17 @@ items:
     href: index.md
   - name: Добавить привязку
     href: catalog-price-type-group-add.md
+  - name: Добавить привязку типа цен к группе покупателей v 3.0
+    href: catalog-price-type-group-add-rest-v3.md
   - name: Получить список привязок
     href: catalog-price-type-group-list.md
   - name: Удалить привязку
     href: catalog-price-type-group-delete.md
+  - name: Удалить привязку типа цены к группе покупателей v 3.0
+    href: catalog-price-type-group-delete-rest-v3.md
   - name: Получить поля привязки
     href: catalog-price-type-group-get-fields.md
+  - name: Получить список полей привязки типа цены к группе покупателей v 3.0
+    href: catalog-price-type-group-field-list.md
+  - name: Получить поле привязки типа цены к группе покупателей
+    href: catalog-price-type-group-field-get.md

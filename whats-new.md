@@ -5,6 +5,8 @@
 ### 22 октября, 2026
 
 - Добавили методы [crm.form.*](./api-reference/crm/form/index.md) в REST 3.0 для работы с CRM-формами: поиск и получение конфигурации формы, создание с проверкой конфигурации до сохранения, частичное изменение, включение и выключение с учетом лимита активных форм, удаление, справочники конструктора и полей объектов CRM, код для размещения на сайте и настройка кнопки и автопоказа, просмотр виджетов сайта и открытых линий формы
+- Добавили методы Торгового каталога в REST 3.0: [catalog.catalog.*](./api-reference/catalog/catalog/index.md) с новыми методами [catalog.catalog.add](./api-reference/catalog/catalog/catalog-catalog-add.md), [catalog.catalog.update](./api-reference/catalog/catalog/catalog-catalog-update.md) и [catalog.catalog.delete](./api-reference/catalog/catalog/catalog-catalog-delete.md), [catalog.section.*](./api-reference/catalog/section/index.md), [catalog.measure.*](./api-reference/catalog/measure/index.md) и [catalog.vat.*](./api-reference/catalog/vat/index.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили методы цен Торгового каталога в REST 3.0: [catalog.price.*](./api-reference/catalog/price/index.md), [catalog.pricetype.*](./api-reference/catalog/price-type/index.md) с привязками к группам покупателей [catalog.pricetype.group.*](./api-reference/catalog/price-type/price-type-group/index.md) и переводами названий [catalog.pricetype.lang.*](./api-reference/catalog/price-type/price-type-lang/index.md), [catalog.roundingrule.*](./api-reference/catalog/rounding-rule/index.md), [catalog.extra.*](./api-reference/catalog/extra/index.md) и [catalog.ratio.*](./api-reference/catalog/ratio/index.md), включая методы получения схемы полей `field.list` и `field.get`
 
 ### 21 октября, 2026
 

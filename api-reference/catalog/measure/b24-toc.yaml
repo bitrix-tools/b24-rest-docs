@@ -5,16 +5,30 @@ items:
     href: index.md
   - name: Добавить единицу измерения
     href: catalog-measure-add.md
+  - name: Добавить единицу измерения v 3.0
+    href: catalog-measure-add-rest-v3.md
   - name: Обновить единицу измерения
     href: catalog-measure-update.md
+  - name: Обновить единицу измерения v 3.0
+    href: catalog-measure-update-rest-v3.md
   - name: Получить информацию о единице измерения по ID
     href: catalog-measure-get.md
+  - name: Получить информацию о единице измерения по ID v 3.0
+    href: catalog-measure-get-rest-v3.md
   - name: Получить список единиц измерения
     href: catalog-measure-list.md
+  - name: Получить список единиц измерения v 3.0
+    href: catalog-measure-list-rest-v3.md
   - name: Удалить единицу измерения
     href: catalog-measure-delete.md
+  - name: Удалить единицу измерения v 3.0
+    href: catalog-measure-delete-rest-v3.md
   - name: Получить доступные поля единиц измерения
     href: catalog-measure-get-fields.md
+  - name: Получить список полей единицы измерения v 3.0
+    href: catalog-measure-field-list.md
+  - name: Получить поле единицы измерения
+    href: catalog-measure-field-get.md
   - name: События
     include:
       path: events/b24-toc.yaml
