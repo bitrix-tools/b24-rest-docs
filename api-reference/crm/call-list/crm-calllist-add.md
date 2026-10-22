@@ -30,7 +30,7 @@
 [`integer[]`](../../data-types.md) | Массив числовых идентификаторов контактов или компаний, получить можно методом [crm.item.list](../universal/crm-item-list.md) ||
 || **WEBFORM_ID**
 [`integer`](../../data-types.md) | `ID` CRM-формы, которая будет выводиться в форме обзвона. 
-`ID` можно найти в списке форм Битрикс24 https://your-domain.ru/crm/webform/ ||
+Идентификатор можно получить методом [crm.form.list](../form/crm-form-list.md) ||
 |#
 
 ## Примеры кода

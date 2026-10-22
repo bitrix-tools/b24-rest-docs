@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 22 октября, 2026
+
+- Добавили методы [crm.form.*](./api-reference/crm/form/index.md) в REST 3.0 для работы с CRM-формами: поиск и получение конфигурации формы, создание с проверкой конфигурации до сохранения, частичное изменение, включение и выключение с учетом лимита активных форм, удаление, справочники конструктора и полей объектов CRM, код для размещения на сайте и настройка кнопки и автопоказа, просмотр виджетов сайта и открытых линий формы
+
 ### 21 октября, 2026
 
 - Добавили методы Базы знаний 2.0 в REST 3.0: [note.document.list](./api-reference/note/document/note-document-list.md) для получения всех доступных документов, [note.document.move](./api-reference/note/document/note-document-move.md) и [note.collection.move](./api-reference/note/collection/note-collection-move.md) для перемещения документов и баз знаний, [note.document.unarchive](./api-reference/note/document/note-document-unarchive.md) и [note.collection.unarchive](./api-reference/note/collection/note-collection-unarchive.md) для возврата из архива, [note.document.restore](./api-reference/note/document/note-document-restore.md) и [note.collection.restore](./api-reference/note/collection/note-collection-restore.md) для восстановления из корзины, [note.file.list](./api-reference/note/file/note-file-list.md) для получения списка файлов документа

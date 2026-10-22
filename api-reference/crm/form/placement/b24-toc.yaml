@@ -1,0 +1,25 @@
+title: Размещение и каналы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить варианты размещения CRM-формы
+    href: crm-form-embedding-get.md
+  - name: Изменить настройки размещения CRM-формы
+    href: crm-form-embedding-update.md
+  - name: Получить список полей вариантов размещения
+    href: crm-form-embedding-field-list.md
+  - name: Получить поле вариантов размещения
+    href: crm-form-embedding-field-get.md
+  - name: Получить список виджетов на сайт для CRM-формы
+    href: crm-form-sitebutton-list.md
+  - name: Получить список полей виджета на сайт
+    href: crm-form-sitebutton-field-list.md
+  - name: Получить поле виджета на сайт
+    href: crm-form-sitebutton-field-get.md
+  - name: Получить список открытых линий для CRM-формы
+    href: crm-form-openline-list.md
+  - name: Получить список полей открытой линии
+    href: crm-form-openline-field-list.md
+  - name: Получить поле открытой линии
+    href: crm-form-openline-field-get.md

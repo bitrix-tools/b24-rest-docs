@@ -191,7 +191,7 @@ https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_
 || **utmTerm**
 [`string`](../../data-types.md#standart-types) | Чтение и запись, у счета и смарт-процессов — только в ответе | Условие поиска кампании, например ключевые слова контекстной рекламы ||
 || **webformId**
-[`integer`](../../data-types.md#standart-types) | Чтение и запись, у сделки, контакта и компании — только при создании | Идентификатор CRM-формы, которая создала элемент. Метод `crm.item.fields` возвращает тип поля как `crm_webform` ||
+[`integer`](../../data-types.md#standart-types) | Чтение и запись, у сделки, контакта и компании — только при создании | Идентификатор CRM-формы, которая создала элемент. Метод `crm.item.fields` возвращает тип поля как `crm_webform`. Данные формы можно получить методом [crm.form.get](../form/crm-form-get.md) ||
 |#
 
 ## Поля по типам объектов {#by-object}

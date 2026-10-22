@@ -100,7 +100,7 @@ CRM работает в классическом режиме с лидами и
 
 ## Связь с другими объектами
 
-Объекты CRM связаны с пользователями Битрикс24, задачами, торговым каталогом и телефонией.
+Объекты CRM связаны с пользователями Битрикс24, задачами, торговым каталогом, телефонией и CRM-формами.
 
 **Пользователи.** Ответственный за объект CRM хранится в поле `assignedById` в универсальных методах и `ASSIGNED_BY_ID` в методах объекта. Данные пользователя можно получить методами [user.get](../user/user-get.md) или [user.search](../user/user-search.md).
 
@@ -109,6 +109,8 @@ CRM работает в классическом режиме с лидами и
 **Каталог.** Товарные позиции в сделках и коммерческих предложениях берутся из торгового каталога. Управлять товарами можно методами [catalog.product.*](../catalog/product/index.md).
 
 **Телефония.** Звонки создают дела в таймлайне CRM. Метод [telephony.externalcall.finish](../telephony/telephony-external-call-finish.md) завершает звонок и возвращает идентификатор созданного дела в параметре `CRM_ACTIVITY_ID`.
+
+**CRM-формы.** Заполнение CRM-формы создает объекты CRM по схеме из поля `crm.entityScheme`: лид, сделку с контактом или компанией, предложение или элемент смарт-процесса. Идентификаторы схем, воронки сделок и смарт-процессов возвращает [crm.form.configuration.get](./form/setup/crm-form-configuration-get.md), коды полей объектов для формы — [crm.form.entityfield.list](./form/setup/crm-form-entityfield-list.md). Создают и настраивают формы методами [crm.form.*](./form/index.md). Это методы REST 3.0: они вызываются по адресу с `/rest/api/`, подробнее — в [обзоре REST 3.0](../rest-v3.md).
 
 ## Обзор разделов и методов {#all-methods}
 
@@ -202,6 +204,9 @@ CRM работает в классическом режиме с лидами и
 || [Цифровые рабочие места](./automated-solution/index.md) | Для создания и настройки цифровых рабочих мест смарт-процессов | [crm.automatedsolution.add](./automated-solution/crm-automated-solution-add.md), [crm.automatedsolution.list](./automated-solution/crm-automated-solution-list.md)
 
 [Все методы раздела](./automated-solution/index.md) ||
+|| [CRM-формы](./form/index.md) | Для создания форм, которые собирают заявки на сайте и создают объекты CRM, и для получения кода размещения формы | [crm.form.list](./form/crm-form-list.md), [crm.form.add](./form/crm-form-add.md), [crm.form.embedding.get](./form/placement/crm-form-embedding-get.md)
+
+[Все методы раздела](./form/index.md) ||
 || [Вспомогательные объекты](./auxiliary/index.md) | Для работы с перечислениями, множественными полями и другими служебными объектами CRM | [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md)
 
 [Все методы раздела](./auxiliary/index.md) ||
