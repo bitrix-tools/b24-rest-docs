@@ -85,6 +85,10 @@ items:
     include:
       path: documentcontractor/b24-toc.yaml
       mode: link
+  - name: Поставщики Складского учета
+    include:
+      path: contractor/b24-toc.yaml
+      mode: link
   - name: Агентские договоры
     include:
       path: agent-contract/b24-toc.yaml

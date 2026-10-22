@@ -60,8 +60,10 @@
 || **department** | [Структура компании](../departments/index.md) | Структура компании ||
 || **disk** | [Диск](../disk/index.md) | Битрикс24.Диск ||
 || **entity** | [Хранилище данных](../entity/index.md) | Хранилище данных ||
+|| **forum** | [Форум](../forum/index.md) | Форум, комментарии ||
 || **humanresources** | [Структура компании REST 3.0](../departments/index.md) | Структура компании ||
 || **humanresources.hcmlink** | [Интеграция КЭДО с системами кадрового учета](../sign/hcm-link/index.md) | КЭДО ||
+|| **iblock** | [Инфоблоки](../iblock/index.md) | Информационные блоки ||
 || **im** | [Чат и уведомления](../chats/index.md) | Чат и уведомления ||
 || **imbot** | [Создание и управление Чат-ботами](../chat-bots/index.md) | Боты для чата ||
 || **imopenlines** | [Открытые линии](../imopenlines/index.md), [Коннекторы для внешних мессенджеров](../imopenlines/imconnector/index.md) | Открытые линии ||

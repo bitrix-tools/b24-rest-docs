@@ -71,6 +71,10 @@ items:
     include:
       path: sale/b24-toc.yaml
       mode: link
+  - name: Инфоблоки
+    include:
+      path: iblock/b24-toc.yaml
+      mode: link
   - name: Календарь
     include:
       path: calendar/b24-toc.yaml
@@ -146,6 +150,10 @@ items:
   - name: Учет рабочего времени
     include:
       path: timeman/b24-toc.yaml
+      mode: link
+  - name: Форум
+    include:
+      path: forum/b24-toc.yaml
       mode: link
   - name: Хранилище данных
     include:

@@ -1,0 +1,25 @@
+title: Пользовательские поля сообщений форума
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить пользовательское поле сообщений форума
+    href: forum-message-field-custom-add.md
+  - name: Изменить пользовательское поле сообщений форума
+    href: forum-message-field-custom-update.md
+  - name: Получить пользовательское поле сообщений форума
+    href: forum-message-field-custom-get.md
+  - name: Получить список пользовательских полей сообщений форума
+    href: forum-message-field-custom-list.md
+  - name: Удалить пользовательское поле сообщений форума
+    href: forum-message-field-custom-delete.md
+  - name: Добавить значение списка в пользовательское поле
+    href: forum-message-field-custom-enum-add.md
+  - name: Изменить значение списка пользовательского поля
+    href: forum-message-field-custom-enum-update.md
+  - name: Получить значение списка пользовательского поля
+    href: forum-message-field-custom-enum-get.md
+  - name: Получить значения списка пользовательского поля
+    href: forum-message-field-custom-enum-list.md
+  - name: Удалить значение списка пользовательского поля
+    href: forum-message-field-custom-enum-delete.md

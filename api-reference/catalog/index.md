@@ -63,7 +63,7 @@
 - [Товары](./product/index.md), [Головные товары](./product/sku/index.md), [Вариации](./product/offer/index.md), [Услуги](./product/service/index.md), [Изображения товаров и вариаций](./product-image/index.md), [Свойства товаров и вариаций](./product-property/index.md)
 - [Цена](./price/index.md), [Типы цен](./price-type/index.md), [Правила округления цен](./rounding-rule/index.md), [Наценки](./extra/index.md)
 - [Единицы измерения](./measure/index.md), [Коэффициент единицы измерения](./ratio/index.md), [Ставки НДС](./vat/index.md)
-- [Складской учет](./document/index.md), [Товары документа складского учета](./document/document-element/index.md), [Пользовательские поля документов складского учета](./userfield-document/index.md), [Работа с CRM-поставщиками](./documentcontractor/index.md), [Агентские договоры](./agent-contract/index.md)
+- [Складской учет](./document/index.md), [Товары документа складского учета](./document/document-element/index.md), [Пользовательские поля документов складского учета](./userfield-document/index.md), [Работа с CRM-поставщиками](./documentcontractor/index.md), [Поставщики Складского учета](./contractor/index.md), [Агентские договоры](./agent-contract/index.md)
 
 Имена части методов новой версии пишутся только в нижнем регистре, например `catalog.pricetype.list` и `catalog.roundingrule.list`.
 
@@ -146,5 +146,6 @@
 || [Товары документа складского учета](./document/document-element/index.md) | Методы работы с товарными позициями документов учета ||
 || [Пользовательские поля документов складского учета](./userfield-document/index.md) | Методы работы с пользовательскими полями документов учета ||
 || [Работа с CRM-поставщиками](./documentcontractor/index.md) | Методы работы с поставщиками в документах складского учета ||
+|| [Поставщики Складского учета](./contractor/index.md) | Методы работы со справочником поставщиков Складского учета ||
 || [Агентские договоры](./agent-contract/index.md) | Методы работы с агентскими договорами ||
 |#
