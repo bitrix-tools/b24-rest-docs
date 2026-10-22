@@ -21,12 +21,6 @@
 
 Метод `catalog.pricetype.lang.getlanguages` возвращает список языков, на которые можно перевести название типа цены.
 
-{% note warning "" %}
-
-Имя метода в REST 3.0 пишется только в нижнем регистре. Вызов `catalog.pricetype.lang.getLanguages` по адресу `/rest/api/` вернет ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 Без параметров.

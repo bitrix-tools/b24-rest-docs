@@ -21,12 +21,6 @@
 
 Метод `catalog.product.fields.getbyfilter` возвращает описание полей простого товара в указанном торговом каталоге, включая свойства каталога.
 
-{% note info "" %}
-
-Имя метода в REST 3.0 пишется в нижнем регистре: `catalog.product.fields.getbyfilter`. Вызов `catalog.product.fields.getByFilter` по адресу `/rest/api/` вернет ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}

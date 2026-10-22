@@ -5,26 +5,68 @@ items:
     href: index.md
   - name: Добавить документ складского учета
     href: catalog-document-add.md
+  - name: Создать документ складского учета v 3.0
+    href: catalog-document-add-rest-v3.md
   - name: Изменить документ
     href: catalog-document-update.md
+  - name: Изменить документ складского учета v 3.0
+    href: catalog-document-update-rest-v3.md
   - name: Получить список документов
     href: catalog-document-list.md
+  - name: Получить список документов складского учета v 3.0
+    href: catalog-document-list-rest-v3.md
+  - name: Получить документ складского учета по идентификатору
+    href: catalog-document-get.md
   - name: Удалить документ
     href: catalog-document-delete.md
+  - name: Удалить документ складского учета v 3.0
+    href: catalog-document-delete-rest-v3.md
   - name: Выполнить групповое удаление документов
     href: catalog-document-delete-list.md
+  - name: Удалить несколько документов складского учета v 3.0
+    href: catalog-document-delete-list-rest-v3.md
   - name: Провести документ
     href: catalog-document-conduct.md
+  - name: Провести документ складского учета v 3.0
+    href: catalog-document-conduct-rest-v3.md
   - name: Выполнить групповое проведение документов
     href: catalog-document-conduct-list.md
+  - name: Провести несколько документов складского учета v 3.0
+    href: catalog-document-conduct-list-rest-v3.md
   - name: Отменить проведение документа
     href: catalog-document-cancel.md
+  - name: Отменить проведение документа складского учета v 3.0
+    href: catalog-document-cancel-rest-v3.md
   - name: Выполнить групповую отмену проведения документов
     href: catalog-document-cancel-list.md
+  - name: Отменить проведение нескольких документов v 3.0
+    href: catalog-document-cancel-list-rest-v3.md
+  - name: Провести один документ складского учета v 3.0
+    href: catalog-document-confirm-rest-v3.md
+  - name: Отменить проведение одного документа v 3.0
+    href: catalog-document-unconfirm-rest-v3.md
   - name: Получить информацию о режиме складского учета
     href: catalog-document-mode-status.md
+  - name: Проверить состояние складского учета v 3.0
+    href: catalog-document-mode-status-rest-v3.md
+  - name: Получить состояние и режим складского учета
+    href: catalog-document-mode-status-details.md
+  - name: Получить список полей состояния складского учета v 3.0
+    href: catalog-document-mode-field-list.md
+  - name: Получить поле состояния складского учета
+    href: catalog-document-mode-field-get.md
   - name: Получить поля документа складского учета
     href: catalog-document-get-fields.md
+  - name: Получить список полей документа складского учета v 3.0
+    href: catalog-document-field-list.md
+  - name: Получить поле документа складского учета
+    href: catalog-document-field-get.md
+  - name: Получить типы документов складского учета
+    href: catalog-document-type-list.md
+  - name: Получить список полей типа документа v 3.0
+    href: catalog-document-type-field-list.md
+  - name: Получить поле типа документа
+    href: catalog-document-type-field-get.md
   - name: Товары в документе складского учета
     include:
       path: document-element/b24-toc.yaml

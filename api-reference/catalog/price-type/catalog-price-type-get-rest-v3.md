@@ -21,12 +21,6 @@
 
 Метод `catalog.pricetype.get` возвращает поля типа цены по идентификатору.
 
-{% note warning "" %}
-
-В REST 3.0 имя метода пишется в нижнем регистре: `catalog.pricetype.get`. Вызов `catalog.priceType.get` по адресу `/rest/api/` возвращает ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}

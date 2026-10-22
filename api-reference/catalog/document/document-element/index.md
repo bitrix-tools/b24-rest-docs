@@ -12,6 +12,10 @@
 Методы `catalog.document.element.*` добавляют, изменяют или удаляют товарные позиции в документах складского учета. Можно указать количество и закупочную цену товара, склад поступления или списания.
 
 > Быстрый переход: [все методы](#all-methods)
+>
+> Пользовательская документация:
+> - [Как создать документ прихода](https://helpdesk.bitrix24.ru/open/22558126)
+> - [Как создать документ перемещения](https://helpdesk.bitrix24.ru/open/23094464/)
 
 ## Как начать работу
 
@@ -49,6 +53,12 @@
 
 Чтобы получить идентификаторы складов, используйте метод [catalog.store.list](../../store/catalog-store-list.md).
 
+## Товары документа в REST 3.0
+
+В [REST 3.0](../../../rest-v3.md) для товаров документа есть методы добавления, изменения, получения списка, удаления и методы получения схемы полей `catalog.document.element.field.list` и `catalog.document.element.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Методы добавления, изменения и удаления работают только с непроведенным документом. Чтобы изменить товары проведенного документа, сначала отмените проведение методом [catalog.document.cancel](../catalog-document-cancel-rest-v3.md).
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
@@ -58,8 +68,14 @@
 #|
 || **Метод** | **Описание** ||
 || [catalog.document.element.add](./catalog-document-element-add.md) | Добавляет товарную позицию в документ складского учета ||
+|| [catalog.document.element.add](./catalog-document-element-add-rest-v3.md) | Добавляет товарную позицию в документ складского учета v 3.0 ||
 || [catalog.document.element.update](./catalog-document-element-update.md) | Изменяет существующую товарную позицию в документе складского учета ||
+|| [catalog.document.element.update](./catalog-document-element-update-rest-v3.md) | Изменяет существующую товарную позицию в документе складского учета v 3.0 ||
 || [catalog.document.element.list](./catalog-document-element-list.md) | Возвращает товарные позиции документов по фильтру ||
+|| [catalog.document.element.list](./catalog-document-element-list-rest-v3.md) | Возвращает товарные позиции документов по фильтру v 3.0 ||
 || [catalog.document.element.delete](./catalog-document-element-delete.md) | Удаляет товарную позицию из документа до проведения ||
+|| [catalog.document.element.delete](./catalog-document-element-delete-rest-v3.md) | Удаляет товарную позицию из документа до проведения v 3.0 ||
 || [catalog.document.element.getFields](./catalog-document-element-get-fields.md) | Возвращает описание полей товара из документа складского учета ||
+|| [catalog.document.element.field.list](./catalog-document-element-field-list.md) | Возвращает список полей товаров для документа складского учета v 3.0 ||
+|| [catalog.document.element.field.get](./catalog-document-element-field-get.md) | Возвращает описание поля товара в документе складского учета ||
 |#

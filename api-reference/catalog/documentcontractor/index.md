@@ -34,6 +34,15 @@ CRM-поставщики доступны с версии модуля Торг�
 
 **CRM.** Поставщики — это объекты CRM. Для работы с ними используйте универсальные методы [crm.item.\*](../../crm/universal/index.md).
 
+## Поставщики документа в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) методы называются `catalog.document.contractor.*`, а не `catalog.documentcontractor.*`: старые имена по адресу `/rest/api/` возвращают ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`. Есть методы добавления, получения списка, удаления привязок и методы получения схемы полей. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- поставщика можно привязать только к документу прихода `A`: несколько контактов и одну компанию
+- методы работают, только если поставщиков ведет CRM
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
@@ -43,7 +52,12 @@ CRM-поставщики доступны с версии модуля Торг�
 #|
 || **Метод** | **Описание** ||
 || [catalog.documentcontractor.add](./catalog-documentcontractor-add.md) | Добавляет привязку поставщика к документу ||
+|| [catalog.document.contractor.add](./catalog-documentcontractor-add-rest-v3.md) | Добавляет привязку поставщика к документу v 3.0 ||
 || [catalog.documentcontractor.list](./catalog-documentcontractor-list.md) | Возвращает список привязок поставщиков к документам по фильтру ||
+|| [catalog.document.contractor.list](./catalog-documentcontractor-list-rest-v3.md) | Возвращает список привязок поставщиков к документам по фильтру v 3.0 ||
 || [catalog.documentcontractor.delete](./catalog-documentcontractor-delete.md) | Удаляет привязку поставщика к документу по идентификатору привязки ||
+|| [catalog.document.contractor.delete](./catalog-documentcontractor-delete-rest-v3.md) | Удаляет привязку поставщика к документу по идентификатору привязки v 3.0 ||
 || [catalog.documentcontractor.getFields](./catalog-documentcontractor-get-fields.md) | Возвращает описание полей привязки поставщика к документу ||
+|| [catalog.document.contractor.field.list](./catalog-documentcontractor-field-list.md) | Возвращает список полей привязки поставщика к документу v 3.0 ||
+|| [catalog.document.contractor.field.get](./catalog-documentcontractor-field-get.md) | Возвращает описание поля привязки поставщика к документу ||
 |#

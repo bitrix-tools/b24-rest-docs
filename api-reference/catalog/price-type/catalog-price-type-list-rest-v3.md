@@ -21,12 +21,6 @@
 
 Метод `catalog.pricetype.list` возвращает список типов цен по фильтру.
 
-{% note warning "" %}
-
-В REST 3.0 имя метода пишется в нижнем регистре: `catalog.pricetype.list`. Вызов `catalog.priceType.list` по адресу `/rest/api/` возвращает ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 #|

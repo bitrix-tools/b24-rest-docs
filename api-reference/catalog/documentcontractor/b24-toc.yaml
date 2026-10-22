@@ -5,9 +5,19 @@ items:
     href: index.md
   - name: Добавить привязку поставщика к документу
     href: catalog-documentcontractor-add.md
+  - name: Добавить поставщика к документу складского учета v 3.0
+    href: catalog-documentcontractor-add-rest-v3.md
   - name: Удалить привязку к документу
     href: catalog-documentcontractor-delete.md
+  - name: Удалить привязку поставщика к документу v 3.0
+    href: catalog-documentcontractor-delete-rest-v3.md
   - name: Получить поля привязки
     href: catalog-documentcontractor-get-fields.md
+  - name: Получить список полей привязки поставщика к документу v 3.0
+    href: catalog-documentcontractor-field-list.md
+  - name: Получить поле привязки поставщика к документу
+    href: catalog-documentcontractor-field-get.md
   - name: Получить список привязок к документам
     href: catalog-documentcontractor-list.md
+  - name: Получить список привязок поставщиков к документам v 3.0
+    href: catalog-documentcontractor-list-rest-v3.md

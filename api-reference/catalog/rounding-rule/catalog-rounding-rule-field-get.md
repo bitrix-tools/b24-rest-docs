@@ -21,12 +21,6 @@
 
 Метод `catalog.roundingrule.field.get` возвращает описание поля правила округления цен по имени.
 
-{% note warning "" %}
-
-В REST 3.0 имя группы методов пишется в нижнем регистре: `catalog.roundingrule.*`. Вызов `catalog.roundingRule.*` по адресу `/rest/api/` возвращает ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}

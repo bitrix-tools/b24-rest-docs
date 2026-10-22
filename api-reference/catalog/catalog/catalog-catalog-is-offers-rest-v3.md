@@ -21,12 +21,6 @@
 
 Метод `catalog.catalog.isoffers` проверяет, является ли торговый каталог каталогом вариаций.
 
-{% note warning "" %}
-
-В REST 3.0 имя метода пишется в нижнем регистре: `catalog.catalog.isoffers`. Вызов `catalog.catalog.isOffers` по адресу `/rest/api/` возвращает ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}

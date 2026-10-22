@@ -21,12 +21,6 @@
 
 Метод `catalog.pricetype.add` создает тип цены и возвращает его поля.
 
-{% note warning "" %}
-
-В REST 3.0 имя метода пишется в нижнем регистре: `catalog.pricetype.add`. Вызов `catalog.priceType.add` по адресу `/rest/api/` возвращает ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
-
-{% endnote %}
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}

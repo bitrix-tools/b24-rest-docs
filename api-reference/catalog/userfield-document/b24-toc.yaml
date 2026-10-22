@@ -5,5 +5,13 @@ items:
     href: index.md
   - name: Изменить значения полей
     href: catalog-userfield-document-update.md
+  - name: Изменить значения пользовательских полей документов складского учета v 3.0
+    href: catalog-userfield-document-update-rest-v3.md
   - name: Получить список значений полей
     href: catalog-userfield-document-list.md
+  - name: Получить список значений пользовательских полей документов складского учета v 3.0
+    href: catalog-userfield-document-list-rest-v3.md
+  - name: Получить список полей для пользовательских полей документов v 3.0
+    href: catalog-userfield-document-field-list.md
+  - name: Получить поле для пользовательских полей документов
+    href: catalog-userfield-document-field-get.md
