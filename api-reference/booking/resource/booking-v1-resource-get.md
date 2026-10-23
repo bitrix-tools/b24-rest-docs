@@ -72,6 +72,7 @@
         confirmationNotificationDelay: number | null,
         confirmationNotificationRepetitions: number | null,
         confirmationNotificationRepetitionsInterval: number | null,
+        dealCategoryId: number | null,
         delayedCounterDelay: number | null,
         delayedNotificationDelay: number | null,
         description: string | null,
@@ -79,10 +80,12 @@
         infoNotificationDelay: number | null,
         isCancellationNotificationOn: string,
         isConfirmationNotificationOn: string,
+        isDealCreationEnabled: string,
         isDelayedNotificationOn: string,
         isFeedbackNotificationOn: string,
         isInfoNotificationOn: string,
         isMain: string,
+        isOverbookingAllowed: string,
         isReminderNotificationOn: string,
         name: string | null,
         reminderNotificationDelay: number | null,
@@ -288,6 +291,7 @@ HTTP-статус: **200**
             "confirmationNotificationDelay": 86400,
             "confirmationNotificationRepetitions": null,
             "confirmationNotificationRepetitionsInterval": 10800,
+            "dealCategoryId": null,
             "delayedCounterDelay": 300,
             "delayedNotificationDelay": 300,
             "description": null,
@@ -295,10 +299,12 @@ HTTP-статус: **200**
             "infoNotificationDelay": null,
             "isCancellationNotificationOn": "Y",
             "isConfirmationNotificationOn": "Y",
+            "isDealCreationEnabled": "Y",
             "isDelayedNotificationOn": "N",
             "isFeedbackNotificationOn": "N",
             "isInfoNotificationOn": "Y",
             "isMain": "Y",
+            "isOverbookingAllowed": "Y",
             "isReminderNotificationOn": "Y",
             "name": "Название",
             "reminderNotificationDelay": -1,
@@ -352,6 +358,12 @@ HTTP-статус: **200**
 [`integer`](../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, без учета первого ||
 || **confirmationNotificationRepetitionsInterval**
 [`integer`](../../data-types.md) | Интервал между сообщениями о подтверждении записи, в секундах ||
+|| **dealCategoryId**
+[`integer`](../../data-types.md) | Идентификатор воронки сделок для бронирований ресурса.
+
+`null` — воронка не выбрана или выбрана воронка по умолчанию: ее идентификатор `0` REST отдает как `null`, как и у других числовых полей. В обоих случаях сделки создаются в воронке по умолчанию.
+
+Если воронку удалили в CRM после сохранения ресурса, метод отдает ее идентификатор как есть. Сделки по бронированиям такого ресурса не создаются, пока в ресурсе не выберут другую воронку ||
 || **delayedCounterDelay**
 [`integer`](../../data-types.md) | Время в секундах, через которое в календаре включается счетчик ||
 || **delayedNotificationDelay**
@@ -370,6 +382,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Сообщение клиенту с запросом подтвердить запись. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
+|| **isDealCreationEnabled**
+[`string`](../../data-types.md) | Создавать ли сделку автоматически по бронированиям ресурса. Возможные значения:
+- `Y` — создавать
+- `N` — не создавать ||
 || **isDelayedNotificationOn**
 [`string`](../../data-types.md) | Напоминание, когда клиент опаздывает. Возможные значения:
 - `Y` — включено
@@ -386,6 +402,12 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Как показывать ресурс. Возможные значения:
 - `Y` — в колонках расписания
 - `N` — при пересечении ресурсов ||
+|| **isOverbookingAllowed**
+[`string`](../../data-types.md) | Разрешен ли овербукинг: можно ли записать еще одного клиента на время, которое у ресурса уже занято. Возможные значения:
+- `Y` — разрешен. На одно время у ресурса может быть не больше двух записей. Работает, только если овербукинг доступен на тарифе
+- `N` — запрещен. Нельзя создать запись или изменить ее так, чтобы она пересекалась по времени с другой записью ресурса
+
+По умолчанию `Y` ||
 || **isReminderNotificationOn**
 [`string`](../../data-types.md) | Напоминание о записи. Возможные значения:
 - `Y` — включено
