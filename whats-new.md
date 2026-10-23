@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 23 октября, 2026
+
+- Добавили методы [sign.b2e.provider.*](./api-reference/sign/index.md#providers) в раздел КЭДО: администратор может подключить к Битрикс24 собственный провайдер подписи методом [sign.b2e.provider.add](./api-reference/sign/sign-b2e-provider-add.md), изменить его данные методом [sign.b2e.provider.update](./api-reference/sign/sign-b2e-provider-update.md), получить список провайдеров методом [sign.b2e.provider.tail](./api-reference/sign/sign-b2e-provider-tail.md) и отключить провайдера методом [sign.b2e.provider.delete](./api-reference/sign/sign-b2e-provider-delete.md). Методы работают только из приложения с OAuth-авторизацией
+
 ### 22 октября, 2026
 
 - Добавили методы [crm.form.*](./api-reference/crm/form/index.md) в REST 3.0 для работы с CRM-формами: поиск и получение конфигурации формы, создание с проверкой конфигурации до сохранения, частичное изменение, включение и выключение с учетом лимита активных форм, удаление, справочники конструктора и полей объектов CRM, код для размещения на сайте и настройка кнопки и автопоказа, просмотр виджетов сайта и открытых линий формы

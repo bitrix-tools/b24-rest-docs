@@ -11,6 +11,14 @@ items:
     href: sign-b2e-hcmlink-document-get.md
   - name: Получить список провайдеров компании
     href: sign-b2e-company-provider-list.md
+  - name: Добавить провайдера подписи
+    href: sign-b2e-provider-add.md
+  - name: Изменить провайдера подписи
+    href: sign-b2e-provider-update.md
+  - name: Получить список провайдеров подписи
+    href: sign-b2e-provider-tail.md
+  - name: Удалить провайдера подписи
+    href: sign-b2e-provider-delete.md
   - name: Список подписанных документов пользователя
     href: sign-b2e-personal-tail.md
   - name: Список подписанных документов в сейфе компании

@@ -392,4 +392,5 @@ HTTP-статус: **200**
 
 - [{#T}](./sign-b2e-document-send.md)
 - [{#T}](./sign-b2e-document-get.md)
+- [{#T}](./sign-b2e-provider-tail.md)
 - [{#T}](./index.md)
