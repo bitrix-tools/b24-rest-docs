@@ -33,13 +33,14 @@
 
 **Объекты CRM.** Объектные методы `crm.*.userfield.*` используют справочную информацию из этого раздела для [лидов](../../leads/userfield/index.md), [сделок](../../deals/user-defined-fields/index.md), [контактов](../../contacts/userfield/index.md), [компаний](../../companies/userfields/index.md), [предложений](../../quote/user-field/index.md) и [реквизитов](../../requisites/user-fields/index.md).
 
-## Ключевые термины
+## Ключевые термины {#key-terms}
 
 - `ENTITY_ID` — код CRM-объекта, к которому привязано поле
 - `FIELD_NAME` — код пользовательского поля в формате `UF_CRM_*`
 - `USER_TYPE_ID` — тип данных пользовательского поля, полный список значений возвращает [crm.userfield.types](./crm-userfield-types.md)
 - `SETTINGS` — настройки поля, которые зависят от выбранного типа
 - `LIST` — набор элементов для поля типа `enumeration`
+- `MULTIPLE` — признак множественного поля: `Y` или `N`. Значения множественного поля передают массивом в [crm.item.add](../crm-item-add.md) и [crm.item.update](../crm-item-update.md), даже если значение одно, а [crm.item.get](../crm-item-get.md) возвращает их массивом
 
 ## Как начать работу
 

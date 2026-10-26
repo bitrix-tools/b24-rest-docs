@@ -104,7 +104,8 @@
 Может принимать значения  `WORK`, `MOBILE`, `FAX`, `HOME`, `PAGER`, `MAILING`, `OTHER` для телефона,
 `WORK`, `HOME`, `MAILING`, `OTHER` для почты,
 `WORK`, `HOME`, `VK`, `LIVEJOURNAL`, `TWITTER`, `OTHER` для сайта,
-`TELEGRAM`, `VK`, `SKYPE`, `VIBER`, `BITRIX24`, `OPENLINE`, `IMOL`, `ICQ`, `MSN`, `JABBER`, `OTHER` для мессенджера
+`TELEGRAM`, `VK`, `SKYPE`, `VIBER`, `BITRIX24`, `OPENLINE`, `IMOL`, `ICQ`, `MSN`, `JABBER`, `OTHER` для мессенджера,
+`USER` для служебного поля `LINK`
 ||
 |#
 
