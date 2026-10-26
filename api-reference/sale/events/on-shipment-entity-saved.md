@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnShipmentEntitySaved` происходит непосредственно после сохранения отгрузки.
+Событие `OnShipmentEntitySaved` происходит сразу после создания или изменения отгрузки вручную или методами [sale.shipment.add](../shipment/sale-shipment-add.md), [sale.shipment.update](../shipment/sale-shipment-update.md). Если при сохранении заказа отгрузка не изменилась, событие не отправляется.
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order_shipment.id`](../data-types.md) | Идентификатор отгрузки. Для получения всех полей отгрузки по идентификатору используется метод [sale.shipment.get](../shipment/sale-shipment-get.md) ||
+[`sale_order_shipment.id`](../data-types.md#sale_order_shipment) | Идентификатор отгрузки. Для получения всех полей отгрузки по идентификатору используется метод [sale.shipment.get](../shipment/sale-shipment-get.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,4 +103,7 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-shipment-deleted.md)
+- [{#T}](./on-sale-order-saved.md)
+- [{#T}](./on-order-entity-saved.md)

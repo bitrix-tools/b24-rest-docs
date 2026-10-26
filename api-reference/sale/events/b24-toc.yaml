@@ -7,7 +7,7 @@ items:
     href: on-sale-order-saved.md
   - name: Перед удалением заказа
     href: on-sale-before-order-delete.md
-  - name: После сохранения свойства заказа
+  - name: После сохранения значения свойства заказа
     href: on-property-value-entity-saved.md
   - name: После сохранения оплаты
     href: on-payment-entity-saved.md
@@ -15,7 +15,7 @@ items:
     href: on-shipment-entity-saved.md
   - name: После сохранения заказа
     href: on-order-entity-saved.md
-  - name: При удалении свойства заказа из базы
+  - name: При удалении значения свойства заказа из базы
     href: on-property-value-deleted.md
   - name: При удалении оплаты из базы
     href: on-payment-deleted.md

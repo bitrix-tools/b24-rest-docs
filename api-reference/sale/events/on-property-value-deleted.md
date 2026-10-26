@@ -1,4 +1,4 @@
-# При удалении свойства заказа из базы OnPropertyValueDeleted
+# При удалении значения свойства заказа из базы OnPropertyValueDeleted
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnPropertyValueDeleted` вызывается при непосредственном удалении значения свойства заказа.
+Событие `OnPropertyValueDeleted` вызывается при удалении значения свойства заказа из базы вручную, методом [sale.propertyvalue.delete](../property-value/sale-property-value-delete.md) или вместе с заказом.
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order_property_value.id`](../data-types.md) | Идентификатор значения свойства заказа. Для получения всех полей значения свойства заказа по идентификатору используется метод [sale.propertyvalue.get](../property-value/sale-property-value-get.md) ||
+[`sale_order_property_value.id`](../data-types.md#sale_order_property_value) | Идентификатор удаленного значения свойства заказа. Значение уже удалено, поэтому метод [sale.propertyvalue.get](../property-value/sale-property-value-get.md) не вернет данные. Если обработчику нужны поля значения, сохраняйте их заранее, например по событию [OnPropertyValueEntitySaved](./on-property-value-entity-saved.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,4 +103,6 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-property-value-entity-saved.md)
+- [{#T}](./on-order-deleted.md)

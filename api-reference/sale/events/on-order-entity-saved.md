@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnOrderEntitySaved` происходит непосредственно после сохранения заказа.
+Событие `OnOrderEntitySaved` происходит сразу после записи полей заказа в базу, до сохранения оплат, отгрузок и значений свойств заказа. Чтобы получить заказ после сохранения всех связанных объектов, используйте событие [OnSaleOrderSaved](./on-sale-order-saved.md).
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа. Для получения всех полей заказа по идентификатору используется метод [sale.order.get](../order/sale-order-get.md) ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа. Для получения всех полей заказа по идентификатору используется метод [sale.order.get](../order/sale-order-get.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,6 +103,7 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-order-deleted.md)
 - [{#T}](./on-sale-order-saved.md)
 - [{#T}](./on-sale-before-order-delete.md)

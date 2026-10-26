@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_shipment_property.id`](../data-types.md) | Идентификатор свойства отгрузки ||
+[`sale_shipment_property.id`](../data-types.md#sale_shipment_property) | Идентификатор свойства отгрузки.
+
+Получить идентификатор можно методом [sale.shipmentproperty.list](./sale-shipment-property-list.md). Идентификатор нового свойства возвращает метод [sale.shipmentproperty.add](./sale-shipment-property-add.md) ||
 |#
 
 ## Примеры кода
@@ -163,11 +165,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Info: ' . $result->data();
-        }
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -264,7 +262,7 @@ HTTP-статус: **400**
 
 ```json
 {	
-   "error":200840400001,
+   "error":"200840400001",
    "error_description":"property is not exists"
 }
 ```

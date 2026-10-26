@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnPaymentDeleted` происходит при непосредственном удалении оплаты из базы.
+Событие `OnPaymentDeleted` происходит при удалении оплаты из базы вручную, методом [sale.payment.delete](../payment/sale-payment-delete.md) или вместе с заказом.
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order_payment.id`](../data-types.md) | Идентификатор оплаты. Для получения всех полей оплаты по идентификатору используется метод [sale.payment.get](../payment/sale-payment-get.md) ||
+[`sale_order_payment.id`](../data-types.md#sale_order_payment) | Идентификатор удаленной оплаты. Оплата уже удалена, поэтому метод [sale.payment.get](../payment/sale-payment-get.md) не вернет данные. Если обработчику нужны поля оплаты, сохраняйте их заранее, например по событию [OnPaymentEntitySaved](./on-payment-entity-saved.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,4 +103,6 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-payment-entity-saved.md)
+- [{#T}](./on-order-deleted.md)
