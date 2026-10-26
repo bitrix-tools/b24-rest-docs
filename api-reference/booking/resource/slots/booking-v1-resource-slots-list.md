@@ -73,6 +73,7 @@
         timezone: string
         weekDays: string[]
         slotSize: number
+        isCompanySchedule: 'Y' | 'N'
       }[]
     }
 
@@ -243,12 +244,13 @@
 
     // Числовые поля со значением 0 приходят как null, поэтому указатели
     var items []struct {
-    	From     *int     `json:"from"`
-    	ID       b24.ID   `json:"id"`
-    	SlotSize *int     `json:"slotSize"`
-    	Timezone string   `json:"timezone"`
-    	To       int      `json:"to"`
-    	WeekDays []string `json:"weekDays"`
+    	From              *int     `json:"from"`
+    	ID                b24.ID   `json:"id"`
+    	IsCompanySchedule string   `json:"isCompanySchedule"`
+    	SlotSize          *int     `json:"slotSize"`
+    	Timezone          string   `json:"timezone"`
+    	To                int      `json:"to"`
+    	WeekDays          []string `json:"weekDays"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -271,6 +273,7 @@ HTTP-статус: **200**
             {
                 "from": 540,
                 "id": 11,
+                "isCompanySchedule": "N",
                 "slotSize": 60,
                 "timezone": "Europe/Moscow",
                 "to": 1080,
@@ -338,6 +341,12 @@ HTTP-статус: **200**
 - `Sun` — воскресенье ||
 || **slotSize**
 [`integer`](../../../data-types.md) | Длительность записи в минутах ||
+|| **isCompanySchedule**
+[`string`](../../../data-types.md) | Использует ли ресурс рабочее время из расписания компании. Возможные значения:
+- `Y` — рабочие часы и дни берутся из расписания компании
+- `N` — у слота собственное расписание
+
+Если значение `Y`, поля `from`, `to` и `weekDays` содержат актуальное расписание компании на момент запроса. Они меняются вместе с расписанием компании без повторного вызова [booking.v1.resource.slots.set](./booking-v1-resource-slots-set.md). Поля `timezone` и `slotSize` — настройки самого ресурса ||
 |#
 
 ## Обработка ошибок

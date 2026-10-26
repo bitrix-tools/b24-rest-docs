@@ -584,7 +584,7 @@ HTTP-статус: **400**
 || `1018` | `Empty resource collection` | Пустой массив ресурсов или таких ресурсов не существует ||
 || `0` | `Required fields:` | Не передан обязательный параметр внутри `filter` ||
 || `100` | `Could not find value for parameter ` | Не передан обязательный параметр ||
-|| `422` | `Invalid date period` | Некорретный период времени ||
+|| `422` | `Invalid date period` | Некорректный период времени ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

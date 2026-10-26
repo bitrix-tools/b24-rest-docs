@@ -39,15 +39,19 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **from***
-[`integer`](../../../data-types.md) | Время в минутах от начала суток, с которого доступна бронь. Значение в диапазоне от 0 до 1440. Например, `540` — бронь доступна с 9:00 ||
-|| **to***
-[`integer`](../../../data-types.md) | Время в минутах от начала суток, до которого доступна бронь. Значение в диапазоне от 0 до 1440 и строго больше `from`. Например, `1080` — бронь доступна до 18:00 ||
+|| **from**
+[`integer`](../../../data-types.md) | Время в минутах от начала суток, с которого доступна бронь. Значение в диапазоне от 0 до 1440. Например, `540` — бронь доступна с 9:00.
+
+Обязательное, если `isCompanySchedule` не передан или равен `N` ||
+|| **to**
+[`integer`](../../../data-types.md) | Время в минутах от начала суток, до которого доступна бронь. Значение в диапазоне от 0 до 1440 и строго больше `from`. Например, `1080` — бронь доступна до 18:00.
+
+Обязательное, если `isCompanySchedule` не передан или равен `N` ||
 || **timezone***
 [`string`](../../../data-types.md) | Часовой пояс в формате IANA, относительно которого настроено время слота. Например, `Europe/Moscow`.
 
 Неизвестный часовой пояс метод молча заменяет на `UTC` ||
-|| **weekDays***
+|| **weekDays**
 [`array`](../../../data-types.md) | Массив доступных дней недели для слота. Возможные значения:
 - `Mon` — понедельник
 - `Tue` — вторник
@@ -55,12 +59,42 @@
 - `Thu` — четверг
 - `Fri` — пятница
 - `Sat` — суббота
-- `Sun` — воскресенье ||
+- `Sun` — воскресенье
+
+Обязательное, если `isCompanySchedule` не передан или равен `N` ||
 || **slotSize***
 [`integer`](../../../data-types.md) | Длительность записи в минутах. Значение не может быть отрицательным ||
+|| **isCompanySchedule**
+[`string`](../../../data-types.md) | Использует ли ресурс рабочее время из расписания компании. Возможные значения:
+- `Y` — рабочие часы и дни берутся из расписания компании
+- `N` — у слота собственное расписание из `from`, `to` и `weekDays`
+
+По умолчанию `N` ||
 |#
 
-Все пять полей слота обязательны. Поле `id` метод игнорирует: идентификаторы слотов назначает Битрикс24.
+Поля `timezone` и `slotSize` обязательны всегда. Поля `from`, `to` и `weekDays` обязательны для собственного расписания слота — когда `isCompanySchedule` не передан или равен `N`.
+
+Если `isCompanySchedule` равен `Y`:
+
+- поля `from`, `to` и `weekDays` можно не передавать. Если они переданы, метод их игнорирует и берет часы и дни из расписания компании
+- слот должен быть единственным элементом массива `slots`, иначе метод вернет ошибку `1007`
+
+Пример параметров для ресурса, который работает по расписанию компании:
+
+```json
+{
+    "resourceId": 10,
+    "slots": [
+        {
+            "timezone": "Europe/Kaliningrad",
+            "slotSize": 30,
+            "isCompanySchedule": "Y"
+        }
+    ]
+}
+```
+
+Поле `id` метод игнорирует: идентификаторы слотов назначает Битрикс24.
 
 ## Примеры кода
 
@@ -79,7 +113,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"resourceId":15,"slots":[{"from":540,"to":1080,"timezone":"Europe/Kaliningrad","weekDays":["Mon","Tue","Wed","Thu","Fri"],"slotSize":30}]}' \
+    -d '{"resourceId":15,"slots":[{"from":540,"to":1080,"timezone":"Europe/Kaliningrad","weekDays":["Mon","Tue","Wed","Thu","Fri"],"slotSize":30,"isCompanySchedule":"N"}]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resource.slots.set
     ```
 
@@ -89,7 +123,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"resourceId":15,"slots":[{"from":540,"to":1080,"timezone":"Europe/Kaliningrad","weekDays":["Mon","Tue","Wed","Thu","Fri"],"slotSize":30}],"auth":"**put_access_token_here**"}' \
+    -d '{"resourceId":15,"slots":[{"from":540,"to":1080,"timezone":"Europe/Kaliningrad","weekDays":["Mon","Tue","Wed","Thu","Fri"],"slotSize":30,"isCompanySchedule":"N"}],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resource.slots.set
     ```
 
@@ -115,6 +149,7 @@
               timezone: 'Europe/Kaliningrad',
               weekDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
               slotSize: 30,
+              isCompanySchedule: 'N',
             },
           ],
         },
@@ -156,6 +191,7 @@
                   timezone: 'Europe/Kaliningrad',
                   weekDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
                   slotSize: 30,
+                  isCompanySchedule: 'N',
                 },
               ],
             },
@@ -201,6 +237,7 @@
                         "Fri",
                     ],
                     "slotSize": 30,
+                    "isCompanySchedule": "N",
                 },
             ],
         ).response
@@ -231,11 +268,12 @@
                     'resourceId' => 15,
                     'slots'      => [
                         [
-                            'from'     => 540,
-                            'to'       => 1080,
-                            'timezone' => 'Europe/Kaliningrad',
-                            'weekDays' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                            'slotSize' => 30
+                            'from'              => 540,
+                            'to'                => 1080,
+                            'timezone'          => 'Europe/Kaliningrad',
+                            'weekDays'          => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                            'slotSize'          => 30,
+                            'isCompanySchedule' => 'N'
                         ]
                     ]
                 ]
@@ -270,7 +308,8 @@
                     to: 1080,
                     timezone: "Europe/Kaliningrad",
                     weekDays: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-                    slotSize: 30
+                    slotSize: 30,
+                    isCompanySchedule: "N"
                 }
             ]
         },
@@ -298,7 +337,8 @@
                     'to' => 1080,
                     'timezone' => 'Europe/Kaliningrad',
                     'weekDays' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                    'slotSize' => 30
+                    'slotSize' => 30,
+                    'isCompanySchedule' => 'N'
                 ]
             ]
         ]
@@ -317,11 +357,12 @@
     	"resourceId": 15,
     	"slots": []b24.Params{
     		{
-    			"from":     540,
-    			"to":       1080,
-    			"timezone": "Europe/Kaliningrad",
-    			"weekDays": []string{"Mon", "Tue", "Wed", "Thu", "Fri"},
-    			"slotSize": 30,
+    			"from":              540,
+    			"to":                1080,
+    			"timezone":          "Europe/Kaliningrad",
+    			"weekDays":          []string{"Mon", "Tue", "Wed", "Thu", "Fri"},
+    			"slotSize":          30,
+    			"isCompanySchedule": "N",
     		},
     	},
     })
@@ -386,13 +427,14 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `1009` | `Resource not found` | Ресурс с указанным `resourceId` не найден ||
-|| `0` | `Required fields: timezone, weekDays, slotSize` | В объекте слота не переданы обязательные поля. В сообщении перечислены только отсутствующие ||
-|| `422` | `Invalid range fields` | Недопустимые значения в объекте слота: `from` или `to` вне диапазона 0–1440, `from` больше или равно `to`, пустой или неизвестный день недели, отрицательный `slotSize`. Метод не указывает, какое поле и какой слот вызвали ошибку ||
+|| `0` | `Required fields: timezone, slotSize` | В объекте слота не переданы обязательные поля `timezone` или `slotSize`. В сообщении перечислены только отсутствующие ||
+|| `422` | `Invalid range fields` | Недопустимые значения в объекте слота: `from` или `to` вне диапазона 0–1440, `from` больше или равно `to`, пустой или неизвестный день недели, отрицательный `slotSize`, недопустимое значение `isCompanySchedule`. Также возникает, если для собственного расписания слота не переданы `from`, `to` или `weekDays`. Метод не указывает, какое поле и какой слот вызвали ошибку ||
 || `422` | `Array's element must be array, string given` | Элемент массива `slots` — не объект ||
 || `100` | `Could not find value for parameter {resourceId}` | Не передан параметр `resourceId` ||
 || `100` | `Could not find value for parameter {slots}` | Не передан параметр `slots` ||
 || `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 || `1007` | `Failed updating resource` | Ресурс не удалось сохранить ||
+|| `1007` | `Company schedule can be used only as a single slot range` | Слот с `isCompanySchedule` = `Y` передан вместе с другими слотами ||
 || `0` | `Feature is not available` | Инструмент «Бронирование» недоступен на текущем тарифе ||
 |#
 

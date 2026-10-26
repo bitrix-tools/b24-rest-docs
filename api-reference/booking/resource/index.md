@@ -36,6 +36,8 @@
 
 **Слоты.** Слоты задают время, когда ресурс доступен для бронирования: например, только по вторникам и четвергам с 11:00 до 15:00. Слоты хранятся в самом ресурсе, поэтому их изменение вызывает событие [onBookingResourceUpdate](./events/on-booking-resource-update.md), как и обновление ресурса.
 
+**Сделка CRM.** Ресурс задает, создавать ли сделку по его бронированиям и в какой воронке. Для этого используйте поля `isDealCreationEnabled` и `dealCategoryId` в методах [booking.v1.resource.add](./booking-v1-resource-add.md) и [booking.v1.resource.update](./booking-v1-resource-update.md).
+
 ## Обзор методов и событий {#all-methods}
 
 > Scope: [`booking`](../../scopes/permissions.md)

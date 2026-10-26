@@ -47,6 +47,26 @@
 - `N` — при пересечении ресурсов
 
 По умолчанию `Y` ||
+|| **isOverbookingAllowed**
+[`string`](../../data-types.md) | Разрешен ли овербукинг: можно ли записать еще одного клиента на время, которое у ресурса уже занято. Возможные значения:
+- `Y` — разрешен. На одно время у ресурса может быть не больше двух записей. Работает, только если овербукинг доступен на тарифе
+- `N` — запрещен. Нельзя создать запись или изменить ее так, чтобы она пересекалась по времени с другой записью ресурса
+
+По умолчанию `Y` ||
+|| **isDealCreationEnabled**
+[`string`](../../data-types.md) | Создавать ли сделку автоматически по бронированиям ресурса. Возможные значения:
+- `Y` — создавать
+- `N` — не создавать
+
+По умолчанию `Y` ||
+|| **dealCategoryId**
+[`integer`](../../data-types.md) | Идентификатор воронки сделок для бронирований ресурса. `0` — воронка по умолчанию.
+
+Если воронка не выбрана, сделки создаются в воронке по умолчанию.
+
+Список воронок можно получить методом [crm.category.list](../../crm/universal/category/crm-category-list.md) с `entityTypeId = 2`.
+
+Метод проверяет переданную воронку: она должна существовать, а у пользователя, который вызывает метод, должно быть право добавлять в ней сделки ||
 || **isInfoNotificationOn**
 [`string`](../../data-types.md) | Сообщение клиенту о записи. Возможные значения:
 - `Y` — включено
@@ -175,7 +195,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"name":"Название","description":"Описание","typeId":1,"isMain":"N","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate","infoNotificationDelay":60,"reminderNotificationDelay":-1,"delayedNotificationDelay":300,"delayedCounterDelay":7200,"confirmationNotificationDelay":86400,"confirmationNotificationRepetitions":1,"confirmationNotificationRepetitionsInterval":3600,"confirmationCounterDelay":7200}}' \
+    -d '{"fields":{"name":"Название","description":"Описание","typeId":1,"isMain":"N","isOverbookingAllowed":"Y","isDealCreationEnabled":"Y","dealCategoryId":0,"isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate","infoNotificationDelay":60,"reminderNotificationDelay":-1,"delayedNotificationDelay":300,"delayedCounterDelay":7200,"confirmationNotificationDelay":86400,"confirmationNotificationRepetitions":1,"confirmationNotificationRepetitionsInterval":3600,"confirmationCounterDelay":7200}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.resource.add
     ```
 
@@ -185,7 +205,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"name":"Название","description":"Описание","typeId":1,"isMain":"N","isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate","infoNotificationDelay":60,"reminderNotificationDelay":-1,"delayedNotificationDelay":300,"delayedCounterDelay":7200,"confirmationNotificationDelay":86400,"confirmationNotificationRepetitions":1,"confirmationNotificationRepetitionsInterval":3600,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"name":"Название","description":"Описание","typeId":1,"isMain":"N","isOverbookingAllowed":"Y","isDealCreationEnabled":"Y","dealCategoryId":0,"isInfoNotificationOn":"Y","templateTypeInfo":"inanimate","isConfirmationNotificationOn":"Y","templateTypeConfirmation":"animate","isReminderNotificationOn":"N","templateTypeReminder":"base","isFeedbackNotificationOn":"Y","templateTypeFeedback":"inanimate","isDelayedNotificationOn":"Y","templateTypeDelayed":"inanimate","infoNotificationDelay":60,"reminderNotificationDelay":-1,"delayedNotificationDelay":300,"delayedCounterDelay":7200,"confirmationNotificationDelay":86400,"confirmationNotificationRepetitions":1,"confirmationNotificationRepetitionsInterval":3600,"confirmationCounterDelay":7200},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/booking.v1.resource.add
     ```
 
@@ -209,6 +229,9 @@
             description: 'Description',
             typeId: 1,
             isMain: 'N',
+            isOverbookingAllowed: 'Y',
+            isDealCreationEnabled: 'Y',
+            dealCategoryId: 0,
             isInfoNotificationOn: 'Y',
             templateTypeInfo: 'inanimate',
             isConfirmationNotificationOn: 'Y',
@@ -264,6 +287,9 @@
                 description: 'Description',
                 typeId: 1,
                 isMain: 'N',
+                isOverbookingAllowed: 'Y',
+                isDealCreationEnabled: 'Y',
+                dealCategoryId: 0,
                 isInfoNotificationOn: 'Y',
                 templateTypeInfo: 'inanimate',
                 isConfirmationNotificationOn: 'Y',
@@ -317,6 +343,9 @@
                 "description": "Description",
                 "typeId": 1,
                 "isMain": "N",
+                "isOverbookingAllowed": "Y",
+                "isDealCreationEnabled": "Y",
+                "dealCategoryId": 0,
                 "isInfoNotificationOn": "Y",
                 "templateTypeInfo": "inanimate",
                 "isConfirmationNotificationOn": "Y",
@@ -366,6 +395,9 @@
                         'description' => 'Описание',
                         'typeId' => 1,
                         'isMain' => 'N',
+                        'isOverbookingAllowed' => 'Y',
+                        'isDealCreationEnabled' => 'Y',
+                        'dealCategoryId' => 0,
                         'isInfoNotificationOn' => 'Y',
                         'templateTypeInfo' => 'inanimate',
                         'isConfirmationNotificationOn' => 'Y',
@@ -413,6 +445,9 @@
                 description: "Описание",
                 typeId: 1,
                 isMain: "N",
+                isOverbookingAllowed: "Y",
+                isDealCreationEnabled: "Y",
+                dealCategoryId: 0,
                 isInfoNotificationOn: "Y",
                 templateTypeInfo: "inanimate",
                 isConfirmationNotificationOn: "Y",
@@ -455,6 +490,9 @@
                 'description' => 'Описание',
                 'typeId' => 1,
                 'isMain' => 'N',
+                'isOverbookingAllowed' => 'Y',
+                'isDealCreationEnabled' => 'Y',
+                'dealCategoryId' => 0,
                 'isInfoNotificationOn' => 'Y',
                 'templateTypeInfo' => 'inanimate',
                 'isConfirmationNotificationOn' => 'Y',
@@ -492,6 +530,9 @@
     		"description":                                 "Описание",
     		"typeId":                                      1,
     		"isMain":                                      "N",
+    		"isOverbookingAllowed":                        "Y",
+    		"isDealCreationEnabled":                       "Y",
+    		"dealCategoryId":                              0,
     		"isInfoNotificationOn":                        "Y",
     		"templateTypeInfo":                            "inanimate",
     		"isConfirmationNotificationOn":                "Y",
@@ -577,8 +618,12 @@ HTTP-статус: **400**
 || `100` | `Could not find value for parameter {fields}` | Не передан обязательный параметр `fields` ||
 || `1006` | `ResourceType not found` | Не указан `typeId` ||
 || `1006` | `Failed creating new resource` | Не удалось сохранить ресурс ||
+|| `1006` | `Deal category does not exist` | В `dealCategoryId` передан идентификатор несуществующей воронки ||
+|| `1006` | `Access denied to add deals in the chosen category` | У пользователя нет права добавлять сделки в воронке из `dealCategoryId` ||
+|| `1006` | `Deal category cannot be chosen while the crm module is off` | Передан `dealCategoryId`, а модуль CRM недоступен ||
 || `1013` | `Resource type with id {id} does not exist` | Указан несуществующий `typeId` ||
 || `422` | `Invalid value of the {field} field` | Недопустимое значение поля из перечисления, например `templateTypeInfo` ||
+|| `422` | `Invalid value of the dealCategoryId field` | В `dealCategoryId` передано не целое число ||
 || `0` | `Feature is not available` | Инструмент «Бронирование» недоступен на текущем тарифе ||
 || `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
