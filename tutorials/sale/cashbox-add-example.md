@@ -2,7 +2,7 @@
 
 > Scope: [`cashbox`](../../api-reference/scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы: администратор CRM с правом «Разрешить изменять настройки»
 
 {% note tip "" %}
 
@@ -31,7 +31,8 @@
 - Публичный HTTPS-адрес страницы печати чека `PRINT_URL`
 - Публичный HTTPS-адрес страницы проверки статуса чека `CHECK_URL`
 - Уникальный код обработчика кассы, например `my_rest_cashbox`
-- Данные авторизации внешней кассы, которые администратор укажет в настройках кассы
+- Данные авторизации внешней кассы, которые администратор укажет в настройках кассы. По ним внешний сервис проверяет запросы на `PRINT_URL`
+- Сервер для страниц `PRINT_URL` и `CHECK_URL`. Примеры в туториале написаны на Node.js с пакетом `express`
 
 Не размещайте логин, пароль и токены доступа в публичном коде. Передавайте секреты через переменные окружения или защищенное хранилище приложения.
 
@@ -432,11 +433,13 @@
 
 По адресу `PRINT_URL` происходит обработка входных данных, формирование документа и возвращение результата печати.
 
+Битрикс24 отправляет данные POST-запросом в формате `application/x-www-form-urlencoded`. Кроме данных чека, в запросе есть объект `cashbox_params` — значения полей `CONFIG`, которые администратор заполнил в настройках кассы на шаге 2. По логину и паролю из `cashbox_params.AUTH` внешний сервис проверяет, что запрос пришел от настроенной кассы.
+
 Минимальная логика страницы `PRINT_URL`:
 
 1. Принять данные чека от Битрикс24
-2. Проверить, что в запросе есть данные для печати
-3. Передать чек во внешнюю кассу
+2. Сверить `cashbox_params.AUTH.LOGIN` и `cashbox_params.AUTH.PASSWORD` со значениями, которые хранит внешний сервис. При несовпадении вернуть `ERRORS`
+3. Проверить, что в запросе есть данные для печати, и передать чек во внешнюю кассу
 4. Вернуть `UUID`, если чек принят в печать, или массив `ERRORS`, если печать невозможна
 5. Сохранить связь `UUID` с заказом или чеком во внешней системе, чтобы страница `CHECK_URL` могла вернуть статус
 
@@ -447,15 +450,29 @@ import express from 'express'
 import { randomUUID } from 'crypto'
 
 const app = express()
-app.use(express.json())
+// Битрикс24 отправляет данные в формате application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
 
+// Логин и пароль, которые администратор укажет в настройках кассы на шаге 2.
+// В примере шага 2 это rest_login и rest_password. Храните их в переменных окружения, а не в коде
+const CASHBOX_LOGIN = process.env.CASHBOX_LOGIN
+const CASHBOX_PASSWORD = process.env.CASHBOX_PASSWORD
+
+// Хранилище чеков в памяти — только для примера
 const checks = new Map()
 
 app.post('/rest_print.php', async (req, res) => {
     const payload = req.body
+    const auth = payload?.cashbox_params?.AUTH ?? {}
 
-    if (!payload || Object.keys(payload).length === 0) {
+    if (auth.LOGIN !== CASHBOX_LOGIN || auth.PASSWORD !== CASHBOX_PASSWORD) {
+        res.json({
+            ERRORS: ['Неверные данные авторизации кассы']
+        })
+        return
+    }
+
+    if (!payload.items || !payload.payments) {
         res.json({
             ERRORS: ['Данные чека не переданы']
         })
@@ -464,6 +481,8 @@ app.post('/rest_print.php', async (req, res) => {
 
     const uuid = randomUUID()
 
+    // Здесь передайте payload во внешнюю кассу. Когда касса напечатает чек,
+    // обновите запись: status = 'DONE' и фискальные реквизиты или status = 'ERROR' и текст ошибки
     checks.set(uuid, {
         status: 'WAIT',
         createdAt: Date.now(),
@@ -474,18 +493,19 @@ app.post('/rest_print.php', async (req, res) => {
         UUID: uuid
     })
 })
+
+app.listen(3000)
 ```
 
-В рабочем сервисе храните `UUID`, статус и данные чека в базе данных, а не в памяти процесса.
+В рабочем сервисе храните `UUID`, статус и данные чека в базе данных, а не в памяти процесса. Сервер должен быть доступен по HTTPS-адресу, который указан в `PRINT_URL`: например, запустите его за обратным прокси с TLS-сертификатом.
 
 - Если печать не удалась, массив JSON имеет вид:
 
    ```json
    {
        "ERRORS": [
-           "Сообщение об ошибке",
-           "Сообщение об ошибке",
-           ...
+           "Неверные данные авторизации кассы",
+           "Данные чека не переданы"
        ]
    }
    ```
@@ -514,11 +534,13 @@ app.post('/rest_print.php', async (req, res) => {
 4. Если печать завершилась ошибкой, вернуть `STATUS: ERROR` и текст ошибки
 5. Если чек напечатан, вернуть `STATUS: DONE` и фискальные реквизиты
 
-Пример обработчика `CHECK_URL` на Node.js:
+В запросе на `CHECK_URL` Битрикс24 передает только поле `uuid` в нижнем регистре — значение, которое вернула страница `PRINT_URL`. Логина и пароля в этом запросе нет, поэтому отвечайте только по `uuid`, которые выдал ваш сервис.
+
+Пример обработчика `CHECK_URL` на Node.js. Код продолжает пример `PRINT_URL` и использует то же хранилище `checks`:
 
 ```js
 app.post('/rest_check.php', async (req, res) => {
-    const uuid = req.body.UUID
+    const uuid = req.body.uuid
 
     if (!uuid || !checks.has(uuid)) {
         res.json({
@@ -713,7 +735,7 @@ app.post('/rest_check.php', async (req, res) => {
     const cashboxResponse = await $b24.actions.v2.call.make({
         method: 'sale.cashbox.list',
         params: {
-            SELECT: ['ID', 'NAME', 'ACTIVE', 'EMAIL'],
+            SELECT: ['ID', 'NAME', 'NUMBER_KKM', 'ACTIVE', 'ENABLED'],
             FILTER: { '=NAME': 'REST касса' },
         },
         requestId: 'cashbox-list',
@@ -730,7 +752,7 @@ app.post('/rest_check.php', async (req, res) => {
     cashboxes = token.call_method(
         "sale.cashbox.list",
         {
-            "SELECT": ["ID", "NAME", "ACTIVE", "EMAIL"],
+            "SELECT": ["ID", "NAME", "NUMBER_KKM", "ACTIVE", "ENABLED"],
             "FILTER": {"=NAME": "REST касса"},
         },
     )
@@ -746,7 +768,7 @@ app.post('/rest_check.php', async (req, res) => {
     $handlerResponse = $sb->core->call('sale.cashbox.handler.list', []);
 
     $cashboxResponse = $sb->core->call('sale.cashbox.list', [
-        'SELECT' => ['ID', 'NAME', 'ACTIVE', 'EMAIL'],
+        'SELECT' => ['ID', 'NAME', 'NUMBER_KKM', 'ACTIVE', 'ENABLED'],
         'FILTER' => ['=NAME' => 'REST касса'],
     ]);
 
@@ -755,13 +777,51 @@ app.post('/rest_check.php', async (req, res) => {
     ```
 {% endlist %}
 
-Успешное выполнение сценария подтверждают три результата:
+Метод `sale.cashbox.handler.list` возвращает все REST-обработчики касс. Найдите в ответе обработчик с `CODE: "my_rest_cashbox"`: его `ID` совпадает со значением `result` из шага 1, а в `SETTINGS` указаны адреса `PRINT_URL` и `CHECK_URL`. Фрагмент ответа, блок `CONFIG` сокращен:
 
-- метод `sale.cashbox.handler.add` вернул идентификатор обработчика
-- метод `sale.cashbox.add` вернул идентификатор кассы
+```json
+{
+    "result": [
+        {
+            "ID": "1",
+            "NAME": "Моя REST-касса",
+            "CODE": "my_rest_cashbox",
+            "SORT": "100",
+            "SETTINGS": {
+                "PRINT_URL": "https://example.ru/rest_print.php",
+                "CHECK_URL": "https://example.ru/rest_check.php",
+                "CONFIG": {}
+            }
+        }
+    ]
+}
+```
+
+Метод `sale.cashbox.list` возвращает кассу с `ID` из шага 2. Значения `ACTIVE: "Y"` и `ENABLED: "Y"` показывают, что касса включена и может принимать чеки:
+
+```json
+{
+    "result": [
+        {
+            "ID": "1",
+            "NAME": "REST касса",
+            "NUMBER_KKM": "1",
+            "ACTIVE": "Y",
+            "ENABLED": "Y"
+        }
+    ]
+}
+```
+
+Метод `sale.cashbox.list` не возвращает код обработчика: поле `REST_CODE` недоступно в `SELECT`. Привязку кассы к обработчику `my_rest_cashbox` проверьте в карточке кассы в Центре продаж. Через REST привязку подтверждает успешный ответ `sale.cashbox.add` на шаге 2: если обработчика с переданным `REST_CODE` нет, метод возвращает ошибку `ERROR_CHECK_FAILURE` с текстом `Rest handler with code ... not found`.
+
+Сценарий выполнен, если:
+
+- в `sale.cashbox.handler.list` есть обработчик с `CODE: "my_rest_cashbox"` и нужными адресами
+- в `sale.cashbox.list` есть касса с `ID` из шага 2, `ACTIVE: "Y"` и `ENABLED: "Y"`
 - метод `sale.cashbox.check.apply` вернул `true`, если результат печати передавался вручную
 
-## Ошибки и диагностика
+## Ошибки и диагностика {#errors}
 
 Если метод вернул ошибку, проверьте данные запроса и состояние внешнего сервиса.
 
@@ -773,13 +833,15 @@ app.post('/rest_check.php', async (req, res) => {
 || `ERROR_CHECK_NOT_FOUND` | Чек с указанным `UUID` не найден. Проверьте, что `UUID` совпадает со значением, которое вернула страница `PRINT_URL` ||
 || `ERROR_HANDLER_ADD`, `ERROR_CASHBOX_ADD`, `ERROR_CHECK_APPLY` | Ошибка при добавлении обработчика, создании кассы или сохранении результата печати. Подробности смотрите в `error_description` ||
 || Ошибка печати на `PRINT_URL` | Верните массив `ERRORS` и сохраните текст ошибки в логах внешнего сервиса ||
+|| `Неверные данные авторизации кассы` от `PRINT_URL` | Логин или пароль в настройках кассы не совпадают со значениями внешнего сервиса. Сверьте `SETTINGS.AUTH` кассы из шага 2 с переменными `CASHBOX_LOGIN` и `CASHBOX_PASSWORD` ||
+|| `Чек с таким UUID не найден` от `CHECK_URL` | Внешний сервис не нашел `uuid` из запроса. Проверьте, что `UUID` из ответа `PRINT_URL` сохранен в хранилище сервиса ||
 || Статус `WAIT` на `CHECK_URL` | Чек еще не напечатан. Повторите проверку статуса после обработки чека внешней кассой ||
 |#
 
 ## Что важно учитывать
 
 - Повторный запуск примера с тем же `CODE` может вернуть ошибку, потому что код обработчика должен быть уникальным
-- Адреса `PRINT_URL` и `CHECK_URL` должны быть доступны из интернета по HTTPS
+- Адреса `PRINT_URL` и `CHECK_URL` должны быть доступны из интернета по HTTPS. Битрикс24 не подписывает запросы к ним: проверяйте логин и пароль из `cashbox_params` на `PRINT_URL` и отвечайте на `CHECK_URL` только по известным `uuid`
 - Данные из настроек кассы, например логин и пароль, храните на стороне приложения и не выводите в интерфейс без маскирования
 
 ## Продолжите изучение

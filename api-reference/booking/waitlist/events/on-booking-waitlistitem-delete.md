@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGWAITLISTITEMDELETE` сработает при удалении записи из листа ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md).
+Событие `ONBOOKINGWAITLISTITEMDELETE` сработает при удалении записи из листа ожидания вручную или методом [booking.v1.waitlist.delete](../booking-v1-waitlist-delete.md), а также при создании бронирования из записи методом [booking.v1.booking.createfromwaitlist](../../booking/booking-v1-booking-createfromwaitlist.md). При переносе событие приходит после события `onBookingAdd`.
 
 {% note info "" %}
 

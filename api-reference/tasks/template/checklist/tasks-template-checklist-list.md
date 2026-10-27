@@ -36,11 +36,13 @@
 - `TITLE` — текст пункта чек-листа
 - `SORT_INDEX` — индекс сортировки
 - `IS_COMPLETE` — статус выполнения пункта
-- `IS_IMPORTANT` — отметка важности пункта
+- `IS_IMPORTANT` — отметка важности пункта: `Y` — важный, `N` — обычный
+
+Статус и важность можно передать как `Y` и `N` или как `true` и `false`. Поля не из списка метод пропускает без ошибки.
 
 Параметр `templateId` принудительно добавляется в фильтр как `TEMPLATE_ID`, даже если в `filter` передано другое значение ||
 || **select**
-[`array`](../../../data-types.md) | Список полей для выборки.
+[`array`](../../../data-types.md) | Список полей для выборки. Если параметр не передан, метод возвращает все поля.
 
 В выборке можно указать поля:
 - `ID` — идентификатор пункта чек-листа
@@ -51,27 +53,35 @@
 - `IS_COMPLETE` — статус выполнения пункта
 - `IS_IMPORTANT` — отметка важности пункта
 - `MEMBERS` — список участников пункта
-- `ATTACHMENTS` — список вложений пункта ||
+- `ATTACHMENTS` — список вложений пункта
+
+Если в `select` нет поля `ID`, идентификатор остается только ключом элемента в `checkListItems` ||
 || **order**
 [`object`](../../../data-types.md) | Объект для сортировки результата вида `{ "поле": "значение сортировки", ... }`.
 
 Сортировать можно по полям:
 - `ID` — идентификатор пункта чек-листа
+- `TEMPLATE_ID` — идентификатор шаблона задачи
 - `PARENT_ID` — идентификатор родительского пункта
-- `CREATED_BY` — идентификатор автора пункта
 - `TITLE` — текст пункта чек-листа
 - `SORT_INDEX` — индекс сортировки
 - `IS_COMPLETE` — статус выполнения пункта
 - `IS_IMPORTANT` — отметка важности пункта
-- `TOGGLED_BY` — идентификатор пользователя, который последний раз сменил статус пункта
-- `TOGGLED_DATE` — дата и время изменения статуса пункта
 
 Направление сортировки может принимать значения:
 - `asc` — по возрастанию
 - `desc` — по убыванию
 
-По умолчанию результат сортируется по `ID` в порядке убывания ||
+Поля не из списка метод пропускает без ошибки.
+
+По умолчанию результат сортируется по `TEMPLATE_ID` по убыванию, затем по `SORT_INDEX` по возрастанию и по `ID` по убыванию ||
 |#
+
+{% note info "" %}
+
+Метод возвращает все подходящие пункты одним ответом. Постраничной выборки у метода нет, параметр `start` он не учитывает.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -164,11 +174,8 @@
     }
 
     try {
-      // tasks.template.checklist.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // tasks.template.checklist.list returns all matching items in one response:
+      // the method has no pagination and ignores `start`, so a single call.make is enough
       const response = await $b24.actions.v2.call.make<CheckListItemsResult>({
         method: 'tasks.template.checklist.list',
         params: {
@@ -190,7 +197,6 @@
             SORT_INDEX: 'asc',
             ID: 'desc',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -222,11 +228,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // tasks.template.checklist.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // tasks.template.checklist.list returns all matching items in one response:
+          // the method has no pagination and ignores `start`, so a single call.make is enough
           const response = await $b24.actions.v2.call.make({
             method: 'tasks.template.checklist.list',
             params: {
@@ -248,7 +251,6 @@
                 SORT_INDEX: 'asc',
                 ID: 'desc',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -533,12 +535,109 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **checkListItems**
-[`object`](../../../data-types.md) | Объект, в котором ключ — идентификатор пункта чек-листа, а значение — описание пункта чек-листа [(подробное описание)](#checklistitem).
+[`object`](../../../data-types.md) | Объект, в котором ключ — идентификатор пункта чек-листа, а значение — описание пункта [(подробное описание)](#checklistitem).
 
-Набор полей в ответе зависит от параметра `select` ||
+Элементы идут в порядке сортировки из `order`. В JavaScript объект с числовыми ключами перебирается по возрастанию ключей, поэтому для вывода в нужном порядке сортируйте элементы по `sortIndex` и `parentId`.
+
+Если пунктов нет, возвращается пустой массив `[]` ||
 |#
 
-{% include [Расшифровка объекта checkListItem](./_includes/checklist-item-response.md) %}
+#### Объект checkListItem {#checklistitem}
+
+Набор полей зависит от параметра `select`: в ответ попадают только перечисленные в нем поля. Если `select` не передан, возвращаются все поля из таблицы.
+
+Метод возвращает значения строками, кроме `parentId` корневого пункта — он приходит числом `0`. Этим ответ отличается от методов [tasks.template.checklist.get](./tasks-template-checklist-get.md) и [tasks.template.checklist.add](./tasks-template-checklist-add.md), где числа и флаги типизированы.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../../data-types.md) | Идентификатор пункта чек-листа ||
+|| **templateId**
+[`string`](../../../data-types.md) | Идентификатор шаблона задачи ||
+|| **parentId**
+[`string`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Идентификатор родительского пункта. Для корневого пункта — число `0` ||
+|| **title**
+[`string`](../../../data-types.md) | Текст пункта чек-листа ||
+|| **sortIndex**
+[`string`](../../../data-types.md) | Индекс сортировки среди пунктов одного уровня. Чем меньше значение, тем выше пункт ||
+|| **isComplete**
+[`string`](../../../data-types.md) | Статус выполнения пункта:
+- `Y` — выполнен
+- `N` — не выполнен ||
+|| **isImportant**
+[`string`](../../../data-types.md) | Отметка важности пункта:
+- `Y` — важный
+- `N` — обычный ||
+|| **members**
+[`array`](../../../data-types.md) | Массив участников пункта [(подробное описание)](#members).
+
+Если участников нет, возвращается пустой массив `[]` ||
+|| **attachments**
+[`object`](../../../data-types.md) | Объект, в котором ключ — идентификатор прикрепления, а значение — описание файла [(подробное описание)](#attachments).
+
+Если вложений нет, возвращается пустой массив `[]` ||
+|#
+
+#### Объект members {#members}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../../data-types.md) | Идентификатор пользователя ||
+|| **type**
+[`string`](../../../data-types.md) | Роль пользователя в пункте чек-листа:
+- `A` — соисполнитель
+- `U` — наблюдатель ||
+|| **name**
+[`string`](../../../data-types.md) | Имя и фамилия пользователя ||
+|| **personalPhoto**
+[`string`](../../../data-types.md) | Идентификатор файла с аватаром пользователя ||
+|| **personalGender**
+[`string`](../../../data-types.md) | Пол пользователя:
+- `M` — мужчина
+- `F` — женщина
+- пустая строка — не указан ||
+|| **image**
+[`string`](../../../data-types.md) | Ссылка на аватар пользователя ||
+|| **isCollaber**
+[`boolean`](../../../data-types.md) | Признак, что пользователь — внешний участник из коллабы ||
+|#
+
+#### Объект attachments {#attachments}
+
+Пример значения:
+
+```json
+"attachments": {
+    "621": {
+        "attachmentId": 621,
+        "name": "report.txt",
+        "size": "28",
+        "fileId": "10921",
+        "downloadUrl": "/bitrix/tools/disk/uf.php?attachedId=621&action=download&ncc=1",
+        "viewUrl": "/bitrix/tools/disk/uf.php?attachedId=621&action=show&ncc=1"
+    }
+}
+```
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **attachmentId**
+[`integer`](../../../data-types.md) | Идентификатор прикрепления. Передайте его в параметре `attachmentsIds` метода [tasks.template.checklist.removeAttachments](./tasks-template-checklist-remove-attachments.md), чтобы удалить вложение ||
+|| **name**
+[`string`](../../../data-types.md) | Имя файла ||
+|| **size**
+[`string`](../../../data-types.md) | Размер файла в байтах ||
+|| **fileId**
+[`string`](../../../data-types.md) | Идентификатор файла на Диске ||
+|| **downloadUrl**
+[`string`](../../../data-types.md) | Относительная ссылка для скачивания файла ||
+|| **viewUrl**
+[`string`](../../../data-types.md) | Относительная ссылка для просмотра файла ||
+|#
 
 ## Обработка ошибок
 
@@ -557,14 +656,16 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `0` | Доступ к шаблону задачи запрещен | Недостаточно прав на чтение шаблона ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение, которое нельзя привести к числу ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Недостаточно прав на чтение шаблона ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)
 - [{#T}](./tasks-template-checklist-get.md)

@@ -44,27 +44,35 @@
 || **PARENT_ID***
 [`integer`](../../../data-types.md) | Идентификатор родительского пункта.
 
-Чтобы создать новый чек-лист, передайте `PARENT_ID` со значением `0`.
+Чтобы создать новый чек-лист, передайте `PARENT_ID` со значением `0`. Чтобы добавить пункт в существующий чек-лист, передайте идентификатор корневого или вложенного пункта. Получить его можно методом [tasks.template.checklist.list](./tasks-template-checklist-list.md).
 
-Если в шаблоне нет пункта чек-листа с указанным `PARENT_ID`, система создаст новый чек-лист ||
+Пункт с указанным `PARENT_ID` должен быть в этом же шаблоне. Если его нет, метод вернет ошибку `Добавление элемента: действие недоступно` ||
 || **SORT_INDEX**
-[`integer`](../../../data-types.md) | Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке ||
+[`integer`](../../../data-types.md) | Индекс сортировки среди пунктов одного уровня. Чем меньше значение, тем выше пункт.
+
+По умолчанию пункт добавляется в конец: `SORT_INDEX` на единицу больше максимального у пунктов того же уровня. Первый пункт уровня получает `0` ||
 || **IS_COMPLETE**
 [`boolean`](../../../data-types.md) | Статус выполнения пункта. Возможные значения:
-- `Y` — выполнен
-- `N` — не выполнен
+- `Y` или `true` — выполнен
+- `N` или `false` — не выполнен
 
 По умолчанию — `N` ||
 || **IS_IMPORTANT**
 [`boolean`](../../../data-types.md) | Отметка, что пункт важный. Возможные значения:
-- `Y` — важный
-- `N` — обычный ||
+- `Y` или `true` — важный
+- `N` или `false` — обычный
+
+По умолчанию — `N` ||
 || **MEMBERS**
 [`object`](../../../data-types.md) | Объект с описанием участников пункта чек-листа. Ключ — идентификатор пользователя, значение — объект с параметром типа участника `TYPE`. Возможные значения типа участника:
 - `'TYPE': 'A'` — соисполнитель
 - `'TYPE': 'U'` — наблюдатель
 
-Система добавит участников пункта чек-листа в задачу в тех же ролях ||
+Получить идентификатор пользователя можно методом [user.get](../../../user/user-get.md).
+
+Система добавит участников пункта чек-листа в задачу в тех же ролях.
+
+По умолчанию — без участников ||
 |#
 
 ## Примеры кода
@@ -146,8 +154,10 @@
         isComplete: boolean
         isImportant: boolean
         completedCount: number
-        members: { type: string; id: number }[]
-        attachments: unknown[]
+        // add returns members in the short form: only type and a numeric id
+        members: Array<{ type: string; id: number }>
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -159,7 +169,7 @@
         params: {
           templateId: 139,
           fields: {
-            TITLE: '4. Prepare the dashboard',
+            TITLE: '4. Подготовить дашборд',
             PARENT_ID: 23,
             SORT_INDEX: 200,
             IS_COMPLETE: 'N',
@@ -203,7 +213,7 @@
             params: {
               templateId: 139,
               fields: {
-                TITLE: '4. Prepare the dashboard',
+                TITLE: '4. Подготовить дашборд',
                 PARENT_ID: 23,
                 SORT_INDEX: 200,
                 IS_COMPLETE: 'N',
@@ -499,17 +509,26 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | В `templateId` передано значение меньше или равное `0` ||
 || `400` | `0` | Не указано название элемента | Не передан обязательный параметр `fields.TITLE` или передано некорректное значение ||
 || `400` | `0` | Указано некорректное значение [] для поля [PARENT_ID] в элементе [, Название пункта] | Не передан обязательный параметр `fields.PARENT_ID` или передано некорректное значение ||
-|| `400` | `0` | Добавление элемента: действие недоступно | У пользователя нет прав на добавление пункта чек-листа в шаблоне задачи ||
+|| `400` | `0` | Добавление элемента: действие недоступно | Нет права на изменение шаблона задачи или в `fields.PARENT_ID` передан пункт, которого нет в шаблоне ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-update.md)
 - [{#T}](./tasks-template-checklist-get.md)
 - [{#T}](./tasks-template-checklist-list.md)
 - [{#T}](./tasks-template-checklist-delete.md)
+- [{#T}](./tasks-template-checklist-move-after.md)
+- [{#T}](./tasks-template-checklist-move-before.md)
 - [{#T}](./tasks-template-checklist-complete.md)
+- [{#T}](./tasks-template-checklist-renew.md)
+- [{#T}](./tasks-template-checklist-add-attachment-by-content.md)
+- [{#T}](./tasks-template-checklist-add-attachments-from-disk.md)
+- [{#T}](./tasks-template-checklist-remove-attachments.md)

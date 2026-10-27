@@ -29,7 +29,9 @@
 || **checkListItemId***
 [`integer`](../../../data-types.md) | Идентификатор пункта чек-листа шаблона.
 
-Идентификатор пункта чек-листа шаблона можно получить при [создании нового пункта](./tasks-template-checklist-add.md) или методом [получения списка пунктов](./tasks-template-checklist-list.md) ||
+Идентификатор пункта чек-листа шаблона можно получить при [создании нового пункта](./tasks-template-checklist-add.md) или методом [получения списка пунктов](./tasks-template-checklist-list.md).
+
+Пункт должен относиться к шаблону `templateId`. Если пункта нет в этом шаблоне, метод вернет ошибку `Доступ к шаблону задачи запрещен` ||
 |#
 
 ## Примеры кода
@@ -89,8 +91,17 @@
         isComplete: boolean
         isImportant: boolean
         completedCount: number
-        members: object[]
-        attachments: Record<string, string>
+        members: Array<{
+          id: string
+          type: string
+          name: string
+          personalPhoto: string
+          personalGender: string
+          image: string
+          isCollaber: boolean
+        }>
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -347,11 +358,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **checkListItem**
-[`object`](../../../data-types.md) | Данные пункта чек-листа [(подробное описание)](#checklistitem).
-
-Содержит пустые значения полей:
-- если указан пустой или с неверным типом `templateId`
-- указан несуществующий, пустой или с неверным типом `checkListItemId` ||
+[`object`](../../../data-types.md) | Данные пункта чек-листа [(подробное описание)](#checklistitem) ||
 |#
 
 {% include [Расшифровка объекта checkListItem](./_includes/checklist-item-response.md) %}
@@ -374,16 +381,25 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Bitrix\Tasks\CheckList\Internals\CheckList All parameters in the constructor must have real class type | Не передан обязательный параметр `checkListItemId` ||
-|| `400` | `0` | Доступ к шаблону задачи запрещен | Недостаточно прав на чтение шаблона ||
+|| `400` | `100` | Could not find value for parameter {checkListItemId} | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {checkListItemId}. Should be value of type int. | В `checkListItemId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Нет права на чтение шаблона, `templateId` меньше или равен `0`, пункта `checkListItemId` нет в шаблоне или он удален ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)
 - [{#T}](./tasks-template-checklist-list.md)
 - [{#T}](./tasks-template-checklist-delete.md)
+- [{#T}](./tasks-template-checklist-move-after.md)
+- [{#T}](./tasks-template-checklist-move-before.md)
 - [{#T}](./tasks-template-checklist-complete.md)
+- [{#T}](./tasks-template-checklist-renew.md)
+- [{#T}](./tasks-template-checklist-add-attachment-by-content.md)
+- [{#T}](./tasks-template-checklist-add-attachments-from-disk.md)
+- [{#T}](./tasks-template-checklist-remove-attachments.md)

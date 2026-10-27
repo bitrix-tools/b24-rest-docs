@@ -24,8 +24,15 @@
 `тип` | **Описание** ||
 || **bookingId***
 [`integer`](../../../data-types.md) | Идентификатор бронирования.
-Можно получить методами [booking.v1.booking.add](../booking-v1-booking-add.md) и [booking.v1.booking.list](../booking-v1-booking-list.md)  ||
+
+Можно получить методами [booking.v1.booking.add](../booking-v1-booking-add.md) и [booking.v1.booking.list](../booking-v1-booking-list.md) ||
 |#
+
+{% note info "" %}
+
+Метод возвращает всех клиентов бронирования одним ответом. Постраничной выборки, фильтра и сортировки у метода нет, параметр `start` он не учитывает.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -74,17 +81,13 @@
       }[]
     }
 
-    // booking.v1.booking.client.list returns a single page (max 50 records). For the whole result set
-    // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-    // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-    // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-    // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+    // booking.v1.booking.client.list returns all clients of the booking in one response:
+    // the method has no pagination and ignores `start`, so a single call.make is enough
     try {
       const response = await $b24.actions.v2.call.make<BookingClientListResult>({
         method: 'booking.v1.booking.client.list',
         params: {
           bookingId: 123,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -113,16 +116,12 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // booking.v1.booking.client.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // booking.v1.booking.client.list returns all clients of the booking in one response:
+          // the method has no pagination and ignores `start`, so a single call.make is enough
           const response = await $b24.actions.v2.call.make({
             method: 'booking.v1.booking.client.list',
             params: {
               bookingId: 123,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -187,16 +186,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error listing booking clients: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -288,6 +281,7 @@ HTTP-статус: **200**
             }
         ]
     },
+    "total": 0,
     "time": {
         "start": 1724068028.331234,
         "finish": 1724068028.726591,
@@ -306,25 +300,46 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит массив объектов с информацией о клиентах. Структура описана [ниже](#bookingClient) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|| **total**
+[`integer`](../../../data-types.md) | Служебное поле, всегда `0`. Количество клиентов считайте по длине массива `bookingClient` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Клиент {#bookingClient}
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **bookingClient**
+[`array`](../../../data-types.md) | Массив клиентов бронирования [(подробное описание)](#bookingClient). Клиенты идут в том порядке, в котором их передали в [booking.v1.booking.client.set](./booking-v1-booking-client-set.md).
+
+Если клиентов нет, возвращается пустой массив `[]` ||
+|#
+
+#### Объект bookingClient {#bookingClient}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) | Идентификатор клиента, по которому можно получить данные клиента методом [crm.item.get](../../../crm/universal/crm-item-get.md) для контактов и компаний ||
+[`integer`](../../../data-types.md) | Идентификатор контакта или компании CRM. Данные клиента можно получить методом [crm.item.get](../../../crm/universal/crm-item-get.md): для контакта с `entityTypeId = 3`, для компании с `entityTypeId = 4` ||
 || **type**
-[`object`](../../../data-types.md) | Тип клиента в формате `{"module": "crm", "code": "CONTACT"}`.
-Значения `code`:
-- `CONTACT` — [контакт CRM](../../../crm/contacts/index.md)
-- `COMPANY` — [компания CRM](../../../crm/companies/index.md)
+[`object`](../../../data-types.md) | Тип клиента [(подробное описание)](#type) ||
+|#
 
-Cтруктуру объекта возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
+#### Объект type {#type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../data-types.md) | Код типа клиента:
+- `CONTACT` — [контакт CRM](../../../crm/contacts/index.md)
+- `COMPANY` — [компания CRM](../../../crm/companies/index.md) ||
+|| **module**
+[`string`](../../../data-types.md) | Модуль клиента. Возможное значение — `crm` ||
 |#
 
 ## Обработка ошибок
@@ -333,7 +348,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1021,
+    "error": "1021",
     "error_description": "Booking not found"
 }
 ```
@@ -344,13 +359,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `1021` | `Booking not found` | Бронирование с указанным `id` не найдено ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
+|| `100` | `Could not find value for parameter {bookingId}` | Не передан обязательный параметр `bookingId` ||
+|| `100` | `Invalid value {abc} to match with parameter {bookingId}. Should be value of type int.` | В `bookingId` передано значение другого типа, а не число ||
+|| `1021` | `Booking not found` | Бронирование с указанным `bookingId` не найдено ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./booking-v1-booking-client-unset.md)
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-booking-client-set.md)
+- [{#T}](./booking-v1-booking-client-unset.md)

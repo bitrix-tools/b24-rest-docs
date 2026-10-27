@@ -40,25 +40,29 @@
 || **Название**
 `тип` | **Описание** ||
 || **TITLE**
-[`string`](../../../data-types.md) | Текст пункта чек-листа
+[`string`](../../../data-types.md) | Текст пункта чек-листа. Пустая строка игнорируется, текст пункта не меняется.
 
-Если передать `PARENT_ID` со значением `0`, то `TITLE` — название чек-листа ||
+Если у пункта `PARENT_ID` равен `0`, то `TITLE` — название чек-листа ||
 || **PARENT_ID**
-[`integer`](../../../data-types.md) | Идентификатор родительского пункта. Используйте для вложенных чек-листов
+[`integer`](../../../data-types.md) | Идентификатор нового родительского пункта. Получить его можно методом [tasks.template.checklist.list](./tasks-template-checklist-list.md).
 
-- Если передать `PARENT_ID` со значением `0`, система создаст в шаблоне задачи новый чек-лист
-- Если в шаблоне нет пункта чек-листа с указанным `PARENT_ID`, система создаст новый чек-лист
-- Если переместить главный пункт чек-листа под пункт другого чек-листа, то он переместится вместе со своими подпунктами с сохранением иерархии. Чек-листы объединятся в один ||
+- Если передать `0`, пункт станет корневым — отдельным чек-листом шаблона
+- Пункт с указанным `PARENT_ID` должен быть в этом же шаблоне. Если его нет, метод вернет ошибку `Изменение элемента: действие недоступно`
+- Пункт переносится вместе со своими подпунктами с сохранением иерархии. Если перенести корневой пункт под пункт другого чек-листа, чек-листы объединятся в один
+
+Чтобы поставить пункт рядом с конкретным пунктом, удобнее использовать методы [tasks.template.checklist.moveAfter](./tasks-template-checklist-move-after.md) и [tasks.template.checklist.moveBefore](./tasks-template-checklist-move-before.md) ||
 || **SORT_INDEX**
-[`integer`](../../../data-types.md) | Индекс сортировки. Чем меньше значение, тем выше пункт в списке или подсписке ||
+[`integer`](../../../data-types.md) | Индекс сортировки среди пунктов одного уровня. Чем меньше значение, тем выше пункт ||
 || **IS_COMPLETE**
 [`boolean`](../../../data-types.md) | Статус выполнения пункта. Возможные значения:
-- `Y` — выполнен
-- `N` — не выполнен ||
+- `Y` или `true` — выполнен
+- `N` или `false` — не выполнен
+
+Для смены статуса также можно использовать методы [tasks.template.checklist.complete](./tasks-template-checklist-complete.md) и [tasks.template.checklist.renew](./tasks-template-checklist-renew.md) ||
 || **IS_IMPORTANT**
 [`boolean`](../../../data-types.md) | Отметка, что пункт важный. Возможные значения:
-- `Y` — важный
-- `N` — обычный ||
+- `Y` или `true` — важный
+- `N` или `false` — обычный ||
 || **MEMBERS**
 [`object`](../../../data-types.md) | Объект с описанием участников пункта чек-листа. Ключ — идентификатор пользователя, значение — объект с параметром типа участника `TYPE`. Возможные значения типа участника:
 - `'TYPE': 'A'` — соисполнитель
@@ -136,8 +140,13 @@
           id: string
           type: string
           name: string
+          personalPhoto: string
+          personalGender: string
+          image: string
+          isCollaber: boolean
         }>
-        attachments: unknown[]
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -150,7 +159,7 @@
           templateId: 139,
           checkListItemId: 37,
           fields: {
-            TITLE: '4. Prepare dashboard and send the link',
+            TITLE: '4. Подготовить дашборд и отправить ссылку',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -186,7 +195,7 @@
               templateId: 139,
               checkListItemId: 37,
               fields: {
-                TITLE: '4. Prepare dashboard and send the link',
+                TITLE: '4. Подготовить дашборд и отправить ссылку',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -437,19 +446,28 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Bitrix\Tasks\CheckList\Internals\CheckList All parameters in the constructor must have real class type | Не передан обязательный параметр `checkListItemId` ||
-|| `400` | `100` | Could not find value for parameter {fields} | Не передан или передан пустым обязательный параметр `fields` ||
-|| `400` | `0` | Bitrix\Tasks\CheckList\CheckListFacade::onAfterUpdate(): Argument #1 ($taskId) must be of type int, string given, called in /var/www/html/bitrix/modules/tasks/lib/checklist/checklistfacade.php on line 313 | Указан пустой или с неверным типом `templateId` ||
-|| `400` | `0` | Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, Название пункта] | Указан несуществующий, пустой или с неверным типом `checkListItemId` ||
-|| `400` | `0` | Изменение элемента: действие недоступно | У пользователя нет прав доступа на изменение шаблона задачи ||
+|| `400` | `100` | Could not find value for parameter {checkListItemId} | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {checkListItemId}. Should be value of type int. | В `checkListItemId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Нет права на чтение шаблона, `templateId` меньше или равен `0`, пункта `checkListItemId` нет в шаблоне или он удален ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Не указаны поля для редактирования | Передан пустой `fields` ||
+|| `400` | `0` | Изменение элемента: действие недоступно | Нет права на изменение шаблона задачи или в `fields.PARENT_ID` передан пункт, которого нет в шаблоне ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-get.md)
 - [{#T}](./tasks-template-checklist-list.md)
 - [{#T}](./tasks-template-checklist-delete.md)
+- [{#T}](./tasks-template-checklist-move-after.md)
+- [{#T}](./tasks-template-checklist-move-before.md)
 - [{#T}](./tasks-template-checklist-complete.md)
+- [{#T}](./tasks-template-checklist-renew.md)
+- [{#T}](./tasks-template-checklist-add-attachment-by-content.md)
+- [{#T}](./tasks-template-checklist-add-attachments-from-disk.md)
+- [{#T}](./tasks-template-checklist-remove-attachments.md)

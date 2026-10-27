@@ -36,13 +36,17 @@
 
 ### Параметр attachmentParameters {#attachmentparameters}
 
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **NAME**
-[`string`](../../../data-types.md) | Имя создаваемого файла ||
-|| **CONTENT**
-[`string`](../../../data-types.md) | Содержимое файла в формате base64 ||
+|| **NAME***
+[`string`](../../../data-types.md) | Имя создаваемого файла с расширением, например `report.txt` ||
+|| **CONTENT***
+[`string`](../../../data-types.md) | Содержимое файла в формате base64.
+
+Файл сохраняется в папку загруженных файлов на Диске пользователя, который вызывает метод. Отдельного лимита размера у метода нет, действуют [общие ограничения на размер запроса](../../../files/how-to-upload-files.md#limits) ||
 |#
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -125,7 +129,8 @@
           image: string
           isCollaber: boolean
         }>
-        attachments: unknown[]
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -440,16 +445,20 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Bitrix\Tasks\CheckList\Internals\CheckList All parameters in the constructor must have real class type | Не передан обязательный параметр `checkListItemId` ||
-|| `400` | `100` | Could not find value for parameter {attachmentParameters} | Не передан или передан пустым обязательный параметр `attachmentParameters` ||
-|| `400` | `0` | Произошла ошибка при добавлении вложения | Указан несуществующий или пустой `checkListItemId` ||
-|| `400` | `0` | Изменение элемента: действие недоступно | У пользователя нет прав доступа на изменение шаблона задачи ||
+|| `400` | `100` | Could not find value for parameter {checkListItemId} | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {checkListItemId}. Should be value of type int. | В `checkListItemId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Нет права на чтение шаблона, `templateId` меньше или равен `0`, пункта `checkListItemId` нет в шаблоне или он удален ||
+|| `400` | `100` | Could not find value for parameter {attachmentParameters} | Не передан обязательный параметр `attachmentParameters` ||
+|| `400` | `0` | Произошла ошибка при добавлении вложения | В `attachmentParameters` не передан `NAME` или `CONTENT`, либо `CONTENT` не удалось раскодировать из base64 ||
+|| `400` | `0` | Изменение элемента: действие недоступно | Нет права на изменение шаблона задачи ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)
 - [{#T}](./tasks-template-checklist-get.md)

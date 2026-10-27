@@ -13,6 +13,8 @@
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../events/index.md).
 
+События записей в листе ожидания описаны в статье [{#T}](../../waitlist/events/index.md).
+
 > Быстрый переход: [все события](#all-events)
 
 ## Как получать события
@@ -23,6 +25,29 @@
 - [приложение](../../../../settings/app-installation/index.md) и метод [event.bind](../../../events/event-bind.md)
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
+
+В приложение события начинают приходить только после завершения установки. [Проверьте установку приложения](../../../../settings/app-installation/installation-finish.md)
+
+## Что приходит в обработчик
+
+Все три события бронирования передают в объекте `data` только идентификатор бронирования. Идентификатор приходит строкой:
+
+```json
+{
+    "event": "ONBOOKINGUPDATE",
+    "event_handler_id": "8",
+    "data": {
+        "ID": "66"
+    },
+    "ts": "1751285644"
+}
+```
+
+Значений полей и списка изменений в событии нет. Чтобы узнать, что изменилось, запросите бронирование методом [booking.v1.booking.get](../booking-v1-booking-get.md) и сравните данные со своей копией. После события `onBookingDelete` этот метод вернет ошибку `1021` с описанием `Booking not found`.
+
+**Перенос между бронированием и листом ожидания.** Метод [booking.v1.booking.createfromwaitlist](../booking-v1-booking-createfromwaitlist.md) создает бронирование и удаляет исходную запись листа ожидания: сначала приходит `onBookingAdd`, затем `onBookingWaitListItemDelete`. Метод [booking.v1.waitlist.createfrombooking](../../waitlist/booking-v1-waitlist-createfrombooking.md) работает в обратную сторону: сначала приходит `onBookingWaitListItemAdd`, затем `onBookingDelete`.
+
+Кроме того, в запросе приходит ключ `auth`. Он содержит параметры авторизации и данные портала, его структура описана на странице события, например [onBookingAdd](./on-booking-add.md#auth).
 
 ## Доступность серверов для отправки и получения событий
 
@@ -38,5 +63,5 @@
 || **Событие** | **Вызывается** ||
 || [onBookingAdd](./on-booking-add.md) | При создании бронирования вручную или методами [booking.v1.booking.add](../booking-v1-booking-add.md), [booking.v1.booking.createfromwaitlist](../booking-v1-booking-createfromwaitlist.md) ||
 || [onBookingUpdate](./on-booking-update.md) | При обновлении бронирования вручную или методом [booking.v1.booking.update](../booking-v1-booking-update.md) ||
-|| [onBookingDelete](./on-booking-delete.md) | При удалении бронирования вручную или методом [booking.v1.booking.delete](../booking-v1-booking-delete.md) ||
+|| [onBookingDelete](./on-booking-delete.md) | При удалении бронирования вручную или методом [booking.v1.booking.delete](../booking-v1-booking-delete.md), а также при переносе бронирования в лист ожидания методом [booking.v1.waitlist.createfrombooking](../../waitlist/booking-v1-waitlist-createfrombooking.md) ||
 |#

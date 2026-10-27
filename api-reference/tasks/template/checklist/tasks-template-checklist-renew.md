@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правами на изменение шаблона задачи
 
-Метод `tasks.template.checklist.renew` снимает отметку выполнения с пункта чек-листа шаблона задачи.
+Метод `tasks.template.checklist.renew` снимает отметку выполнения с пункта чек-листа шаблона задачи, отметить пункт выполненным можно методом [tasks.template.checklist.complete](./tasks-template-checklist-complete.md).
 
 ## Параметры метода
 
@@ -89,8 +89,17 @@
         isComplete: boolean
         isImportant: boolean
         completedCount: number
-        members: unknown[]
-        attachments: unknown[]
+        members: Array<{
+          id: string
+          type: string
+          name: string
+          personalPhoto: string
+          personalGender: string
+          image: string
+          isCollaber: boolean
+        }>
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -357,16 +366,26 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Bitrix\Tasks\CheckList\Internals\CheckList All parameters in the constructor must have real class type | Не передан обязательный параметр `checkListItemId` ||
-|| `400` | `0` | Bitrix\Tasks\CheckList\CheckListFacade::onAfterUpdate(): Argument #1 ($taskId) must be of type int, string given, called in /var/www/html/bitrix/modules/tasks/lib/checklist/checklistfacade.php on line 313 | Указан пустой или с неверным типом `templateId` ||
-|| `400` | `0` | Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, ] | Указан несуществующий, пустой или с неверным типом `checkListItemId` ||
-|| `400` | `0` | Изменение статуса элемента: действие недоступно | У пользователя нет прав доступа на изменение шаблона задачи ||
+|| `400` | `100` | Could not find value for parameter {checkListItemId} | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {checkListItemId}. Should be value of type int. | В `checkListItemId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Нет права на чтение шаблона, `templateId` меньше или равен `0`, пункта `checkListItemId` нет в шаблоне или он удален ||
+|| `400` | `0` | Изменение статуса элемента: действие недоступно | Нет права на изменение шаблона задачи ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
+- [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)
+- [{#T}](./tasks-template-checklist-get.md)
 - [{#T}](./tasks-template-checklist-list.md)
+- [{#T}](./tasks-template-checklist-delete.md)
+- [{#T}](./tasks-template-checklist-move-after.md)
+- [{#T}](./tasks-template-checklist-move-before.md)
 - [{#T}](./tasks-template-checklist-complete.md)
+- [{#T}](./tasks-template-checklist-add-attachment-by-content.md)
+- [{#T}](./tasks-template-checklist-add-attachments-from-disk.md)
+- [{#T}](./tasks-template-checklist-remove-attachments.md)
