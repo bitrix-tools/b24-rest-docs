@@ -83,10 +83,7 @@ POST https://{адрес_установки}/rest/api/{id_пользовател
 
 Значение из `$ref` или `$refArray` приводится к типу поля, в которое его подставляют. Это работает в `fields`, во вложенных объектах и в `filter`, включая условие `in`. Если значение привести нельзя, batch вернет ошибку `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION` с HTTP-статусом 400. Например, так будет, если подставить строковые названия задач в фильтр по `id`.
 
-Не приводятся:
-
-- значения, которые переданы в запросе явно. Строка `"289"` в фильтре по `id` вызовет ошибку `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
-- значение из `$ref`, подставленное в параметр `id`. Если подставить строку, batch вернет ошибку `INTERNAL_SERVER_ERROR` с HTTP-статусом 500
+Значения, которые переданы в запросе явно, не приводятся. Строка `"289"` в фильтре по `id` вызовет ошибку `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`.
 
 ## Примеры кода
 
