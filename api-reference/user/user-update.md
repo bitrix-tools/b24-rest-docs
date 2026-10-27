@@ -413,6 +413,9 @@ HTTP-статус: **400**
 || `insufficient_scope` | The request requires higher privileges than provided by the access token | Для вызова требуется скоуп `user`; скоупы `user_brief` и `user_basic` не подходят ||
 || `ERROR_CORE` | access_denied | `ID` не передан или не является положительным числом ||
 || `ERROR_CORE` | access_denied | Недостаточно прав для изменения данных указанного пользователя ||
+|| `ERROR_ARGUMENT` | invalid_type_field | В строковое поле передан массив или объект. Имя поля приходит в поле ответа `argument`.
+
+Строковыми считаются `NAME`, `LAST_NAME`, `SECOND_NAME`, `EMAIL`, `TITLE`, `XML_ID`, `TIME_ZONE`, поля `WORK_*` и `PERSONAL_*`, кроме `PERSONAL_PHOTO` и `WORK_LOGO`. Пользовательские поля `UF_*` принимают массивы ||
 || `ERROR_CORE` | Текст ошибки зависит от причины | Не удалось сохранить изменения профиля. Метод возвращает сообщение о причине ошибки ||
 |#
 

@@ -32,7 +32,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../../data-types.md) | Название типа ресурса ||
+[`string`](../../../data-types.md) | Название типа ресурса. Должно отличаться от названий других типов ресурсов ||
 || **code***
 [`string`](../../../data-types.md) | Символьный код типа ресурса. Должен быть уникальным среди типов модуля `booking`.
 
@@ -544,6 +544,7 @@ HTTP-статус: **400**
 || `100` | `Could not find value for parameter {fields}` | Не передан параметр `fields` ||
 || `422` | `Invalid value of the {field} field` | Недопустимое значение поля из перечисления, например `templateTypeConfirmation` ||
 || `1010` | `Resource type with code "X" already exists` | Тип ресурса с таким `code` уже существует ||
+|| `1053` | `Resource type name is already taken` | Тип ресурса с таким `name` уже существует ||
 || `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 

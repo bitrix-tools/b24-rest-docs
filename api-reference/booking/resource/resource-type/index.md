@@ -52,9 +52,9 @@
 
 Создавать и изменять типы ресурсов можно и через интерфейс Битрикс24, и методами [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md), [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md).
 
-При обновлении код обязателен, причем его значение должно отличаться от кодов всех существующих типов, включая код самого обновляемого типа — подробности на странице [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md).
+Название и код типа должны быть уникальными: метод вернет ошибку, если они уже заняты другим типом. При обновлении можно передать только те поля, которые меняются, — подробности на странице [booking.v1.resourceType.update](./booking-v1-resourcetype-update.md).
 
-Удалить тип можно только методом [booking.v1.resourceType.delete](./booking-v1-resourcetype-delete.md) и только если к нему не привязан ни один ресурс.
+Удалить тип можно только методом [booking.v1.resourceType.delete](./booking-v1-resourcetype-delete.md) и только если к нему не привязан ни один действующий ресурс.
 
 Настройки уведомлений типа не переносятся в ресурсы: ресурс при создании получает собственные значения по умолчанию.
 

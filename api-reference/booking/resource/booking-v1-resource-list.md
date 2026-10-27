@@ -423,7 +423,9 @@ HTTP-статус: **200**
                 "templateTypeFeedback": "inanimate",
                 "templateTypeInfo": "inanimate",
                 "templateTypeReminder": "base",
-                "typeId": 3
+                "typeId": 3,
+                "unavailableFrom": null,
+                "unavailableUntil": null
             },
             {
                 "cancellationNotificationDelay": 600,
@@ -454,7 +456,9 @@ HTTP-статус: **200**
                 "templateTypeFeedback": "inanimate",
                 "templateTypeInfo": "inanimate",
                 "templateTypeReminder": "base",
-                "typeId": 7
+                "typeId": 7,
+                "unavailableFrom": null,
+                "unavailableUntil": null
             }
         ]
     },
@@ -592,6 +596,14 @@ HTTP-статус: **200**
 [`integer`](../../data-types.md) | Идентификатор типа ресурса.
 
 Получить информацию о типе можно с помощью метода [booking.v1.resourceType.get](./resource-type/booking-v1-resourcetype-get.md) ||
+|| **unavailableFrom**
+[`integer`](../../data-types.md) | Начало приостановки ресурса, Unix-время в секундах. Только для чтения.
+
+`null` — ресурс не приостановлен или приостановлен с текущего момента. Во втором случае заполнено поле `unavailableUntil` ||
+|| **unavailableUntil**
+[`integer`](../../data-types.md) | Окончание приостановки ресурса, Unix-время в секундах. Только для чтения.
+
+`null` — ресурс не приостановлен ||
 |#
 
 ## Обработка ошибок

@@ -15,7 +15,7 @@
 
 Метод `booking.v1.resourceType.delete` удаляет тип ресурса.
 
-Удалить тип можно, только если к нему не привязан ни один ресурс. Ресурсы переназначьте на другой тип методом [booking.v1.resource.update](../booking-v1-resource-update.md) или удалите методом [booking.v1.resource.delete](../booking-v1-resource-delete.md). Удаление необратимо.
+Удалить тип можно, только если к нему не привязан ни один действующий ресурс. Удаленные ресурсы удалению типа не мешают. Ресурсы переназначьте на другой тип методом [booking.v1.resource.update](../booking-v1-resource-update.md) или удалите методом [booking.v1.resource.delete](../booking-v1-resource-delete.md). Удаление необратимо. Код `code` удаленного типа можно сразу назначить новому типу.
 
 ## Параметры метода
 
@@ -280,8 +280,8 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр ||
-|| `1012` | `Resource type has not been found` | Тип ресурса с таким `id` не найден ||
-|| `1012` | `The type can not be deleted. There are resources of  type` | К типу привязан хотя бы один ресурс. Сначала удалите или переназначьте ресурсы методом [booking.v1.resource.update](../booking-v1-resource-update.md) ||
+|| `1013` | `Resource type has not been found` | Тип ресурса с таким `id` не найден ||
+|| `1057` | `The type can not be deleted. There are resources of type` | К типу привязан хотя бы один действующий ресурс. Сначала удалите или переназначьте ресурсы методом [booking.v1.resource.update](../booking-v1-resource-update.md) ||
 || `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 

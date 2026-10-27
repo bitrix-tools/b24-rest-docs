@@ -755,7 +755,7 @@ HTTP-статус: **200**
 || **WORKFLOW_STARTED**
 [`datetime`](../../data-types.md) | Дата запуска бизнес-процесса ||
 || **WORKFLOW_STARTED_BY**
-[`user`](../../data-types.md) | Кем запущен бизнес-процесс ||
+[`user`](../../data-types.md) | Кем запущен бизнес-процесс. Для процессов, которые запустили роботы и триггеры стадий, — `0` ||
 || **OVERDUE_DATE**
 [`datetime`](../../data-types.md) | Крайний срок ||
 || **WORKFLOW_TEMPLATE_ID**

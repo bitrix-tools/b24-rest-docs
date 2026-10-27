@@ -66,6 +66,8 @@
 
 4. Наполните список элементами с помощью метода [lists.element.add](./elements/lists-element-add.md). Заполняйте созданные поля и привязывайте элементы к разделам.
 
+Методы `lists.add`, `lists.update`, `lists.section.*`, `lists.element.add`, `lists.element.update` и `lists.element.delete` выполняются целиком или не выполняются вовсе: при ошибке все изменения отменяются. Удаление списка методом [lists.delete](./lists/lists-delete.md) отменить нельзя.
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`lists`](../scopes/permissions.md)

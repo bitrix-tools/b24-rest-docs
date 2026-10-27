@@ -27,7 +27,9 @@
 
 Можно получить в методах [booking.v1.resourceType.add](./booking-v1-resourcetype-add.md) и [booking.v1.resourceType.list](./booking-v1-resourcetype-list.md) ||
 || **fields***
-[`object`](../../../data-types.md) | Объект, содержащий значения полей для обновления типа ресурса [(подробное описание)](#fields) ||
+[`object`](../../../data-types.md) | Объект, содержащий значения полей для обновления типа ресурса [(подробное описание)](#fields).
+
+Передайте хотя бы одно поле. Если `fields` пустой, метод вернет ошибку `422` ||
 |#
 
 ### Параметр fields {#fields}
@@ -36,11 +38,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../../data-types.md) | Название типа ресурса ||
-|| **code***
+[`string`](../../../data-types.md) | Название типа ресурса.
+
+Название не должно совпадать с названием другого типа ресурса. Иначе метод вернет ошибку `1053` ||
+|| **code**
 [`string`](../../../data-types.md) | Символьный код типа ресурса.
 
-Передавать поле обязательно, и значение должно отличаться от кодов всех существующих типов, включая код самого обновляемого типа. Иначе метод вернет ошибку ||
+Код не должен совпадать с кодом другого типа ресурса. Иначе метод вернет ошибку `1011`. Текущий код самого обновляемого типа можно передать повторно ||
 || **isInfoNotificationOn**
 [`string`](../../../data-types.md) | Сообщение клиенту о записи. Возможные значения:
 - `Y` — включено
@@ -513,8 +517,9 @@ HTTP-статус: **400**
 || `1007` | Resource type not found | Указан несуществующий `id` типа ресурса ||
 || `100` | Could not find value for parameter \{id\} | Не передан обязательный параметр ||
 || `422` | Invalid value of the {field} field | Недопустимое значение поля из перечисления, например `templateTypeConfirmation` ||
-|| `1011` | Resource type with code "X" already exists | Такой `code` уже занят другим типом или самим обновляемым типом ||
-|| `0` | ResourceTypeRepository::getByModuleIdAndCode(): Argument #2 ($code) must be of type string, null given | В `fields` не передано поле `code` ||
+|| `422` | Invalid value of the fields field | Передан пустой объект `fields` ||
+|| `1011` | Resource type with code "X" already exists | Такой `code` уже занят другим типом ресурса ||
+|| `1053` | Resource type name is already taken | Такое название `name` уже занято другим типом ресурса ||
 || `0` | Booking tool is disabled. Please contact your administrator. | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 

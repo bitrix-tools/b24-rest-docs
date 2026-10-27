@@ -294,7 +294,7 @@ HTTP-статус: **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `ERROR_ARGUMENT` | Argument 'PROCESS_ID' is null or empty | Не передан параметр `process_id` ||
-|| `400` | `ERROR_ARGUMENT` | Value must be array of MESSAGE_ID values | Параметр `message_id` не передан или передан не массивом ||
+|| `400` | `ERROR_ARGUMENT` | Value must be array of MESSAGE_ID values | Параметр `message_id` не передан, передан не массивом или содержит элементы, которые не являются строками или числами, например вложенные массивы ||
 || `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
 || `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
 || `403` | `WRONG_LICENSE` | This feature is not enabled for the current license: auth_connector | Передан `auth_connector`, а тариф не поддерживает ключи источников ||

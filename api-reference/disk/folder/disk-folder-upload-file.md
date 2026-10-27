@@ -824,6 +824,7 @@ HTTP-статус: **400** или **403**
 || `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` не найдена ||
 || `400` | `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не указан обязательный параметр `NAME` в массиве `data` ||
 || `400` | `ERROR_COULD_NOT_SAVE_FILE` | Could not save file | Не удалось сохранить файл. Проверьте свободное место на Диске и корректность кодировки данных ||
+|| `400` | `QUOTA_BAD` | `Исчерпан выделенный дисковый ресурс.<br>` | Исчерпана квота дискового пространства Битрикс24. Текст ошибки приходит на языке Битрикс24 и заканчивается тегом `<br>` ||
 || `400` | Пустое значение | Invalid format: Right `N` should be array | Элемент `rights` с индексом `N` передан не в виде массива ||
 || `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE and TASK_ID | В элементе `rights` с индексом `N` отсутствует `ACCESS_CODE` или `TASK_ID` ||
 || `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE as not empty string | `ACCESS_CODE` передан не строкой или содержит пустую строку ||
