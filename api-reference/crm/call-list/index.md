@@ -241,27 +241,22 @@
                     'select' => ['ID']
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            return;
-        }
-    
-        $deals = $result->data();
-    
+
+        $deals = $result;
+
         // Если дел нет, выходим
         if (count($deals) === 0) {
             echo "Дел с названием 'Обзвон #13' не найдено.";
             return;
         }
-    
+
         // Берем ID первого дела
         $dealId = $deals[0]['ID'];
-    
+
         // Вызываем метод удаления
         $deleteResponse = $b24Service
             ->core
@@ -271,20 +266,14 @@
                     'id' => $dealId,
                 ]
             );
-    
+
         $deleteResult = $deleteResponse
             ->getResponseData()
             ->getResult();
-    
-        if ($deleteResult->error()) {
-            error_log("Ошибка при удалении дела ID " . $dealId . ": " . $deleteResult->error());
-        } else {
-            echo "Дело ID " . $dealId . " успешно удалено.";
-        }
-    
+
+        echo "Дело ID " . $dealId . " успешно удалено.";
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

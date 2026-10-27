@@ -160,21 +160,14 @@
                 'crm.type.fields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            return;
-        }
-    
-        echo 'Success: ' . print_r($result->data(), true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching CRM type fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

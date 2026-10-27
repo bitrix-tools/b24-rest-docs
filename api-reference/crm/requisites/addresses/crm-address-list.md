@@ -375,9 +375,6 @@
     
         echo 'Success: ' . print_r($result, true);
     
-        if ($result->more()) {
-            $result->next();
-        }
     
     } catch (Throwable $e) {
         error_log($e->getMessage());

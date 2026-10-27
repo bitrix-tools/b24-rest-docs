@@ -336,22 +336,16 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
+        $data = $result;
+
+        // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if (isset($data['error'])) {
+            echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
         } else {
-            $data = $result->data();
-
-            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
-            if (isset($data['error'])) {
-                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
-            } else {
-                echo 'Data: ' . print_r($data, true);
-            }
+            echo 'Data: ' . print_r($data, true);
         }
-
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error calling biconnector.table.list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

@@ -376,15 +376,9 @@ Cм. описание [списочных методов](../../../../../setting
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activities: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -880,15 +874,9 @@ HTTP-статус: **400**, **403**
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activities: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -1239,15 +1227,9 @@ HTTP-статус: **400**, **403**
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activity communications: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity communications: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -1611,15 +1593,9 @@ HTTP-статус: **200**
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Activity files: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity files: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

@@ -254,17 +254,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-            // Нужная вам логика обработки данных
-            processData($result->data());
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error setting deal contact items: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

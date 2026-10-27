@@ -1302,7 +1302,7 @@
             );
 
             $result = $response->getResponseData()->getResult();
-            echo 'Success: ' . print_r($result->data(), true);
+            echo 'Success: ' . print_r($result, true);
         } catch (Throwable $e) {
             error_log($e->getMessage());
             echo 'Error importing CRM item: ' . $e->getMessage();

@@ -186,20 +186,15 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            $data = $result->data();
+        $data = $result;
 
-            if ($data === null) {
-                echo 'Расшифровки для этого звонка нет';
-            } else {
-                echo $data['transcription'];
-            }
+        if (empty($data)) {
+            echo 'Расшифровки для этого звонка нет';
+        } else {
+            echo $data['transcription'];
         }
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting call transcript: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

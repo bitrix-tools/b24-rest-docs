@@ -199,14 +199,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Created message ID: ' . $result->data();
-        }
+        print_r($result);
     } catch (Throwable $exception) {
-        error_log($exception->getMessage());
-        echo 'Error sending message: ' . $exception->getMessage();
+        echo $exception->getMessage();
     }
     ```
 
