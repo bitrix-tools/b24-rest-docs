@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.getFields` возвращает описание стандартных и пользовательских полей задачи.
+Метод `tasks.task.getFields` возвращает описание стандартных и пользовательских полей задачи. Используйте его, чтобы узнать коды полей для `fields` в [tasks.task.add](./tasks-task-add.md) и [tasks.task.update](./tasks-task-update.md), для `select` и `filter` в [tasks.task.get](./tasks-task-get.md) и [tasks.task.list](./tasks-task-list.md), а также допустимые значения полей-списков.
 
 ## Параметры метода
 
@@ -628,19 +628,72 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Объект с [описанием полей задачи](./fields.md) ||
+[`object`](../data-types.md) | Корневой объект ответа ||
+|| **fields**
+[`object`](../data-types.md) | Объект, в котором ключ — код поля задачи, например `TITLE` или `UF_CRM_TASK`, а значение — объект с описанием поля [(подробное описание)](#field-description).
+
+Содержит стандартные и пользовательские поля задачи. Назначение стандартных полей описано в статье [Поля задачи](./fields.md) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Объект описания поля {#field-description}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **title**
+[`string`](../data-types.md) | Название поля. Для некоторых полей возвращается `null`, например для `ACCOMPLICES`, `AUDITORS`, `CREATED_DATE` ||
+|| **type**
+[`string`](../data-types.md) | Тип значения поля. Возможные значения:
+- `integer` — целое число
+- `double` — дробное число
+- `string` — строка
+- `boolean` — логическое значение
+- `datetime` — дата и время
+- `enum` — значение из списка `values`
+- `array` — массив
+- `crm` — привязка к объектам CRM
+- `disk_file` — файлы Диска
+- `mail_message` — привязка к письму ||
+|| **values**
+[`object`](../data-types.md) \| [`array`](../data-types.md) | Допустимые значения поля. Возвращается только для полей типа `enum`.
+
+Обычно это объект, в котором ключ — значение поля, а значение — его подпись, например `{"Y": "Да", "N": "Нет"}`. Для поля `DURATION_TYPE` возвращается массив значений без подписей ||
+|| **default**
+[`integer`](../data-types.md) \| [`string`](../data-types.md) | Значение по умолчанию. Может быть `null`. Возвращается только для полей, у которых задано значение по умолчанию ||
+|| **required**
+[`boolean`](../data-types.md) | Признак обязательного поля. Возвращается со значением `true` только для обязательных полей: `TITLE`, `CREATED_BY`, `RESPONSIBLE_ID` ||
+|| **primary**
+[`boolean`](../data-types.md) | Признак первичного ключа. Возвращается со значением `true` только для поля `ID` ||
+|#
+
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+У метода нет параметров, поэтому специфичных ошибок нет. Метод может вернуть только системные ошибки, например `INVALID_CREDENTIALS` при неверном коде вебхука.
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение 
 
+- [{#T}](./index.md)
+- [{#T}](./fields.md)
+- [{#T}](./tasks-task-add.md)
+- [{#T}](./tasks-task-update.md)
 - [{#T}](./tasks-task-get.md)
 - [{#T}](./tasks-task-list.md)
+- [{#T}](./user-field/index.md)
 
 
 

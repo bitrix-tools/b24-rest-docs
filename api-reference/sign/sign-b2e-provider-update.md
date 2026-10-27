@@ -357,7 +357,16 @@ HTTP-статус: **403**
         "error": 0,
         "error_description": "Не заполнено обязательное поле \"Icon URL\""
     },
-    "time": {...}
+    "time": {
+        "start": 1792738606,
+        "finish": 1792738606.449847,
+        "duration": 0.4498469829559326,
+        "processing": 0,
+        "date_start": "2026-10-23T09:56:46+03:00",
+        "date_finish": "2026-10-23T09:56:46+03:00",
+        "operating_reset_at": 1792739160,
+        "operating": 0
+    }
 }
 ```
 

@@ -84,9 +84,9 @@
 
 Скрам и Поток реализованы на базе рабочих групп.
 
-Для создания Скрама используйте метод [создания новой группы](./sonet-group-create.md). Чтобы группа стала Скрамом, заполните поле `SCRUM_MASTER_ID`.
+Для создания Скрама используйте метод [создания новой группы](./sonet-group-create.md). Чтобы группа стала Скрамом, заполните поле `SCRUM_MASTER_ID`. Дальше со Скрамом работают методы `tasks.api.scrum.*`: бэклог — [tasks.api.scrum.backlog.*](./scrum/backlog/index.md), спринты — [tasks.api.scrum.sprint.*](./scrum/sprint/index.md), эпики — [tasks.api.scrum.epic.*](./scrum/epic/index.md), задачи — [tasks.api.scrum.task.*](./scrum/task/index.md), канбан — [tasks.api.scrum.kanban.*](./scrum/kanban/index.md). Порядок работы описан в [обзоре методов Скрама](./scrum/index.md).
 
-Чтобы привязать Поток к группе, используйте идентификатор `groupId`. Для получения идентификатора используйте метод [создания новой группы](./sonet-group-create.md) или метод [получения списка групп](./socialnetwork-api-workgroup-list.md).
+Чтобы привязать Поток к группе, используйте идентификатор `groupId`. Для получения идентификатора используйте метод [создания новой группы](./sonet-group-create.md) или метод [получения списка групп](./socialnetwork-api-workgroup-list.md). Потоки создают и настраивают методами [tasks.flow.Flow.*](../tasks/flow/index.md).
 
 ## Обзор методов и событий {#all-methods}
 

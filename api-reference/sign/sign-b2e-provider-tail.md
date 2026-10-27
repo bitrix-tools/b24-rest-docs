@@ -371,7 +371,16 @@ HTTP-статус: **403**
         "error": 0,
         "error_description": "Не удалось выполнить действие, попробуйте чуть позже (код ошибки: SIGN_CLIENT_CONNECTION_ERROR)"
     },
-    "time": {...}
+    "time": {
+        "start": 1792738605,
+        "finish": 1792738605.693056,
+        "duration": 0.6930561065673828,
+        "processing": 0,
+        "date_start": "2026-10-23T09:56:45+03:00",
+        "date_finish": "2026-10-23T09:56:45+03:00",
+        "operating_reset_at": 1792739160,
+        "operating": 0
+    }
 }
 ```
 

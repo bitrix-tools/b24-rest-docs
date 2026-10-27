@@ -27,17 +27,17 @@
 || **companyUuid***
 [`string`](../data-types.md) | UUID компании в HCM Link.
 
-Обязателен, если не передан параметр `companyCrmId`.
+Обязателен, если не передан параметр `companyCrmId`. Получить UUID можно методом [humanresources.hcmlink.company.list](./hcm-link/humanresources-hcmlink-company-list.md).
 
 Требует дополнительный scope [`humanresources.hcmlink`](../scopes/permissions.md) ||
 || **companyCrmId***
 [`integer`](../data-types.md) | Идентификатор компании в CRM, подключенный в интеграции как «моя компания».
 
-Обязателен, если не передан параметр `companyUuid` ||
+Обязателен, если не передан параметр `companyUuid`. Получить идентификатор можно методом [crm.item.list](../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4` и фильтром `isMyCompany = Y` ||
 || **language**
-[`string`](../data-types.md) | Язык локализации названий провайдеров.
+[`string`](../data-types.md) | Язык названий провайдеров. Код языка интерфейса Битрикс24, например `ru` или `en`.
 
-По умолчанию `en` ||
+Если язык не поддерживается, названия возвращаются на английском. По умолчанию `en` ||
 || **limit**
 [`integer`](../data-types.md) | Количество записей на странице.
 
@@ -45,7 +45,7 @@
 
 По умолчанию 100 ||
 || **offset**
-[`integer`](../data-types.md) | Параметр для управления постраничной навигацией.
+[`integer`](../data-types.md) | Сколько провайдеров пропустить от начала списка. Чтобы получить следующую страницу, увеличьте `offset` на значение `limit`.
 
 По умолчанию 0 ||
 |#
@@ -88,11 +88,8 @@
     }
 
     try {
-      // sign.b2e.company.provider.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // Returns up to `limit` providers (1-1000, default 100) starting from `offset`.
+      // To get the next page, repeat the call with offset increased by limit.
       const response = await $b24.actions.v2.call.make<ProviderItem[]>({
         method: 'sign.b2e.company.provider.list',
         params: {
@@ -131,11 +128,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // sign.b2e.company.provider.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // Returns up to `limit` providers (1-1000, default 100) starting from `offset`.
+          // To get the next page, repeat the call with offset increased by limit.
           const response = await $b24.actions.v2.call.make({
             method: 'sign.b2e.company.provider.list',
             params: {
@@ -362,12 +356,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-    "error": "ACCESS_DENIED",
-    "error_description": "Access denied!"
+    "error": "510",
+    "error_description": "Company was not found."
 }
 ```
 
@@ -376,14 +370,13 @@ HTTP-статус: **200**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Когда возникает** ||
-|| `ACCESS_DENIED` | Access denied! | Недостаточно прав ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Вызов не из контекста приложения ||
-|| `510` | Company was not found. | Компания не найдена по `companyUuid` или `companyCrmId` ||
-|| `510` | My company ... not found | Компания CRM не найдена ||
-|| `-` | Parameter 'companyUuid' or 'companyCrmId' is required | Не переданы идентификаторы компании ||
-|| `-` | humanresources module is not installed | Модуль `humanresources` не установлен при использовании `companyUuid` ||
-|| `-` | Error while autoregistering providers | Ошибка авторегистрации виртуальных провайдеров. Проверьте данные моей компании в CRM ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
+|| `403` | `ACCESS_DENIED` | Access denied! | КЭДО недоступен на Битрикс24, у приложения нет scope `sign.b2e` или `crm`, либо у пользователя нет права создавать документы КЭДО. Также возникает, если передан `companyUuid`, а scope `humanresources.hcmlink` не подключен ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
+|| `400` | Пустое значение | Parameter 'companyUuid' or 'companyCrmId' is required | Не передан ни `companyUuid`, ни `companyCrmId` ||
+|| `400` | `510` | Company was not found. | Компания не найдена по `companyUuid` или `companyCrmId`. Так же метод отвечает, если в `companyCrmId` передан не идентификатор, например массив ||
+|| `400` | `0` | Error while autoregistering providers | Не удалось зарегистрировать провайдеров компании в сервисе подписи. Проверьте реквизиты компании в CRM: у компании должен быть заполнен ИНН ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

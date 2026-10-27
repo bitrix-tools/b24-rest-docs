@@ -25,13 +25,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../data-types.md) | `ID` объекта ||
+[`integer`](../../data-types.md) | Идентификатор объекта: пользователя для `entityType = U` или группы для `entityType = G`.
+
+Идентификатор пользователя можно получить методом [user.get](../../user/user-get.md), идентификатор группы — методом [sonet_group.get](../../sonet-group/sonet-group-get.md) ||
 || **entityType***
 [`string`](../../data-types.md) | Тип объекта: 
-- `U` — пользователь
-- `G` — группа
+- `U` — пользователь, стадии «Моего плана»
+- `G` — группа, стадии канбана
 
-В случае `U` («Мой план») — значение `true` вернется только если в `entityId` передается идентификатор текущего пользователя ||
+В случае `U` значение `true` вернется только если в `entityId` передается идентификатор текущего пользователя.
+
+Любое значение, кроме `G`, метод обрабатывает как `U` и не возвращает ошибку ||
 |#
 
 ## Примеры кода
@@ -270,13 +274,31 @@ HTTP-Статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result** 
-[`boolean`](../../data-types.md) | Возвращает значение `true`, если текущий пользователь может переместить задачу.
+[`boolean`](../../data-types.md) | Возвращает значение `true`, если текущий пользователь может перемещать задачи по стадиям объекта.
 
-Иначе — `false`
-||
+Возвращает `false`, если прав нет, если `entityId` не совпадает с текущим пользователем при `entityType = U` или если группа с `entityId` не найдена. Ошибку доступа метод в этих случаях не возвращает ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "DISPATCHER_ERROR",
+    "error_description": "Argument \"entitytype\" is required, but no value passed for task.stages.canmovetask"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `DISPATCHER_ERROR` | Argument "entityid" is required, but no value passed for task.stages.canmovetask | Не передан обязательный параметр `entityId` ||
+|| `DISPATCHER_ERROR` | Argument "entitytype" is required, but no value passed for task.stages.canmovetask | Не передан обязательный параметр `entityType` ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

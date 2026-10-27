@@ -374,7 +374,16 @@ HTTP-статус: **403**
         "error": 0,
         "error_description": "Не заполнено обязательное поле \"Description\""
     },
-    "time": {...}
+    "time": {
+        "start": 1792738603,
+        "finish": 1792738603.104434,
+        "duration": 0.10443401336669922,
+        "processing": 0,
+        "date_start": "2026-10-23T09:56:43+03:00",
+        "date_finish": "2026-10-23T09:56:43+03:00",
+        "operating_reset_at": 1792739160,
+        "operating": 0
+    }
 }
 ```
 

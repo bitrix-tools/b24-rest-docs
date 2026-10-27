@@ -294,7 +294,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **200**, **403**
+HTTP-статус: **400**
 
 ```json
 {
@@ -308,13 +308,13 @@ HTTP-статус: **200**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Статус** | **Код** | **Описание** | **Когда возникает** ||
-|| `403` | `ACCESS_DENIED` | Access denied | Недостаточно прав ||
-|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Вызов не из контекста приложения ||
-|| `200` | Пустое значение | Module humanresources is not available | Модуль `humanresources` недоступен ||
-|| `200` | `SIGN_HCMLINK_DOCUMENT_NOT_FOUND` | Document not found | Документ не найден или не связан с HCM Link ||
-|| `200` | `SIGN_HCMLINK_DOCUMENT_NOT_LINKED` | No employee or company linked to the document | С документом не связаны сотрудник или компания HCM Link ||
-|| `200` | `SIGN_HCMLINK_NO_SIGNED_FILE_EXIST` | Signed file for this document does not exist | Подписанный файл документа не найден ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Access denied | КЭДО недоступен на Битрикс24 или у пользователя нет прав ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
+|| `400` | Пустое значение | Module humanresources is not available | Модуль `humanresources` недоступен ||
+|| `400` | `SIGN_HCMLINK_DOCUMENT_NOT_FOUND` | Document not found | Документ не найден или не связан с HCM Link. Так же метод отвечает, если `id` не передан или равен `0` ||
+|| `400` | `SIGN_HCMLINK_DOCUMENT_NOT_LINKED` | No employee or company linked to the document | С документом не связаны сотрудник или компания HCM Link ||
+|| `400` | `SIGN_HCMLINK_NO_SIGNED_FILE_EXIST` | Signed file for this document does not exist | Подписанный файл документа не найден ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

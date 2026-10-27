@@ -291,7 +291,16 @@ HTTP-статус: **403**
         "error": 0,
         "error_description": "External provider with id 42 doesnt exist"
     },
-    "time": {...}
+    "time": {
+        "start": 1792738607,
+        "finish": 1792738608.01666,
+        "duration": 1.0166599750518799,
+        "processing": 1,
+        "date_start": "2026-10-23T09:56:47+03:00",
+        "date_finish": "2026-10-23T09:56:48+03:00",
+        "operating_reset_at": 1792739160,
+        "operating": 0
+    }
 }
 ```
 
