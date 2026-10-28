@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «чтения» сделок
+> Кто может выполнять метод: пользователь с правом «чтения» сделки
 
 Метод `crm.deal.contact.items.get` возвращает набор контактов, связанных с указанной сделкой.
+
+Методы [crm.deal.get](../crm-deal-get.md) и [crm.deal.list](../crm-deal-list.md) набор контактов не возвращают, поэтому для чтения привязок нужен этот метод. Если нужны только идентификаторы контактов, без `SORT` и `IS_PRIMARY`, их возвращает [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 2` в поле `contactIds`. Как устроена связь, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -139,7 +141,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.crm.deal.contact.items.get(bitrix_id=123).response
+        bitrix_response = client.crm.deal.contact.items.get(bitrix_id=1875).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -284,12 +286,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`deal_contact_binding[]`](#deal_contact_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к сделке контактах ||
+[`deal_contact_binding[]`](#deal_contact_binding) | Корневой элемент ответа. Содержит массив с информацией о привязанных к сделке контактах, упорядоченный по возрастанию `SORT`.
+
+Если у сделки нет контактов, приходит пустой массив `[]` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Параметр deal_contact_binding {#deal_contact_binding}
+#### Объект deal_contact_binding {#deal_contact_binding}
 
 #|
 || **Название**
@@ -297,23 +301,23 @@ HTTP-статус: **200**
 || **CONTACT_ID**
 [`integer`](../../../data-types.md) | Идентификатор контакта ||
 || **SORT**
-[`integer`](../../../data-types.md) | Индекс сортировки ||
+[`integer`](../../../data-types.md) | Индекс сортировки. Контакт с меньшим значением стоит в карточке сделки выше ||
 || **ROLE_ID**
-[`integer`](../../../data-types.md) | Идентификатор роли (служебное поле) ||
+[`integer`](../../../data-types.md) | Идентификатор роли. Служебное поле: задать его нельзя, в ответе [crm.deal.contact.fields](./crm-deal-contact-fields.md) оно не описано ||
 || **IS_PRIMARY**
-[`char`](../../../data-types.md) | Является ли привязка первичной. Возможные значения:
+[`char`](../../../data-types.md) | Является ли контакт основным контактом сделки. У сделки один основной контакт, его идентификатор хранится в поле сделки `CONTACT_ID`. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
     "error": "",
-    "error_description": "Not found."
+    "error_description": "Not found"
 }
 ```
 
@@ -322,19 +326,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше 1 или не передан вовсе ||
-|| Пустое значение | `Access denied.` | У пользователя нет прав на чтение сделок ||
-|| `ACCESS_DENIED` | `Access denied!` | Нет прав на чтение сделки ||
-|| Пустое значение | `Not found.` | Сделка с переданным `id` не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| 400 | Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше 1 или не передан вовсе ||
+|| 400 | Пустое значение | `Access denied` | Сделка с переданным `id` не найдена, и у пользователя нет права «чтения» сделок ||
+|| 403 | `ACCESS_DENIED` | `Access denied!` | Нет права «чтения» сделки ||
+|| 400 | Пустое значение | `Not found` | Сделка с переданным `id` не найдена ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-deal-contact-add.md)
 - [{#T}](./crm-deal-contact-delete.md)
-- [{#T}](./crm-deal-contact-fields.md)
 - [{#T}](./crm-deal-contact-items-set.md)
 - [{#T}](./crm-deal-contact-items-delete.md)
+- [{#T}](./crm-deal-contact-fields.md)
