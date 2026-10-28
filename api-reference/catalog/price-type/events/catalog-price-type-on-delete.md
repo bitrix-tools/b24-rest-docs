@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `CATALOG.PRICE.TYPE.ON.DELETE` срабатывает при удалении типа цены.
+Событие `CATALOG.PRICE.TYPE.ON.DELETE` срабатывает при удалении типа цены вручную или методами [catalog.priceType.delete](../catalog-price-type-delete.md), [catalog.pricetype.delete](../catalog-price-type-delete-rest-v3.md).
 
 {% note info "" %}
 

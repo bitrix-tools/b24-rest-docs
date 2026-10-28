@@ -42,6 +42,15 @@
 
 Метод [calendar.accessibility.get](./calendar-accessibility-get.md) получает занятость пользователей из списка.
 
+## Ограничения и особенности
+
+- для календаря компании передавайте `type` = `company_calendar` и `ownerId` = `0`
+- чтобы синхронизировать календарь с внешней системой, передайте в [calendar.event.get](./calendar-event-get.md#modified-since) параметр `modified_since`. Метод вернет только измененные события, включая удаленные
+- даты в полях `DATE_FROM`, `DATE_TO`, `DATE_CREATE` и `TIMESTAMP_X` приходят в формате из настроек портала, например `11/20/2026 10:00:00 am`. Для машинной обработки используйте поля `DATE_CREATE_ISO` и `TIMESTAMP_X_ISO` в формате ISO 8601
+- чтобы забронировать переговорную, передайте в `location` методов [calendar.event.add](./calendar-event-add.md) и [calendar.event.update](./calendar-event-update.md) строку `calendar_<id переговорной>`. Если переговорная занята, метод вернет ошибку `CALENDAR_LOCATION_OCCUPANCY_CONFLICT` с HTTP-статусом 200
+- поля `DATE_FROM_TS_UTC` и `DATE_TO_TS_UTC` сдвинуты на смещение часового пояса сервера. Точное время события задают поля `DATE_FROM` и `TZ_FROM`, `DATE_TO` и `TZ_TO`
+- метод [calendar.meeting.status.set](./calendar-meeting-status-set.md) возвращает `true`, даже если статус не изменился. Проверяйте результат методом [calendar.meeting.status.get](./calendar-meeting-status-get.md)
+
 ## Обзор методов и событий {#all-methods}
 
 > Scope: [`calendar`](../../scopes/permissions.md)
@@ -58,7 +67,7 @@
     || [calendar.event.update](./calendar-event-update.md) | Обновляет событие ||
     || [calendar.event.getbyid](./calendar-event-get-by-id.md) | Получает событие по `id` ||
     || [calendar.event.get](./calendar-event-get.md) | Получает список событий календаря ||
-    || [calendar.event.getNearest](./calendar-event-get-nearest.md) | Получает список будущих событий ||
+    || [calendar.event.get.nearest](./calendar-event-get-nearest.md) | Получает список будущих событий ||
     || [calendar.event.delete](./calendar-event-delete.md) | Удаляет событие ||
     || [calendar.meeting.status.get](./calendar-meeting-status-get.md) | Получает статус участия текущего пользователя в событии ||
     || [calendar.meeting.status.set](./calendar-meeting-status-set.md) | Устанавливает статус участия в событии для текущего пользователя ||

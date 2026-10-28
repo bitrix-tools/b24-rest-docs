@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод добавляет новое событие в календарь.
+Метод `calendar.event.add` добавляет новое событие в календарь.
 
 ## Параметры метода
 
@@ -83,11 +83,11 @@
 || **color**
 [`string`](../../data-types.md) | Цвет фона события.
 
-Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Формат — HEX, например `#9cbe1c`. В JSON-теле запроса передавайте `#` без изменений. В строке URL кодируйте `#` как `%23`: `color=%239cbe1c` ||
 || **text_color**
 [`string`](../../data-types.md) | Цвет текста события.
 
-Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Формат — HEX, например `#283033`. В JSON-теле запроса передавайте `#` без изменений. В строке URL кодируйте `#` как `%23`: `text_color=%23283033` ||
 || **accessibility**
 [`string`](../../data-types.md) | Доступность на время события: 
 - `busy` — занят 
@@ -106,7 +106,7 @@
 - `N` — не частное
 ||
 || **rrule**
-[`object`](../../data-types.md) | Повторяемость события в виде объекта в терминах стандарта iCalendar. Структура описана [ниже](#rrule)
+[`object`](../../data-types.md) | Повторяемость события в виде объекта в терминах стандарта iCalendar [(подробное описание)](#rrule)
 ||
 || **is_meeting**
 [`string`](../../data-types.md) | Признак встречи с участниками события. Возможные значения:
@@ -117,15 +117,23 @@
 Для встречи с участниками передайте список участников `attendees`
 ||
 || **location**
-[`string`](../../data-types.md) | Место проведения ||
+[`string`](../../data-types.md) | Место проведения. Можно передать произвольную строку, например `Офис, 3 этаж`.
+
+Чтобы забронировать переговорную, передайте строку вида `calendar_<id переговорной>`, например `calendar_1`. Метод проверит, свободна ли переговорная в указанное время ||
+|| **doCheckOccupancy**
+[`string`](../../data-types.md) | Проверять ли занятость переговорной из `location`. Возможные значения:
+- `Y` — проверять. Если переговорная занята, метод вернет ошибку `CALENDAR_LOCATION_OCCUPANCY_CONFLICT`
+- `N` — не проверять
+
+По умолчанию — `Y` ||
 || **remind**
-[`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии. Структура описана [ниже](#remind) ||
+[`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии [(подробное описание)](#remind) ||
 || **attendees**
 [`array`](../../data-types.md) | Список идентификаторов участников события.
 
 Если не передать параметр для встречи с участниками, участником будет пользователь, от имени которого выполняется метод ||
 || **meeting**
-[`object`](../../data-types.md) | Объект с параметрами встречи. Структура описана [ниже](#meeting) ||
+[`object`](../../data-types.md) | Объект с параметрами встречи [(подробное описание)](#meeting) ||
 || **crm_fields**
  [`array`](../../data-types.md) | Массив идентификаторов объектов CRM для привязки к событию. Чтобы привязать объекты, перечислите их идентификаторы с [префиксами](../../crm/data-types.md#object_type):
  - `CO_` — компания
@@ -464,7 +472,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -674,7 +681,6 @@
 
 {% endlist %}
 
-
 ### Как добавить повторяемое событие в календарь компании
 
 {% list tabs %}
@@ -685,7 +691,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false}}' \
+    -d '{"type":"company_calendar","ownerId":0,"from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.add
     ```
 
@@ -695,7 +701,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"type":"company_calendar","ownerId":"","from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false},"auth":"**put_access_token_here**"}' \
+    -d '{"type":"company_calendar","ownerId":0,"from":"2025-01-31T18:00:00","to":"2025-01-31T20:00:00","section":1,"name":"Важная встреча","skip_time":"N","timezone_from":"Europe/Moscow","timezone_to":"Europe/Moscow","description":"Описание события","color":"#FF0000","text_color":"#000000","accessibility":"busy","importance":"high","private_event":"N","rrule":{"FREQ":"WEEKLY","COUNT":10,"INTERVAL":1,"BYDAY":["MO","WE","FR"]},"is_meeting":"Y","location":"Конференц-зал","remind":[{"type":"min","count":30}],"attendees":[29,93],"meeting":{"notify":true,"reinvite":false,"allow_invite":true,"hide_guests":false},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.add
     ```
 
@@ -717,7 +723,7 @@
         method: 'calendar.event.add',
         params: {
           type: 'company_calendar',
-          ownerId: '',
+          ownerId: 0,
           from: '2025-01-31T18:00:00',
           to: '2025-01-31T20:00:00',
           section: 1,
@@ -726,8 +732,8 @@
           timezone_from: 'Europe/Moscow',
           timezone_to: 'Europe/Moscow',
           description: 'Event description',
-          color: '%23FF0000',
-          text_color: '%23000000',
+          color: '#FF0000',
+          text_color: '#000000',
           accessibility: 'busy',
           importance: 'high',
           private_event: 'N',
@@ -781,7 +787,7 @@
             method: 'calendar.event.add',
             params: {
               type: 'company_calendar',
-              ownerId: '',
+              ownerId: 0,
               from: '2025-01-31T18:00:00',
               to: '2025-01-31T20:00:00',
               section: 1,
@@ -790,8 +796,8 @@
               timezone_from: 'Europe/Moscow',
               timezone_to: 'Europe/Moscow',
               description: 'Event description',
-              color: '%23FF0000',
-              text_color: '%23000000',
+              color: '#FF0000',
+              text_color: '#000000',
               accessibility: 'busy',
               importance: 'high',
               private_event: 'N',
@@ -843,7 +849,7 @@
     try:
         bitrix_response = client.calendar.event.add(
             type="company_calendar",
-            owner_id="",
+            owner_id=0,
             from_date="2025-01-31T18:00:00",
             to="2025-01-31T20:00:00",
             section=1,
@@ -903,7 +909,6 @@
     ```
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -912,7 +917,7 @@
                 'calendar.event.add',
                 [
                     'type'           => 'company_calendar',
-                    'ownerId'        => '',
+                    'ownerId'        => 0,
                     'from'           => '2025-01-31T18:00:00',
                     'to'             => '2025-01-31T20:00:00',
                     'section'        => 1,
@@ -921,8 +926,8 @@
                     'timezone_from'  => 'Europe/Moscow',
                     'timezone_to'    => 'Europe/Moscow',
                     'description'    => 'Описание события',
-                    'color'          => '%23FF0000',
-                    'text_color'     => '%23000000',
+                    'color'          => '#FF0000',
+                    'text_color'     => '#000000',
                     'accessibility'  => 'busy',
                     'importance'     => 'high',
                     'private_event'  => 'N',
@@ -966,7 +971,7 @@
         'calendar.event.add',
         {
             type: 'company_calendar', // Тип календаря: календарь компании
-            ownerId: '', // Для календаря компании ownerId имеет пустое значение
+            ownerId: 0,
             from: '2025-01-31T18:00:00', // Дата и время начала события
             to: '2025-01-31T20:00:00', // Дата и время окончания события
             section: 1, // Идентификатор календаря
@@ -975,8 +980,8 @@
             timezone_from: 'Europe/Moscow', // Часовой пояс начала события
             timezone_to: 'Europe/Moscow', // Часовой пояс окончания события
             description: 'Описание события', // Описание события
-            color: '%23FF0000', // Цвет фона события (красный)
-            text_color: '%23000000', // Цвет текста события (черный)
+            color: '#FF0000', // Цвет фона события (красный)
+            text_color: '#000000', // Цвет текста события (черный)
             accessibility: 'busy', // Доступность на время события: занят
             importance: 'high', // Важность события: высокая
             private_event: 'N', // Событие не является частным
@@ -1018,7 +1023,7 @@
         'calendar.event.add',
         [
             'type' => 'company_calendar', // Тип календаря: календарь компании
-            'ownerId' => '', // Для календаря компании ownerId имеет пустое значение
+            'ownerId' => 0,
             'from' => '2025-01-31T18:00:00', // Дата и время начала события
             'to' => '2025-01-31T20:00:00', // Дата и время окончания события
             'section' => 1, // Идентификатор календаря (замените на реальный)
@@ -1061,14 +1066,13 @@
     }
     ```
 
-
 - Go
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "calendar.event.add", b24.Params{
     	"type":          "company_calendar",
-    	"ownerId":       "",
+    	"ownerId":       0,
     	"from":          "2025-01-31T18:00:00",
     	"to":            "2025-01-31T20:00:00",
     	"section":       1,
@@ -1142,6 +1146,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`integer`](../../data-types.md) | Идентификатор созданного события ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -1154,23 +1160,50 @@ HTTP-статус: **400**
     "error_description": "Не задан обязательный параметр \"name\" для метода \"calendar.event.add\""
 }
 ```
+
+Ошибки занятости переговорной приходят с HTTP-статусом **200**:
+
+```json
+{
+    "error": "CALENDAR_LOCATION_OCCUPANCY_CONFLICT",
+    "error_description": "Переговорная занята в указанное время",
+    "additional": {
+        "occupancy": {
+            "dates": [],
+            "truncated": false
+        }
+    }
+}
+```
+
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.add" | Не передан обязательный параметр `type` ||
-|| Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.event.add" | Не передан обязательный параметр `ownerId` ||
-|| Пустое значение | Не задан обязательный параметр "name" для метода "calendar.event.add" | Не передан обязательный параметр `name` ||
-|| Пустое значение | Не задан обязательный параметр "from" для метода "calendar.event.add" | Не передан обязательный параметр `from` или `from_ts` ||
-|| Пустое значение | Не задан обязательный параметр "to" для метода "calendar.event.add" | Не передан обязательный параметр `to` или `to_ts` ||
-|| Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
-|| Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
-|| Пустое значение | Доступ запрещен | Запрещено создание событий в указанном календаре ||
-|| Пустое значение | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
-|| Пустое значение | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
-|| Пустое значение | При создании события произошла ошибка | Другая ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.add" | Не передан обязательный параметр `type` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.event.add" | Не передан обязательный параметр `ownerId` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "name" для метода "calendar.event.add" | Не передан обязательный параметр `name` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "from" для метода "calendar.event.add" | Не передан обязательный параметр `from` или `from_ts` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "to" для метода "calendar.event.add" | Не передан обязательный параметр `to` или `to_ts` ||
+|| `400` | Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
+|| `400` | Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
+|| `400` | Пустое значение | Доступ запрещен | Запрещено создание событий в указанном календаре ||
+|| `400` | Пустое значение | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
+|| `400` | Пустое значение | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
+|| `400` | Пустое значение | При создании события произошла ошибка | Другая ошибка ||
+|| `400` | Пустое значение | Недопустимое значение параметра "doCheckOccupancy" | В `doCheckOccupancy` передано значение, отличное от `Y` или `N` ||
+|| `200` | `CALENDAR_LOCATION_OCCUPANCY_CONFLICT` | Переговорная занята в указанное время | Переговорная из `location` занята в указанное время или не существует. Ответ содержит объект `additional.occupancy` с полями `dates` — массив дат занятости в формате `ГГГГ-ММ-ДДTчч:мм:ссZ` и `truncated` — признак, что список дат неполный. Даты приходят только если у пользователя есть доступ к их просмотру, иначе массив пустой ||
+|| `200` | `CALENDAR_LOCATION_OCCUPANCY_LOCKED` | Переговорная сейчас выбрана для другого события. Попробуйте позже или выберите новую | Переговорную в этот момент бронирует другое событие. Повторите запрос позже ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./calendar-event-update.md)
+- [{#T}](./calendar-event-get-by-id.md)
+- [{#T}](./calendar-event-get.md)
+- [{#T}](./calendar-event-delete.md)

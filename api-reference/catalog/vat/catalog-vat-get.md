@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление ставками НДС»
 
-Метод для получения информации о ставке НДС по ее идентификатору.
+Метод `catalog.vat.get` возвращает ставку НДС по ее идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_vat.id`](../data-types.md#catalog_vat) | Идентификатор ставки НДС ||
+[`catalog_vat.id`](../data-types.md#catalog_vat) | Идентификатор ставки НДС.
+
+Чтобы получить идентификаторы ставок, используйте метод [catalog.vat.list](./catalog-vat-list.md)
+||
 |#
 
 ## Примеры кода
@@ -38,7 +41,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":7}' \
+    -d '{"id":3}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.vat.get
     ```
 
@@ -48,7 +51,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":7,"auth":"**put_access_token_here**"}' \
+    -d '{"id":3,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.vat.get
     ```
 
@@ -68,7 +71,7 @@
         active: string
         id: number
         name: string
-        rate: number
+        rate: number | null
         sort: number
         timestampX: ISODate | null
       }
@@ -78,7 +81,7 @@
       const response = await $b24.actions.v2.call.make<VatGetResult>({
         method: 'catalog.vat.get',
         params: {
-          id: 7,
+          id: 3,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -110,7 +113,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.vat.get',
             params: {
-              id: 7,
+              id: 3,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -140,7 +143,7 @@
 
     try:
         bitrix_response = client.catalog.vat.get(
-            bitrix_id=7,
+            bitrix_id=3,
         ).response
         result = bitrix_response.result
         print(result)
@@ -167,7 +170,7 @@
             ->call(
                 'catalog.vat.get',
                 [
-                    'id' => 7
+                    'id' => 3
                 ]
             );
     
@@ -175,7 +178,7 @@
             ->getResponseData()
             ->getResult();
 
-        print_r($result);
+        print_r($result['vat']);
     } catch (Throwable $e) {
         echo $e->getMessage();
     }
@@ -207,7 +210,7 @@
     $result = CRest::call(
         'catalog.vat.get',
         [
-            'id' => 7
+            'id' => 3
         ]
     );
 
@@ -221,7 +224,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.vat.get", b24.Params{
-    	"id": 7,
+    	"id": 3,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.vat.get: %w", err)
@@ -241,22 +244,23 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        {
+        "vat": {
             "active": "Y",
-            "id": 7,
-            "name": "Налог 13%",
-            "rate": 13,
-            "sort": 10,
-            "timestampX": "2024-09-16T11:23:55+02:00"
+            "id": 3,
+            "name": "НДС 22%",
+            "rate": 22,
+            "sort": 999,
+            "timestampX": "2026-03-04T23:41:19+03:00"
         }
     },
     "time": {
-        "start": 1716558215.93495,
-        "finish": 1716558216.20731,
-        "duration": 0.272363901138306,
-        "processing": 0.028817892074585,
-        "date_start": "2024-05-24T15:43:35+02:00",
-        "date_finish": "2024-05-24T15:43:36+02:00",
+        "start": 1793118105,
+        "finish": 1793118105.040866,
+        "duration": 0.04086589813232422,
+        "processing": 0,
+        "date_start": "2026-10-27T19:21:45+03:00",
+        "date_finish": "2026-10-27T19:21:45+03:00",
+        "operating_reset_at": 1793118660,
         "operating": 0
     }
 }
@@ -270,8 +274,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **vat**
-[`catalog_vat`](../data-types.md#catalog_vat) | Объект с информацией о ставке НДС с заданным идентификатором
-||
+[`catalog_vat`](../data-types.md#catalog_vat) | Объект с полями ставки НДС: `active`, `id`, `name`, `rate`, `sort`, `timestampX`. У ставки без НДС поле `rate` равно `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -282,8 +285,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "200800000000",
+    "error_description": "vat does not exist."
 }
 ```
 
@@ -292,23 +295,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-||
-|| `200800000000` | Ставки НДС с таким идентификатором не существует 
-||
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление ставками НДС» ||
+|| `400` | `200800000000` | vat does not exist. | Ставки НДС с таким `id` нет ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-vat-add.md)
 - [{#T}](./catalog-vat-update.md)
 - [{#T}](./catalog-vat-list.md)
 - [{#T}](./catalog-vat-delete.md)
 - [{#T}](./catalog-vat-get-fields.md)
+- [{#T}](../catalog/catalog-catalog-update.md)

@@ -1,12 +1,16 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result**
-[`object`](/api-reference/data-types.html) | Объект с полями события ||
 || **ID**
 [`string`](/api-reference/data-types.html) | Идентификатор события ||
 || **PARENT_ID**
 [`string`](/api-reference/data-types.html) | Идентификатор родительского события ||
+|| **ACTIVE**
+[`string`](/api-reference/data-types.html) | Признак активности события. Возможные значения:
+- `Y` — событие активно
+- `N` — событие неактивно
+
+Метод [calendar.event.getbyid](/api-reference/calendar/calendar-event/calendar-event-get-by-id.html) поле не возвращает ||
 || **DELETED**
 [`string`](/api-reference/data-types.html) | Флаг отображающий удалено ли событие. Возможные значения:
 - `Y` — событие удалено
@@ -28,13 +32,21 @@
 || **ORIGINAL_DATE_FROM**
 [`datetime`](/api-reference/data-types.html) | Дата начала оригинального события для повторяемых событий ||
 || **TZ_FROM**
-[`string`](/api-reference/data-types.html) | Таймзона даты начала события ||
+[`string`](/api-reference/data-types.html) | Таймзона даты начала события.
+
+Метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) поле не возвращает ||
 || **TZ_TO**
-[`string`](/api-reference/data-types.html) | Таймзона даты окончания события ||
+[`string`](/api-reference/data-types.html) | Таймзона даты окончания события.
+
+Метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) поле не возвращает ||
 || **TZ_OFFSET_FROM**
-[`string`](/api-reference/data-types.html) | Смещение времени начала события относительно UTC в секундах ||
+[`string`](/api-reference/data-types.html) | Смещение времени начала события относительно UTC в секундах.
+
+Метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) поле не возвращает ||
 || **TZ_OFFSET_TO**
-[`string`](/api-reference/data-types.html) | Смещение времени окончания события относительно UTC в секундах ||
+[`string`](/api-reference/data-types.html) | Смещение времени окончания события относительно UTC в секундах.
+
+Метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) поле не возвращает ||
 || **DATE_FROM_TS_UTC**
 [`string`](/api-reference/data-types.html) | Дата и время начала события в формате timestamp.
 
@@ -67,20 +79,35 @@
 Значение можно передать в параметр `modified_since` метода [calendar.event.get](/api-reference/calendar/calendar-event/calendar-event-get.html), чтобы получить события, измененные с этого момента. У всех экземпляров повторяющегося события значение одинаковое. Поле не возвращается, если дата изменения не заполнена ||
 || **DESCRIPTION**
 [`string`](/api-reference/data-types.html) | Описание события ||
+|| **DT_FROM**
+[`string`](/api-reference/data-types.html) | Служебное поле. Приходит со значением `null`
+
+Метод [calendar.event.getbyid](/api-reference/calendar/calendar-event/calendar-event-get-by-id.html) поле не возвращает ||
+|| **DT_TO**
+[`string`](/api-reference/data-types.html) | Служебное поле. Приходит со значением `null`
+
+Метод [calendar.event.getbyid](/api-reference/calendar/calendar-event/calendar-event-get-by-id.html) поле не возвращает ||
 || **PRIVATE_EVENT**
 [`string`](/api-reference/data-types.html) | Отметка, что событие частное. Возможные значения:
 
 - `Y` — частное
-- `N` — не частное ||
+- `N` или пустая строка — не частное ||
 || **ACCESSIBILITY**
-[`string`](/api-reference/data-types.html) | Доступность участников события ||
+[`string`](/api-reference/data-types.html) | Занятость участников во время события. Возможные значения:
+- `busy` — занят
+- `absent` — отсутствую
+- `quest` — под вопросом
+- `free` — свободен ||
 || **IMPORTANCE**
-[`string`](/api-reference/data-types.html) | Важность события ||
+[`string`](/api-reference/data-types.html) | Важность события. Возможные значения:
+- `high` — высокая
+- `normal` — средняя
+- `low` — низкая ||
 || **IS_MEETING**
-[`boolean`](/api-reference/data-types.html) | Признак встречи с участниками события. Возможные значения: 
+[`boolean`](/api-reference/data-types.html) | Признак встречи с участниками события. Возможные значения:
 
-- `Y` — встреча с участниками
-- `N` — встреча без участников ||
+- `true` — встреча с участниками
+- `false` — событие без участников ||
 || **MEETING_STATUS**
 [`string`](/api-reference/data-types.html) | Статус участия в событии. Возможные значения:
 - `Y` — согласен
@@ -90,21 +117,27 @@
 || **MEETING_HOST**
 [`string`](/api-reference/data-types.html) | Идентификатор пользователя, ведущего событие ||
 || **MEETING**
-[`object`](/api-reference/data-types.html) | Объект описывает [настройки встречи](#meeting) ||
+[`object`](/api-reference/data-types.html) | Настройки встречи [(подробное описание)](#meeting) ||
 || **LOCATION**
 [`string`](/api-reference/data-types.html) | Идентификатор или название места проведения события ||
 || **REMIND**
-[`array`](/api-reference/data-types.html) | Массив объектов с описанием [напоминаний о событии](#remind) ||
+[`array`](/api-reference/data-types.html) | Массив объектов с описанием напоминаний о событии [(подробное описание)](#remind) ||
 || **COLOR**
 [`string`](/api-reference/data-types.html) | Цвет фона события ||
+|| **TEXT_COLOR**
+[`string`](/api-reference/data-types.html) | Цвет текста события. Если цвет не задан — пустая строка
+
+Метод [calendar.event.getbyid](/api-reference/calendar/calendar-event/calendar-event-get-by-id.html) поле не возвращает ||
 || **RRULE**
-[`object`](/api-reference/data-types.html) | Повторяемость события в виде [объекта](#rrule) в терминах стандарта iCalendar ||
+[`object`](/api-reference/data-types.html) | Повторяемость события в виде объекта в терминах стандарта iCalendar [(подробное описание)](#rrule). Для неповторяемого события — пустая строка ||
 || **EXDATE**
 [`string`](/api-reference/data-types.html) | Список дат исключений из правила повторений ||
 || **DAV_XML_ID**
 [`string`](/api-reference/data-types.html) | Идентификатор синхронизации ||
 || **G_EVENT_ID**
 [`string`](/api-reference/data-types.html) | Идентификатор синхронизации ||
+|| **DAV_EXCH_LABEL**
+[`string`](/api-reference/data-types.html) | Идентификатор синхронизации с Exchange ||
 || **CAL_DAV_LABEL**
 [`string`](/api-reference/data-types.html) | Идентификатор синхронизации ||
 || **VERSION**
@@ -114,13 +147,13 @@
 || **RECURRENCE_ID**
 [`string`](/api-reference/data-types.html) | Идентификатор оригинального события при редактировании только текущего ||
 || **RELATIONS**
-[`object`](/api-reference/data-types.html) | Объект для повторяемых событий с информацией о связях с [оригинальным событием](#relations) ||
+[`object`](/api-reference/data-types.html) | Объект для повторяемых событий с информацией о связях с оригинальным событием [(подробное описание)](#relations). Для неповторяемого события — пустая строка ||
 || **SECTION_ID**
 [`string`](/api-reference/data-types.html) | Идентификатор календаря в котором расположено событие ||
 || **SYNC_STATUS**
 [`string`](/api-reference/data-types.html) | Статус синхронизации события ||
 || **UF_CRM_CAL_EVENT**
-[`array`](/api-reference/data-types.html) | Массив идентификаторов объектов CRM, привязанных к событию ||
+[`array`](/api-reference/data-types.html) | Массив идентификаторов объектов CRM, привязанных к событию, например `CO_1` или `L_5`. Если привязок нет — `null` ||
 || **UF_WEBDAV_CAL_EVENT**
 [`array`](/api-reference/data-types.html) | Массив идентификаторов файлов привязанных к событию ||
 || **SECTION_DAV_XML_ID**
@@ -128,26 +161,56 @@
 || **DATE_FROM_FORMATTED**
 [`string`](/api-reference/data-types.html) | Форматированная дата начала события ||
 || **DATE_TO_FORMATTED**
-[`string`](/api-reference/data-types.html) | Форматированная дата окончагния события ||
+[`string`](/api-reference/data-types.html) | Форматированная дата окончания события ||
+|| **IS_DAYLIGHT_SAVING_TZ**
+[`string`](/api-reference/data-types.html) | Признак перехода на летнее время в часовом поясе `TZ_FROM`. Возможные значения:
+- `Y` — в часовом поясе есть переход на летнее время
+- `N` — перехода нет ||
 || **SECT_ID**
 [`string`](/api-reference/data-types.html) | Идентификатор календаря в котором расположено событие ||
+|| **OPTIONS**
+[`object`](/api-reference/data-types.html) | Дополнительные параметры события с категорией, например идентификатор категории `CATEGORY_ID` и количество участников `ATTENDEES_COUNT`. Для обычного события — `null` ||
 || **ATTENDEE_LIST**
-[`array`](/api-reference/data-types.html) | Массив объектов, описывающих участников события и их статусы участия. Структура объекта описана [ниже](#attendee_list) ||
+[`array`](/api-reference/data-types.html) | Массив объектов, описывающих участников события и их статусы участия [(подробное описание)](#attendee_list) ||
 || **COLLAB_ID**
 [`integer`](/api-reference/data-types.html) | Идентификатор коллабы, в которой создано событие ||
 || **~RRULE_DESCRIPTION**
 [`string`](/api-reference/data-types.html) | Текстовое описание правила повторения события ||
 || **attendeesEntityList**
-[`array`](/api-reference/data-types.html) | Массив объектов, описывающих пользователей — [участников события](#attendeesEntityList) ||
+[`array`](/api-reference/data-types.html) | Массив объектов, описывающих пользователей — участников события [(подробное описание)](#attendeesEntityList) ||
 || **~DESCRIPTION**
 [`string`](/api-reference/data-types.html) | Описание события ||
 || **~USER_OFFSET_FROM**
 [`integer`](/api-reference/data-types.html) | Смещение времени начала события относительно часового пояса текущего пользователя ||
 || **~USER_OFFSET_TO**
 [`integer`](/api-reference/data-types.html) | Смещение времени окончания события относительно часового пояса текущего пользователя ||
+|| **DT_FROM_TS**
+[`integer`](/api-reference/data-types.html) | Дата и время начала события в формате timestamp с учетом часового пояса текущего пользователя.
+
+Поле возвращает только метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) ||
+|| **DT_TO_TS**
+[`integer`](/api-reference/data-types.html) | Дата и время окончания события в формате timestamp с учетом часового пояса текущего пользователя.
+
+Поле возвращает только метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) ||
+|| **~URL**
+[`string`](/api-reference/data-types.html) | Ссылка на событие в календаре.
+
+Поле возвращает только метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) ||
+|| **~WEEK_DAY**
+[`string`](/api-reference/data-types.html) | Сокращенное название дня недели, на который приходится начало события.
+
+Поле возвращает только метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) ||
+|| **~detailUrl**
+[`string`](/api-reference/data-types.html) | Ссылка на событие, собранная по шаблону из параметра `detailUrl`.
+
+Поле возвращает только метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html), если передан параметр `detailUrl` ||
+|| **~FROM_TO_HTML**
+[`string`](/api-reference/data-types.html) | Дата и время события в виде строки для отображения, например `11/20/2026,  10:00 am -  11:00 am`.
+
+Поле возвращает только метод [calendar.event.get.nearest](/api-reference/calendar/calendar-event/calendar-event-get-nearest.html) ||
 |#
 
-### Объект MEETING {#meeting}
+#### Объект MEETING {#meeting}
 
 #|
 || **Название**
@@ -170,7 +233,7 @@
 [`string`](/api-reference/data-types.html) | Адрес отправителя для уведомлений ||
 |#
 
-### Объект REMIND {#remind}
+#### Объект REMIND {#remind}
 
 #|
 || **Название**
@@ -184,7 +247,7 @@
 [`integer`](/api-reference/data-types.html) | Числовое значение временного промежутка ||
 |#
 
-### Объект RRULE {#rrule}
+#### Объект RRULE {#rrule}
 
 #|
 || **Название**
@@ -215,7 +278,7 @@
 [`integer`](/api-reference/data-types.html) | Дата окончания повторений в формате timestamp ||
 |#
 
-### Объект RELATIONS {#relations}
+#### Объект RELATIONS {#relations}
 
 #|
 || **Название**
@@ -226,7 +289,7 @@
 [`string`](/api-reference/data-types.html) | Идентификатор оригинального события для одиночных, созданных при редактировании из повторяемых ||
 |#
 
-### Объекты ATTENDEE_LIST {#attendee_list}
+#### Объекты ATTENDEE_LIST {#attendee_list}
 
 #|
 || **Название**
@@ -243,7 +306,7 @@
 - `H` — организатор события ||
 |#
 
-### Объект attendeesEntityList {#attendeesEntityList}
+#### Объект attendeesEntityList {#attendeesEntityList}
 
 #|
 || **Название**

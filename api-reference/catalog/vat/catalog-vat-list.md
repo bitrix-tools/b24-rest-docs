@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление ставками НДС»
 
-Метод возвращает список ставок НДС по фильтру.
+Метод `catalog.vat.list` возвращает список ставок НДС с фильтрацией, сортировкой и постраничной навигацией.
 
 ## Параметры метода
 
@@ -21,14 +21,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **select** 
-[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_vat](../data-types.md#catalog_vat)).
+[`array`](../../data-types.md)| Массив полей ставки НДС, которые нужно вернуть. Доступные поля: `active`, `id`, `name`, `rate`, `sort`, `timestampX`. Описание полей — в объекте [catalog_vat](../data-types.md#catalog_vat).
 
-Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля ставки НДС
+Если массив не передан или пустой, метод вернет все поля. Неизвестные поля метод пропускает без ошибки
 ||
 || **filter** 
 [`object`](../../data-types.md)| Объект для фильтрации выбранных ставок НДС в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_vat](../data-types.md#catalog_vat).
+Возможные значения для `field`: `active`, `id`, `name`, `rate`, `sort`, `timestampX`. Например, `{"active": "N"}` вернет только неактивные ставки.
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -52,16 +52,20 @@
 - `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` — не равно
 - `!` — не равно
+
+Неизвестные поля в фильтре метод пропускает без ошибки и возвращает ставки без учета такого условия. Проверяйте имена полей по списку выше
 ||
 || **order**
 [`object`](../../data-types.md)| Объект для сортировки выбранных ставок НДС в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_vat](../data-types.md#catalog_vat).
+Возможные значения для `field`: `active`, `id`, `name`, `rate`, `sort`, `timestampX`.
 
 Возможные значения для `order`:
 
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
+
+Если `order` не передан, метод не задает сортировку явно. Для стабильного порядка при постраничной выборке передайте сортировку, например `{"id": "asc"}`. Неизвестные поля в `order` метод пропускает без ошибки
 ||
 || **start** 
 [`integer`](../../data-types.md)| Параметр используется для управления постраничной навигацией.
@@ -88,7 +92,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","name","rate"],"filter":{">=sort":200},"order":{"id":"ASC"}}' \
+    -d '{"select":["id","name","rate"],"filter":{"active":"Y"},"order":{"id":"ASC"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.vat.list
     ```
 
@@ -98,7 +102,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","name","rate"],"filter":{">=sort":200},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","name","rate"],"filter":{"active":"Y"},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.vat.list
     ```
 
@@ -117,7 +121,7 @@
       vats: {
         id: number
         name: string
-        rate: number
+        rate: number | null
       }[]
     }
 
@@ -136,7 +140,7 @@
             'rate',
           ],
           filter: {
-            '>=sort': 200,
+            active: 'Y',
           },
           order: {
             id: 'ASC',
@@ -184,7 +188,7 @@
                 'rate',
               ],
               filter: {
-                '>=sort': 200,
+                active: 'Y',
               },
               order: {
                 id: 'ASC',
@@ -263,7 +267,7 @@
                         'rate'
                     ],
                     'filter' => [
-                        '>=sort' => 200
+                        'active' => 'Y'
                     ],
                     'order' => [
                         'id' => "ASC"
@@ -275,10 +279,8 @@
             ->getResponseData()
             ->getResult();
     
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+        echo 'Success: ' . print_r($result['vats'], true);
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error listing VAT: ' . $e->getMessage();
@@ -297,7 +299,7 @@
                 'rate'
             ],
             filter: {
-                '>=sort': 200
+                active: 'Y'
             },
             order: {
                 'id': "ASC"
@@ -308,8 +310,11 @@
             if(result.error())
                 console.error(result.error());
             else
+            {
                 console.log(result.data());
-            result.next();
+                if(result.more())
+                    result.next();
+            }
         }
     );
     ```
@@ -328,7 +333,7 @@
                 'rate'
             ],
             'filter' => [
-                '>=sort' => 200
+                'active' => 'Y'
             ],
             'order' => [
                 'id' => 'ASC'
@@ -348,7 +353,7 @@
     res, err := client.Core().Call(ctx, "catalog.vat.list", b24.Params{
     	"select": []string{"id", "name", "rate"},
     	"filter": b24.Params{
-    		">=sort": 200,
+    		"active": "Y",
     	},
     	"order": b24.Params{
     		"id": "ASC",
@@ -371,26 +376,34 @@ HTTP-статус: **200**
 
 ```json
 {
-    "vats": [
-        {
-            "id": 2,
-            "name": "НДС 0%",
-            "rate": 0
-        },
-        {
-            "id": 3,
-            "name": "НДС 20%",
-            "rate": 20
-        }
-    ],
-    "total": 2,
+    "result": {
+        "vats": [
+            {
+                "id": 1,
+                "name": "Без НДС",
+                "rate": null
+            },
+            {
+                "id": 3,
+                "name": "НДС 22%",
+                "rate": 22
+            },
+            {
+                "id": 7,
+                "name": "НДС 12%",
+                "rate": 12
+            }
+        ]
+    },
+    "total": 3,
     "time": {
-        "start": 1712326352.63409,
-        "finish": 1712326352.8319,
-        "duration": 0.197818040847778,
-        "processing": 0.00833678245544434,
-        "date_start": "2024-04-05T16:12:32+02:00",
-        "date_finish": "2024-04-05T16:12:32+02:00",
+        "start": 1793118107,
+        "finish": 1793118107.896136,
+        "duration": 0.8961360454559326,
+        "processing": 0,
+        "date_start": "2026-10-27T19:21:47+03:00",
+        "date_finish": "2026-10-27T19:21:47+03:00",
+        "operating_reset_at": 1793118660,
         "operating": 0
     }
 }
@@ -403,11 +416,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **vat**
-[`catalog_vat[]`](../data-types.md#catalog_vat) | Массив объектов с информацией о выбранных ставках НДС
-||
+|| **vats**
+[`catalog_vat[]`](../data-types.md#catalog_vat) | Массив ставок НДС текущей страницы, не больше 50 элементов. Каждый элемент содержит поля из `select`. У ставки без НДС поле `rate` равно `null` ||
 || **total**
-[`integer`](../../data-types.md#time) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество ставок, подходящих под фильтр. Если `total` больше 50, получите следующие страницы с помощью параметра `start` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -418,7 +430,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -428,17 +440,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление ставками НДС» ||
+|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-vat-add.md)
 - [{#T}](./catalog-vat-update.md)
 - [{#T}](./catalog-vat-get.md)

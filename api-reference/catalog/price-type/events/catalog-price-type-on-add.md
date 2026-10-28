@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `CATALOG.PRICE.TYPE.ON.ADD` срабатывает при добавлении типа цены.
+Событие `CATALOG.PRICE.TYPE.ON.ADD` срабатывает при добавлении типа цены вручную или методами [catalog.priceType.add](../catalog-price-type-add.md), [catalog.pricetype.add](../catalog-price-type-add-rest-v3.md). Сразу после него с тем же `ID` приходит событие [CATALOG.PRICE.TYPE.ON.UPDATE](./catalog-price-type-on-update.md).
 
 {% note info "" %}
 
