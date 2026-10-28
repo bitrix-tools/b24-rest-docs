@@ -85,6 +85,10 @@
 ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс, в котором выводятся даты в документах по шаблону. Передается идентификатор часового пояса IANA, например `Europe/Moscow`.
+
+Пустая строка сбрасывает часовой пояс шаблона: даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера. Если поле не передано, текущее значение не меняется ||
 |#
 
 ## Примеры кода
@@ -142,6 +146,7 @@
         sort: string
         createTime: ISODate | null
         updateTime: ISODate | null
+        timezone: string | null
       }
     }
 
@@ -396,6 +401,7 @@ HTTP-статус: **200**
             "sort": "700",
             "createTime": "2026-03-23T16:51:25+03:00",
             "updateTime": "2026-03-23T17:26:39+03:00",
+            "timezone": null,
             "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=6d53c1690000071b00000844000001f7f0f1075612a492ef6fe0b4127e521b543e4376&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3JnRzPTAmXz1UdDBpNDBOU2hvQkxtN1Y5VmhEZm1MbTU2ZmQ0d3puNA%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKblJ6UFRBbVh6MVVkREJwTkRCT1UyaHZRa3h0TjFZNVZtaEVabTFNYlRVMlptUTBkM3B1TkE9PXw2ZDUzYzE2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzU2MTJhNDkyZWY2ZmUwYjQxMjdlNTIxYjU0M2U0Mzc2Ig%3D%3D.6kAmDGdiQCSZI%2Bcm%2Fg86RUqVH5dMvSDxHbx20yjOYK4%3D"
         }
     },
@@ -482,6 +488,10 @@ HTTP-статус: **200**
 [`datetime`](../../data-types.md) | Дата и время создания ||
 || **updateTime**
 [`datetime`](../../data-types.md) | Дата и время обновления ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow`.
+
+Значение `null` — у шаблона нет своего часового пояса: даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 |#
 
 ## Обработка ошибок
@@ -504,6 +514,7 @@ HTTP-статус: **400**
 || `400` | `100` | Bitrix\DocumentGenerator\Template constructor must be is public | Не передан обязательный параметр `id` ||
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
 || `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
+|| `400` | `TIMEZONE_INVALID` | Timezone must be a canonical IANA identifier | В поле `timezone` передан не идентификатор часового пояса IANA, например смещение `+03:00` ||
 || `400` | `0` | You do not have permissions to modify this template | Недостаточно прав на изменение указанного шаблона ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов ||
 |#

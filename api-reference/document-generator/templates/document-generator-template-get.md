@@ -82,6 +82,7 @@
         sort: string
         createTime: ISODate | null
         updateTime: ISODate | null
+        timezone: string | null
       }
     }
 
@@ -283,6 +284,7 @@ HTTP-статус: **200**
             "sort": "700",
             "createTime": "2026-03-23T16:51:25+03:00",
             "updateTime": "2026-03-23T17:26:39+03:00",
+            "timezone": null,
             "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=6d53c1690000071b00000844000001f7f0f1075612a492ef6fe0b4127e521b543e4376&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3JnRzPTAmXz00a1NkZTRVdWtNZk1XODVrVlczS2dTc2x5c1lyMmRGag%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKblJ6UFRBbVh6MDBhMU5rWlRSVmRXdE5aazFYT0RWclZsY3pTMmRUYzJ4NWMxbHlNbVJHYWc9PXw2ZDUzYzE2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzU2MTJhNDkyZWY2ZmUwYjQxMjdlNTIxYjU0M2U0Mzc2Ig%3D%3D.9JnHSEVzH2jcCA1zZA%2BlsYJCTGs6V3dGLNsnjfbnuNs%3D"
         }
     },
@@ -367,6 +369,10 @@ HTTP-статус: **200**
 [`datetime`](../../data-types.md) | Время создания шаблона ||
 || **updateTime**
 [`datetime`](../../data-types.md) | Время последнего обновления шаблона ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow`.
+
+Значение `null` — у шаблона нет своего часового пояса: даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 |#
 
 ## Обработка ошибок

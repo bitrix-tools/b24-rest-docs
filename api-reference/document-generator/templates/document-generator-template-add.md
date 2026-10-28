@@ -102,6 +102,10 @@
 По умолчанию `N` ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс, в котором выводятся даты в документах по шаблону. Передается идентификатор часового пояса IANA, например `Europe/Moscow`.
+
+Если поле не передано или передана пустая строка, даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 |#
 
 ## Примеры кода
@@ -159,6 +163,7 @@
       sort: string
       createTime: ISODate
       updateTime: ISODate
+      timezone: string | null
     }
   }
 
@@ -434,6 +439,7 @@ HTTP-статус: **200**
             "sort": "500",
             "createTime": "2026-03-23T16:51:25+03:00",
             "updateTime": "2026-03-23T16:51:25+03:00",
+            "timezone": null,
             "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=6d53c1690000071b00000844000001f7f0f1075612a492ef6fe0b4127e521b543e4376&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3JnRzPTAmXz1IeG56TmtsQklGNjRsQlBkNkNiekNwd1U2bnduQk40Mw%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKblJ6UFRBbVh6MUllRzU2VG10c1FrbEdOalJzUWxCa05rTmlla053ZDFVMmJuZHVRazQwTXc9PXw2ZDUzYzE2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzU2MTJhNDkyZWY2ZmUwYjQxMjdlNTIxYjU0M2U0Mzc2Ig%3D%3D.vtTu%2B9Ac%2BT5VgeyDm1jiVBGsmCQagvrqjACd%2BNgDigA%3D"
         }
     },
@@ -520,6 +526,10 @@ HTTP-статус: **200**
 [`datetime`](../../data-types.md) | Дата и время создания ||
 || **updateTime**
 [`datetime`](../../data-types.md) | Дата и время обновления ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow`.
+
+Значение `null` — у шаблона нет своего часового пояса: даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 |#
 
 ## Обработка ошибок
@@ -543,6 +553,7 @@ HTTP-статус: **400**
 || `400` | `100` | Invalid value to match with parameter {fields}. Should be value of type array | Параметр `fields` передан не как объект ||
 || `400` | `0` | Empty required fields: name, numeratorId, region | Не переданы обязательные поля для создания шаблона: `name`, `numeratorId`, `region`. В ошибке перечислены те поля, которых не хватает в запросе ||
 || `400` | `0` | Missing file content | Не передан файл шаблона ||
+|| `400` | `TIMEZONE_INVALID` | Timezone must be a canonical IANA identifier | В поле `timezone` передан не идентификатор часового пояса IANA, например смещение `+03:00` ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов ||
 |#
 

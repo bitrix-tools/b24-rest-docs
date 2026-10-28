@@ -90,6 +90,8 @@
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **region**
 [`string`](../../data-types.md) | Регион шаблона ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow` ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
 || **createTime**
@@ -182,6 +184,7 @@
       name: string
       code: string
       region: string
+      timezone: string | null
       sort: string
       createTime: ISODate | null
       updateTime: ISODate | null
@@ -457,6 +460,7 @@ HTTP-статус: **200**
                 "name": "SUPPLY_CONTRACT_NEW Template",
                 "code": "REST_TEMPLATE",
                 "region": "ru",
+                "timezone": null,
                 "sort": "700",
                 "createTime": "2026-03-23T16:51:25+03:00",
                 "updateTime": "2026-03-23T17:26:39+03:00",
@@ -543,6 +547,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **region**
 [`string`](../../data-types.md) | Регион шаблона ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow`.
+
+Значение `null` — у шаблона нет своего часового пояса: даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 || **sort**
 [`string`](../../data-types.md) | Индекс сортировки ||
 || **createTime**
