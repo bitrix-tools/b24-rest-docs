@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор CRM
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод `crm.deal.userfield.delete` удаляет пользовательское поле сделок.
+Метод `crm.deal.userfield.delete` удаляет пользовательское поле сделок вместе с его значениями во всех сделках без возможности восстановления.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к сделке.
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля сделок.
 
 Идентификатор можно получить с помощью методов [crm.deal.userfield.add](./crm-deal-userfield-add.md) или [crm.deal.userfield.list](./crm-deal-userfield-list.md) ||
 |#
@@ -129,7 +129,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.crm.deal.userfield.delete(bitrix_id=42).response
+        bitrix_response = client.crm.deal.userfield.delete(bitrix_id=432).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -149,7 +149,7 @@
 
     ```php
     try {
-        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+        $userfieldId = 432; // Replace with the actual userfield ID you want to delete
         $result = $serviceBuilder
             ->getCRMScope()
             ->dealUserfield()
@@ -265,13 +265,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | `ID is not defined or invalid` | Переданный `id` либо меньше или равен нулю, либо же не передан вовсе ||
-|| `403` | `Access denied` | Возникает в случаях, когда:
-- у пользователя нет административных прав
-- пользователь пытается удалить пользовательское поле, не привязанное к сделкам ||
-|| `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found` | Пользовательское поле с переданным `id` не существует ||
-|| `400` | Ошибка удаления `FIELD_NAME` для объекта `ENTITY_ID` | Неизвестная ошибка при удалении ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | Переданный `id` меньше или равен нулю или не передан ||
+|| `400` | Пустое значение | `Access denied.` | Возникает в случаях, когда:
+- у пользователя нет права «Разрешить изменять настройки» в CRM
+- поле с переданным `id` принадлежит другому объекту, например лидам ||
+|| `400` | `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found.` | Пользовательское поле с переданным `id` не существует ||
+|| `400` | `ERROR_CORE` | `Ошибка удаления UF_CRM_CODE для объекта CRM_DEAL.` | Неизвестная ошибка при удалении ||
+|| `500` | `INTERNAL_SERVER_ERROR` | Текст зависит от причины | Удаление не уложилось в `max_execution_time`. Подробнее — в разделе [Ошибки при работе с пользовательскими полями](./index.md#errors) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -279,6 +280,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-deal-userfield-add.md)
+- [{#T}](./crm-deal-userfield-update.md)
 - [{#T}](./crm-deal-userfield-get.md)
 - [{#T}](./crm-deal-userfield-list.md)
-- [{#T}](./crm-deal-userfield-update.md)
+- [{#T}](./index.md)

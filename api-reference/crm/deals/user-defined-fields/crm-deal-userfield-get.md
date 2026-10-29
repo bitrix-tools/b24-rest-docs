@@ -1,4 +1,4 @@
-# Получить пользовательское поле сделок по id crm.deal.userfield.get
+# Получить пользовательское поле сделок по ID crm.deal.userfield.get
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» сделок
 
-Метод `crm.deal.userfield.get` возвращает пользовательское поле сделок по идентификатору.
+Метод `crm.deal.userfield.get` возвращает описание пользовательского поля сделок по идентификатору: имя, тип, настройки и подписи на всех языках.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к сделке.
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля сделок.
 
 Идентификатор можно получить с помощью методов [crm.deal.userfield.add](./crm-deal-userfield-add.md) или [crm.deal.userfield.list](./crm-deal-userfield-list.md) ||
 |#
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":399}' \
+    -d '{"id":6997}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.userfield.get
     ```
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":399,"auth":"**put_access_token_here**"}' \
+    -d '{"id":6997,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.deal.userfield.get
     ```
 
@@ -84,7 +84,7 @@
       const response = await $b24.actions.v2.call.make<CrmDealUserfield>({
         method: 'crm.deal.userfield.get',
         params: {
-          id: 399,
+          id: 6997,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -116,7 +116,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.deal.userfield.get',
             params: {
-              id: 399,
+              id: 6997,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -145,7 +145,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.crm.deal.userfield.get(bitrix_id=42).response
+        bitrix_response = client.crm.deal.userfield.get(bitrix_id=6997).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -163,7 +163,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -171,10 +170,10 @@
             ->call(
                 'crm.deal.userfield.get',
                 [
-                    'id' => 399,
+                    'id' => 6997,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -191,7 +190,7 @@
     BX24.callMethod(
         'crm.deal.userfield.get',
         {
-            id: 399,
+            id: 6997,
         },
         (result) => {
             result.error()
@@ -210,7 +209,7 @@
     $result = CRest::call(
         'crm.deal.userfield.get',
         [
-            'id' => 399
+            'id' => 6997
         ]
     );
 
@@ -224,7 +223,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.userfield.get", b24.Params{
-    	"id": 399,
+    	"id": 6997,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("crm.deal.userfield.get: %w", err)
@@ -408,9 +407,68 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержит информацию о полях пользовательского поля. Итоговый перечень полей зависит от типа поля, подробное описание полей можно найти в методе [crm.deal.userfield.add](./crm-deal-userfield-add.md)||
+[`object`](../../../data-types.md) | Описание пользовательского поля [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+Числовые значения `ID` и `SORT` приходят строками.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../../data-types.md) | Идентификатор пользовательского поля ||
+|| **ENTITY_ID**
+[`string`](../../../data-types.md) | Объект, к которому привязано поле. Для сделок всегда `CRM_DEAL` ||
+|| **FIELD_NAME**
+[`string`](../../../data-types.md) | Имя поля с префиксом `UF_CRM_`. По этому имени значение поля записывают и читают в методах сделок, например [crm.deal.update](../crm-deal-update.md) и [crm.deal.get](../crm-deal-get.md). Сам метод значения полей в сделках не возвращает ||
+|| **USER_TYPE_ID**
+[`string`](../../../data-types.md) | Тип поля. Список значений — в описании параметра `USER_TYPE_ID` метода [crm.deal.userfield.add](./crm-deal-userfield-add.md#parameter-fields) ||
+|| **USER_TYPE_OWNER**
+[`string`](../../../data-types.md) | Идентификатор приложения, которое зарегистрировало [пользовательский тип поля](../../universal/user-defined-fields/userfield-type.md). Возвращается только для полей пользовательского типа ||
+|| **XML_ID**
+[`string`](../../../data-types.md) | Внешний код. Если не задан — `null` ||
+|| **SORT**
+[`string`](../../../data-types.md) | Индекс сортировки ||
+|| **MULTIPLE**
+[`char`](../../../data-types.md) | Множественное ли поле: `Y` или `N` ||
+|| **MANDATORY**
+[`char`](../../../data-types.md) | Обязательное ли поле: `Y` или `N` ||
+|| **SHOW_FILTER**
+[`char`](../../../data-types.md) | Показывать ли поле в фильтре списка. Возможные значения:
+- `N` — не показывать
+- `I` — точное совпадение
+- `E` — маска
+- `S` — подстрока ||
+|| **SHOW_IN_LIST**
+[`char`](../../../data-types.md) | Показывать ли поле в списке: `Y` или `N` ||
+|| **EDIT_IN_LIST**
+[`char`](../../../data-types.md) | Разрешено ли редактирование пользователем: `Y` или `N` ||
+|| **IS_SEARCHABLE**
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске: `Y` или `N` ||
+|| **SETTINGS**
+[`object`](../../../data-types.md) | Полный набор настроек типа поля. Кроме настроек, которые принимает [crm.deal.userfield.add](./crm-deal-userfield-add.md#settings), может содержать служебные ключи типа, например `SIZE`, `MIN_LENGTH`, `MAX_LENGTH` у строки. Перечень настроек типа возвращает метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md) ||
+|| **EDIT_FORM_LABEL**
+[`lang_map`](../../data-types.md#lang-ids) | Подпись в форме редактирования на всех языках Битрикс24 ||
+|| **LIST_COLUMN_LABEL**
+[`lang_map`](../../data-types.md#lang-ids) | Заголовок в списке на всех языках ||
+|| **LIST_FILTER_LABEL**
+[`lang_map`](../../data-types.md#lang-ids) | Подпись фильтра на всех языках ||
+|| **ERROR_MESSAGE**
+[`lang_map`](../../data-types.md#lang-ids) | Сообщение об ошибке на всех языках ||
+|| **HELP_MESSAGE**
+[`lang_map`](../../data-types.md#lang-ids) | Помощь на всех языках ||
+|| **LIST**
+[`object[]`](../../../data-types.md) | Элементы списка. Возвращаются только для полей типа `enumeration`, отсортированы по `SORT`. Каждый элемент содержит:
+- `ID` — идентификатор элемента, его передают в значении поля при записи в сделку
+- `SORT` — индекс сортировки
+- `VALUE` — значение элемента
+- `DEF` — значение по умолчанию: `Y` или `N`
+
+Внешний код элемента `XML_ID` метод не возвращает, его отдает [crm.deal.userfield.list](./crm-deal-userfield-list.md) ||
 |#
 
 ## Обработка ошибок
@@ -429,12 +487,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `403` | `Access denied` | Возникает в случаях, когда:
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | Переданный `id` меньше или равен нулю или не передан ||
+|| `400` | Пустое значение | `Access denied.` | Возникает в случаях, когда:
 - у пользователя нет права «чтения» сделок
-- пользователь пытается получить пользовательское поле, не привязанное к сделкам ||
-|| `400` | `ID is not defined or invalid` | Переданный `id` меньше или равен нулю, либо же не передан вовсе ||
-|| `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found` | Пользовательское поле с переданным `id` не найдено ||
+- поле с переданным `id` принадлежит другому объекту, например лидам ||
+|| `400` | `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found.` | Пользовательское поле с переданным `id` не найдено ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -445,3 +503,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-userfield-update.md)
 - [{#T}](./crm-deal-userfield-list.md)
 - [{#T}](./crm-deal-userfield-delete.md)
+- [{#T}](../crm-deal-get.md)
+- [{#T}](./index.md)

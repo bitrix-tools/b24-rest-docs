@@ -15,6 +15,8 @@
 
 Метод `crm.deal.contact.fields` возвращает описание полей для связи сделка-контакт.
 
+Описание нужно, чтобы собрать объект привязки для [crm.deal.contact.add](./crm-deal-contact-add.md) и [crm.deal.contact.items.set](./crm-deal-contact-items-set.md).
+
 ## Параметры метода
 
 Без параметров.
@@ -280,17 +282,27 @@ HTTP-статус: **200**
 
 где:
 - `field_n` — поле объекта
-- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description) ||
+- `value_n` — информация о поле в формате [crm_rest_field_description](../../data-types.md#crm_rest_field_description)
+
+Метод возвращает три поля:
+- `CONTACT_ID` (`integer`) — идентификатор контакта, единственное обязательное поле
+- `IS_PRIMARY` (`char`) — признак основного контакта сделки, `Y` или `N`. Основной контакт у сделки один
+- `SORT` (`integer`) — индекс сортировки, задает порядок контакта в карточке сделки ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
+Метод не возвращает ошибок.
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-deal-contact-add.md)
 - [{#T}](./crm-deal-contact-delete.md)
 - [{#T}](./crm-deal-contact-items-get.md)

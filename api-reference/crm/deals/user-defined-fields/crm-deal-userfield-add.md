@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор CRM
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод `crm.deal.userfield.add` создает новое пользовательское поле для сделок.
+Метод `crm.deal.userfield.add` создает новое пользовательское поле, которое появляется во всех сделках Битрикс24.
 
 ## Параметры метода
 
@@ -49,7 +49,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **USER_TYPE_ID***
-[`string`](../../../data-types.md) | Тип данных пользовательского поля. Возможные значения:
+[`string`](../../../data-types.md) | Тип данных пользовательского поля. Список типов, доступных в Битрикс24, возвращает метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md). Возможные значения:
 - `string` — строка
 - `integer` — целое число
 - `double` — число
@@ -63,13 +63,13 @@
 - `file` — файл
 - `employee` — привязка к сотруднику
 - `crm_status` — привязка к справочнику CRM
-- `iblock_section` — привязка к разделам инф. блоков
-- `iblock_element` — привязка к элементам инф. блоков
+- `iblock_section` — привязка к разделам информационных блоков
+- `iblock_element` — привязка к элементам информационных блоков
 - `crm` — привязка к элементам CRM
 - [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
 ||
 || **FIELD_NAME***
-[`string`](../../../data-types.md) | Код поля. Уникальный в пределах сделок.
+[`string`](../../../data-types.md) | Код поля. Уникальный в пределах сделок. Полное имя поля с префиксом — ключ, по которому значение поля записывают методом [crm.deal.update](../crm-deal-update.md) и читают методом [crm.deal.get](../crm-deal-get.md).
 
 К коду всегда добавляется префикс `UF_CRM_`, полное имя поля система собирает сама:
 - `MANAGER_NOTE` превращается в `UF_CRM_MANAGER_NOTE`
@@ -82,7 +82,9 @@
 || **LABEL**
 [`string`](../../../data-types.md) | Название пользовательского поля по умолчанию.
 
-Переданное значение будет выставлено в следующие поля: `LIST_FILTER_LABEL`, `LIST_COLUMN_LABEL`, `EDIT_FORM_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE`, если в них не передано значение ||
+Переданное значение будет выставлено в следующие поля: `LIST_FILTER_LABEL`, `LIST_COLUMN_LABEL`, `EDIT_FORM_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE`, если в них не передано значение.
+
+Если `LABEL` не передан, вместо него используется полное имя поля, например `UF_CRM_MANAGER_NOTE` ||
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний код ||
 || **LIST_FILTER_LABEL**
@@ -110,31 +112,36 @@
 
 По умолчанию значение, переданное в `LABEL`, проставляется для всех идентификаторов языка ||
 || **ERROR_MESSAGE**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md#lang-ids) | Сообщение об ошибке||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md#lang-ids) | Сообщение об ошибке. Строка и `lang_map` обрабатываются так же, как у `LIST_FILTER_LABEL` ||
 || **HELP_MESSAGE**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md#lang-ids) | Помощь||
+[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md#lang-ids) | Помощь. Строка и `lang_map` обрабатываются так же, как у `LIST_FILTER_LABEL` ||
 || **MULTIPLE**
-[`boolean`](../../../data-types.md) | Является ли поле множественным. Возможные значения:
+[`char`](../../../data-types.md) | Является ли поле множественным. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-Поля типа `boolean` не могут быть множественными.
+Поля типа `boolean` не могут быть множественными: если передать `MULTIPLE = Y`, метод без ошибки сохранит `N`.
 
 По умолчанию `N` ||
 || **MANDATORY**
-[`boolean`](../../../data-types.md) | Является ли поле обязательным. Возможные значения:
+[`char`](../../../data-types.md) | Является ли поле обязательным. Возможные значения:
 - `Y` — да
 - `N` — нет
 
 По умолчанию `N` ||
 || **SHOW_FILTER**
-[`boolean`](../../../data-types.md) | Показывать ли поле в фильтре. Возможные значения:
+[`char`](../../../data-types.md) | Показывать ли поле в фильтре. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-По умолчанию `N` ||
+По умолчанию `N`.
+
+Метод сохраняет не переданное значение, а режим фильтра, который возвращают [crm.deal.userfield.get](./crm-deal-userfield-get.md) и [crm.deal.userfield.list](./crm-deal-userfield-list.md):
+- для типа `employee` `Y` сохраняется как `I` — точное совпадение
+- для остальных типов `Y` сохраняется как `E` — маска
+- для типов `money`, `url`, `address`, `file` и [пользовательских типов](../../universal/user-defined-fields/userfield-type.md) всегда сохраняется `N` ||
 || **SETTINGS**
-[`object`](../../../data-types.md) | Дополнительные параметры поля. Для каждого типа поля `USER_TYPE_ID` существует свой пул доступных настроек, описание [ниже](#settings) ||
+[`object`](../../../data-types.md) | Дополнительные параметры поля. Для каждого типа поля `USER_TYPE_ID` существует свой набор настроек, описание [ниже](#settings) ||
 || **LIST**
 [`uf_enum_element[]`](#uf_enum_element) | Список возможных значений для пользовательского поля типа `enumeration`, описание [ниже](#uf_enum_element)
 
@@ -144,25 +151,25 @@
 
 По умолчанию `100` ||
 || **SHOW_IN_LIST**
-[`boolean`](../../../data-types.md) | Показывать ли пользовательское поле в списке.
+[`char`](../../../data-types.md) | Показывать ли пользовательское поле в списке.
 
-Данный параметр ни на что не влияет в рамках `crm`.
+Параметр ни на что не влияет в рамках `crm`.
 
 Возможные значения:
 - `Y` — да
 - `N` — нет
 
-По умолчанию `N` ||
+По умолчанию `Y` ||
 || **EDIT_IN_LIST**
-[`boolean`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
+[`char`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
 - `Y` — да
 - `N` — нет
 
 По умолчанию `Y`. Значение `N` поддерживают не все типы полей в рамках `crm` ||
 || **IS_SEARCHABLE**
-[`boolean`](../../../data-types.md) | Участвуют ли значения поля в поиске.
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске.
 
-Данный параметр ни на что не влияет в рамках `crm`.
+Параметр ни на что не влияет в рамках `crm`.
 
 Возможные значения:
 - `Y` — да
@@ -173,7 +180,9 @@
 
 ### Параметр SETTINGS {#settings}
 
-У каждого типа пользовательских полей существует свой набор дополнительных настроек. Данный метод поддерживает лишь те, что описаны ниже.
+У каждого типа пользовательских полей существует свой набор дополнительных настроек. Метод сохраняет только настройки, описанные ниже, остальные ключи `SETTINGS` игнорирует. У типов `money`, `url`, `address`, `file`, `employee` и пользовательских типов метод игнорирует `SETTINGS` целиком — поле получает настройки типа по умолчанию.
+
+Метод [crm.deal.userfield.get](./crm-deal-userfield-get.md) возвращает полный набор настроек типа. Этот набор описывает метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md).
 
 {% list tabs %}
 
@@ -251,7 +260,7 @@
     }
     ```
     где:
-    - `VALUE` — значение по умолчанию типа `datetime` или `date`
+    - `VALUE` — значение по умолчанию типа `datetime` или `date` в формате ISO 8601, например `2026-10-28T10:00:00+03:00`
     - `TYPE` — тип значения по умолчанию:
       - `NONE` — не выставлять значение по умолчанию
       - `NOW` — использовать текущее время/дату
@@ -276,10 +285,11 @@
     - `LIST` — список
     - `UI` — набираемый список
     - `CHECKBOX` — флажки
-    - `DIALOG` — диалог выбора сущностей
+    - `DIALOG` — диалог выбора элементов
 
     По умолчанию `LIST` ||
-    || **LIST_HEIGHT** | Высота списка. Обязательно больше 0.
+    || **LIST_HEIGHT**
+    [`integer`](../../../data-types.md) | Высота списка. Обязательно больше 0.
 
     Доступен только при `DISPLAY = LIST` или `DISPLAY = UI`.
 
@@ -316,7 +326,7 @@
 
     По умолчанию `1` ||
     || **ACTIVE_FILTER**
-    [`boolean`](../../../data-types.md) | Показывать ли элементы с включенным флагом активности. Возможные значения:
+    [`char`](../../../data-types.md) | Показывать ли элементы с включенным флагом активности. Возможные значения:
     - `Y` — да
     - `N` — нет
 
@@ -338,31 +348,31 @@
 
 - crm
 
-    Если не передать ни одну из следующих опций, то по умолчанию будет включена привязка к лидам `LEAD = Y`.
+    Каждая опция по умолчанию `N`. Если все опции равны `N`, Битрикс24 включит привязку к лидам `LEAD = Y`.
 
     #|
     || **Название**
     `тип` | **Описание** ||
     || **LEAD**
-    [`boolean`](../../../data-types.md) | Включена ли привязка к [Лидам](../../leads/index.md). Возможные значения:
+    [`char`](../../../data-types.md) | Включена ли привязка к [Лидам](../../leads/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
     По умолчанию `N` ||
     || **CONTACT**
-    [`boolean`](../../../data-types.md) | Включена ли привязка к [Контактам](../index.md). Возможные значения:
+    [`char`](../../../data-types.md) | Включена ли привязка к [Контактам](../../contacts/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
     По умолчанию `N` ||
     || **COMPANY**
-    [`boolean`](../../../data-types.md) | Включена ли привязка к [Компаниям](../../companies/index.md). Возможные значения:
+    [`char`](../../../data-types.md) | Включена ли привязка к [Компаниям](../../companies/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
     По умолчанию `N` ||
     || **DEAL**
-    [`boolean`](../../../data-types.md) | Включена ли привязка к [Сделкам](../index.md). Возможные значения:
+    [`char`](../../../data-types.md) | Включена ли привязка к [Сделкам](../index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
@@ -381,15 +391,15 @@
 
 Элементы списка с пустым или отсутствующим `VALUE` будут проигнорированы ||
 || **SORT**
-[`integer`](../../../data-types.md) | Индекс сортировки. Обязательно больше или равно 0.
+[`integer`](../../../data-types.md) | Индекс сортировки. Значение `0` и меньше не сохраняется, вместо него элемент получает `500`.
 
-По умолчанию `0` ||
+По умолчанию `500` ||
 || **DEF**
-[`boolean`](../../../data-types.md) | Является ли элемент списка значением по умолчанию. Возможные значения:
+[`char`](../../../data-types.md) | Является ли элемент списка значением по умолчанию. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-Для множественного поля допустимо несколько `DEF = Y`. Для не множественного, дефолтным будет считаться первый переданный элемент списка с `DEF = Y`.
+Для множественного поля допустимо несколько `DEF = Y`. Для немножественного поля значением по умолчанию считается первый переданный элемент списка с `DEF = Y`.
 
 По умолчанию `N` ||
 || **XML_ID**
@@ -411,7 +421,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"LABEL":"Поле 'Привет, мир!'","USER_TYPE_ID":"string","FIELD_NAME":"HELLO_WORLD","MULTIPLE":"Y","MANDATORY":"Y","SHOW_FILTER":"Y","SETTINGS":{"DEFAULT_VALUE":"Привет, мир! Значение по умолчанию","ROWS":3},"SORT":1000,"EDIT_IN_LIST":"Y","LIST_FILTER_LABEL":"Привет, мир! Фильтр","LIST_COLUMN_LABEL":{"en":"Hello, World! Column","ru":"Привет, мир! Колонка","de":"Hallo, Welt! Spalte"},"EDIT_FORM_LABEL":{"en":"Hello, World! Edit","ru":"Привет, мир! Редактировать","de":"Hallo, Welt! Bearbeiten"},"ERROR_MESSAGE":{"en":"Hello, World! Error","ru":"Привет, мир! Ошибка","de":"Hallo, Welt! Fehler"},"HELP_MESSAGE":{"en":"Hello, World! Help","ru":"Привет, мир! Помощь","de":"Hallo, Welt! Hilfe"}}}' \
+    -d '{"fields":{"LABEL":"Поле «Привет, мир!»","USER_TYPE_ID":"string","FIELD_NAME":"HELLO_WORLD","MULTIPLE":"Y","MANDATORY":"Y","SHOW_FILTER":"Y","SETTINGS":{"DEFAULT_VALUE":"Привет, мир! Значение по умолчанию","ROWS":3},"SORT":1000,"EDIT_IN_LIST":"Y","LIST_FILTER_LABEL":"Привет, мир! Фильтр","LIST_COLUMN_LABEL":{"en":"Hello, World! Column","ru":"Привет, мир! Колонка","de":"Hallo, Welt! Spalte"},"EDIT_FORM_LABEL":{"en":"Hello, World! Edit","ru":"Привет, мир! Редактировать","de":"Hallo, Welt! Bearbeiten"},"ERROR_MESSAGE":{"en":"Hello, World! Error","ru":"Привет, мир! Ошибка","de":"Hallo, Welt! Fehler"},"HELP_MESSAGE":{"en":"Hello, World! Help","ru":"Привет, мир! Помощь","de":"Hallo, Welt! Hilfe"}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.deal.userfield.add
     ```
 
@@ -421,7 +431,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"LABEL":"Поле 'Привет, мир!'","USER_TYPE_ID":"string","FIELD_NAME":"HELLO_WORLD","MULTIPLE":"Y","MANDATORY":"Y","SHOW_FILTER":"Y","SETTINGS":{"DEFAULT_VALUE":"Привет, мир! Значение по умолчанию","ROWS":3},"SORT":1000,"EDIT_IN_LIST":"Y","LIST_FILTER_LABEL":"Привет, мир! Фильтр","LIST_COLUMN_LABEL":{"en":"Hello, World! Column","ru":"Привет, мир! Колонка","de":"Hallo, Welt! Spalte"},"EDIT_FORM_LABEL":{"en":"Hello, World! Edit","ru":"Привет, мир! Редактировать","de":"Hallo, Welt! Bearbeiten"},"ERROR_MESSAGE":{"en":"Hello, World! Error","ru":"Привет, мир! Ошибка","de":"Hallo, Welt! Fehler"},"HELP_MESSAGE":{"en":"Hello, World! Help","ru":"Привет, мир! Помощь","de":"Hallo, Welt! Hilfe"}},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"LABEL":"Поле «Привет, мир!»","USER_TYPE_ID":"string","FIELD_NAME":"HELLO_WORLD","MULTIPLE":"Y","MANDATORY":"Y","SHOW_FILTER":"Y","SETTINGS":{"DEFAULT_VALUE":"Привет, мир! Значение по умолчанию","ROWS":3},"SORT":1000,"EDIT_IN_LIST":"Y","LIST_FILTER_LABEL":"Привет, мир! Фильтр","LIST_COLUMN_LABEL":{"en":"Hello, World! Column","ru":"Привет, мир! Колонка","de":"Hallo, Welt! Spalte"},"EDIT_FORM_LABEL":{"en":"Hello, World! Edit","ru":"Привет, мир! Редактировать","de":"Hallo, Welt! Bearbeiten"},"ERROR_MESSAGE":{"en":"Hello, World! Error","ru":"Привет, мир! Ошибка","de":"Hallo, Welt! Fehler"},"HELP_MESSAGE":{"en":"Hello, World! Help","ru":"Привет, мир! Помощь","de":"Hallo, Welt! Hilfe"}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.deal.userfield.add
     ```
 
@@ -432,7 +442,7 @@
         'crm.deal.userfield.add',
         {
             fields: {
-                LABEL: "Поле 'Привет, мир!'",
+                LABEL: "Поле «Привет, мир!»",
                 USER_TYPE_ID: "string",
                 FIELD_NAME: "HELLO_WORLD",
                 MULTIPLE: "Y",
@@ -485,7 +495,7 @@
         'crm.deal.userfield.add',
         [
             'fields' => [
-                'LABEL' => "Поле 'Привет, мир!'",
+                'LABEL' => "Поле «Привет, мир!»",
                 'USER_TYPE_ID' => "string",
                 'FIELD_NAME' => "HELLO_WORLD",
                 'MULTIPLE' => "Y",
@@ -535,7 +545,7 @@
     try:
         bitrix_response = client.crm.deal.userfield.add(
             fields={
-                "LABEL": "Поле 'Привет, мир!'",
+                "LABEL": "Поле «Привет, мир!»",
                 "USER_TYPE_ID": "string",
                 "FIELD_NAME": "HELLO_WORLD",
                 "MULTIPLE": "Y",
@@ -590,10 +600,10 @@
     ```php
     try {
         $userfieldItemFields = [
-            'FIELD_NAME' => 'Test Field',
+            'FIELD_NAME' => 'TEST_FIELD',
             'USER_TYPE_ID' => 'string',
             'XML_ID' => 'test_field_1',
-            'SORT' => '100',
+            'SORT' => 100,
             'MULTIPLE' => 'N',
             'MANDATORY' => 'N',
             'SHOW_FILTER' => 'Y',
@@ -605,8 +615,6 @@
             'LIST_FILTER_LABEL' => 'Test Field Filter Label',
             'ERROR_MESSAGE' => 'Error occurred',
             'HELP_MESSAGE' => 'Help message for Test Field',
-            'LIST' => '',
-            'SETTINGS' => '',
         ];
 
         $result = $serviceBuilder
@@ -626,7 +634,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.deal.userfield.add", b24.Params{
     	"fields": b24.Params{
-    		"LABEL":        "Поле 'Привет, мир!'",
+    		"LABEL":        "Поле «Привет, мир!»",
     		"USER_TYPE_ID": "string",
     		"FIELD_NAME":   "HELLO_WORLD",
     		"MULTIPLE":     "Y",
@@ -962,14 +970,19 @@ HTTP-статус: **400**
 
 ### Возможные коды ошибок
 
+Если не переданы и `USER_TYPE_ID`, и `FIELD_NAME`, обе ошибки приходят в одном `error_description` через перевод строки.
+
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The 'FIELD_NAME' field is not found.` | Либо передан пустой `FIELD_NAME`, либо он не передан вовсе ||
-|| `ERROR_CORE` | `Имя поля слишком длинное (больше 50-ти символов).` | Полное имя поля вместе с префиксом `UF_CRM_` содержит более 50 символов, то есть в `FIELD_NAME` передано более 43 символов ||
-|| `ERROR_CORE` | `Имя поля содержит недопустимые символы. Допустимыми являются: A-Z, 0-9 и _.` | Переданный `FIELD_NAME` содержит символы, кроме `A-Z`, `0-9` и `_` ||
-|| Пустое значение | `The 'USER_TYPE_ID' field is not found.` | Либо передан пустой `USER_TYPE_ID`, либо он не передан вовсе ||
-|| `ERROR_CORE` | `Указан неверный пользовательский тип.` | Переданный `USER_TYPE_ID` не существует ||
-|| `ERROR_CORE` | `Элемент списка со значением XML_ID=xml_id уже существует.` | Переданные в элементы списка `XML_ID` не уникальны ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права «Разрешить изменять настройки» в CRM ||
+|| `400` | Пустое значение | `The 'FIELD_NAME' field is not found.` | Либо передан пустой `FIELD_NAME`, либо он не передан вовсе ||
+|| `400` | `ERROR_CORE` | `Имя поля слишком длинное (больше 50-ти символов).` | Полное имя поля вместе с префиксом `UF_CRM_` содержит более 50 символов, то есть в `FIELD_NAME` передано более 43 символов ||
+|| `400` | `ERROR_CORE` | `Имя поля содержит недопустимые символы. Допустимыми являются: A-Z, 0-9 и _.` | Переданный `FIELD_NAME` содержит символы, кроме `A-Z`, `0-9` и `_` ||
+|| `400` | Пустое значение | `The 'USER_TYPE_ID' field is not found.` | Либо передан пустой `USER_TYPE_ID`, либо он не передан вовсе ||
+|| `400` | `ERROR_CORE` | `Указан неверный пользовательский тип.` | Переданный `USER_TYPE_ID` не существует ||
+|| `400` | `ERROR_CORE` | `Поле UF_CRM_CODE для объекта CRM_DEAL уже существует.` | Поле с таким `FIELD_NAME` у сделок уже есть ||
+|| `400` | `ERROR_CORE` | `Элемент списка со значением XML_ID=xml_id уже существует.` | Переданные в элементы списка `XML_ID` не уникальны ||
+|| `500` | `INTERNAL_SERVER_ERROR` | Текст зависит от причины | У сделок уже 1016 пользовательских полей или создание поля не уложилось в `max_execution_time`. Подробнее — в разделе [Ошибки при работе с пользовательскими полями](./index.md#errors) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -980,3 +993,6 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-userfield-get.md)
 - [{#T}](./crm-deal-userfield-list.md)
 - [{#T}](./crm-deal-userfield-delete.md)
+- [{#T}](../crm-deal-update.md)
+- [{#T}](./index.md)
+- [{#T}](../../../../tutorials/field-types/how-to-add-precision-to-user-field.md)
