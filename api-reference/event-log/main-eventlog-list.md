@@ -50,7 +50,7 @@
 - `["field", "operator", value]`
 - `["field", value]`, оператор по умолчанию `=`
 
-Доступные поля аналогичны полям в `select`.
+Фильтровать можно только поля с признаком `filterable`: `id`, `timestampX`, `auditTypeId`, `userId`, `guestId`. Полный список с признаками возвращает [main.eventlog.field.list](./main-eventlog-field-list.md).
   
 [Подробнее о работе фильтрации в REST 3.0](../rest-v3.md#filter) ||
 || **order**
@@ -60,13 +60,15 @@
 - `ASC` — по возрастанию
 - `DESC` — по убыванию
 
-Доступные поля для сортировки аналогичны полям в `select`. ||
+Сортировать можно только поля с признаком `sortable` ||
 || **pagination**
 [`object`](../data-types.md) | Параметры постраничной навигации:  
 - `page` — номер страницы 
-- `limit` — количество записей на страницу, по умолчанию `50`
+- `limit` — количество записей на страницу, по умолчанию `50`, максимальное значение `1000`
 - `offset` — смещение записей. Если переданы `page` и `limit`, смещение вычисляется автоматически ||
 |#
+
+Метод возвращает одну страницу записей и не возвращает общее количество. Признак последней страницы — пустой массив `result.items`. Лимит одной страницы — от `1` до `1000` записей, по умолчанию `50`.
 
 ## Примеры кода
 
@@ -134,7 +136,7 @@
     }
 
     try {
-      // main.eventlog.list returns a single page (max 50 records). For the whole result set
+      // main.eventlog.list returns a single page (50 records by default). For the whole result set
       // use a list helper: $b24.actions.v3.callList.make() returns every record as one
       // array, $b24.actions.v3.fetchList.make() yields them in chunks (async generator).
       // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
@@ -192,7 +194,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // main.eventlog.list returns a single page (max 50 records). For the whole result set
+          // main.eventlog.list returns a single page (50 records by default). For the whole result set
           // use a list helper: $b24.actions.v3.callList.make() returns every record as one
           // array, $b24.actions.v3.fetchList.make() yields them in chunks (async generator).
           // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
@@ -306,7 +308,7 @@
     ```
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -354,7 +356,7 @@
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -392,7 +394,7 @@
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -487,7 +489,7 @@ HTTP-статус: **200**
         "items": [
             {
                 "id": 443585,
-                "timestampX": "2026-01-22T02:52:25+03:00",
+                "timestampX": "2026-01-30T02:52:25+03:00",
                 "severity": "SECURITY",
                 "auditTypeId": "USER_AUTHORIZE",
                 "moduleId": "main",
@@ -495,10 +497,9 @@ HTTP-статус: **200**
                 "userId": 751,
                 "description": "{\u0022userId\u0022:751,\u0022requestId\u0022:\u00225636cd3e45c524c55a68a19dccb72c3b-0\u0022,\u0022method\u0022:\u0022external\u0022}"
             },
-            // ...
             {
                 "id": 443623,
-                "timestampX": "2026-01-22T05:21:51+03:00",
+                "timestampX": "2026-01-30T05:21:51+03:00",
                 "severity": "SECURITY",
                 "auditTypeId": "USER_AUTHORIZE",
                 "moduleId": "main",
@@ -522,6 +523,8 @@ HTTP-статус: **200**
 ```
 
 ### Возвращаемые данные
+
+Поля от `id` до `description` описывают одну запись журнала в массиве `items`.
 
 #|
 || **Название**
@@ -585,7 +588,43 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Нет прав администратора или не хватает scope main ||
+|| `-` | Доступ запрещен | Нет права на просмотр журнала событий или не хватает scope `main` ||
+|#
+
+#### Ошибки валидации запроса
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `filter` | В DTO `EventLogDto` в поле `#FIELD#` требуется наличие атрибута `Filterable` для такого запроса | Фильтруйте только поля с признаком `filterable` ||
+|| `order` | В DTO `EventLogDto` в поле `#FIELD#` требуется наличие атрибута `Sortable` для такого запроса | Сортируйте только поля с признаком `sortable` ||
+|#
+
+#### Ошибки в параметрах select и filter
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Неизвестное поле `#FIELD#` для сущности `EventLogDto` | Передайте только поля из списка в описании параметра `select` ||
+|| `filter` | Неизвестное поле `#FIELD#` для сущности `EventLogDto` | Уберите из `filter` поле, которого нет у записи журнала ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Не удается распознать выражение select `#SELECT#` | Передайте `select` как массив строк, например `["id","timestampX"]` ||
+|#
+
+#### Ошибки фильтрации
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDFILTEREXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `filter` | Не удается распознать выражение фильтра `#FILTER#` | Передайте условия в формате `["field", "operator", value]` и используйте только поля с признаком `filterable` ||
 |#
 
 #### Ошибки пагинации
@@ -599,6 +638,15 @@ HTTP-статус: **400**
 `page` | Не удается распознать параметр пагинации `#PAGE#` | Передайте числовые значения. `limit` не должен быть равен `0` ||
 |#
 
+#### Ошибки сортировки
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDORDEREXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `order` | Не удается распознать выражение сортировки `#ORDER#` | Передайте `order` как объект вида `{"id": "ASC"}` и используйте только поля с признаком `sortable` ||
+|#
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
@@ -606,5 +654,3 @@ HTTP-статус: **400**
 - [{#T}](./main-eventlog-get.md)
 - [{#T}](./main-eventlog-tail.md)
 - [{#T}](./index.md)
-
-

@@ -27,9 +27,63 @@
 - настроить регулярное получение новых данных
 - получить описание доступных полей записи журнала
 
+## Как устроена запись журнала
+
+Методы раздела возвращают записи журнала и описания их полей. Ниже перечислены поля записи, по которым чаще всего строят выборку. Полный список полей и их признаков возвращает [main.eventlog.field.list](./main-eventlog-field-list.md).
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор записи журнала ||
+|| **timestampX**
+[`datetime`](../data-types.md#standart-types) | Дата и время события ||
+|| **auditTypeId**
+[`string`](../data-types.md) | Тип события, например `USER_AUTHORIZE` ||
+|| **moduleId**
+[`string`](../data-types.md) | Идентификатор модуля, который записал событие, например `main` или `rest` ||
+|| **userId**
+[`integer`](../data-types.md) | Идентификатор пользователя ||
+|| **description**
+[`string`](../data-types.md) | Описание события. Строка содержит JSON-объект, набор ключей зависит от `auditTypeId` ||
+|#
+
+Остальные поля записи — `severity`, `itemId`, `remoteAddr`, `userAgent`, `requestUri`, `siteId`, `guestId` — описаны на странице [main.eventlog.field.list](./main-eventlog-field-list.md).
+
+## Пример записи журнала
+
+Сокращенный ответ [main.eventlog.get](./main-eventlog-get.md) в формате REST 3.0. В ответ приходят все поля, перечисленные в `select`, и объект `time` со временем выполнения запроса. Поля `remoteAddr`, `userAgent`, `requestUri`, `siteId` и `guestId` в примере не показаны.
+
+```json
+{
+    "result": {
+        "item": {
+            "id": 1250,
+            "timestampX": "2026-01-30T16:00:39+03:00",
+            "severity": "SECURITY",
+            "auditTypeId": "USER_AUTHORIZE",
+            "moduleId": "main",
+            "itemId": "1",
+            "userId": 1,
+            "description": "{\"userId\":1,\"storedAuthId\":1310,\"requestId\":\"ea604c292209f5c562c653ba025b801e-1\",\"method\":\"cookie\"}"
+        }
+    },
+    "time": {
+        "start": 1769779221,
+        "finish": 1769779222.060889,
+        "duration": 1.0608890056610107,
+        "processing": 0,
+        "date_start": "2026-01-30T16:20:21+03:00",
+        "date_finish": "2026-01-30T16:20:22+03:00",
+        "operating_reset_at": 1769779822,
+        "operating": 0
+    }
+}
+```
+
 ## Когда использовать каждый метод
 
-Используйте [main.eventlog.get](./main-eventlog-get.md), когда нужно получить детали конкретного события по ID.
+Используйте [main.eventlog.get](./main-eventlog-get.md), когда нужно получить детали конкретного события по идентификатору.
 
 Методы [main.eventlog.list](./main-eventlog-list.md) и [main.eventlog.tail](./main-eventlog-tail.md) похожи, но решают разные задачи.
 
@@ -47,6 +101,26 @@
 - узнать доступные поля для `select`, `filter` и `order`
 - получить типы и метаданные конкретного поля
 - автоматически строить интерфейсы фильтрации и таблиц
+
+## Ограничения и особенности
+
+- Методы раздела требуют scope `main`. Если права на просмотр журнала событий нет, Битрикс24 вернет `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+- Журнал только читают: методы не создают, не изменяют и не удаляют записи. Состав записываемых событий определяет тариф Битрикс24, поэтому один и тот же фильтр вернет разное число записей на разных тарифах
+- `main.eventlog.list` и `main.eventlog.tail` по умолчанию возвращают `50` записей за запрос, максимум `1000`. `list` листают параметром `pagination`, `tail` дочитывают по курсору `cursor`
+- `main.eventlog.tail` продолжает выборку от последней полученной записи, поэтому поле курсора нельзя одновременно передавать в `filter`. Подробнее о цикле дочитывания — на [странице метода](./main-eventlog-tail.md)
+- `select` принимает только массив строк с именами полей
+
+## Общие ошибки раздела
+
+Все методы раздела возвращают ошибки в едином формате REST 3.0, описание формата — в разделе [Единый формат ответа](../rest-v3.md#response). Ниже перечислены коды, которые важно обработать в любом сценарии. Полные таблицы ошибок с полями и способами исправления — на страницах методов.
+
+#|
+|| **Код ошибки** | **Где возникает** | **Причина** ||
+|| `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION` | все методы | Нет права на просмотр журнала событий или не хватает scope `main` ||
+|| `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION` | все методы | Не передан обязательный параметр `id` или `name`, у параметра неверный тип либо использовано поле без нужного признака ||
+|| `BITRIX_REST_V3_EXCEPTION_ENTITYNOTFOUNDEXCEPTION` | `main.eventlog.get` | Записи с таким `id` нет в журнале ||
+|| `BITRIX_REST_V3_REALISATION_EXCEPTION_FIELDNOTFOUNDEXCEPTION` | `main.eventlog.field.get` | Поля с таким `name` нет у записи журнала ||
+|#
 
 ## Обзор методов {#all-methods}
 
