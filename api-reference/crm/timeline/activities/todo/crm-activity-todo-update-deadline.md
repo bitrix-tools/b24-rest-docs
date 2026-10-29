@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом на редактирование элемента CRM, для которого обновляется дело
 
-Метод `crm.activity.todo.updateDeadline` меняет дедлайн универсального дела.
+Метод `crm.activity.todo.updateDeadline` меняет крайний срок универсального дела.
 
 ## Параметры метода
 
@@ -23,13 +23,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например  `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`. Закрытое дело изменить нельзя ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), в таймлайне которого находится дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например, `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, в таймлайне которого находится дело, например `1`.
+
+Значения `ownerTypeId` и `ownerId` возвращает метод [crm.activity.get](../activity-base/crm-activity-get.md) в полях `OWNER_TYPE_ID` и `OWNER_ID`. Если дело не относится к этому элементу, метод вернет ошибку `NOT_FOUND` ||
 || **value***
-[`datetime`](../../../../data-types.md) | Новый крайний срок дела ||
+[`datetime`](../../../../data-types.md) | Новый крайний срок дела в формате ISO 8601, например `2026-11-03T15:00:00+03:00`.
+
+Если не указать часовой пояс, время считается в часовом поясе пользователя, от имени которого выполняется запрос. Если передать только дату, например `2026-11-03`, крайним сроком станет начало дня `00:00`.
+
+Если дело связано с событием календаря, событие переносится на новый срок. Для этого нужно право на редактирование события ||
 |#
 
 ## Примеры кода
@@ -54,7 +62,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"value":"**put_current_date_here**","auth":"**put_access_token_here**"}' \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"value":"2026-11-05T12:30:00+03:00","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.todo.updateDeadline
     ```
 
@@ -149,7 +157,7 @@
         bitrix_response = client.crm.activity.todo.update_deadline(
             bitrix_id=999,
             owner_type_id=2,
-            owner_id=101,
+            owner_id=1,
             value=datetime.now() + timedelta(days=3),
         ).response
         result = bitrix_response.result
@@ -180,10 +188,10 @@
                     'id'          => 999,
                     'ownerTypeId' => 2,
                     'ownerId'     => 1,
-                    'value'       => date('Y-m-d H:i:s'),
+                    'value'       => date(DATE_ATOM),
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -203,8 +211,8 @@
             id: 999,
             ownerTypeId: 2,
             ownerId: 1,
-            value: nnew Date()
-        }, 
+            value: new Date().toISOString()
+        },
         result => {
             if (result.error())
                 console.error(result.error());
@@ -286,9 +294,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+[`object`](../../../../data-types.md) | Объект с идентификатором обновленного дела [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного дела, совпадает с переданным `id` ||
 |#
 
 ## Обработка ошибок
@@ -297,8 +314,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "WRONG_DATETIME_FORMAT",
+    "error_description": "Некорректный формат даты"
 }
 ```
 
@@ -307,21 +324,25 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент CRM не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `WRONG_DATETIME_FORMAT` | Некорректный формат даты || 
-|| `CAN_NOT_UPDATE_COMPLETED_TODO` | Закрытое дело нельзя изменять ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {value} | Не передан обязательный параметр `id`, `ownerTypeId`, `ownerId` или `value`. В описании указано имя параметра ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с таким `id` не найдено или не относится к элементу CRM из `ownerTypeId` и `ownerId` ||
+|| `400` | `WRONG_DATETIME_FORMAT` | Некорректный формат даты | Значение `value` не удалось распознать как дату ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на редактирование элемента CRM ||
+|| `400` | `ACCESS_DENIED` | Недостаточно прав на изменение события календаря, привязанного к делу | Дело связано с событием календаря, а у пользователя нет права редактировать это событие ||
+|| `400` | `CAN_NOT_UPDATE_COMPLETED_TODO` | Закрытое дело нельзя изменять | Дело закрыто, изменять его нельзя ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-todo-add.md)
 - [{#T}](./crm-activity-todo-update.md)
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-color.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
+- [{#T}](../activity-base/crm-activity-get.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)

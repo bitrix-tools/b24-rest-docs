@@ -62,15 +62,35 @@
 
 **Роли и права.** Права доступа определяют, кто может изменять шаблоны, документы и настройки генератора документов. Для настройки ролей используйте группу методов [documentgenerator.role.*](./role/index.md).
 
-## Особенность конвертации документа в PDF
+## Права доступа {#access}
 
-Конвертация файла в PDF выполняется асинхронно. Поле `pdfUrl` приходит в ответе, только когда PDF уже сформирован, поэтому сразу после создания документа его обычно нет. Чтобы проверить результат конвертации повторно, вызовите метод [documentgenerator.document.get](./document-generator-document-get.md).
+Права на генератор документов настраивают методами [documentgenerator.role.*](./role/index.md). Каждый метод проверяет свое право:
+
+- методы документов `documentgenerator.document.*` — право на просмотр документов. Дополнительно [documentgenerator.document.add](./document-generator-document-add.md) проверяет право на создание документов по шаблону, а `update`, `delete`, `getfields` и `enablepublicurl` — право на изменение конкретного документа
+- методы шаблонов, нумераторов и регионов — право на изменение шаблонов, в том числе для методов `get` и `list`
+- методы ролей — право на изменение настроек генератора. Кроме того, разграничение прав должно быть доступно на тарифе
+
+## Результат методов документов
+
+Методы [documentgenerator.document.add](./document-generator-document-add.md), [documentgenerator.document.update](./document-generator-document-update.md) и [documentgenerator.document.get](./document-generator-document-get.md) возвращают в `result` объект `document`. Поля объекта и условия их появления описаны на странице [documentgenerator.document.get](./document-generator-document-get.md#document).
+
+Конвертация документа в PDF выполняется асинхронно. Поле `pdfUrl` приходит в ответе, только когда PDF уже сформирован, поэтому сразу после создания документа его обычно нет. Чтобы проверить результат конвертации повторно, вызовите метод [documentgenerator.document.get](./document-generator-document-get.md).
+
+## Типовые ошибки
+
+Ошибка приходит в полях `error` и `error_description`. У большинства ошибок раздела нет кода: в поле `error` приходит `0`, а причину описывает `error_description`. Типовые причины:
+
+- не хватает права — например, `You do not have permissions to view documents` или `You do not have permissions to modify templates`
+- объект не найден — например, `Документ не найден` или `Шаблон не найден`
+- нет доступа к конкретному документу — ошибка с кодом `DOCGEN_ACCESS_ERROR` и текстом `Access denied`
+
+Полный перечень ошибок метода — в разделе «Обработка ошибок» на его странице.
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`documentgenerator`](../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода
+> Кто может выполнять методы: зависит от группы методов, подробнее — в разделе [Права доступа](#access)
 
 ### Документы
 

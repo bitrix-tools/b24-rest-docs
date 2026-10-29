@@ -23,13 +23,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например  `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`. Закрытое дело изменить нельзя ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), в таймлайне которого находится дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, в таймлайне которого находится дело, например `1`.
+
+Значения `ownerTypeId` и `ownerId` возвращает метод [crm.activity.get](../activity-base/crm-activity-get.md) в полях `OWNER_TYPE_ID` и `OWNER_ID`. Если дело не относится к этому элементу, метод вернет ошибку `NOT_FOUND` ||
 || **responsibleId***
-[`integer`](../../../../data-types.md) | Идентификатор пользователя, который станет ответственным за дело, например `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор сотрудника, который станет ответственным за дело, например `1`. Получить идентификатор можно методом [user.get](../../../../user/user-get.md).
+
+Значение должно быть больше `0`. Ответственным можно назначить только сотрудника компании: если пользователь не найден или это внешний пользователь, метод вернет ошибку. Права нового ответственного на элемент CRM метод не проверяет.
+
+Если дело связано с событием календаря, новый ответственный добавляется в участники события ||
 |#
 
 ## Примеры кода
@@ -147,8 +155,8 @@
         bitrix_response = client.crm.activity.todo.update_responsible_user(
             bitrix_id=999,
             owner_type_id=2,
-            owner_id=101,
-            responsible_id=1,
+            owner_id=1,
+            responsible_id=5,
         ).response
         result = bitrix_response.result
         print(result)
@@ -181,7 +189,7 @@
                     'responsibleId' => 5
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -202,7 +210,7 @@
             ownerTypeId: 2,
             ownerId: 1,
             responsibleId: 5
-        }, 
+        },
         result => {
             if (result.error())
                 console.error(result.error());
@@ -284,9 +292,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+[`object`](../../../../data-types.md) | Объект с идентификатором обновленного дела [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного дела, совпадает с переданным `id` ||
 |#
 
 ## Обработка ошибок
@@ -295,8 +312,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "0",
+    "error_description": "The specified user cannot be assigned as responsible"
 }
 ```
 
@@ -305,21 +322,25 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент CRM не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `CAN_NOT_UPDATE_RESPONSIBLE_USER_COMPLETED_TODO` | Невозможно изменить ответственного в закрытом деле ||
-|| `INVALID_ARG_VALUE` | Parameter "responsibleId" must be greater than 0 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {responsibleId} | Не передан обязательный параметр `id`, `ownerTypeId`, `ownerId` или `responsibleId`. В описании указано имя параметра ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с таким `id` не найдено или не относится к элементу CRM из `ownerTypeId` и `ownerId` ||
+|| `400` | `0` | Parameter "responsibleId" must be greater than 0 | В `responsibleId` передан `0` или отрицательное число ||
+|| `400` | `0` | The specified user cannot be assigned as responsible | Пользователь из `responsibleId` не найден или не является сотрудником компании ||
+|| `400` | `0` | Невозможно изменить ответственного в закрытом деле | Дело закрыто, изменять его нельзя ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на редактирование элемента CRM ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-todo-add.md)
 - [{#T}](./crm-activity-todo-update.md)
 - [{#T}](./crm-activity-todo-update-deadline.md)
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-color.md)
+- [{#T}](../activity-base/crm-activity-get.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)

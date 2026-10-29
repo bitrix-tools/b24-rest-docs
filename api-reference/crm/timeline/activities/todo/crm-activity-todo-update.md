@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правом на редактирование элемента CRM, для которого обновляется дело
 
-Метод `crm.activity.todo.update` обновляет универсальное дело. 
+Метод `crm.activity.todo.update` обновляет несколько свойств универсального дела за один вызов.
+
+{% note warning "" %}
+
+Метод перезаписывает дело: если не передать `title`, `description` или `pingOffsets`, название и описание станут пустыми, а напоминания удалятся. Чтобы изменить одно свойство, используйте методы [crm.activity.todo.updateDeadline](./crm-activity-todo-update-deadline.md), [crm.activity.todo.updateDescription](./crm-activity-todo-update-description.md), [crm.activity.todo.updateColor](./crm-activity-todo-update-color.md) или [crm.activity.todo.updateResponsibleUser](./crm-activity-todo-update-responsible-user.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,29 +29,48 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например  `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`. Закрытое дело изменить нельзя ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), в таймлайне которого находится дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, в таймлайне которого находится дело, например `1`.
+
+Значения `ownerTypeId` и `ownerId` возвращает метод [crm.activity.get](../activity-base/crm-activity-get.md) в полях `OWNER_TYPE_ID` и `OWNER_ID`. Если дело не относится к этому элементу, метод вернет ошибку `NOT_FOUND` ||
 || **deadline***
-[`datetime`](../../../../data-types.md) | Крайний срок дела, например  `2025-02-03T15:00:00` ||
+[`datetime`](../../../../data-types.md) | Крайний срок дела в формате ISO 8601, например `2026-11-03T15:00:00+03:00`.
+
+Если не указать часовой пояс, время считается в часовом поясе пользователя, от имени которого выполняется запрос. Если передать только дату, например `2026-11-03`, крайним сроком станет начало дня `00:00` ||
 || **title**
-[`string`](../../../../data-types.md) | Название дела ||
+[`string`](../../../../data-types.md) | Название дела. Если параметр не передан, название станет пустым ||
 || **description**
-[`string`](../../../../data-types.md) | Описание дела ||
+[`string`](../../../../data-types.md) | Описание дела. Поддерживает BB-код, например `[b]важно[/b]`. Если параметр не передан, описание станет пустым ||
 || **responsibleId**
-[`integer`](../../../../data-types.md) | Идентификатор пользователя, ответственного за дело, например `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор сотрудника, ответственного за дело, например `1`. Получить идентификатор можно методом [user.get](../../../../user/user-get.md).
+
+Ответственным можно назначить только сотрудника компании. Если параметр не передан или равен `0`, ответственный не меняется. ||
 || **parentActivityId**
-[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне, с которым можно связать обновляемое дело, например `888` ||
+[`integer`](../../../../data-types.md) | Идентификатор другого дела в таймлайне, с которым нужно связать дело, например `888`. Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md).
+
+Если параметр не передан или дело не найдено, текущая связь сохраняется ||
 || **pingOffsets**
-[`array`](../../../../data-types.md) | Массив, который содержит целочисленные значения в минутах, позволяющие настроить время напоминания о деле. Например `[0, 15]` означает, что будет создано 2 напоминания, которые придут за 15 минут до крайнего срока и в момент, когда крайний срок наступить. По умолчанию пустой массив, без напоминаний ||
+[`array`](../../../../data-types.md) | Массив целых чисел — за сколько минут до крайнего срока отправить напоминания. Например, `[0, 15]` создает 2 напоминания: за 15 минут до крайнего срока и в момент его наступления.
+
+Отрицательные и нечисловые значения метод отбрасывает, повторяющиеся объединяет. Если параметр не передан, все напоминания удаляются ||
 || **colorId**
-[`string`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
+[`string`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне. Передавайте значение строкой, например `"3"`: число вызовет ошибку `100`. Возможные значения:
 
-![Доступные цвета](./_images/colors.png)
+- `default` — желтый, цвет по умолчанию
+- `1` — синий
+- `2` — бирюзовый
+- `3` — оранжевый
+- `4` — зеленый
+- `5` — фиолетовый
+- `6` — серый
+- `7` — розовый
 
-||
+Если параметр не передан или значение не из списка, цвет не меняется. Ошибку на недопустимое значение метод не возвращает ||
 |#
 
 ## Примеры кода
@@ -60,7 +85,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7"}' \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"2026-11-04T15:00:00+03:00","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.activity.todo.update
     ```
 
@@ -70,7 +95,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"**put_current_date_here**","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7","auth":"**put_access_token_here**"}' \
+    -d '{"id":999,"ownerTypeId":2,"ownerId":1,"deadline":"2026-11-04T15:00:00+03:00","title":"Новый заголовок дела","description":"Новое описание дела","responsibleId":1,"pingOffsets":[15,30],"colorId":"7","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.todo.update
     ```
 
@@ -96,7 +121,7 @@
           id: 999,
           ownerTypeId: 2,
           ownerId: 1,
-          deadline: '2025-02-03T15:00:00',
+          deadline: '2026-11-04T15:00:00+03:00',
           title: 'New activity title',
           description: 'New activity description',
           responsibleId: 1,
@@ -136,7 +161,7 @@
               id: 999,
               ownerTypeId: 2,
               ownerId: 1,
-              deadline: '2025-02-03T15:00:00',
+              deadline: '2026-11-04T15:00:00+03:00',
               title: 'New activity title',
               description: 'New activity description',
               responsibleId: 1,
@@ -175,12 +200,11 @@
         bitrix_response = client.crm.activity.todo.update(
             bitrix_id=999,
             owner_type_id=2,
-            owner_id=101,
+            owner_id=1,
             deadline=datetime.now() + timedelta(days=2),
             title="Updated follow-up",
             description="Send updated proposal",
             responsible_id=1,
-            parent_activity_id=998,
             ping_offsets=[
                 15,
                 30,
@@ -215,7 +239,7 @@
                     'id'            => 999,
                     'ownerTypeId'   => 2,
                     'ownerId'       => 1,
-                    'deadline'      => (new DateTime()),
+                    'deadline'      => (new DateTime('+1 day'))->format(DATE_ATOM),
                     'title'         => 'Новый заголовок дела',
                     'description'   => 'Новое описание дела',
                     'responsibleId' => 1,
@@ -223,7 +247,7 @@
                     'colorId'       => '7'
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -243,13 +267,13 @@
             id: 999,
             ownerTypeId: 2,
             ownerId: 1,
-            deadline: (new Date()),
+            deadline: new Date().toISOString(),
             title: 'Новый заголовок дела',
             description: 'Новое описание дела',
             responsibleId: 1,
             pingOffsets: [15, 30],
             colorId: '7'
-        }, 
+        },
         result => {
             if (result.error())
                 console.error(result.error());
@@ -270,7 +294,7 @@
             'id' => 999,
             'ownerTypeId' => 2,
             'ownerId' => 1,
-            'deadline' => date('c'), // Assuming you want the current date in ISO 8601 format
+            'deadline' => date('c', strtotime('+1 day')), // Завтра в это же время в формате ISO 8601
             'title' => 'Новый заголовок дела',
             'description' => 'Новое описание дела',
             'responsibleId' => 1,
@@ -292,7 +316,7 @@
     	"id":            999,
     	"ownerTypeId":   2,
     	"ownerId":       1,
-    	"deadline":      "**put_current_date_here**",
+    	"deadline":      time.Now().Add(24 * time.Hour).Format(time.RFC3339),
     	"title":         "Новый заголовок дела",
     	"description":   "Новое описание дела",
     	"responsibleId": 1,
@@ -341,9 +365,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий целочисленный идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+[`object`](../../../../data-types.md) | Объект с идентификатором обновленного дела [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного дела, совпадает с переданным `id` ||
 |#
 
 ## Обработка ошибок
@@ -353,7 +386,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error_description": "Элемент не найден"
 }
 ```
 
@@ -362,23 +395,28 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент CRM не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `WRONG_DATETIME_FORMAT` | Некорректный формат даты ||
-|| `CAN_NOT_UPDATE_COMPLETED_TODO` | Закрытое дело нельзя изменять ||
-|| `ERROR_PARENT_ACTIVITY_RESTRICT` | Невозможно запланировать дело для закрытого дела ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {deadline} | Не передан обязательный параметр `ownerTypeId`, `ownerId` или `deadline`. В описании указано имя параметра ||
+|| `400` | `0` | Internal server error. | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Invalid value {3} to match with parameter {colorId}. Should be value of type string. | Значение `colorId` передано числом, а не строкой ||
+|| `400` | `WRONG_DATETIME_FORMAT` | Некорректный формат даты | Значение `deadline` не удалось распознать как дату ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с таким `id` не найдено или не относится к элементу CRM из `ownerTypeId` и `ownerId` ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на редактирование элемента CRM ||
+|| `400` | `0` | Операции с файлами для закрытого дела запрещены | Дело закрыто, изменять его нельзя ||
+|| `400` | `0` | The specified user cannot be assigned as responsible | Пользователь из `responsibleId` не найден или не является сотрудником компании ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-todo-add.md)
 - [{#T}](./crm-activity-todo-update-deadline.md)
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-color.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
+- [{#T}](../activity-base/crm-activity-get.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-change-date-in-activity.md)

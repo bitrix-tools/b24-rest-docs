@@ -195,9 +195,11 @@
 
         try:
             bitrix_response = client.crm.item.details.configuration.get(
-                entity_type_id=1032,
+                entity_type_id=2,
+                user_id=1,
+                scope="C",
                 extras={
-                    "categoryId": 5,
+                    "dealCategoryId": 9,
                 },
             ).response
             result = bitrix_response.result
@@ -216,6 +218,60 @@
         ```
 
     - PHP
+
+        ```php
+        try {
+            $response = $b24Service
+                ->core
+                ->call(
+                    'crm.item.details.configuration.get',
+                    [
+                        'entityTypeId' => 2,
+                        'userId'       => 1,
+                        'scope'        => 'C',
+                        'extras'       => [
+                            'dealCategoryId' => 9,
+                        ],
+                    ]
+                );
+
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+
+            print_r($result);
+        } catch (Throwable $e) {
+            echo $e->getMessage();
+        }
+        ```
+
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            'crm.item.details.configuration.get',
+            {
+                entityTypeId: 2,
+                userId: 1,
+                scope: 'C',
+                extras: {
+                    dealCategoryId: 9,
+                },
+            },
+            (result) => {
+                if (result.error())
+                {
+                    console.error(result.error());
+
+                    return;
+                }
+
+                console.info(result.data());
+            },
+        );
+        ```
+
+    - PHP CRest
 
         ```php
         require_once('crest.php');
@@ -408,8 +464,57 @@
             print(f"Непредвиденная ошибка: {error}")
         ```
 
-
     - PHP
+
+        ```php
+        try {
+            $response = $b24Service
+                ->core
+                ->call(
+                    'crm.item.details.configuration.get',
+                    [
+                        'entityTypeId' => 1032,
+                        'extras'       => [
+                            'categoryId' => 5,
+                        ],
+                    ]
+                );
+
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+
+            print_r($result);
+        } catch (Throwable $e) {
+            echo $e->getMessage();
+        }
+        ```
+
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            'crm.item.details.configuration.get',
+            {
+                entityTypeId: 1032,
+                extras: {
+                    categoryId: 5,
+                },
+            },
+            (result) => {
+                if (result.error())
+                {
+                    console.error(result.error());
+
+                    return;
+                }
+
+                console.info(result.data());
+            },
+        );
+        ```
+
+    - PHP CRest
 
         ```php
         require_once('crest.php');
@@ -583,7 +688,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`section[]`](#section)\|`null` | Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки элемента. Возвращает `null` в случае отсутствия конфигурации ||
+[`section[]`](#section)\|`null` | Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки элемента [(подробное описание)](#section).
+
+Возвращает `null`, если для выбранной области `scope` конфигурация не сохранена, например после вызова [crm.item.details.configuration.reset](./crm-item-details-configuration-reset.md). В этом случае карточка показывается по общей конфигурации или по настройкам по умолчанию ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -600,9 +707,9 @@ HTTP-статус: **200**
 || **title**
 [`string`](../../../data-types.md) | Название раздела ||
 || **type**
-[`string`](../../../data-types.md) | Тип раздела ||
+[`string`](../../../data-types.md) | Тип раздела. Всегда `section` ||
 || **elements**
-[`section_element[]`](#section_element) | Список выводимых в карточку полей сущности с дополнительными настройками ||
+[`section_element[]`](#section_element) | Список полей раздела в порядке вывода в карточке [(подробное описание)](#section_element) ||
 |#
 
 #### section_element
@@ -613,13 +720,36 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../../data-types.md) | Идентификатор поля ||
+[`string`](../../../data-types.md) | Идентификатор поля. Список полей возвращает метод [crm.item.fields](../crm-item-fields.md) ||
 || **optionFlags**
-[`string`](../../../data-types.md) | Значения:
-- `"1"` — показывать всегда
-- `"0"` — показывать не всегда ||
+[`string`](../../../data-types.md)\|[`integer`](../../../data-types.md) | Нужно ли показывать поле всегда:
+- `1` — показывать всегда, даже если поле не заполнено
+- `0` — показывать, только если поле заполнено
+
+Значение возвращается в том виде, в каком сохранено: строкой `"1"` или числом `1`. Если флаг не задавался, ключ отсутствует ||
 || **options**
-[`object`](../../../data-types.md) | Дополнительные опции поля ||
+[`object`](../../../data-types.md) | Дополнительные опции поля. Возвращается, только если опции заданы [(подробное описание)](#section_elementoptions) ||
+|#
+
+#### section_element.options
+
+Набор опций зависит от поля.
+
+#|
+|| **Название**
+`тип` | **Поля, где доступна опция** | **Описание** ||
+|| **defaultAddressType**
+[`integer`](../../../data-types.md) | `ADDRESS` | Идентификатор типа адреса по умолчанию. Типы адресов возвращает метод [crm.enum.addresstype](../../auxiliary/enum/crm-enum-address-type.md) ||
+|| **defaultCountry**
+[`string`](../../../data-types.md) | `PHONE`, `CLIENT`, `COMPANY`, `CONTACT`, `MYCOMPANY_ID` | Код страны для формата телефонного номера — две латинские буквы, например `RU` ||
+|| **isPayButtonVisible**
+[`boolean`](../../../data-types.md) | `OPPORTUNITY_WITH_CURRENCY` | Показана ли кнопка принятия оплаты:
+- `true` — показана
+- `false` — скрыта ||
+|| **isPaymentDocumentsVisible**
+[`boolean`](../../../data-types.md) | `OPPORTUNITY_WITH_CURRENCY` | Показан ли блок «Оплата и доставка»:
+- `true` — показан
+- `false` — скрыт ||
 |#
 
 ## Обработка ошибок
@@ -629,7 +759,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Parameter 'entityTypeId' is not defined"
+    "error_description": "Parameter 'entityTypeID' is not defined"
 }
 ```
 
@@ -638,10 +768,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | Parameter 'entityTypeId' is not defined | Не передан обязательный параметр `entityTypeId` ||
-|| Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Метод не поддерживает данный тип сущности || 
-|| Пустое значение | Access denied. | У пользователя нет административных прав ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Parameter 'entityTypeID' is not defined | Не передан обязательный параметр `entityTypeId` или передан несуществующий тип объекта CRM ||
+|| `400` | Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Тип объекта CRM не поддерживает настройку карточки, например `ACTIVITY` ||
+|| `400` | Пустое значение | Access denied. | Запрошены личные настройки другого пользователя, а у пользователя нет прав администратора ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

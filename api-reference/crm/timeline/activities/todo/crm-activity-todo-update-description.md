@@ -23,13 +23,19 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например  `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`. Закрытое дело изменить нельзя ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), в таймлайне которого находится дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, в таймлайне которого находится дело, например `1`.
+
+Значения `ownerTypeId` и `ownerId` возвращает метод [crm.activity.get](../activity-base/crm-activity-get.md) в полях `OWNER_TYPE_ID` и `OWNER_ID`. Если дело не относится к этому элементу, метод вернет ошибку `NOT_FOUND` ||
 || **value***
-[`string`](../../../../data-types.md) | Новое описание дела ||
+[`string`](../../../../data-types.md) | Новое описание дела. Поддерживает BB-код, например `[b]важно[/b]`.
+
+Длину описания метод не ограничивает. Пустая строка `""` очищает описание ||
 |#
 
 ## Примеры кода
@@ -147,7 +153,7 @@
         bitrix_response = client.crm.activity.todo.update_description(
             bitrix_id=999,
             owner_type_id=2,
-            owner_id=101,
+            owner_id=1,
             value="Prepare contract draft",
         ).response
         result = bitrix_response.result
@@ -181,7 +187,7 @@
                     'value'       => 'Новое описание дела',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -202,7 +208,7 @@
             ownerTypeId: 2,
             ownerId: 1,
             value: 'Новое описание дела'
-        }, 
+        },
         result => {
             if (result.error())
                 console.error(result.error());
@@ -284,9 +290,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+[`object`](../../../../data-types.md) | Объект с идентификатором обновленного дела [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного дела, совпадает с переданным `id` ||
 |#
 
 ## Обработка ошибок
@@ -295,8 +310,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "CAN_NOT_UPDATE_COMPLETED_TODO",
+    "error_description": "Закрытое дело нельзя изменять"
 }
 ```
 
@@ -305,21 +320,23 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент CRM не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `CAN_NOT_UPDATE_COMPLETED_TODO` | Закрытое дело нельзя изменять ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {value} | Не передан обязательный параметр `id`, `ownerTypeId`, `ownerId` или `value`. В описании указано имя параметра ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с таким `id` не найдено или не относится к элементу CRM из `ownerTypeId` и `ownerId` ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на редактирование элемента CRM ||
+|| `400` | `CAN_NOT_UPDATE_COMPLETED_TODO` | Закрытое дело нельзя изменять | Дело закрыто, изменять его нельзя ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-todo-add.md)
 - [{#T}](./crm-activity-todo-update.md)
 - [{#T}](./crm-activity-todo-update-deadline.md)
 - [{#T}](./crm-activity-todo-update-color.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
-
+- [{#T}](../activity-base/crm-activity-get.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)

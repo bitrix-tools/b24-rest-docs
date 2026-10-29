@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор, только в контексте [приложения](../../../../../settings/app-installation/index.md)
 
-Метод `crm.activity.type.add` регистрирует пользовательский тип дела с указанием названия и иконки.
+Метод `crm.activity.type.add` регистрирует пользовательский тип дела с названием и иконкой.
 
 ## Параметры метода
 
@@ -23,19 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md#object_type) | Значения полей для добавления нового пользовательского типа дела в виде структуры:
-
-```json
-fields:
-{
-    "TYPE_ID": 'значение',
-    "NAME": 'значение',
-    "ICON_FILE": 'значение',
-    "IS_CONFIGURABLE_TYPE": 'значение',
-}
-```
-
-Подробное описание приведено [ниже](#parametr-fields)
+[`object`](../../../../data-types.md) | Объект с полями нового типа дела. Ключи полей передавайте в верхнем регистре, например `TYPE_ID`: ключ `type_id` метод не распознает. [Описание полей](#parametr-fields) ||
 |#
 
 ### Параметр fields {#parametr-fields}
@@ -46,13 +34,24 @@ fields:
 || **Название**
 `тип` | **Описание** ||
 || **TYPE_ID***
-[`string`](../../../../data-types.md) | Строковое значение типа дела, например `1C`. При создании дела это поле `PROVIDER_TYPE_ID` ||
-|| **NAME**
-[`string`](../../../../data-types.md) | Название типа дела, например `Дело 1с` для сделки. По умолчанию пустая строка ||
+[`string`](../../../../data-types.md) | Код типа дела, например `1C`. Не длиннее 100 символов, уникален среди типов текущего приложения.
+
+Код `CONFIGURABLE` нельзя использовать вместе с `IS_CONFIGURABLE_TYPE` = `Y`: он зарезервирован.
+
+После регистрации передавайте код в поле `PROVIDER_TYPE_ID` метода [crm.activity.add](../activity-base/crm-activity-add.md) вместе с `PROVIDER_ID` = `REST_APP` или в поле `typeId` метода [crm.activity.configurable.add](../configurable/crm-activity-configurable-add.md) ||
+|| **NAME***
+[`string`](../../../../data-types.md) | Название типа дела, например `Дело 1C`. Не длиннее 255 символов ||
 || **ICON_FILE**
-[`attached_diskfile`](../../../data-types.md#attached_diskfile) | Файл иконки типа дела, описанный по [правилам](../../../../files/how-to-upload-files.md) ||
+[`array`](../../../../data-types.md) | Иконка типа дела — [массив из имени файла и содержимого в Base64](../../../../files/how-to-upload-files.md#array), например `["icon.png", "iVBORw0KGgo..."]`.
+
+Если параметр не передан или файл не удалось прочитать, тип создается без иконки ||
 || **IS_CONFIGURABLE_TYPE**
-[`string`](../../../../data-types.md) | Значение по умолчанию - `N`. Значение `Y` - признак того, что тип будет использоваться для [конфигурируемых дел](../configurable/crm-activity-configurable-add.md) ||
+[`string`](../../../../data-types.md) | Признак типа для конфигурируемых дел:
+
+- `Y` — тип для метода [crm.activity.configurable.add](../configurable/crm-activity-configurable-add.md)
+- `N` — тип для метода [crm.activity.add](../activity-base/crm-activity-add.md), значение по умолчанию
+
+Любое значение, кроме `Y`, считается `N` ||
 |#
 
 ## Примеры кода
@@ -67,18 +66,8 @@ fields:
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TYPE_ID":"1C","NAME":"Дело 1C","ICON_FILE":"@type-icon","IS_CONFIGURABLE_TYPE":"N"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"TYPE_ID":"1C","NAME":"Дело 1C","ICON_FILE":["icon.png","iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="],"IS_CONFIGURABLE_TYPE":"N"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.type.add
-    ```
-
-    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически.
-    
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"fields":{"OWNER_TYPE_ID":1,"OWNER_ID":selectedEntityId,"PROVIDER_ID":"REST_APP","PROVIDER_TYPE_ID":"1C","SUBJECT":"Новое дело","COMPLETED":"N","RESPONSIBLE_ID":1,"DESCRIPTION":"Описание нового дела"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/crm.activity.add
     ```
 
 - JS (TS)
@@ -98,7 +87,7 @@ fields:
           fields: {
             TYPE_ID: '1C',
             NAME: '1C activity',
-            ICON_FILE: document.getElementById('type-icon'), // file input node
+            ICON_FILE: ['icon.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='], // file name and Base64 content
             IS_CONFIGURABLE_TYPE: 'N',
           },
         },
@@ -135,7 +124,7 @@ fields:
               fields: {
                 TYPE_ID: '1C',
                 NAME: '1C activity',
-                ICON_FILE: document.getElementById('type-icon'), // file input node
+                ICON_FILE: ['icon.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='], // file name and Base64 content
                 IS_CONFIGURABLE_TYPE: 'N',
               },
             },
@@ -168,14 +157,12 @@ fields:
     try:
         bitrix_response = client.crm.activity.type.add(
             fields={
-                "TYPE_ID": "CUSTOM_CALL",
-                "NAME": "Custom call",
-                "ICON_FILE": {
-                    "fileData": [
-                        "activity-type.svg",
-                        "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
-                    ],
-                },
+                "TYPE_ID": "1C",
+                "NAME": "Дело 1C",
+                "ICON_FILE": [
+                    "icon.png",
+                    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+                ],
                 "IS_CONFIGURABLE_TYPE": "N",
             },
         ).response
@@ -207,12 +194,12 @@ fields:
                     'fields' => [
                         'TYPE_ID'            => '1C',
                         'NAME'               => 'Дело 1C',
-                        'ICON_FILE'          => $_FILES['type-icon'], // file input node
+                        'ICON_FILE'          => ['icon.png', base64_encode(file_get_contents('icon.png'))],
                         'IS_CONFIGURABLE_TYPE' => 'N',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -245,32 +232,6 @@ fields:
     );
     ```
 
-    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически. 
-
-    ```js
-    BX24.callMethod(
-        'crm.activity.add',
-        {
-            fields:
-            {
-                "OWNER_TYPE_ID": 1,
-                "OWNER_ID": selectedEntityId,
-                "PROVIDER_ID": 'REST_APP',
-                "PROVIDER_TYPE_ID": '1C',
-                "SUBJECT": "Новое дело",
-                "COMPLETED": "N",
-                "RESPONSIBLE_ID": 1,
-                "DESCRIPTION": "Описание нового дела"
-            }
-        }, result => {
-            if (result.error())
-                console.error(result.error());
-            else
-                console.dir(result.data());
-        }
-    );
-    ```
-
 - PHP CRest
 
     ```php
@@ -282,34 +243,8 @@ fields:
             'fields' => [
                 'TYPE_ID' => '1C',
                 'NAME' => 'Дело 1C',
-                'ICON_FILE' => $_FILES['type-icon'], // Assuming file input is handled
+                'ICON_FILE' => ['icon.png', base64_encode(file_get_contents('icon.png'))],
                 'IS_CONFIGURABLE_TYPE' => 'N'
-            ]
-        ]
-    );
-
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
-    ```
-
-    После этого достаточно при создании дела указывать свой тип, иконка и название будут подгружаться автоматически. 
-
-     ```php
-    require_once('crest.php');
-
-    $result = CRest::call(
-        'crm.activity.add',
-        [
-            'fields' => [
-                'OWNER_TYPE_ID' => 1,
-                'OWNER_ID' => $selectedEntityId, // Assuming this variable is defined
-                'PROVIDER_ID' => 'REST_APP',
-                'PROVIDER_TYPE_ID' => '1C',
-                'SUBJECT' => 'Новое дело',
-                'COMPLETED' => 'N',
-                'RESPONSIBLE_ID' => 1,
-                'DESCRIPTION' => 'Описание нового дела'
             ]
         ]
     );
@@ -323,11 +258,12 @@ fields:
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
+    // iconBytes — содержимое файла иконки, например из os.ReadFile("icon.png")
     res, err := client.Core().Call(ctx, "crm.activity.type.add", b24.Params{
     	"fields": b24.Params{
     		"TYPE_ID":              "1C",
     		"NAME":                 "Дело 1C",
-    		"ICON_FILE":            "@type-icon",
+    		"ICON_FILE":            []string{"icon.png", base64.StdEncoding.EncodeToString(iconBytes)},
     		"IS_CONFIGURABLE_TYPE": "N",
     	},
     })
@@ -369,10 +305,10 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Корневой элемент ответа. Содержит:
-- `true` — в случае успеха
-- `false` — в случае неудачи (произошла ошибка)
-||
+[`boolean`](../../../../data-types.md) | Результат регистрации:
+
+- `true` — тип зарегистрирован
+- `false` — тип не зарегистрирован: не передан `TYPE_ID` или `NAME`, значение длиннее допустимого или ключи полей переданы не в верхнем регистре ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -383,8 +319,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "",
+    "error_description": "Type is already registered"
 }
 ```
 
@@ -393,17 +329,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `Access denied! Application context required` | Метод работает только в контексте приложений ||
-|| `Admin permissions required` | Метод доступен только администратору ||
-|| `INVALID_ARG_VALUE` | Не заполнено обязательное поле `TYPE_ID` ||
-|| `INVALID_ARG_VALUE` | Пользовательский тип дела с указанным `TYPE_ID` уже существует ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызывает пользователь без прав администратора ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван через входящий вебхук или без авторизации приложения ||
+|| `400` | Пустое значение | Type is already registered | Тип с таким `TYPE_ID` уже зарегистрирован текущим приложением ||
+|| `400` | Пустое значение | Type ID "CONFIGURABLE" is reserved | Передан `TYPE_ID` = `CONFIGURABLE` вместе с `IS_CONFIGURABLE_TYPE` = `Y` ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-type-list.md)
 - [{#T}](./crm-activity-type-delete.md)
+- [{#T}](../activity-base/crm-activity-add.md)
+- [{#T}](../configurable/crm-activity-configurable-add.md)

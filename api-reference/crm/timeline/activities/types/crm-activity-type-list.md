@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор, только в контексте [приложения](../../../../../settings/app-installation/index.md)
 
-Метод `crm.activity.type.list` получает список пользовательских типов дел, зарегистрированных приложением.
+Метод `crm.activity.type.list` получает список пользовательских типов дел, которые зарегистрировало текущее приложение.
 
 ## Параметры метода
 
@@ -54,16 +54,10 @@
     }
 
     try {
-      // crm.activity.type.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.activity.type.list returns all types of the current application at once, without pagination
       const response = await $b24.actions.v2.call.make<ActivityTypeItem[]>({
         method: 'crm.activity.type.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -91,16 +85,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.activity.type.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.activity.type.list returns all types of the current application at once, without pagination
           const response = await $b24.actions.v2.call.make({
             method: 'crm.activity.type.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -155,7 +143,7 @@
                 'crm.activity.type.list',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -217,12 +205,6 @@
     for _, it := range items {
     	fmt.Println(it.TypeID, it.Name)
     }
-
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
     ```
 
 {% endlist %}
@@ -259,19 +241,37 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../../data-types.md) | Корневой элемент ответа, содержащий массив объектов с информацией о пользовательских типах дел, зарегистрированных приложением ||
+[`array`](../../../../data-types.md) | Массив типов дел текущего приложения [(подробное описание)](#type). Если приложение не зарегистрировало ни одного типа, возвращается пустой массив `[]` ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива result {#type}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TYPE_ID**
+[`string`](../../../../data-types.md) | Код типа дела. Его передают в `PROVIDER_TYPE_ID` метода [crm.activity.add](../activity-base/crm-activity-add.md) и в `typeId` метода [crm.activity.configurable.add](../configurable/crm-activity-configurable-add.md) ||
+|| **NAME**
+[`string`](../../../../data-types.md) | Название типа дела ||
+|| **IS_CONFIGURABLE_TYPE**
+[`string`](../../../../data-types.md) | Признак типа для конфигурируемых дел:
+
+- `Y` — тип используется в [crm.activity.configurable.add](../configurable/crm-activity-configurable-add.md)
+- `N` — тип используется в [crm.activity.add](../activity-base/crm-activity-add.md) ||
+|| **ICON_ID**
+[`string`](../../../../data-types.md) | Идентификатор файла иконки, например `"39755"`. Значение `"0"` — иконка не загружена ||
+|#
+
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **403**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "ACCESS_DENIED",
+    "error_description": "Access denied! Application context required"
 }
 ```
 
@@ -280,15 +280,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `Access denied! Application context required` | Метод работает только в контексте приложений ||
-|| `Admin permissions required` | Метод доступен только администратору ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызывает пользователь без прав администратора ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван через входящий вебхук или без авторизации приложения ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-type-add.md)
 - [{#T}](./crm-activity-type-delete.md)
+- [{#T}](../activity-base/crm-activity-add.md)
+- [{#T}](../configurable/crm-activity-configurable-add.md)

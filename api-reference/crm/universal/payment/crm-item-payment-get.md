@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на изменение заказа оплаты
+> Кто может выполнять метод: пользователь с правом на чтение заказа, к которому относится оплата
 
-Метод получает краткую информацию об оплате.
+Метод `crm.item.payment.get` возвращает статус, сумму и платежную систему оплаты по ее идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_payment.id`](../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты ||
+[`sale_order_payment.id`](../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты. Получить идентификаторы оплат объекта CRM можно методом [crm.item.payment.list](./crm-item-payment-list.md) ||
 |#
 
 ## Примеры кода
@@ -245,31 +245,33 @@
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
 ```json
 {
-   "result":{
-      "id":1036,
-      "accountNumber":"3653\/1",
-      "paid": "Y",
-      "datePaid":"2024-05-20T12:32:02+03:00",
-      "empPaidId":1,
-      "paySystemId":6,
-      "sum":0,
-      "currency":"RUB",
-      "paySystemName":"Наличные"
-   },
-   "time":{
-      "start":1716203536.414886,
-      "finish":1716203536.798211,
-      "duration":0.38332509994506836,
-      "processing":0.052394866943359375,
-      "date_start":"2024-05-20T14:12:16+03:00",
-      "date_finish":"2024-05-20T14:12:16+03:00"
-   }
+    "result": {
+        "id": 1036,
+        "accountNumber": "1049/1",
+        "paid": "Y",
+        "datePaid": "2026-10-28T18:59:33+03:00",
+        "empPaidId": 1,
+        "paySystemId": 11,
+        "sum": 3000,
+        "currency": "RUB",
+        "paySystemName": "Наличные"
+    },
+    "time": {
+        "start": 1793203175,
+        "finish": 1793203175.965445,
+        "duration": 0.9654450416564941,
+        "processing": 0,
+        "date_start": "2026-10-28T18:59:35+03:00",
+        "date_finish": "2026-10-28T18:59:35+03:00",
+        "operating_reset_at": 1793203740,
+        "operating": 0
+    }
 }
 ```
 
@@ -279,12 +281,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`sale_order_payment_crm_simple`](#sale_order_payment_crm_simple) | Объект, содержащий краткую информацию об оплате  ||
+[`sale_order_payment_crm_simple`](#sale_order_payment_crm_simple) | Данные оплаты [(подробное описание)](#sale_order_payment_crm_simple) ||
 || **time**
 [`time`](../../../../api-reference/data-types.md) | Информация о времени выполнения запроса ||
 |#
 
-### Ключ result. Объект типа sale_order_payment_crm_simple {#sale_order_payment_crm_simple}
+#### sale_order_payment_crm_simple {#sale_order_payment_crm_simple}
 
 #|
 || **Название**
@@ -292,27 +294,28 @@ HTTP-статус: **200**
 || **id**
 [`sale_order_payment.id`](../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты ||
 || **accountNumber**
-[`string`](../../../../api-reference/data-types.md) | Системный номер оплаты ||
+[`string`](../../../../api-reference/data-types.md) | Номер оплаты в формате `номер заказа/порядковый номер оплаты`, например `1045/1` ||
 || **paid**
-[`string`](../../../../api-reference/data-types.md) | Статус оплаты
-
-Возможные значения:
-- `Y` – Оплачена
-- `N` – Не оплачена ||
+[`string`](../../../../api-reference/data-types.md) | Статус оплаты:
+- `Y` — оплачена
+- `N` — не оплачена ||
 || **datePaid**
-[`datetime`](../../../../api-reference/data-types.md) | Дата оплаты ||
+[`datetime`](../../../../api-reference/data-types.md) | Дата и время, когда оплату последний раз отметили оплаченной. `null`, если оплату ни разу не проводили.
+
+После [crm.item.payment.unpay](./crm-item-payment-unpay.md) значение сохраняется ||
 || **empPaidId**
-[`user.id`](../../../../api-reference/data-types.md)| Пользователь, который внес оплату ||
+[`user.id`](../../../../api-reference/data-types.md) | Идентификатор пользователя, который последним отметил оплату оплаченной. `null`, если оплату ни разу не проводили.
+
+После [crm.item.payment.unpay](./crm-item-payment-unpay.md) значение сохраняется ||
 || **paySystemId**
 [`sale_paysystem.id`](../../../sale/data-types.md#sale_paysystem) | Идентификатор платежной системы ||
 || **sum**
-[`double`](../../../../api-reference/data-types.md) | Сумма оплаты ||
+[`double`](../../../../api-reference/data-types.md) | Сумма оплаты. Пересчитывается автоматически, когда в оплату добавляют или из нее удаляют товары и доставку ||
 || **currency**
 [`string`](../../../../api-reference/data-types.md) | Валюта оплаты ||
 || **paySystemName**
-[`string`](../../../../api-reference/data-types.md) | Наименование платежной системы ||
+[`string`](../../../../api-reference/data-types.md) | Название платежной системы ||
 |#
-
 
 ## Обработка ошибок
 
@@ -320,8 +323,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"Недостаточно прав"
+    "error": "0",
+    "error_description": "Payment has not been found"
 }
 ```
 
@@ -330,16 +333,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Оплата не найдена или доступ запрещен ||
-|| `100` | Не указан параметр id ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Payment has not been found | Оплата с переданным `id` не найдена ||
+|| `400` | `ACCESS_DENIED` | Access denied | Нет права на чтение заказа, к которому относится оплата ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 |#
 
-{% include notitle [системные ошибки](../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./products-in-payment/index.md)
+- [{#T}](./delivery-in-payment/index.md)
 - [{#T}](./crm-item-payment-update.md)
 - [{#T}](./crm-item-payment-delete.md)
 - [{#T}](./crm-item-payment-list.md)

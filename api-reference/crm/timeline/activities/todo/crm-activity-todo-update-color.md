@@ -23,17 +23,28 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например  `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор обновляемого дела, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`. Закрытое дело изменить нельзя ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), в таймлайне которого находится дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например, `1` ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, в таймлайне которого находится дело, например `1`.
+
+Значения `ownerTypeId` и `ownerId` возвращает метод [crm.activity.get](../activity-base/crm-activity-get.md) в полях `OWNER_TYPE_ID` и `OWNER_ID`. Если дело не относится к этому элементу, метод вернет ошибку `NOT_FOUND` ||
 || **colorId***
-[`string`](../../../../data-types.md) | Идентификатор цвета дела в таймлайне, например `1`. Для выбора доступно 8 цветов, значения от 1 до 7 и цвет по умолчанию, если ничего не указано:
+[`string`](../../../../data-types.md) | Идентификатор нового цвета дела в таймлайне. Передавайте значение строкой, например `"3"`: число вызовет ошибку `100`. Возможные значения:
 
-![Доступные цвета](./_images/colors.png)
+- `default` — желтый, цвет по умолчанию
+- `1` — синий
+- `2` — бирюзовый
+- `3` — оранжевый
+- `4` — зеленый
+- `5` — фиолетовый
+- `6` — серый
+- `7` — розовый
 
-||
+Если значение не из списка, метод вернет ошибку `0` с описанием `Некорректное значение цвета` ||
 |#
 
 ## Примеры кода
@@ -151,8 +162,8 @@
         bitrix_response = client.crm.activity.todo.update_color(
             bitrix_id=999,
             owner_type_id=2,
-            owner_id=101,
-            color_id="5",
+            owner_id=1,
+            color_id="3",
         ).response
         result = bitrix_response.result
         print(result)
@@ -185,7 +196,7 @@
                     'colorId'     => '3',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -206,7 +217,7 @@
             ownerTypeId: 2,
             ownerId: 1,
             colorId: '3'
-        }, 
+        },
         result => {
             if (result.error())
                 console.error(result.error());
@@ -288,9 +299,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | В случае успеха возвращает объект, содержащий идентификатор обновлённого дела `id`, в случае ошибки = `null` ||
+[`object`](../../../../data-types.md) | Объект с идентификатором обновленного дела [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного дела, совпадает с переданным `id` ||
 |#
 
 ## Обработка ошибок
@@ -299,8 +319,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "0",
+    "error_description": "Некорректное значение цвета"
 }
 ```
 
@@ -309,21 +329,25 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент CRM не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `CAN_NOT_UPDATE_COLOR_COMPLETED_TODO` | Невозможно изменить цвет в закрытом деле ||
-|| `CAN_NOT_UPDATE_WRONG_COLOR_TODO` | Некорректное значение цвета ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {colorId} | Не передан обязательный параметр `id`, `ownerTypeId`, `ownerId` или `colorId`. В описании указано имя параметра ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с таким `id` не найдено или не относится к элементу CRM из `ownerTypeId` и `ownerId` ||
+|| `400` | `100` | Invalid value {3} to match with parameter {colorId}. Should be value of type string. | Значение `colorId` передано числом, а не строкой ||
+|| `400` | `0` | Некорректное значение цвета | Значение `colorId` не входит в список допустимых ||
+|| `400` | `0` | Невозможно изменить цвет в закрытом деле | Дело закрыто, изменять его нельзя ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на редактирование элемента CRM ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-todo-add.md)
 - [{#T}](./crm-activity-todo-update.md)
 - [{#T}](./crm-activity-todo-update-deadline.md)
 - [{#T}](./crm-activity-todo-update-description.md)
 - [{#T}](./crm-activity-todo-update-responsible-user.md)
+- [{#T}](../activity-base/crm-activity-get.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)

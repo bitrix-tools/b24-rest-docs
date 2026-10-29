@@ -11,7 +11,7 @@
 
 > Scope: [`documentgenerator`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на создание документов
+> Кто может выполнять метод: пользователь с правом на просмотр документов и на создание документов по шаблону
 
 Метод `documentgenerator.document.add` создает новый документ на основании шаблона.
 
@@ -568,41 +568,71 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор документа ||
+[`string`](../data-types.md) | Идентификатор документа. В ответе [documentgenerator.document.add](./document-generator-document-add.md) приходит числом ||
 || **title**
 [`string`](../data-types.md) | Название документа ||
 || **number**
 [`string`](../data-types.md) | Номер документа ||
 || **templateId**
-[`integer`](../data-types.md) | Идентификатор шаблона ||
+[`string`](../data-types.md) | Идентификатор шаблона ||
 || **provider**
 [`string`](../data-types.md) | Класс провайдера данных ||
 || **value**
-[`string`](../data-types.md) | Внешний идентификатор объекта ||
+[`string`](../data-types.md) | Внешний идентификатор объекта, для которого создан документ ||
 || **values**
 [`object`](../data-types.md) | Значения полей документа [(подробное описание)](#document-values) ||
 || **stampsEnabled**
 [`boolean`](../data-types.md) | Признак включенных печатей и подписей ||
 || **downloadUrl**
-[`string`](../data-types.md) | Ссылка на скачивание DOCX для пользователя ||
+[`string`](../data-types.md) | Ссылка на скачивание DOCX ||
 || **downloadUrlMachine**
 [`string`](../data-types.md) | Ссылка на скачивание DOCX для приложения ||
+|| **pdfUrl**
+[`string`](../data-types.md) | Ссылка на скачивание PDF.
+
+Поле приходит, только когда PDF уже сформирован. Конвертация выполняется асинхронно, поэтому сразу после создания или изменения документа поля обычно нет ||
+|| **pdfUrlMachine**
+[`string`](../data-types.md) | Ссылка на скачивание PDF для приложения. Приходит вместе с `pdfUrl` ||
+|| **printUrl**
+[`string`](../data-types.md) | Ссылка на просмотр или печать PDF. Приходит вместе с `pdfUrl` ||
+|| **printUrlMachine**
+[`string`](../data-types.md) | Ссылка на просмотр или печать PDF для приложения. Приходит вместе с `pdfUrl` ||
+|| **imageUrl**
+[`string`](../data-types.md) | Ссылка на скачивание изображения документа.
+
+Поле приходит, только когда изображение уже сформировано ||
+|| **imageUrlMachine**
+[`string`](../data-types.md) | Ссылка на скачивание изображения для приложения. Приходит вместе с `imageUrl` ||
 || **publicUrl**
-[`string`](../data-types.md) | Публичная ссылка на документ, если она включена ||
+[`string`](../data-types.md) | Публичная ссылка на документ. Если ссылка не включена — `null`.
+
+Включить ссылку можно методом [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) ||
+|| **publicUrlView**
+[`object`](../data-types.md) | Данные о просмотре публичной ссылки [(подробное описание)](#public-url-view).
+
+Поле приходит, только если публичная ссылка включена ||
 || **isTransformationError**
-[`boolean`](../data-types.md) | Признак ошибки конвертации документа ||
+[`boolean`](../data-types.md) | Признак ошибки конвертации документа в PDF и изображение ||
+|| **transformationErrorCode**
+[`string`](../data-types.md) | Код ошибки конвертации. Поле приходит, только если `isTransformationError` = `true` ||
+|| **transformationErrorMessage**
+[`string`](../data-types.md) | Текст ошибки конвертации. Поле приходит, только если `isTransformationError` = `true` ||
+|| **transformationCancelReason**
+[`string`](../data-types.md) | Причина отмены конвертации. Поле приходит, только если конвертация была отменена ||
 || **pullTag**
 [`string`](../data-types.md) | Тег для подписки на обновление статуса конвертации ||
 || **emailDiskFile**
-[`integer`](../data-types.md) | Идентификатор файла на Диске для отправки по почте ||
+[`integer`](../data-types.md) | Идентификатор файла на Диске для отправки по почте: PDF-файла, если он сформирован, иначе DOCX-файла. Если файл не хранится на Диске — `0` ||
 || **createTime**
 [`datetime`](../data-types.md) | Время создания документа ||
-|| **updateTime**
-[`datetime`](../data-types.md) | Время последнего обновления документа ||
 || **createdBy**
-[`integer`](../data-types.md) | Идентификатор автора документа ||
+[`string`](../data-types.md) | Идентификатор автора документа. В ответе [documentgenerator.document.add](./document-generator-document-add.md) приходит числом.
+
+В ответе [documentgenerator.document.update](./document-generator-document-update.md) приходит `null`, а `createTime` содержит время изменения. Актуальные значения возвращает [documentgenerator.document.get](./document-generator-document-get.md) ||
+|| **updateTime**
+[`datetime`](../data-types.md) | Время последнего изменения документа ||
 || **updatedBy**
-[`integer`](../data-types.md) | Идентификатор пользователя, который обновил документ ||
+[`string`](../data-types.md) | Идентификатор пользователя, который последним изменил документ. Если документ не изменяли — `null`. В ответе [documentgenerator.document.update](./document-generator-document-update.md) приходит числом ||
 |#
 
 #### Объект values {#document-values}
@@ -616,6 +646,15 @@ HTTP-статус: **200**
 [`boolean`](../data-types.md) | Признак включенных печатей и подписей ||
 || **<код_поля>**
 [`string`](../data-types.md) | Значение поля из шаблона по его коду ||
+|#
+
+#### Объект publicUrlView {#public-url-view}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **time**
+[`datetime`](../data-types.md) | Время последнего просмотра публичной ссылки. Если ссылку еще не открывали — `null` ||
 |#
 
 {% note info "" %}
@@ -641,12 +680,13 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Bitrix\DocumentGenerator\Template constructor must be is public | Не передан обязательный параметр `templateId` ||
+|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
 || `400` | `0` | Empty required parameter "value" | Не передан обязательный параметр `value` ||
 || `400` | `0` | Cannot create document on deleted template | Нельзя создать документ по удаленному шаблону ||
 || `400` | `0` | Шаблон не найден | Шаблона с указанным `templateId` не существует ||
 || `400` | `0` | Cannot create document | Не удалось создать документ ||
-|| `400` | `0` | You do not have permissions to view documents | Недостаточно прав для просмотра документов ||
+|| `400` | `0` | You do not have permissions to view documents | Нет права на просмотр документов ||
+|| `400` | `0` | You do not have permissions to create document on this template | Нет права на создание документов по шаблону с указанным `templateId` ||
 || `400` | `0` | Maximum count of documents has been reached | Достигнут лимит документов на тарифе ||
 || `403` | `DOCGEN_ACCESS_ERROR` | Access denied | Недостаточно прав на создание документа ||
 |#

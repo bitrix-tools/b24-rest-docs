@@ -16,7 +16,7 @@
 >   - Пользователь имеет право устанавливать общие и чужие настройки только если он является администратором
 
 
-Метод `crm.item.details.configuration.set` устанавливает настройки карточки определенного объекта CRM. Записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
+Метод `crm.item.details.configuration.set` сохраняет личную или общую конфигурацию разделов карточки объекта CRM. Переданный `data` полностью заменяет текущую конфигурацию: разделы и поля, которых нет в `data`, исчезают из карточки.
 
 {% include [Памятка о extras](./_includes/extras_notice.md) %}
 
@@ -30,7 +30,9 @@
 || **entityTypeId***
 [`integer`](../../../data-types.md) | Идентификатор [системного](./../../index.md) или [пользовательского типа](./../user-defined-object-types/index.md) объектов CRM ||
 || **data***
-[`section[]`](#section)| Список `section` описывающий конфигурацию разделов полей в карточке элемента. Структура `section` описана ниже ||
+[`section[]`](#section) | Массив разделов карточки в порядке вывода [(подробное описание)](#section).
+
+Передавайте конфигурацию целиком, а не только изменения: метод не объединяет `data` с сохраненной конфигурацией. Чтобы изменить один раздел, получите текущую конфигурацию методом [crm.item.details.configuration.get](./crm-item-details-configuration-get.md), измените ее и передайте полностью ||
 || **userId**
 [`user`](../../../data-types.md) | Идентификатор пользователя, для которого вы хотите установить конфигурацию.
 
@@ -63,12 +65,14 @@
 [`string`](../../../data-types.md) | Уникальное название раздела ||
 || **title***
 [`string`](../../../data-types.md) | Название раздела. Отображается в карточке элемента ||
-|| **type***
-[`string`](../../../data-types.md) | Тип раздела. 
+|| **type**
+[`string`](../../../data-types.md) | Тип раздела. Допустимо только значение `section`.
 
-На данный момент доступно только значение `'section'` ||
+Если параметр не передан, используется `section` ||
 || **elements**
-[`section_element[]`](#section_element) | Массив `section_element`, описывающий конфигурацию полей в разделе ||
+[`section_element[]`](#section_element) | Массив полей раздела в порядке вывода [(подробное описание)](#section_element).
+
+Если параметр не передан, раздел сохраняется без полей ||
 |#
 
 #### section_element
@@ -848,17 +852,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | Parameter 'entityTypeId' is not defined | Не передан обязательный параметр `entityTypeId` ||
-|| Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Метод не поддерживает данный тип сущности ||
-|| Пустое значение | Access denied. | У пользователя нет административных прав ||
-|| Пустое значение | Parameter 'data' must be array. | В `data` передан не массив ||
-|| Пустое значение | The data must be indexed array. | В `data` передан не индексированный массив ||
-|| Пустое значение | There are no data to write. | В `data` передан пустой массив ||
-|| Пустое значение | Section at index `i` have type `data[i].type`. The expected type is 'section'. | В `data[i].type` находится значение отличное от `'section'` || 
-|| Пустое значение | Section at index `i` does not have name. | В `data[i].name` передано пустое значение ||
-|| Пустое значение | Section at index `i` does not have title. | В `data[i].title` передано пустое значение ||
-|| Пустое значение | Element at index `j` in section at index `i` does not have name. | В `data[i].elements[j].name` передано пустое значение ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Parameter 'entityTypeID' is not defined | Не передан обязательный параметр `entityTypeId` или передан несуществующий тип объекта CRM ||
+|| `400` | Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Тип объекта CRM не поддерживает настройку карточки, например `ACTIVITY` ||
+|| `400` | Пустое значение | Access denied. | Изменяются общие настройки или личные настройки другого пользователя, а у пользователя нет прав администратора ||
+|| `400` | Пустое значение | Parameter 'data' must be array. | В `data` передан не массив ||
+|| `400` | Пустое значение | The data must be indexed array. | В `data` передан не индексированный массив ||
+|| `400` | Пустое значение | There are no data to write. | В `data` передан пустой массив ||
+|| `400` | Пустое значение | Section at index `i` have type `data[i].type`. The expected type is 'section'. | В `data[i].type` находится значение отличное от `'section'` ||
+|| `400` | Пустое значение | Section at index `i` does not have name. | В `data[i].name` передано пустое значение ||
+|| `400` | Пустое значение | Section at index `i` does not have title. | В `data[i].title` передано пустое значение ||
+|| `400` | Пустое значение | Element at index `j` in section at index `i` does not have name. | В `data[i].elements[j].name` передано пустое значение ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}

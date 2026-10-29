@@ -25,20 +25,22 @@
 
 1. Подготовьте название и иконку типа дела
 2. Зарегистрируйте тип методом [crm.activity.type.add](./crm-activity-type-add.md). Если тип нужен для конфигурируемых дел, передайте `IS_CONFIGURABLE_TYPE = Y`
-3. Получите список зарегистрированных типов методом [crm.activity.type.list](./crm-activity-type-list.md)
+3. Получите список зарегистрированных типов методом [crm.activity.type.list](./crm-activity-type-list.md). Метод возвращает все типы приложения сразу, без постраничной навигации
 4. Удалите пользовательский тип методом [crm.activity.type.delete](./crm-activity-type-delete.md), если он больше не нужен
 
 ## Требования к типу дела
 
-Код `TYPE_ID` обязателен и должен быть уникальным среди типов текущего приложения. Название `NAME` и иконка `ICON_FILE` необязательны: без `NAME` тип будет зарегистрирован с пустым названием, а без `ICON_FILE` — без собственной иконки. Иконку передавайте как файл по [правилам загрузки файлов](../../../../files/how-to-upload-files.md).
+Код `TYPE_ID` и название `NAME` обязательны. Код не длиннее 100 символов и уникален среди типов текущего приложения, название не длиннее 255 символов. Если `TYPE_ID` или `NAME` пустые или длиннее допустимого, метод возвращает `false` без ошибки.
 
-После регистрации значение `TYPE_ID` используют как код типа дела. Чтобы создать обычное дело с этим типом, передайте код в поле `PROVIDER_TYPE_ID` метода [crm.activity.add](../activity-base/crm-activity-add.md). Например, для зарегистрированного `TYPE_ID = CUSTOM_CALL` укажите `PROVIDER_TYPE_ID = CUSTOM_CALL`.
+Иконка `ICON_FILE` необязательна. Передавайте ее [массивом из имени файла и содержимого в Base64](../../../../files/how-to-upload-files.md#array), например `["icon.png", "iVBORw0KGgo..."]`. Без иконки тип регистрируется без собственной иконки.
+
+После регистрации значение `TYPE_ID` используют как код типа дела. Чтобы создать обычное дело с этим типом, вызовите [crm.activity.add](../activity-base/crm-activity-add.md) из того же приложения и передайте `PROVIDER_ID` = `REST_APP` и `PROVIDER_TYPE_ID` = код типа. Например, для зарегистрированного `TYPE_ID = CUSTOM_CALL` укажите `PROVIDER_TYPE_ID = CUSTOM_CALL`.
 
 ## Связь с конфигурируемыми делами
 
 Пользовательский тип с `IS_CONFIGURABLE_TYPE = Y` можно передать в поле `typeId` метода [crm.activity.configurable.add](../configurable/crm-activity-configurable-add.md). Если `IS_CONFIGURABLE_TYPE = N`, тип нельзя использовать для конфигурируемого дела.
 
-Типы привязаны к приложению, которое их зарегистрировало. Метод [crm.activity.type.list](./crm-activity-type-list.md) возвращает типы текущего приложения.
+Типы привязаны к приложению, которое их зарегистрировало. Метод [crm.activity.type.list](./crm-activity-type-list.md) возвращает типы текущего приложения, а [crm.activity.type.delete](./crm-activity-type-delete.md) удаляет только их.
 
 ## Обзор методов {#all-methods}
 

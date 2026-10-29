@@ -392,7 +392,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Bitrix\DocumentGenerator\Template constructor must be is public | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `id` ||
 || `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов ||
 |#

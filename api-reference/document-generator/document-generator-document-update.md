@@ -11,7 +11,7 @@
 
 > Scope: [`documentgenerator`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на изменение документов
+> Кто может выполнять метод: пользователь с правом на просмотр документов и на изменение этого документа
 
 Метод `documentgenerator.document.update` обновляет документ новыми значениями полей.
 
@@ -413,10 +413,10 @@ HTTP-статус: **200**
             "title": "SUPPLY_CONTRACT Template 1773843147554 ДГ-2026-001",
             "number": "ДГ-2026-001",
             "id": "51",
-            "createTime": "2026-03-18T17:27:48+03:00",
-            "createdBy": "503",
-            "updateTime": "2026-03-18T17:27:48+03:00",
-            "updatedBy": null,
+            "createTime": "2026-03-19T15:08:20+03:00",
+            "createdBy": null,
+            "updateTime": "2026-03-19T15:08:19+03:00",
+            "updatedBy": 503,
             "stampsEnabled": true,
             "isTransformationError": false,
             "value": "SUPPLY_CONTRACT_2026_015",
@@ -424,11 +424,12 @@ HTTP-статус: **200**
                 "productsTableVariant": "",
                 "_creationMethod": "rest",
                 "stampsEnabled": true,
+                "DocumentNumber": "ДГ-2026-001",
                 "CurrentDate": "2026-03-20T00:00:00+03:00",
                 "ClientName": "ООО Ромашка",
                 "ClientPhone": "+7 999 123-45-67",
                 "Total": "130000",
-                "Comment": "Оплата в течение 5 рабочих дней после подписания",
+                "Comment": "Оплата в течение 3 рабочих дней после подписания",
                 "UserName": "Иван Петров"
             },
             "publicUrlView": {
@@ -437,14 +438,8 @@ HTTP-статус: **200**
             "templateId": "53",
             "provider": "Bitrix\\DocumentGenerator\\DataProvider\\Rest",
             "pullTag": "TRANSFORMDOCUMENT51",
-            "imageUrl": "/bitrix/services/main/ajax.php?action=documentgenerator.api.document.getimage&SITE_ID=s1&id=51&ts=1773844068",
-            "pdfUrl": "/bitrix/services/main/ajax.php?action=documentgenerator.api.document.getpdf&SITE_ID=s1&id=51&ts=1773844068",
-            "printUrl": "/bitrix/services/main/ajax.php?action=documentgenerator.api.document.showpdf&SITE_ID=s1&id=51&print=y&ts=1773844068",
             "emailDiskFile": 5573,
-            "downloadUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getfile.json?auth=1fe8bb690000071b00000844000001f7f0f107826a2f4f01a384d1dcdb624764d8ea63&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlJlNJVEVfSUQ9czEmaWQ9NTEmdHM9MTc3Mzg0NDA2OCZfPVptQjFqSzNTNlhtMm5EbUR6OFV6YlJydExGbGtaOGpF%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlfGRvY3VtZW50Z2VuZXJhdG9yfFlXTjBhVzl1UFdSdlkzVnRaVzUwWjJWdVpYSmhkRzl5TG1Gd2FTNWtiMk4xYldWdWRDNW5aWFJtYVd4bEpsTkpWRVZmU1VROWN6RW1hV1E5TlRFbWRITTlNVGMzTXpnME5EQTJPQ1pmUFZwdFFqRnFTek5UTmxodE1tNUViVVI2T0ZWNllsSnlkRXhHYkd0YU9HcEZ8MWZlOGJiNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDc4MjZhMmY0ZjAxYTM4NGQxZGNkYjYyNDc2NGQ4ZWE2MyI%3D.Cifk0KKcqbktmPy6ARfXPn7dO71%2FP4MY5xys1%2FGF%2FBc%3D",
-            "imageUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getimage.json?auth=1fe8bb690000071b00000844000001f7f0f107826a2f4f01a384d1dcdb624764d8ea63&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRpbWFnZSZTSVRFX0lEPXMxJmlkPTUxJnRzPTE3NzM4NDQwNjgmXz1GOTV5aUg2SnN2UTlrZjRnQnNBN2Z6NXpxVjIxSzB1Zg%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRpbWFnZXxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzVrYjJOMWJXVnVkQzVuWlhScGJXRm5aU1pUU1ZSRlgwbEVQWE14Sm1sa1BUVXhKblJ6UFRFM056TTRORFF3TmpnbVh6MUdPVFY1YVVnMlNuTjJVVGxyWmpSblFuTkJOMlo2TlhweFZqSXhTekIxWmc9PXwxZmU4YmI2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzgyNmEyZjRmMDFhMzg0ZDFkY2RiNjI0NzY0ZDhlYTYzIg%3D%3D.r2wwtKof5kdIyUr8xek%2B8XThT4RG48ZMcLABVjsa0Zk%3D",
-            "pdfUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getpdf.json?auth=1fe8bb690000071b00000844000001f7f0f107826a2f4f01a384d1dcdb624764d8ea63&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRwZGYmU0lURV9JRD1zMSZpZD01MSZ0cz0xNzczODQ0MDY4Jl89UnUxUGRvM2RWV0xXTEhXZDhhNW9VeThDTlVsWlJTd3M%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRwZGZ8ZG9jdW1lbnRnZW5lcmF0b3J8WVdOMGFXOXVQV1J2WTNWdFpXNTBaMlZ1WlhKaGRHOXlMbUZ3YVM1a2IyTjFiV1Z1ZEM1blpYUndaR1ltVTBsVVJWOUpSRDF6TVNacFpEMDFNU1owY3oweE56Y3pPRFEwTURZNEpsODlVblV4VUdSdk0yUldWMHhYVEVoWFpEaGhOVzlWZVRoRFRsVnNXbEpUZDNNPXwxZmU4YmI2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzgyNmEyZjRmMDFhMzg0ZDFkY2RiNjI0NzY0ZDhlYTYzIg%3D%3D.u%2Bkuio%2FsYEU93FKvdsODqjyEAZ7WpP0M9We%2BurZvjUk%3D",
-            "printUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.showpdf.json?auth=1fe8bb690000071b00000844000001f7f0f107826a2f4f01a384d1dcdb624764d8ea63&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5zaG93cGRmJlNJVEVfSUQ9czEmaWQ9NTEmcHJpbnQ9eSZ0cz0xNzczODQ0MDY4Jl89cXFmSUhjODk1MTI4RXRWQXE3Nk5UNEdzN1dHWTlZdjU%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5zaG93cGRmfGRvY3VtZW50Z2VuZXJhdG9yfFlXTjBhVzl1UFdSdlkzVnRaVzUwWjJWdVpYSmhkRzl5TG1Gd2FTNWtiMk4xYldWdWRDNXphRzkzY0dSbUpsTkpWRVZmU1VROWN6RW1hV1E5TlRFbWNISnBiblE5ZVNaMGN6MHhOemN6T0RRME1EWTRKbDg5Y1hGbVNVaGpPRGsxTVRJNFJYUldRWEUzTms1VU5FZHpOMWRIV1RsWmRqVT18MWZlOGJiNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDc4MjZhMmY0ZjAxYTM4NGQxZGNkYjYyNDc2NGQ4ZWE2MyI%3D.s%2F4zPE4fPTMvZImi5pumUXn5s0oB5nwVbw3rFIM34eo%3D"
+            "downloadUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getfile.json?auth=1fe8bb690000071b00000844000001f7f0f107826a2f4f01a384d1dcdb624764d8ea63&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlJlNJVEVfSUQ9czEmaWQ9NTEmdHM9MTc3Mzg0NDA2OCZfPVptQjFqSzNTNlhtMm5EbUR6OFV6YlJydExGbGtaOGpF%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlfGRvY3VtZW50Z2VuZXJhdG9yfFlXTjBhVzl1UFdSdlkzVnRaVzUwWjJWdVpYSmhkRzl5TG1Gd2FTNWtiMk4xYldWdWRDNW5aWFJtYVd4bEpsTkpWRVZmU1VROWN6RW1hV1E5TlRFbWRITTlNVGMzTXpnME5EQTJPQ1pmUFZwdFFqRnFTek5UTmxodE1tNUViVVI2T0ZWNllsSnlkRXhHYkd0YU9HcEZ8MWZlOGJiNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDc4MjZhMmY0ZjAxYTM4NGQxZGNkYjYyNDc2NGQ4ZWE2MyI%3D.Cifk0KKcqbktmPy6ARfXPn7dO71%2FP4MY5xys1%2FGF%2FBc%3D"
         }
     },
     "time": {
@@ -486,7 +481,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../data-types.md) | Идентификатор документа ||
+[`string`](../data-types.md) | Идентификатор документа. В ответе [documentgenerator.document.add](./document-generator-document-add.md) приходит числом ||
 || **title**
 [`string`](../data-types.md) | Название документа ||
 || **number**
@@ -496,51 +491,61 @@ HTTP-статус: **200**
 || **provider**
 [`string`](../data-types.md) | Класс провайдера данных ||
 || **value**
-[`string`](../data-types.md) | Внешний идентификатор объекта ||
-|| **fileId**
-[`integer`](../data-types.md) | Идентификатор DOCX-файла на Диске ||
-|| **imageId**
-[`integer`](../data-types.md) | Идентификатор изображения предпросмотра на Диске ||
-|| **pdfId**
-[`integer`](../data-types.md) | Идентификатор PDF-файла на Диске ||
+[`string`](../data-types.md) | Внешний идентификатор объекта, для которого создан документ ||
 || **values**
 [`object`](../data-types.md) | Значения полей документа [(подробное описание)](#document-values) ||
 || **stampsEnabled**
 [`boolean`](../data-types.md) | Признак включенных печатей и подписей ||
 || **downloadUrl**
-[`string`](../data-types.md) | Ссылка на скачивание DOCX для пользователя ||
-|| **pdfUrl**
-[`string`](../data-types.md) | Ссылка на скачивание PDF для пользователя ||
-|| **imageUrl**
-[`string`](../data-types.md) | Ссылка на изображение предпросмотра для пользователя ||
-|| **printUrl**
-[`string`](../data-types.md) | Ссылка на печатную форму PDF для пользователя ||
+[`string`](../data-types.md) | Ссылка на скачивание DOCX ||
 || **downloadUrlMachine**
 [`string`](../data-types.md) | Ссылка на скачивание DOCX для приложения ||
+|| **pdfUrl**
+[`string`](../data-types.md) | Ссылка на скачивание PDF.
+
+Поле приходит, только когда PDF уже сформирован. Конвертация выполняется асинхронно, поэтому сразу после создания или изменения документа поля обычно нет ||
 || **pdfUrlMachine**
-[`string`](../data-types.md) | Ссылка на скачивание PDF для приложения ||
-|| **imageUrlMachine**
-[`string`](../data-types.md) | Ссылка на изображение предпросмотра для приложения ||
+[`string`](../data-types.md) | Ссылка на скачивание PDF для приложения. Приходит вместе с `pdfUrl` ||
+|| **printUrl**
+[`string`](../data-types.md) | Ссылка на просмотр или печать PDF. Приходит вместе с `pdfUrl` ||
 || **printUrlMachine**
-[`string`](../data-types.md) | Ссылка на печатную форму PDF для приложения ||
+[`string`](../data-types.md) | Ссылка на просмотр или печать PDF для приложения. Приходит вместе с `pdfUrl` ||
+|| **imageUrl**
+[`string`](../data-types.md) | Ссылка на скачивание изображения документа.
+
+Поле приходит, только когда изображение уже сформировано ||
+|| **imageUrlMachine**
+[`string`](../data-types.md) | Ссылка на скачивание изображения для приложения. Приходит вместе с `imageUrl` ||
 || **publicUrl**
-[`string`](../data-types.md) | Публичная ссылка на документ, если она включена ||
+[`string`](../data-types.md) | Публичная ссылка на документ. Если ссылка не включена — `null`.
+
+Включить ссылку можно методом [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) ||
 || **publicUrlView**
-[`object`](../data-types.md) | Параметры публичной ссылки [(подробное описание)](#public-url-view) ||
+[`object`](../data-types.md) | Данные о просмотре публичной ссылки [(подробное описание)](#public-url-view).
+
+Поле приходит, только если публичная ссылка включена ||
 || **isTransformationError**
-[`boolean`](../data-types.md) | Признак ошибки конвертации документа ||
+[`boolean`](../data-types.md) | Признак ошибки конвертации документа в PDF и изображение ||
+|| **transformationErrorCode**
+[`string`](../data-types.md) | Код ошибки конвертации. Поле приходит, только если `isTransformationError` = `true` ||
+|| **transformationErrorMessage**
+[`string`](../data-types.md) | Текст ошибки конвертации. Поле приходит, только если `isTransformationError` = `true` ||
+|| **transformationCancelReason**
+[`string`](../data-types.md) | Причина отмены конвертации. Поле приходит, только если конвертация была отменена ||
 || **pullTag**
 [`string`](../data-types.md) | Тег для подписки на обновление статуса конвертации ||
 || **emailDiskFile**
-[`integer`](../data-types.md) | Идентификатор файла на Диске для отправки по почте ||
+[`integer`](../data-types.md) | Идентификатор файла на Диске для отправки по почте: PDF-файла, если он сформирован, иначе DOCX-файла. Если файл не хранится на Диске — `0` ||
 || **createTime**
 [`datetime`](../data-types.md) | Время создания документа ||
-|| **updateTime**
-[`datetime`](../data-types.md) | Время последнего обновления документа ||
 || **createdBy**
-[`string`](../data-types.md) | Идентификатор автора документа ||
+[`string`](../data-types.md) | Идентификатор автора документа. В ответе [documentgenerator.document.add](./document-generator-document-add.md) приходит числом.
+
+В ответе [documentgenerator.document.update](./document-generator-document-update.md) приходит `null`, а `createTime` содержит время изменения. Актуальные значения возвращает [documentgenerator.document.get](./document-generator-document-get.md) ||
+|| **updateTime**
+[`datetime`](../data-types.md) | Время последнего изменения документа ||
 || **updatedBy**
-[`integer`](../data-types.md) | Идентификатор пользователя, который обновил документ ||
+[`string`](../data-types.md) | Идентификатор пользователя, который последним изменил документ. Если документ не изменяли — `null`. В ответе [documentgenerator.document.update](./document-generator-document-update.md) приходит числом ||
 |#
 
 #### Объект values {#document-values}
@@ -584,9 +589,11 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Bitrix\DocumentGenerator\Document constructor must be is public | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 || `400` | `0` | Документ не найден | Документ с указанным `id` не найден ||
-|| `400` | `0` | You do not have permissions to view documents | Недостаточно прав на изменение документа ||
+|| `400` | `0` | You do not have permissions to view documents | Нет права на просмотр документов. Метод сначала проверяет это право, затем право на изменение документа ||
+|| `400` | `0` | You do not have permissions to modify this document | Есть право на просмотр документов, но нет права на изменение документа с указанным `id` ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу с указанным `id` ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

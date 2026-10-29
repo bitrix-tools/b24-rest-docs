@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: требуется право на чтение объекта CRM, из которого выбираются оплаты
 
-Метод получает список оплат конкретного объекта CRM.
+Метод `crm.item.payment.list` возвращает все оплаты сделки или счета одним ответом, без постраничной навигации.
 
 ## Параметры метода
 
@@ -23,15 +23,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../../../api-reference/data-types.md) | Идентификатор объекта CRM ||
+[`integer`](../../../../api-reference/data-types.md) | Идентификатор сделки или счета. Получить идентификатор можно методом [crm.item.list](../crm-item-list.md) ||
 || **entityTypeId***
-[`integer`](../../../../api-reference/data-types.md) | Идентификатор [`типа объекта CRM`](../../data-types.md#object_type)  ||
+[`integer`](../../../../api-reference/data-types.md) | Идентификатор [типа объекта CRM](../../data-types.md#object_type). Оплаты есть только у двух типов:
+- `2` — сделка
+- `31` — счет
+
+Для других типов метод возвращает пустой массив ||
 || **filter**
-[`object`](../../../../api-reference/data-types.md) | Дополнительный фильтр для случаев, когда нужно получить не все оплаты сущности, а по какому-то более специфичному фильтру.
-Описание формата приведено в параметре **filter** метода [`sale.payment.list`](../../../sale/payment/sale-payment-list.md)  ||
+[`object`](../../../../api-reference/data-types.md) | Фильтр по полям оплаты в формате `{"поле": "значение"}`. Можно отбирать по полям из [ответа метода](#sale_order_payment_crm_simple): `id`, `accountNumber`, `paid`, `datePaid`, `empPaidId`, `paySystemId`, `sum`, `currency`, `paySystemName`.
+
+К ключу можно добавить префикс оператора:
+- `=` — равно, используется по умолчанию
+- `!=` — не равно
+- `>`, `>=`, `<`, `<=` — больше, больше или равно, меньше, меньше или равно
+- `@` — входит в массив значений
+
+Например, `{"paid": "Y", ">sum": 1000}` вернет оплаченные оплаты на сумму больше 1000. Если передать поле, которого нет в оплате, метод вернет ошибку `Internal server error.` ||
 || **order**
-[`object`](../../../../api-reference/data-types.md) | Описание формата приведено в параметре **order** метода [`sale.payment.list`](../../../sale/payment/sale-payment-list.md) ||
+[`object`](../../../../api-reference/data-types.md) | Сортировка в формате `{"поле": "направление"}`. Поля те же, что в `filter`. Направление:
+- `ASC` — по возрастанию
+- `DESC` — по убыванию
+
+По умолчанию `{"id": "ASC"}` ||
 |#
+
+Метод не поддерживает параметр `start`: все оплаты объекта возвращаются в одном ответе.
 
 ## Примеры кода
 
@@ -83,11 +100,7 @@
     }
 
     try {
-      // crm.item.payment.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.item.payment.list returns all records in one response, without pagination
       const response = await $b24.actions.v2.call.make<PaymentItem[]>({
         method: 'crm.item.payment.list',
         params: {
@@ -96,7 +109,6 @@
           filter: {
             '@id': [1036, 1037],
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -125,11 +137,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.item.payment.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.item.payment.list returns all records in one response, without pagination
           const response = await $b24.actions.v2.call.make({
             method: 'crm.item.payment.list',
             params: {
@@ -138,7 +146,6 @@
               filter: {
                 '@id': [1036, 1037],
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -226,40 +233,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.item.payment.list(
-            entity_id=13123,
-            entity_type_id=2,
-            filter={
-                "@id": [
-                    1036,
-                    1037,
-                ],
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
-
 
     ```php
     try {
@@ -369,44 +343,46 @@
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
 ```json
 {
-   "result":[
-      {
-         "id":1036,
-         "accountNumber":"3653\/1",
-         "paid": "Y",
-         "datePaid":"2024-05-20T12:32:02+03:00",
-         "empPaidId":1,
-         "paySystemId":6,
-         "sum":0,
-         "currency":"RUB",
-         "paySystemName":"Наличные"
-      },
-      {
-         "id":1037,
-         "accountNumber":"3653\/2",
-         "paid": "N",
-         "datePaid":null,
-         "empPaidId":null,
-         "paySystemId":6,
-         "sum":0,
-         "currency":"RUB",
-         "paySystemName":"Наличные"
-      }
-   ],
-   "time":{
-      "start":1716205783.285524,
-      "finish":1716205783.702053,
-      "duration":0.41652917861938477,
-      "processing":0.15817594528198242,
-      "date_start":"2024-05-20T14:49:43+03:00",
-      "date_finish":"2024-05-20T14:49:43+03:00"
-   }
+    "result": [
+        {
+            "id": 1036,
+            "accountNumber": "1049/1",
+            "paid": "Y",
+            "datePaid": "2026-10-28T18:59:33+03:00",
+            "empPaidId": 1,
+            "paySystemId": 11,
+            "sum": 3000,
+            "currency": "RUB",
+            "paySystemName": "Наличные"
+        },
+        {
+            "id": 1037,
+            "accountNumber": "1049/2",
+            "paid": "N",
+            "datePaid": null,
+            "empPaidId": null,
+            "paySystemId": 19,
+            "sum": 3000,
+            "currency": "RUB",
+            "paySystemName": "ЮKassa"
+        }
+    ],
+    "time": {
+        "start": 1793203179,
+        "finish": 1793203179.129769,
+        "duration": 0.12976908683776855,
+        "processing": 0,
+        "date_start": "2026-10-28T18:59:39+03:00",
+        "date_finish": "2026-10-28T18:59:39+03:00",
+        "operating_reset_at": 1793203740,
+        "operating": 0
+    }
 }
 ```
 
@@ -416,9 +392,40 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`sale_order_payment_crm_simple[]`](crm-item-payment-get.md#sale_order_payment_crm_simple) | Массив объектов, содержащий краткую информацию о выбранных оплатах  ||
+[`sale_order_payment_crm_simple[]`](#sale_order_payment_crm_simple) | Массив оплат объекта CRM [(подробное описание)](#sale_order_payment_crm_simple). Если оплат нет, возвращается пустой массив ||
 || **time**
 [`time`](../../../../api-reference/data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### sale_order_payment_crm_simple {#sale_order_payment_crm_simple}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`sale_order_payment.id`](../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты ||
+|| **accountNumber**
+[`string`](../../../../api-reference/data-types.md) | Номер оплаты в формате `номер заказа/порядковый номер оплаты`, например `1045/1` ||
+|| **paid**
+[`string`](../../../../api-reference/data-types.md) | Статус оплаты:
+- `Y` — оплачена
+- `N` — не оплачена ||
+|| **datePaid**
+[`datetime`](../../../../api-reference/data-types.md) | Дата и время, когда оплату последний раз отметили оплаченной. `null`, если оплату ни разу не проводили.
+
+После [crm.item.payment.unpay](./crm-item-payment-unpay.md) значение сохраняется ||
+|| **empPaidId**
+[`user.id`](../../../../api-reference/data-types.md) | Идентификатор пользователя, который последним отметил оплату оплаченной. `null`, если оплату ни разу не проводили.
+
+После [crm.item.payment.unpay](./crm-item-payment-unpay.md) значение сохраняется ||
+|| **paySystemId**
+[`sale_paysystem.id`](../../../sale/data-types.md#sale_paysystem) | Идентификатор платежной системы ||
+|| **sum**
+[`double`](../../../../api-reference/data-types.md) | Сумма оплаты. Пересчитывается автоматически, когда в оплату добавляют или из нее удаляют товары и доставку ||
+|| **currency**
+[`string`](../../../../api-reference/data-types.md) | Валюта оплаты ||
+|| **paySystemName**
+[`string`](../../../../api-reference/data-types.md) | Название платежной системы ||
 |#
 
 ## Обработка ошибок
@@ -427,8 +434,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"Недостаточно прав"
+    "error": "100",
+    "error_description": "Could not find value for parameter {entityId}"
 }
 ```
 
@@ -437,16 +444,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Доступ запрещен ||
-|| `100` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {`имя параметра`} | Не передан обязательный параметр `entityId` или `entityTypeId` ||
+|| `400` | `100` | Internal server error. | В `filter` или `order` передано поле, которого нет в оплате ||
+|| `400` | `ACCESS_DENIED` | Access denied | Нет права на чтение объекта CRM ||
 |#
 
-{% include notitle [системные ошибки](../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./products-in-payment/index.md)
+- [{#T}](./delivery-in-payment/index.md)
 - [{#T}](./crm-item-payment-update.md)
 - [{#T}](./crm-item-payment-delete.md)
 - [{#T}](./crm-item-payment-get.md)

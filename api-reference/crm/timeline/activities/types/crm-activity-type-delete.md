@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор, только в контексте [приложения](../../../../../settings/app-installation/index.md)
 
-Метод `crm.activity.type.delete` удаляет пользовательский тип дел.
+Метод `crm.activity.type.delete` удаляет пользовательский тип дела, который зарегистрировало текущее приложение.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **TYPE_ID***
-[`string`](../../../../data-types.md) | Строковое значение типа дела, например `1C` ||
+[`string`](../../../../data-types.md) | Код типа дела, например `1C`. Получить коды типов приложения можно методом [crm.activity.type.list](./crm-activity-type-list.md).
+
+Удалить можно только тип, зарегистрированный текущим приложением. Вместе с типом удаляется файл его иконки ||
 |#
 
 ## Примеры кода
@@ -118,7 +120,7 @@
 
     try:
         bitrix_response = client.crm.activity.type.delete(
-            type_id="CUSTOM_CALL",
+            type_id="1C",
         ).response
         result = bitrix_response.result
         print(result)
@@ -148,7 +150,7 @@
                     'TYPE_ID' => '1C',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -237,10 +239,10 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Корневой элемент ответа. Содержит:
-- `true` — в случае успеха
-- `false` — в случае неудачи
-||
+[`boolean`](../../../../data-types.md) | Результат удаления:
+
+- `true` — тип удален
+- `false` — тип найден, но удалить его не удалось ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -251,26 +253,26 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "",
+    "error_description": "Type not found"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок 
+### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `Access denied! Application context required` | Метод работает только в контексте приложений ||
-|| `Admin permissions required` | Метод доступен только администратору ||
-|| `INVALID_ARG_VALUE` | Пользовательский тип дела с указанным `TYPE_ID` не существует ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! Admin permissions required | Метод вызывает пользователь без прав администратора ||
+|| `403` | `ACCESS_DENIED` | Access denied! Application context required | Метод вызван через входящий вебхук или без авторизации приложения ||
+|| `400` | Пустое значение | Type not found | `TYPE_ID` не передан или тип с таким кодом не зарегистрирован текущим приложением ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./crm-activity-type-list.md)
+- [{#T}](./index.md)
 - [{#T}](./crm-activity-type-add.md)
+- [{#T}](./crm-activity-type-list.md)
