@@ -79,7 +79,7 @@
 
 **База знаний.** Привязка Базы знаний к меню или группе описана в подразделе [Встраивание Базы знаний](./embedding/knowledge-base/index.md). Этими привязками управляют методы `landing.site.*`, потому что База знаний представлена как отдельный сайт.
 
-В модуле `landing` места встраивания регистрируют внутренним методом [landing.repo.bind](./embedding/landing-repo-bind.md), а не [placement.bind](../widgets/placement-bind.md). Удалить место встраивания текущего приложения можно методом [landing.repo.unbind](./embedding/landing-repo-unbind.md).
+В модуле `landing` места встраивания регистрируют внутренним методом [landing.repo.bind](./embedding/landing-repo-bind.md). Для `LANDING_SETTINGS` также подходит [placement.bind](../widgets/placement-bind.md), для `LANDING_BLOCK_*` — только `landing.repo.bind`. Удалить место встраивания текущего приложения можно методом [landing.repo.unbind](./embedding/landing-repo-unbind.md), а привязку через `placement.bind` — методом [placement.unbind](../widgets/placement-unbind.md).
 
 ## Типы сайтов и scope
 

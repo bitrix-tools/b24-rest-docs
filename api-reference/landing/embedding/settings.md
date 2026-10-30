@@ -20,7 +20,7 @@
 
 Если действие относится к отдельному блоку, используйте [LANDING_BLOCK_<CODE> или LANDING_BLOCK_*](./block.md).
 
-Место встраивания регистрируют методом [landing.repo.bind](./landing-repo-bind.md), а не [placement.bind](../../widgets/placement-bind.md). Метод работает только в контексте приложения, через вебхук место встраивания не зарегистрировать.
+Место встраивания регистрируют методом [landing.repo.bind](./landing-repo-bind.md) или [placement.bind](../../widgets/placement-bind.md). Удаляйте его тем же способом, которым регистрировали: методом [landing.repo.unbind](./landing-repo-unbind.md) или [placement.unbind](../../widgets/placement-unbind.md). Методы работают только в контексте приложения, через вебхук место встраивания не зарегистрировать.
 
 {% note info "" %}
 
