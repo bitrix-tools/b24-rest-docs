@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Bot.unregister` удаляет бота.
+Метод `imbot.v2.Bot.unregister` удаляет бота. Он заменяет метод [imbot.unregister](../../../outdated/bots/imbot-unregister.md) первой версии API, соответствие параметров — в [таблице миграции](../../migration.md#metody).
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `Тип` | **Описание** ||
 || **botId***
-[`integer`](../../../../data-types.md) | ID бота ||
+[`integer`](../../../../data-types.md) | ID бота. Его возвращает метод [imbot.v2.Bot.register](./bot-register.md) в поле `result.bot.id` ||
 || **botToken**
 [`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
 
@@ -56,19 +56,80 @@
       https://**put_your_bitrix24_address**/rest/imbot.v2.Bot.unregister
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('imbot.v2.Bot.unregister', {
-        botId: 456,
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      const { result } = response.getData();
-      console.log('result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type BotUnregisterResult = {
+      result: boolean
     }
+
+    try {
+      const response = await $b24.actions.v2.call.make<BotUnregisterResult>({
+        method: 'imbot.v2.Bot.unregister',
+        params: {
+          botId: 456,
+          botToken: 'my_bot_token',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Bot deleted:', result.result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function unregisterBot() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imbot.v2.Bot.unregister',
+            params: {
+              botId: 456,
+              botToken: 'my_bot_token',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Bot deleted:', result.result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', unregisterBot)
+    </script>
     ```
 
 - Python
@@ -79,6 +140,7 @@
     try:
         bitrix_response = client.imbot.v2.bot.unregister(
             bot_id=456,
+            bot_token="my_bot_token",
         ).response
         result = bitrix_response.result
         print(result)
@@ -105,6 +167,7 @@
                 'imbot.v2.Bot.unregister',
                 [
                     'botId' => 456,
+                    'botToken' => 'my_bot_token',
                 ]
             );
 
@@ -144,7 +207,10 @@
 
     $result = CRest::call(
         'imbot.v2.Bot.unregister',
-        ['botId' => 456]
+        [
+            'botId' => 456,
+            'botToken' => 'my_bot_token',
+        ]
     );
 
     if (!empty($result['error'])) {
@@ -191,8 +257,8 @@ HTTP-статус: **200**
         "finish": 1728626400.234,
         "duration": 0.111,
         "processing": 0.045,
-        "date_start": "2024-10-11T10:00:00+03:00",
-        "date_finish": "2024-10-11T10:00:00+03:00"
+        "date_start": "2024-10-11T09:00:00+03:00",
+        "date_finish": "2024-10-11T09:00:00+03:00"
     }
 }
 ```
@@ -222,7 +288,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
@@ -237,11 +303,11 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `BOT_UNREGISTER_FAILED` | Bot unregistration failed | Ошибка удаления бота ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением или с другим `botToken` ||
+|| `BOT_UNREGISTER_FAILED` | Bot unregister failed | Ошибка удаления бота ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -253,3 +319,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./bot-get.md)
 - [{#T}](./bot-list.md)
 - [{#T}](./bot-update.md)
+- [{#T}](../../migration.md)

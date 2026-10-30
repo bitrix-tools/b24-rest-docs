@@ -15,7 +15,7 @@
 
 Метод `imbot.v2.Bot.get` возвращает информацию о боте. Используется для проверки установки бота.
 
-Для приложения-владельца возвращает расширенный формат включая `moduleId`, `eventMode` и счетчики. Для других приложений — краткий формат.
+Приложению-владельцу метод возвращает расширенный формат объекта Bot. Другим приложениям и запросам с чужим `botToken` — краткий формат, без [дополнительных полей для владельца](#bot-owner-fields).
 
 ## Параметры метода
 
@@ -25,13 +25,13 @@
 || **Название**
 `Тип` | **Описание** ||
 || **botId**
-[`integer`](../../../../data-types.md) | ID бота. Обязателен, если не указан `code` ||
+[`integer`](../../../../data-types.md) | ID бота из поля `result.bot.id` ответа [imbot.v2.Bot.register](./bot-register.md). Обязателен, если не указан `code` ||
 || **code**
 [`string`](../../../../data-types.md) | Код бота. Обязателен, если не указан `botId` ||
 || **botToken**
 [`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же botToken, который был указан при регистрации чат-бота. С другим токеном метод вернет бота в кратком формате ||
 |#
 
 {% note info "" %}
@@ -66,19 +66,89 @@
       https://**put_your_bitrix24_address**/rest/imbot.v2.Bot.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('imbot.v2.Bot.get', {
-        code: 'support_bot',
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      const { result } = response.getData();
-      console.log('result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    declare const $b24: B24Frame
+
+    // Minimal shape of result; the API returns the full Bot and User objects
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type BotGetResult = {
+      bot: {
+        id: number
+        code: string
+        type: string
+      }
+      users: Array<{
+        id: number
+        name: string
+      }>
     }
+
+    try {
+      const response = await $b24.actions.v2.call.make<BotGetResult>({
+        method: 'imbot.v2.Bot.get',
+        params: {
+          botToken: 'my_bot_token',
+          code: 'support_bot',
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Bot ID:', result.bot.id, '| Code:', result.bot.code)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getBot() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imbot.v2.Bot.get',
+            params: {
+              botToken: 'my_bot_token',
+              code: 'support_bot',
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Bot ID:', result.bot.id, '| Code:', result.bot.code)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getBot)
+    </script>
     ```
 
 - Python
@@ -88,6 +158,7 @@
 
     try:
         bitrix_response = client.imbot.v2.bot.get(
+            bot_token="my_bot_token",
             code="support_bot",
         ).response
         result = bitrix_response.result
@@ -114,6 +185,7 @@
             ->call(
                 'imbot.v2.Bot.get',
                 [
+                    'botToken' => 'my_bot_token',
                     'code' => 'support_bot',
                 ]
             );
@@ -154,7 +226,10 @@
 
     $result = CRest::call(
         'imbot.v2.Bot.get',
-        ['code' => 'support_bot']
+        [
+            'botToken' => 'my_bot_token',
+            'code' => 'support_bot',
+        ]
     );
 
     if (!empty($result['error'])) {
@@ -220,8 +295,8 @@ HTTP-статус: **200**
         "finish": 1728626400.234,
         "duration": 0.111,
         "processing": 0.045,
-        "date_start": "2024-10-11T10:00:00+03:00",
-        "date_finish": "2024-10-11T10:00:00+03:00"
+        "date_start": "2024-10-11T09:00:00+03:00",
+        "date_finish": "2024-10-11T09:00:00+03:00"
     }
 }
 ```
@@ -243,6 +318,8 @@ HTTP-статус: **200**
 
 ### Поля объекта Bot {#bot-object}
 
+Эти поля приходят в обоих форматах.
+
 #|
 || **Поле**
 `Тип` | **Описание** ||
@@ -262,6 +339,15 @@ HTTP-статус: **200**
 [```string|null```](../../../../data-types.md) | ID фона чата или `null` ||
 || **language**
 [`string`](../../../../data-types.md) | Язык бота ||
+|#
+
+#### Дополнительные поля (только для владельца) {#bot-owner-fields}
+
+Эти поля приходят только в расширенном формате: приложению, которое зарегистрировало бота, или запросу через вебхук с тем же `botToken`.
+
+#|
+|| **Поле**
+`Тип` | **Описание** ||
 || **moduleId**
 [`string`](../../../../data-types.md) | Идентификатор модуля ||
 || **eventMode**
@@ -277,6 +363,8 @@ HTTP-статус: **200**
 |#
 
 ### Поля объекта User {#user-object}
+
+В таблице и в примере ответа — основные поля. Метод возвращает объект User целиком.
 
 #|
 || **Поле**
@@ -297,7 +385,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
@@ -312,8 +400,8 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `PARAMS_REQUIRED` | Required parameters are missing | Не передан ни `botId`, ни `code` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `PARAMS_REQUIRED` | botId or code is required | Не передан ни `botId`, ни `code` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
 |#
 
