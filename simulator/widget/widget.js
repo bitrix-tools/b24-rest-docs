@@ -423,8 +423,7 @@
             return createFieldsEditor(spec, param);
         }
         if (param.base === 'object') {
-            var hint = param.name === 'filter' ? '{">=DATE_CREATE": "2026-01-01T00:00:00+03:00"}' : param.name === 'order' ? '{"ID": "DESC"}' : '{}';
-            return createJsonEditor(hint);
+            return createJsonEditor(objectPlaceholder(param));
         }
         if (param.base === 'array') {
             return createArrayEditor('ID, TITLE, DATE_CREATE');
@@ -434,6 +433,46 @@
             return readValueControl(control, param);
         };
         return control;
+    }
+
+    // Подсказка в пустом JSON-редакторе объекта. Для filter по умолчанию
+    // показываем период по дате — это частый сценарий списочных методов.
+    // Но страница может перечислять закрытый набор полей фильтра: тогда
+    // подсказка с датой предлагает поле, которое метод молча игнорирует.
+    // В этом случае показываем сами поля со страницы, а не DATE_CREATE.
+    function objectPlaceholder(param) {
+        if (param.name === 'order') {
+            return '{"ID": "DESC"}';
+        }
+        if (param.name !== 'filter') {
+            return '{}';
+        }
+
+        var description = param.description || '';
+        var closedSet = /(?:только|по двум|по трем|по трём|по следующим)[^:]{0,80}:/i.exec(description);
+        if (!closedSet) {
+            return '{">=DATE_CREATE": "2026-01-01T00:00:00+03:00"}';
+        }
+
+        var keys = [];
+        description
+            .slice(closedSet.index + closedSet[0].length)
+            .split(/\s+-\s+/)
+            .forEach(function (item) {
+                var match = item.match(/^\s*([A-Z][A-Z0-9_]+)\b/);
+                if (match && keys.indexOf(match[1]) === -1) {
+                    keys.push(match[1]);
+                }
+            });
+        if (!keys.length) {
+            return '{}';
+        }
+
+        var sample = {};
+        keys.forEach(function (key) {
+            sample[key] = /_ID$/.test(key) ? 0 : 'value';
+        });
+        return JSON.stringify(sample);
     }
 
     // -------------------------------------------------------------- сниппеты
