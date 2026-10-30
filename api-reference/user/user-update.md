@@ -25,7 +25,11 @@
 || **ID***
 [`integer`](../data-types.md) | Положительный идентификатор пользователя, данные которого нужно обновить ||
 || **ACTIVE**
-[`boolean`](../data-types.md) | Признак активности пользователя: `Y` — активен, `N` — уволен ||
+[`boolean`](../data-types.md) | Признак активности пользователя:
+- `true` или `Y` — работает
+- `false` или `N` — уволен
+
+Методы чтения [user.get](./user-get.md) и [user.current](./user-current.md) возвращают это поле как `true` или `false` ||
 || **EMAIL**
 [`string`](../data-types.md) | E-mail пользователя ||
 || **NAME**
@@ -43,7 +47,7 @@
 || **PERSONAL_BIRTHDAY**
 [`date`](../data-types.md) | Дата рождения в формате ISO 8601, например `1990-05-14` ||
 || **PERSONAL_PHOTO**
-[`array`](../data-types.md) | Фотография, передавайте массив из имени файла и строки с [Bаse64](../files/how-to-upload-files.md) ||
+[`array`](../data-types.md) | Фотография, передавайте массив из имени файла и строки с [Base64](../files/how-to-upload-files.md) ||
 || **PERSONAL_ICQ**
 [`string`](../data-types.md) | ICQ ||
 || **PERSONAL_PHONE**
@@ -403,14 +407,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `insufficient_scope` | The request requires higher privileges than provided by the access token | Для вызова требуется скоуп `user`; скоупы `user_brief` и `user_basic` не подходят ||
-|| `ERROR_CORE` | access_denied | `ID` не передан или не является положительным числом ||
-|| `ERROR_CORE` | access_denied | Недостаточно прав для изменения данных указанного пользователя ||
-|| `ERROR_ARGUMENT` | invalid_type_field | В строковое поле передан массив или объект. Имя поля приходит в поле ответа `argument`.
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `insufficient_scope` | The request requires higher privileges than provided by the access token | Для вызова требуется скоуп `user`; скоупы `user_brief` и `user_basic` не подходят ||
+|| `400` | `ERROR_CORE` | access_denied | `ID` не передан или не является положительным числом ||
+|| `400` | `ERROR_CORE` | access_denied | Недостаточно прав для изменения данных указанного пользователя ||
+|| `400` | `ERROR_ARGUMENT` | invalid_type_field | В строковое поле передан массив или объект. Имя поля приходит в поле ответа `argument`.
 
 Строковыми считаются `NAME`, `LAST_NAME`, `SECOND_NAME`, `EMAIL`, `TITLE`, `XML_ID`, `TIME_ZONE`, поля `WORK_*` и `PERSONAL_*`, кроме `PERSONAL_PHOTO` и `WORK_LOGO`. Пользовательские поля `UF_*` принимают массивы ||
-|| `ERROR_CORE` | Текст ошибки зависит от причины | Не удалось сохранить изменения профиля. Метод возвращает сообщение о причине ошибки ||
+|| `400` | `ERROR_CORE` | Текст ошибки зависит от причины | Не удалось сохранить изменения профиля. Метод возвращает сообщение о причине ошибки ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

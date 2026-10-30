@@ -13,13 +13,15 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `user.fields` позволяет получить список названий полей пользователя. Метод отдаёт стандартный список полей, использование пользовательских полей не предусмотрено.
+Метод `user.fields` возвращает коды и названия полей профиля пользователя: стандартных и пользовательских полей с префиксом `UF_USR_`.
 
 {% note info "" %}
 
 Перечень полей пользователей Битрикс24, который будет получен в результате выполнения метода, зависит от скоупа приложения/вебхука. Какие поля доступны в каждой версии — в статье [Версии скоупа user](user-scope.md).
 
 {% endnote %}
+
+## Параметры метода
 
 Без параметров.
 
@@ -45,7 +47,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
+    -d '{"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/user.fields
     ```
 
@@ -198,23 +200,21 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "user.fields", nil, b24.WithIdempotent())
+    res, err := client.Core().Call(ctx, "user.fields", b24.Params{}, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("user.fields: %w", err)
     }
 
-    var item struct {
-    	ID         string `json:"ID"`
-    	XMLID      string `json:"XML_ID"`
-    	Active     string `json:"ACTIVE"`
-    	Name       string `json:"NAME"`
-    	LastName   string `json:"LAST_NAME"`
-    	SecondName string `json:"SECOND_NAME"`
-    }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
+    // result — объект «код поля: название поля»
+    var fields map[string]*string
+    if err := json.Unmarshal(res.Result, &fields); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ID, item.XMLID)
+    for code, title := range fields {
+    	if title != nil {
+    		fmt.Println(code, *title)
+    	}
+    }
     ```
 
 {% endlist %}
@@ -224,81 +224,84 @@
 HTTP-статус: **200**
 
 ```json
-    {
-        "result":{
-            "ID":"ID",
-            "XML_ID":"Внешний код",
-            "ACTIVE":"Активность",
-            "NAME":"Имя",
-            "LAST_NAME":"Фамилия",
-            "SECOND_NAME":"Отчество",
-            "TITLE":"Список пользователей",
-            "EMAIL":"E-Mail",
-            "LAST_LOGIN":"Последняя авторизация",
-            "DATE_REGISTER":"Дата регистрации",
-            "TIME_ZONE":"TIME_ZONE",
-            "IS_ONLINE":"IS_ONLINE",
-            "TIMESTAMP_X":"TIMESTAMP_X",
-            "LAST_ACTIVITY_DATE":"LAST_ACTIVITY_DATE",
-            "PERSONAL_GENDER":"Пол",
-            "PERSONAL_PROFESSION":"Профессия",
-            "PERSONAL_WWW":"Домашняя страничка",
-            "PERSONAL_BIRTHDAY":"Дата рождения",
-            "PERSONAL_PHOTO":"Фотография",
-            "PERSONAL_ICQ":"ICQ",
-            "PERSONAL_PHONE":"Личный телефон",
-            "PERSONAL_FAX":"Факс",
-            "PERSONAL_MOBILE":"Личный мобильный",
-            "PERSONAL_PAGER":"Пейджер",
-            "PERSONAL_STREET":"Улица проживания",
-            "PERSONAL_CITY":"Город проживания",
-            "PERSONAL_STATE":"Область \/ край",
-            "PERSONAL_ZIP":"Почтовый индекс",
-            "PERSONAL_COUNTRY":"Страна",
-            "PERSONAL_MAILBOX":"Почтовый ящик",
-            "PERSONAL_NOTES":"Дополнительные заметки",
-            "WORK_PHONE":"Телефон компании",
-            "WORK_COMPANY":"Компания",
-            "WORK_POSITION":"Должность",
-            "WORK_DEPARTMENT":"Отдел",
-            "WORK_WWW":"Сайт компании",
-            "WORK_FAX":"WORK_FAX",
-            "WORK_PAGER":"WORK_PAGER",
-            "WORK_STREET":"WORK_STREET",
-            "WORK_MAILBOX":"WORK_MAILBOX",
-            "WORK_CITY":"Город работы",
-            "WORK_STATE":"WORK_STATE",
-            "WORK_ZIP":"WORK_ZIP",
-            "WORK_COUNTRY":"WORK_COUNTRY",
-            "WORK_PROFILE":"WORK_PROFILE",
-            "WORK_LOGO":"WORK_LOGO",
-            "WORK_NOTES":"WORK_NOTES",
-            "UF_SKYPE_LINK":"Ссылка на чат в Skype",
-            "UF_ZOOM":"Zoom",
-            "UF_EMPLOYMENT_DATE":"Дата принятия на работу",
-            "UF_TIMEMAN":"Учет рабочего времени",
-            "UF_DEPARTMENT":"Подразделения",
-            "UF_INTERESTS":"Интересы",
-            "UF_SKILLS":"Навыки",
-            "UF_WEB_SITES":"Другие сайты",
-            "UF_XING":"Xing",
-            "UF_LINKEDIN":"LinkedIn",
-            "UF_TWITTER":"Twitter",
-            "UF_SKYPE":"Skype",
-            "UF_DISTRICT":"Район",
-            "UF_PHONE_INNER":"Внутренний телефон",
-            "USER_TYPE":"USER_TYPE"
-        },
-        "time":{
-            "start":1721719975.764591,
-            "finish":1721719975.786585,
-            "duration":0.02199411392211914,
-            "processing":0.0005099773406982422,
-            "date_start":"2024-07-23T07:32:55+00:00",
-            "date_finish":"2024-07-23T07:32:55+00:00",
-            "operating":0
-        }
+{
+    "result": {
+        "ID": "ID",
+        "XML_ID": "Внешний код",
+        "ACTIVE": "Активность",
+        "NAME": "Имя",
+        "LAST_NAME": "Фамилия",
+        "SECOND_NAME": "Отчество",
+        "TITLE": "Список пользователей",
+        "EMAIL": "E-Mail",
+        "LAST_LOGIN": "Последняя авторизация",
+        "DATE_REGISTER": "Дата регистрации",
+        "TIME_ZONE": "TIME_ZONE",
+        "IS_ONLINE": "IS_ONLINE",
+        "TIMESTAMP_X": "TIMESTAMP_X",
+        "LAST_ACTIVITY_DATE": "LAST_ACTIVITY_DATE",
+        "PERSONAL_GENDER": "Пол",
+        "PERSONAL_PROFESSION": "Профессия",
+        "PERSONAL_WWW": "Домашняя страничка",
+        "PERSONAL_BIRTHDAY": "Дата рождения",
+        "PERSONAL_PHOTO": "Фотография",
+        "PERSONAL_ICQ": "ICQ",
+        "PERSONAL_PHONE": "Личный телефон",
+        "PERSONAL_FAX": "Факс",
+        "PERSONAL_MOBILE": "Личный мобильный",
+        "PERSONAL_PAGER": "Пейджер",
+        "PERSONAL_STREET": "Улица проживания",
+        "PERSONAL_CITY": "Город проживания",
+        "PERSONAL_STATE": "Область / край",
+        "PERSONAL_ZIP": "Почтовый индекс",
+        "PERSONAL_COUNTRY": "Страна",
+        "PERSONAL_MAILBOX": "Почтовый ящик",
+        "PERSONAL_NOTES": "Дополнительные заметки",
+        "WORK_PHONE": "Телефон компании",
+        "WORK_COMPANY": "Компания",
+        "WORK_POSITION": "Должность",
+        "WORK_DEPARTMENT": "Отдел",
+        "WORK_WWW": "Сайт компании",
+        "WORK_FAX": "WORK_FAX",
+        "WORK_PAGER": "WORK_PAGER",
+        "WORK_STREET": "WORK_STREET",
+        "WORK_MAILBOX": "WORK_MAILBOX",
+        "WORK_CITY": "Город работы",
+        "WORK_STATE": "WORK_STATE",
+        "WORK_ZIP": "WORK_ZIP",
+        "WORK_COUNTRY": "WORK_COUNTRY",
+        "WORK_PROFILE": "WORK_PROFILE",
+        "WORK_LOGO": "WORK_LOGO",
+        "WORK_NOTES": "WORK_NOTES",
+        "UF_SKYPE_LINK": "Ссылка на чат в Skype",
+        "UF_ZOOM": "Zoom",
+        "UF_EMPLOYMENT_DATE": "Дата принятия на работу",
+        "UF_TIMEMAN": "Учет рабочего времени",
+        "UF_DEPARTMENT": "Подразделения",
+        "UF_INTERESTS": "Интересы",
+        "UF_SKILLS": "Навыки",
+        "UF_WEB_SITES": "Другие сайты",
+        "UF_XING": "Xing",
+        "UF_LINKEDIN": "LinkedIn",
+        "UF_FACEBOOK": "Facebook",
+        "UF_TWITTER": "Twitter",
+        "UF_SKYPE": "Microsoft Teams",
+        "UF_DISTRICT": "Район",
+        "UF_PHONE_INNER": "Внутренний телефон",
+        "UF_USR_1623996826645": "Подпись",
+        "USER_TYPE": "USER_TYPE"
+    },
+    "time": {
+        "start": 1793286069,
+        "finish": 1793286069.582253,
+        "duration": 0.5822529792785645,
+        "processing": 0,
+        "date_start": "2026-10-29T18:01:09+03:00",
+        "date_finish": "2026-10-29T18:01:09+03:00",
+        "operating_reset_at": 1793286660,
+        "operating": 0
     }
+}
 ```
 
 ### Возвращаемые данные
@@ -307,12 +310,39 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа, который содержит пользовательские поля ||
+[`object`](../data-types.md) | Объект вида `{"код поля": "название поля"}`, все значения — строки. Вызовите метод перед `select` в [user.get](./user-get.md) или записью в [user.update](./user-update.md), чтобы узнать коды полей, доступные в текущей версии скоупа.
+
+Содержит стандартные поля профиля, которые разрешены версией скоупа — список по версиям в статье [Версии скоупа user](user-scope.md). Типы и описания стандартных полей — в таблице [полей пользователя](user-current.md#user-fields).
+
+Пользовательские поля с префиксом `UF_USR_` возвращаются с названием, заданным при создании поля.
+
+Названия берутся из интерфейса Битрикс24 и могут не совпадать с назначением поля. Например, у поля `TITLE` (обращение) название «Список пользователей». У части стандартных полей нет локализованного названия, для них значение совпадает с кодом, например `"TIME_ZONE": "TIME_ZONE"` ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+У метода нет параметров, поэтому собственных ошибок у него нет. Метод возвращает только системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет ни одной версии скоупа: `user`, `user_basic` или `user_brief` ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
@@ -323,3 +353,4 @@ HTTP-статус: **200**
 - [{#T}](./user-get.md)
 - [{#T}](./user-current.md)
 - [{#T}](./user-search.md)
+- [{#T}](./userfields/index.md)

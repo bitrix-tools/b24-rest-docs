@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `user.userfield.add` добавляет пользовательское поле.
+Метод `user.userfield.add` создает пользовательское поле в профиле сотрудника и возвращает его идентификатор. К коду `FIELD_NAME` автоматически добавляется префикс `UF_USR_`, тип и множественность поля после создания изменить нельзя.
 
 ## Параметры метода
 
@@ -41,7 +41,7 @@
 
 Итоговый код поля возвращает метод [user.userfield.list](./user-userfield-list.md) ||
 || **USER_TYPE_ID***
-[`string`](../../data-types.md)| Тип пользовательского поля. Возможные значения:
+[`string`](../../data-types.md)| Тип пользовательского поля. После создания тип изменить нельзя. Возможные значения:
 - `string` — строка
 - `integer` — целое число
 - `double` — число
@@ -63,47 +63,38 @@
 || **SORT**
 [`integer`](../../data-types.md)| Порядок сортировки ||
 || **MULTIPLE**
-[`boolean`](../../data-types.md)| Является ли поле множественным. Возможные значения:
+[`string`](../../data-types.md)| Является ли поле множественным. После создания изменить нельзя. Возможные значения:
 - `Y` — да
 - `N` — нет
- ||
-|| **MANDATORY**
-[`boolean`](../../data-types.md)| Является ли пользовательское поле обязательным. Возможные значения:
-- `Y` — да
-- `N` — нет ||
+
+По умолчанию `N` ||
 || **SHOW_FILTER**
-[`boolean`](../../data-types.md)| Показывать ли поле в фильтре списка. Возможные значения:
-- `Y` — да
-- `N` — нет ||
-|| **SHOW_IN_LIST**
-[`boolean`](../../data-types.md)| Показывать ли поле в списке. Возможные значения:
-- `Y` — да
-- `N` — нет ||
-- || **EDIT_IN_LIST**
-[`boolean`](../../data-types.md)| Редактировать ли поле в списке. Возможные значения:
-- `Y` — да
-- `N` — нет ||
-- || **IS_SEARCHABLE**
-[`boolean`](../../data-types.md)| Участвует ли поле в поиске. Возможные значения:
-- `Y` — да
-- `N` — нет ||
+[`string`](../../data-types.md)| Показывать ли поле в фильтре списка. Возможные значения:
+- `Y` — да. Метод сохраняет значение `E` — фильтр по маске, его возвращает [user.userfield.list](./user-userfield-list.md)
+- `N` — нет
+
+По умолчанию `N` ||
 || **SETTINGS**
-[`object`](../../data-types.md)| Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}` для передачи дополнительных настроек пользовательских полей. Настройки описаны [ниже](#settings) ||
+[`object`](../../data-types.md)| Дополнительные настройки поля. Набор зависит от типа `USER_TYPE_ID` [(подробное описание)](#settings) ||
+|| **LIST**
+[`object[]`](../../data-types.md)| Варианты значений для поля типа `enumeration` [(подробное описание)](#list) ||
 || **EDIT_FORM_LABEL**
-[`string`](../../data-types.md)| Подпись в форме редактирования. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
+[`string`](../../data-types.md) \| [`object`](../../data-types.md) | Подпись в форме редактирования. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **LIST_COLUMN_LABEL**
-[`string`](../../data-types.md)| Заголовок столбца в списке. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
+[`string`](../../data-types.md) \| [`object`](../../data-types.md) | Заголовок столбца в списке. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **LIST_FILTER_LABEL**
-[`string`](../../data-types.md)| Заголовок фильтра в списке. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
+[`string`](../../data-types.md) \| [`object`](../../data-types.md) | Заголовок фильтра в списке. Можно передать строку или объект с подписями по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **ERROR_MESSAGE**
-[`string`](../../data-types.md)| Сообщение об ошибке при невалидном вводе. Можно передать строку или объект с текстами по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
+[`string`](../../data-types.md) \| [`object`](../../data-types.md) | Сообщение об ошибке при невалидном вводе. Можно передать строку или объект с текстами по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **HELP_MESSAGE**
-[`string`](../../data-types.md)| Текст подсказки к полю. Можно передать строку или объект с текстами по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
+[`string`](../../data-types.md) \| [`object`](../../data-types.md) | Текст подсказки к полю. Можно передать строку или объект с текстами по языкам в формате `{"ru": "...", "en": "..."}`. При передаче строки значение будет выставлено для всех языков ||
 || **LABEL**
 [`string`](../../data-types.md)| Название пользовательского поля по умолчанию. 
 
 Значение будет выставлено в поля `LIST_FILTER_LABEL`, `LIST_COLUMN_LABEL`, `EDIT_FORM_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE`, если в них не передано значение ||
 |#
+
+Параметры `MANDATORY`, `SHOW_IN_LIST`, `EDIT_IN_LIST` и `IS_SEARCHABLE` метод не принимает и игнорирует без ошибки. Поле всегда создается со значениями `MANDATORY` = `N`, `SHOW_IN_LIST` = `Y`, `EDIT_IN_LIST` = `Y`, `IS_SEARCHABLE` = `N`.
 
 ### Параметр SETTINGS {#settings}
 
@@ -180,10 +171,10 @@
 
     Объект формата:
 
-    ```
+    ```json
     {
-        VALUE: datetime|date,
-        TYPE: 'NONE'|'NOW'|'FIXED',
+        "VALUE": "2026-01-15",
+        "TYPE": "FIXED"
     }
     ```
 
@@ -192,14 +183,14 @@
     - `TYPE` — тип значения по умолчанию:
       - `NONE` — не выставлять значение по умолчанию
       - `NOW` — использовать текущее время/дату
-      - `FIXED` — использовать время/дату из `VALUE`
+      - `FIXED` — использовать время/дату из `VALUE`. Для типа `datetime` значение `FIXED` сейчас сохраняется некорректно: метод возвращает дату `1970-01-01`. Используйте `NOW` или `NONE`
 
     Значение по умолчанию:
 
-    ```
+    ```json
     {
-        VALUE: '',
-        TYPE: 'NONE',
+        "VALUE": "",
+        "TYPE": "NONE"
     }
     ```
     ||
@@ -218,7 +209,8 @@
     - `DIALOG` — диалог выбора сущностей
 
     По умолчанию `LIST` ||
-    || **LIST_HEIGHT** | Высота списка. Обязательно больше 0.
+    || **LIST_HEIGHT**
+    [`integer`](../../data-types.md) | Высота списка. Обязательно больше 0.
 
     Доступен только при `DISPLAY = LIST` или `DISPLAY = UI`.
 
@@ -255,7 +247,7 @@
 
     По умолчанию `1` ||
     || **ACTIVE_FILTER**
-    [`boolean`](../../data-types.md) | Показывать ли элементы с включенным флагом активности. Возможные значения:
+    [`string`](../../data-types.md) | Показывать ли элементы с включенным флагом активности. Возможные значения:
     - `Y` — да
     - `N` — нет
 
@@ -283,92 +275,67 @@
     || **Название**
     `тип` | **Описание** ||
     || **LEAD**
-    [`boolean`](../../data-types.md) | Включена ли привязка к [Лидам](../../crm/leads/index.md). Возможные значения:
+    [`string`](../../data-types.md) | Включена ли привязка к [Лидам](../../crm/leads/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
-    По умолчанию `N` ||
+    По умолчанию `N`. Если не включена ни одна привязка, включается `LEAD` ||
     || **CONTACT**
-    [`boolean`](../../data-types.md) | Включена ли привязка к [Контактам](../../crm/contacts/index.md). Возможные значения:
+    [`string`](../../data-types.md) | Включена ли привязка к [Контактам](../../crm/contacts/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
     По умолчанию `N` ||
     || **COMPANY**
-    [`boolean`](../../data-types.md) | Включена ли привязка к [Компаниям](../../crm/companies/index.md). Возможные значения:
+    [`string`](../../data-types.md) | Включена ли привязка к [Компаниям](../../crm/companies/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
     По умолчанию `N` ||
     || **DEAL**
-    [`boolean`](../../data-types.md) | Включена ли привязка к [Сделкам](../../crm/deals/index.md). Возможные значения:
+    [`string`](../../data-types.md) | Включена ли привязка к [Сделкам](../../crm/deals/index.md). Возможные значения:
     - `Y` — да
     - `N` — нет
 
     По умолчанию `N` ||
     |#
 
-- Python
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    fields = {
-        "FIELD_NAME": "UF_USR_SKILLS_PROFILE",
-        "USER_TYPE_ID": "string",
-        "XML_ID": "UF_USR_SKILLS_PROFILE",
-        "SORT": 150,
-        "MULTIPLE": "N",
-        "MANDATORY": "N",
-        "SHOW_FILTER": "Y",
-        "SHOW_IN_LIST": "Y",
-        "EDIT_IN_LIST": "Y",
-        "IS_SEARCHABLE": "Y",
-        "SETTINGS": {
-            "DEFAULT_VALUE": "Python integration engineer",
-            "ROWS": 3,
-        },
-        "EDIT_FORM_LABEL": {
-            "en": "Skills profile",
-        },
-        "LIST_COLUMN_LABEL": {
-            "en": "Skills profile",
-        },
-        "LIST_FILTER_LABEL": {
-            "en": "Skills profile",
-        },
-        "ERROR_MESSAGE": {
-            "en": "Skills profile is invalid",
-        },
-        "HELP_MESSAGE": {
-            "en": "Store a short integration skills summary.",
-        },
-        "LABEL": "Skills profile",
-    }
-
-    try:
-        bitrix_response = client.user.userfield.add(
-            fields=fields,
-        ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print("Bitrix SDK error", error.message, sep="\n")
-    except Exception as error:
-        print("Unexpected error", error, sep="\n")
-    ```
 {% endlist %}
+
+Для типов `file`, `url`, `address`, `money` и `employee` метод не принимает `SETTINGS`: переданные настройки игнорируются, поле получает системные настройки по умолчанию. Для поля типа `employee` значение `SHOW_FILTER` = `Y` сохраняется как `I` — фильтр по точному совпадению.
+
+### Параметр LIST {#list}
+
+Варианты значений для поля типа `enumeration`. Передается в `fields` как массив объектов.
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **VALUE***
+[`string`](../../data-types.md) | Текст варианта. Варианты с пустым `VALUE` не сохраняются ||
+|| **SORT**
+[`integer`](../../data-types.md) | Порядок варианта в списке ||
+|| **DEF**
+[`string`](../../data-types.md) | Вариант по умолчанию:
+- `Y` — да
+- `N` — нет
+
+Для поля с `MULTIPLE` = `N` по умолчанию может быть только один вариант — первый с `DEF` = `Y` ||
+|| **XML_ID**
+[`string`](../../data-types.md) | Внешний код варианта. Если не передан, генерируется автоматически ||
+|#
 
 {% note info "" %}
 
 Если необходимо через API создать пользовательское поле с добавленным пользовательским типом, в поле `USER_TYPE_ID` необходимо указывать `rest_<номер приложения>_<USER_TYPE_ID добавленного типа>`. Например `rest_436278_test_type`.
+
+{% endnote %}
+
+{% note warning "" %}
+
+Поле добавляется в профили всех сотрудников, поэтому в Битрикс24 с большим числом пользователей запрос выполняется долго и может прерваться по таймауту. Подробнее в разделе [Частые причины серверных ошибок](./index.md#server-errors).
 
 {% endnote %}
 
@@ -390,10 +357,7 @@
             "XML_ID": "UF_CRM_DEALS",
             "SORT": 100,
             "MULTIPLE": "Y",
-            "MANDATORY": "N",
             "SHOW_FILTER": "N",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
             "SETTINGS": {
                 "DEAL": "Y"
             },
@@ -418,10 +382,7 @@
             "XML_ID": "UF_CRM_DEALS",
             "SORT": 100,
             "MULTIPLE": "Y",
-            "MANDATORY": "N",
             "SHOW_FILTER": "N",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
             "SETTINGS": {
                 "DEAL": "Y"
             },
@@ -458,10 +419,7 @@
             XML_ID: 'UF_CRM_DEALS',
             SORT: 100,
             MULTIPLE: 'Y',
-            MANDATORY: 'N',
             SHOW_FILTER: 'N',
-            SHOW_IN_LIST: 'Y',
-            EDIT_IN_LIST: 'Y',
             SETTINGS: {
               DEAL: 'Y',
             },
@@ -507,10 +465,7 @@
                 XML_ID: 'UF_CRM_DEALS',
                 SORT: 100,
                 MULTIPLE: 'Y',
-                MANDATORY: 'N',
                 SHOW_FILTER: 'N',
-                SHOW_IN_LIST: 'Y',
-                EDIT_IN_LIST: 'Y',
                 SETTINGS: {
                   DEAL: 'Y',
                 },
@@ -549,15 +504,12 @@
     try:
         bitrix_response = client.user.userfield.add(
             fields={
-                "FIELD_NAME": "UF_USER_DEALS",
+                "FIELD_NAME": "UF_USR_DEALS",
                 "USER_TYPE_ID": "crm",
                 "XML_ID": "UF_CRM_DEALS",
                 "SORT": 100,
                 "MULTIPLE": "Y",
-                "MANDATORY": "N",
                 "SHOW_FILTER": "N",
-                "SHOW_IN_LIST": "Y",
-                "EDIT_IN_LIST": "Y",
                 "SETTINGS": {
                     "DEAL": "Y",
                 },
@@ -596,10 +548,7 @@
                         'XML_ID' => 'UF_CRM_DEALS',
                         'SORT' => 100,
                         'MULTIPLE' => 'Y',
-                        'MANDATORY' => 'N',
                         'SHOW_FILTER' => 'N',
-                        'SHOW_IN_LIST' => 'Y',
-                        'EDIT_IN_LIST' => 'Y',
                         'SETTINGS' => [
                             'DEAL' => 'Y',
                         ],
@@ -636,10 +585,7 @@
                 XML_ID: "UF_CRM_DEALS",
                 SORT: 100,
                 MULTIPLE: "Y",
-                MANDATORY: "N",
                 SHOW_FILTER: "N",
-                SHOW_IN_LIST: "Y",
-                EDIT_IN_LIST: "Y",
                 SETTINGS: {
                     DEAL: "Y",
                 },
@@ -673,10 +619,7 @@
                 'XML_ID' => 'UF_CRM_DEALS',
                 'SORT' => 100,
                 'MULTIPLE' => 'Y',
-                'MANDATORY' => 'N',
                 'SHOW_FILTER' => 'N',
-                'SHOW_IN_LIST' => 'Y',
-                'EDIT_IN_LIST' => 'Y',
                 'SETTINGS' => [
                     'DEAL' => 'Y',
                 ],
@@ -705,10 +648,7 @@
     		"XML_ID":       "UF_CRM_DEALS",
     		"SORT":         100,
     		"MULTIPLE":     "Y",
-    		"MANDATORY":    "N",
     		"SHOW_FILTER":  "N",
-    		"SHOW_IN_LIST": "Y",
-    		"EDIT_IN_LIST": "Y",
     		"SETTINGS": b24.Params{
     			"DEAL": "Y",
     		},
@@ -737,15 +677,16 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result":177,
-    "time":{
-        "start":1747301035.550121,
-        "finish":1747301037.514112,
-        "duration":1.9639909267425537,
-        "processing":0.5865437984466553,
-        "date_start":"2025-05-15T11:23:55+02:00",
-        "date_finish":"2025-05-15T11:23:57+02:00",
-        "operating":0
+    "result": 6008111,
+    "time": {
+        "start": 1793288724,
+        "finish": 1793288724.469025,
+        "duration": 0.4690248966217041,
+        "processing": 0,
+        "date_start": "2026-10-29T18:45:24+03:00",
+        "date_finish": "2026-10-29T18:45:24+03:00",
+        "operating_reset_at": 1793289240,
+        "operating": 0.11251688003540039
     }
 }
 ```
@@ -777,13 +718,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| ERROR_ARGUMENT | Argument 'USER_TYPE_ID' is null or empty | Не задан `USER_TYPE_ID` ||
-|| ERROR_ARGUMENT | Argument 'HANDLER' is null or empty | Не задан `HANDLER` ||
-|| ERROR_CORE | Поле \*** для объекта USER уже существует | Поле \*** для объекта `USER` уже существует ||
-|| ERROR_CORE | Fail to create new user field | Ошибка при создании поля ||
-|| Пустая строка | The \u0027FIELD_NAME\u0027 field is not found. | Не задано обязательное поле `FIELD_NAME` ||
-|| Пустая строка | The \u0027USER_TYPE_ID\u0027 field is not found. | Не задано обязательное поле `USER_TYPE_ID` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CORE` | Поле UF_USR_\*\*\* для объекта USER уже существует. | Поле с таким `FIELD_NAME` уже есть ||
+|| `400` | `ERROR_CORE` | Указан неверный пользовательский тип. | В `USER_TYPE_ID` передан тип не из списка ||
+|| `400` | `ERROR_CORE` | Fail to create new user field | Ошибка при создании поля ||
+|| `400` | Пустая строка | The \u0027FIELD_NAME\u0027 field is not found. | Не задано обязательное поле `FIELD_NAME` ||
+|| `400` | Пустая строка | The \u0027USER_TYPE_ID\u0027 field is not found. | Не задано обязательное поле `USER_TYPE_ID` ||
+|| `400` | Пустая строка | Access denied. | У пользователя нет прав администратора ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `user.userfield` ||
+|| `500` | `INTERNAL_SERVER_ERROR` | Internal server error | Превышен лимит в 1016 пользовательских полей или запрос не успел выполниться за время `max_execution_time`. Подробнее в разделе [Частые причины серверных ошибок](./index.md#server-errors) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -793,3 +736,5 @@ HTTP-статус: **400**
 - [{#T}](./user-userfield-update.md)
 - [{#T}](./user-userfield-list.md)
 - [{#T}](./user-userfield-delete.md)
+- [{#T}](../user-update.md)
+- [{#T}](../user-get.md)

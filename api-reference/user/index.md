@@ -21,14 +21,13 @@
 
 ## Как работать с пользователями
 
-Используйте методы:
+1. Узнайте, какие поля профиля доступны приложению, методом [user.fields](./user-fields.md). Набор полей зависит от [версии скоупа](user-scope.md).
+2. Найдите пользователя и его `ID`: методом [user.get](./user-get.md) — по фильтру, методом [user.search](./user-search.md) — по имени, должности или подразделению. Чтобы получить профиль того, от чьего имени выполняется запрос, используйте [user.current](./user-current.md).
+3. Пригласите нового сотрудника методом [user.add](./user-add.md). Для сотрудника передайте подразделение `UF_DEPARTMENT`, для внешнего пользователя — `EXTRANET` и `SONET_GROUP_ID`.
+4. Обновите профиль методом [user.update](./user-update.md).
+5. Чтобы уволить сотрудника, передайте в [user.update](./user-update.md) поле `ACTIVE` со значением `N`. Чтобы вернуть его, передайте `Y`.
 
-- [user.current](./user-current.md), чтобы получить профиль пользователя, от имени которого выполняется запрос,
-- [user.get](./user-get.md), чтобы получить список сотрудников по фильтру и узнать `ID` нужного пользователя,
-- [user.search](./user-search.md), чтобы найти пользователя по персональным данным с ускоренным поиском,
-- [user.fields](./user-fields.md), чтобы получить список полей профиля,
-- [user.add](./user-add.md), чтобы пригласить новых пользователей,
-- [user.update](./user-update.md), чтобы редактировать профили существующих пользователей, уволить или принять обратно сотрудника.
+Методы `user.get` и `user.search` возвращают до 50 пользователей за вызов. Чтобы получить следующую страницу, передайте `start` = `(N-1) * 50`.
 
 {% note tip "Пользовательская документация" %}
 
@@ -46,58 +45,27 @@
 
 ## Связь с другими объектами
 
-**CRM.** `ID` пользователя используется в системных полях:
+`ID` пользователя из [user.get](./user-get.md) или [user.search](./user-search.md) передают в поля и параметры методов других разделов.
 
-- редактируемые: ответственный, наблюдатели,
-- только для чтения: кто создал, кто изменил, кто передвинул на стадию.
+**CRM.** `ID` пользователя хранится в полях ответственного и наблюдателей, которые можно изменить. Поля «кто создал», «кто изменил» и «кто передвинул на стадию» доступны только для чтения. Читать и менять поля можно методами [crm.item.*](../crm/universal/index.md).
 
-Используйте методы [crm.item.*](../crm/universal/index.md) для чтения или изменения полей.
+**Задачи.** `ID` указывают в полях постановщика, исполнителя, соисполнителей и наблюдателей методов [tasks.task.*](../tasks/index.md). Затраченное сотрудником время учитывают методы [task.elapseditem.*](../tasks/elapsed-item/index.md).
 
-**Календарь.** Для работы с календарем сотрудника укажите `ID` пользователя в поле `ownerID` в методах [calendar.section.*](../calendar/index.md). Чтобы создать или изменить встречу с несколькими участниками, укажите `ID` пользователей в полях `host` и `attendees` в методах [calendar.event.*](../calendar/calendar-event/index.md).
+**Календарь.** Календарь сотрудника выбирают по `ID` в поле `ownerID` методов [calendar.section.*](../calendar/index.md). Организатора и участников встречи передают в полях `host` и `attendees` методов [calendar.event.*](../calendar/calendar-event/index.md).
 
-**Лента новостей.** Используйте `ID` пользователей в методах:
+**Чаты.** `ID` пользователей задают владельца и участников чата в методах [im.chat.*](../chats/index.md), [im.chat.user.*](../chats/chat-users/index.md) и [im.user.*](../chats/users/index.md).
 
-- [log.blogpost.*](../log/index.md), чтобы адресовать пост конкретным сотрудникам,
-- [log.blogpost.getusers.important](../log/log-blogpost-getusers-important.md), чтобы проверить, кто из сотрудников прочитал важный пост.
+**Структура компании.** Подразделения сотрудника хранятся в поле `UF_DEPARTMENT` профиля. Подразделениями и привязкой сотрудников к ним управляют методы [department.*](../departments/index.md).
 
-**Интернет-магазин.** `ID` пользователя используется в системных полях:
+**Рабочие группы и проекты.** Состав участников и их роли меняют методы [sonet_group.user.*](../sonet-group/members/index.md). Чтобы превратить группу в [Скрам](../sonet-group/scrum/index.md), передайте `ID` пользователя в поле `SCRUM_MASTER_ID`.
 
-- редактируемые: ответственный за заказ, отгрузку, оплату,
-- только для чтения: кто изменил статус, кто промаркировал, кто отменил, кто оформил возврат.
-
-Используйте методы [sale.order.*](../sale/order/index.md), [sale.payment.*](../sale/payment/index.md), [sale.shipment.*](../sale/shipment/index.md) для чтения или изменения полей.
-
-**Чаты.** Используйте `ID` пользователей в методах [im.chat.*](../chats/index.md), [im.chat.user.*](../chats/chat-users/index.md), [im.user.*](../chats/users/index.md), чтобы назначить владельца чата, отредактировать список участников или получить информацию об участниках чата.
-
-**Почта.** Методы [mail.*](../mail/index.md) работают с письмами и почтовыми ящиками, доступными текущему пользователю. Сотрудников-получателей можно найти методом [mail.recipient.listemployees](../mail/recipient/mail-recipient-listemployees.md). Практические сценарии собраны в разделе [Почта: типовые сценарии](../../tutorials/mail/index.md).
-
-**Открытые линии.** Используйте `ID` пользователей:
-
-- чтобы настроить очередь ответственных сотрудников в методах [imopenlines.config.*](../imopenlines/openlines/index.md),
-- назначать диалоги на сотрудников в методах [imopenlines.bot.session.*](../imopenlines/openlines/chat-bots/index.md), [imopenlines.crm.chat.user.*](../imopenlines/openlines/chats/index.md), [imopenlines.operator.*](../imopenlines/openlines/operators/index.md).
-
-**Телефония.** Используйте `ID` пользователя:
-
-- чтобы направить на него телефонный звонок в методах [telephony.externalcall.*](../telephony/index.md),
-- получить статистику по звонкам сотрудника методом [voximplant.statistic.get](../telephony/voximplant/voximplant-statistic-get.md),
-- настроить SIP-aппарат в методах [voximplant.user.*](../telephony/voximplant/users/index.md).
-
-**Учет рабочего времени.** Используйте `ID` пользователей:
-
-- чтобы управлять рабочим днем пользователя в методах [timeman.*](../timeman/base/index.md),
-- настраивать инструмент для контроля рабочего времени в методах [timeman.timecontrol.*](../timeman/timecontrol/index.md),
-- получать информацию о рабочем графике методом [timeman.schedule.get](../timeman/schedule/index.md).
-
-**Задачи.** `ID` пользователя используется в системных полях:
-
-- редактируемые: постановщик, исполнитель, соисполнители, наблюдатели,
-- только для чтения: кто изменил задачу, кто изменил статус, кто завершил задачу.
-
-Используйте методы [tasks.task.*](../tasks/index.md) для чтения или изменения полей. Чтобы узнать или отредактировать затраченное время по задаче для пользователя — [task.elapseditem.*](../tasks/elapsed-item/index.md).
-
-**Рабочие группы и проекты.** Используйте `ID` пользователей в методах [sonet_group.user.*](../sonet-group/members/index.md), чтобы изменять состав участников группы и их роли. Укажите `ID` пользователя в поле `SCRUM_MASTER_ID`, чтобы сделать из группы [Скрам](../sonet-group/scrum/index.md).
-
-**Структура компании.** Используйте `ID` пользователей, чтобы управлять привязкой сотрудников к отделам компании в методах [department.*](../departments/index.md).
+**Другие разделы.** `ID` пользователя также используют:
+- [лента новостей](../log/index.md) — адресаты поста и проверка прочтения методом [log.blogpost.getusers.important](../log/log-blogpost-getusers-important.md)
+- [открытые линии](../imopenlines/openlines/index.md) — очередь операторов и назначение диалогов в методах [imopenlines.bot.session.*](../imopenlines/openlines/chat-bots/index.md), [imopenlines.crm.chat.user.*](../imopenlines/openlines/chats/index.md), [imopenlines.operator.*](../imopenlines/openlines/operators/index.md)
+- [телефония](../telephony/index.md) — получатель звонка, статистика методом [voximplant.statistic.get](../telephony/voximplant/voximplant-statistic-get.md), SIP-аппарат в методах [voximplant.user.*](../telephony/voximplant/users/index.md)
+- [почта](../mail/index.md) — методы работают с ящиками текущего пользователя, получателей ищет [mail.recipient.listemployees](../mail/recipient/mail-recipient-listemployees.md), сценарии собраны в разделе [Почта: типовые сценарии](../../tutorials/mail/index.md)
+- [интернет-магазин](../sale/order/index.md) — ответственный за заказ, [оплату](../sale/payment/index.md) и [отгрузку](../sale/shipment/index.md)
+- [учет рабочего времени](../timeman/base/index.md) — рабочий день, [контроль времени](../timeman/timecontrol/index.md) и [рабочий график](../timeman/schedule/index.md)
 
 ### Тип «привязка к пользователю»
 
@@ -173,6 +141,16 @@
 || [user.search](user-search.md) | Получает список пользователей с ускоренным поиском по персональным данным ||
 || [user.current](user-current.md) | Получает информацию о текущем пользователе ||
 || [user.fields](user-fields.md) | Получает список полей профиля пользователя ||
+|#
+
+### Связанные методы и события
+
+#|
+|| **Метод или событие** | **Описание** ||
+|| [user.admin](../common/users/user-admin.md) | Проверяет, является ли текущий пользователь администратором ||
+|| [user.access](../common/users/user-access.md) | Проверяет, есть ли у текущего пользователя хотя бы один из переданных кодов доступа ||
+|| [user.option.get](../common/settings/user-option-get.md), [user.option.set](../common/settings/user-option-set.md) | Читают и сохраняют настройки приложения для текущего пользователя ||
+|| [onUserAdd](../common/events/on-user-add.md) | Событие при добавлении пользователя. Срабатывает после того, как приглашенный пользователь завершит регистрацию ||
 |#
 
 Методы для работы с пользовательскими полями профиля собраны в подразделе [Пользовательские поля](./userfields/index.md).

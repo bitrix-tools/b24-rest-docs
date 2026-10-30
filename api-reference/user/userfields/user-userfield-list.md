@@ -570,9 +570,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-   "error":"",
-   "error_description":"Access denied."
+{
+    "error": "",
+    "error_description": "Access denied."
 }
 ```
 
@@ -581,8 +581,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустая строка | Access denied. | Недостаточно прав для получения списка пользовательских полей ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустая строка | Access denied. | Недостаточно прав для получения списка пользовательских полей ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `user.userfield` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

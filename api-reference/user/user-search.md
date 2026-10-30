@@ -328,6 +328,32 @@
     echo '</PRE>';
     ```
 
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "user.search", b24.Params{
+    	"FILTER": b24.Params{
+    		"FIND": "Иван",
+    	},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("user.search: %w", err)
+    }
+
+    var items []struct {
+    	ID       b24.ID `json:"ID"`
+    	Name     string `json:"NAME"`
+    	LastName string `json:"LAST_NAME"`
+    }
+    if err := json.Unmarshal(res.Result, &items); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for _, it := range items {
+    	fmt.Println(it.ID, it.Name, it.LastName)
+    }
+    ```
+
 {% endlist %}
 
 ## Обработка ответа
@@ -428,9 +454,28 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-У метода нет специфичных ошибок.
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Invalid order \"ZZZ\"",
+    "argument": ""
+}
+```
 
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid order "`значение`" | В `order` передано значение, отличное от `ASC` и `DESC` ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет ни одной версии скоупа: `user`, `user_basic` или `user_brief` ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|#
+
+Если по `FIND` никто не найден, метод возвращает пустой массив без ошибки. Некорректный `FILTER` метод игнорирует и возвращает список без условия.
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 

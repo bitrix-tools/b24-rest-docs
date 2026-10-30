@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `user.current` получает информации о [текущем](*ключ_текущем) пользователе.
+Метод `user.current` возвращает профиль пользователя, чей токен использован в запросе: для сохраненного токена администратора это администратор, для токена из фрейма приложения — пользователь, который открыл приложение.
 
 {% note info "" %}
 
@@ -21,7 +21,11 @@
 
 {% endnote %}
 
-Метод параметров не имеет. Однако, сделав REST-запрос с использованием данных из `$_REQUEST` к домену `DOMAIN` и добавив `AUTH_ID` к запросу для доступа к Битрикс24, можно узнать какой пользователь открыл страницу в контексте Битрикс24.
+## Параметры метода
+
+Без параметров.
+
+Чтобы узнать, какой пользователь открыл приложение во фрейме Битрикс24, вызовите метод с токеном `AUTH_ID` из запроса к приложению на домен `DOMAIN`.
 
 ## Примеры кода
 
@@ -45,7 +49,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
+    -d '{"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/user.current
     ```
 
@@ -69,7 +73,7 @@
       LAST_LOGIN: ISODate | ''
       DATE_REGISTER: ISODate | ''
       IS_ONLINE: string
-      LAST_ACTIVITY_DATE: string | null
+      LAST_ACTIVITY_DATE?: string
       PERSONAL_GENDER: string
       PERSONAL_BIRTHDAY: string
       WORK_POSITION: string
@@ -237,33 +241,42 @@
 HTTP-статус: **200**
 
 ```json
-    {
-        "result":{
-            "ID":"3",
-            "ACTIVE":true,
-            "NAME":"Иван",
-            "LAST_NAME":"Иванов",
-            "EMAIL":"test@gmail.com",
-            "LAST_LOGIN":"2024-07-23T08:07:26+00:00",
-            "DATE_REGISTER":"2024-07-22T00:00:00+00:00",
-            "IS_ONLINE":"Y",
-            "LAST_ACTIVITY_DATE":"2024-07-23 08:08:50",
-            "PERSONAL_GENDER":"",
-            "PERSONAL_BIRTHDAY":"",
-            "WORK_POSITION":"",
-            "UF_EMPLOYMENT_DATE":"",
-            "UF_DEPARTMENT":[1]
-        },
-        "time":{
-            "start":1721722262.960948,
-            "finish":1721722262.985244,
-            "duration":0.024296045303344727,
-            "processing":0.0012989044189453125,
-            "date_start":"2024-07-23T08:11:02+00:00",
-            "date_finish":"2024-07-23T08:11:02+00:00",
-            "operating":0
-        }
+{
+    "result": {
+        "ID": "1",
+        "XML_ID": "10001",
+        "ACTIVE": true,
+        "NAME": "Иван",
+        "LAST_NAME": "Иванов",
+        "EMAIL": "ivanov@example.com",
+        "LAST_LOGIN": "2026-10-29T15:13:52+03:00",
+        "DATE_REGISTER": "2025-10-02T03:00:00+03:00",
+        "TIME_ZONE": "Europe/Moscow",
+        "IS_ONLINE": "Y",
+        "TIMESTAMP_X": "10/27/2026 12:12:19 pm",
+        "LAST_ACTIVITY_DATE": "2026-10-29 17:58:08",
+        "PERSONAL_GENDER": "M",
+        "PERSONAL_BIRTHDAY": "",
+        "PERSONAL_PHOTO": "https://cdn-ru.bitrix24.ru/b1/main/a1b/a1b2c3/avatar.png",
+        "PERSONAL_MOBILE": "+79990000000",
+        "WORK_POSITION": "Менеджер по продажам",
+        "UF_EMPLOYMENT_DATE": "",
+        "UF_DEPARTMENT": [
+            1
+        ],
+        "UF_USR_USER_DEALS": false
+    },
+    "time": {
+        "start": 1793286068,
+        "finish": 1793286068.341957,
+        "duration": 0.34195709228515625,
+        "processing": 0,
+        "date_start": "2026-10-29T18:01:08+03:00",
+        "date_finish": "2026-10-29T18:01:08+03:00",
+        "operating_reset_at": 1793286660,
+        "operating": 0
     }
+}
 ```
 
 ### Возвращаемые данные
@@ -272,12 +285,186 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа, который содержит информацию о пользователе ||
+[`object`](../data-types.md) | Профиль пользователя [(подробное описание)](#user-fields) ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
+#### Поля пользователя {#user-fields}
+
+Метод возвращает только поля, разрешенные версией скоупа, — список по версиям в статье [Версии скоупа user](user-scope.md). Поле со значением `null` в ответ не попадает, пустые строки возвращаются.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../data-types.md) | Идентификатор пользователя. Число в виде строки ||
+|| **XML_ID**
+[`string`](../data-types.md) | Внешний код пользователя ||
+|| **ACTIVE**
+[`boolean`](../data-types.md) | Активен ли пользователь:
+- `true` — работает
+- `false` — уволен ||
+|| **NAME**
+[`string`](../data-types.md) | Имя ||
+|| **LAST_NAME**
+[`string`](../data-types.md) | Фамилия ||
+|| **SECOND_NAME**
+[`string`](../data-types.md) | Отчество ||
+|| **TITLE**
+[`string`](../data-types.md) | Обращение ||
+|| **EMAIL**
+[`string`](../data-types.md) | E-mail ||
+|| **LAST_LOGIN**
+[`string`](../data-types.md) | Дата и время последней авторизации в формате ISO 8601, например `2026-10-29T15:13:52+03:00` ||
+|| **DATE_REGISTER**
+[`string`](../data-types.md) | Дата регистрации в формате ISO 8601 ||
+|| **TIME_ZONE**
+[`string`](../data-types.md) | Часовой пояс пользователя, например `Europe/Moscow` ||
+|| **IS_ONLINE**
+[`string`](../data-types.md) | Пользователь в сети:
+- `Y` — в сети
+- `N` — не в сети ||
+|| **TIMESTAMP_X**
+[`string`](../data-types.md) | Дата и время последнего изменения профиля в формате сайта, например `10/27/2026 12:12:19 pm` ||
+|| **LAST_ACTIVITY_DATE**
+[`string`](../data-types.md) | Дата и время последней активности в формате `ГГГГ-ММ-ДД ЧЧ:ММ:СС` ||
+|| **PERSONAL_GENDER**
+[`string`](../data-types.md) | Пол:
+- `M` — мужской
+- `F` — женский
+- пустая строка — не указан ||
+|| **PERSONAL_PROFESSION**
+[`string`](../data-types.md) | Профессия ||
+|| **PERSONAL_WWW**
+[`string`](../data-types.md) | Личный сайт ||
+|| **PERSONAL_BIRTHDAY**
+[`string`](../data-types.md) | Дата рождения в формате ISO 8601. Пустая строка, если не указана ||
+|| **PERSONAL_PHOTO**
+[`string`](../data-types.md) | Ссылка на фотографию профиля ||
+|| **PERSONAL_ICQ**
+[`string`](../data-types.md) | ICQ ||
+|| **PERSONAL_PHONE**
+[`string`](../data-types.md) | Личный телефон ||
+|| **PERSONAL_FAX**
+[`string`](../data-types.md) | Личный факс ||
+|| **PERSONAL_MOBILE**
+[`string`](../data-types.md) | Личный мобильный телефон ||
+|| **PERSONAL_PAGER**
+[`string`](../data-types.md) | Пейджер ||
+|| **PERSONAL_STREET**
+[`string`](../data-types.md) | Улица проживания ||
+|| **PERSONAL_CITY**
+[`string`](../data-types.md) | Город проживания ||
+|| **PERSONAL_STATE**
+[`string`](../data-types.md) | Область или край проживания ||
+|| **PERSONAL_ZIP**
+[`string`](../data-types.md) | Почтовый индекс проживания ||
+|| **PERSONAL_COUNTRY**
+[`string`](../data-types.md) | Код страны проживания. `0`, если страна не указана ||
+|| **PERSONAL_MAILBOX**
+[`string`](../data-types.md) | Почтовый ящик ||
+|| **PERSONAL_NOTES**
+[`string`](../data-types.md) | Дополнительные заметки ||
+|| **WORK_PHONE**
+[`string`](../data-types.md) | Рабочий телефон ||
+|| **WORK_COMPANY**
+[`string`](../data-types.md) | Компания ||
+|| **WORK_POSITION**
+[`string`](../data-types.md) | Должность ||
+|| **WORK_DEPARTMENT**
+[`string`](../data-types.md) | Отдел — текстовое поле. Подразделения из структуры компании хранятся в `UF_DEPARTMENT` ||
+|| **WORK_WWW**
+[`string`](../data-types.md) | Сайт компании ||
+|| **WORK_FAX**
+[`string`](../data-types.md) | Рабочий факс ||
+|| **WORK_PAGER**
+[`string`](../data-types.md) | Рабочий пейджер ||
+|| **WORK_STREET**
+[`string`](../data-types.md) | Улица места работы ||
+|| **WORK_MAILBOX**
+[`string`](../data-types.md) | Рабочий почтовый ящик ||
+|| **WORK_CITY**
+[`string`](../data-types.md) | Город места работы ||
+|| **WORK_STATE**
+[`string`](../data-types.md) | Область или край места работы ||
+|| **WORK_ZIP**
+[`string`](../data-types.md) | Почтовый индекс места работы ||
+|| **WORK_COUNTRY**
+[`string`](../data-types.md) | Код страны места работы. `0`, если страна не указана ||
+|| **WORK_PROFILE**
+[`string`](../data-types.md) | Направление деятельности компании ||
+|| **WORK_LOGO**
+[`string`](../data-types.md) | Логотип компании ||
+|| **WORK_NOTES**
+[`string`](../data-types.md) | Заметки о месте работы ||
+|| **UF_SKYPE_LINK**
+[`string`](../data-types.md) | Ссылка на чат в Skype ||
+|| **UF_ZOOM**
+[`string`](../data-types.md) | Zoom ||
+|| **UF_EMPLOYMENT_DATE**
+[`string`](../data-types.md) | Дата приема на работу в формате ISO 8601. Пустая строка, если не указана ||
+|| **UF_TIMEMAN**
+[`string`](../data-types.md) | Включен ли учет рабочего времени для пользователя: `1` — включен, другое значение — выключен ||
+|| **UF_DEPARTMENT**
+[`integer[]`](../data-types.md) | Идентификаторы подразделений из структуры компании. Получить подразделения можно методом [department.get](../departments/department-get.md) ||
+|| **UF_INTERESTS**
+[`string`](../data-types.md) | Интересы ||
+|| **UF_SKILLS**
+[`string`](../data-types.md) | Навыки ||
+|| **UF_WEB_SITES**
+[`string`](../data-types.md) | Другие сайты ||
+|| **UF_XING**
+[`string`](../data-types.md) | Xing ||
+|| **UF_LINKEDIN**
+[`string`](../data-types.md) | LinkedIn ||
+|| **UF_FACEBOOK**
+[`string`](../data-types.md) | Facebook\* ||
+|| **UF_TWITTER**
+[`string`](../data-types.md) | Twitter ||
+|| **UF_SKYPE**
+[`string`](../data-types.md) | Microsoft Teams. Код поля сохранился от Skype ||
+|| **UF_DISTRICT**
+[`string`](../data-types.md) | Район ||
+|| **UF_PHONE_INNER**
+[`string`](../data-types.md) | Внутренний телефон ||
+|| **USER_TYPE**
+[`string`](../data-types.md) | Тип пользователя. Основные значения:
+- `employee` — сотрудник
+- `extranet` — внешний пользователь экстранета
+- `email` — пользователь, который пишет из почты
+- `bot` — чат-бот ||
+|| **UF_USR_\***
+`разные` | Пользовательские поля профиля. Тип значения зависит от типа поля: строка, число, массив или для файла объект с ключами `id`, `showUrl` и `downloadData`. Поля создают методы [user.userfield.*](./userfields/index.md) ||
+|#
+
+Поле `USER_TYPE` возвращают методы [user.get](./user-get.md) и [user.search](./user-search.md). Метод `user.current` это поле не возвращает.
+
+\
+**Принадлежит компании Meta Platforms, Inc., которая признана экстремистской и запрещена на территории Российской Федерации.*
+
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+У метода нет параметров, поэтому собственных ошибок у него нет. Метод возвращает только системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет ни одной версии скоупа: `user`, `user_basic` или `user_brief` ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
@@ -289,5 +476,3 @@ HTTP-статус: **200**
 - [{#T}](./user-search.md)
 - [{#T}](./user-fields.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
-
-[*ключ_текущем]: Тот, чей токен вы использовали при вызове REST. Если вы используете сохраненный админский токен, то выведется администратор. Если используете токен, который приходит в POST-запросе во фрейм приложения, то будет пользователь, который зашел в приложение.

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `user.userfield.delete` удаляет пользовательское поле.
+Метод `user.userfield.delete` удаляет пользовательское поле профиля вместе со значениями у всех сотрудников.
 
 ## Параметры метода
 
@@ -28,6 +28,12 @@
 Для получения идентификаторов пользовательских полей используйте метод [user.userfield.list](./user-userfield-list.md)
  ||
 |#
+
+{% note warning "" %}
+
+Удаление необратимо: поле и его значения стираются из профилей всех сотрудников, восстановить их нельзя. Чем больше сотрудников в Битрикс24, тем дольше выполняется запрос — подробнее в разделе [Частые причины серверных ошибок](./index.md#server-errors).
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -132,7 +138,7 @@
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
-    bitrix_id = 176
+    bitrix_id = 123
 
     try:
         bitrix_response = client.user.userfield.delete(
@@ -148,9 +154,9 @@
             sep="\n",
         )
     except BitrixSDKException as error:
-        print("Bitrix SDK error", error.message, sep="\n")
+        print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
-        print("Unexpected error", error, sep="\n")
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - PHP
@@ -244,13 +250,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start":1747310916.827703,
-        "finish":1747310918.05313,
-        "duration":1.2254269123077393,
-        "processing":0.2228090763092041,
-        "date_start":"2025-05-15T14:08:36+02:00",
-        "date_finish":"2025-05-15T14:08:38+02:00",
-        "operating":0
+        "start": 1793288731,
+        "finish": 1793288731.158602,
+        "duration": 0.15860199928283691,
+        "processing": 0,
+        "date_start": "2026-10-29T18:45:31+03:00",
+        "date_finish": "2026-10-29T18:45:31+03:00",
+        "operating_reset_at": 1793289240,
+        "operating": 0.1366438865661621
     }
 }
 ```
@@ -261,7 +268,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления пользовательского поля ||
+[`boolean`](../../data-types.md) | `true`, если поле удалено ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -271,9 +278,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-   "error":"",
-   "error_description":"Access denied."
+{
+    "error": "",
+    "error_description": "Access denied."
 }
 ```
 
@@ -282,9 +289,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустая строка | Access denied. | Поле с таким `id` не существует или доступ запрещен ||
-|| Пустая строка | ID is not defined or invalid | Не задан или введен неверный `id` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустая строка | Access denied. | У пользователя нет прав администратора, поле с переданным `id` не найдено или это системное поле профиля без префикса `UF_USR_`. Системные поля через REST менять нельзя ||
+|| `400` | Пустая строка | ID is not defined or invalid. | Не передан `id` или передано значение меньше `1` ||
+|| `400` | `ERROR_CORE` | Fail to delete user field. | Внутренняя ошибка при удалении поля ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `user.userfield` ||
+|| `500` | `INTERNAL_SERVER_ERROR` | Internal server error | Запрос не успел выполниться за время `max_execution_time` — обычно в Битрикс24 с большим числом сотрудников. Подробнее в разделе [Частые причины серверных ошибок](./index.md#server-errors) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

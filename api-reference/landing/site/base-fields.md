@@ -9,20 +9,42 @@
 
 {% endnote %}
 
-Поля сайта используются в методе [landing.site.getList](./landing-site-get-list.md).
+Поля сайта описывают название, адрес, тип, статус публикации и служебные страницы сайта. Метод [landing.site.getList](./landing-site-get-list.md) возвращает эти поля, методы [landing.site.add](./landing-site-add.md) и [landing.site.update](./landing-site-update.md) принимают часть из них в параметре `fields`.
 
-Часть полей можно передавать при создании и изменении сайта через методы [landing.site.add](./landing-site-add.md) и [landing.site.update](./landing-site-update.md).
+Дополнительные поля сайта, например тема, фон, аналитика и пользовательский код, в эту таблицу не входят. Их передают в массиве `ADDITIONAL_FIELDS` и читают методом [landing.site.getadditionalfields](./landing-site-get-additional-fields.md). Описание — в статье [{#T}](./additional-fields.md).
 
-Дополнительные поля сайта передают отдельно в массиве `ADDITIONAL_FIELDS` и читают через [landing.site.getadditionalfields](./landing-site-get-additional-fields.md).
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может получить поля: пользователь с правом «просмотр» сайтов. Для изменения полей нужно право «изменение настроек» сайта
+
+## Как получить поля сайта
+
+Передайте названия нужных полей в `params.select` метода [landing.site.getList](./landing-site-get-list.md). Например, чтобы найти сайт по внешнему идентификатору и получить его адрес и статус публикации:
+
+```json
+{
+    "params": {
+        "select": ["ID", "TITLE", "ACTIVE", "PUBLIC_URL"],
+        "filter": {
+            "=XML_ID": "my-integration-site-1"
+        }
+    }
+}
+```
+
+Если `select` не передан, метод возвращает все поля из таблиц [основных](#main) и [служебных](#service) полей. [Вычисляемые поля](#calculated) возвращаются, только если указать их в `select`. Поля `ID` и `TYPE` метод добавляет в выборку всегда.
+
+По умолчанию `landing.site.getList` возвращает только сайты со значением `DELETED = "N"`. Чтобы получить сайты из корзины, передайте `DELETED` или `=DELETED` в `filter`.
 
 ## Что нужно знать
 
-- при создании через `landing.site.add` сайт создается неопубликованным со значением `ACTIVE = N`
+- при создании через `landing.site.add` сайт создается неопубликованным со значением `ACTIVE = "N"`
+- поля `ACTIVE`, `SPECIAL` и `TPL_CODE` методы `landing.site.add` и `landing.site.update` не сохраняют: значения из `fields` игнорируются без ошибки. Публикацией управляют методы [landing.site.publication](./landing-site-publication.md) и [landing.site.unpublic](./landing-site-unpublic.md)
 - если сайт поместить в корзину, он автоматически снимается с публикации
 - для удаления и восстановления сайта используйте [landing.site.markDelete](./landing-site-mark-delete.md) и [landing.site.markUnDelete](./landing-site-mark-undelete.md)
-- служебные поля могут приходить в ответе `landing.site.getList`, но их не задают вручную
+- поля `CREATED_BY_ID`, `MODIFIED_BY_ID`, `DATE_CREATE` и `DATE_MODIFY` Битрикс24 заполняет автоматически при создании и изменении сайта
 
-## Основные поля
+## Основные поля {#main}
 
 #|
 || **Поле**
@@ -37,12 +59,12 @@
 [`string`](../../data-types.md) | Тип сайта.
 
 Возможные значения:
-`PAGE`  сайт
-`STORE`  магазин
-`SMN`  проект
-`KNOWLEDGE`  база знаний
-`GROUP`  сайт группы
-`MAINPAGE`  главная страница или вайб
+`PAGE` — сайт
+`STORE` — магазин
+`SMN` — проект
+`KNOWLEDGE` — база знаний
+`GROUP` — сайт группы
+`MAINPAGE` — главная страница или вайб
 
 По умолчанию `PAGE`
 
@@ -51,26 +73,26 @@
 [`string`](../../data-types.md) | Статус публикации сайта.
 
 Возможные значения:
-`Y`  сайт опубликован
-`N`  сайт не опубликован
+`Y` — сайт опубликован
+`N` — сайт не опубликован
 
-При создании через `landing.site.add` сайт получает значение `N`. Для публикации и снятия с публикации используйте [landing.site.publication](./landing-site-publication.md) и [landing.site.unpublic](./landing-site-unpublic.md) ||
+При создании через `landing.site.add` сайт получает значение `N`. Через `landing.site.add` и `landing.site.update` поле не меняется. Для публикации и снятия с публикации используйте [landing.site.publication](./landing-site-publication.md) и [landing.site.unpublic](./landing-site-unpublic.md) ||
 || **DELETED**
 [`string`](../../data-types.md) | Флаг корзины.
 
 Возможные значения:
-`Y`  сайт находится в корзине
-`N`  сайт не находится в корзине
+`Y` — сайт находится в корзине
+`N` — сайт не находится в корзине
 
 По умолчанию `landing.site.getList` возвращает только сайты со значением `DELETED = "N"` ||
 || **DESCRIPTION**
 [`string`](../../data-types.md) | Краткое описание сайта. Выводится в списке сайтов ||
 || **XML_ID**
-[`string`](../../data-types.md) | Внешний идентификатор сайта ||
+[`string`](../../data-types.md) | Внешний идентификатор сайта. Удобен, чтобы находить сайт из интеграции и не хранить внутренний `ID` ||
 || **DOMAIN_ID**
-[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор домена ||
+[`integer`](../../data-types.md) \| [`string`](../../data-types.md) | Идентификатор домена. Доменное имя возвращает вычисляемое поле `DOMAIN_NAME` ||
 || **LANG**
-[`string`](../../data-types.md) | Двухсимвольный код языковой зоны сайта, например `ru`, `en`, `de`, `by`, `kz`, `in` ||
+[`string`](../../data-types.md) | Двухсимвольный код языковой зоны сайта, например `ru`, `en`, `de`, `by`, `kz`, `in`. Может быть пустой строкой, если язык сайта не задан ||
 || **TPL_ID**
 [`integer`](../../data-types.md) | Идентификатор [шаблона представления](../template/index.md) сайта ||
 || **LANDING_ID_INDEX**
@@ -84,34 +106,60 @@
 || **MODIFIED_BY_ID**
 [`integer`](../../data-types.md) | Идентификатор пользователя, который последним изменил сайт ||
 || **DATE_CREATE**
-[`datetime`](../../data-types.md) | Дата и время создания сайта. В ответе REST возвращается строкой. Формат зависит от региональных настроек портала, например `04/20/2020 12:48:10 pm` ||
+[`datetime`](../../data-types.md) | Дата и время создания сайта. В ответе REST возвращается строкой. Формат зависит от региональных настроек портала, например `04/20/2020 12:48:10 pm`. Значение в формате ISO 8601 возвращает поле `DATE_CREATE_ISO` ||
 || **DATE_MODIFY**
-[`datetime`](../../data-types.md) | Дата и время последнего изменения сайта. В ответе REST возвращается строкой. Формат зависит от региональных настроек портала, например `04/20/2020 12:48:10 pm` ||
+[`datetime`](../../data-types.md) | Дата и время последнего изменения сайта. В ответе REST возвращается строкой. Формат зависит от региональных настроек портала, например `04/20/2020 12:48:10 pm`. Значение в формате ISO 8601 возвращает поле `DATE_MODIFY_ISO` ||
 |#
 
-## Вычисляемые поля
+## Служебные поля {#service}
 
-Эти поля не хранятся в таблице сайта. Метод `landing.site.getList` возвращает их при запросе в `select`.
+Эти поля Битрикс24 заполняет сам. Метод `landing.site.getList` возвращает их при запросе без `select` или с явным указанием в `select`. Передавать их в `landing.site.add` и `landing.site.update` не нужно.
+
+#|
+|| **Поле**
+`тип` | **Описание** ||
+|| **TPL_CODE**
+[`string`](../../data-types.md) \| `null` | Код шаблона типового решения, из которого создан сайт, например `clothes`. Если сайт создан не из типового решения, возвращается `null`. Значение из `fields` методы `landing.site.add` и `landing.site.update` игнорируют ||
+|| **SPECIAL**
+[`string`](../../data-types.md) | Признак технического сайта.
+
+Возможные значения:
+`Y` — технический сайт, например сайт для CRM-форм
+`N` — обычный сайт
+
+По умолчанию `N`. Значение из `fields` методы `landing.site.add` и `landing.site.update` игнорируют ||
+|| **SMN_SITE_ID**
+[`string`](../../data-types.md) \| `null` | Идентификатор сайта главного модуля, к которому привязан сайт. Если привязки нет, возвращается `null` ||
+|| **VERSION**
+[`integer`](../../data-types.md) | Внутренняя версия сайта ||
+|#
+
+## Вычисляемые поля {#calculated}
+
+Эти поля не хранятся в таблице сайта. Метод `landing.site.getList` формирует их при ответе.
 
 #|
 || **Поле**
 `тип` | **Описание** ||
 || **DOMAIN_NAME**
-[`string`](../../data-types.md) | Доменное имя сайта ||
+[`string`](../../data-types.md) | Доменное имя сайта. Возвращается, если указать поле в `select` ||
 || **PUBLIC_URL**
-[`string`](../../data-types.md) | Полный публичный URL сайта. Может быть пустой строкой, если URL не удалось определить ||
+[`string`](../../data-types.md) | Полный публичный URL сайта. Может быть пустой строкой, если URL не удалось определить. Возвращается, если указать поле в `select` ||
 || **PREVIEW_PICTURE**
-[`string`](../../data-types.md) | URL превью главной страницы сайта. Может быть пустой строкой, если превью недоступно ||
+[`string`](../../data-types.md) | URL превью главной страницы сайта. Может быть пустой строкой, если превью недоступно. Возвращается, если указать поле в `select` ||
 || **PHONE**
-[`string`](../../data-types.md) \| `null` | Телефон CRM-контакта, связанного с сайтом ||
+[`string`](../../data-types.md) \| `null` | Телефон CRM-контакта, связанного с сайтом. Возвращается, если указать поле в `select` ||
+|| **DATE_CREATE_ISO**
+[`string`](../../data-types.md) | Дата и время создания сайта в формате ISO 8601, например `2020-04-20T12:48:10+03:00`. Возвращается вместе с `DATE_CREATE` ||
+|| **DATE_MODIFY_ISO**
+[`string`](../../data-types.md) | Дата и время последнего изменения сайта в формате ISO 8601. Возвращается вместе с `DATE_MODIFY` ||
 |#
 
 ## Продолжите изучение
 
-- [{#T}](./landing-site-add.md)
-- [{#T}](./landing-site-update.md)
-- [{#T}](./landing-site-get-list.md)
-- [{#T}](./landing-site-get-public-url.md)
-- [{#T}](./landing-site-get-preview.md)
-- [{#T}](./landing-site-get-additional-fields.md)
-- [{#T}](./additional-fields.md)
+- создать сайт и изменить его поля — [{#T}](./landing-site-add.md), [{#T}](./landing-site-update.md)
+- получить список сайтов с выбранными полями — [{#T}](./landing-site-get-list.md)
+- опубликовать сайт или снять его с публикации — [{#T}](./landing-site-publication.md), [{#T}](./landing-site-unpublic.md)
+- получить публичный адрес и превью сайта — [{#T}](./landing-site-get-public-url.md), [{#T}](./landing-site-get-preview.md)
+- работать с дополнительными полями сайта — [{#T}](./additional-fields.md), [{#T}](./landing-site-get-additional-fields.md)
+- выбрать тип сайта и внутренний scope — [{#T}](../types.md)

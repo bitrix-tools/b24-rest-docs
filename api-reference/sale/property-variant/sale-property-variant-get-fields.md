@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.propertyvariant.getFields` возвращает доступные поля вариантов значений свойств.
+Метод `sale.propertyvariant.getFields` возвращает поля варианта значения свойства с типом и признаками обязательности и изменяемости.
 
 ## Параметры метода
 
@@ -152,7 +152,7 @@
         $response = $b24Service
             ->core
             ->call(
-                'sale.propertyvairant.getFields',
+                'sale.propertyvariant.getFields',
                 []
             );
     
@@ -170,7 +170,7 @@
 
     ```js
     BX24.callMethod(
-        "sale.propertyvairant.getFields", {},
+        "sale.propertyvariant.getFields", {},
         function(result) {
             if (result.error()) {
                 console.error(result.error());
@@ -186,7 +186,7 @@
     ```php
     require_once('crest.php');
 
-    $result = CRest::call('sale.propertyvairant.getFields', []);
+    $result = CRest::call('sale.propertyvariant.getFields', []);
 
     echo '<PRE>';
     print_r($result);
@@ -219,59 +219,61 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result":{
-        "propertyVariant":{
-            "description":{
-                "isImmutable":false,
-                "isReadOnly":false,
-                "isRequired":false,
-                "type":"string"
+    "result": {
+        "propertyVariant": {
+            "description": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
             },
-            "id":{
-                "isImmutable":false,
-                "isReadOnly":true,
-                "isRequired":false,
-                "type":"integer"
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
             },
-            "name":{
-                "isImmutable":false,
-                "isReadOnly":false,
-                "isRequired":true,
-                "type":"string"
+            "name": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
             },
-            "orderPropsId":{
-                "isImmutable":true,
-                "isReadOnly":false,
-                "isRequired":true,
-                "type":"integer"
+            "orderPropsId": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
             },
-            "sort":{
-                "isImmutable":false,
-                "isReadOnly":false,
-                "isRequired":false,
-                "type":"integer"
+            "sort": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
             },
-            "value":{
-                "isImmutable":false,
-                "isReadOnly":false,
-                "isRequired":true,
-                "type":"string"
+            "value": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
             },
-            "xnlId":{
-                "isImmutable":false,
-                "isReadOnly":false,
-                "isRequired":false,
-                "type":"string"
+            "xnlId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
             }
         }
     },
-    "time":{
-        "start":1711634366.714184,
-        "finish":1711634366.95501,
-        "duration":0.24082589149475098,
-        "processing":0.0055849552154541016,
-        "date_start":"2024-03-28T16:59:26+03:00",
-        "date_finish":"2024-03-28T16:59:26+03:00"
+    "time": {
+        "start": 1793263619,
+        "finish": 1793263619.094287,
+        "duration": 0.09428691864013672,
+        "processing": 0,
+        "date_start": "2026-10-29T11:46:59+03:00",
+        "date_finish": "2026-10-29T11:46:59+03:00",
+        "operating_reset_at": 1793264160,
+        "operating": 0
     }
 }
 ```
@@ -284,7 +286,11 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **propertyVariant**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_order_property_variant](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md) ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_order_property_variant](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md).
+
+Метод возвращает поля `id`, `orderPropsId`, `name`, `value`, `sort`, `description` и `xnlId`. Поле `xnlId` описывает внешний код варианта, имя поля в ответе написано с опечаткой. Методы [sale.propertyvariant.get](./sale-property-variant-get.md) и [sale.propertyvariant.list](./sale-property-variant-list.md) это поле не возвращают.
+
+У поля `orderPropsId` признак `isImmutable` равен `true`: свойство варианта задается при создании и не меняется ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -295,8 +301,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -305,9 +311,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения доступных полей вариантов значений свойств ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на чтение настроек магазина ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
