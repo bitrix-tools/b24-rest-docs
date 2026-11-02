@@ -28,36 +28,47 @@
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md).
 
 Если вызвать метод повторно для одного и того же звонка, новая запись заменит ранее прикрепленную ||
-|| **RECORD_URL***
-[`string`](../data-types.md) | URL записи на внешнем сервере. Если параметр передан, Битрикс24 скачивает файл по ссылке.
+|| **RECORD_URL**
+[`string`](../data-types.md) | URL записи на внешнем сервере. Битрикс24 скачивает файл по ссылке. Если параметр передан, `FILE_CONTENT` не используется.
 
 Рекомендуется использовать только если файл доступен стабильно и быстро.
 
-Адрес должен быть доступен из интернета. Если домен из ссылки указывает на непубличный IP-адрес, например из локальной сети, Битрикс24 не скачивает файл и метод возвращает ошибку. Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl` ||
-|| **FILENAME***
-[`string`](../data-types.md) | Имя файла записи.
+Требования к ссылке:
+- схема `http` или `https`
+- все IP-адреса домена, IPv4 и IPv6, публичные. Если хотя бы один адрес непубличный, например из локальной сети, `127.0.0.1` или `100.64.0.0/10`, Битрикс24 не скачивает файл и метод возвращает ошибку
+- в ссылке указан домен, IPv6-адрес вместо домена не поддерживается
+- не больше 5 редиректов, адрес каждого редиректа проверяется по тем же правилам
 
-Возможные расширения:
+Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl`.
+
+Возможные форматы файла:
+- `mp3`
+- `wav`
+- `flac`
+
+Размер файла — до 512 МБ ||
+|| **FILENAME**
+[`string`](../data-types.md) | Имя файла записи. Обязательный, если не передан `RECORD_URL`.
+
+Если передан `FILE_CONTENT`, возможные расширения:
 - `wav`
 - `mp3`
 
-В режиме `RECORD_URL`:
+Если передан `RECORD_URL`:
 - если `FILENAME` не передан, имя берется из URL
-
-{% note info "" %}
-
-Необходимо указать хотя бы один из параметров: `RECORD_URL` или `FILENAME`
-
-{% endnote %} ||
+- если расширение не `mp3`, `wav` или `flac`, оно заменяется по типу содержимого файла ||
 || **FILE_CONTENT**
 [`string`](../data-types.md) | Файл в кодировке [Base64](../files/how-to-upload-files.md) ||
 |#
 
 {% note info "" %}
 
-Если передан `FILENAME`, но не передан `FILE_CONTENT`, метод вернет `uploadUrl` и `fieldName` для последующей загрузки содержимого файла отдельным запросом.
+Метод работает в трех режимах:
+- передан `RECORD_URL` — Битрикс24 скачивает файл по ссылке, в ответе возвращается `FILE_ID`
+- переданы `FILENAME` и `FILE_CONTENT` — файл прикрепляется сразу, в ответе возвращается `FILE_ID`
+- передан `FILENAME` без `FILE_CONTENT` — метод возвращает `uploadUrl` и `fieldName` для загрузки файла отдельным запросом
 
-Если переданы и `FILENAME`, и `FILE_CONTENT` (или указан `RECORD_URL`), файл прикрепляется сразу, и в ответе возвращается `FILE_ID`
+Если не передан ни `RECORD_URL`, ни `FILENAME`, метод вернет ошибку
 
 {% endnote %}
 
@@ -290,7 +301,7 @@
 
 ## Обработка ответа
 
-#### Если переданы и FILENAME, и FILE_CONTENT
+#### Если передан RECORD_URL или переданы FILENAME и FILE_CONTENT
 
 HTTP-статус: **200**
 
@@ -369,12 +380,19 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || Пустое значение | Required parameters are not set. Request should contain or URL or FILENAME parameter | Не переданы `RECORD_URL` и `FILENAME` ||
 || Пустое значение | Call is not found in the statistic table. Looks like it is not finished yet. | Звонок не найден в статистике. Убедитесь, что звонок завершен ||
-|| `ERROR_CORE` | File name is empty | Пустой `FILENAME` ||
-|| `ERROR_CORE` | Wrong file extension. Only wav and mp3 are allowed | Недопустимое расширение файла ||
-|| `ERROR_CORE` | File content is empty. | Пустой `FILE_CONTENT` ||
-|| `ERROR_CORE` | File content is not properly encoded. Base64 encoding is expected. | `FILE_CONTENT` передан не в Base64 ||
-|| `ERROR_CORE` | Server returns HTTP error code {N} | Ошибка HTTP при загрузке записи по `RECORD_URL` ||
-|| Пустое значение | Record URL resolves to a non-public address and was blocked. | `RECORD_URL` указывает на непубличный IP-адрес, например из локальной сети. Передайте запись в `FILE_CONTENT` или загрузите по `uploadUrl` ||
+|| Пустое значение | File name is empty | Пустой `FILENAME` ||
+|| Пустое значение | Wrong file extension. Only wav and mp3 are allowed | Недопустимое расширение файла в `FILENAME` при передаче `FILE_CONTENT` ||
+|| Пустое значение | File content is empty. | Пустой `FILE_CONTENT` ||
+|| Пустое значение | File content is not properly encoded. Base64 encoding is expected. | `FILE_CONTENT` передан не в Base64 ||
+|| Пустое значение | Record URL could not be parsed. | Некорректный `RECORD_URL` ||
+|| Пустое значение | Record URL scheme must be http or https. | В `RECORD_URL` указана схема, отличная от `http` и `https` ||
+|| Пустое значение | Record URL host is empty. | В `RECORD_URL` не указан домен ||
+|| Пустое значение | Record URL host could not be resolved to any address. | Домен из `RECORD_URL` не удалось преобразовать в IP-адрес. Проверьте ссылку и повторите запрос позже ||
+|| Пустое значение | Record URL resolves to a non-public address and was blocked. | Хотя бы один IP-адрес домена из `RECORD_URL` или из редиректа непубличный, например из локальной сети. Проверьте A- и AAAA-записи домена и адреса редиректов. Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl` ||
+|| Пустое значение | The record URL uses an IPv6 literal host, which is not supported by this environment. | В `RECORD_URL` указан IPv6-адрес вместо домена ||
+|| Пустое значение | Maximum number of redirects has been reached. | Ссылка из `RECORD_URL` перенаправляет больше 5 раз ||
+|| Пустое значение | Server returns HTTP error code {N} | Сервер из `RECORD_URL` вернул HTTP-статус, отличный от `200` ||
+|| Пустое значение | Неверный тип файла | Файл по `RECORD_URL` или из `FILE_CONTENT` не является аудиофайлом. Текст ошибки зависит от языка портала ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
