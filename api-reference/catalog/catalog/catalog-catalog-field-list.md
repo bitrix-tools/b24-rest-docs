@@ -23,6 +23,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -464,7 +466,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-catalog-field-get.md)
 - [{#T}](./catalog-catalog-add.md)
 - [{#T}](./catalog-catalog-list-rest-v3.md)
+- [{#T}](./catalog-catalog-field-get.md)
 - [{#T}](../../rest-v3.md)

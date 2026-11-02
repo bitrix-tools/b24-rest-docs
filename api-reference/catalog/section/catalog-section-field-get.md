@@ -477,6 +477,6 @@ HTTP-статус: **403**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-section-field-list.md)
-- [{#T}](./catalog-section-get-rest-v3.md)
 - [{#T}](./catalog-section-add-rest-v3.md)
+- [{#T}](./catalog-section-get-rest-v3.md)
+- [{#T}](./catalog-section-field-list.md)

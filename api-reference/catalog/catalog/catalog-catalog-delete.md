@@ -341,5 +341,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./catalog-catalog-add.md)
-- [{#T}](./catalog-catalog-is-offers-rest-v3.md)
 - [{#T}](./catalog-catalog-list-rest-v3.md)
+- [{#T}](./catalog-catalog-is-offers-rest-v3.md)

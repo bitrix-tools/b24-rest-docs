@@ -457,6 +457,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-property-field-list.md)
 - [{#T}](./catalog-product-property-add-rest-v3.md)
+- [{#T}](./catalog-product-property-field-list.md)
 - [{#T}](./catalog-product-property-type-list.md)

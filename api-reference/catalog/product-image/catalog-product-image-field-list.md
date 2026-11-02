@@ -23,6 +23,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -465,6 +467,6 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-image-field-get.md)
 - [{#T}](./catalog-product-image-add-rest-v3.md)
 - [{#T}](./catalog-product-image-list-rest-v3.md)
+- [{#T}](./catalog-product-image-field-get.md)

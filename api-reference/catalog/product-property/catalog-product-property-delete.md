@@ -23,10 +23,16 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства. 
+[`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства.
 
 Идентификаторы свойств можно получить методом [catalog.productProperty.list](./catalog-product-property-list.md) ||
 |#
+
+{% note warning "" %}
+
+Вместе со свойством удаляются его значения у всех товаров и вариаций, значения списка, привязки к разделам и файлы свойства типа «Файл». Удаление нельзя отменить.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -226,13 +232,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1773951201,
-        "finish": 1773951201.704125,
-        "duration": 0.704124927520752,
+        "start": 1793618656,
+        "finish": 1793618656.553741,
+        "duration": 0.5537409782409668,
         "processing": 0,
-        "date_start": "2026-03-19T23:13:21+03:00",
-        "date_finish": "2026-03-19T23:13:21+03:00",
-        "operating_reset_at": 1773951801,
+        "date_start": "2026-11-02T14:24:16+03:00",
+        "date_finish": "2026-11-02T14:24:16+03:00",
+        "operating_reset_at": 1793619240,
         "operating": 0
     }
 }
@@ -267,7 +273,8 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога или нет права на изменение инфоблока свойства ||
-|| `400` | Пустое значение | productProperty does not exist | Свойство с указанным `id` не найдено ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | productProperty does not exist. | Свойство с указанным `id` не найдено ||
 || `400` | `0` | The specified property does not belong to a product catalog | Свойство не относится к торговому каталогу ||
 || `400` | `0` | Error deleting product property | Внутренняя ошибка при удалении свойства ||
 |#

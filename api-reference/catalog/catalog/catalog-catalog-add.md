@@ -362,7 +362,7 @@ HTTP-статус: **200**
             "skuPropertyId": 0,
             "iblockTypeId": "lists",
             "lid": "s1",
-            "name": "ТестовыйСписок"
+            "name": "Аксессуары"
         }
     },
     "time": {

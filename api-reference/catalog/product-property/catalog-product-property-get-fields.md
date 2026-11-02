@@ -227,7 +227,132 @@ HTTP-статус: **200**
                 "isRequired": false,
                 "type": "string"
             },
-            ... // описание для каждого поля
+            "colCount": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "defaultValue": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "text"
+            },
+            "fileType": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "filtrable": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "hint": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "iblockId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "isRequired": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "linkIblockId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "listType": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "multiple": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "multipleCnt": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "name": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "propertyType": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "rowCount": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "searchable": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "sort": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "timestampX": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "datetime"
+            },
+            "userType": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "userTypeSettings": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "productpropertysettings"
+            },
+            "withDescription": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
             "xmlId": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -237,13 +362,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1773946315,
-        "finish": 1773946315.270372,
-        "duration": 0.2703719139099121,
+        "start": 1793616305,
+        "finish": 1793616305.925634,
+        "duration": 0.9256339073181152,
         "processing": 0,
-        "date_start": "2026-03-19T21:51:55+03:00",
-        "date_finish": "2026-03-19T21:51:55+03:00",
-        "operating_reset_at": 1773946915,
+        "date_start": "2026-11-02T13:45:05+03:00",
+        "date_finish": "2026-11-02T13:45:05+03:00",
+        "operating_reset_at": 1793616900,
         "operating": 0
     }
 }
@@ -256,7 +381,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productProperty**
+|| **result.productProperty**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product_property](../data-types.md#catalog_product_property), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||

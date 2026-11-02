@@ -448,5 +448,5 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-property-type-field-list.md)
 - [{#T}](./catalog-product-property-type-list.md)
+- [{#T}](./catalog-product-property-type-field-list.md)

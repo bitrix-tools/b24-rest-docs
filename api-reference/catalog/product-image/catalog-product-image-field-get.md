@@ -457,6 +457,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-image-field-list.md)
 - [{#T}](./catalog-product-image-add-rest-v3.md)
 - [{#T}](./catalog-product-image-get-rest-v3.md)
+- [{#T}](./catalog-product-image-field-list.md)

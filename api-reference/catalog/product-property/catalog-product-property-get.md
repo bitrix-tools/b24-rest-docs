@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства. 
+[`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства.
 
 Идентификаторы свойств можно получить методом [catalog.productProperty.list](./catalog-product-property-list.md) ||
 |#
@@ -67,8 +67,8 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type GetProductPropertyResult = {
       productProperty: {
-        active: string
-        code: string
+        active: 'Y' | 'N'
+        code: string | null
         colCount: number
         defaultValue: string | null
         fileType: string | null
@@ -87,14 +87,8 @@
         searchable: string
         sort: number | null
         timestampX: ISODate | null
-        userType: string
-        userTypeSettings: {
-          group: string
-          multiple: string
-          size: number
-          tableName: string
-          width: number
-        }
+        userType: string | null
+        userTypeSettings: Record<string, unknown> | null
         withDescription: string | null
         xmlId: string | null
       }
@@ -252,17 +246,17 @@
     }
 
     var item struct {
-    	Active    string `json:"active"`
-    	Code      string `json:"code"`
-    	ColCount  int    `json:"colCount"`
-    	Filtrable string `json:"filtrable"`
-    	IblockID  b24.ID `json:"iblockId"`
-    	ID        b24.ID `json:"id"`
+    	Active    string  `json:"active"`
+    	Code      *string `json:"code"`
+    	ColCount  int     `json:"colCount"`
+    	Filtrable string  `json:"filtrable"`
+    	IblockID  b24.ID  `json:"iblockId"`
+    	ID        b24.ID  `json:"id"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Active, item.Code)
+    fmt.Println(item.ID, item.Active)
     ```
 
 {% endlist %}
@@ -276,7 +270,7 @@ HTTP-статус: **200**
     "result": {
         "productProperty": {
             "active": "Y",
-            "code": "s12",
+            "code": "CATEGORY",
             "colCount": 30,
             "defaultValue": null,
             "fileType": null,
@@ -327,7 +321,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productProperty**
+|| **result.productProperty**
 [`catalog_product_property`](../data-types.md#catalog_product_property) | Объект с информацией о свойстве товара или вариации ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -351,8 +345,8 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога ||
-|| `400` | Пустое значение | productProperty does not exist | Свойство с указанным `id` не найдено ||
-
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | productProperty does not exist. | Свойство с указанным `id` не найдено ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

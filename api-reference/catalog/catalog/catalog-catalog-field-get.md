@@ -444,6 +444,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-catalog-field-list.md)
-- [{#T}](./catalog-catalog-get-rest-v3.md)
 - [{#T}](./catalog-catalog-add.md)
+- [{#T}](./catalog-catalog-get-rest-v3.md)
+- [{#T}](./catalog-catalog-field-list.md)

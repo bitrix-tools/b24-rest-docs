@@ -422,7 +422,10 @@ HTTP-статус: **200**
 || **productId**
 [`integer`](../../data-types.md) | Идентификатор товара или вариации ||
 || **type**
-[`string`](../../data-types.md) | Тип изображения: `PREVIEW_PICTURE` — картинка для анонса, `DETAIL_PICTURE` — детальная картинка, `MORE_PHOTO` — дополнительная картинка ||
+[`string`](../../data-types.md) | Тип изображения:
+- `PREVIEW_PICTURE` — картинка для анонса
+- `DETAIL_PICTURE` — детальная картинка
+- `MORE_PHOTO` — дополнительная картинка ||
 || **name**
 [`string`](../../data-types.md) | Имя файла ||
 || **createTime**

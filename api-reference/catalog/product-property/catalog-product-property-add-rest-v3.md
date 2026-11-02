@@ -495,7 +495,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-property-field-list.md)
-- [{#T}](./catalog-product-property-type-list.md)
 - [{#T}](./catalog-product-property-get.md)
 - [{#T}](./catalog-product-property-list.md)
+- [{#T}](./catalog-product-property-field-list.md)
+- [{#T}](./catalog-product-property-type-list.md)

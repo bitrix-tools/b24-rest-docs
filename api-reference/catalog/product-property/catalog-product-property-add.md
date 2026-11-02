@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на изменение каталога товаров
+> Кто может выполнять метод: пользователь с правом на просмотр каталога и правом на изменение инфоблока каталога
 
 Метод `catalog.productProperty.add` добавляет свойство товара или вариации.
 
@@ -34,7 +34,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **iblockId***
-[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога. 
+[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога.
 
 Получить существующие идентификаторы можно методом [catalog.catalog.list](../catalog/catalog-catalog-list.md) ||
 || **name***
@@ -51,7 +51,8 @@
 [`char`](../../data-types.md) | Признак активности. Допустимые значения:
 - `Y` — да
 - `N` — нет
-||
+
+По умолчанию — `Y`. Любое другое значение, кроме `Y`, сохраняется как `N` ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
 || **code**
@@ -61,34 +62,46 @@
 || **userType**
 [`string`](../../data-types.md) | Пользовательский тип свойства. Значение должно соответствовать указанному `propertyType`.
 
-Примеры значений:
-- `DateTime` — дата и время
-- `Money` — денежное значение с валютой
-- `SKU` — привязка к вариациям товара
-- `directory` — привязка к справочнику
-- `employee` — привязка к сотруднику
-- `UserID` — привязка к пользователю
-- `EList` — выбор элемента из списка
-- `EAutocomplete` — привязка к элементам с автопоиском
-- `SectionAuto` — привязка к разделам с автопоиском
-- `HTML` — значение в формате HTML
-- `map_google` — координаты и адрес на карте Google
-- `map_yandex` — координаты и адрес на карте Яндекс
-- `DiskFile` — привязка к файлу из Битрикс24.Диск
-- `ECrm` — привязка к элементам CRM
-- `BoolEnum` — чекбокс на базе списка, это значение используйте вместе с `propertyType = L` ||
+Основные значения и базовый тип `propertyType`, с которым их нужно передавать:
+- `DateTime` — дата и время, `S`
+- `Money` — денежное значение с валютой, `S`
+- `SKU` — привязка к вариациям товара, `E`
+- `directory` — привязка к справочнику, `S`
+- `employee` — привязка к сотруднику, `S`
+- `UserID` — привязка к пользователю, `S`
+- `EList` — выбор элемента из списка, `E`
+- `EAutocomplete` — привязка к элементам с автопоиском, `E`
+- `SectionAuto` — привязка к разделам с автопоиском, `G`
+- `HTML` — значение в формате HTML, `S`
+- `map_google` — координаты и адрес на карте Google, `S`
+- `map_yandex` — координаты и адрес на карте Яндекс, `S`
+- `DiskFile` — привязка к файлу из Битрикс24.Диск, `S`
+- `ECrm` — привязка к элементам CRM, `S`
+- `BoolEnum` — чекбокс на базе списка, `L`
+
+Набор пользовательских типов зависит от модулей Битрикс24. Типы, которые поддерживает карточка товара, возвращает метод [catalog.product.property.type.list](./catalog-product-property-type-list.md).
+
+Если `userType` не подходит к `propertyType` или такого типа нет, метод вернет ошибку `Invalid property type specified` ||
 || **rowCount**
-[`integer`](../../data-types.md) | Число строк поля ввода ||
+[`integer`](../../data-types.md) | Число строк поля ввода.
+
+По умолчанию — `1` ||
 || **colCount**
-[`integer`](../../data-types.md) | Число колонок поля ввода ||
+[`integer`](../../data-types.md) | Число колонок поля ввода.
+
+По умолчанию — `30` ||
 || **listType**
 [`char`](../../data-types.md) | Внешний вид списка. Допустимые значения:
 - `L` — выпадающий список
-- `C` — набор флажков ||
+- `C` — набор флажков
+
+По умолчанию — `L` ||
 || **multiple**
 [`char`](../../data-types.md) | Признак множественного значения. Допустимые значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию — `N`. Любое другое значение, кроме `Y`, сохраняется как `N` ||
 || **xmlId**
 [`string`](../../data-types.md) | Внешний идентификатор свойства ||
 || **fileType**
@@ -96,7 +109,7 @@
 || **multipleCnt**
 [`integer`](../../data-types.md) | Число полей для ввода множественных значений ||
 || **linkIblockId**
-[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор связанного инфоблока. 
+[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор связанного инфоблока.
 
 Доступные идентификаторы можно получить методом [catalog.catalog.list](../catalog/catalog-catalog-list.md) ||
 || **withDescription**
@@ -106,15 +119,21 @@
 || **searchable**
 [`char`](../../data-types.md) | Признак участия в поиске. Допустимые значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию — `N`. Любое другое значение, кроме `Y`, сохраняется как `N` ||
 || **filtrable**
 [`char`](../../data-types.md) | Признак участия в фильтрации. Допустимые значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию — `N` ||
 || **isRequired**
 [`char`](../../data-types.md) | Признак обязательного значения. Допустимые значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию — `N` ||
 || **hint**
 [`string`](../../data-types.md) | Подсказка к полю ||
 || **userTypeSettings**
@@ -500,7 +519,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productProperty**
+|| **result.productProperty**
 [`catalog_product_property`](../data-types.md#catalog_product_property) | Объект с информацией о добавленном свойстве ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -523,7 +542,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `0` | Required fields: iblockId, name, propertyType | Не переданы обязательные поля в `fields` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: iblockId, name, propertyType | Не переданы обязательные поля в `fields`. В тексте перечислены только непереданные поля ||
 || `400` | `0` | Access Denied | Нет прав на изменение инфоблока ||
 || `400` | `0` | The specified iblock is not a product catalog | Передан `iblockId`, который не является торговым каталогом ||
 || `400` | `0` | Invalid property type specified | Передана недопустимая комбинация `propertyType` и `userType` ||
@@ -540,6 +560,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-property-update.md)
 - [{#T}](./catalog-product-property-get.md)
 - [{#T}](./catalog-product-property-list.md)
-- [{#T}](../../../tutorials/catalog/index.md)
 - [{#T}](./catalog-product-property-delete.md)
 - [{#T}](./catalog-product-property-get-fields.md)
+- [{#T}](../../../tutorials/catalog/index.md)

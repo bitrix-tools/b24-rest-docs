@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога», правом «Создание товара» и правом на изменение разделов инфоблока
 
-Метод `catalog.section.add` добавляет раздел торгового каталога. 
+Метод `catalog.section.add` добавляет раздел торгового каталога.
 
 ## Параметры метода
 
@@ -40,7 +40,7 @@
 || **iblockSectionId**
 [`catalog_section.id`](../data-types.md#catalog_section) | Идентификатор родительского раздела.
 
-Для получения существующих идентификаторов необходимо использовать [catalog.section.list](./catalog-section-list.md). 
+Для получения существующих идентификаторов необходимо использовать [catalog.section.list](./catalog-section-list.md).
 
 По умолчанию выбирается верхний уровень ||
 || **name***
@@ -75,8 +75,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
@@ -97,8 +97,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
@@ -132,15 +132,15 @@
     type SectionAddResult = {
       section: {
         active: string
-        code: string
+        code: string | null
         description: string
         descriptionType: string
         iblockId: number
-        iblockSectionId: number
+        iblockSectionId: number | null
         id: number
         name: string
         sort: number
-        xmlId: string
+        xmlId: string | null
       }
     }
 
@@ -254,7 +254,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -275,13 +274,12 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding catalog section: ' . $e->getMessage();
@@ -292,7 +290,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.section.add', 
+        'catalog.section.add',
         {
             fields: {
                 name: 'Детские игрушки',
@@ -425,10 +423,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **section**
+|| **result.section**
 [`catalog_section`](../data-types.md#catalog_section) | Объект с информацией о добавленном разделе каталога ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -437,8 +435,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300040,
-    "error_description":"Access Denied"
+    "error": "0",
+    "error_description": "Required fields: iblockId, name"
 }
 ```
 
@@ -447,14 +445,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300040` | Нет доступа к редактированию ||
-|| `200700300000` | Ошибки при добавлении, например, идентификатор инфоблока создаваемого раздела не совпадает с идентификатором инфоблока раздела-родителя ||
-|| `200700300040` | Нарушение уникальности поля `code` ||
-|| `200700300050` | Инфоблока с заданным `iblockId` не существует ||
-|| `100` | Не передан обязательный параметр  `fields` ||
-|| `0` | Не установлены обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» ||
+|| `400` | `200040300020` | Access Denied | Нет права «Создание товара» в каталоге ||
+|| `400` | `200040300040` | Access Denied | Нет права на изменение разделов инфоблока ||
+|| `400` | `200040300050` | Access Denied | Нет права на привязку к родительскому разделу из `iblockSectionId` ||
+|| `400` | `200700300050` | Iblock is not exists | Инфоблок из `iblockId` или родительский раздел из `iblockSectionId` не найден ||
+|| `400` | `200700300000` | Текст ошибки | Раздел не сохранен, например, родительский раздел находится в другом инфоблоке ||
+|| `400` | `200700300040` | Duplicate entry for key [code] | Раздел с таким `code` уже есть в инфоблоке. Ошибка возникает, если в настройках инфоблока включена уникальность символьного кода раздела ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: iblockId, name | Не переданы обязательные поля `iblockId` и `name` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

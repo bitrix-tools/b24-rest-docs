@@ -23,6 +23,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -412,5 +414,5 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-property-type-field-get.md)
 - [{#T}](./catalog-product-property-type-list.md)
+- [{#T}](./catalog-product-property-type-field-get.md)

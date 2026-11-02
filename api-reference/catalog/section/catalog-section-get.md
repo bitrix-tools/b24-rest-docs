@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога» и правом на чтение раздела в инфоблоке
 
-Метод `catalog.section.get` возвращает значения полей раздела торгового каталога по его идентификатору. 
+Метод `catalog.section.get` возвращает значения полей раздела торгового каталога по его идентификатору.
 
 ## Параметры метода
 
@@ -34,8 +34,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id": 31}' \
@@ -44,8 +44,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id": 31, "auth": "**put_access_token_here**"}' \
@@ -66,15 +66,15 @@
     type CatalogSectionGetResult = {
       section: {
         active: string
-        code: string
+        code: string | null
         description: string
         descriptionType: string
         iblockId: number
-        iblockSectionId: number
+        iblockSectionId: number | null
         id: number
         name: string
         sort: number
-        xmlId: string
+        xmlId: string | null
       }
     }
 
@@ -163,7 +163,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -174,7 +173,7 @@
                     'id' => 31
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -261,25 +260,26 @@ HTTP-статус: **200**
 {
     "result": {
         "section": {
-        "active": "Y",
-        "code": "toys",
-        "description": "Товары для детей - игрушки",
-        "descriptionType": "text",
-        "iblockId": 14,
-        "iblockSectionId": 13,
-        "id": 31,
-        "name": "Детские игрушки",
-        "sort": 100,
-        "xmlId": "myXmlId"
+            "active": "Y",
+            "code": "clothes",
+            "description": null,
+            "descriptionType": "text",
+            "iblockId": 25,
+            "iblockSectionId": null,
+            "id": 31,
+            "name": "Одежда",
+            "sort": 50,
+            "xmlId": "clothes-01"
         }
     },
     "time": {
-        "start": 1716558215.93495,
-        "finish": 1716558216.20731,
-        "duration": 0.272363901138306,
-        "processing": 0.028817892074585,
-        "date_start": "2024-05-24T15:43:35+02:00",
-        "date_finish": "2024-05-24T15:43:36+02:00",
+        "start": 1793615591,
+        "finish": 1793615591.776121,
+        "duration": 0.7761209011077881,
+        "processing": 0,
+        "date_start": "2026-11-02T13:33:11+03:00",
+        "date_finish": "2026-11-02T13:33:11+03:00",
+        "operating_reset_at": 1793616180,
         "operating": 0
     }
 }
@@ -292,10 +292,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **section**
+|| **result.section**
 [`catalog_section`](../data-types.md#catalog_section) | Объект с информацией о разделе каталога с заданным идентификатором ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -304,8 +304,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300040,
-    "error_description":"Access Denied"
+    "error": "200040300040",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -314,11 +314,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300040` | Нет доступа к чтению ||
-|| `200700300030` | Раздела каталога с таким идентификатором не существует ||
-|| `100` | Не указан параметр `id` ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» ||
+|| `400` | `200040300040` | Access Denied | Нет права на чтение раздела в инфоблоке или раздела с указанным `id` не существует ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

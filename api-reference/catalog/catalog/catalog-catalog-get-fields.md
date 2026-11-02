@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает доступные поля торгового каталога.
+Метод `catalog.catalog.getFields` возвращает описание полей торгового каталога: тип, обязательность и доступность для изменения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -144,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,7 +154,7 @@
                 'catalog.catalog.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -232,7 +233,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": true,
                 "isRequired": false,
-                "type": "integer"
+                "type": "string"
             },
             "id": {
                 "isImmutable": false,
@@ -275,16 +276,24 @@ HTTP-статус: **200**
                 "isReadOnly": false,
                 "isRequired": false,
                 "type": "integer"
+            },
+            "yandexExport": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
             }
         }
     },
     "time": {
-        "start": 1716391172.384998,
-        "finish": 1716391172.856295,
-        "duration": 0.471297025680542,
-        "processing": 0.014213085174560547,
-        "date_start": "2024-05-22T18:19:32+03:00",
-        "date_finish": "2024-05-22T18:19:32+03:00"
+        "start": 1793613297,
+        "finish": 1793613297.945302,
+        "duration": 0.9453020095825195,
+        "processing": 0,
+        "date_start": "2026-11-02T12:54:57+03:00",
+        "date_finish": "2026-11-02T12:54:57+03:00",
+        "operating_reset_at": 1793613840,
+        "operating": 0
     }
 }
 ```
@@ -296,10 +305,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **catalog**
+|| **result.catalog**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_catalog](../data-types.md#catalog_catalog), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -308,8 +317,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -318,9 +327,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр настроек Битрикс24 ||
+|| `400` | `200040300030` | Access Denied | У пользователя нет права на чтение торгового каталога ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
