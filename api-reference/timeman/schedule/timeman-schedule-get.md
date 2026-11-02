@@ -11,16 +11,18 @@
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Чтение всех рабочих графиков». Сотрудники получают это право по умолчанию
 
-Метод `timeman.schedule.get` получает рабочий график по идентификатору. Если графика с указанным идентификатором не существует — вернет пустой массив.
+Метод `timeman.schedule.get` получает рабочий график по идентификатору. Если графика нет или `id` не число, метод вернет пустой массив без ошибки.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id**
+|| **id***
 [`integer`](../../data-types.md) | Идентификатор графика.
 
 Узнать идентификатор графика можно в списке графиков на странице *Сотрудники > Время и отчеты > Рабочие графики* ||
@@ -74,10 +76,13 @@
       CALENDAR_ID: number
       ALLOWED_DEVICES: {
         browser: boolean
+        b24time: boolean
+        mobile: boolean
+        mobileRecordLocation: boolean
       }
       DELETED: string
       IS_FOR_ALL_USERS: boolean
-      WORKTIME_RESTRICTIONS: string[]
+      WORKTIME_RESTRICTIONS: unknown[] | Record<string, boolean | number>
       CONTROLLED_ACTIONS: number
       UPDATED_BY: number
       DELETED_BY: number
@@ -99,7 +104,7 @@
         NAME: string
         PARENT_CALENDAR_ID: number
         SYSTEM_CODE: string
-        EXCLUSIONS: string[]
+        EXCLUSIONS: unknown[] | Record<string, unknown>
       }
       SCHEDULE_VIOLATION_RULES: {
         ID: number
@@ -317,13 +322,14 @@ HTTP-статус: **200**
         },
         "CALENDAR_ID": 1,
         "ALLOWED_DEVICES": {
-            "browser": true
+            "browser": true,
+            "b24time": true,
+            "mobile": true,
+            "mobileRecordLocation": false
         },
         "DELETED": "0",
         "IS_FOR_ALL_USERS": true,
-        "WORKTIME_RESTRICTIONS": [
-            "[]"
-        ],
+        "WORKTIME_RESTRICTIONS": [],
         "CONTROLLED_ACTIONS": 3,
         "UPDATED_BY": 503,
         "DELETED_BY": 0,
@@ -404,13 +410,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа.
+[`object`](../../data-types.md) \| [`array`](../../data-types.md) | Корневой элемент ответа.
 
-Содержит объект с описанием графика работы сотрудников ||
+Содержит объект с описанием графика работы сотрудников. Если графика с таким идентификатором нет или он удален, метод вернет пустой массив ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор графика работы ||
 || **NAME**
-[`string`](../../data-types.md) | Название графика работы || 
+[`string`](../../data-types.md) | Название графика работы ||
 || **SCHEDULE_TYPE**
 [`string`](../../data-types.md) | Тип графика работы.
 
@@ -425,29 +431,28 @@ HTTP-статус: **200**
 - `MONTH` — месяц
 - `WEEK` — неделя
 - `TWO_WEEKS` — две недели
-- `QUARTER`  — квартал ||
+- `QUARTER` — квартал ||
 || **REPORT_PERIOD_OPTIONS**
 [`object`](../../data-types.md) | Объект с описанием [дополнительных настроек](#report_period_options) периода формирования отчетов.
 
-Только для `REPORT_PERIOD` со значениями `WEEK` и `TWO_WEEKS` ||
+Поле приходит при любом значении `REPORT_PERIOD`, а настройки из него относятся к периодам `WEEK` и `TWO_WEEKS` ||
 || **CALENDAR_ID**
 [`integer`](../../data-types.md) | Идентификатор календаря, связанного с графиком работы ||
 || **ALLOWED_DEVICES**
 [`object`](../../data-types.md) | Объект с описанием [разрешенных устройств](#allowed_devices) для учета рабочего времени ||
 || **DELETED**
-[`string`](../../data-types.md) | Флаг удаления графика работы.
-
-Значение `"0"` означает, что график активен. Значение `"1"` указывает на удаленное состояние ||
+[`string`](../../data-types.md) | Флаг удаления графика работы. Всегда `"0"`: удаленный график метод не возвращает, вместо него приходит пустой массив ||
 || **IS_FOR_ALL_USERS**
 [`boolean`](../../data-types.md) | Применимость графика ко всем сотрудникам.
 
 Значение `true` означает, что график применяется ко всем пользователям системы ||
 || **WORKTIME_RESTRICTIONS**
-[`array`](../../data-types.md) | Ограничения рабочего времени.
-
-Содержит массив строк с правилами ограничений ||
+[`array`](../../data-types.md) \| [`object`](../../data-types.md) | Ограничения рабочего времени. Если ограничений нет, приходит пустой массив. Если они заданы, приходит объект с ключами `ALLOWED_TO_EDIT_RECORD`, `ALLOWED_TO_REOPEN_RECORD` и `MAX_SHIFT_START_OFFSET` ||
 || **CONTROLLED_ACTIONS**
-[`integer`](../../data-types.md) | Количество контролируемых действий в рамках графика работы ||
+[`integer`](../../data-types.md) | Действия сотрудника, которые контролирует график. Возможные значения:
+- `1` — начало рабочего дня
+- `2` — окончание рабочего дня
+- `3` — начало и окончание ||
 || **UPDATED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, который последним обновил график работы ||
 || **DELETED_BY**
@@ -470,9 +475,18 @@ HTTP-статус: **200**
 [`object`](../../data-types.md) | Объект с информацией о [календаре](#calendar), связанном с графиком работы ||
 || **SCHEDULE_VIOLATION_RULES**
 [`object`](../../data-types.md) | Объект с описанием [правил нарушения графика работы](#schedule_violation_rules) ||
+|| **USER_ASSIGNMENTS**
+`DEPARTMENT_ASSIGNMENTS`
+[`array`](../../data-types.md) | Назначения графика сотрудникам и отделам. Поля приходят, только если у графика есть назначения. Элемент назначения сотрудника: `SCHEDULE_ID`, `USER_ID`, `STATUS` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+{% note warning "" %}
+
+Метод возвращает назначения сотрудникам в поле `DEPARTMENT_ASSIGNMENTS`, а назначения отделам — в `USER_ASSIGNMENTS`.
+
+{% endnote %}
 
 #### Объект REPORT_PERIOD_OPTIONS {#report_period_options}
 
@@ -488,8 +502,8 @@ HTTP-статус: **200**
 - `2` — среда
 - `3` — четверг
 - `4` — пятница
-- `5` — суббота 
-- `6` — воскресенье||
+- `5` — суббота
+- `6` — воскресенье ||
 |#
 
 #### Объект ALLOWED_DEVICES {#allowed_devices}
@@ -501,6 +515,12 @@ HTTP-статус: **200**
 [`boolean`](../../data-types.md) | Разрешен ли учет рабочего времени через браузер.
 
 Если `true` — учет разрешен ||
+|| **b24time**
+[`boolean`](../../data-types.md) | Разрешен ли учет через приложение Битрикс24.Время ||
+|| **mobile**
+[`boolean`](../../data-types.md) | Разрешен ли учет через мобильное приложение ||
+|| **mobileRecordLocation**
+[`boolean`](../../data-types.md) | Записывать ли местоположение при учете через мобильное приложение ||
 |#
 
 #### Объект SHIFTS {#shifts}
@@ -544,9 +564,7 @@ HTTP-статус: **200**
 || **SYSTEM_CODE**
 [`string`](../../data-types.md) | Системный код календаря ||
 || **EXCLUSIONS**
-[`array`](../../data-types.md) | Исключения из календаря.
-
-Содержит массив строк с датами или периодами, исключенными из календаря ||
+[`array`](../../data-types.md) \| [`object`](../../data-types.md) | Исключения из календаря. Если исключений нет, приходит пустой массив. Если они заданы, приходит объект: ключ — год, значение — даты, исключенные из календаря ||
 |#
 
 #### Объект SCHEDULE_VIOLATION_RULES {#schedule_violation_rules}
@@ -559,9 +577,9 @@ HTTP-статус: **200**
 || **SCHEDULE_ID**
 [`integer`](../../data-types.md) | Идентификатор графика работы ||
 || **ENTITY_CODE**
-[`string`](../../data-types.md) | Код сущности, к которой применяются правила.
+[`string`](../../data-types.md) | Код сотрудников, к которым применяются правила.
 
-Например, `UA` — пользовательские действия ||
+Например, `UA` — все сотрудники ||
 || **MAX_EXACT_START**
 [`integer`](../../data-types.md) | Максимальное точное время начала рабочего дня в секундах от полуночи ||
 || **MIN_EXACT_END**
@@ -603,9 +621,7 @@ HTTP-статус: **200**
 
 Значение `-1` означает, что ограничение не установлено ||
 || **MISSED_SHIFT_START**
-[`integer`](../../data-types.md) | Флаг пропуска начала смены.
-
-Значение `0` означает, что пропуск не фиксировался ||
+[`integer`](../../data-types.md) | Включен ли контроль пропуска начала смены: `0` — выключен, значение больше `0` — включен ||
 || **USERS_TO_NOTIFY**
 [`object`](../../data-types.md) | Объект с описанием пользователей для [уведомления о нарушениях графика](#users_to_notify) ||
 |#
@@ -655,10 +671,11 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
+|| `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)

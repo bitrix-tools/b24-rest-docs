@@ -19,7 +19,9 @@
 
 {% endnote %}
 
-Метод `tasks.task.result.add` добавляет результат к задаче.
+Метод `tasks.task.result.add` добавляет результат к задаче. Если автор результата не участник задачи, например администратор, Битрикс24 добавит его в наблюдатели.
+
+Методам REST 3.0 для задач нужен scope `tasks`, хотя в [списке scope](../../scopes/permissions.md) он отмечен как устаревший. Со scope `task` метод вернет ошибку `BITRIX_REST_V3_EXCEPTION_INSUFFICIENTSCOPEEXCEPTION`.
 
 ## Параметры метода
 
@@ -40,9 +42,9 @@
 || **taskId***
 [`integer`](../../data-types.md) | Идентификатор задачи.
 
-Идентификатор можно получить при [создании задачи](../tasks-task-add-rest-v3.md), [получении задачи](../tasks-task-get-rest-v3.md) или старым методом [получения списка задач](../tasks-task-list-rest-v3.md) ||
+Его можно получить при [создании задачи](../tasks-task-add-rest-v3.md), [получении задачи](../tasks-task-get-rest-v3.md) или методом [получения списка задач](../tasks-task-list-rest-v3.md) ||
 || **text***
-[`string`](../../data-types.md) | Текст результата ||
+[`string`](../../data-types.md) | Текст результата. Пустую строку метод не примет ||
 |#
 
 ## Примеры кода
@@ -99,7 +101,7 @@
         createdAt: ISODate,
         updatedAt: ISODate | null,
         status: string,
-        fileIds: number[],
+        fileIds: number[] | null,
         rights: {
           edit: boolean,
           remove: boolean,
@@ -114,7 +116,7 @@
         params: {
           fields: {
             taskId: 51,
-            text: 'Task work has been completed',
+            text: 'Работа по задаче выполнена',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -149,7 +151,7 @@
             params: {
               fields: {
                 taskId: 51,
-                text: 'Task work has been completed',
+                text: 'Работа по задаче выполнена',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -319,7 +321,7 @@ HTTP-статус: **200**
             "text": "Работа по задаче выполнена",
             "authorId": 1,
             "createdAt": "2026-04-30T10:15:00+03:00",
-            "updatedAt": null,
+            "updatedAt": "2026-04-30T10:15:00+03:00",
             "status": "open",
             "fileIds": [],
             "rights": {
@@ -330,13 +332,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1777529700,
-        "finish": 1777529700.123456,
+        "start": 1777533300,
+        "finish": 1777533300.123456,
         "duration": 0.123456,
         "processing": 0.1,
         "date_start": "2026-04-30T10:15:00+03:00",
         "date_finish": "2026-04-30T10:15:00+03:00",
-        "operating_reset_at": 1777530300,
+        "operating_reset_at": 1777533900,
         "operating": 0
     }
 }
@@ -375,11 +377,11 @@ HTTP-статус: **200**
 || **status**
 [`string`](../../data-types.md) | Статус результата. Возможные значения: `open`, `closed` ||
 || **fileIds**
-[`array`](../../data-types.md) | Идентификаторы файлов результата ||
+[`array`](../../data-types.md) | Идентификаторы файлов результата. Если файлов нет, метод вернет `null` или пустой массив ||
 || **rights**
 [`object`](../../data-types.md) | Права текущего пользователя на результат [(подробное описание)](#rights) ||
 || **messageId**
-[`integer`](../../data-types.md) | Идентификатор сообщения чата, если результат создан из сообщения ||
+[`integer`](../../data-types.md) | Идентификатор сообщения чата, из которого создан результат. У результата, добавленного по тексту, — `null` ||
 |#
 
 #### Объект rights {#rights}
@@ -401,7 +403,7 @@ HTTP-статус: **400**
 {
     "error": {
         "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_DTOVALIDATIONEXCEPTION",
-        "message": "Validation error",
+        "message": "Ошибка при валидации объекта",
         "validation": [
             {
                 "field": "text",
@@ -422,9 +424,9 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `taskId` | Обязательное поле `taskId` не указано | Передайте идентификатор задачи в `fields.taskId` ||
-|| `text` | Обязательное поле `text` не указано | Передайте текст результата в `fields.text` ||
-|| `fileIds` | Поле `fileIds` не доступно к заполнению | Не передавайте `fileIds` в параметре `fields` ||
+|| `taskId` | Не заполнено обязательное поле "taskId" | Передайте идентификатор задачи в `fields.taskId` ||
+|| `text` | Не заполнено обязательное поле "text" | Передайте текст результата в `fields.text` ||
+|| `fileIds` | Поле "fileIds" не доступно к заполнению | Не передавайте `fileIds` в параметре `fields` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
@@ -433,9 +435,9 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` с полями `taskId` и `text` ||
 || `taskId` | В поле `taskId` требуется тип данных `int` для такого запроса | Передайте `taskId` как число ||
-|| `taskId` | `Task id must be positive` | Передайте положительный идентификатор задачи ||
-|| `taskId` | `Task id must be set` | Передайте идентификатор задачи в `fields.taskId` ||
-|| `taskId` | `Task not found` | Укажите идентификатор существующей задачи ||
+|| — | `Task id must be positive` | В `taskId` передан `0` или `null`. Передайте положительный идентификатор задачи ||
+|| — | `Task not found` | Укажите идентификатор существующей задачи ||
+|| — | Добавьте текст или файл в результат | В `fields.text` передана пустая строка. Передайте непустой текст ||
 |#
 
 #### Ошибка доступа

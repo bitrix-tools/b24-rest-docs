@@ -19,7 +19,9 @@
 
 {% endnote %}
 
-Метод `tasks.task.result.addfromchatmessage` создает результат задачи из сообщения чата задачи.
+Метод `tasks.task.result.addfromchatmessage` создает результат из сообщения в чате задачи. Если автор результата не участник задачи, например администратор, Битрикс24 добавит его в наблюдатели.
+
+Повторный вызов с тем же `messageId` создаст еще один результат. Чтобы избежать дублей, перед вызовом проверьте список результатов методом [tasks.task.result.list](./tasks-task-result-list-rest-v3.md) с фильтром по `taskId` и `messageId`.
 
 ## Параметры метода
 
@@ -29,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Объект с [полями сообщения](#fields) ||
+[`object`](../../data-types.md) | Объект с [полями результата](#fields) ||
 |#
 
 ### Параметр fields {#fields}
@@ -40,7 +42,11 @@
 || **messageId***
 [`integer`](../../data-types.md) | Идентификатор сообщения чата задачи.
 
-Идентификатор можно получить при отправке сообщения методом [tasks.task.chat.message.send](../tasks-task-chat-message-send.md) ||
+Где взять:
+- поле `result.messages[].id` ответа [im.dialog.messages.get](../../chats/messages/im-dialog-messages-get.md) с `DIALOG_ID` вида `chat{chatId}`. Значение `chatId` возвращает метод [tasks.task.get](../tasks-task-get-rest-v3.md), для вызова нужен scope `im`
+- поле `data.FIELDS_AFTER.MESSAGE_ID` события [OnTaskCommentAdd](../comment-item/events-comment/on-task-comment-add.md) — для нового сообщения
+
+Метод [tasks.task.chat.message.send](../tasks-task-chat-message-send.md) идентификатор сообщения не возвращает ||
 |#
 
 ## Примеры кода
@@ -51,7 +57,7 @@
 
 Вызов нового api отличается добавлением параметра `/api/` в запросе:
 
-`https://{адрес_установки}/rest/api/{user_id}/{токен_вебхука}/tasks.task.result.addfromchatmessage`
+`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/tasks.task.result.addfromchatmessage`
 
 {% endnote %}
 
@@ -97,7 +103,7 @@
         createdAt: ISODate
         updatedAt: ISODate | null
         status: string
-        fileIds: number[]
+        fileIds: number[] | null
         rights: {
           edit: boolean
           remove: boolean
@@ -310,9 +316,9 @@ HTTP-статус: **200**
             "text": "Работа по задаче выполнена",
             "authorId": 1,
             "createdAt": "2026-04-30T10:25:00+03:00",
-            "updatedAt": null,
+            "updatedAt": "2026-04-30T10:25:00+03:00",
             "status": "open",
-            "fileIds": [],
+            "fileIds": null,
             "rights": {
                 "edit": true,
                 "remove": true
@@ -321,13 +327,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1777530300,
-        "finish": 1777530300.123456,
+        "start": 1777533900,
+        "finish": 1777533900.123456,
         "duration": 0.123456,
         "processing": 0.1,
         "date_start": "2026-04-30T10:25:00+03:00",
         "date_finish": "2026-04-30T10:25:00+03:00",
-        "operating_reset_at": 1777530900,
+        "operating_reset_at": 1777534500,
         "operating": 0
     }
 }
@@ -341,11 +347,47 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **item**
-[`object`](../../data-types.md) | Объект результата задачи.
-
-Поля объекта совпадают с ответом метода [tasks.task.result.add](./tasks-task-result-add.md#item) ||
+[`object`](../../data-types.md) | Объект результата задачи [(подробное описание)](#item) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект item {#item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор результата ||
+|| **taskId**
+[`integer`](../../data-types.md) | Идентификатор задачи, к чату которой относится сообщение ||
+|| **text**
+[`string`](../../data-types.md) | Текст результата — текст сообщения ||
+|| **authorId**
+[`integer`](../../data-types.md) | Идентификатор автора результата — пользователя, который вызвал метод ||
+|| **createdAt**
+[`datetime`](../../data-types.md) | Дата создания результата ||
+|| **updatedAt**
+[`datetime`](../../data-types.md) | Дата обновления результата. При создании совпадает с `createdAt` ||
+|| **status**
+[`string`](../../data-types.md) | Статус результата. Возможные значения: `open`, `closed` ||
+|| **fileIds**
+[`array`](../../data-types.md) | Идентификаторы файлов результата. Если файлов нет, метод вернет `null` или пустой массив — проверяйте оба значения ||
+|| **rights**
+[`object`](../../data-types.md) | Права текущего пользователя на результат [(подробное описание)](#rights) ||
+|| **messageId**
+[`integer`](../../data-types.md) | Идентификатор сообщения чата, из которого создан результат ||
+|#
+
+#### Объект rights {#rights}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **edit**
+[`boolean`](../../data-types.md) | Возвращает `true`, если текущий пользователь может изменить результат ||
+|| **remove**
+[`boolean`](../../data-types.md) | Возвращает `true`, если текущий пользователь может удалить результат ||
 |#
 
 ## Обработка ошибок
@@ -377,8 +419,8 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `messageId` | Обязательное поле `messageId` не указано | Передайте идентификатор сообщения в `fields.messageId` ||
-|| `fileIds` | Поле `fileIds` не доступно к заполнению | Не передавайте `fileIds` в параметре `fields` ||
+|| `messageId` | Не заполнено обязательное поле "messageId" | Передайте идентификатор сообщения в `fields.messageId` ||
+|| `fileIds` | Поле "fileIds" не доступно к заполнению | Не передавайте `fileIds` в параметре `fields` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
@@ -387,15 +429,13 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` с полем `messageId` ||
 || `messageId` | В поле `messageId` требуется тип данных `int` для такого запроса | Передайте `messageId` как число ||
-|| `messageId` | `Message is not from task chat` | Укажите идентификатор сообщения из чата задачи ||
-|| `taskId` | `Task not found` | Проверьте, что задача, связанная с чатом, существует ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `fields` | Неизвестное поле для сущности `ResultDto` | Передавайте в `fields` только поле `messageId` ||
+|| `fields` | Неизвестное поле `#FIELD#` для сущности `ResultDto` | Передавайте в `fields` только поле `messageId` ||
 |#
 
 #### Ошибка доступа
@@ -406,7 +446,7 @@ HTTP-статус: **403**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `messageId` | Доступ запрещен | Проверьте права пользователя на создание результата из сообщения чата ||
+|| `messageId` | Доступ запрещен | Сообщения нет, оно не из чата задачи или у пользователя нет доступа к задаче. Проверьте идентификатор сообщения и права пользователя на задачу ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
