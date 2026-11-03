@@ -3,3 +3,9 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Проверить, включены ли лиды
+    href: crm-lead-is-enabled-rest-v3.md
+  - name: Включить лиды
+    href: crm-lead-enable-rest-v3.md
+  - name: Выключить лиды
+    href: crm-lead-disable-rest-v3.md
