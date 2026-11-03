@@ -317,6 +317,7 @@ HTTP-статус: **400**
 - [{#T}](./task-checklist-item-update.md)
 - [{#T}](./task-checklist-item-get.md)
 - [{#T}](./task-checklist-item-get-list.md)
+- [{#T}](./task-checklist-item-delete-all.md)
 - [{#T}](./task-checklist-item-move-after-item.md)
 - [{#T}](./task-checklist-item-complete.md)
 - [{#T}](./task-checklist-item-renew.md)

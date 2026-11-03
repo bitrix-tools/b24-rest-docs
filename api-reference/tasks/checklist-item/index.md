@@ -60,6 +60,7 @@
 2. Добавьте пункты методом [task.checklistitem.add](./task-checklist-item-add.md) — метод вернет идентификатор пункта.
 3. Получите пункты задачи методом [task.checklistitem.getlist](./task-checklist-item-get-list.md) или один пункт методом [task.checklistitem.get](./task-checklist-item-get.md).
 4. Измените пункт методом [task.checklistitem.update](./task-checklist-item-update.md), переместите — методом [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md), отметьте выполнение — методами [task.checklistitem.complete](./task-checklist-item-complete.md) и [task.checklistitem.renew](./task-checklist-item-renew.md), удалите — методом [task.checklistitem.delete](./task-checklist-item-delete.md). Для этих методов нужна пара `TASKID` и `ITEMID`.
+5. Чтобы удалить все чек-листы задачи разом, вызовите метод [task.checklistitem.deleteall](./task-checklist-item-delete-all.md) — ему нужен только `TASKID`.
 
 Все методы раздела принимают параметры по порядку, а не по имени: имена `TASKID`, `ITEMID`, `FIELDS` не учитываются, поэтому соблюдайте порядок из таблицы параметров метода. На несуществующий `ITEMID` методы реагируют по-разному: одни возвращают ошибку, другие — `false`, `true` или `null`. Как обработать такой ответ, описано на странице каждого метода.
 
@@ -84,6 +85,7 @@
 || [task.checklistitem.get](./task-checklist-item-get.md) | Получает пункт чек-листа по идентификатору ||
 || [task.checklistitem.getlist](./task-checklist-item-get-list.md) | Получает все пункты чек-листов задачи одним ответом ||
 || [task.checklistitem.delete](./task-checklist-item-delete.md) | Удаляет пункт чек-листа вместе с подпунктами ||
+|| [task.checklistitem.deleteall](./task-checklist-item-delete-all.md) | Удаляет все чек-листы задачи ||
 || [task.checklistitem.moveafteritem](./task-checklist-item-move-after-item.md) | Помещает пункт чек-листа в списке после указанного ||
 || [task.checklistitem.complete](./task-checklist-item-complete.md) | Отмечает пункт чек-листа как выполненный ||
 || [task.checklistitem.renew](./task-checklist-item-renew.md) | Отмечает выполненный пункт чек-листа как невыполненный ||

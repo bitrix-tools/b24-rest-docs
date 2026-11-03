@@ -108,7 +108,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string | null
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -419,7 +419,7 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

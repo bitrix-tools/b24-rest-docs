@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 3 ноября, 2026
+
+- Добавили метод [task.checklistitem.deleteall](./api-reference/tasks/checklist-item/task-checklist-item-delete-all.md): удаляет все чек-листы задачи одним вызовом
+
 ### 23 октября, 2026
 
 - Добавили методы [sign.b2e.provider.*](./api-reference/sign/index.md#providers) в раздел КЭДО: администратор может подключить к Битрикс24 собственный провайдер подписи методом [sign.b2e.provider.add](./api-reference/sign/sign-b2e-provider-add.md), изменить его данные методом [sign.b2e.provider.update](./api-reference/sign/sign-b2e-provider-update.md), получить список провайдеров методом [sign.b2e.provider.tail](./api-reference/sign/sign-b2e-provider-tail.md) и отключить провайдера методом [sign.b2e.provider.delete](./api-reference/sign/sign-b2e-provider-delete.md). Методы работают только из приложения с OAuth-авторизацией

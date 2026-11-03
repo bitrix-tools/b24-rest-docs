@@ -314,6 +314,7 @@
 || [task.checklistitem.complete](./checklist-item/task-checklist-item-complete.md) | Отмечает элемент чек-листа как выполненный ||
 || [task.checklistitem.renew](./checklist-item/task-checklist-item-renew.md) | Отмечает выполненный элемент чек-листа как вновь активный ||
 || [task.checklistitem.delete](./checklist-item/task-checklist-item-delete.md) | Удаляет элемент чек-листа ||
+|| [task.checklistitem.deleteall](./checklist-item/task-checklist-item-delete-all.md) | Удаляет все чек-листы задачи ||
 || [task.checklistitem.isactionallowed](./checklist-item/task-checklist-item-is-action-allowed.md) | Проверяет, разрешено ли действие для элемента чек-листа ||
 || [task.checklistitem.getmanifest](./checklist-item/task-checklist-item-get-manifest.md) | Получает список методов и их описание ||
 |#

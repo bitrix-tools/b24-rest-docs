@@ -89,7 +89,7 @@
       UPDATED_BY: string
       DELETED_BY: string
       DOWNLOAD_URL: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -354,7 +354,7 @@ HTTP-статус: **200**
 || **DOWNLOAD_URL**
 [`string`](../../data-types.md) | Ссылка для скачивания файла ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия файла в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия файла в интерфейсе. Для файлов из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
