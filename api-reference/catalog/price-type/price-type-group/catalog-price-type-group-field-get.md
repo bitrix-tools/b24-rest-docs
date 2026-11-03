@@ -453,6 +453,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-price-type-group-field-list.md)
 - [{#T}](./catalog-price-type-group-add-rest-v3.md)
 - [{#T}](./catalog-price-type-group-delete-rest-v3.md)
+- [{#T}](./catalog-price-type-group-field-list.md)

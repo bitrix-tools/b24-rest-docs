@@ -160,7 +160,7 @@
                     'id' => 3,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -175,10 +175,10 @@
 
     ```js
     BX24.callMethod(
-    'catalog.priceTypeLang.delete', 
-    { 
+    'catalog.priceTypeLang.delete',
+    {
     id: 3
-    }, 
+    },
     function(result)
     {
     if(result.error())
@@ -234,12 +234,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1733842077.14235,
-        "finish": 1733842077.43516,
-        "duration": 0.292811155319214,
-        "processing": 0.00620388984680176,
-        "date_start": "2024-12-10T16:47:57+02:00",
-        "date_finish": "2024-12-10T16:47:57+02:00",
+        "start": 1793699472,
+        "finish": 1793699472.12151,
+        "duration": 0.12151002883911133,
+        "processing": 0,
+        "date_start": "2026-11-03T12:51:12+03:00",
+        "date_finish": "2026-11-03T12:51:12+03:00",
+        "operating_reset_at": 1793700060,
         "operating": 0
     }
 }
@@ -262,8 +263,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "201200000000",
+    "error_description": "priceTypeLang does not exist."
 }
 ```
 
@@ -272,15 +273,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-|| 
-|| `201200000000` | Перевода названия типа цены с таким идентификатором не существует
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `201200000000` | priceTypeLang does not exist. | Перевода с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

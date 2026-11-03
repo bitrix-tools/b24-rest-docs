@@ -172,10 +172,10 @@
 
     ```js
     BX24.callMethod(
-        'catalog.price.delete', 
-        { 
+        'catalog.price.delete',
+        {
             id: 1
-        }, 
+        },
         function(result)
         {
             if(result.error())
@@ -259,8 +259,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "",
+    "error_description": "price does not exist."
 }
 ```
 
@@ -269,12 +269,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав для удаления ||
-|| `200040300030` | Access Denied | Нет права изменять цены товара в инфоблоке каталога ||
-|| `-` | Price is not exists | Цены товара с таким идентификатором не существует ||
-|| `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | Нет права изменять цены этого товара в инфоблоке каталога ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | price does not exist. | Цены с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

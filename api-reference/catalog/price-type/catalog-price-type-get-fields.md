@@ -15,6 +15,8 @@
 
 Метод `catalog.priceType.getFields` возвращает описание полей типа цены.
 
+## Параметры метода
+
 Без параметров.
 
 ## Примеры кода
@@ -153,7 +155,7 @@
                 'catalog.priceType.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -168,7 +170,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.priceType.getFields', 
+        'catalog.priceType.getFields',
         {},
         function(result)
         {
@@ -280,12 +282,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1712325642.686926,
-        "finish": 1712325642.949075,
-        "duration": 0.2621490955352783,
-        "processing": 0.004400968551635742,
-        "date_start": "2024-09-05T16:00:42+02:00",
-        "date_finish": "2024-09-05T16:00:42+02:00",
+        "start": 1793700366,
+        "finish": 1793700366.645494,
+        "duration": 0.6454939842224121,
+        "processing": 0,
+        "date_start": "2026-11-03T13:06:06+03:00",
+        "date_finish": "2026-11-03T13:06:06+03:00",
+        "operating_reset_at": 1793700960,
         "operating": 0
     }
 }
@@ -298,7 +301,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **priceType**
+|| **result.priceType**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price_type](../data-types.md#catalog_price_type), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -310,7 +313,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -320,14 +323,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-price-type-add.md)
 - [{#T}](./catalog-price-type-update.md)

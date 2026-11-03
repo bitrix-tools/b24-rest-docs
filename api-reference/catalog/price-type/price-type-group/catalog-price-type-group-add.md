@@ -207,7 +207,7 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -329,7 +329,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeGroup**
+|| **result.priceTypeGroup**
 [`catalog_price_type_group`](../../data-types.md#catalog_price_type_group) | Объект с информацией о созданной привязке типа цены к группе покупателей ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -341,7 +341,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
+    "error": "200040300020",
     "error_description": "Access Denied"
 }
 ```
@@ -351,13 +351,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав для редактирования типов цен ||
-|| `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
-|| `0` | The specified price type does not exist | Указанный тип цены не существует ||
-|| `0` | The specified group does not exist | Указанная группа покупателей не существует ||
-|| `0` | Invalid access type provided. The available values are: Y, N | Передан недопустимый тип доступа. Допустимые значения: `Y`, `N` ||
-|| `0` | The specified access type for this group already exists | Такая привязка для этого типа цены и группы уже существует ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Недостаточно прав для редактирования типов цен ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: catalogGroupId, groupId, access | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля ||
+|| `400` | `0` | The specified price type does not exist | Указанный тип цены не существует ||
+|| `400` | `0` | The specified group does not exist | Указанная группа покупателей не существует ||
+|| `400` | `0` | Invalid access type provided. The available values are: Y, N | Передан недопустимый тип доступа. Допустимые значения: `Y`, `N` ||
+|| `400` | `0` | The specified access type for this group already exists | Такая привязка для этого типа цены и группы уже существует ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

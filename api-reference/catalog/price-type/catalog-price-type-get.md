@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены ||
+[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены.
+
+Получить идентификатор можно методом [catalog.priceType.list](./catalog-price-type-list.md) ||
 |#
 
 ## Примеры кода
@@ -173,7 +175,7 @@
                     'id' => 1
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -262,22 +264,23 @@ HTTP-статус: **200**
         "priceType": {
             "base": "Y",
             "createdBy": 1,
-            "dateCreate": "2023-08-30T13:43:41+02:00",
+            "dateCreate": "2020-04-22T09:37:42+03:00",
             "id": 1,
-            "modifiedBy": 1,
+            "modifiedBy": 1269,
             "name": "BASE",
             "sort": 100,
-            "timestampX": "2023-08-30T13:43:41+02:00",
+            "timestampX": "2026-11-03T12:50:39+03:00",
             "xmlId": "BASE"
         }
     },
     "time": {
-        "start": 1716558215.93495,
-        "finish": 1716558216.20731,
-        "duration": 0.272363901138306,
-        "processing": 0.028817892074585,
-        "date_start": "2023-08-30T13:43:41+02:00",
-        "date_finish": "2023-08-30T13:43:41+02:00",
+        "start": 1793700362,
+        "finish": 1793700362.16221,
+        "duration": 0.16220998764038086,
+        "processing": 0,
+        "date_start": "2026-11-03T13:06:02+03:00",
+        "date_finish": "2026-11-03T13:06:02+03:00",
+        "operating_reset_at": 1793700960,
         "operating": 0
     }
 }
@@ -290,7 +293,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **priceType**
+|| **result.priceType**
 [`catalog_price_type`](../data-types.md#catalog_price_type) | Объект с информацией о типе цены с заданным идентификатором ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -302,8 +305,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "201000000000",
+    "error_description": "priceType does not exist."
 }
 ```
 
@@ -312,15 +315,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-||
-|| `201000000000` | Типа цены с таким идентификатором не существует 
-||
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `201000000000` | priceType does not exist. | Типа цены с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

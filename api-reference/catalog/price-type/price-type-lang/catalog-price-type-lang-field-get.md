@@ -454,6 +454,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-price-type-lang-field-list.md)
 - [{#T}](./catalog-price-type-lang-add-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-delete-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-field-list.md)

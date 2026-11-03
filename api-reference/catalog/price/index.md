@@ -28,6 +28,10 @@
 4. Проверьте цену методом [catalog.price.get](./catalog-price-get.md) или [catalog.price.list](./catalog-price-list.md)
 5. Отслеживайте изменения через [события цен](./events/index.md)
 
+Чтобы изменить одну цену и сохранить ее идентификатор, используйте метод [catalog.price.update](./catalog-price-update.md). Метод [catalog.price.modify](./catalog-price-modify.md) заменяет все цены товара: цены, которых нет в запросе, удаляются, а переданные создаются заново с новыми идентификаторами.
+
+Методы обеих версий не меняют у существующей цены товар `productId` и тип цены `catalogGroupId`. Без диапазонов количества у товара может быть только одна цена каждого типа.
+
 ## Цены в REST 3.0
 
 В [REST 3.0](../../rest-v3.md) для цен есть методы добавления, изменения, получения, удаления и методы получения схемы полей `catalog.price.field.list` и `catalog.price.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
@@ -35,8 +39,6 @@
 Особенности методов новой версии:
 
 - метода `catalog.price.modify` в REST 3.0 нет. Чтобы изменить цену и сохранить ее идентификатор, используйте [catalog.price.update](./catalog-price-update-rest-v3.md)
-- товар и тип цены задаются при создании цены. Метод `catalog.price.update` не меняет `productId` и `catalogGroupId`, даже если передать их в `fields`
-- у цены базового типа наценки нет: `extraId` сбрасывается в `0`. Несуществующий `extraId` тоже сбрасывается в `0`
 - для несуществующего товара метод [catalog.price.add](./catalog-price-add-rest-v3.md) возвращает ошибку доступа `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`, а не ошибку «не найдено»
 - пустые `extraId`, `quantityFrom` и `quantityTo` приходят как `0`
 
@@ -68,7 +70,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: в зависимости от метода
+> Кто может выполнять методы: пользователь с правом «Просмотр каталога товаров» или «Изменение цены продажи товара». Для добавления, изменения и удаления нужно право «Изменение цены продажи товара» и право изменять цены товара в инфоблоке каталога. Методы `catalog.price.field.list` и `catalog.price.field.get` — любой пользователь
 
 {% list tabs %}
 
@@ -89,7 +91,7 @@
     || [catalog.price.modify](./catalog-price-modify.md) | Обновляет коллекцию цен товара ||
     || [catalog.price.getFields](./catalog-price-get-fields.md) | Возвращает поля цен товаров ||
     || [catalog.price.field.list](./catalog-price-field-list.md) | Возвращает список полей цены v 3.0 ||
-    || [catalog.price.field.get](./catalog-price-field-get.md) | Возвращает описание поля цены ||
+    || [catalog.price.field.get](./catalog-price-field-get.md) | Возвращает описание поля цены v 3.0 ||
     |#
 
 - События

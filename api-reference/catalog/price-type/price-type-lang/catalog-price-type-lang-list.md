@@ -17,11 +17,13 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../../data-types.md) | 
+[`array`](../../../data-types.md) |
 Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_price_type_lang](../../data-types.md#catalog_price_type_lang)).
 
 Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля переводов названий типов цен
@@ -29,7 +31,7 @@
 || **filter**
 [`object`](../../../data-types.md) | Объект для фильтрации выбранных переводов названий типов цен в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_price_type_lang](../../data-types.md#catalog_price_type_lang). 
+Возможные значения для `field` соответствуют полям объекта [catalog_price_type_lang](../../data-types.md#catalog_price_type_lang).
 
 Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -54,7 +56,7 @@
 - `!=` — не равно
 - `!` — не равно ||
 || **order**
-[`object`](../../../data-types.md) | 
+[`object`](../../../data-types.md) |
 Объект для сортировки выбранных переводов названий типов цен в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type_lang](../../data-types.md#catalog_price_type_lang).
@@ -88,7 +90,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["name","lang"],"order":{"lang":"ASC"}}' \
+    -d '{"select":["name","lang"],"filter":{"catalogGroupId":1,"@lang":["en","ru"]},"order":{"lang":"ASC"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.priceTypeLang.list
     ```
 
@@ -98,7 +100,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["name","lang"],"order":{"lang":"ASC"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["name","lang"],"filter":{"catalogGroupId":1,"@lang":["en","ru"]},"order":{"lang":"ASC"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.priceTypeLang.list
     ```
 
@@ -130,6 +132,7 @@
         method: 'catalog.priceTypeLang.list',
         params: {
           select: ['name', 'lang'],
+          filter: { catalogGroupId: 1, '@lang': ['en', 'ru'] },
           order: { lang: 'ASC' },
           start: 0,
         },
@@ -169,6 +172,7 @@
             method: 'catalog.priceTypeLang.list',
             params: {
               select: ['name', 'lang'],
+              filter: { catalogGroupId: 1, '@lang': ['en', 'ru'] },
               order: { lang: 'ASC' },
               start: 0,
             },
@@ -204,6 +208,10 @@
                 "name",
                 "lang",
             ],
+            filter={
+                "catalogGroupId": 1,
+                "@lang": ["en", "ru"],
+            },
             order={
                 "lang": "ASC",
             },
@@ -238,20 +246,21 @@
                         'name',
                         'lang',
                     ],
+                    'filter' => ['catalogGroupId' => 1, '@lang' => ['en', 'ru']],
                     'order' => [
                         'lang' => 'ASC',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error: ' . $e->getMessage();
@@ -268,6 +277,7 @@
                 'name',
                 'lang'
             ],
+            filter:{'catalogGroupId': 1, '@lang': ['en', 'ru']},
             order:{
                 'lang': 'ASC'
             }
@@ -295,6 +305,7 @@
                 'name',
                 'lang'
             ],
+            'filter' => ['catalogGroupId' => 1, '@lang' => ['en', 'ru']],
             'order' => [
                 'lang' => 'ASC'
             ]
@@ -312,6 +323,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.priceTypeLang.list", b24.Params{
     	"select": []string{"name", "lang"},
+    	"filter": b24.Params{"catalogGroupId": 1, "@lang": []string{"en", "ru"}},
     	"order": b24.Params{
     		"lang": "ASC",
     	},
@@ -349,16 +361,8 @@ HTTP-статус: **200**
     "result": {
         "priceTypeLangs": [
             {
-                "lang": "ar",
-                "name": "PRICE"
-            },
-            {
                 "lang": "en",
                 "name": "Retail price"
-            },
-            {
-                "lang": "kz",
-                "name": "Base Price"
             },
             {
                 "lang": "ru",
@@ -366,14 +370,15 @@ HTTP-статус: **200**
             }
         ]
     },
-    "total": 4,
+    "total": 2,
     "time": {
-        "start": 1733844533.51186,
-        "finish": 1733844533.81483,
-        "duration": 0.302963972091675,
-        "processing": 0.0111780166625977,
-        "date_start": "2024-12-10T17:28:53+02:00",
-        "date_finish": "2024-12-10T17:28:53+02:00",
+        "start": 1793700558,
+        "finish": 1793700558.291934,
+        "duration": 0.2919340133666992,
+        "processing": 0,
+        "date_start": "2026-11-03T13:09:18+03:00",
+        "date_finish": "2026-11-03T13:09:18+03:00",
+        "operating_reset_at": 1793701140,
         "operating": 0
     }
 }
@@ -386,7 +391,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeLangs**
+|| **result.priceTypeLangs**
 [`catalog_price_type_lang[]`](../../data-types.md#catalog_price_type_lang) | Массив объектов с информацией о выбранных переводах названий типов цен ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество найденных записей ||
@@ -402,7 +407,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -412,11 +417,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
+|| `400` | `100` | Invalid order "<VALUE>" | В `order` передано направление сортировки, отличное от `asc` и `desc` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

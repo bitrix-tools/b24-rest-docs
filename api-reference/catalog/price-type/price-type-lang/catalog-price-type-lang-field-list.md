@@ -23,6 +23,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -444,6 +446,6 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-price-type-lang-field-get.md)
 - [{#T}](./catalog-price-type-lang-add-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-delete-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-field-get.md)

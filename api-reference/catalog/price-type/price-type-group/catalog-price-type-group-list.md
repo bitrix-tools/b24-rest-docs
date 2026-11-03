@@ -17,6 +17,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -247,13 +249,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error listing price type groups: ' . $e->getMessage();
@@ -395,7 +397,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeGroups**
+|| **result.priceTypeGroups**
 [`catalog_price_type_group[]`](../../data-types.md#catalog_price_type_group) | Массив объектов с информацией о выбранных привязках типов цен к группам покупателей, структура зависит от параметра `select` ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество найденных записей ||
@@ -411,7 +413,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -421,8 +423,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав на просмотр каталога ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Недостаточно прав на просмотр каталога ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

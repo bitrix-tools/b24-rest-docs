@@ -23,9 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены ||
+[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены.
+
+Получить идентификатор можно методом [catalog.priceType.list](./catalog-price-type-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для обновления типа цены ([подробное описание](#fields)) ||
+[`object`](../../data-types.md) | Объект с полями типа цены, которые нужно изменить [(подробное описание)](#fields).
+
+Передавайте только изменяемые поля: непереданные поля сохраняют текущие значения. Пустой объект метод принимает без ошибки и ничего не меняет ||
 |#
 
 ### Параметр fields {#fields}
@@ -39,9 +43,11 @@
 [`string`](../../data-types.md) | Является ли тип цены базовым. Возможные значения:
 - `Y` — да
 - `N` — нет
+
+Одновременно может существовать только один базовый тип цены. Если передать `Y`, текущий базовый тип перестанет быть базовым
 ||
 || **sort**
-[`integer`](../../data-types.md) | Сортировка ||
+[`integer`](../../data-types.md) | Сортировка. Значение, которое не является числом, метод сохраняет как `100` без ошибки ||
 || **xmlId**
 [`string`](../../data-types.md) | Внешний код.
 
@@ -61,7 +67,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":2,"fields":{"name":"Base wholesale price","base":"Y","sort":1,"xmlId":"basewholesale"}}' \
+    -d '{"id":2,"fields":{"name":"Partner wholesale price","sort":1,"xmlId":"partnerwholesale"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.priceType.update
     ```
 
@@ -71,7 +77,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":2,"fields":{"name":"Base wholesale price","base":"Y","sort":1,"xmlId":"basewholesale"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":2,"fields":{"name":"Partner wholesale price","sort":1,"xmlId":"partnerwholesale"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.priceType.update
     ```
 
@@ -106,10 +112,9 @@
         params: {
           id: 2,
           fields: {
-            name: 'Base wholesale price',
-            base: 'Y',
+            name: 'Partner wholesale price',
             sort: 1,
-            xmlId: 'basewholesale',
+            xmlId: 'partnerwholesale',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -144,10 +149,9 @@
             params: {
               id: 2,
               fields: {
-                name: 'Base wholesale price',
-                base: 'Y',
+                name: 'Partner wholesale price',
                 sort: 1,
-                xmlId: 'basewholesale',
+                xmlId: 'partnerwholesale',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -180,10 +184,9 @@
         bitrix_response = client.catalog.price_type.update(
             bitrix_id=2,
             fields={
-                "name": "Base wholesale price",
-                "base": "Y",
+                "name": "Partner wholesale price",
                 "sort": 1,
-                "xmlId": "basewholesale",
+                "xmlId": "partnerwholesale",
             },
         ).response
         result = bitrix_response.result
@@ -213,14 +216,13 @@
                 [
                     'id' => 2,
                     'fields' => [
-                        'name'  => "Base wholesale price",
-                        'base'  => "Y",
+                        'name'  => "Partner wholesale price",
                         'sort'  => 1,
-                        'xmlId' => "basewholesale",
+                        'xmlId' => "partnerwholesale",
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -235,14 +237,13 @@
 
     ```js
     BX24.callMethod(
-        'catalog.priceType.update', 
+        'catalog.priceType.update',
         {
             id: 2,
             fields: {
-                name: "Base wholesale price",
-                base: "Y",
+                name: "Partner wholesale price",
                 sort: 1,
-                xmlId: "basewholesale"
+                xmlId: "partnerwholesale"
             }
         },
         function(result)
@@ -265,10 +266,9 @@
         [
             'id' => 2,
             'fields' => [
-                'name' => 'Base wholesale price',
-                'base' => 'Y',
+                'name' => 'Partner wholesale price',
                 'sort' => 1,
-                'xmlId' => 'basewholesale'
+                'xmlId' => 'partnerwholesale'
             ]
         ]
     );
@@ -285,10 +285,9 @@
     res, err := client.Core().Call(ctx, "catalog.priceType.update", b24.Params{
     	"id": 2,
     	"fields": b24.Params{
-    		"name":  "Base wholesale price",
-    		"base":  "Y",
+    		"name":  "Partner wholesale price",
     		"sort":  1,
-    		"xmlId": "basewholesale",
+    		"xmlId": "partnerwholesale",
     	},
     })
     if err != nil {
@@ -325,24 +324,25 @@ HTTP-статус: **200**
 {
     "result": {
         "priceType": {
-            "base": "Y",
-            "createdBy": 1,
-            "dateCreate": "2024-10-02T17:49:44+02:00",
+            "base": "N",
+            "createdBy": 1269,
+            "dateCreate": "2026-11-03T12:44:53+03:00",
             "id": 2,
-            "modifiedBy": 1,
-            "name": "Base wholesale price",
+            "modifiedBy": 1269,
+            "name": "Partner wholesale price",
             "sort": 1,
-            "timestampX": "2024-10-03T12:29:35+02:00",
-            "xmlId": "basewholesale"
+            "timestampX": "2026-11-03T12:45:09+03:00",
+            "xmlId": "partnerwholesale"
         }
     },
     "time": {
-        "start": 1712327086.69665,
-        "finish": 1712327086.95303,
-        "duration": 0.256376028060913,
-        "processing": 0.0112268924713135,
-        "date_start": "2024-10-03T12:29:35+02:00",
-        "date_finish": "2024-10-03T12:29:35+02:00",
+        "start": 1793699473,
+        "finish": 1793699473.622972,
+        "duration": 0.6229720115661621,
+        "processing": 0,
+        "date_start": "2026-11-03T12:51:13+03:00",
+        "date_finish": "2026-11-03T12:51:13+03:00",
+        "operating_reset_at": 1793700060,
         "operating": 0
     }
 }
@@ -355,7 +355,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **priceType**
+|| **result.priceType**
 [`catalog_price_type`](../data-types.md#catalog_price_type) | Объект с информацией об обновленном типе цены ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -367,7 +367,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 201000000000,
+    "error": "201000000000",
     "error_description": "priceType does not exist."
 }
 ```
@@ -377,17 +377,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-||
-|| `201000000000` | Типа цены с таким идентификатором не существует
-||
-|| `100` | Не указан параметр `id`
-||
-|| `100` | Не указан или пустой параметр `fields`
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `201000000000` | priceType does not exist. | Типа цены с указанным `id` нет ||
+|| `400` | `ERROR_CORE` | Не указан код типа цен`<br>` | В `name` передана пустая строка ||
+|| `400` | `0` | Error updating price type | Не удалось сохранить изменения типа цены ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

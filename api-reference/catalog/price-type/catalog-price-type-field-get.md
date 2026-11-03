@@ -434,6 +434,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-price-type-field-list.md)
-- [{#T}](./catalog-price-type-get-rest-v3.md)
 - [{#T}](./catalog-price-type-add-rest-v3.md)
+- [{#T}](./catalog-price-type-get-rest-v3.md)
+- [{#T}](./catalog-price-type-field-list.md)

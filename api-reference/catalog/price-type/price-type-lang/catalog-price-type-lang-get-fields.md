@@ -15,6 +15,8 @@
 
 Метод `catalog.priceTypeLang.getFields` возвращает описание полей перевода названия типа цены.
 
+## Параметры метода
+
 Без параметров.
 
 ## Примеры кода
@@ -153,7 +155,7 @@
                 'catalog.priceTypeLang.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -168,8 +170,8 @@
 
     ```js
     BX24.callMethod(
-        'catalog.priceTypeLang.getFields', 
-        {}, 
+        'catalog.priceTypeLang.getFields',
+        {},
         function(result)
         {
             if(result.error())
@@ -250,12 +252,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1733837668.28562,
-        "finish": 1733837668.54577,
-        "duration": 0.260151147842407,
-        "processing": 0.00585103034973145,
-        "date_start": "2024-12-10T15:34:28+02:00",
-        "date_finish": "2024-12-10T15:34:28+02:00",
+        "start": 1793700372,
+        "finish": 1793700372.773464,
+        "duration": 0.7734639644622803,
+        "processing": 0,
+        "date_start": "2026-11-03T13:06:12+03:00",
+        "date_finish": "2026-11-03T13:06:12+03:00",
+        "operating_reset_at": 1793700960,
         "operating": 0
     }
 }
@@ -268,7 +271,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeLang**
+|| **result.priceTypeLang**
 [`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price_type_lang](../../data-types.md#catalog_price_type_lang), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -280,7 +283,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -290,11 +293,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

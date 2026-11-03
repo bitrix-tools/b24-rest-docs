@@ -17,19 +17,10 @@
 
 ## Как начать работу
 
-1. Создайте тип цены методом [catalog.priceType.add](./catalog-price-type-add.md)
+1. Создайте тип цены методом [catalog.priceType.add](./catalog-price-type-add.md). Метод сразу открывает просмотр и покупку по новому типу группам пользователей с идентификаторами `1` и `2`
 2. При необходимости добавьте переводы названия методами [catalog.priceTypeLang.*](./price-type-lang/index.md)
 3. Настройте доступ групп покупателей методами [catalog.priceTypeGroup.*](./price-type-group/index.md)
 4. Используйте тип цены при создании цены методом [catalog.price.add](../price/catalog-price-add.md)
-
-## Форма результатов
-
-Методы возвращают данные в следующих полях:
-
-- `catalog.priceType.add`, `catalog.priceType.get` и `catalog.priceType.update` — объект типа цены в `result.priceType`
-- `catalog.priceType.list` — массив объектов в `result.priceTypes` и общее количество записей в `total`
-- `catalog.priceType.delete` — результат удаления в `result`
-- `catalog.priceType.getFields` — описание полей в `result.priceType`
 
 ## Типы цен в REST 3.0
 
@@ -55,7 +46,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: зависит от метода
+> Кто может выполнять методы:
+> - пользователь с правом «Просмотр каталога товаров» или «Управление типами цен» — для получения типов цен, привязок, переводов и описания полей
+> - пользователь с правом «Управление типами цен» — для добавления, изменения и удаления
 
 ### Основные
 

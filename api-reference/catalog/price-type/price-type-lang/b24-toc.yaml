@@ -1,6 +1,6 @@
 title: Переводы названий типов цен
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Добавить перевод
@@ -13,7 +13,7 @@ items:
     href: catalog-price-type-lang-update-rest-v3.md
   - name: Получить значения полей перевода
     href: catalog-price-type-lang-get.md
-  - name: Получить список переводов 
+  - name: Получить список переводов
     href: catalog-price-type-lang-list.md
   - name: Удалить перевод
     href: catalog-price-type-lang-delete.md

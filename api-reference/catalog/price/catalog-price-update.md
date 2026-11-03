@@ -23,23 +23,33 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены товара ||
+[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены товара, можно получить методом [catalog.price.list](./catalog-price-list.md) ||
 || **fields***
 [`object`](../../data-types.md) | Значения полей для обновления цены товара ([подробное описание](#fields)) ||
 |#
 
 ### Параметр fields {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+Передавайте только поля, которые нужно изменить. Остальные значения метод берет из текущей цены.
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **price***
-[`double`](../../data-types.md) | Значение цены ||
-|| **currency***
-[`string`](../../data-types.md) | Идентификатор валюты, можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
+|| **price**
+[`double`](../../data-types.md) | Значение цены. Отрицательное значение вызывает ошибку ||
+|| **currency**
+[`string`](../../data-types.md) | Код валюты, например `RUB`. Коды валют можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
+|| **extraId**
+[`catalog_extra.id`](../data-types.md#catalog_extra) | Идентификатор наценки. Идентификатор можно получить методом [catalog.extra.list](../extra/catalog-extra-list.md).
+
+Наценка сохраняется в цене, но цену не пересчитывает. У цены базового типа наценка не сохраняется. Несуществующий идентификатор вызывает ошибку ||
+|| **quantityFrom**
+[`integer`](../../data-types.md) | Нижняя граница диапазона количества товара. Диапазоны у всех типов цен товара должны совпадать с диапазонами базовой цены ||
+|| **quantityTo**
+[`integer`](../../data-types.md) | Верхняя граница диапазона количества товара ||
 |#
+
+Поля `productId` и `catalogGroupId` изменить нельзя: если передать их в `fields`, метод выполнится без ошибки, но значения не изменятся. Чтобы перенести цену на другой товар или тип цены, удалите ее методом [catalog.price.delete](./catalog-price-delete.md) и создайте новую методом [catalog.price.add](./catalog-price-add.md).
 
 ## Примеры кода
 
@@ -203,7 +213,7 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -307,6 +317,7 @@ HTTP-статус: **200**
             "extraId": null,
             "id": 1,
             "price": 120.75,
+            "priceScale": 120.75,
             "productId": 1,
             "quantityFrom": null,
             "quantityTo": null,
@@ -332,7 +343,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **price**
+|| **result.price**
 [`catalog_price`](../data-types.md#catalog_price) | Объект с информацией о цене товара ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -344,8 +355,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description":"Required fields: price, currency"
+    "error": "0",
+    "error_description": "Price is not exists"
 }
 ```
 
@@ -354,14 +365,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав на редактирование цены ||
-|| `200040300030` | Access Denied | Недостаточно прав на редактирование товара ||
-|| `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` ||
-|| `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
-|| `-` | Price is not exists | Цены товара с таким идентификатором не существует || 
-|| `0` | Required fields:  | Не переданы обязательные поля ||
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | Нет права изменять цены этого товара в инфоблоке каталога ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Price is not exists | Цены с указанным `id` нет ||
+|| `400` | `0` | Validate price error. Ranges of base price are not equal to another price group range | Переданы `quantityFrom` и `quantityTo`, а у базовой цены товара нет такого же диапазона количества ||
+|| `400` | `BX_ERROR` | Неверная цена | В `price` передано отрицательное число ||
+|| `400` | `BX_ERROR` | Неверная валюта | Валюты с кодом из `currency` нет ||
+|| `400` | `BX_ERROR` | Неверный ID наценки | Наценки с указанным `extraId` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

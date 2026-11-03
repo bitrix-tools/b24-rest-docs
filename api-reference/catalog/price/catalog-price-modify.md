@@ -77,7 +77,6 @@
 
 {% endnote %}
 
-
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
@@ -338,12 +337,12 @@
                         {
                             catalogGroupId: 3,
                             currency: 'RUB',
-                            price: 2001               
+                            price: 2001
                         },
                         {
                             catalogGroupId: 5,
                             currency: 'RUB',
-                            price: 2001,                
+                            price: 2001,
                         },
                     ]
                 },
@@ -467,7 +466,7 @@ HTTP-статус: **200**
                 "extraId": null,
                 "id": 123,
                 "price": 2001,
-                "priceScale":2001,
+                "priceScale": 2001,
                 "productId": 8,
                 "quantityFrom": null,
                 "quantityTo": null,
@@ -479,7 +478,7 @@ HTTP-статус: **200**
                 "extraId": null,
                 "id": 124,
                 "price": 2001,
-                "priceScale":2001,
+                "priceScale": 2001,
                 "productId": 8,
                 "quantityFrom": null,
                 "quantityTo": null,
@@ -491,7 +490,7 @@ HTTP-статус: **200**
                 "extraId": null,
                 "id": 122,
                 "price": 2001,
-                "priceScale":2001,
+                "priceScale": 2001,
                 "productId": 8,
                 "quantityFrom": null,
                 "quantityTo": null,
@@ -518,7 +517,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **prices**
+|| **result.prices**
 [`catalog_price[]`](../data-types.md#catalog_price) | Массив объектов с информацией о ценах товара ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -530,8 +529,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description": "Required fields: price, currency"
+    "error": "0",
+    "error_description": "Product prices are empty"
 }
 ```
 
@@ -540,14 +539,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав на редактирование цены ||
-|| `200040300030` | Access Denied | Нет права изменять цены товара в инфоблоке каталога ||
-|| `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` ||
-|| `0` | Required fields:  | Не переданы обязательные поля ||
-|| `0` | Validate price error. Catalog price group is wrong | Неправильный тип цены ||
-|| `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group | Дублирование типа цены. Были переданы в массиве `prices` две или более записей с одинаковым `catalogGroupId` || 
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | Нет права изменять цены этого товара в инфоблоке каталога или товара с указанным `id` нет ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: [product][id], [product][prices][] | В `fields` нет объекта `product` с полями `id` и `prices` ||
+|| `400` | `0` | Product prices are empty | В `prices` передан пустой массив ||
+|| `400` | `0` | Validate price error. Catalog price group is wrong | Типа цены с указанным `catalogGroupId` нет или в `prices` передан `id` цены ||
+|| `400` | `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group. | В `prices` передано несколько цен одного типа без диапазонов количества ||
+|| `400` | `0` | Validate price error. Ranges of base price are not equal to another price group range | Переданы `quantityFrom` и `quantityTo`, а у базовой цены товара нет такого же диапазона количества ||
+|| `400` | `BX_ERROR` | Неверная цена | В `price` передано отрицательное число ||
+|| `400` | `BX_ERROR` | Неверная валюта | Валюты с кодом из `currency` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

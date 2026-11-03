@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md)| Значения полей для создания нового типа цены ([подробное описание](#fields)) ||
+[`object`](../../data-types.md) | Объект с полями нового типа цены [(подробное описание)](#fields) ||
 |#
 
 ### Параметр fields {#fields}
@@ -226,7 +226,7 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -241,7 +241,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.priceType.add', 
+        'catalog.priceType.add',
         {
             fields: {
                 name: "Wholesale price",
@@ -328,23 +328,24 @@ HTTP-статус: **200**
     "result": {
         "priceType": {
             "base": "N",
-            "createdBy": 1,
-            "dateCreate": "2024-10-02T17:49:44+02:00",
-            "id": 2,
-            "modifiedBy": 1,
+            "createdBy": 1269,
+            "dateCreate": "2026-11-03T12:44:53+03:00",
+            "id": 35,
+            "modifiedBy": 1269,
             "name": "Wholesale price",
             "sort": 10,
-            "timestampX": "2024-10-02T17:49:44+02:00",
+            "timestampX": "2026-11-03T12:44:53+03:00",
             "xmlId": "wholesale"
         }
     },
     "time": {
-        "start": 1716552521.40908,
-        "finish": 1716552521.69852,
-        "duration": 0.289434909820557,
-        "processing": 0.011207103729248,
-        "date_start": "2024-10-02T17:49:44+02:00",
-        "date_finish": "2024-10-02T17:49:44+02:00",
+        "start": 1793699093,
+        "finish": 1793699093.715093,
+        "duration": 0.7150928974151611,
+        "processing": 0,
+        "date_start": "2026-11-03T12:44:53+03:00",
+        "date_finish": "2026-11-03T12:44:53+03:00",
+        "operating_reset_at": 1793699640,
         "operating": 0
     }
 }
@@ -357,7 +358,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **priceType**
+|| **result.priceType**
 [`catalog_price_type`](../data-types.md#catalog_price_type) | Объект с информацией о созданном типе цены ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -369,8 +370,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "0",
+    "error_description": "Required fields: name"
 }
 ```
 
@@ -379,20 +380,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-||
-|| `100` | Не передан обязательный параметр `fields`
-||
-|| `0` | Не установлены обязательные поля
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: name | В `fields` не передано поле `name` ||
+|| `400` | `ERROR_CORE` | Не указан код типа цен`<br>` | В `name` передана пустая строка ||
+|| `400` | `0` | Error adding price type | Не удалось сохранить тип цены ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-price-type-update.md)
 - [{#T}](./catalog-price-type-get.md)
