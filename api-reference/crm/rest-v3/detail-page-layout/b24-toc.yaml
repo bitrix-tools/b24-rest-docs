@@ -1,0 +1,25 @@
+title: Виды карточки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать дополнительный вид карточки
+    href: crm-entity-detail-page-layout-add-rest-v3.md
+  - name: Изменить вид карточки
+    href: crm-entity-detail-page-layout-update-rest-v3.md
+  - name: Получить вид карточки
+    href: crm-entity-detail-page-layout-get-rest-v3.md
+  - name: Получить список дополнительных видов карточки
+    href: crm-entity-detail-page-layout-list-rest-v3.md
+  - name: Удалить дополнительный вид карточки
+    href: crm-entity-detail-page-layout-delete-rest-v3.md
+  - name: Получить текущий вид карточки
+    href: crm-entity-detail-page-layout-get-current-rest-v3.md
+  - name: Установить текущий вид карточки
+    href: crm-entity-detail-page-layout-set-current-rest-v3.md
+  - name: Получить идентификатор личного вида карточки
+    href: crm-entity-detail-page-layout-get-personal-layout-id-rest-v3.md
+  - name: Получить идентификатор общего вида карточки
+    href: crm-entity-detail-page-layout-get-common-layout-id-rest-v3.md
+  - name: Установить общий вид карточки для всех
+    href: crm-entity-detail-page-layout-set-common-for-all-rest-v3.md

@@ -1,0 +1,45 @@
+title: CRM в REST 3.0
+href: index.md
+items:
+  - name: Обзор
+    href: index.md
+  - name: Элементы
+    include:
+      path: items/b24-toc.yaml
+      mode: link
+  - name: Управление полями
+    include:
+      path: fields/b24-toc.yaml
+      mode: link
+  - name: Воронки и стадии
+    include:
+      path: categories/b24-toc.yaml
+      mode: link
+  - name: Товарные позиции
+    include:
+      path: product-rows/b24-toc.yaml
+      mode: link
+  - name: Реквизиты
+    include:
+      path: requisites/b24-toc.yaml
+      mode: link
+  - name: Адреса
+    include:
+      path: addresses/b24-toc.yaml
+      mode: link
+  - name: Виды карточки
+    include:
+      path: detail-page-layout/b24-toc.yaml
+      mode: link
+  - name: Дела
+    include:
+      path: activities/b24-toc.yaml
+      mode: link
+  - name: Справочники
+    include:
+      path: dictionaries/b24-toc.yaml
+      mode: link
+  - name: Режим лидов
+    include:
+      path: lead-mode/b24-toc.yaml
+      mode: link
