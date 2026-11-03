@@ -3,3 +3,33 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Получить описание поля
+    href: crm-entity-field-get-rest-v3.md
+  - name: Получить описание полей
+    href: crm-entity-field-list-rest-v3.md
+  - name: Создать пользовательское поле
+    href: crm-entity-field-custom-add-rest-v3.md
+  - name: Изменить пользовательское поле
+    href: crm-entity-field-custom-update-rest-v3.md
+  - name: Получить пользовательское поле
+    href: crm-entity-field-custom-get-rest-v3.md
+  - name: Получить список пользовательских полей
+    href: crm-entity-field-custom-list-rest-v3.md
+  - name: Удалить пользовательское поле
+    href: crm-entity-field-custom-delete-rest-v3.md
+  - name: Добавить вариант в поле-список
+    href: crm-entity-field-custom-enum-add-rest-v3.md
+  - name: Изменить вариант поля-списка
+    href: crm-entity-field-custom-enum-update-rest-v3.md
+  - name: Получить вариант поля-списка
+    href: crm-entity-field-custom-enum-get-rest-v3.md
+  - name: Получить варианты поля-списка
+    href: crm-entity-field-custom-enum-list-rest-v3.md
+  - name: Удалить вариант поля-списка
+    href: crm-entity-field-custom-enum-delete-rest-v3.md
+  - name: Получить обязательность поля
+    href: crm-entity-field-required-get-rest-v3.md
+  - name: Сделать поле обязательным
+    href: crm-entity-field-required-set-rest-v3.md
+  - name: Снять обязательность поля
+    href: crm-entity-field-required-clear-rest-v3.md
