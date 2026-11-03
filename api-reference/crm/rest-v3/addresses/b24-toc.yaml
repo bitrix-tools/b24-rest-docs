@@ -3,3 +3,17 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Добавить адрес контакта или компании
+    href: crm-entity-address-add-rest-v3.md
+  - name: Изменить адрес контакта или компании
+    href: crm-entity-address-update-rest-v3.md
+  - name: Получить адрес
+    href: crm-entity-address-get-rest-v3.md
+  - name: Получить адреса контакта или компании
+    href: crm-entity-address-list-rest-v3.md
+  - name: Удалить адрес
+    href: crm-entity-address-delete-rest-v3.md
+  - name: Записать адрес лида
+    href: crm-lead-address-set-rest-v3.md
+  - name: Получить адреса контактов, компаний и лидов
+    href: crm-address-list-rest-v3.md
