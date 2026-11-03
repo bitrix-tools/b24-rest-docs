@@ -3,3 +3,25 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
+  - name: Создать воронку
+    href: crm-entity-category-add-rest-v3.md
+  - name: Изменить воронку
+    href: crm-entity-category-update-rest-v3.md
+  - name: Получить воронку по идентификатору
+    href: crm-entity-category-get-rest-v3.md
+  - name: Получить список воронок
+    href: crm-entity-category-list-rest-v3.md
+  - name: Удалить воронку
+    href: crm-entity-category-delete-rest-v3.md
+  - name: Добавить стадию в воронку
+    href: crm-entity-category-stage-add-rest-v3.md
+  - name: Изменить стадию воронки
+    href: crm-entity-category-stage-update-rest-v3.md
+  - name: Получить стадию воронки по идентификатору
+    href: crm-entity-category-stage-get-rest-v3.md
+  - name: Получить стадии воронки
+    href: crm-entity-category-stage-list-rest-v3.md
+  - name: Удалить стадию воронки
+    href: crm-entity-category-stage-delete-rest-v3.md
+  - name: Заменить стадии воронки
+    href: crm-entity-category-stage-replace-rest-v3.md
