@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом чтения каталога или просмотра складов
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
 Метод `catalog.measure.getFields` возвращает доступные поля единиц измерения.
 
@@ -146,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -155,7 +154,7 @@
                 'catalog.measure.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -289,7 +288,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Результат запроса [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Объект result {#result}
@@ -307,7 +306,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```

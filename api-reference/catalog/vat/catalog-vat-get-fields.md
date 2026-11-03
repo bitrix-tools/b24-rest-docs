@@ -146,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -155,7 +154,7 @@
                 'catalog.vat.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -170,7 +169,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.vat.getFields', 
+        'catalog.vat.getFields',
         {},
         function(result)
         {
@@ -283,7 +282,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **vat**
+|| **result.vat**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_vat](../data-types.md#catalog_vat), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description).
 
 Метод возвращает поля `active`, `id`, `name`, `rate`, `sort`, `timestampX`. Для каждого поля указаны:
@@ -314,7 +313,6 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление ставками НДС» ||
-|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

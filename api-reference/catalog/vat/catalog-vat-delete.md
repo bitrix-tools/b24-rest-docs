@@ -150,7 +150,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -161,7 +160,7 @@
                     'id' => 37
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -176,10 +175,10 @@
 
     ```js
     BX24.callMethod(
-        'catalog.vat.delete', 
-        { 
+        'catalog.vat.delete',
+        {
     id: 37
-    }, 
+    },
         function(result)
         {
             if(result.error())
@@ -279,7 +278,6 @@ HTTP-статус: **400**
 || `400` | `200800000000` | vat does not exist. | Ставки НДС с таким `id` нет или она уже удалена ||
 || `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
 || `400` | `0` | Error deleting VAT | Не удалось удалить ставку НДС ||
-|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

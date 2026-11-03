@@ -458,6 +458,6 @@ HTTP-статус: **404**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-vat-field-list.md)
-- [{#T}](./catalog-vat-get-rest-v3.md)
 - [{#T}](./catalog-vat-add-rest-v3.md)
+- [{#T}](./catalog-vat-get-rest-v3.md)
+- [{#T}](./catalog-vat-field-list.md)

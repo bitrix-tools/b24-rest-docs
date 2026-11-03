@@ -150,7 +150,7 @@
                 'catalog.enum.getStoreDocumentTypes',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -270,13 +270,24 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **enum**
-[`catalog_enum[]`](../data-types.md#catalog_enum) | Массив элементов перечисления типов документов складского учета ||
+|| **result.enum**
+[`catalog_enum[]`](../data-types.md#catalog_enum) | Массив типов документов складского учета. У каждого элемента `id` — код типа, `name` — название на языке Битрикс24.
+
+Значения `id`:
+- `A` — приход товара на склад
+- `S` — оприходование товара
+- `M` — перемещение товара между складами
+- `R` — возврат товара
+- `D` — списание товара
+
+Код передавайте в поле `docType` метода [catalog.document.add](../document/catalog-document-add.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

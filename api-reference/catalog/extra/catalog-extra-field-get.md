@@ -415,6 +415,6 @@ HTTP-статус: **404**.
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-extra-field-list.md)
 - [{#T}](./catalog-extra-get-rest-v3.md)
 - [{#T}](./catalog-extra-list-rest-v3.md)
+- [{#T}](./catalog-extra-field-list.md)

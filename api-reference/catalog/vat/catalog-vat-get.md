@@ -68,7 +68,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type VatGetResult = {
       vat: {
-        active: string
+        active: 'Y' | 'N'
         id: number
         name: string
         rate: number | null
@@ -162,7 +162,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -173,7 +172,7 @@
                     'id' => 3
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -273,7 +272,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **vat**
+|| **result.vat**
 [`catalog_vat`](../data-types.md#catalog_vat) | Объект с полями ставки НДС: `active`, `id`, `name`, `rate`, `sort`, `timestampX`. У ставки без НДС поле `rate` равно `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -299,7 +298,6 @@ HTTP-статус: **400**
 || `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление ставками НДС» ||
 || `400` | `200800000000` | vat does not exist. | Ставки НДС с таким `id` нет ||
 || `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
-|| — | `0` | — | Другие ошибки, например фатальные ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
