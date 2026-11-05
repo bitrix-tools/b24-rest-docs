@@ -1,4 +1,4 @@
-# Получить информацию о деле обзвона crm.calllist.get
+# Получить информацию о списке обзвона crm.calllist.get
 
 {% note tip "" %}
 
@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами на чтение элементов CRM
+> Кто может выполнять метод: администратор, создатель обзвона или ответственный за дело обзвона. Также нужно право на чтение контактов или компаний — по типу участников обзвона
 
-Метод `crm.calllist.get` возвращает информацию о деле обзвона по его идентификатору, без списка участников.
+Метод `crm.calllist.get` возвращает параметры обзвона по идентификатору. В ответе — дата создания, автор, CRM-форма и тип участников. Самих участников метод не возвращает.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../../data-types.md) | Идентификатор дела обзвона ||
+[`integer`](../../data-types.md) | Идентификатор обзвона. Получить его можно методами [crm.calllist.add](./crm-calllist-add.md) и [crm.calllist.list](./crm-calllist-list.md). Это не идентификатор дела обзвона в таймлайне ||
 |#
 
 ## Примеры кода
@@ -38,7 +38,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"ID":123}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.get
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.calllist.get
     ```
 
 - cURL (OAuth)
@@ -47,7 +47,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"ID":123,"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.get
+         https://**put_your_bitrix24_address**/rest/crm.calllist.get
     ```
 
 - JS (TS)
@@ -166,7 +166,7 @@
                     'ID' => 123,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -241,7 +241,7 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "ID": "13",
+        "ID": "123",
         "DATE_CREATE": "2025-07-14 08:47:19",
         "CREATED_BY_ID": "29",
         "WEBFORM_ID": "1",
@@ -263,23 +263,34 @@ HTTP-статус: **200**
 
 ### Возвращаемые данные
 
+Числовые значения приходят строками, например `"ID": "123"`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Параметры обзвона [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../data-types.md) | Идентификатор обзвона ||
+[`string`](../../data-types.md) | Идентификатор обзвона ||
 || **DATE_CREATE**
-[`datetime`](../../data-types.md) | Дата и время создания обзвона ||
+[`string`](../../data-types.md) | Дата и время создания обзвона в формате `ГГГГ-ММ-ДД ЧЧ:ММ:СС` ||
 || **CREATED_BY_ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя, который создал обзвон ||
+[`string`](../../data-types.md) | Идентификатор пользователя, который создал обзвон ||
 || **WEBFORM_ID**
-[`integer`](../../data-types.md) | Идентификатор связанной CRM-формы ||
+[`string`](../../data-types.md) | Идентификатор прикрепленной CRM-формы. Если форма не прикреплена — `null` ||
 || **ENTITY_TYPE_ID**
-[`integer`](../../data-types.md) | Идентификатор типа объекта ||
+[`string`](../../data-types.md) | Идентификатор типа участников: `3` — контакты, `4` — компании ||
 || **ENTITY_TYPE**
-[`string`](../../data-types.md) | Тип объекта ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`string`](../../data-types.md) | Тип участников: `CONTACT` или `COMPANY` ||
 |#
 
 ## Обработка ошибок
@@ -311,4 +322,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-calllist-items-get.md)
 - [{#T}](./crm-calllist-list.md)
 - [{#T}](./crm-calllist-statuslist.md)
-- [{#T}](./crm-calllist-update.md) 
+- [{#T}](./crm-calllist-update.md)
+- [{#T}](./index.md)

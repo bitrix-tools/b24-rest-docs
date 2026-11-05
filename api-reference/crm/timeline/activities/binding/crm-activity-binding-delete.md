@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь c правом редактирования элементов CRM
+> Кто может выполнять метод: пользователь с правом редактирования элемента CRM, от которого отвязывают дело
 
-Метод `crm.activity.binding.delete` удаляет cвязь дела с элементом CRM. Если дело привязано только к одному элементу, удалить эту привязку нельзя.
+Метод `crm.activity.binding.delete` удаляет связь дела с элементом CRM. Дело пропадет из таймлайна этого элемента.
+
+Если дело привязано только к одному элементу, удалить эту связь нельзя. Перенести единственную связь на элемент того же типа можно методом [crm.activity.binding.move](./crm-activity-binding-move.md). Чтобы перенести дело на элемент другого типа, сначала привяжите его к новому элементу методом [crm.activity.binding.add](./crm-activity-binding-add.md), потом удалите старую связь.
 
 ## Параметры метода
 
@@ -23,11 +25,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) ||
 || **entityTypeId***
-[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type), с которым удаляем связь дела, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Целочисленный идентификатор типа объекта CRM](../../../data-types.md#object_type), от которого нужно отвязать дело, например `2` для сделки ||
 || **entityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, с которым удаляем связь дела, например `1`  ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, от которого нужно отвязать дело, например `1`.
+
+Получить идентификатор можно методом [crm.activity.binding.list](./crm-activity-binding-list.md) ||
 |#
 
 ## Примеры кода
@@ -138,7 +144,7 @@
         bitrix_response = client.crm.activity.binding.delete(
             activity_id=999,
             entity_type_id=2,
-            entity_id=101,
+            entity_id=1,
         ).response
         result = bitrix_response.result
         print(result)
@@ -170,13 +176,13 @@
                     'entityId'     => 1 // ID элемента CRM
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Результат: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Ошибка: ' . $e->getMessage();
@@ -195,9 +201,9 @@
         },
         function(result) {
             if (result.error()) {
-                console.error('Ошибка:', result.error()); 
+                console.error('Ошибка:', result.error());
             } else {
-                console.log('Результат:', result.data()); 
+                console.log('Результат:', result.data());
             }
         }
     );
@@ -258,7 +264,7 @@ HTTP-статус: **200**
         "processing": 0.032338857650756836,
         "date_start": "2024-04-03T10:26:32+02:00",
         "date_finish": "2024-04-03T10:26:33+02:00",
-        "operating_reset_at": 1705765533,
+        "operating_reset_at": 1712133392,
         "operating": 3.3076241016387939
     }
 }
@@ -270,7 +276,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно удалена, иначе — `false` ||
+[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true`, если связь удалена ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -281,8 +287,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Элемент не найден"
+    "error": "LAST_BINDING_CANNOT_BE_DELETED",
+    "error_description": "Нельзя удалять единственную привязку дела к сущности"
 }
 ```
 
@@ -291,20 +297,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнении операции ||
-|| `BINDING_NOT_FOUND` | Дело не привязано к этому элементу ||
-|| `LAST_BINDING_CANNOT_BE_DELETED` | Нельзя удалять единственную привязку дела к сущности ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {entityId} | Не передан обязательный параметр `activityId`, `entityTypeId` или `entityId`. В описании указано имя параметра ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {activityId}. Should be value of type int. | Значение параметра не целое число. В описании указано имя параметра ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с идентификатором `activityId` не найдено ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права редактирования элемента CRM ||
+|| `400` | `BINDING_NOT_FOUND` | Дело не привязано к этой сущности | Дело не привязано к указанному элементу CRM ||
+|| `400` | `LAST_BINDING_CANNOT_BE_DELETED` | Нельзя удалять единственную привязку дела к сущности | Связь с указанным элементом — единственная у дела ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
-- [{#T}](./crm-activity-binding-list.md)
 - [{#T}](./crm-activity-binding-add.md)
 - [{#T}](./crm-activity-binding-move.md)
+- [{#T}](./crm-activity-binding-list.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
+- [{#T}](./index.md)

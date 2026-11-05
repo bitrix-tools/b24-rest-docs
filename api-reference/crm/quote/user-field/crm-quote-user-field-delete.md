@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор CRM
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод `crm.quote.userfield.delete` удаляет пользовательское поле предложений.
+Метод `crm.quote.userfield.delete` удаляет пользовательское поле предложений и его значения во всех карточках. Восстановить их нельзя.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к предложению.
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля предложений.
 
 Идентификатор можно получить с помощью методов [crm.quote.userfield.add](./crm-quote-user-field-add.md) или [crm.quote.userfield.list](./crm-quote-user-field-list.md) ||
 |#
@@ -149,7 +149,7 @@
 
     ```php
     try {
-        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+        $userfieldId = 432; // Replace with the actual userfield ID you want to delete
         $result = $serviceBuilder
             ->getCRMScope()
             ->quoteUserfield()
@@ -265,27 +265,22 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | ID is not defined or invalid | Переданный `id` либо меньше или равен нулю, либо же не передан вовсе ||
-|| `403` | Access denied | Возникает в случаях, когда:
-- у пользователя нет административных прав
-- пользователь пытается удалить пользовательское поле, не привязанное к предложениям ||
-|| `ERROR_NOT_FOUND` | The entity with ID 'id' is not found | Пользовательское поле с переданным `id` не существует ||
-|| `400` | Ошибка удаления FIELD_NAME для объекта ENTITY_ID | Неизвестная ошибка при удалении ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | `id` не передан или меньше единицы ||
+|| `400` | Пустое значение | `Access denied.` | Возникает в случаях, когда:
+- у пользователя нет права «Разрешить изменять настройки» в CRM
+- поле с переданным `id` принадлежит другому объекту, например лидам ||
+|| `400` | `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found.` | Пользовательского поля с переданным `id` нет ||
+|| `400` | `ERROR_CORE` | `Ошибка удаления UF_CRM_CODE для объекта CRM_QUOTE.` | Неизвестная ошибка при удалении ||
+|| `500` | `INTERNAL_SERVER_ERROR` | Текст зависит от причины | Удаление не уложилось в `max_execution_time`. Подробнее — в разделе [Ошибки при работе с пользовательскими полями](./index.md#errors) ||
 |#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./crm-quote-user-field-add.md)
+- [{#T}](./crm-quote-user-field-update.md)
 - [{#T}](./crm-quote-user-field-get.md)
 - [{#T}](./crm-quote-user-field-list.md)
-- [{#T}](./crm-quote-user-field-update.md)
-
-
-
-
-
-
-
-
+- [{#T}](./index.md)

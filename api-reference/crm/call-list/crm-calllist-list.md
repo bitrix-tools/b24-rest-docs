@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами на чтение элементов CRM
+> Кто может выполнять метод: любой пользователь
 
-Метод `crm.calllist.list` возвращает список дел обзвонов.
+Метод `crm.calllist.list` возвращает список обзвонов: идентификатор, дату создания, автора, CRM-форму и тип участников.
+
+Администратор получит все обзвоны Битрикс24, остальные пользователи — только созданные ими.
 
 ## Параметры метода
 
@@ -25,10 +27,10 @@
 || **SELECT**
 [`array`](../../data-types.md) | Массив полей для выборки. По умолчанию возвращаются все поля.
 Список полей для выборки:
-- `ID`,
-- `DATE_CREATE`,
-- `CREATED_BY_ID`,
-- `WEBFORM_ID`,
+- `ID`
+- `DATE_CREATE`
+- `CREATED_BY_ID`
+- `WEBFORM_ID`
 - `ENTITY_TYPE_ID` ||
 || **FILTER**
 [`object`](../../data-types.md) | Объект формата:
@@ -46,21 +48,20 @@
 - `value_n` — значение фильтра
 
 Список полей для фильтрации:
-- `ID`,
-- `CREATED_BY_ID`,
-- `WEBFORM_ID`,
-- `ENTITY_TYPE_ID`.
-  
+- `ID`
+- `CREATED_BY_ID`
+- `WEBFORM_ID`
+- `ENTITY_TYPE_ID`
+
 Полю может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-- `>=` — больше либо равно,
-- `>` — больше,
-- `<=` — меньше либо равно,
-- `<` — меньше,
-- `@` — IN, в качестве значения передается массив,
-- `!@`— NOT IN, в качестве значения передается массив,
-- `=` — равно, точное совпадение, используется по умолчанию,
-- `!=` - не равно,
-- `!` — не равно ||
+- `>=` — больше либо равно
+- `>` — больше
+- `<=` — меньше либо равно
+- `<` — меньше
+- `@` — IN, в качестве значения передается массив
+- `=` — равно, точное совпадение, используется по умолчанию
+
+Другие префиксы, например `!` и `!=`, метод не принимает и возвращает ошибку `ERROR_ARGUMENT` ||
 || **ORDER**
 [`object`](../../data-types.md) | Объект формата:
 
@@ -76,7 +77,22 @@
 - `field_n` — название поля, по которому будет произведена сортировка обзвонов
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
-    - `DESC` — сортировка по убыванию ||
+    - `DESC` — сортировка по убыванию
+
+Список полей для сортировки:
+- `ID`
+- `DATE_CREATE`
+- `CREATED_BY_ID`
+- `WEBFORM_ID`
+- `ENTITY_TYPE_ID` ||
+|| **start**
+[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
+
+Размер страницы результатов всегда статичный — 50 записей.
+
+Чтобы выбрать вторую страницу результатов, передайте значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+
+Метод не возвращает `total` и `next`. Запрашивайте следующие страницы, пока в ответе не придет меньше 50 записей ||
 |#
 
 ## Примеры кода
@@ -257,74 +273,6 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.calllist.list(
-            select=[
-                "ID",
-                "CREATED_BY_ID",
-            ],
-            filter={
-                "ENTITY_TYPE_ID": 3,
-            },
-            order={
-                "ID": "DESC",
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.calllist.list(
-            select=[
-                "ID",
-                "CREATED_BY_ID",
-            ],
-            filter={
-                "ENTITY_TYPE_ID": 3,
-            },
-            order={
-                "ID": "DESC",
-            },
-        ).as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
 
 
@@ -340,15 +288,15 @@
                     'ORDER'  => ['ID' => 'DESC'],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching call list: ' . $e->getMessage();
@@ -398,7 +346,11 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "crm.calllist.list", nil, b24.WithIdempotent())
+    res, err := client.Core().Call(ctx, "crm.calllist.list", b24.Params{
+    	"SELECT": []string{"ID", "CREATED_BY_ID"},
+    	"FILTER": map[string]any{"ENTITY_TYPE_ID": 3},
+    	"ORDER":  map[string]string{"ID": "DESC"},
+    }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("crm.calllist.list: %w", err)
     }
@@ -414,11 +366,8 @@
     	fmt.Println(it.ID, it.CreatedByID)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
+    // crm.calllist.list не возвращает total и next: следующую страницу
+    // запрашивайте с start = 50, 100 и так далее, пока не придет меньше 50 записей.
     ```
 
 {% endlist %}
@@ -466,11 +415,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Корневой элемент ответа. Содержит массив из объектов, содержащих информацию об обзвонах. 
-
-Структура полей зависит от параметра `select` ||
+[`array`](../../data-types.md) | Массив обзвонов [(подробное описание)](#result). Набор полей зависит от параметра `SELECT` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+Числовые значения приходят строками.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор обзвона ||
+|| **DATE_CREATE**
+[`string`](../../data-types.md) | Дата и время создания в формате `ГГГГ-ММ-ДД ЧЧ:ММ:СС` ||
+|| **CREATED_BY_ID**
+[`string`](../../data-types.md) | Идентификатор пользователя, который создал обзвон ||
+|| **WEBFORM_ID**
+[`string`](../../data-types.md) | Идентификатор CRM-формы обзвона. Если форма не прикреплена — `null` ||
+|| **ENTITY_TYPE_ID**
+[`string`](../../data-types.md) | Идентификатор типа участников: `3` — контакты, `4` — компании ||
 |#
 
 ## Обработка ошибок
@@ -479,8 +445,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "100",
-    "error_description": "Unknown field definition `TITLE` (TITLE) for \\Bitrix\\Crm\\CallList\\Internals\\CallList Entity."
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Select field not allowed: TITLE"
 }
 ```
 
@@ -490,7 +456,13 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | ``Unknown field definition `FIELD` (FIELD) for \Bitrix\Crm\CallList\Internals\CallList Entity.`` | В `select`, `filter` или `order` передано поле, которого нет у обзвона ||
+|| `400` | `ERROR_ARGUMENT` | `Select field not allowed: FIELD`, `Filter field not allowed: FIELD`, `Order field not allowed: FIELD` | В `SELECT`, `FILTER` или `ORDER` передано поле не из списка доступных ||
+|| `400` | `ERROR_ARGUMENT` | `Filter operation not allowed: !=` | В `FILTER` передан неподдерживаемый префикс ||
+|| `400` | `ERROR_ARGUMENT` | `The filter is not an array.` | `FILTER` передан не объектом ||
+|| `400` | `ERROR_ARGUMENT` | `The order is not an array.` | `ORDER` передан не объектом ||
+|| `400` | `ERROR_ARGUMENT` | `Order direction should be one of {ASC\|DESC}` | В `ORDER` передано направление, отличное от `ASC` и `DESC` ||
+|| `400` | `ERROR_ARGUMENT` | `Order value should be a field name or a direction` | В `ORDER` передано значение, которое не является строкой ||
+|| `400` | `ERROR_ARGUMENT` | `Select should be a list of field names` | `SELECT` передан не списком имен полей ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -501,4 +473,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-calllist-get.md)
 - [{#T}](./crm-calllist-items-get.md)
 - [{#T}](./crm-calllist-statuslist.md)
-- [{#T}](./crm-calllist-update.md) 
+- [{#T}](./crm-calllist-update.md)
+- [{#T}](./index.md)

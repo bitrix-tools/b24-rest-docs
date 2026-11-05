@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с доступом на чтение хотя бы одного объекта CRM
 
-Метод получает символьный идентификатор базовой валюты.
+Метод `crm.currency.base.get` возвращает код базовой валюты, например `RUB`. В базовой валюте компания ведет расчеты. Курсы остальных валют задают относительно нее.
+
+## Параметры метода
 
 Без параметров.
 
@@ -141,7 +143,7 @@
                 'crm.currency.base.get',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -158,8 +160,6 @@
     BX24.callMethod(
         "crm.currency.base.get",
         {},
-    )
-    .then(
         function(result)
         {
             if (result.error())
@@ -170,10 +170,6 @@
             {
                 console.log(result.data());
             }
-        },
-        function(error)
-        {
-            console.info(error);
         }
     );
     ```
@@ -247,15 +243,23 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": " ERROR_UNEXPECTED_ANSWER ",
-    "error_description": "Server returned an unexpected response."
+    "error": "",
+    "error_description": "Access denied."
 }
 ```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет доступа на чтение ни одного объекта CRM ||
+|#
+
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-currency-base-set.md)
+- [{#T}](./index.md)

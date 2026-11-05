@@ -11,23 +11,25 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с доступом к настройкам CRM
+> Кто может выполнять метод: пользователь с доступом на чтение хотя бы одного объекта CRM
 
-Метод получает список валют, созданных на портале. 
+Метод `crm.currency.list` возвращает все валюты Битрикс24 одним ответом. Для каждой валюты — код, курс к базовой валюте, сортировка и параметры вывода. Постраничной выборки у метода нет, параметр `start` не учитывается.
 
 {% note info %}
 
-Параметры локализации (настройки, зависящие от языка) будут возвращены для текущего языка портала.
+Название валюты, формат суммы и разделители метод возвращает для текущего языка Битрикс24.
 
 {% endnote %}
 
 ## Параметры метода
 
 #|
-||  **Название**
+|| **Название**
 `тип`| **Описание** ||
 || **order**
-[`object`](../../data-types.md) | Объект для сортировки записей в формате `{"field_1": "order_1", ... "field_N": "order_N"}`, где `field_N` — идентификатор поля [crm_currency](../data-types.md#crm_currency).
+[`object`](../../data-types.md) | Необязательный объект для сортировки записей в формате `{"field_1": "order_1", ... "field_N": "order_N"}`, где `field_N` — идентификатор поля [crm_currency](../data-types.md#crm_currency), например `sort`. Сортировать можно по полям `sort`, `currency` и `name` — названию валюты.
+
+Метод учитывает только первое поле в `order`, остальные пропускает. По умолчанию — `{"sort": "asc"}`.
 
 Возможные значения для `order_N`:
 
@@ -90,11 +92,7 @@
     }
 
     try {
-      // crm.currency.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.currency.list returns all currencies in one response (no paging)
       const response = await $b24.actions.v2.call.make<CrmCurrencyListItem[]>({
         method: 'crm.currency.list',
         params: {
@@ -102,7 +100,6 @@
             sort: 'asc',
             currency: 'asc',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -131,11 +128,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.currency.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.currency.list returns all currencies in one response (no paging)
           const response = await $b24.actions.v2.call.make({
             method: 'crm.currency.list',
             params: {
@@ -143,7 +136,6 @@
                 sort: 'asc',
                 currency: 'asc',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -221,34 +213,6 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.currency.list(
-            order={
-                "sort": "asc",
-                "currency": "asc",
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
 
 
@@ -265,15 +229,15 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error: ' . $e->getMessage();
@@ -291,8 +255,6 @@
                 currency: 'asc',
             },
         },
-    )
-    .then(
         function(result)
         {
             if (result.error())
@@ -301,12 +263,8 @@
             }
             else
             {
-                console.log(result.data);
+                console.log(result.data());
             }
-        },
-        function(error)
-        {
-            console.info(error);
         }
     );
     ```
@@ -414,7 +372,7 @@ HTTP-статус: **200**
             "THOUSANDS_SEP": "&nbsp;",
             "DECIMALS": "2",
             "DATE_UPDATE": "2023-03-21T15:19:50+02:00"
-        },
+        }
     ],
     "total": 0,
     "time": {
@@ -435,11 +393,44 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`crm_currency[]`](../data-types.md#crm_currency) | Массив объектов с информацией о выбранных валютах ||
+[`crm_currency[]`](../data-types.md#crm_currency) | Массив всех валют Битрикс24 [(подробное описание)](#result) ||
 || **total**
-[`integer`](../../data-types.md) | На текущий момент всегда имеет значение `0` ||
+[`integer`](../../data-types.md) | Всегда `0`. Число валют — длина массива `result` ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+Числовые значения приходят строками. Если для текущего языка Битрикс24 нет локализации, поля `FULL_NAME`, `LID`, `FORMAT_STRING`, `DEC_POINT`, `THOUSANDS_SEP` и `DECIMALS` равны `null`. Метод [crm.currency.get](./crm-currency-get.md) возвращает локализации на всех языках в поле `LANG`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **CURRENCY**
+[`string`](../../data-types.md) | Код валюты, например `USD` ||
+|| **AMOUNT_CNT**
+[`string`](../../data-types.md) | Номинал — количество единиц валюты, для которого указан курс ||
+|| **AMOUNT**
+[`string`](../../data-types.md) | Сколько стоит номинал в базовой валюте ||
+|| **SORT**
+[`string`](../../data-types.md) | Индекс сортировки ||
+|| **BASE**
+[`string`](../../data-types.md) | Базовая ли валюта: `Y` или `N` ||
+|| **FULL_NAME**
+[`string`](../../data-types.md) | Название валюты на текущем языке ||
+|| **LID**
+[`string`](../../data-types.md) | Язык, для которого возвращены поля вывода ||
+|| **FORMAT_STRING**
+[`string`](../../data-types.md) | Шаблон вывода суммы, например `# руб.` ||
+|| **DEC_POINT**
+[`string`](../../data-types.md) | Десятичный разделитель ||
+|| **THOUSANDS_SEP**
+[`string`](../../data-types.md) | Разделитель разрядов ||
+|| **DECIMALS**
+[`string`](../../data-types.md) | Количество знаков после запятой ||
+|| **DATE_UPDATE**
+[`string`](../../data-types.md) | Дата и время последнего изменения в формате ISO 8601 ||
 |#
 
 ## Обработка ошибок
@@ -458,17 +449,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустая строка | Access denied. | Недостаточно прав доступа ||
-|| Пустая строка | Failed to get list. General error. | Не установлен модуль currency (валюты) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Parameter 'order' must be array.` | `order` передан не объектом ||
+|| `400` | Пустое значение | `Parameter 'filter' must be array.` | `filter` передан не объектом. Метод проверяет только тип `filter`, сам фильтр не применяет ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет доступа на чтение ни одного объекта CRM ||
+|| `400` | Пустое значение | `Failed to get list. General error.` | Не установлен модуль «Валюты» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-currency-add.md)
 - [{#T}](./crm-currency-update.md)
 - [{#T}](./crm-currency-get.md)
 - [{#T}](./crm-currency-delete.md)
 - [{#T}](./crm-currency-fields.md)
+- [{#T}](./index.md)

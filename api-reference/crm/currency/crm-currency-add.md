@@ -11,18 +11,18 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с доступом к изменению настроек CRM
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
-Метод добавляет новую валюту.
+Метод `crm.currency.add` добавляет валюту и возвращает ее код.
 
-Для языков, используемых на портале, необходимо указать параметры локализации. Если этого не сделать, будут использованы [параметры по умолчанию](../data-types.md#crm_currency_localization). Для конкретного языка можно задать параметры локализации методом [crm.currency.localizations.set](./localizations/crm-currency-localizations-set.md).
+Параметры локализации — название валюты и формат суммы на каждом языке Битрикс24 — передайте в поле `LANG`. Для языков, которых в нем нет, будут использованы [параметры по умолчанию](../data-types.md#crm_currency_localization). Параметры для одного языка можно задать и отдельно методом [crm.currency.localizations.set](./localizations/crm-currency-localizations-set.md).
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-||  **Название**
+|| **Название**
 `тип`| **Описание** ||
 || **fields***
 [`object`](../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления новой валюты в виде структуры:
@@ -32,8 +32,8 @@ fields: {
     CURRENCY: 'значение',
     BASE: 'значение',
     AMOUNT_CNT: 'значение',
-    AMOUNT: 'значение'
-    SORT: 'значение'
+    AMOUNT: 'значение',
+    SORT: 'значение',
     LANG: 'значение'
 }
 ```
@@ -46,7 +46,7 @@ fields: {
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-||  **Название**
+|| **Название**
 `тип`| **Описание** ||
 || **CURRENCY***
 [`string`](../../data-types.md) | Идентификатор валюты.
@@ -54,26 +54,13 @@ fields: {
 Соответствует стандарту ISO 4217
  ||
 || **BASE**
-[`string`](../../data-types.md) | Признак, является ли валюта базовой.
-
-Возможные значения:
- - `Y` — да
- - `N` — нет
-
-Значение по умолчанию — `N`.
-
-{% note warning %}
-
-Не рекомендуется менять базовую валюту через REST. Иначе потребуется изменить курсы всех валют
-
-{% endnote %}
-
+[`string`](../../data-types.md) | Признак базовой валюты. Метод не учитывает этот параметр и не возвращает ошибку: сделать валюту базовой этим методом нельзя. Базовую валюту меняет метод [crm.currency.base.set](./crm-currency-base-set.md)
  ||
 || **AMOUNT_CNT***
-[`integer`](../../data-types.md) | Номинал. В качестве номинала чаще всего используется `1` или число кратное `10`
+[`integer`](../../data-types.md) | Номинал — количество единиц валюты, для которого задан курс `AMOUNT`. Обычно `1`, `10`, `100` и так далее
  ||
 || **AMOUNT***
-[`double`](../../data-types.md) | Курс обмена по отношению к базовой валюте ||
+[`double`](../../data-types.md) | Сколько стоит номинал `AMOUNT_CNT` в базовой валюте, например `12.2251` ||
 || **SORT**
 [`integer`](../../data-types.md) | Положение в списке валют.
 
@@ -91,22 +78,22 @@ fields: {
 ### Параметр LANG
 
 #|
-||  **Название**
+|| **Название**
 `тип`| **Описание** ||
-|| **DECIMALS***
-[`integer`](../../data-types.md) | Число десятичных знаков дробной части ||
+|| **DECIMALS**
+[`integer`](../../data-types.md) | Количество знаков после запятой ||
 || **DEC_POINT**
-[`string`](../../data-types.md) | Десятичная точка при выводе ||
-|| **FORMAT_STRING**
-[`string`](../../data-types.md) | Шаблон формата ||
+[`string`](../../data-types.md) | Десятичный разделитель ||
+|| **FORMAT_STRING***
+[`string`](../../data-types.md) | Шаблон вывода суммы, например `# CNY` ||
 || **FULL_NAME**
 [`string`](../../data-types.md) | Название валюты на языке, для которого добавляется локализация ||
 || **HIDE_ZERO**
-[`string`](../../data-types.md) | Признак, скрывать незначащие нули или нет ||
+[`string`](../../data-types.md) | Скрывать ли незначащие нули: `Y` — скрывать, `N` — показывать. Другие значения метод сохранит как `N` ||
 || **THOUSANDS_SEP**
-[`string`](../../data-types.md) | Разделитель триад ||
+[`string`](../../data-types.md) | Разделитель разрядов ||
 || **THOUSANDS_VARIANT**
-[`string`](../../data-types.md) | Код разделителя триад.
+[`string`](../../data-types.md) | Код разделителя разрядов.
 
 Допустимые значения описаны в [справочнике](../data-types.md#crm_currency_localization) ||
 |#
@@ -115,7 +102,7 @@ fields: {
 
 1. Создание юаня с параметрами локализации (русский и английский языки)
 
-    Базовая валюта — рубль. Курс юаня — 12.2251 руб за 1 юань.
+    Базовая валюта — рубль. Один юань стоит 12,2251 рубля.
 
     {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -127,7 +114,7 @@ fields: {
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"fields":{"CURRENCY":"CNY","BASE":"N","AMOUNT":12.2251,"AMOUNT_CNT":1,"SORT":9000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# CNY","FULL_NAME":"юань","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"S"},"en":{"DECIMALS":2,"DEC_POINT":",","FORMAT_STRING":"# CNY","FULL_NAME":"yuan","HIDE_ZERO":"Y","THOUSANDS_SEP":"."}}}}' \
+        -d '{"fields":{"CURRENCY":"CNY","BASE":"N","AMOUNT":12.2251,"AMOUNT_CNT":1,"SORT":9000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# CNY","FULL_NAME":"юань","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"S"},"en":{"DECIMALS":2,"DEC_POINT":",","FORMAT_STRING":"# CNY","FULL_NAME":"yuan","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"D"}}}}' \
         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.currency.add
         ```
 
@@ -137,7 +124,7 @@ fields: {
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"fields":{"CURRENCY":"CNY","BASE":"N","AMOUNT":12.2251,"AMOUNT_CNT":1,"SORT":9000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# CNY","FULL_NAME":"юань","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"S"},"en":{"DECIMALS":2,"DEC_POINT":",","FORMAT_STRING":"# CNY","FULL_NAME":"yuan","HIDE_ZERO":"Y","THOUSANDS_SEP":"."}}},"auth":"**put_access_token_here**"}' \
+        -d '{"fields":{"CURRENCY":"CNY","BASE":"N","AMOUNT":12.2251,"AMOUNT_CNT":1,"SORT":9000,"LANG":{"ru":{"DECIMALS":2,"DEC_POINT":".","FORMAT_STRING":"# CNY","FULL_NAME":"юань","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"S"},"en":{"DECIMALS":2,"DEC_POINT":",","FORMAT_STRING":"# CNY","FULL_NAME":"yuan","HIDE_ZERO":"Y","THOUSANDS_VARIANT":"D"}}},"auth":"**put_access_token_here**"}' \
         https://**put_your_bitrix24_address**/rest/crm.currency.add
         ```
 
@@ -166,7 +153,7 @@ fields: {
                     DECIMALS: 2,
                     DEC_POINT: '.',
                     FORMAT_STRING: '# CNY',
-                    FULL_NAME: 'Yuan',
+                    FULL_NAME: 'юань',
                     HIDE_ZERO: 'Y',
                     THOUSANDS_VARIANT: 'S',
                   },
@@ -174,9 +161,9 @@ fields: {
                     DECIMALS: 2,
                     DEC_POINT: ',',
                     FORMAT_STRING: '# CNY',
-                    FULL_NAME: 'Yuan',
+                    FULL_NAME: 'yuan',
                     HIDE_ZERO: 'Y',
-                    THOUSANDS_SEP: '.',
+                    THOUSANDS_VARIANT: 'D',
                   },
                 },
               },
@@ -222,7 +209,7 @@ fields: {
                         DECIMALS: 2,
                         DEC_POINT: '.',
                         FORMAT_STRING: '# CNY',
-                        FULL_NAME: 'Yuan',
+                        FULL_NAME: 'юань',
                         HIDE_ZERO: 'Y',
                         THOUSANDS_VARIANT: 'S',
                       },
@@ -230,9 +217,9 @@ fields: {
                         DECIMALS: 2,
                         DEC_POINT: ',',
                         FORMAT_STRING: '# CNY',
-                        FULL_NAME: 'Yuan',
+                        FULL_NAME: 'yuan',
                         HIDE_ZERO: 'Y',
-                        THOUSANDS_SEP: '.',
+                        THOUSANDS_VARIANT: 'D',
                       },
                     },
                   },
@@ -286,7 +273,7 @@ fields: {
                             "FORMAT_STRING": "# CNY",
                             "FULL_NAME": "yuan",
                             "HIDE_ZERO": "Y",
-                            "THOUSANDS_SEP": ".",
+                            "THOUSANDS_VARIANT": "D",
                         },
                     },
                 },
@@ -307,6 +294,99 @@ fields: {
         ```
 
     - PHP
+
+        ```php
+        try {
+            $response = $b24Service
+                ->core
+                ->call(
+                    'crm.currency.add',
+                    [
+                        'fields' => [
+                            'CURRENCY' => 'CNY',
+                            'BASE' => 'N',
+                            'AMOUNT' => 12.2251,
+                            'AMOUNT_CNT' => 1,
+                            'SORT' => 9000,
+                            'LANG' => [
+                                'ru' => [
+                                    'DECIMALS' => 2,
+                                    'DEC_POINT' => '.',
+                                    'FORMAT_STRING' => '# CNY',
+                                    'FULL_NAME' => 'юань',
+                                    'HIDE_ZERO' => 'Y',
+                                    'THOUSANDS_VARIANT' => 'S',
+                                ],
+                                'en' => [
+                                    'DECIMALS' => 2,
+                                    'DEC_POINT' => ',',
+                                    'FORMAT_STRING' => '# CNY',
+                                    'FULL_NAME' => 'yuan',
+                                    'HIDE_ZERO' => 'Y',
+                                    'THOUSANDS_VARIANT' => 'D',
+                                ],
+                            ],
+                        ],
+                    ]
+                );
+
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+
+            print_r($result);
+        } catch (Throwable $e) {
+            echo $e->getMessage();
+        }
+        ```
+
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            "crm.currency.add",
+            {
+                fields: {
+                    CURRENCY: 'CNY',
+                    BASE: 'N',
+                    AMOUNT: 12.2251,
+                    AMOUNT_CNT: 1,
+                    SORT: 9000,
+                    LANG: {
+                        ru: {
+                            DECIMALS: 2,
+                            DEC_POINT: '.',
+                            FORMAT_STRING: '# CNY',
+                            FULL_NAME: 'юань',
+                            HIDE_ZERO: 'Y',
+                            THOUSANDS_VARIANT: 'S'
+                        },
+                        en: {
+                            DECIMALS: 2,
+                            DEC_POINT: ',',
+                            FORMAT_STRING: '# CNY',
+                            FULL_NAME: 'yuan',
+                            HIDE_ZERO: 'Y',
+                            THOUSANDS_VARIANT: 'D'
+                        }
+                    }
+                }
+            },
+            function(result)
+            {
+                if (result.error())
+                {
+                    console.error(result.error());
+                }
+                else
+                {
+                    console.log(result.data());
+                }
+            }
+        );
+        ```
+
+    - PHP CRest
 
         ```php
         require_once('crest.php');
@@ -335,7 +415,7 @@ fields: {
                             'FORMAT_STRING' => '# CNY',
                             'FULL_NAME' => 'yuan',
                             'HIDE_ZERO' => 'Y',
-                            'THOUSANDS_SEP' => '.',
+                            'THOUSANDS_VARIANT' => 'D',
                         ],
                     ],
                 ]
@@ -373,7 +453,7 @@ fields: {
         				"FORMAT_STRING": "# CNY",
         				"FULL_NAME":     "yuan",
         				"HIDE_ZERO":     "Y",
-        				"THOUSANDS_SEP": ".",
+        				"THOUSANDS_VARIANT": "D",
         			},
         		},
         	},
@@ -393,7 +473,7 @@ fields: {
 
 2. Создание индонезийской рупии
 
-    Предполагаем, что базовая валюта — рубль. Валюта имеет очень низкий курс — 1 рупия эквивалентна 0,00548 рубля. В этом случае номинал (AMOUNT_CNT) увеличиваем, чтобы задавать курс с требуемой точностью.
+    Базовая валюта — рубль. Одна рупия стоит 0,00548 рубля. Чтобы задать такой низкий курс точно, увеличиваем номинал: `AMOUNT` = `54.8738` рубля за `AMOUNT_CNT` = `10000` рупий.
 
     {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -443,7 +523,7 @@ fields: {
                     DECIMALS: 2,
                     DEC_POINT: '.',
                     FORMAT_STRING: 'Rp#',
-                    FULL_NAME: 'Rupee',
+                    FULL_NAME: 'рупия',
                     HIDE_ZERO: 'Y',
                     THOUSANDS_VARIANT: 'C',
                   },
@@ -451,7 +531,7 @@ fields: {
                     DECIMALS: 2,
                     DEC_POINT: '.',
                     FORMAT_STRING: 'Rp#',
-                    FULL_NAME: 'Rupee',
+                    FULL_NAME: 'rupee',
                     HIDE_ZERO: 'Y',
                     THOUSANDS_VARIANT: 'C',
                   },
@@ -498,7 +578,7 @@ fields: {
                         DECIMALS: 2,
                         DEC_POINT: '.',
                         FORMAT_STRING: 'Rp#',
-                        FULL_NAME: 'Rupee',
+                        FULL_NAME: 'рупия',
                         HIDE_ZERO: 'Y',
                         THOUSANDS_VARIANT: 'C',
                       },
@@ -506,7 +586,7 @@ fields: {
                         DECIMALS: 2,
                         DEC_POINT: '.',
                         FORMAT_STRING: 'Rp#',
-                        FULL_NAME: 'Rupee',
+                        FULL_NAME: 'rupee',
                         HIDE_ZERO: 'Y',
                         THOUSANDS_VARIANT: 'C',
                       },
@@ -558,7 +638,7 @@ fields: {
                         "en": {
                             "DECIMALS": 2,
                             "DEC_POINT": ".",
-                            "FORMAT_STRING": "# CNY",
+                            "FORMAT_STRING": "Rp#",
                             "FULL_NAME": "rupee",
                             "HIDE_ZERO": "Y",
                             "THOUSANDS_VARIANT": "C",
@@ -582,6 +662,97 @@ fields: {
         ```
 
     - PHP
+
+        ```php
+        try {
+            $response = $b24Service
+                ->core
+                ->call(
+                    'crm.currency.add',
+                    [
+                        'fields' => [
+                            'CURRENCY' => 'IDR',
+                            'AMOUNT' => 54.8738,
+                            'AMOUNT_CNT' => 10000,
+                            'SORT' => 8000,
+                            'LANG' => [
+                                'ru' => [
+                                    'DECIMALS' => 2,
+                                    'DEC_POINT' => '.',
+                                    'FORMAT_STRING' => 'Rp#',
+                                    'FULL_NAME' => 'рупия',
+                                    'HIDE_ZERO' => 'Y',
+                                    'THOUSANDS_VARIANT' => 'C',
+                                ],
+                                'en' => [
+                                    'DECIMALS' => 2,
+                                    'DEC_POINT' => '.',
+                                    'FORMAT_STRING' => 'Rp#',
+                                    'FULL_NAME' => 'rupee',
+                                    'HIDE_ZERO' => 'Y',
+                                    'THOUSANDS_VARIANT' => 'C',
+                                ],
+                            ],
+                        ],
+                    ]
+                );
+
+            $result = $response
+                ->getResponseData()
+                ->getResult();
+
+            print_r($result);
+        } catch (Throwable $e) {
+            echo $e->getMessage();
+        }
+        ```
+
+    - BX24.js
+
+        ```js
+        BX24.callMethod(
+            "crm.currency.add",
+            {
+                fields: {
+                    CURRENCY: 'IDR',
+                    AMOUNT: 54.8738,
+                    AMOUNT_CNT: 10000,
+                    SORT: 8000,
+                    LANG: {
+                        ru: {
+                            DECIMALS: 2,
+                            DEC_POINT: '.',
+                            FORMAT_STRING: 'Rp#',
+                            FULL_NAME: 'рупия',
+                            HIDE_ZERO: 'Y',
+                            THOUSANDS_VARIANT: 'C'
+                        },
+                        en: {
+                            DECIMALS: 2,
+                            DEC_POINT: '.',
+                            FORMAT_STRING: 'Rp#',
+                            FULL_NAME: 'rupee',
+                            HIDE_ZERO: 'Y',
+                            THOUSANDS_VARIANT: 'C'
+                        }
+                    }
+                }
+            },
+            function(result)
+            {
+                if (result.error())
+                {
+                    console.error(result.error());
+                }
+                else
+                {
+                    console.log(result.data());
+                }
+            }
+        );
+        ```
+
+    - PHP CRest
 
         ```php
         require_once('crest.php');
@@ -710,19 +881,25 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустая строка | Access denied. | Недостаточно прав доступа ||
-|| Пустая строка | Модуль "Валюты" не найден! Пожалуйста, установите модуль "Валюты". |  ||
-|| `ERROR_CORE` | Undefined array key "#FIELD#" | Не указано обязательное поле #FIELD# (вместо #FIELD# будет подставлен код отсутствующего поля) ||
-|| `ERROR_CORE` | Другие ошибки в данных для создания валюты |  ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права «Разрешить изменять настройки» в CRM ||
+|| `400` | `ERROR_CORE` | `Идентификатор валюты должен состоять из 3-х символов латинского алфавита` | `CURRENCY` не из трех латинских букв ||
+|| `400` | `ERROR_CORE` | `Валюта с таким идентификатором уже существует` | Валюта с таким кодом уже есть ||
+|| `400` | `ERROR_CORE` | `Не задан курс по умолчанию` | Не передан `AMOUNT` ||
+|| `400` | `ERROR_CORE` | `Не заполнено поле "Формат" для языка ru.` | В локализации из `LANG` не передан `FORMAT_STRING` ||
+|| `400` | `ERROR_CORE` | `Десятичная точка совпадает с разделителем тысяч для языка en` | В локализации из `LANG` разделитель разрядов совпадает с `DEC_POINT` ||
+|| `400` | `ERROR_CORE` | `Неверный курс по умолчанию` | `AMOUNT` не больше нуля ||
+|| `400` | `ERROR_CORE` | `Неверный номинал` | `AMOUNT_CNT` не больше нуля ||
+|| `400` | Пустое значение | `Модуль "Валюты" не найден! Пожалуйста, установите модуль "Валюты".` | Не установлен модуль «Валюты» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-currency-update.md)
 - [{#T}](./crm-currency-get.md)
 - [{#T}](./crm-currency-list.md)
 - [{#T}](./crm-currency-delete.md)
 - [{#T}](./crm-currency-fields.md)
+- [{#T}](./index.md)

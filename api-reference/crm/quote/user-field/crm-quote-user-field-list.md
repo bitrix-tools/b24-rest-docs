@@ -13,9 +13,11 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения предложений
 
-Метод `crm.quote.userfield.list` возвращает список пользовательских полей предложений по фильтру.
+Метод `crm.quote.userfield.list` возвращает список пользовательских полей предложений по фильтру: имена, типы и настройки полей.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -31,10 +33,12 @@
 }
 ```
 
-- `field_n` — название поля, по которому будет отфильтрована выборка пользовательских полей
+- `field_n` — поле для фильтрации
 - `value_n` — значение фильтра
 
-Все условия по отдельным полям соединяются с помощью `AND`. Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
+Без `filter` метод вернет все пользовательские поля предложений.
+
+Поле попадет в ответ, если подходит под все условия сразу (`AND`). Фильтр ищет только точное совпадение. Условия с префиксами `>`, `<`, `!`, `%` и с массивом значений метод пропускает без ошибки. Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
 || **order**
 [`object`](../../../data-types.md) | Объект формата:
 ```
@@ -46,14 +50,14 @@
 }
 ```
 
-- `field_n` — название поля, по которому будет произведена сортировка выборки элементов
+- `field_n` — поле для сортировки
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
 
 Список доступных полей для сортировки:
 - `ID` — идентификатор пользовательского поля
-- `FIELD_NAME` — код пользовательского поля
+- `FIELD_NAME` — полное имя поля с префиксом `UF_CRM_`
 - `USER_TYPE_ID` — тип пользовательского поля
 - `XML_ID` — внешний код
 - `SORT` — индекс сортировки
@@ -76,7 +80,7 @@
 || **ID**
 [`integer`](../../../data-types.md) | Идентификатор пользовательского поля ||
 || **FIELD_NAME**
-[`string`](../../../data-types.md) | Код пользовательского поля ||
+[`string`](../../../data-types.md) | Полное имя поля с префиксом `UF_CRM_` ||
 || **USER_TYPE_ID**
 [`string`](../../../data-types.md) | Тип пользовательского поля. Возможные значения:
 - `string` — строка
@@ -96,42 +100,43 @@
 - `iblock_element` — привязка к элементам информационных блоков
 - `crm` — привязка к элементам CRM
 - [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
-||
+
+Полный список типов, доступных в Битрикс24, возвращает метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md) ||
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний код ||
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
 || **MULTIPLE**
-[`boolean`](../../../data-types.md) | Является ли пользовательское поле множественным.
+[`char`](../../../data-types.md) | Является ли пользовательское поле множественным.
 Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **MANDATORY**
-[`boolean`](../../../data-types.md) | Является ли пользовательское поле обязательным. Возможные значения:
+[`char`](../../../data-types.md) | Является ли пользовательское поле обязательным. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **SHOW_FILTER**
-[`char`](../../../data-types.md) | Показывать ли в фильтре списка. Возможные значения:
-- `N` — не показывать
-- `I` — точное совпадение
-- `E` — маска
-- `S` — подстрока ||
+[`char`](../../../data-types.md) | Режим поля в фильтре списка:
+- `N` — поля нет в фильтре
+- `I` — поиск по точному совпадению
+- `E` — поиск по маске
+- `S` — поиск по подстроке ||
 || **SHOW_IN_LIST**
-[`boolean`](../../../data-types.md) | Показывать ли в списке. Возможные значения:
+[`char`](../../../data-types.md) | Показывать ли поле в списке. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **EDIT_IN_LIST**
-[`boolean`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
+[`char`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **IS_SEARCHABLE**
-[`boolean`](../../../data-types.md) | Участвуют ли значения поля в поиске. Возможные значения:
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **LANG**
-[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). При фильтрации по данному параметру будет предоставлен набор полей со значениями на переданном языке:
+[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). Если передать `LANG`, метод вернет подписи поля на этом языке:
 - `EDIT_FORM_LABEL` — подпись в форме редактирования
 - `LIST_COLUMN_LABEL` — заголовок в списке
 - `LIST_FILTER_LABEL` — подпись фильтра в списке
@@ -143,10 +148,7 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Получить список пользовательских полей, которые:
-- являются множественными,
-- являются обязательными,
-- имеют подписи пользовательского поля на русском языке. Благодаря фильтру по параметру `LANG` дополнительно получим в ответе названия полей.
+Пример получает поля, которые одновременно множественные и обязательные. `LANG` в фильтре добавляет в ответ подписи полей на русском языке.
 
 {% list tabs %}
 
@@ -203,11 +205,7 @@
     }
 
     try {
-      // crm.quote.userfield.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.quote.userfield.list returns all matching fields in one response (no paging)
       const response = await $b24.actions.v2.call.make<QuoteUserFieldItem[]>({
         method: 'crm.quote.userfield.list',
         params: {
@@ -220,7 +218,6 @@
             USER_TYPE_ID: 'ASC',
             SORT: 'ASC',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -249,11 +246,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.quote.userfield.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.quote.userfield.list returns all matching fields in one response (no paging)
           const response = await $b24.actions.v2.call.make({
             method: 'crm.quote.userfield.list',
             params: {
@@ -266,7 +259,6 @@
                 USER_TYPE_ID: 'ASC',
                 SORT: 'ASC',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -290,8 +282,6 @@
     ```
 
 - Python
-
-    Пример
 
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
@@ -356,38 +346,6 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.quote.userfield.list(
-            filter={
-                "MULTIPLE": "Y",
-                "MANDATORY": "Y",
-                "LANG": "ru",
-            },
-            order={
-                "ID": "DESC",
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
 
     ```php
@@ -408,7 +366,7 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -454,7 +412,7 @@
         [
             'filter' => [
                 'MULTIPLE' => "Y",
-                'MANDATORY' => "N",
+                'MANDATORY' => "Y",
                 'LANG' => "ru",
             ],
             'order' => [
@@ -503,11 +461,6 @@
     	fmt.Println(it.ID, it.EntityID)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
     ```
 
 {% endlist %}
@@ -760,13 +713,53 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержит список пользовательских полей.
+[`object[]`](../../../data-types.md) | Массив пользовательских полей предложений [(подробное описание)](#result). Если подходящих полей нет — пустой массив `[]`.
 
-Структура отдельно взятого пользовательского поля зависит от его типа. Поля `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE` возвращаются в виде `string` при передаче `filter.LANG` ||
+Постраничной навигации у метода нет: все подходящие поля приходят одним ответом, параметр `start` не учитывается ||
 || **total**
-[`integer`](../../../data-types.md) | Количество найденных пользовательских полей ||
+[`integer`](../../../data-types.md) | Количество найденных пользовательских полей. Совпадает с длиной массива `result` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+Числовые значения `ID` и `SORT` приходят строками.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../../data-types.md) | Идентификатор пользовательского поля. Используется в методах [crm.quote.userfield.get](./crm-quote-user-field-get.md), [crm.quote.userfield.update](./crm-quote-user-field-update.md) и [crm.quote.userfield.delete](./crm-quote-user-field-delete.md) ||
+|| **ENTITY_ID**
+[`string`](../../../data-types.md) | Объект, к которому привязано поле. Для предложений всегда `CRM_QUOTE` ||
+|| **FIELD_NAME**
+[`string`](../../../data-types.md) | Полное имя поля с префиксом `UF_CRM_`. Значение поля записывают и читают универсальные методы [crm.item.update](../../universal/crm-item-update.md) и [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 7`. В них имя поля пишется в camelCase: `UF_CRM_MANAGER_NOTE` превращается в `ufCrmManagerNote`. Методы [crm.quote.update](../crm-quote-update.md) и [crm.quote.get](../crm-quote-get.md) работают с полным именем, но их развитие остановлено. Метод `crm.quote.userfield.list` значения полей в предложениях не возвращает ||
+|| **USER_TYPE_ID**
+[`string`](../../../data-types.md) | Тип поля, значения — в [списке для фильтрации](#filterable) ||
+|| **USER_TYPE_OWNER**
+[`string`](../../../data-types.md) | Идентификатор приложения, которое зарегистрировало [пользовательский тип поля](../../universal/user-defined-fields/userfield-type.md). Возвращается только для полей пользовательского типа ||
+|| **XML_ID**
+[`string`](../../../data-types.md) | Внешний код. Если не задан — `null` ||
+|| **SORT**
+[`string`](../../../data-types.md) | Индекс сортировки ||
+|| **MULTIPLE**, **MANDATORY**, **SHOW_IN_LIST**, **EDIT_IN_LIST**, **IS_SEARCHABLE**
+[`char`](../../../data-types.md) | Флаги поля со значениями `Y` или `N`, смысл — в [списке полей для фильтрации](#filterable) ||
+|| **SHOW_FILTER**
+[`char`](../../../data-types.md) | Режим фильтра: `N`, `I`, `E` или `S`, расшифровка — в [списке полей для фильтрации](#filterable) ||
+|| **SETTINGS**
+[`object`](../../../data-types.md) | Настройки типа поля, например `DEFAULT_VALUE` или `PRECISION`. Набор ключей зависит от `USER_TYPE_ID`. Список ключей для типа возвращает метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md). Значение по умолчанию у полей типа `datetime` приходит в формате ISO 8601 ||
+|| **EDIT_FORM_LABEL**, **LIST_COLUMN_LABEL**, **LIST_FILTER_LABEL**, **ERROR_MESSAGE**, **HELP_MESSAGE**
+[`string`](../../../data-types.md) | Подписи поля на языке из `filter.LANG`. Возвращаются, только если в фильтре передан `LANG`. Если подписи на этом языке нет — `null`.
+
+Подписи на всех языках сразу возвращает метод [crm.quote.userfield.get](./crm-quote-user-field-get.md) ||
+|| **LIST**
+[`object[]`](../../../data-types.md) | Элементы списка. Возвращаются только для полей типа `enumeration`, отсортированы по `SORT`. Каждый элемент содержит:
+- `ID` — идентификатор элемента, его передают в значении поля при записи в предложение
+- `SORT` — индекс сортировки
+- `VALUE` — значение элемента
+- `DEF` — значение по умолчанию: `Y` или `N`
+- `XML_ID` — внешний код элемента ||
 |#
 
 ## Обработка ошибок
@@ -785,10 +778,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400`     | Parameter 'order' must be array | Переданный `order` не является объектом ||
-|| `400`     | Parameter 'filter' must be array | Переданный `filter` не является объектом ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Parameter 'order' must be array.` | Переданный `order` не является объектом ||
+|| `400` | Пустое значение | `Parameter 'filter' must be array.` | Переданный `filter` не является объектом ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права на чтение предложений ||
 |#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
@@ -797,10 +792,6 @@ HTTP-статус: **400**
 - [{#T}](./crm-quote-user-field-update.md)
 - [{#T}](./crm-quote-user-field-get.md)
 - [{#T}](./crm-quote-user-field-delete.md)
-
-
-
-
-
-
-
+- [{#T}](../../universal/crm-item-get.md)
+- [{#T}](../../universal/crm-item-update.md)
+- [{#T}](./index.md)

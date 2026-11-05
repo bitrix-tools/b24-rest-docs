@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами на чтение элементов CRM
+> Кто может выполнять метод: любой пользователь
 
-Метод `crm.calllist.add` создает новый список обзвона.
+Метод `crm.calllist.add` создает список обзвона и возвращает его идентификатор.
+
+В обзвон попадут только контакты или компании, которые пользователь может читать.
 
 ## Параметры метода
 
@@ -23,14 +25,16 @@
 || **Название**
 `тип` | **Описание** ||
 || **ENTITY_TYPE***
-[`string`](../../data-types.md) | Тип объекта: 
-- `CONTACT` — контакт,
+[`string`](../../data-types.md) | Тип объекта:
+- `CONTACT` — контакт
 - `COMPANY` — компания ||
 || **ENTITIES***
-[`integer[]`](../../data-types.md) | Массив числовых идентификаторов контактов или компаний, получить можно методом [crm.item.list](../universal/crm-item-list.md) ||
+[`integer[]`](../../data-types.md) | Массив числовых идентификаторов контактов или компаний. Получить их можно методом [crm.item.list](../universal/crm-item-list.md).
+
+Идентификаторы не должны повторяться, иначе метод ответит ошибкой. Число участников метод не ограничивает. Лимит в 500 записей есть только у обзвона, созданного из списка контактов или компаний в интерфейсе Битрикс24 ||
 || **WEBFORM_ID**
-[`integer`](../../data-types.md) | `ID` CRM-формы, которая будет выводиться в форме обзвона. 
-Идентификатор можно получить методом [crm.form.list](../form/crm-form-list.md) ||
+[`integer`](../../data-types.md) | `ID` CRM-формы для обзвона: во время звонка сотрудник заполняет в ней данные клиента.
+Идентификатор вернет метод [crm.form.list](../form/crm-form-list.md) ||
 |#
 
 ## Примеры кода
@@ -44,8 +48,8 @@
     ```bash
     curl -X POST \
          -H "Content-Type: application/json" \
-         -d '{"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.add
+         -d '{"ENTITY_TYPE":"CONTACT","ENTITIES":[9,17,19],"WEBFORM_ID":1}' \
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.calllist.add
     ```
 
 - cURL (OAuth)
@@ -53,8 +57,8 @@
     ```bash
     curl -X POST \
          -H "Content-Type: application/json" \
-         -d '{"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5,"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.add
+         -d '{"ENTITY_TYPE":"CONTACT","ENTITIES":[9,17,19],"WEBFORM_ID":1,"auth":"**put_access_token_here**"}' \
+         https://**put_your_bitrix24_address**/rest/crm.calllist.add
     ```
 
 - JS (TS)
@@ -175,7 +179,7 @@
                     'WEBFORM_ID'  => 1,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -214,8 +218,8 @@
         'crm.calllist.add',
         [
             'ENTITY_TYPE' => 'CONTACT',
-            'ENTITIES' => [1,2,3],
-            'WEBFORM_ID' => 5
+            'ENTITIES' => [9,17,19],
+            'WEBFORM_ID' => 1
         ]
     );
 
@@ -230,8 +234,8 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.calllist.add", b24.Params{
     	"ENTITY_TYPE": "CONTACT",
-    	"ENTITIES":    []int{1, 2, 3},
-    	"WEBFORM_ID":  5,
+    	"ENTITIES":    []int{9, 17, 19},
+    	"WEBFORM_ID":  1,
     })
     if err != nil {
     	return fmt.Errorf("crm.calllist.add: %w", err)
@@ -297,7 +301,8 @@ HTTP-статус: **400**
 || `400` | `ERROR_ARGUMENT` | `ENTITY_TYPE is not found`, `ENTITIES is not found` | Не передан обязательный параметр ||
 || `400` | `ENTITIES_ERROR` | `Entities is not array` | В параметре `ENTITIES` передан не массив ||
 || `400` | `ENTITY_TYPE_ERROR` | `Incorrect entity type` | В параметре `ENTITY_TYPE` передано значение, отличное от `CONTACT` и `COMPANY` ||
-|| `400` | `ENTITY_ERROR` | `Incorrect entities id` | В параметре `ENTITIES` есть идентификаторы, которых нет в CRM ||
+|| `400` | `ENTITY_ERROR` | `Incorrect entities id` | В параметре `ENTITIES` есть идентификаторы, которых нет в CRM, или повторы ||
+|| `400` | `ENTITIES_ERROR` | `Incorrect entities id` | Передан пустой массив `ENTITIES` ||
 || `400` | `WEBFORM_ERROR` | `Incorrect webform id` | В параметре `WEBFORM_ID` указана несуществующая CRM-форма ||
 || `403` | `ACCESS_ERROR` | `You don't have access to these entities` | Нет доступа ни к одному из переданных элементов ||
 |#
@@ -310,4 +315,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-calllist-items-get.md)
 - [{#T}](./crm-calllist-list.md)
 - [{#T}](./crm-calllist-statuslist.md)
-- [{#T}](./crm-calllist-update.md) 
+- [{#T}](./crm-calllist-update.md)
+- [{#T}](./index.md)
