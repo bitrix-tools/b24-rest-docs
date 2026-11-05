@@ -1,97 +1,140 @@
 title: Объекты и методы CRM
 href: index.md
 items:
-  - name: Обзор методов
+  - name: Обзор
     href: index.md
-  - name: CRM в REST 3.0
+  - name: Переход на новые методы
+    href: migration.md
+  - name: Элементы
     include:
-      path: rest-v3/b24-toc.yaml
+      path: rest-v3/items/b24-toc.yaml
       mode: link
-  - name: Типы данных и структура объектов в REST API CRM
-    href: data-types.md 
-  - name: Поля основных объектов CRM
-    href: main-entities-fields.md
-  - name: Ограничения длины полей CRM
-    href: field-length-limits.md
-  - name: Частые кейсы и туториалы
-    href: tutorials.md
-  - name: Сквозная аналитика
+  - name: Управление полями
     include:
-      path: tracking/b24-toc.yaml
+      path: rest-v3/fields/b24-toc.yaml
       mode: link
-  - name: Определить текущий режим работы CRM
-    href: crm-settings-mode-get.md
-  - name: Универсальные методы CRM
+  - name: Воронки и стадии
     include:
-      path: universal/b24-toc.yaml
+      path: rest-v3/categories/b24-toc.yaml
       mode: link
-  - name: Сделки
+  - name: Товарные позиции
     include:
-      path: deals/b24-toc.yaml
-      mode: link
-  - name: Лиды
-    include:
-      path: leads/b24-toc.yaml
-      mode: link
-  - name: Контакты
-    include:
-      path: contacts/b24-toc.yaml
-      mode: link
-  - name: Компании
-    include:
-      path: companies/b24-toc.yaml
-      mode: link
-  - name: Коммерческие предложения
-    include:
-      path: quote/b24-toc.yaml
+      path: rest-v3/product-rows/b24-toc.yaml
       mode: link
   - name: Реквизиты
     include:
-      path: requisites/b24-toc.yaml
+      path: rest-v3/requisites/b24-toc.yaml
       mode: link
-  - name: Таймлайн и Дела
+  - name: Адреса
     include:
-      path: timeline/b24-toc.yaml
+      path: rest-v3/addresses/b24-toc.yaml
       mode: link
-  - name: Список обзвона
+  - name: Виды карточки
     include:
-      path: call-list/b24-toc.yaml
-      mode: link      
-  - name: Поиск и обработка дубликатов в CRM
+      path: rest-v3/detail-page-layout/b24-toc.yaml
+      mode: link
+  - name: Дела
     include:
-      path: duplicates/b24-toc.yaml
+      path: rest-v3/activities/b24-toc.yaml
       mode: link
   - name: Справочники
     include:
-      path: status/b24-toc.yaml
+      path: rest-v3/dictionaries/b24-toc.yaml
       mode: link
-  - name: Валюты
+  - name: Режим лидов
     include:
-      path: currency/b24-toc.yaml
-      mode: link
-  - name: Генератор документов
-    include:
-      path: document-generator/b24-toc.yaml
-      mode: link
-  - name: Цифровые рабочие места
-    include:
-      path: automated-solution/b24-toc.yaml
-      mode: link
-  - name: Автоматизация и триггеры
-    include:
-      path: automation/b24-toc.yaml
+      path: rest-v3/lead-mode/b24-toc.yaml
       mode: link
   - name: CRM-формы
     include:
       path: form/b24-toc.yaml
       mode: link
-  - name: Вспомогательные объекты
+  - name: Таймлайн и дела
     include:
-      path: auxiliary/b24-toc.yaml
+      path: timeline/b24-toc.yaml
       mode: link
-  - name: Устаревшие методы CRM
+  - name: Генератор документов
     include:
-      path: outdated/b24-toc.yaml
+      path: document-generator/b24-toc.yaml
+      mode: link
+  - name: Автоматизация и триггеры
+    include:
+      path: automation/b24-toc.yaml
+      mode: link
+  - name: Цифровые рабочие места
+    include:
+      path: automated-solution/b24-toc.yaml
+      mode: link
+  - name: Валюты
+    include:
+      path: currency/b24-toc.yaml
+      mode: link
+  - name: Список обзвона
+    include:
+      path: call-list/b24-toc.yaml
+      mode: link
+  - name: Поиск и обработка дубликатов в CRM
+    include:
+      path: duplicates/b24-toc.yaml
+      mode: link
+  - name: Сквозная аналитика
+    include:
+      path: tracking/b24-toc.yaml
       mode: link
   - name: Получить историю движения по стадиям
     href: crm-stage-history-list.md
+  - name: Предыдущая версия API
+    href: previous-api.md
+    items:
+      - name: Обзор
+        href: previous-api.md
+      - name: Типы данных и структура объектов в REST API CRM
+        href: data-types.md
+      - name: Поля основных объектов CRM
+        href: main-entities-fields.md
+      - name: Ограничения длины полей CRM
+        href: field-length-limits.md
+      - name: Универсальные методы CRM
+        include:
+          path: universal/b24-toc.yaml
+          mode: link
+      - name: Сделки
+        include:
+          path: deals/b24-toc.yaml
+          mode: link
+      - name: Лиды
+        include:
+          path: leads/b24-toc.yaml
+          mode: link
+      - name: Контакты
+        include:
+          path: contacts/b24-toc.yaml
+          mode: link
+      - name: Компании
+        include:
+          path: companies/b24-toc.yaml
+          mode: link
+      - name: Коммерческие предложения
+        include:
+          path: quote/b24-toc.yaml
+          mode: link
+      - name: Реквизиты
+        include:
+          path: requisites/b24-toc.yaml
+          mode: link
+      - name: Справочники
+        include:
+          path: status/b24-toc.yaml
+          mode: link
+      - name: Вспомогательные объекты
+        include:
+          path: auxiliary/b24-toc.yaml
+          mode: link
+      - name: Определить текущий режим работы CRM
+        href: crm-settings-mode-get.md
+      - name: Устаревшие методы CRM
+        include:
+          path: outdated/b24-toc.yaml
+          mode: link
+  - name: Частые кейсы и туториалы
+    href: tutorials.md

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения компаний
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.company.field.custom.get](../../rest-v3/fields/crm-entity-field-custom-get-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.company.userfield.get` возвращает пользовательское поле компаний по идентификатору.
 
 ## Параметры метода

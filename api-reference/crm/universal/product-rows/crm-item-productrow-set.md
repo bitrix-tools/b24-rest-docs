@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: требуется право на изменение объекта CRM, товарные позиции которого сохраняются
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.productrow.replace](../../rest-v3/product-rows/crm-entity-product-row-replace-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.item.productrow.set` сохраняет набор товарных позиций объекта CRM.
 
 {% note warning "" %}

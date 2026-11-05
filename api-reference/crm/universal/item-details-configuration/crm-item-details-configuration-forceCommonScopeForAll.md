@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: Администратор
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.detailpagelayout.setcommonforall](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-set-common-for-all-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.item.details.configuration.forceCommonScopeForAll` удаляет личные конфигурации карточки у всех пользователей, после чего все видят общую конфигурацию. Параметры `userId` и `scope` метод не принимает: если их передать, они игнорируются.
 
 {% include [Памятка о extras](./_includes/extras_notice.md) %}

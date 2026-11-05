@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Изменение» компаний и правом «Чтение» контакта, который добавляется
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.company.addfieldvalue](../../rest-v3/items/crm-entity-add-field-value-rest-v3.md) с полем `contactsId`. Метод добавляет компанию контакту не основной. Чтобы сделать ее основной, передайте ее первой в массиве `companiesId` метода [crm.contact.update](../../rest-v3/items/crm-entity-update-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.company.contact.add` добавляет контакт к указанной компании.
 
 Метод работает с одной привязкой и не затрагивает остальные контакты компании. Чтобы задать весь набор контактов сразу, используйте [crm.company.contact.items.set](./crm-company-contact-items-set.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).

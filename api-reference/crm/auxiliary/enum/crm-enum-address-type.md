@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.dictionary.addresstype.list](../../rest-v3/dictionaries/crm-dictionary-list-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.enum.addresstype` возвращает типы адресов: юридический, фактический, адрес доставки и другие. Номер типа передают в параметре `TYPE_ID` методов [crm.address.*](../../requisites/addresses/index.md). Например, чтобы найти юридические адреса клиентов, вызовите метод [crm.address.list](../../requisites/addresses/crm-address-list.md) с фильтром `TYPE_ID: 6`.
 
 ## Параметры метода

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Изменение» компаний
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.company.update](../../rest-v3/items/crm-entity-update-rest-v3.md). Чтобы удалить все привязки, передайте пустой массив `contactsId: []`.
+
+{% endnote %}
+
 Метод `crm.company.contact.items.delete` очищает набор контактов, связанных с указанной компанией.
 
 Метод отвязывает все контакты сразу и не удаляет сами контакты. Чтобы убрать один контакт, используйте [crm.company.contact.delete](./crm-company-contact-delete.md).

@@ -17,7 +17,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.contact.detailpagelayout.update](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-update-rest-v3.md).
 
 {% endnote %}
 

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: требуется право на изменение объекта CRM, в который добавляется товарная позиция
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.productrow.add](../../rest-v3/product-rows/crm-entity-product-row-add-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.item.productrow.add` добавляет товарную позицию в объект CRM.
 
 Метод добавляет одну позицию и не изменяет остальные. Чтобы заменить весь набор товарных позиций объекта CRM, используйте метод [crm.item.productrow.set](./crm-item-productrow-set.md).

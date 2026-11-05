@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» компаний
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.company.get](../../rest-v3/items/crm-entity-get-rest-v3.md): контакты компании возвращает поле `contactsId`. Признак основной компании контакта метод не возвращает, его возвращает поле `companyId` метода [crm.contact.get](../../rest-v3/items/crm-entity-get-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.company.contact.items.get` возвращает набор контактов, связанных с указанной компанией.
 
 Метод отдает все привязки компании целиком: параметров фильтрации, выборки полей и постраничной навигации у него нет. Чтобы изменить набор, используйте [crm.company.contact.items.set](./crm-company-contact-items-set.md), а чтобы добавить или убрать один контакт — [crm.company.contact.add](./crm-company-contact-add.md) и [crm.company.contact.delete](./crm-company-contact-delete.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.list](../../../rest-v3/activities/crm-activity-list-rest-v3.md). Он доступен только администратору Битрикс24, дела одного элемента без прав администратора возвращает [crm.<тип>.activity.list](../../../rest-v3/activities/crm-entity-activity-list-rest-v3.md). Часть полей дела метод REST 3.0 не возвращает: настройки `settings`, данные провайдера `providerParams`, `location`, `status`, `priority` и другие. Если они нужны, используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.activity.list` возвращает список активностей по фильтру с учетом прав текущего пользователя.
 
 ## Параметры метода

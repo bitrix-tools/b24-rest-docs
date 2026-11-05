@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.list](../universal/crm-item-list.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.list](../rest-v3/items/crm-entity-list-rest-v3.md).
 
 {% endnote %}
 

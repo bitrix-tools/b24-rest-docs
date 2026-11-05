@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.field.custom.update](../../rest-v3/fields/crm-entity-field-custom-update-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.quote.userfield.update` меняет параметры пользовательского поля предложений: подписи, обязательность, настройки типа и элементы списка. Значение поля в конкретном предложении задает метод [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7`.
 
 В REST 3.0 поле меняет метод [crm.quote.field.custom.update](../../rest-v3/fields/crm-entity-field-custom-update-rest-v3.md).

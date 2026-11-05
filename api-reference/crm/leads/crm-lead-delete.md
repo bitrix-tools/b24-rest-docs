@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.delete](../universal/crm-item-delete.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.delete](../rest-v3/items/crm-entity-delete-rest-v3.md).
 
 {% endnote %}
 

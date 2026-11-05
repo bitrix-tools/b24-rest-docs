@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: требуется право на чтение объекта CRM, товарные позиции которого выбираются
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.productrow.getavailableforpayment](../../rest-v3/product-rows/crm-entity-product-row-get-available-for-payment-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.item.productrow.getAvailableForPayment` получает товарные позиции объекта CRM, по которым клиенту еще не была выставлена оплата.
 
 Метод сравнивает количество товара в позиции с количеством, которое уже попало в оплаты объекта CRM, и возвращает остаток. Позиции, полностью попавшие в оплаты, в ответ не войдут. Если нужны все позиции объекта CRM без учета оплат, вызовите [crm.item.productrow.list](./crm-item-productrow-list.md).

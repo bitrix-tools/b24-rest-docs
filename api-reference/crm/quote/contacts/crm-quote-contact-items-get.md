@@ -11,7 +11,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Для новой разработки получайте идентификаторы связанных контактов в поле `contactIds` методом [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 7`. Этот метод не возвращает `SORT` и `IS_PRIMARY` для каждой привязки.
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.get](../../rest-v3/items/crm-entity-get-rest-v3.md). Привязки возвращает поле `contactsId`, основную привязку — поле `contactId`.
 
 {% endnote %}
 

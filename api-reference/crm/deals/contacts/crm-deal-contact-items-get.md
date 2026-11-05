@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «чтения» сделки
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.get](../../rest-v3/items/crm-entity-get-rest-v3.md). Привязки возвращает поле `contactsId`, основную привязку — поле `contactId`.
+
+{% endnote %}
+
 Метод `crm.deal.contact.items.get` возвращает набор контактов, связанных с указанной сделкой.
 
 Методы [crm.deal.get](../crm-deal-get.md) и [crm.deal.list](../crm-deal-list.md) набор контактов не возвращают, поэтому для чтения привязок нужен этот метод. Если нужны только идентификаторы контактов, без `SORT` и `IS_PRIMARY`, их возвращает [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 2` в поле `contactIds`. Как устроена связь, описано в [обзоре раздела](./index.md).

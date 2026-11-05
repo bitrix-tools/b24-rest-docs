@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.field.custom.delete](../../rest-v3/fields/crm-entity-field-custom-delete-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.quote.userfield.delete` удаляет пользовательское поле предложений и его значения во всех карточках. Восстановить их нельзя.
 
 ## Параметры метода

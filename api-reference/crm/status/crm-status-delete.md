@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правами администратора CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для справочников используйте метод REST 3.0 [crm.dictionary.<справочник>.delete](../rest-v3/dictionaries/crm-dictionary-delete-rest-v3.md), для стадий сделок и смарт-процессов — [crm.<тип>.category.stage.delete](../rest-v3/categories/crm-entity-category-stage-delete-rest-v3.md). Стадий лидов, предложений и счетов и справочника статусов списков обзвона в REST 3.0 нет, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.status.delete` удаляет элемент справочника по идентификатору.
 
 ## Параметры метода

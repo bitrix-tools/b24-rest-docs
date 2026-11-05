@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения лидов
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.field.custom.list](../../rest-v3/fields/crm-entity-field-custom-list-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.lead.userfield.list` возвращает список пользовательских полей лидов по фильтру.
 
 ## Параметры метода
