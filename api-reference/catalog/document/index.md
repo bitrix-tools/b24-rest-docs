@@ -29,6 +29,8 @@
 - `R` — возврат товара
 - `D` — списание товара
 
+Тип передается в поле `docType` в верхнем регистре. Список типов возвращает метод [catalog.document.type.list](./catalog-document-type-list.md).
+
 Настройте права доступа для каждого типа документов. Если у вас не настроены права доступа, то при попытке открыть документы складского учета сотрудник увидит ошибку и не сможет с ними работать.
 
 {% note tip "Пользовательская документация" %}
@@ -77,13 +79,20 @@
 
 **Пользовательские поля документов складского учета.** Для документов складского учета можно создать дополнительные поля методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md). Передайте `moduleId = catalog`, а в `entityId` укажите тип документа в формате `CAT_STORE_DOCUMENT_<DOC_TYPE>`, например `CAT_STORE_DOCUMENT_A`. Просмотреть дополнительные поля и изменить их значения можно методами [catalog.userfield.document.*](../userfield-document/index.md).
 
+## Как начать работу
+
+1. Проверьте, что складской учет включен: метод [catalog.document.mode.status](./catalog-document-mode-status.md) должен вернуть `Y`
+2. Получите идентификатор склада методом [catalog.store.list](../store/catalog-store-list.md)
+3. Создайте документ-черновик методом [catalog.document.add](./catalog-document-add.md). Для документа прихода `A` укажите поставщика методами [catalog.documentcontractor.*](../documentcontractor/index.md) — без него документ не проводится
+4. Добавьте товары в документ методом [catalog.document.element.add](./document-element/catalog-document-element-add.md): укажите `docId`, товар, количество и склад
+5. Проведите документ методом [catalog.document.conduct](./catalog-document-conduct.md). После проведения меняются остатки на складах, а изменить или удалить документ нельзя
+6. Чтобы исправить проведенный документ, отмените проведение методом [catalog.document.cancel](./catalog-document-cancel.md): документ снова станет черновиком, остатки вернутся
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы:
-> - администратор — для методов прежней версии API
-> - пользователь с правами на документы нужного типа — для методов REST 3.0. Права указаны на странице каждого метода
+> Кто может выполнять методы: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада» и с правами на документы нужного типа: «Просмотр», «Создание и редактирование», «Проведение документа», «Отмена проведения», «Удаление документа». Точные права указаны на странице каждого метода
 
 ### Основные
 
@@ -93,9 +102,9 @@
 || [catalog.document.add](./catalog-document-add-rest-v3.md) | Добавляет документ складского учета v 3.0 ||
 || [catalog.document.update](./catalog-document-update.md) | Изменяет документ складского учета ||
 || [catalog.document.update](./catalog-document-update-rest-v3.md) | Изменяет документ складского учета v 3.0 ||
+|| [catalog.document.get](./catalog-document-get.md) | Возвращает документ складского учета по идентификатору v 3.0 ||
 || [catalog.document.list](./catalog-document-list.md) | Возвращает список документов складского учета ||
 || [catalog.document.list](./catalog-document-list-rest-v3.md) | Возвращает список документов складского учета v 3.0 ||
-|| [catalog.document.get](./catalog-document-get.md) | Возвращает документ складского учета по идентификатору ||
 || [catalog.document.delete](./catalog-document-delete.md) | Удаляет документ складского учета ||
 || [catalog.document.delete](./catalog-document-delete-rest-v3.md) | Удаляет документ складского учета v 3.0 ||
 || [catalog.document.deleteList](./catalog-document-delete-list.md) | Удаляет группу документов складского учета ||

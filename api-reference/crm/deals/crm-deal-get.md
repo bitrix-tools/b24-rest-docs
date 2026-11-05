@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.get](../universal/crm-item-get.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.get](../rest-v3/items/crm-entity-get-rest-v3.md).
 
 {% endnote %}
 

@@ -28,15 +28,16 @@
 
 - Поле `xmlId` обязательно и должно быть уникальным в рамках одного свойства
 
-- Для чтения значений списочных свойств и удаления нужно право «Просмотр каталога товаров». Для создания и обновления дополнительно нужно право на изменение инфоблока свойства
+- Для чтения значений нужно право «Просмотр каталога товаров». Для создания, изменения и удаления дополнительно нужно право на изменение инфоблока свойства
+- Метод `catalog.productPropertyEnum.update` требует `propertyId`, `value` и `xmlId` при каждом вызове. Перенести значение в другое свойство нельзя
 
 ## Как работать со значениями списочных свойств
 
-1. Проверьте структуру полей через [catalog.productPropertyEnum.getFields](./catalog-product-property-enum-get-fields.md).
-2. Определите `propertyId` свойства типа `Список` методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md).
-3. Запросите текущие значения списка методом [catalog.productPropertyEnum.list](./catalog-product-property-enum-list.md) с фильтром по `propertyId`.
-4. Добавьте значение методом [catalog.productPropertyEnum.add](./catalog-product-property-enum-add.md) или измените существующее методом [catalog.productPropertyEnum.update](./catalog-product-property-enum-update.md).
-5. Получите значение по `id` методом [catalog.productPropertyEnum.get](./catalog-product-property-enum-get.md) или удалите его методом [catalog.productPropertyEnum.delete](./catalog-product-property-enum-delete.md).
+1. Проверьте структуру полей через [catalog.productPropertyEnum.getFields](./catalog-product-property-enum-get-fields.md)
+2. Определите `propertyId` свойства типа `Список` методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md)
+3. Запросите текущие значения списка методом [catalog.productPropertyEnum.list](./catalog-product-property-enum-list.md) с фильтром по `propertyId`
+4. Добавьте значение методом [catalog.productPropertyEnum.add](./catalog-product-property-enum-add.md) или измените существующее методом [catalog.productPropertyEnum.update](./catalog-product-property-enum-update.md)
+5. Получите значение по `id` методом [catalog.productPropertyEnum.get](./catalog-product-property-enum-get.md) или удалите его методом [catalog.productPropertyEnum.delete](./catalog-product-property-enum-delete.md)
 
 ## Связь с другими объектами
 
@@ -48,7 +49,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода
+> Кто может выполнять методы:
+> - пользователь с правом «Просмотр каталога товаров» — для получения значений и описания полей
+> - пользователь с правом «Просмотр каталога товаров» и правом на изменение инфоблока свойства — для добавления, изменения и удаления
 
 #|
 || **Метод** | **Описание** ||

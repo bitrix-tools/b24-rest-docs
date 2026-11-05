@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «изменения» сделки и правом «чтения» привязываемого контакта
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.addfieldvalue](../../rest-v3/items/crm-entity-add-field-value-rest-v3.md) с полем `contactsId`. Основной контакт назначает метод [crm.deal.setprimarycontact](../../rest-v3/items/crm-entity-set-primary-contact-rest-v3.md). Позицию контакта `SORT` метод REST 3.0 не принимает, для нее используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.deal.contact.add` добавляет контакт к указанной сделке.
 
 Метод работает с одной привязкой и не затрагивает остальные контакты сделки. Чтобы задать весь набор контактов сразу, используйте [crm.deal.contact.items.set](./crm-deal-contact-items-set.md). Как устроена связь и как выбрать метод, описано в [обзоре раздела](./index.md).

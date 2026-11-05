@@ -290,13 +290,13 @@ HTTP-статус: **200**
         ]
     },
     "time": {
-        "start": 1792665215,
-        "finish": 1792665215.710361,
-        "duration": 0.7103610038757324,
+        "start": 1793883053,
+        "finish": 1793883053.926821,
+        "duration": 0.9268209934234619,
         "processing": 0,
-        "date_start": "2026-10-22T13:33:35+03:00",
-        "date_finish": "2026-10-22T13:33:35+03:00",
-        "operating_reset_at": 1792665780,
+        "date_start": "2026-11-05T15:50:53+03:00",
+        "date_finish": "2026-11-05T15:50:53+03:00",
+        "operating_reset_at": 1793883600,
         "operating": 0
     }
 }
@@ -356,28 +356,34 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id`, `name` | В DTO `DocumentTypeDto` в поле `#FIELD#` требуется наличие атрибута `Filterable` для такого запроса | Уберите `filter`: метод не фильтрует справочник ||
-|| `id`, `name` | В DTO `DocumentTypeDto` в поле `#FIELD#` требуется наличие атрибута `Sortable` для такого запроса | Уберите `order`: метод не сортирует справочник ||
+|| `id`, `name` | В DTO `DocumentTypeDto` в поле `id` требуется наличие атрибута `Filterable` для такого запроса | Уберите `filter`: метод не фильтрует справочник ||
+|| `id`, `name` | В DTO `DocumentTypeDto` в поле `id` требуется наличие атрибута `Sortable` для такого запроса | Уберите `order`: метод не сортирует справочник ||
 |#
 
 #### Ошибка пагинации
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDPAGINATIONEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `pagination` | Не удается распознать параметр пагинации `#PAGINATION#` | Уберите `pagination`: метод возвращает весь справочник ||
+|| `pagination` | Не удается распознать параметр пагинации `{"limit":2}` | Уберите `pagination`: метод возвращает весь справочник ||
 |#
 
 #### Ошибка неизвестного поля
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DocumentTypeDto` | Укажите в `select` только `id` и `name` ||
+|| `select` | Неизвестное поле `bad` для сущности `DocumentTypeDto` | Укажите в `select` только `id` и `name` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

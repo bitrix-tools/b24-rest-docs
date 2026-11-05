@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: администратор CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.field.custom.update](../../rest-v3/fields/crm-entity-field-custom-update-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.lead.userfield.update` обновляет существующее пользовательское поле лидов.
 
 ## Параметры метода

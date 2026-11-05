@@ -144,9 +144,13 @@ Array
 - `GRAPHITE` — графитовый
 ||
 || **width**
-[`integer`](../../data-types.md) | Ширина блока в процентах, по умолчанию `100`, значение должно быть больше или равно `0` ||
+[`integer`](../../data-types.md) | Ширина окна приложения в пикселях, по умолчанию `100`. Окно открывается над полем ввода по клику на пункт приложения.
+
+Значение должно быть больше или равно `0`. Строка приводится к числу: `"400px"` сохранится как `400` ||
 || **height**
-[`integer`](../../data-types.md) | Высота блока в процентах, по умолчанию `100`, значение должно быть больше или равно `0` ||
+[`integer`](../../data-types.md) | Высота окна приложения в пикселях, по умолчанию `100`.
+
+Значение должно быть больше или равно `0`. Строка приводится к числу: `"400px"` сохранится как `400` ||
 |#
 
 ## Примеры кода
@@ -179,8 +183,8 @@ Array
           "role": "USER",
           "extranet": "N",
           "color": "LIGHT_BLUE",
-          "width": 100,
-          "height": 100
+          "width": 400,
+          "height": 400
         },
         "auth": "**put_access_token_here**"
       }' \
@@ -218,8 +222,8 @@ Array
             role: 'USER',
             extranet: 'N',
             color: 'LIGHT_BLUE',
-            width: 100,
-            height: 100,
+            width: 400,
+            height: 400,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -269,8 +273,8 @@ Array
                 role: 'USER',
                 extranet: 'N',
                 color: 'LIGHT_BLUE',
-                width: 100,
-                height: 100,
+                width: 400,
+                height: 400,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -313,13 +317,13 @@ Array
                 },
             },
             options={
-                "iconName": "chat-compose",
+                "iconName": "fa-paperclip",
                 "context": "ALL",
                 "role": "USER",
                 "extranet": "N",
                 "color": "LIGHT_BLUE",
-                "width": 100,
-                "height": 100,
+                "width": 400,
+                "height": 400,
             },
         ).response
         result = bitrix_response.result
@@ -362,8 +366,8 @@ Array
                         'role' => 'USER',
                         'extranet' => 'N',
                         'color' => 'LIGHT_BLUE',
-                        'width' => 100,
-                        'height' => 100,
+                        'width' => 400,
+                        'height' => 400,
                     ],
                 ]
             );
@@ -395,8 +399,8 @@ Array
                 role: 'USER',
                 extranet: 'N',
                 color: 'LIGHT_BLUE',
-                width: 100,
-                height: 100
+                width: 400,
+                height: 400
             }
         },
         function(result) {
@@ -434,8 +438,8 @@ Array
                 'role' => 'USER',
                 'extranet' => 'N',
                 'color' => 'LIGHT_BLUE',
-                'width' => 100,
-                'height' => 100,
+                'width' => 400,
+                'height' => 400,
             ],
         ]
     );
@@ -467,8 +471,8 @@ Array
     		"role":     "USER",
     		"extranet": "N",
     		"color":    "LIGHT_BLUE",
-    		"width":    100,
-    		"height":   100,
+    		"width":    400,
+    		"height":   400,
     	},
     })
     if err != nil {
@@ -488,6 +492,8 @@ Array
 || **Ошибка** | **Как решить** ||
 || `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
 || `placement.bind` возвращает `ERROR_ARGUMENT` | Не передан обязательный параметр `OPTIONS[iconName]`. Код незаполненного поля приходит в `argument` ||
+|| `placement.bind` возвращает `INVALID_ERROR_WIDTH` или `INVALID_ERROR_HEIGHT` | В `OPTIONS[width]` или `OPTIONS[height]` передано отрицательное число. Передайте размер окна в пикселях, больше или равный `0` ||
+|| Окно приложения слишком маленькое | Не переданы `width` и `height`, и окно открылось с размером по умолчанию 100 × 100 пикселей. Передайте нужный размер в пикселях, например `"width": 400`, `"height": 400`. Проценты не поддерживаются ||
 || Пункт не появился в панели над полем ввода | Завершите установку приложения и заново откройте чат ||
 || Регистрация не проходит из-за значения `context` | Используйте только допустимые значения: `ALL`, `USER`, `CHAT`, `LINES`, `CRM` ||
 || Пункт виден не в тех чатах, для которых задан `context` | Вместе с другими значениями передан `ALL`, и остальные значения не учитываются. Передавайте либо `ALL`, либо список конкретных контекстов через `;` ||

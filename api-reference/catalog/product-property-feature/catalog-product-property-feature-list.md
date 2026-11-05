@@ -25,7 +25,7 @@
 || **select**
 [`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_property_features](../data-types.md#catalog_product_property_features)).
 
-Если параметр не передан, будут выбраны все поля ||
+Если параметр не передан, будут выбраны все поля. Неизвестные поля метод пропускает без ошибки, а если в `select` нет ни одного поля объекта, возвращает все поля ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных параметров в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
@@ -46,6 +46,8 @@
 - `!=` — не равно
 - `!` — не равно
 
+Неизвестные поля в фильтре метод пропускает без ошибки и возвращает параметры без учета такого условия.
+
 Если `propertyId` не передан, метод выбирает параметры всех свойств торговых каталогов. Если передан `propertyId`, который не существует или не относится к торговому каталогу, метод вернет пустой список ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных параметров в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
@@ -56,7 +58,7 @@
 - `ASC` — в порядке возрастания
 - `DESC` — в порядке убывания
 
-Если параметр не передан, применяется сортировка `id ASC` ||
+Если параметр не передан, применяется сортировка `id ASC`. Неизвестные поля метод пропускает без ошибки ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -375,7 +377,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyFeatures**
+|| **result.productPropertyFeatures**
 [`catalog_product_property_features[]`](../data-types.md#catalog_product_property_features) | Массив объектов с информацией о выбранных параметрах ||
 || **next**
 [`integer`](../../data-types.md) | Смещение для следующей страницы. Поле возвращается, если есть еще записи ||
@@ -401,11 +403,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра каталога ||
-|| `100` | Invalid value {wrong_type} to match with parameter {filter}. Should be value of type array. | Неверный тип данных у значения параметра `filter` ||
-|| `100` | Invalid value {wrong_type} to match with parameter {select}. Should be value of type array. | Неверный тип данных у значения параметра `select` ||
-|| `100` | Invalid value {wrong_type} to match with parameter {order}. Should be value of type array. | Неверный тип данных у значения параметра `order` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога ||
+|| `400` | `100` | Invalid value {wrong_type} to match with parameter {filter}. Should be value of type array. | Неверный тип данных у значения параметра `filter` ||
+|| `400` | `100` | Invalid value {wrong_type} to match with parameter {select}. Should be value of type array. | Неверный тип данных у значения параметра `select` ||
+|| `400` | `100` | Invalid value {wrong_type} to match with parameter {order}. Should be value of type array. | Неверный тип данных у значения параметра `order` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

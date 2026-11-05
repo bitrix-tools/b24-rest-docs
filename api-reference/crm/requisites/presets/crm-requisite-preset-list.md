@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение контактов и компаний
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.preset.list](../../rest-v3/requisites/crm-entity-requisite-preset-list-rest-v3.md). Метод REST 3.0 не возвращает поля шаблона `countryId`, `active` и `xmlId` и не фильтрует шаблоны, для этого используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.requisite.preset.list` возвращает список шаблонов реквизитов по фильтру.
 
 ## Параметры метода

@@ -280,7 +280,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyEnum**
+|| **result.productPropertyEnum**
 [`catalog_product_property_enum`](../data-types.md#catalog_product_property_enum) | Объект значения списочного свойства ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -292,7 +292,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertyEnum does not exist."
 }
 ```
@@ -302,10 +302,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
-|| `0` | productPropertyEnum does not exist. | Значение списочного свойства с переданным `id` не найдено ||
-|| `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
+|| `400` | Пустое значение | productPropertyEnum does not exist. | Значение списочного свойства с переданным `id` не найдено ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

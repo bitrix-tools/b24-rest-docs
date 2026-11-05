@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: требуется право на чтение объекта CRM, товарные позиции которого выбираются
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.productrow.list](../../rest-v3/product-rows/crm-entity-product-row-list-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.item.productrow.list` получает товарные позиции объекта CRM.
 
 Если нужна одна позиция с известным идентификатором, используйте метод [crm.item.productrow.get](./crm-item-productrow-get.md). Если нужны только позиции без выставленной оплаты — метод [crm.item.productrow.getAvailableForPayment](./crm-item-productrow-get-available-for-payment.md).

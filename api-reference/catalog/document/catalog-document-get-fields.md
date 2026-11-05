@@ -11,13 +11,13 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.document.getFields` возвращает описание полей для документа складского учета.
+Метод `catalog.document.getFields` возвращает описание полей документа складского учета: тип, обязательность и доступность для изменения.
 
 ## Параметры метода
 
-Без параметров. 
+Без параметров.
 
 ## Примеры кода
 
@@ -219,7 +219,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -330,13 +330,13 @@ HTTP-код: **200**
         }
     },
     "time": {
-        "start": 1761727898,
-        "finish": 1761727898.554004,
-        "duration": 0.5540039539337158,
+        "start": 1793883495,
+        "finish": 1793883495.11103,
+        "duration": 0.11103010177612305,
         "processing": 0,
-        "date_start": "2025-10-29T11:51:38+03:00",
-        "date_finish": "2025-10-29T11:51:38+03:00",
-        "operating_reset_at": 1761728498,
+        "date_start": "2026-11-05T15:58:15+03:00",
+        "date_finish": "2026-11-05T15:58:15+03:00",
+        "operating_reset_at": 1793884080,
         "operating": 0
     }
 }
@@ -348,19 +348,18 @@ HTTP-код: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md#catalog_document) | Корневой элемент ответа ||
-|| **document**
-[`object`](../data-types.md#catalog_document) | Объект с описанием полей документа складского учета 
-Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_document`](../data-types.md#catalog_document), а `value` — объект типа [`rest_field_description`](../data-types.md). ||
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **result.document**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_document](../data-types.md#catalog_document), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description).
+
+Метаданные не все совпадают с поведением методов: `createdBy`, `modifiedBy`, `dateCreate` и `dateModify` отмечены как изменяемые, но [catalog.document.add](./catalog-document-add.md) и [catalog.document.update](./catalog-document-update.md) заполняют их сами и переданные значения пропускают ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
@@ -369,17 +368,19 @@ HTTP-код: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Недостаточно прав для сохранения документа | У пользователя нет права на просмотр ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Недостаточно прав для сохранения документа | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-document-list.md)
 - [{#T}](./catalog-document-add.md)
 - [{#T}](./catalog-document-update.md)
+- [{#T}](./catalog-document-list.md)

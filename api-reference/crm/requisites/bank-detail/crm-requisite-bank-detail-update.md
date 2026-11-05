@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на изменение контакта или компании — владельца реквизита
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.bankrequisite.update](../../rest-v3/requisites/crm-entity-requisite-bank-requisite-update-rest-v3.md).
+
+{% endnote %}
+
 Метод изменяет существующий банковский реквизит.
 
 ## Параметры метода

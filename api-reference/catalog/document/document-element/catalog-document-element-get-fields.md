@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.document.element.getFields` возвращает описание полей товара из документа складского учета.
+Метод `catalog.document.element.getFields` возвращает описание полей товарной позиции документа складского учета: тип, обязательность и доступность для изменения.
 
 ## Параметры метода
 
@@ -239,13 +239,13 @@ HTTP-статус: **200**
             "docId": {
                 "isImmutable": true,
                 "isReadOnly": false,
-                "isRequired": true,
+                "isRequired": false,
                 "type": "integer"
             },
             "elementId": {
                 "isImmutable": true,
                 "isReadOnly": false,
-                "isRequired": true,
+                "isRequired": false,
                 "type": "integer"
             },
             "id": {
@@ -275,12 +275,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1759482101.114239,
-        "finish": 1759482101.178452,
-        "duration": 0.06421303749084473,
-        "processing": 0.008214950561523438,
-        "date_start": "2025-11-02T12:21:41+03:00",
-        "date_finish": "2025-11-02T12:21:41+03:00",
+        "start": 1793884083,
+        "finish": 1793884083.308822,
+        "duration": 0.3088219165802002,
+        "processing": 0,
+        "date_start": "2026-11-05T16:08:03+03:00",
+        "date_finish": "2026-11-05T16:08:03+03:00",
+        "operating_reset_at": 1793884680,
         "operating": 0
     }
 }
@@ -293,9 +294,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **documentElement**
-[`object`](../../data-types.md#catalog_document_element) | Объект с описанием полей товара документа. 
-Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_document_element`](../../data-types.md#catalog_document_element), а `value` — объект типа [`rest_field_description`](../../data-types.md). || ||
+|| **result.documentElement**
+[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_document_element](../../data-types.md#catalog_document_element), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description).
+
+Метаданные не все совпадают с поведением методов: `docId` отмечено как необязательное, но без него [catalog.document.element.add](./catalog-document-element-add.md) вернет ошибку `Document not found`. Поля `docId` и `elementId` с `isImmutable: true` можно задать только при добавлении, [catalog.document.element.update](./catalog-document-element-update.md) их пропускает ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -316,16 +318,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_DOCUMENT_RIGHTS` | Access denied | Недостаточно прав для чтения документов складского учета ||
-|| `0` |  | Прочие ошибки обработки ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_DOCUMENT_RIGHTS` | Access denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-document-element-add.md)
 - [{#T}](./catalog-document-element-update.md)
-- [{#T}](./catalog-document-element-delete.md)
 - [{#T}](./catalog-document-element-list.md)
+- [{#T}](./catalog-document-element-delete.md)

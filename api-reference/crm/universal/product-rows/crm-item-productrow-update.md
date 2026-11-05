@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: требуется право на изменение объекта CRM, которому принадлежит товарная позиция
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.productrow.update](../../rest-v3/product-rows/crm-entity-product-row-update-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.item.productrow.update` изменяет товарную позицию объекта CRM.
 
 Метод меняет одну позицию — чтобы заменить весь набор, используйте метод [crm.item.productrow.set](./crm-item-productrow-set.md). После изменения `price` или `quantity` CRM пересчитывает сумму объекта: например, сумма сделки вырастет, если поднять цену позиции.

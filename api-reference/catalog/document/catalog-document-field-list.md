@@ -23,6 +23,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -43,6 +45,8 @@
 - `editableGroups` — группы операций, в которых поле редактируется
 - `multiple` — признак множественного значения
 - `elementType` — тип элемента для составных полей
+
+Если передать строку, например `"name"`, метод вернет одно это свойство.
 
 По умолчанию: все свойства описания ||
 |#
@@ -305,13 +309,13 @@ HTTP-статус: **200**
         ]
     },
     "time": {
-        "start": 1792665252,
-        "finish": 1792665252.507383,
-        "duration": 0.5073831081390381,
+        "start": 1793883046,
+        "finish": 1793883046.829767,
+        "duration": 0.8297669887542725,
         "processing": 0,
-        "date_start": "2026-10-22T13:34:12+03:00",
-        "date_finish": "2026-10-22T13:34:12+03:00",
-        "operating_reset_at": 1792665840,
+        "date_start": "2026-11-05T15:50:46+03:00",
+        "date_finish": "2026-11-05T15:50:46+03:00",
+        "operating_reset_at": 1793883600,
         "operating": 0
     }
 }
@@ -350,13 +354,15 @@ HTTP-статус: **200**
 || **requiredGroups**
 [`array`](../../data-types.md) или `null` | Операции, в которых поле обязательно. Для `docType`, `currency` и `responsibleId` — `["add"]` ||
 || **filterable**
-[`boolean`](../../data-types.md) | `true` — поле доступно в фильтре, `false` — недоступно ||
+[`boolean`](../../data-types.md) | `true` — поле доступно в фильтре, `false` — недоступно. Для `commentary` — `false` ||
 || **sortable**
-[`boolean`](../../data-types.md) | `true` — поле доступно в сортировке, `false` — недоступно ||
+[`boolean`](../../data-types.md) | `true` — поле доступно в сортировке, `false` — недоступно. Для `siteId`, `currency`, `statusBy` и `commentary` — `false` ||
 || **editable**
 [`boolean`](../../data-types.md) | `true` — поле можно передавать в операциях из `editableGroups` ||
 || **editableGroups**
-[`array`](../../data-types.md) или `null` | Операции, в которых поле можно задавать. Для `docType` и `currency` — `["add"]` ||
+[`array`](../../data-types.md) или `null` | Операции, в которых поле можно задавать. Для `docType` и `currency` — `["add"]`.
+
+Метаданные не во всем совпадают с поведением [catalog.document.update](./catalog-document-update-rest-v3.md): `docType` метод пропускает без ошибки, а `currency` меняет ||
 || **multiple**
 [`boolean`](../../data-types.md) | Признак множественного значения. Для полей документа — `false` ||
 || **elementType**
@@ -384,23 +390,29 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Укажите в `select` только свойства из описания параметра `select` ||
+|| `select` | Неизвестное поле `bad` для сущности `DtoFieldDto` | Укажите в `select` только свойства из описания параметра `select`. Имена пишутся в camelCase, например `editableGroups` ||
 |#
 
 #### Ошибка формата select
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Не удается распознать выражение select `#SELECT#` | Передайте `select` массивом строк, например `["name","type"]` ||
+|| `select` | Не удается распознать выражение select `["name"]` | В `select` передан вложенный массив или объект. Передайте `select` массивом строк, например `["name","type"]` ||
 |#
 
 #### Ошибка доступа
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+
+HTTP-статус: **403**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||

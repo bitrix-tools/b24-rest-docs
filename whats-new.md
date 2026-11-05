@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 5 ноября, 2026
+
+- Добавили методы CRM в REST 3.0: элементы, поля, воронки и стадии, товарные позиции, реквизиты, адреса, дела, виды карточки и справочники. Аналоги старых методов собраны на странице [Переход на новые методы CRM](./api-reference/crm/migration.md), все группы — в [обзоре CRM](./api-reference/crm/index.md)
+
 ### 3 ноября, 2026
 
 - Добавили метод [task.checklistitem.deleteall](./api-reference/tasks/checklist-item/task-checklist-item-delete-all.md): удаляет все чек-листы задачи одним вызовом

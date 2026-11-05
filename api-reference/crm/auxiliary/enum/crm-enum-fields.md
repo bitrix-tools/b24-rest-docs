@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.dictionary.<справочник>.field.list](../../rest-v3/dictionaries/index.md).
+
+{% endnote %}
+
 Метод `crm.enum.fields` описывает поля, из которых состоит элемент перечисления: `ID`, `NAME`, `SYMBOL_CODE` и `SYMBOL_CODE_SHORT`. Например, по ответу видно, что `ID` — целое число, а `NAME` — строка. Эти поля есть у элементов, которые возвращают методы [crm.enum.ownertype](./crm-enum-owner-type.md), [crm.enum.addresstype](./crm-enum-address-type.md) и [crm.enum.settings.mode](./crm-enum-settings-mode.md). У метода [crm.enum.getorderownertypes](./crm-enum-get-order-owner-types.md) другой формат ответа, это описание к нему не относится.
 
 ## Параметры метода

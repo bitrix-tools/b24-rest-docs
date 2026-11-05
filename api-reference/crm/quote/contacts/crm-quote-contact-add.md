@@ -11,7 +11,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Для новой разработки получите текущие `contactIds` методом [crm.item.get](../../universal/crm-item-get.md) и добавьте контакт в массив методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7`. Универсальный метод заменяет весь набор контактов и не позволяет отдельно задать `SORT` и `IS_PRIMARY`.
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.addfieldvalue](../../rest-v3/items/crm-entity-add-field-value-rest-v3.md) с полем `contactsId`. Основной контакт назначает метод [crm.quote.setprimarycontact](../../rest-v3/items/crm-entity-set-primary-contact-rest-v3.md). Позицию контакта `SORT` метод REST 3.0 не принимает, для нее используйте этот метод.
 
 {% endnote %}
 

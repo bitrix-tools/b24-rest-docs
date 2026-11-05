@@ -11,37 +11,34 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами:
-> — «Просмотр» и «Создание и редактирование» на тип документа «Приход»,
-> — «Просмотр раздела Складской учет»
-> — «Просмотр каталога товаров»    
+> Кто может выполнять метод: пользователь с правами «Просмотр» и «Создание и редактирование» на документы типа «Приход», правами «Просмотр раздела Складской учет» и «Просмотр каталога товаров»
 
 Метод `catalog.documentcontractor.delete` удаляет поставщика из документа складского учета.
 
-## Параметры метода  
+## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}  
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`тип` | **Описание** || 
+`тип` | **Описание** ||
 || **id***
-[`catalog_documentcontractor.id`](../data-types.md#catalog_documentcontractor) | Идентификатор привязки поставщика к документу. Получить можно методом [catalog.documentcontractor.list](./catalog-documentcontractor-list.md) ||  
-|#  
+[`catalog_documentcontractor.id`](../data-types.md#catalog_documentcontractor) | Идентификатор привязки поставщика к документу. Получить можно методом [catalog.documentcontractor.list](./catalog-documentcontractor-list.md) ||
+|#
 
-## Примеры кода  
+## Примеры кода
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}  
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
 - cURL (Webhook)
 
-    ```bash 
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":42}' \
+    -d '{"id":15}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.documentcontractor.delete
     ```
 
@@ -51,7 +48,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":42,"auth":"**put_access_token_here**"}' \
+    -d '{"id":15,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.documentcontractor.delete
     ```
 
@@ -69,7 +66,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'catalog.documentcontractor.delete',
         params: {
-          id: 42,
+          id: 15,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -101,7 +98,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.documentcontractor.delete',
             params: {
-              id: 42,
+              id: 15,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -131,7 +128,7 @@
 
     try:
         bitrix_response = client.catalog.documentcontractor.delete(
-            bitrix_id=42,
+            bitrix_id=15,
         ).response
         result = bitrix_response.result
         print(result)
@@ -157,7 +154,7 @@
             ->call(
                 'catalog.documentcontractor.delete',
                 [
-                    'id' => 42,
+                    'id' => 15,
                 ]
             );
 
@@ -179,7 +176,7 @@
     ```js
     BX24.callMethod(
         'catalog.documentcontractor.delete',
-        { id: 42 },
+        { id: 15 },
         function(result)
         {
             if (result.error())
@@ -198,7 +195,7 @@
     $result = CRest::call(
         'catalog.documentcontractor.delete',
         [
-            'id' => 42,
+            'id' => 15,
         ]
     );
 
@@ -225,11 +222,11 @@
     fmt.Println("выполнено:", ok)
     ```
 
-{% endlist %}    
+{% endlist %}
 
-## Обработка ответа  
+## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -247,23 +244,20 @@ HTTP-код: **200**
 }
 ```
 
-## Возвращаемые данные  
+### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md)| Корневой элемент ответа, содержит `true`, если привязка успешно удалена.  
-Если ответ содержит `null` — привязка не найдена или у пользователя нет прав на изменение документа ||  
+[`boolean`](../../data-types.md) | Корневой элемент ответа. Содержит `true`, если привязка удалена ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса || 
-|#  
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-## Обработка ошибок  
+## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}  
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
@@ -272,20 +266,22 @@ HTTP-код: **400**
 }
 ```
 
-### Возможные коды ошибок  
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Binding was not found | Указанный идентификатор привязки не существует ||  
-|| `0` | Access denied | Недостаточно прав для изменения документа складского учета ||  
-|| `0` | Contractors should be provided by CRM | Модуль CRM не активен как поставщик контрагентов ||  
-|#  
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `0` | Binding was not found | Привязки с указанным `id` нет или документ недоступен пользователю ||
+|| `400` | `0` | Access denied | Недостаточно прав для изменения документа складского учета ||
+|| `400` | `0` | Contractors should be provided by CRM | Поставщики в Битрикс24 ведутся не в CRM ||
+|#
 
-{% include [Системные ошибки](../../../_includes/system-errors.md) %}  
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение  
+## Продолжите изучение
 
-- [{#T}](./catalog-documentcontractor-list.md)  
-- [{#T}](./catalog-documentcontractor-add.md)  
+- [{#T}](./catalog-documentcontractor-add.md)
+- [{#T}](./catalog-documentcontractor-list.md)
 - [{#T}](./catalog-documentcontractor-get-fields.md)
-

@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод возвращает доступные поля склада.
+Метод `catalog.store.getFields` возвращает описание полей склада: тип, обязательность и доступность для изменения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -153,7 +155,7 @@
                 'catalog.store.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -293,7 +295,7 @@ HTTP-статус: **200**
             },
             "modifiedBy": {
                 "isImmutable": false,
-                "isReadOnly": false,
+                "isReadOnly": true,
                 "isRequired": false,
                 "type": "integer"
             },
@@ -323,7 +325,7 @@ HTTP-статус: **200**
             },
             "userId": {
                 "isImmutable": false,
-                "isReadOnly": false,
+                "isReadOnly": true,
                 "isRequired": false,
                 "type": "integer"
             },
@@ -336,12 +338,14 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1729520477.308384,
-        "finish": 1729520477.729865,
-        "duration": 0.4214811325073242,
-        "processing": 0.014774084091186523,
-        "date_start": "2024-10-21T17:21:17+03:00",
-        "date_finish": "2024-10-21T17:21:17+03:00",
+        "start": 1793874438,
+        "finish": 1793874438.354447,
+        "duration": 0.3544468879699707,
+        "processing": 0,
+        "date_start": "2026-11-05T13:27:18+03:00",
+        "date_finish": "2026-11-05T13:27:18+03:00",
+        "operating_reset_at": 1793875020,
+        "operating": 0
     }
 }
 ```
@@ -353,8 +357,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **store**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_store](../data-types.md#catalog_store), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+|| **result.store**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_store](../data-types.md#catalog_store), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description).
+
+Метаданные не все совпадают с поведением методов: `dateCreate` и `dateModify` отмечены как изменяемые, но [catalog.store.add](./catalog-store-add.md) и [catalog.store.update](./catalog-store-update.md) заполняют их сами и переданные значения пропускают. Поле `imageId` с типом `file` через эти методы задать нельзя ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -365,8 +371,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -375,9 +381,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

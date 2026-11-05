@@ -11,11 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: 
-> - пользователь с правом «Создание и редактирование» на тип документа в запросе
-> - пользователь с правом «Просмотр и выбор склада» на склад прихода или списания
+> Кто может выполнять метод: пользователь с правом «Создание и редактирование» на документы этого типа и правом «Просмотр и выбор склада» на склады позиции
 
-Метод `catalog.document.element.delete` удаляет позицию из документа складского учета. Документ должен быть доступен пользователю и иметь статус `N` — не проведен.
+Метод `catalog.document.element.delete` удаляет товарную позицию из непроведенного документа складского учета.
 
 ## Параметры метода
 
@@ -25,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_document_element.id`](../../data-types.md#catalog_document_element) | Идентификатор записи товара в документе, можно получить методом [catalog.document.element.list](./catalog-document-element-list.md) ||
+[`catalog_document_element.id`](../../data-types.md#catalog_document_element) | Идентификатор товарной позиции.
+
+Идентификатор можно получить методом [catalog.document.element.list](./catalog-document-element-list.md) ||
 |#
 
 ## Примеры кода
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":148}' \
+    -d '{"id":101}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.element.delete
     ```
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":148,"auth":"**put_access_token_here**"}' \
+    -d '{"id":101,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.document.element.delete
     ```
 
@@ -68,7 +68,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'catalog.document.element.delete',
         params: {
-          id: 148,
+          id: 101,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +100,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.document.element.delete',
             params: {
-              id: 148,
+              id: 101,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -130,7 +130,7 @@
 
     try:
         bitrix_response = client.catalog.document.element.delete(
-            bitrix_id=148,
+            bitrix_id=101,
         ).response
         result = bitrix_response.result
         print(result)
@@ -156,7 +156,7 @@
             ->call(
                 'catalog.document.element.delete',
                 [
-                    'id' => 148,
+                    'id' => 101,
                 ]
             );
 
@@ -175,7 +175,7 @@
     ```js
     BX24.callMethod(
         'catalog.document.element.delete',
-        { id: 148 },
+        { id: 101 },
         function(result)
         {
             if (result.error())
@@ -194,7 +194,7 @@
     $result = CRest::call(
         'catalog.document.element.delete',
         [
-            'id' => 148,
+            'id' => 101,
         ]
     );
 
@@ -208,7 +208,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.document.element.delete", b24.Params{
-    	"id": 148,
+    	"id": 101,
     })
     if err != nil {
     	return fmt.Errorf("catalog.document.element.delete: %w", err)
@@ -231,12 +231,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1759482302.413852,
-        "finish": 1759482302.497163,
-        "duration": 0.08331108093261719,
-        "processing": 0.01520085334777832,
-        "date_start": "2025-11-02T12:25:02+03:00",
-        "date_finish": "2025-11-02T12:25:02+03:00",
+        "start": 1793884061,
+        "finish": 1793884061.068368,
+        "duration": 0.06836795806884766,
+        "processing": 0,
+        "date_start": "2026-11-05T16:07:41+03:00",
+        "date_finish": "2026-11-05T16:07:41+03:00",
+        "operating_reset_at": 1793884620,
         "operating": 0
     }
 }
@@ -248,7 +249,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Результат удаления. Возвращает `true`, если позиция удалена ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -260,7 +261,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ERROR_DOCUMENT_STATUS",
-    "error_description": "Conducted document"
+    "error_description": "Document not found"
 }
 ```
 
@@ -269,15 +270,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_DOCUMENT_RIGHTS` | Access denied | Недостаточно прав на работу с документом или складами ||
-|| `ERROR_DOCUMENT_STATUS` | Document not found / Conducted document | Позиция не найдена, документ удален или уже проведен ||
-|| `0` | Error of deleting document | Не удалось удалить запись ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_DOCUMENT_RIGHTS` | Access denied | У пользователя нет права «Создание и редактирование» на документы этого типа или права «Просмотр и выбор склада» на склад позиции ||
+|| `400` | `ERROR_DOCUMENT_STATUS` | Document not found | Позиция с указанным `id` не найдена ||
+|| `400` | `ERROR_DOCUMENT_STATUS` | Conducted document | Документ проведен. Чтобы удалить позицию, отмените проведение методом [catalog.document.cancel](../catalog-document-cancel.md) ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
+|| `400` | `0` | Error of deleting document | Не удалось удалить позицию ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-document-element-add.md)
 - [{#T}](./catalog-document-element-update.md)

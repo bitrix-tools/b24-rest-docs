@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.productrow.*](../universal/product-rows/index.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.productrow.replace](../rest-v3/product-rows/crm-entity-product-row-replace-rest-v3.md).
 
 {% endnote %}
 

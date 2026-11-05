@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.update](../universal/crm-item-update.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.update](../rest-v3/items/crm-entity-update-rest-v3.md).
 
 {% endnote %}
 

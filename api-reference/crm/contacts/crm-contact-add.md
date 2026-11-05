@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.add](../universal/crm-item-add.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.contact.add](../rest-v3/items/crm-entity-add-rest-v3.md).
 
 {% endnote %}
 

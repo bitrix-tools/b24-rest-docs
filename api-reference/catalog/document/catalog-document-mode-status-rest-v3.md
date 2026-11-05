@@ -231,13 +231,13 @@ HTTP-статус: **200**
         "status": "Y"
     },
     "time": {
-        "start": 1792665213,
-        "finish": 1792665213.037978,
-        "duration": 0.03797793388366699,
+        "start": 1793883033,
+        "finish": 1793883033.043758,
+        "duration": 0.04375791549682617,
         "processing": 0,
-        "date_start": "2026-10-22T13:33:33+03:00",
-        "date_finish": "2026-10-22T13:33:33+03:00",
-        "operating_reset_at": 1792665780,
+        "date_start": "2026-11-05T15:50:33+03:00",
+        "date_finish": "2026-11-05T15:50:33+03:00",
+        "operating_reset_at": 1793883600,
         "operating": 0
     }
 }
@@ -255,8 +255,10 @@ HTTP-статус: **200**
 
 Возможные значения:
 
-- `Y` — складской учет включен
-- `N` — складской учет выключен ||
+- `Y` — складской учет включен и доступен на тарифе
+- `N` — складской учет выключен или недоступен на тарифе
+
+Значение приходит строкой, а не `true`/`false`. Признак в виде `boolean` возвращает поле `enabled` метода [catalog.document.mode.statusdetails](./catalog-document-mode-status-details.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -297,4 +299,5 @@ HTTP-статус: **403**
 
 - [{#T}](./catalog-document-mode-status-details.md)
 - [{#T}](./catalog-document-mode-field-list.md)
+- [{#T}](./catalog-document-mode-field-get.md)
 - [{#T}](./catalog-document-conduct-rest-v3.md)

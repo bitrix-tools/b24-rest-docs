@@ -11,7 +11,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Для новой разработки получите текущие `contactIds` методом [crm.item.get](../../universal/crm-item-get.md) и удалите нужный идентификатор из массива методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7`. Универсальный метод заменяет весь набор контактов и не позволяет отдельно задать `SORT` и `IS_PRIMARY`.
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.deletefieldvalue](../../rest-v3/items/crm-entity-delete-field-value-rest-v3.md). Передайте в метод поле `contactsId` и идентификатор, который нужно удалить из привязок.
 
 {% endnote %}
 

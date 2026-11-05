@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр» для документов этого типа, а также «Просмотр каталога товаров» и «Просмотр раздела Складской учет»
 
-Метод `catalog.userfield.document.list` возвращает постраничный список значений пользовательских полей документов складского учета.
+Метод `catalog.userfield.document.list` возвращает значения пользовательских полей документов складского учета одного типа с фильтрацией, сортировкой и постраничной навигацией.
 
 ## Параметры метода
 
@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **select***
-[`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [catalog_userfield_document](../data-types.md#catalog_userfield_document)).
+[`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [catalog_userfield_document](../data-types.md#catalog_userfield_document)): `documentId`, `documentType` и пользовательские поля в формате `fieldN`, где `N` — идентификатор поля, например `field7097`.
 
-Обязательно добавьте `documentType` — [тип документа складского учета](../enum/catalog-enum-get-store-document-types.md) ||
+Обязательно добавьте `documentType` — [тип документа складского учета](../enum/catalog-enum-get-store-document-types.md). Неизвестные поля метод пропускает без ошибки ||
 || **filter***
 [`object`](../../data-types.md) | Объект для фильтрации выбранных записей в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
@@ -38,6 +38,8 @@
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
+- `@` — IN, в качестве значения передается массив
+- `!@` — NOT IN, в качестве значения передается массив
 - `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении
 - `%=` — LIKE (аналогично `=%`)
@@ -47,6 +49,10 @@
 - `=` — равно, точное совпадение, используется по умолчанию
 - `!=` — не равно
 - `!` — не равно
+
+Массив без префикса работает как IN: `{"documentId": [3, 351]}` вернет оба документа. Условия NOT LIKE `!%`, `!=%`, `!%=` не находят документы, у которых поле не заполнено.
+
+Если тип документа не существует, например `{"documentType": "Z"}`, метод вернет `"result": null` без ошибки. Неизвестные поля в фильтре метод пропускает без ошибки
 ||
 || **order**
 [`object`](../../data-types.md) | Объект сортировки в формате `{"field_1": "order_1", ..., "field_N": "order_N"}`.
@@ -58,8 +64,8 @@
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
 
-Если параметр не передан, применяется сортировка `documentId ASC` ||
-|| **start** 
+Если параметр не передан, метод не задает сортировку явно. Для стабильного порядка при постраничной выборке передайте сортировку, например `{"documentId": "asc"}`. Регистр направления не важен ||
+|| **start**
 [`integer`](../../data-types.md)| Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
@@ -68,7 +74,9 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Если `start` больше количества найденных записей, метод вернет пустой массив `documents`
 ||
 |#
 
@@ -84,7 +92,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["documentType","documentId","field7097"],"filter":{"documentType":"A","documentId":81},"order":{"documentId":"ASC"},"start":0}' \
+    -d '{"select":["documentType","documentId","field7097"],"filter":{"documentType":"A","documentId":351},"order":{"documentId":"ASC"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.userfield.document.list
     ```
 
@@ -94,7 +102,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["documentType","documentId","field7097"],"filter":{"documentType":"A","documentId":81},"order":{"documentId":"ASC"},"start":0,"auth":"**put_access_token_here**"}' \
+    -d '{"select":["documentType","documentId","field7097"],"filter":{"documentType":"A","documentId":351},"order":{"documentId":"ASC"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.userfield.document.list
     ```
 
@@ -113,7 +121,7 @@
       documents: Array<{
         documentId: number
         documentType: string
-        field7097: string
+        field7097: string | null
       }>
     }
 
@@ -127,7 +135,7 @@
         method: 'catalog.userfield.document.list',
         params: {
           select: ['documentType', 'documentId', 'field7097'],
-          filter: { documentType: 'A', documentId: 81 },
+          filter: { documentType: 'A', documentId: 351 },
           order: { documentId: 'ASC' },
           start: 0,
         },
@@ -167,7 +175,7 @@
             method: 'catalog.userfield.document.list',
             params: {
               select: ['documentType', 'documentId', 'field7097'],
-              filter: { documentType: 'A', documentId: 81 },
+              filter: { documentType: 'A', documentId: 351 },
               order: { documentId: 'ASC' },
               start: 0,
             },
@@ -206,7 +214,7 @@
             ],
             filter={
                 "documentType": "A",
-                "documentId": 81,
+                "documentId": 351,
             },
             order={
                 "documentId": "ASC",
@@ -238,7 +246,7 @@
                 'catalog.userfield.document.list',
                 [
                     'select' => ['documentType', 'documentId', 'field7097'],
-                    'filter' => ['documentType' => 'A', 'documentId' => 81],
+                    'filter' => ['documentType' => 'A', 'documentId' => 351],
                     'order' => ['documentId' => 'ASC'],
                     'start' => 0
                 ]
@@ -257,7 +265,7 @@
         'catalog.userfield.document.list',
         {
             select: ['documentType', 'documentId', 'field7097'],
-            filter: { documentType: 'A', documentId: 81 },
+            filter: { documentType: 'A', documentId: 351 },
             order:  { documentId: 'ASC' }
         },
         function(result) {
@@ -283,7 +291,7 @@
         'catalog.userfield.document.list',
         [
             'select' => ['documentType', 'documentId', 'field7097'],
-            'filter' => ['documentType' => 'A', 'documentId' => 81],
+            'filter' => ['documentType' => 'A', 'documentId' => 351],
             'order' => ['documentId' => 'ASC'],
             'start' => 0
         ]
@@ -302,7 +310,7 @@
     	"select": []string{"documentType", "documentId", "field7097"},
     	"filter": b24.Params{
     		"documentType": "A",
-    		"documentId":   81,
+    		"documentId":   351,
     	},
     	"order": b24.Params{
     		"documentId": "ASC",
@@ -320,9 +328,9 @@
     }
 
     var items []struct {
-    	DocumentID   b24.ID `json:"documentId"`
-    	DocumentType string `json:"documentType"`
-    	Field7097    string `json:"field7097"`
+    	DocumentID   b24.ID  `json:"documentId"`
+    	DocumentType string  `json:"documentType"`
+    	Field7097    *string `json:"field7097"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -336,29 +344,29 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
         "documents": [
-        {
-            "documentId": 81,
-            "documentType": "A",
-            "field7097": "Тестовое поле"
-        }
+            {
+                "documentId": 351,
+                "documentType": "A",
+                "field7097": "Поставка по договору № 15"
+            }
         ]
     },
     "total": 1,
     "time": {
-        "start": 1774343822,
-        "finish": 1774343822.822166,
-        "duration": 0.8221659660339355,
+        "start": 1793875713,
+        "finish": 1793875713.347841,
+        "duration": 0.3478410243988037,
         "processing": 0,
-        "date_start": "2026-03-24T12:17:02+03:00",
-        "date_finish": "2026-03-24T12:17:02+03:00",
-        "operating_reset_at": 1774344422,
-        "operating": 0
+        "date_start": "2026-11-05T13:48:33+03:00",
+        "date_finish": "2026-11-05T13:48:33+03:00",
+        "operating_reset_at": 1793875920,
+        "operating": 0.12599587440490723
     }
 }
 ```
@@ -370,7 +378,7 @@ HTTP-код: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **documents**
+|| **result.documents**
 [`catalog_userfield_document[]`](../data-types.md#catalog_userfield_document) | Список объектов со значениями пользовательских полей документов. Состав полей зависит от параметра `select` ||
 || **next**
 [`integer`](../../data-types.md) | Смещение для следующей страницы. Поле возвращается, если есть еще записи ||
@@ -382,9 +390,7 @@ HTTP-код: **200**
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
@@ -393,13 +399,16 @@ HTTP-код: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | The documentType field is not specified in the select parameter | В параметре `select` не указан `documentType` ||
-|| `0` | The documentType field is not specified in the filter parameter | В параметре `filter` не указан `documentType` ||
-|| `0` | Access Denied | Недостаточно прав для чтения значений пользовательских полей документов ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | The documentType field is not specified in the select parameter | В параметре `select` не указан `documentType` ||
+|| `400` | `0` | The documentType field is not specified in the filter parameter | В параметре `filter` не указан `documentType` ||
+|| `400` | `0` | Access Denied | У пользователя нет права «Просмотр» для документов этого типа, либо права «Просмотр каталога товаров» или «Просмотр раздела Складской учет» ||
+|| `400` | `100` | Invalid order "BAD" | В `order` передано направление, отличное от `asc` и `desc`. В тексте направление приведено к верхнему регистру ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}

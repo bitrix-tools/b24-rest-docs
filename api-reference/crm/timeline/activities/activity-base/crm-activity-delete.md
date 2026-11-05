@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом на удаление дела
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.delete](../../../rest-v3/activities/crm-activity-delete-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.activity.delete` удаляет дело любого типа.
 
 ## Параметры метода

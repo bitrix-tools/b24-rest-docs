@@ -36,16 +36,19 @@
 
 - Для чтения параметров свойств нужно право «Просмотр каталога товаров». Для создания и обновления дополнительно нужно право на изменение инфоблока свойства
 
-- Комбинация `propertyId + moduleId + featureId` должна быть уникальной. Если запись уже существует, метод [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md) вернет ошибку `Duplicate entry ... for key ...`
+- Комбинация `propertyId + moduleId + featureId` должна быть уникальной. Если запись уже существует, метод [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md) вернет ошибку `Internal server error.`
+- Метод [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md) ищет параметр по `propertyId`, `moduleId` и `featureId`, а не по `id`, и требует все четыре поля
+- Методы не проверяют, что `moduleId` и `featureId` есть в списке доступных параметров свойства
+- Метода удаления параметра нет. Параметры удаляются вместе со свойством
 
 ## Как работать с параметрами свойств
 
-1. Получите `propertyId` свойства методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md).
-2. Получите доступные для свойства коды `moduleId` и `featureId` методом [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md).
-3. Получите текущие параметры методом [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) с фильтром по `propertyId`.
-4. Если параметр уже есть, измените его методом [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md). Если параметра нет, добавьте его методом [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md).
-5. Проверьте параметр по `id` методом [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md).
-6. При необходимости получите структуру полей через [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md).
+1. Получите `propertyId` свойства методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md)
+2. Получите доступные для свойства коды `moduleId` и `featureId` методом [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md)
+3. Получите текущие параметры методом [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) с фильтром по `propertyId`
+4. Если параметр уже есть, измените его методом [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md). Если параметра нет, добавьте его методом [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md)
+5. Проверьте параметр по `id` методом [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md)
+6. При необходимости получите структуру полей через [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md)
 
 ## Связь параметров с другими объектами
 
@@ -55,7 +58,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода
+> Кто может выполнять методы:
+> - пользователь с правом «Просмотр каталога товаров» — для получения параметров, доступных параметров и описания полей
+> - пользователь с правом «Просмотр каталога товаров» и правом на изменение инфоблока свойства — для добавления и изменения
 
 #|
 || **Метод** | **Описание** ||

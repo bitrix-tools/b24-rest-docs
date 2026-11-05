@@ -11,49 +11,46 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами:
-> — «Просмотр» и «Создание и редактирование» на тип документа «Приход»,
-> — «Просмотр раздела Складской учет»
-> — «Просмотр каталога товаров»  
+> Кто может выполнять метод: пользователь с правами «Просмотр» и «Создание и редактирование» на документы типа «Приход», правами «Просмотр раздела Складской учет» и «Просмотр каталога товаров»
 
 Метод `catalog.documentcontractor.add` создает привязку поставщика, контакта или компании к документу складского учета.
 
-## Параметры метода  
+## Параметры метода
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}  
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](#fields) | Поля привязки ([подробное описание](#fields)) ||
-|# 
+[`object`](../../data-types.md) | Поля привязки [(подробное описание)](#fields) ||
+|#
 
-## Параметр fields {#fields}  
+### Параметр fields {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}  
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
-`тип` | **Описание** || 
-|| **documentId*** 
-[`catalog_document.id`](../data-types.md#catalog_document) | Идентификатор документа складского учета типа «Приход» `A`.  
-Получить можно методом [catalog.document.list](../document/catalog-document-list.md) ||  
-|| **entityTypeId***  
-[`integer`](../../crm/data-types.md#object_type) | Тип объекта CRM:  
-`3` — контакт 
-`4` — компания ||  
-|| **entityId***  
-[`integer`](../../data-types.md) | Идентификатор элемента CRM, контакта или компании, из категории «Поставщик».
- 
-Чтобы получить идентификаторы поставщиков:  
-1. Получите идентификатор категории с кодом `CATALOG_CONTRACTOR_CONTACT` для контактов или `CATALOG_CONTRACTOR_COMPANY` для компаний методом [crm.category.list](../../crm/universal/category/crm-category-list.md).  
-2. Используйте полученный `categoryId` в фильтре запроса [crm.item.list](../../crm/universal/crm-item-list.md) ||  
-|#  
+`тип` | **Описание** ||
+|| **documentId***
+[`catalog_document.id`](../data-types.md#catalog_document) | Идентификатор документа складского учета типа «Приход» `A`.
+Получить можно методом [catalog.document.list](../document/catalog-document-list.md) ||
+|| **entityTypeId***
+[`integer`](../../crm/data-types.md#object_type) | Тип объекта CRM:
+- `3` — контакт
+- `4` — компания ||
+|| **entityId***
+[`integer`](../../data-types.md) | Идентификатор элемента CRM, контакта или компании, из категории «Поставщик». Существование контакта или компании метод не проверяет: несуществующий идентификатор сохранится без ошибки.
 
-## Примеры кода  
+Чтобы получить идентификаторы поставщиков:
+1. Получите идентификатор категории с кодом `CATALOG_CONTRACTOR_CONTACT` для контактов или `CATALOG_CONTRACTOR_COMPANY` для компаний методом [crm.category.list](../../crm/universal/category/crm-category-list.md).
+2. Используйте полученный `categoryId` в фильтре запроса [crm.item.list](../../crm/universal/crm-item-list.md) ||
+|#
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}  
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -63,7 +60,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"documentId":42,"entityTypeId":3,"entityId":101}}' \
+    -d '{"fields":{"documentId":73,"entityTypeId":3,"entityId":2185}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.documentcontractor.add
     ```
 
@@ -73,7 +70,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"documentId":42,"entityTypeId":3,"entityId":101},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"documentId":73,"entityTypeId":3,"entityId":2185},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.documentcontractor.add
     ```
 
@@ -102,9 +99,9 @@
         method: 'catalog.documentcontractor.add',
         params: {
           fields: {
-            documentId: 42,
+            documentId: 73,
             entityTypeId: 3,
-            entityId: 101,
+            entityId: 2185,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -138,9 +135,9 @@
             method: 'catalog.documentcontractor.add',
             params: {
               fields: {
-                documentId: 42,
+                documentId: 73,
                 entityTypeId: 3,
-                entityId: 101,
+                entityId: 2185,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -172,9 +169,9 @@
     try:
         bitrix_response = client.catalog.documentcontractor.add(
             fields={
-                "documentId": 42,
+                "documentId": 73,
                 "entityTypeId": 3,
-                "entityId": 101,
+                "entityId": 2185,
             },
         ).response
         result = bitrix_response.result
@@ -194,7 +191,7 @@
 
 - PHP
 
-    ```php  
+    ```php
     try {
         $response = $b24Service
             ->core
@@ -202,9 +199,9 @@
                 'catalog.documentcontractor.add',
                 [
                     'fields' => [
-                        'documentId' => 42,
+                        'documentId' => 73,
                         'entityTypeId' => 3,
-                        'entityId' => 101
+                        'entityId' => 2185
                     ]
                 ]
             );
@@ -229,9 +226,9 @@
         'catalog.documentcontractor.add',
         {
             fields: {
-                documentId: 42,
+                documentId: 73,
                 entityTypeId: 3,
-                entityId: 101
+                entityId: 2185
             }
         },
         function(result)
@@ -242,7 +239,7 @@
                 console.log(result.data());
         }
     );
-    ```	
+    ```
 
 - PHP CRest
 
@@ -253,9 +250,9 @@
         'catalog.documentcontractor.add',
         [
             'fields' => [
-                'documentId' => 42,
+                'documentId' => 73,
                 'entityTypeId' => 3,
-                'entityId' => 101
+                'entityId' => 2185
             ]
         ]
     );
@@ -271,9 +268,9 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.documentcontractor.add", b24.Params{
     	"fields": b24.Params{
-    		"documentId":   42,
+    		"documentId":   73,
     		"entityTypeId": 3,
-    		"entityId":     101,
+    		"entityId":     2185,
     	},
     })
     if err != nil {
@@ -302,7 +299,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -334,17 +331,15 @@ HTTP-код: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **documentContractor**
-[`catalog_documentContractor`](../data-types.md#catalog_documentcontractor) | Объект с данными созданной привязки поставщика к документу складского учета ||  
+|| **result.documentContractor**
+[`catalog_documentContractor`](../data-types.md#catalog_documentcontractor) | Объект с данными созданной привязки поставщика к документу складского учета ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-## Обработка ошибок 
+## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}  
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
@@ -353,27 +348,31 @@ HTTP-код: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Store document was not found | Указан несуществующий или недоступный идентификатор документа ||  
-|| `0` | Type of store document is wrong | Документ не является типом «Приход» `A` ||  
-|| `0` | Unable to edit conducted document | Документ уже проведен и не может быть изменен ||  
-|| `0` | Wrong entity type id | Передан недопустимый `entityTypeId`, должен быть 3 или 4 ||  
-|| `0` | Wrong entity id | Указан недопустимый или несуществующий `entityId` ||  
-|| `0` | This contractor has been already bound to this document | Такая привязка уже существует ||  
-|| `0` | This document already has a Company contractor | К документу уже привязана компания. Повторная привязка компаний запрещена ||  
-|| `0` | Access denied | Недостаточно прав для изменения документа ||  
-|| `0` | Contractors should be provided by CRM | Модуль CRM не активен как поставщик контрагентов ||  
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: documentId, entityTypeId, entityId | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля ||
+|| `400` | `0` | Store document was not found | Документа с указанным `documentId` нет или он недоступен пользователю ||
+|| `400` | `0` | Type of store document is wrong | Документ не является документом прихода `A` ||
+|| `400` | `0` | Unable to edit conducted document | Документ уже проведен ||
+|| `400` | `0` | Wrong entity type id | В `entityTypeId` передано значение, отличное от `3` и `4` ||
+|| `400` | `0` | Wrong entity id | В `entityId` передан `0` ||
+|| `400` | `0` | This contractor has been already bound to this document | Такая привязка уже существует ||
+|| `400` | `0` | This document already has a Company contractor | К документу уже привязана компания ||
+|| `400` | `0` | Access denied | Недостаточно прав для изменения документа ||
+|| `400` | `0` | Contractors should be provided by CRM | Поставщики в Битрикс24 ведутся не в CRM ||
 |#
 
-{% include [Системные ошибки](../../../_includes/system-errors.md) %}  
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-documentcontractor-list.md)  
-- [{#T}](./catalog-documentcontractor-delete.md)  
+- [{#T}](./catalog-documentcontractor-list.md)
+- [{#T}](./catalog-documentcontractor-delete.md)
 - [{#T}](./catalog-documentcontractor-get-fields.md)
 - [{#T}](../../../tutorials/crm/how-to-add-crm-objects/how-to-add-contractor.md)
 - [{#T}](../../../tutorials/crm/how-to-get-lists/how-to-get-contractors.md)

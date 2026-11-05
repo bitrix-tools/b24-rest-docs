@@ -280,7 +280,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **features**
+|| **result.features**
 [`array`](../../data-types.md) | Массив объектов в формате `{"featureId": "value", "featureName": "value", "moduleId": "value"}`, где:
 - `featureId` — код параметра свойства
 - `featureName` — название параметра свойства
@@ -295,7 +295,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertyFeature does not exist."
 }
 ```
@@ -305,11 +305,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
-|| `0` | productPropertyFeature does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
-|| `100` | Invalid value {abc} to match with parameter {propertyId}. Should be value of type int. | В `propertyId` передано значение неверного типа ||
-|| `100` | Could not find value for parameter {propertyId} | Не передан обязательный параметр `propertyId` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
+|| `400` | Пустое значение | productPropertyFeature does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {propertyId}. Should be value of type int. | В `propertyId` передано значение неверного типа ||
+|| `400` | `100` | Could not find value for parameter {propertyId} | Не передан обязательный параметр `propertyId` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
