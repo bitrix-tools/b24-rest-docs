@@ -58,12 +58,15 @@
 #|
 || **Тип объекта** | **categoryId** ||
 || Сделка, контакт, компания | Обязателен. Воронку по умолчанию задает `0`, другие воронки — их идентификаторы из метода [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md) ||
-|| Смарт-процесс | Обязателен. Идентификатор воронки из метода [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md). Если в типе выключены воронки, методов воронок у смарт-процесса нет: идентификатор единственной воронки возвращает метод [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId` смарт-процесса ||
+|| Смарт-процесс | Обязателен. Идентификатор воронки возвращает:
+
+- метод [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md), если в типе включены воронки
+- метод [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId` смарт-процесса, если воронки выключены. Методов воронок у такого типа нет, воронка в нем одна ||
 || Счет | Обязателен. Идентификатор воронки счетов возвращает метод [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId` = `31`: в REST 3.0 метода воронок счета нет ||
 || Лид, предложение | Не передается ||
 |#
 
-Если передать `categoryId` не по таблице, метод вернет ошибку с текстом `Invalid category ID.`
+Если передать `categoryId` не по таблице, метод ответит ошибкой.
 
 ## Примеры кода
 

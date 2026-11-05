@@ -48,6 +48,8 @@
 Идентификаторы стадий возвращает метод [crm.<тип>.category.stage.list](./crm-entity-category-stage-list-rest-v3.md) ||
 |#
 
+Метод возвращает все поля стадии. Параметр `select` он не учитывает и ошибкой на него не отвечает.
+
 ### Идентификатор стадии {#stage-id}
 
 Формат идентификатора стадии зависит от воронки:
@@ -415,7 +417,7 @@ HTTP-статус: **400**
 || `STAGE_NOT_FOUND` | Стадия не найдена | Проверьте `id` методом [crm.<тип>.category.stage.list](./crm-entity-category-stage-list-rest-v3.md). Стадии нет у этого типа объекта, она удалена или у пользователя нет права читать элементы ее воронки ||
 |#
 
-Если стадии нет, метод отвечает не кодом `BITRIX_REST_V3_EXCEPTION_ENTITYNOTFOUNDEXCEPTION`, а ошибкой валидации запроса с кодом `STAGE_NOT_FOUND` в `field`.
+Если стадии нет, метод отвечает ошибкой валидации запроса, а не кодом `BITRIX_REST_V3_EXCEPTION_ENTITYNOTFOUNDEXCEPTION`. Определяйте такую ошибку по `STAGE_NOT_FOUND` в `field`.
 
 #### Метод не найден {#method-not-found}
 
@@ -431,6 +433,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./crm-entity-category-stage-list-rest-v3.md)
-- [{#T}](./crm-entity-category-stage-update-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-add-rest-v3.md)
+- [{#T}](./crm-entity-category-stage-update-rest-v3.md)
+- [{#T}](./crm-entity-category-stage-list-rest-v3.md)

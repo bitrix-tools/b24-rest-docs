@@ -58,14 +58,14 @@
 #|
 || **Тип объекта** | **categoryId** ||
 || Сделка, контакт, компания | Обязателен. Воронку по умолчанию задает `0`, другие воронки — их идентификаторы из метода [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md) ||
-|| Смарт-процесс | Обязателен. Идентификатор воронки из метода [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md). Если в типе выключены воронки, методов воронок у смарт-процесса нет: идентификатор единственной воронки возвращает метод [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId` смарт-процесса ||
+|| Смарт-процесс | Обязателен. Идентификатор воронки вернет метод [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md). Если в типе выключены воронки, у смарт-процесса одна воронка и нет методов воронок. Идентификатор этой воронки вернет метод [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId` смарт-процесса ||
 || Счет | Обязателен. Идентификатор воронки счетов возвращает метод [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId` = `31`: в REST 3.0 метода воронок счета нет ||
 || Лид, предложение | Не передается ||
 |#
 
 Если передать `categoryId` не по таблице, метод вернет ошибку с текстом `Invalid category ID.`
 
-Признак `isMandatory` пользовательского поля метод не меняет: снять его можно методом [crm.<тип>.field.custom.update](./crm-entity-field-custom-update-rest-v3.md).
+Если у пользовательского поля `isMandatory` равен `true`, после вызова поле останется обязательным во всех воронках: этот признак метод не меняет. Снять его можно методом [crm.<тип>.field.custom.update](./crm-entity-field-custom-update-rest-v3.md).
 
 ## Примеры кода
 

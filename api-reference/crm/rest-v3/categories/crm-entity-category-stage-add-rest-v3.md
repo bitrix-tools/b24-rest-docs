@@ -76,10 +76,10 @@
 
 По умолчанию: `process` ||
 || **sort**
-[`integer`](../../../data-types.md) | Место стадии в воронке: стадии идут по возрастанию `sort`. Стадию в работе без `sort` метод ставит последней среди стадий в работе, перед стадией успеха. Стадии провала `sort` нужно передать ||
+[`integer`](../../../data-types.md) | Место стадии в воронке: стадии идут по возрастанию `sort`. Если `sort` не передан, стадия в работе встанет последней среди стадий в работе, перед стадией успеха. Для стадии провала `sort` нужно передать ||
 |#
 
-Поля `stageId` и `isSystem` только для чтения: их задает Битрикс24. Список полей стадии с признаком, можно ли поле изменять, возвращает метод [crm.<тип>.category.stage.field.list](./index.md).
+Поля `stageId` и `isSystem` только для чтения: их задает Битрикс24. Какие поля стадии можно изменять, показывает метод [crm.<тип>.category.stage.field.list](./index.md#field-methods).
 
 ### Порядок стадий {#order}
 
@@ -510,5 +510,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-entity-category-stage-update-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-get-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-list-rest-v3.md)
-- [{#T}](./crm-entity-category-stage-replace-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-delete-rest-v3.md)
+- [{#T}](./crm-entity-category-stage-replace-rest-v3.md)

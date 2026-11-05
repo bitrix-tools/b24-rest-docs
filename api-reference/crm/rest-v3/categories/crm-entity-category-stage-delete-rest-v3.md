@@ -21,7 +21,7 @@
 
 Метод `crm.<тип>.category.stage.delete` удаляет стадию из воронки. Тип объекта задает сегмент `<тип>` в имени метода.
 
-Удалить можно только стадию без элементов. Сначала переведите элементы на другую стадию методом [crm.<тип>.update](../items/crm-entity-update-rest-v3.md) в поле `stageId` или удалите методом [crm.<тип>.delete](../items/crm-entity-delete-rest-v3.md). Системные стадии с `isSystem: true` — первую, стадию успеха и основную стадию провала — удалить нельзя.
+Удалить можно только стадию без элементов. Если на стадии есть элементы, переведите их на другую стадию: укажите ее в поле `stageId` методом [crm.<тип>.update](../items/crm-entity-update-rest-v3.md). Или удалите элементы методом [crm.<тип>.delete](../items/crm-entity-delete-rest-v3.md).
 
 ## Имя метода для типа объекта
 
@@ -47,7 +47,9 @@
 || **id***
 [`string`](../../../data-types.md) | Идентификатор стадии, например `DT1038_127:UC_WUHOJE`. [Формат идентификатора](#stage-id).
 
-Идентификаторы стадий возвращает метод [crm.<тип>.category.stage.list](./crm-entity-category-stage-list-rest-v3.md) ||
+Идентификаторы стадий возвращает метод [crm.<тип>.category.stage.list](./crm-entity-category-stage-list-rest-v3.md).
+
+Нельзя удалить системные стадии с `isSystem: true`: первую, стадию успеха и основную стадию провала ||
 |#
 
 ### Идентификатор стадии {#stage-id}
@@ -359,7 +361,7 @@ HTTP-статус: **400**
 || `OPERATION_NOT_ALLOWED_FOR_STAGE` | Действие недоступно для этой стадии | Это системная стадия. Удалить можно только стадию с `isSystem: false` ||
 |#
 
-В `field` у ошибок с кодами `STAGE_NOT_FOUND`, `DEPENDENT_ITEMS_EXIST` и `OPERATION_NOT_ALLOWED_FOR_STAGE` приходит код ошибки, а не имя поля. Если стадии нет, метод отвечает не кодом `BITRIX_REST_V3_EXCEPTION_ENTITYNOTFOUNDEXCEPTION`, а ошибкой валидации запроса с кодом `STAGE_NOT_FOUND` в `field`.
+В `field` у ошибок с кодами `STAGE_NOT_FOUND`, `DEPENDENT_ITEMS_EXIST` и `OPERATION_NOT_ALLOWED_FOR_STAGE` приходит код ошибки, а не имя поля. Если стадии нет, метод отвечает ошибкой валидации запроса, а не кодом `BITRIX_REST_V3_EXCEPTION_ENTITYNOTFOUNDEXCEPTION`. Определяйте такую ошибку по `STAGE_NOT_FOUND` в `field`.
 
 #### Ошибка доступа
 
@@ -384,6 +386,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./crm-entity-category-stage-add-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-list-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-replace-rest-v3.md)
-- [{#T}](./crm-entity-category-stage-add-rest-v3.md)

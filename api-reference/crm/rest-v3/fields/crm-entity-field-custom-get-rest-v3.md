@@ -50,7 +50,7 @@
 
 Идентификаторы и имена полей возвращает метод [crm.<тип>.field.custom.list](./crm-entity-field-custom-list-rest-v3.md) ||
 || **select**
-[`array`](../../../data-types.md) | Список параметров поля, которые нужно вернуть, например `["id", "name", "settings"]`. Имена параметров — в описании [параметра fields](./crm-entity-field-custom-add-rest-v3.md#fields) метода создания, а также `id` и `entityId`.
+[`array`](../../../data-types.md) | Список параметров поля, которые нужно вернуть, например `["id", "name", "settings"]`. Можно передать `id`, `entityId` и параметры из описания [параметра fields](./crm-entity-field-custom-add-rest-v3.md#fields) метода создания.
 
 По умолчанию метод возвращает все параметры поля ||
 |#
@@ -346,7 +346,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Объект с данными ответа ||
 || **result.item**
-[`object`](../../../data-types.md) | Описание поля: [параметры поля](./crm-entity-field-custom-add-rest-v3.md#fields), а также `id` — идентификатор поля и `entityId` — код типа объекта, например `CRM_DEAL` у сделки или `CRM_19` у смарт-процесса из примеров: число в коде — поле `id` из [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md), а не `entityTypeId` ||
+[`object`](../../../data-types.md) | Описание поля: [параметры поля](./crm-entity-field-custom-add-rest-v3.md#fields), идентификатор поля `id` и код типа объекта `entityId`. Код типа — например, `CRM_DEAL` у сделки или `CRM_19` у смарт-процесса из примеров. Число в коде смарт-процесса — поле `id` из [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md), а не `entityTypeId` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -376,7 +376,7 @@ HTTP-статус: **404**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Поле `#ID#` не найдено | Проверьте идентификатор или имя поля методом [crm.<тип>.field.custom.list](./crm-entity-field-custom-list-rest-v3.md). Ошибку вызывает и поле другого типа объекта, и поле, которое пользователю недоступно ||
+|| `-` | Поле `#ID#` не найдено | Проверьте идентификатор или имя поля методом [crm.<тип>.field.custom.list](./crm-entity-field-custom-list-rest-v3.md). Та же ошибка придет, если поле относится к другому типу объекта или недоступно пользователю ||
 |#
 
 #### Ошибки валидации запроса

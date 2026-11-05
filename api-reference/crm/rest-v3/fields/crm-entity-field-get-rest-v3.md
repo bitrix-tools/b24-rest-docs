@@ -358,7 +358,7 @@ HTTP-статус: **200**
 || **validationRules**
 [`array`](../../../data-types.md) | Правила проверки значения, например `{"name": "Length", "parameters": {"max": 255}}` — длина не больше 255 символов ||
 || **requiredGroups**
-[`array`](../../../data-types.md) | Методы, в которых поле обязательно на уровне метода, например `["add"]`. Если таких методов нет — `null`. Обязательность из настроек [crm.<тип>.field.required.*](./crm-entity-field-required-get-rest-v3.md) сюда не попадает. Правило контакта «`name` или `lastName`» тоже не видно: оно приходит только ошибкой [crm.<тип>.add](../items/crm-entity-add-rest-v3.md#required-fields) ||
+[`array`](../../../data-types.md) | Методы, которые требуют это поле, например `["add"]`. Если таких методов нет — `null`. Обязательность, заданная методами [crm.<тип>.field.required.*](./crm-entity-field-required-get-rest-v3.md), здесь не видна. Правило контакта «`name` или `lastName`» здесь тоже не видно: о нем сообщит только ошибка [crm.<тип>.add](../items/crm-entity-add-rest-v3.md#required-fields) ||
 || **filterable**
 [`boolean`](../../../data-types.md) | Можно ли фильтровать по полю в методе [crm.<тип>.list](../items/crm-entity-list-rest-v3.md) ||
 || **sortable**

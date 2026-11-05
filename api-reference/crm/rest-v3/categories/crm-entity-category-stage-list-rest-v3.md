@@ -66,7 +66,7 @@
 
 {% note warning "" %}
 
-Параметров `order` и `select` у метода нет. Если их передать, метод не ответит ошибкой: он вернет стадии со всеми полями по возрастанию `sort`.
+Метод возвращает стадии со всеми полями по возрастанию `sort`. Выбрать поля через `select` и изменить порядок через `order` нельзя. Если передать эти параметры, метод пропустит их без ошибки.
 
 {% endnote %}
 
@@ -505,6 +505,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./crm-entity-category-list-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-get-rest-v3.md)
 - [{#T}](./crm-entity-category-stage-replace-rest-v3.md)
-- [{#T}](./crm-entity-category-list-rest-v3.md)
