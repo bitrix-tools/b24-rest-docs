@@ -29,11 +29,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter***
-[`array`](../../data-types.md) | Фильтр в формате REST 3.0: массив условий вида `["поле", "оператор", "значение"]`, например `[["docType", "=", "A"], ["id", "=", 325]]`. Синтаксис фильтра описан в [обзоре REST 3.0](../../rest-v3.md#filter).
+[`array`](../../data-types.md) | Фильтр в формате REST 3.0: массив условий вида `["поле", "оператор", "значение"]`, например `[["docType", "=", "A"], ["id", "=", 351]]`. Синтаксис фильтра описан в [обзоре REST 3.0](../../rest-v3.md#filter).
 
 Обязательно условие `["docType", "=", "<тип>"]` с оператором `=`. Возможные значения типа возвращает метод [catalog.document.type.list](../document/catalog-document-type-list.md). Для несуществующего типа метод возвращает пустой список.
 
-Кроме `docType`, фильтровать можно по `id`. Фильтр по `userFields`, группы условий с логикой `or` и отрицание не поддерживаются ||
+Кроме `docType`, фильтровать можно по `id` с операторами `=`, `!=`, `>`, `>=`, `<`, `<=`, `in` и `between`. Пустой массив в `in` возвращает пустой список. Фильтр по `userFields`, группы условий с логикой `or` и отрицание не поддерживаются ||
 || **select**
 [`array`](../../data-types.md) | Массив полей, которые нужно вернуть в ответе.
 
@@ -94,7 +94,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":[["docType","=","A"],["id","=",325]],"select":["id","docType","userFields"]}' \
+    -d '{"filter":[["docType","=","A"],["id","=",351]],"select":["id","docType","userFields"]}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.userfield.list
     ```
 
@@ -104,7 +104,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":[["docType","=","A"],["id","=",325]],"select":["id","docType","userFields"],"auth":"**put_access_token_here**"}' \
+    -d '{"filter":[["docType","=","A"],["id","=",351]],"select":["id","docType","userFields"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.document.userfield.list
     ```
 
@@ -130,7 +130,7 @@
         params: {
           filter: [
             ['docType', '=', 'A'],
-            ['id', '=', 325],
+            ['id', '=', 351],
           ],
           select: ['id', 'docType', 'userFields'],
         },
@@ -163,7 +163,7 @@
             params: {
               filter: [
                 ['docType', '=', 'A'],
-                ['id', '=', 325],
+                ['id', '=', 351],
               ],
               select: ['id', 'docType', 'userFields'],
             },
@@ -228,7 +228,7 @@
                 [
                     'filter' => [
                         ['docType', '=', 'A'],
-                        ['id', '=', 325],
+                        ['id', '=', 351],
                     ],
                     'select' => ['id', 'docType', 'userFields'],
                 ]
@@ -254,7 +254,7 @@
         {
             filter: [
                 ['docType', '=', 'A'],
-                ['id', '=', 325],
+                ['id', '=', 351],
             ],
             select: ['id', 'docType', 'userFields'],
         },
@@ -279,7 +279,7 @@
         [
             'filter' => [
                 ['docType', '=', 'A'],
-                ['id', '=', 325],
+                ['id', '=', 351],
             ],
             'select' => ['id', 'docType', 'userFields'],
         ]
@@ -297,7 +297,7 @@
     res, err := client.Core().Call(ctx, "catalog.document.userfield.list", b24.Params{
     	"filter": []any{
     		[]any{"docType", "=", "A"},
-    		[]any{"id", "=", 325},
+    		[]any{"id", "=", 351},
     	},
     	"select": []string{"id", "docType", "userFields"},
     }, b24.WithIdempotent())
@@ -331,22 +331,22 @@ HTTP-статус: **200**
     "result": {
         "items": [
             {
-                "id": 325,
+                "id": 351,
                 "docType": "A",
                 "userFields": {
-                    "UF_CAT_STORE_DOCUMENT_A_REST_TEST": "1"
+                    "UF_CAT_STORE_DOCUMENT_A_REST_TEST": "Поставка по договору № 15"
                 }
             }
         ]
     },
     "time": {
-        "start": 1792665383,
-        "finish": 1792665383.478756,
-        "duration": 0.4787559509277344,
+        "start": 1793875716,
+        "finish": 1793875716.49037,
+        "duration": 0.4903700351715088,
         "processing": 0,
-        "date_start": "2026-10-22T13:36:23+03:00",
-        "date_finish": "2026-10-22T13:36:23+03:00",
-        "operating_reset_at": 1792665960,
+        "date_start": "2026-11-05T13:48:36+03:00",
+        "date_finish": "2026-11-05T13:48:36+03:00",
+        "operating_reset_at": 1793876280,
         "operating": 0
     }
 }
@@ -411,6 +411,7 @@ HTTP-статус: **400**
 || `filter` | The docType field is not specified in the filter parameter | Добавьте в `filter` условие `["docType", "=", "<тип>"]`. Оператор `in` для `docType` не поддерживается ||
 || `filter` | Filter OR groups are not supported | Уберите группы с логикой `or` из `filter` ||
 || `userFields` | В DTO `UserfieldDocumentDto` в поле `userFields` требуется наличие атрибута `Filterable` для такого запроса | Уберите `userFields` из `filter` ||
+|| `userFields` | В DTO `UserfieldDocumentDto` в поле `userFields` требуется наличие атрибута `Sortable` для такого запроса | Уберите `userFields` из `order`. Сортировать можно по `id` и `docType` ||
 |#
 
 #### Ошибка неизвестного поля
@@ -419,7 +420,16 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select`, `filter`, `order` | Неизвестное поле `#FIELD#` для сущности `UserfieldDocumentDto` | Укажите только поля из описания параметра `select` ||
+|| `select`, `filter`, `order` | Неизвестное поле `nope` для сущности `UserfieldDocumentDto` | Укажите только поля из описания параметра `select`. Значение `["*"]` в `select` вызывает эту же ошибку ||
+|#
+
+#### Ошибка сортировки
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDORDEREXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `order` | Не удается распознать выражение сортировки `bad` | Передайте направление `asc` или `desc` ||
 |#
 
 #### Ошибка пагинации

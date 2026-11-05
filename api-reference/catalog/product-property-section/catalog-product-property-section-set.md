@@ -29,7 +29,9 @@
 
 Идентификаторы свойств можно получить методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Поля секционных настроек свойства [(подробное описание)](#fields) ||
+[`object`](../../data-types.md) | Поля секционных настроек свойства [(подробное описание)](#fields).
+
+Передавайте только изменяемые поля: непереданные поля сохраняют текущие значения. Неизвестные поля метод пропускает без ошибки. Пустой объект создает настройки со значениями `null`, если их еще не было ||
 |#
 
 ### Параметр fields {#fields}
@@ -40,16 +42,28 @@
 || **smartFilter**
 [`char`](../../data-types.md) | Показывать ли свойство в умном фильтре. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+Значение `N` и любое другое значение, кроме `Y`, метод сохраняет как `null` ||
 || **displayType**
-[`char`](../../data-types.md) | Вид свойства в умном фильтре. Возможные значения:
+[`char`](../../data-types.md) | Вид свойства в умном фильтре. Набор значений зависит от типа свойства:
 - `F` — флажки
 - `K` — радиокнопки
-- `P` — выпадающий список ||
+- `P` — выпадающий список
+- `G` — флажки с картинками, для свойства-справочника
+- `H` — флажки с названиями и картинками, для свойства-справочника
+- `R` — выпадающий список с названиями и картинками, для свойства-справочника
+- `U` — календарь, для свойства типа «Дата/Время»
+- `A` — число от-до с ползунком, для свойства типа `N`
+- `B` — число от-до, для свойства типа `N`
+
+Метод не проверяет значение: другая буква сохранится без ошибки ||
 || **displayExpanded**
 [`char`](../../data-types.md) | Показывать ли свойство развернутым в фильтре. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+Значение `N` и любое другое значение, кроме `Y`, метод сохраняет как `null` ||
 || **filterHint**
 [`string`](../../data-types.md) | Подсказка в умном фильтре для посетителей ||
 |#
@@ -93,13 +107,13 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type ProductPropertySectionSetResult = {
       productPropertySection: {
-        displayExpanded: string
-        displayType: string
-        filterHint: string
+        displayExpanded: 'Y' | null
+        displayType: string | null
+        filterHint: string | null
         iblockId: string
         propertyId: string
         sectionId: string
-        smartFilter: string
+        smartFilter: 'Y' | null
       }
     }
 
@@ -321,13 +335,13 @@ HTTP-статус: **200**
 {
     "result": {
         "productPropertySection": {
-        "displayExpanded": "N",
-        "displayType": "F",
-        "filterHint": "Подсказка для фильтра",
-        "iblockId": "25",
-        "propertyId": "901",
-        "sectionId": "0",
-        "smartFilter": "Y"
+            "displayExpanded": null,
+            "displayType": "F",
+            "filterHint": "Подсказка для фильтра",
+            "iblockId": "25",
+            "propertyId": "901",
+            "sectionId": "0",
+            "smartFilter": "Y"
         }
     },
     "time": {
@@ -350,8 +364,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertySection**
-[`catalog_product_property_section`](../data-types.md#catalog_product_property_section) | Объект секционных настроек свойства ||
+|| **result.productPropertySection**
+[`catalog_product_property_section`](../data-types.md#catalog_product_property_section) | Объект секционных настроек свойства.
+
+В отличие от [catalog.productPropertySection.get](./catalog-product-property-section-get.md), ответ содержит еще `iblockId` — идентификатор торгового каталога и `sectionId` — идентификатор раздела, для общих настроек `0`. Идентификаторы в ответе приходят строками ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -362,7 +378,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertySection does not exist."
 }
 ```
@@ -372,11 +388,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра каталога или нет права на изменение инфоблока свойства ||
-|| `0` | productPropertySection does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
-|| `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
-|| `0` | Error setting section properties | Внутренняя ошибка при сохранении секционных настроек свойства ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога или нет права на изменение инфоблока свойства ||
+|| `400` | Пустое значение | productPropertySection does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Error setting section properties | Внутренняя ошибка при сохранении секционных настроек свойства ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

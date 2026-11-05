@@ -67,11 +67,11 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type ProductPropertySectionResult = {
       productPropertySection: {
-        displayExpanded: string
-        displayType: string
-        filterHint: string
+        displayExpanded: 'Y' | null
+        displayType: string | null
+        filterHint: string | null
         propertyId: number
-        smartFilter: string
+        smartFilter: 'Y' | null
       }
     }
 
@@ -277,8 +277,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertySection**
-[`catalog_product_property_section`](../data-types.md#catalog_product_property_section) | Объект секционных настроек свойства ||
+|| **result.productPropertySection**
+[`catalog_product_property_section`](../data-types.md#catalog_product_property_section) | Объект секционных настроек свойства. Если настройки для свойства еще не задавали, поля настроек приходят со значением `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -289,7 +289,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertySection does not exist."
 }
 ```
@@ -299,11 +299,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
-|| `0` | productPropertySection does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
-|| `100` | Invalid value {abc} to match with parameter {propertyId}. Should be value of type int. | В `propertyId` передано значение неверного типа ||
-|| `100` | Could not find value for parameter {propertyId} | Не передан обязательный параметр `propertyId` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
+|| `400` | Пустое значение | productPropertySection does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {propertyId}. Should be value of type int. | В `propertyId` передано значение неверного типа ||
+|| `400` | `100` | Could not find value for parameter {propertyId} | Не передан обязательный параметр `propertyId` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

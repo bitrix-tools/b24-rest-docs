@@ -277,7 +277,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyFeature**
+|| **result.productPropertyFeature**
 [`catalog_product_property_features`](../data-types.md#catalog_product_property_features) | Объект параметра свойства ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -289,7 +289,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertyFeature does not exist."
 }
 ```
@@ -299,10 +299,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
-|| `0` | productPropertyFeature does not exist. | Параметр свойства с переданным `id` не найден или передано значение неподходящего формата ||
-|| `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра торгового каталога ||
+|| `400` | Пустое значение | productPropertyFeature does not exist. | Параметр свойства с переданным `id` не найден или передано значение неподходящего формата ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

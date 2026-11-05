@@ -11,48 +11,62 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.storeproduct.list` возвращает список остатков товаров по складам по фильтру.
+Метод `catalog.storeproduct.list` возвращает остатки товаров по складам с фильтрацией, сортировкой и постраничной навигацией.
+
+Одна запись — остаток одного товара на одном складе. В ответ попадают только записи складов, доступных пользователю по праву «Просмотр и выбор склада».
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **select** 
-[`array`](../../data-types.md)| Массив со списком полей [catalog_storeproduct](../data-types.md#catalog_storeproduct), которые необходимо выбрать.
+|| **select**
+[`array`](../../data-types.md) | Массив полей записи остатка, которые нужно вернуть. Доступные поля: `id`, `productId`, `storeId`, `amount`, `quantityReserved`. Описание полей — в объекте [catalog_storeproduct](../data-types.md#catalog_storeproduct).
 
-Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля остатков
+Если массив не передан или пустой, метод вернет все поля. Неизвестные поля метод пропускает без ошибки. Имена полей пишите в camelCase: если в `select` нет ни одного известного поля, например `["ID", "AMOUNT"]`, метод вернет все поля
 ||
-|| **filter** 
-[`object`](../../data-types.md)| Объект для фильтрации выбранных остатков товаров по складам в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
+|| **filter**
+[`object`](../../data-types.md) | Объект для фильтрации записей остатков в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_storeproduct](../data-types.md#catalog_storeproduct).
+Возможные значения для `field` — поля из списка в `select`. Например, `{"productId": 6595}` вернет остатки товара на всех складах, `{"storeId": 1}` — остатки всех товаров на складе.
 
-Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
 - `@` — IN, в качестве значения передается массив
 - `!@` — NOT IN, в качестве значения передается массив
-- `=` — равно, точное совпадение, фильтр по умолчанию
+- `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` — не равно
 - `!` — не равно
+
+Массив без префикса работает как IN: `{"productId": [6973, 6595]}` вернет остатки обоих товаров. Чтобы найти записи без остатка, передайте `{"amount": null}`.
+
+Условия `<` и `<=` по `amount` и `quantityReserved` находят и записи, где значение равно `null`. Чтобы получить только записи с заполненным остатком, добавьте условие `">amount": 0` или `">=amount": 0`.
+
+Префиксы поиска по подстроке `%`, `=%`, `!%` к этим полям неприменимы: все поля числовые, и с такими префиксами метод не находит записи.
+
+Неизвестные поля и имена в верхнем регистре, например `PRODUCT_ID`, метод пропускает без ошибки и возвращает записи без учета такого условия. Проверяйте имена полей по списку выше
 ||
 || **order**
-[`object`](../../data-types.md)| Объект для сортировки выбранных остатков в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки записей остатков в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_storeproduct](../data-types.md#catalog_storeproduct).
+Возможные значения для `field` — поля из списка в `select`.
 
 Возможные значения для `order`:
 
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
+
+Регистр направления не важен: `DESC` и `desc` работают одинаково. Неизвестные поля в `order` метод пропускает без ошибки
 ||
-|| **start** 
-[`integer`](../../data-types.md)| Параметр используется для управления постраничной навигацией.
+|| **start**
+[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
 
@@ -60,13 +74,17 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Если `start` больше количества найденных записей, метод вернет пустой массив `storeProducts`
 ||
 |#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Пример получает склады, на которых есть товар с идентификатором `6595`, — от большего остатка к меньшему.
 
 {% list tabs %}
 
@@ -76,7 +94,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","productId","storeId","amount"],"filter":{"productId":6973},"order":{"id":"ASC"}}' \
+    -d '{"select":["id","productId","storeId","amount","quantityReserved"],"filter":{"productId":6595,">amount":0},"order":{"amount":"desc"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.storeproduct.list
     ```
 
@@ -86,7 +104,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","productId","storeId","amount"],"filter":{"productId":6973},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","productId","storeId","amount","quantityReserved"],"filter":{"productId":6595,">amount":0},"order":{"amount":"desc"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.storeproduct.list
     ```
 
@@ -106,7 +124,8 @@
         id: number
         productId: number
         storeId: number
-        amount: number
+        amount: number | null
+        quantityReserved: number | null
       }[]
     }
 
@@ -119,17 +138,13 @@
       const response = await $b24.actions.v2.call.make<StoreProductListResult>({
         method: 'catalog.storeproduct.list',
         params: {
-          select: [
-            'id',
-            'productId',
-            'storeId',
-            'amount',
-          ],
+          select: ['id', 'productId', 'storeId', 'amount', 'quantityReserved'],
           filter: {
-            productId: 6973,
+            productId: 6595,
+            '>amount': 0,
           },
           order: {
-            id: 'ASC',
+            amount: 'desc',
           },
           start: 0,
         },
@@ -141,7 +156,9 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Store products count:', result.storeProducts.length, result.storeProducts)
+        for (const row of result.storeProducts) {
+          console.info('Store', row.storeId, 'amount', row.amount)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -160,25 +177,16 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // catalog.storeproduct.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.storeproduct.list',
             params: {
-              select: [
-                'id',
-                'productId',
-                'storeId',
-                'amount',
-              ],
+              select: ['id', 'productId', 'storeId', 'amount', 'quantityReserved'],
               filter: {
-                productId: 6973,
+                productId: 6595,
+                '>amount': 0,
               },
               order: {
-                id: 'ASC',
+                amount: 'desc',
               },
               start: 0,
             },
@@ -192,7 +200,9 @@
           }
 
           const result = response.getData().result
-          console.info('Store products count:', result.storeProducts.length, result.storeProducts)
+          for (const row of result.storeProducts) {
+            console.info('Store', row.storeId, 'amount', row.amount)
+          }
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -210,17 +220,13 @@
 
     try:
         bitrix_response = client.catalog.storeproduct.list(
-            select=[
-                "id",
-                "productId",
-                "storeId",
-                "amount",
-            ],
+            select=["id", "productId", "storeId", "amount", "quantityReserved"],
             filter={
-                "productId": 6973,
+                "productId": 6595,
+                ">amount": 0,
             },
             order={
-                "id": "ASC",
+                "amount": "desc",
             },
             start=0,
         ).response
@@ -248,18 +254,15 @@
             ->call(
                 'catalog.storeproduct.list',
                 [
-                    'select' => [
-                        'id',
-                        'productId',
-                        'storeId',
-                        'amount'
-                    ],
+                    'select' => ['id', 'productId', 'storeId', 'amount', 'quantityReserved'],
                     'filter' => [
-                        'productId' => 6973
+                        'productId' => 6595,
+                        '>amount'   => 0,
                     ],
-                    'order' => [
-                        'id' => 'ASC'
-                    ]
+                    'order'  => [
+                        'amount' => 'desc',
+                    ],
+                    'start'  => 0,
                 ]
             );
 
@@ -267,11 +270,9 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'Success: ' . print_r($result, true);
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching store products: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -281,26 +282,22 @@
     BX24.callMethod(
         'catalog.storeproduct.list',
         {
-            select:[
-                'id',
-                'productId',
-                'storeId',
-                'amount'
-            ],
-            filter:{
-                'productId': 6973
+            select: ['id', 'productId', 'storeId', 'amount', 'quantityReserved'],
+            filter: {
+                productId: 6595,
+                '>amount': 0,
             },
-            order:{
-                'id': 'ASC'
-            }
+            order: {
+                amount: 'desc',
+            },
+            start: 0,
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
                 console.error(result.error());
             else
                 console.log(result.data());
-            result.next();
         }
     );
     ```
@@ -313,18 +310,15 @@
     $result = CRest::call(
         'catalog.storeproduct.list',
         [
-            'select' => [
-                'id',
-                'productId',
-                'storeId',
-                'amount'
-            ],
+            'select' => ['id', 'productId', 'storeId', 'amount', 'quantityReserved'],
             'filter' => [
-                'productId' => 6973
+                'productId' => 6595,
+                '>amount' => 0,
             ],
             'order' => [
-                'id' => 'ASC'
-            ]
+                'amount' => 'desc',
+            ],
+            'start' => 0,
         ]
     );
 
@@ -338,13 +332,15 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.storeproduct.list", b24.Params{
-    	"select": []string{"id", "productId", "storeId", "amount"},
+    	"select": []string{"id", "productId", "storeId", "amount", "quantityReserved"},
     	"filter": b24.Params{
-    		"productId": 6973,
+    		"productId": 6595,
+    		">amount":   0,
     	},
     	"order": b24.Params{
-    		"id": "ASC",
+    		"amount": "desc",
     	},
+    	"start": 0,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.storeproduct.list: %w", err)
@@ -356,17 +352,19 @@
     	return fmt.Errorf("в ответе нет ключа storeProducts")
     }
 
+    // amount и quantityReserved могут прийти как null, поэтому для них указатели.
     var items []struct {
-    	Amount    int    `json:"amount"`
-    	ID        b24.ID `json:"id"`
-    	ProductID b24.ID `json:"productId"`
-    	StoreID   b24.ID `json:"storeId"`
+    	ID               b24.ID   `json:"id"`
+    	ProductID        b24.ID   `json:"productId"`
+    	StoreID          b24.ID   `json:"storeId"`
+    	Amount           *float64 `json:"amount"`
+    	QuantityReserved *float64 `json:"quantityReserved"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
     for _, it := range items {
-    	fmt.Println(it.Amount)
+    	fmt.Println(it.StoreID, it.Amount)
     }
     ```
 
@@ -381,27 +379,30 @@ HTTP-статус: **200**
     "result": {
         "storeProducts": [
             {
-                "amount": 54,
-                "id": 11,
-                "productId": 6973,
+                "amount": 15,
+                "id": 3,
+                "productId": 6595,
+                "quantityReserved": 30,
                 "storeId": 1
             },
             {
-                "amount": 14,
-                "id": 13,
-                "productId": 6973,
+                "amount": 10,
+                "id": 1,
+                "productId": 6595,
+                "quantityReserved": null,
                 "storeId": 11
             }
         ]
     },
     "total": 2,
     "time": {
-        "start": 1758089258.945514,
-        "finish": 1758089258.976911,
-        "duration": 0.031397104263305664,
-        "processing": 0.003245115280151367,
-        "date_start": "2025-09-17T09:07:38+03:00",
-        "date_finish": "2025-09-17T09:07:38+03:00",
+        "start": 1793874773,
+        "finish": 1793874773.615197,
+        "duration": 0.615196943283081,
+        "processing": 0,
+        "date_start": "2026-11-05T13:32:53+03:00",
+        "date_finish": "2026-11-05T13:32:53+03:00",
+        "operating_reset_at": 1793875320,
         "operating": 0
     }
 }
@@ -414,10 +415,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **storeProducts**
-[`catalog_storeproduct[]`](../data-types.md#catalog_storeproduct) | Массив объектов с информацией о выбранных остатках товаров по складам, структура зависит от параметра `select` ||
+|| **result.storeProducts**
+[`catalog_storeproduct[]`](../data-types.md#catalog_storeproduct) | Массив записей остатков. У каждой записи только поля из `select`. Незаполненные `amount` и `quantityReserved` приходят со значением `null` ||
 || **total**
-[`integer`](../../data-types.md#time) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -428,8 +429,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "100",
+    "error_description": "Invalid order \"BAD\""
 }
 ```
 
@@ -438,9 +439,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав для чтения ||
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
+|| `400` | `100` | Invalid order "BAD" | В `order` передано направление, отличное от `asc` и `desc`. В тексте направление приведено к верхнему регистру ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {filter}. Should be value of type array. | В `filter` передан не объект ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

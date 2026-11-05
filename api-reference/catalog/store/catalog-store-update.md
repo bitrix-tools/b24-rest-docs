@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Редактирование складов», которому доступен склад по праву «Просмотр и выбор склада», или автор склада
 
-Метод изменяет склад.
+Метод `catalog.store.update` изменяет склад.
 
 ## Параметры метода
 
@@ -23,11 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_store.id`](../data-types.md#catalog_store)| Идентификатор склада.
+[`catalog_store.id`](../data-types.md#catalog_store) | Идентификатор склада.
 
 Получить идентификаторы складов можно методом [catalog.store.list](./catalog-store-list.md) ||
 || **fields***
-[`object`](../../data-types.md)| Значения полей для обновления склада ([подробное описание](#fields)) ||
+[`object`](../../data-types.md) | Значения полей склада, которые нужно изменить ([подробное описание](#fields)).
+
+Метод меняет только переданные поля, остальные сохраняют прежние значения. Пустой объект `{}` метод принимает без ошибки и обновляет только дату изменения ||
 |#
 
 ### Параметр fields {#fields}
@@ -36,54 +38,50 @@
 || **Название**
 `тип` | **Описание** ||
 || **address**
-[`string`](../../data-types.md) | Адрес склада ||
+[`string`](../../data-types.md) | Адрес склада. Пустая строка не принимается ||
 || **title**
 [`string`](../../data-types.md) | Название склада ||
 || **active**
-[`string`](../../data-types.md) | Активность. Возможные значения:
+[`string`](../../data-types.md) | Активность склада. Возможные значения:
+- `Y` — склад активен
+- `N` — склад неактивен
+
+Любое другое значение метод сохраняет как `N` ||
+|| **description**
+[`string`](../../data-types.md) | Описание склада ||
+|| **gpsN**
+[`double`](../../data-types.md) | Широта склада, например `54.71411`.
+
+Значение, которое не является числом, метод сохраняет как `null` без ошибки — прежняя широта стирается ||
+|| **gpsS**
+[`double`](../../data-types.md) | Долгота склада, например `20.56675`.
+
+Значение, которое не является числом, метод сохраняет как `null` без ошибки — прежняя долгота стирается ||
+|| **phone**
+[`string`](../../data-types.md) | Телефон склада ||
+|| **schedule**
+[`string`](../../data-types.md) | График работы склада, например `Пн-Пт 9:00-20:00` ||
+|| **email**
+[`string`](../../data-types.md) | E-mail склада. Формат адреса метод не проверяет ||
+|| **issuingCenter**
+[`string`](../../data-types.md) | Является ли склад пунктом выдачи. Возможные значения:
 - `Y` — да
 - `N` — нет
-||
-|| **description**
-[`string`](../../data-types.md) | Описание ||
-|| **gpsN**
-[`double`](../../data-types.md) | GPS-широта ||
-|| **gpsS**
-[`double`](../../data-types.md) | GPS-долгота ||
-|| **imageId**
-[`object`](../../data-types.md) | Изображение. Объект в формате `{fileData: [value1, value2]}`, где:
-- `value1` – название файла картинки с расширением
-- `value2` – картинка в формате base64
 
-Для удаления картинки используйте объект в формате `{remove: ‘Y’}` ||
-|| **dateModify**
-[`datetime`](../../data-types.md) | Дата изменения ||
-|| **dateCreate**
-[`datetime`](../../data-types.md) | Дата создания ||
-|| **userId**
-[`user.id`](../../data-types.md) | Кем создан ||
-|| **modifiedBy**
-[`user.id`](../../data-types.md) | Кем изменен ||
-|| **phone**
-[`string`](../../data-types.md) | Телефон ||
-|| **schedule**
-[`string`](../../data-types.md) | График работы ||
-|| **xmlId**
-[`string`](../../data-types.md) | Внешний код.
-
-Можно использовать для синхронизации текущего склада с аналогичной позицией во внешней системе ||
+Любое другое значение метод сохраняет как `N` ||
 || **sort**
-[`integer`](../../data-types.md) | Сортировка ||
-|| **email**
-[`string`](../../data-types.md) | E-mail ||
-|| **issuingCenter**
-[`string`](../../data-types.md) | Является ли пунктом выдачи. Возможные значения:
-- `Y` – да
-- `N` – нет
-||
+[`integer`](../../data-types.md) | Порядок сортировки склада в списках.
+
+Значение, которое не является числом, метод сохраняет как `null` без ошибки ||
 || **code**
-[`string`](../../data-types.md) | Символьный код ||
+[`string`](../../data-types.md) | Символьный код склада ||
+|| **xmlId**
+[`string`](../../data-types.md) | Внешний код склада. Используйте его для связи склада с записью во внешней системе ||
 |#
+
+Поля `id`, `userId`, `modifiedBy`, `dateCreate` и `dateModify` изменить нельзя: метод пропускает их без ошибки. После изменения `modifiedBy` равно идентификатору текущего пользователя, `dateModify` — времени изменения. Неизвестные поля в `fields` метод тоже пропускает.
+
+Изображение склада `imageId` этим методом изменить или удалить нельзя: объект в `imageId`, например `{"fileData": [...]}` или `{"remove": "Y"}`, метод отклоняет с ошибкой `Wrong format of field`, а строку пропускает без ошибки и без изменений.
 
 ## Примеры кода
 
@@ -97,7 +95,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1,"fields":{"address":"пр. Московский д. 52","title":"Склад 1","active":"Y","description":"Описание","gpsN":"54.71411","gpsS":"21.56675","imageId":{"fileData":["detailPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"dateModify":"2024-10-21T10:00:00","dateCreate":"2024-10-21T10:00:00","userId":1,"modifiedBy":1,"phone":"8 (495) 212 85 06","schedule":"Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00","xmlId":"","sort":100,"email":"test@test.ru","issuingCenter":"N","code":"store_1"}}' \
+    -d '{"id":37,"fields":{"schedule":"Пн-Вс 10:00-22:00","phone":"+7 (4012) 21-28-51","issuingCenter":"N"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.store.update
     ```
 
@@ -107,7 +105,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1,"fields":{"address":"пр. Московский д. 52","title":"Склад 1","active":"Y","description":"Описание","gpsN":"54.71411","gpsS":"21.56675","imageId":{"fileData":["detailPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"dateModify":"2024-10-21T10:00:00","dateCreate":"2024-10-21T10:00:00","userId":1,"modifiedBy":1,"phone":"8 (495) 212 85 06","schedule":"Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00","xmlId":"","sort":100,"email":"test@test.ru","issuingCenter":"N","code":"store_1"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":37,"fields":{"schedule":"Пн-Вс 10:00-22:00","phone":"+7 (4012) 21-28-51","issuingCenter":"N"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.store.update
     ```
 
@@ -126,21 +124,21 @@
       store: {
         active: string
         address: string
-        code: string
-        dateCreate: ISODate | null
-        dateModify: ISODate | null
-        description: string
-        email: string
-        gpsN: number
-        gpsS: number
+        code: string | null
+        dateCreate: ISODate
+        dateModify: ISODate
+        description: string | null
+        email: string | null
+        gpsN: number | null
+        gpsS: number | null
         id: number
-        imageId: { id: number; url: string }
+        imageId: { id: number; url: string } | null
         issuingCenter: string
         modifiedBy: number
-        phone: string
-        schedule: string
-        sort: number
-        title: string
+        phone: string | null
+        schedule: string | null
+        sort: number | null
+        title: string | null
         userId: number
         xmlId: string | null
       }
@@ -150,28 +148,11 @@
       const response = await $b24.actions.v2.call.make<StoreUpdateResult>({
         method: 'catalog.store.update',
         params: {
-          id: 1,
+          id: 37,
           fields: {
-            address: 'Moscow Ave, 52',
-            title: 'Warehouse 1',
-            active: 'Y',
-            description: 'Description',
-            gpsN: '54.71411',
-            gpsS: '21.56675',
-            imageId: {
-              fileData: ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
-            },
-            dateModify: '2024-10-21T10:00:00',
-            dateCreate: '2024-10-21T10:00:00',
-            userId: 1,
-            modifiedBy: 1,
-            phone: '8 (495) 212 85 06',
-            schedule: 'Mon-Fri 9:00-20:00, Sat-Sun 11:00-18:00',
-            xmlId: '',
-            sort: 100,
-            email: 'test@test.ru',
+            schedule: 'Пн-Вс 10:00-22:00',
+            phone: '+7 (4012) 21-28-51',
             issuingCenter: 'N',
-            code: 'store_1',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -182,7 +163,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.store.id, result.store.title)
+        console.info('Updated store:', result.store.id, result.store.schedule)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -204,28 +185,11 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.store.update',
             params: {
-              id: 1,
+              id: 37,
               fields: {
-                address: 'Moscow Ave, 52',
-                title: 'Warehouse 1',
-                active: 'Y',
-                description: 'Description',
-                gpsN: '54.71411',
-                gpsS: '21.56675',
-                imageId: {
-                  fileData: ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
-                },
-                dateModify: '2024-10-21T10:00:00',
-                dateCreate: '2024-10-21T10:00:00',
-                userId: 1,
-                modifiedBy: 1,
-                phone: '8 (495) 212 85 06',
-                schedule: 'Mon-Fri 9:00-20:00, Sat-Sun 11:00-18:00',
-                xmlId: '',
-                sort: 100,
-                email: 'test@test.ru',
+                schedule: 'Пн-Вс 10:00-22:00',
+                phone: '+7 (4012) 21-28-51',
                 issuingCenter: 'N',
-                code: 'store_1',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -238,7 +202,7 @@
           }
 
           const result = response.getData().result
-          console.info(result.store.id, result.store.title)
+          console.info('Updated store:', result.store.id, result.store.schedule)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -256,13 +220,11 @@
 
     try:
         bitrix_response = client.catalog.store.update(
-            bitrix_id=1,
+            bitrix_id=37,
             fields={
-                "address": "Moscow Ave, 52",
-                "title": "Warehouse 1",
-                "active": "Y",
-                "phone": "8 (495) 212 85 06",
-                "xmlId": "",
+                "schedule": "Пн-Вс 10:00-22:00",
+                "phone": "+7 (4012) 21-28-51",
+                "issuingCenter": "N",
             },
         ).response
         result = bitrix_response.result
@@ -282,7 +244,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -290,41 +251,22 @@
             ->call(
                 'catalog.store.update',
                 [
-                    'id'         => 1,
-                    'fields'     => [
-                        'address'        => 'пр. Московский д. 52',
-                        'title'          => 'Склад 1',
-                        'active'         => 'Y',
-                        'description'    => 'Описание',
-                        'gpsN'           => '54.71411',
-                        'gpsS'           => '21.56675',
-                        'imageId'        => [
-                            'fileData' => ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
-                        ],
-                        'dateModify'     => '2024-10-21T10:00:00',
-                        'dateCreate'     => '2024-10-21T10:00:00',
-                        'userId'         => 1,
-                        'modifiedBy'     => 1,
-                        'phone'          => '8 (495) 212 85 06',
-                        'schedule'       => 'Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00',
-                        'xmlId'          => '',
-                        'sort'           => 100,
-                        'email'          => 'test@test.ru',
-                        'issuingCenter'  => 'N',
-                        'code'           => 'store_1',
+                    'id'     => 37,
+                    'fields' => [
+                        'schedule'      => 'Пн-Вс 10:00-22:00',
+                        'phone'         => '+7 (4012) 21-28-51',
+                        'issuingCenter' => 'N',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating store: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -333,38 +275,21 @@
     ```js
     BX24.callMethod(
         'catalog.store.update',
-            {
-                id: 1,
-                fields: {
-                    'address': 'пр. Московский д. 52',
-                    'title': 'Склад 1',
-                    'active': 'Y',
-                    'description': 'Описание',
-                    'gpsN': '54.71411',
-                    'gpsS': '21.56675',
-                    'imageId': {
-                        'fileData':  ['detailPicture.png','iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
-                    },
-                    'dateModify': '2024-10-21T10:00:00',
-                    'dateCreate': '2024-10-21T10:00:00',
-                    'userId': 1,
-                    'modifiedBy': 1,
-                    'phone': '8 (495) 212 85 06',
-                    'schedule': 'Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00',
-                    'xmlId': '',
-                    'sort': 100,
-                    'email': 'test@test.ru',
-                    'issuingCenter': 'N',
-                    'code': 'store_1',
-                },
+        {
+            id: 37,
+            fields: {
+                schedule: 'Пн-Вс 10:00-22:00',
+                phone: '+7 (4012) 21-28-51',
+                issuingCenter: 'N',
             },
-            function(result)
-            {
-                if(result.error())
-                    console.error(result.error());
-                else
-                    console.log(result.data());
-            }
+        },
+        function(result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
     );
     ```
 
@@ -376,28 +301,11 @@
     $result = CRest::call(
         'catalog.store.update',
         [
-            'id' => 1,
+            'id' => 37,
             'fields' => [
-                'address' => 'пр. Московский д. 52',
-                'title' => 'Склад 1',
-                'active' => 'Y',
-                'description' => 'Описание',
-                'gpsN' => '54.71411',
-                'gpsS' => '21.56675',
-                'imageId' => [
-                    'fileData' => ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
-                ],
-                'dateModify' => '2024-10-21T10:00:00',
-                'dateCreate' => '2024-10-21T10:00:00',
-                'userId' => 1,
-                'modifiedBy' => 1,
-                'phone' => '8 (495) 212 85 06',
-                'schedule' => 'Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00',
-                'xmlId' => '',
-                'sort' => 100,
-                'email' => 'test@test.ru',
+                'schedule' => 'Пн-Вс 10:00-22:00',
+                'phone' => '+7 (4012) 21-28-51',
                 'issuingCenter' => 'N',
-                'code' => 'store_1',
             ]
         ]
     );
@@ -412,37 +320,37 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.store.update", b24.Params{
-    	"id": 1,
+    	"id": 37,
     	"fields": b24.Params{
-    		"address":     "пр. Московский д. 52",
-    		"title":       "Склад 1",
-    		"active":      "Y",
-    		"description": "Описание",
-    		"gpsN":        "54.71411",
-    		"gpsS":        "21.56675",
-    		"imageId": b24.Params{
-    			"fileData": []string{"detailPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
-    		},
-    		"dateModify":    "2024-10-21T10:00:00",
-    		"dateCreate":    "2024-10-21T10:00:00",
-    		"userId":        1,
-    		"modifiedBy":    1,
-    		"phone":         "8 (495) 212 85 06",
-    		"schedule":      "Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00",
-    		"xmlId":         "",
-    		"sort":          100,
-    		"email":         "test@test.ru",
+    		"schedule":      "Пн-Вс 10:00-22:00",
+    		"phone":         "+7 (4012) 21-28-51",
     		"issuingCenter": "N",
-    		"code":          "store_1",
     	},
     })
     if err != nil {
     	return fmt.Errorf("catalog.store.update: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    // Метод заворачивает ответ в объект с ключом "store".
+    raw, ok := b24.Unwrap(res.Result, "store")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа store")
+    }
+
+    // Необязательные поля могут прийти как null, поэтому для них указатели.
+    var item struct {
+    	ID            b24.ID  `json:"id"`
+    	Title         *string `json:"title"`
+    	Phone         *string `json:"phone"`
+    	Schedule      *string `json:"schedule"`
+    	IssuingCenter string  `json:"issuingCenter"`
+    	ModifiedBy    int     `json:"modifiedBy"`
+    	DateModify    string  `json:"dateModify"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.DateModify)
     ```
 
 {% endlist %}
@@ -456,36 +364,35 @@ HTTP-статус: **200**
     "result": {
         "store": {
             "active": "Y",
-            "address": "пр. Московский д. 52",
-            "code": "store_1",
-            "dateCreate": "2024-10-18T16:30:45+03:00",
-            "dateModify": "2024-10-22T09:01:58+03:00",
-            "description": "Описание",
-            "email": "test@test.ru",
+            "address": "Калининград, Московский проспект, 52",
+            "code": "store_kgd",
+            "dateCreate": "2026-11-05T13:19:57+03:00",
+            "dateModify": "2026-11-05T13:20:13+03:00",
+            "description": "Основной склад розничных товаров",
+            "email": "store-kgd@example.com",
             "gpsN": 54.71411,
-            "gpsS": 21.56675,
-            "id": 1,
-            "imageId": {
-                "id": 7663,
-                "url": "\/upload\/iblock\/6f1\/bkm7jmwso31wisk423gtp28iagy2e8v0\/test.jpeg"
-            },
+            "gpsS": 20.56675,
+            "id": 37,
+            "imageId": null,
             "issuingCenter": "N",
-            "modifiedBy": 1,
-            "phone": "8 (495) 212 85 06",
-            "schedule": "Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00",
-            "sort": 100,
-            "title": "Склад 1",
-            "userId": 1,
-            "xmlId": null
+            "modifiedBy": 1269,
+            "phone": "+7 (4012) 21-28-51",
+            "schedule": "Пн-Вс 10:00-22:00",
+            "sort": 200,
+            "title": "Склад на Московском",
+            "userId": 1269,
+            "xmlId": "store-kgd-01"
         }
     },
     "time": {
-        "start": 1729584118.183646,
-        "finish": 1729584118.666534,
-        "duration": 0.48288798332214355,
-        "processing": 0.13152408599853516,
-        "date_start": "2024-10-22T11:01:58+03:00",
-        "date_finish": "2024-10-22T11:01:58+03:00",
+        "start": 1793874013,
+        "finish": 1793874013.076988,
+        "duration": 0.07698798179626465,
+        "processing": 0,
+        "date_start": "2026-11-05T13:20:13+03:00",
+        "date_finish": "2026-11-05T13:20:13+03:00",
+        "operating_reset_at": 1793874600,
+        "operating": 0
     }
 }
 ```
@@ -497,8 +404,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **store**
-[`catalog_store`](../data-types.md#catalog_store) | Объект с информацией об обновленном складе ||
+|| **result.store**
+[`catalog_store`](../data-types.md#catalog_store) | Объект со всеми полями склада после изменения ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -509,8 +416,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access denied"
+    "error": "201100000000",
+    "error_description": "store does not exist."
 }
 ```
 
@@ -519,13 +426,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для изменения склада ||
-|| `201100000000` | Склад с указанным идентификатором не найден ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `100` | Не указан или пустой параметр `id` ||
-|| `0` | Пустой параметр `address` || 
-|| `0` | Другие ошибки (например, фатальные ошибки) || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Редактирование складов» или склад ему недоступен ||
+|| `400` | `201100000000` | store does not exist. | Склад с указанным `id` не найден ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {fields}. Should be value of type array. | В `fields` передан не объект ||
+|| `400` | `0` | Не указан адрес склада | В `address` передана пустая строка ||
+|| `400` | `0` | Wrong format of field `imageId`. | В поле передан объект или массив вместо значения. В тексте указано имя поля, например для `title` — Wrong format of field `title`. ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

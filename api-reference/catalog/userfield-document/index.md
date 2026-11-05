@@ -36,8 +36,8 @@
 
 1. Создайте пользовательское поле методом [userfieldconfig.add](../../crm/universal/userfieldconfig/userfieldconfig-add.md)
 2. Получите `documentType` через [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md)
-3. Получите текущие значения полей методом [catalog.userfield.document.list](./catalog-userfield-document-list.md)
-4. Обновите значения методом [catalog.userfield.document.update](./catalog-userfield-document-update.md)
+3. Получите текущие значения полей методом [catalog.userfield.document.list](./catalog-userfield-document-list.md). В REST 2 значения передаются и возвращаются по ключу `fieldN`, где `N` — идентификатор пользовательского поля, например `field7097`
+4. Обновите значения методом [catalog.userfield.document.update](./catalog-userfield-document-update.md). Передайте в `fields` тип документа `documentType` и только изменяемые поля: остальные значения сохранятся
 
 ## Пользовательские поля в REST 3.0
 
@@ -53,14 +53,17 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: в зависимости от метода
+> Кто может выполнять методы:
+> - получение значений — пользователь с правом «Просмотр» для документов нужного типа, а также «Просмотр каталога товаров» и «Просмотр раздела Складской учет»
+> - изменение значений — пользователь с теми же правами и правом «Создание и редактирование» для документов нужного типа
+> - получение описания полей `field.list` и `field.get` — любой пользователь
 
 #|
 || **Метод** | **Описание** ||
+|| [catalog.userfield.document.update](./catalog-userfield-document-update.md) | Обновляет значения пользовательских полей документа складского учета ||
+|| [catalog.document.userfield.update](./catalog-userfield-document-update-rest-v3.md) | Обновляет значения пользовательских полей документа складского учета v 3.0 ||
 || [catalog.userfield.document.list](./catalog-userfield-document-list.md) | Возвращает список значений пользовательских полей документов складского учета ||
 || [catalog.document.userfield.list](./catalog-userfield-document-list-rest-v3.md) | Возвращает список значений пользовательских полей документов складского учета v 3.0 ||
 || [catalog.document.userfield.field.list](./catalog-userfield-document-field-list.md) | Возвращает список полей для пользовательских полей документов v 3.0 ||
 || [catalog.document.userfield.field.get](./catalog-userfield-document-field-get.md) | Возвращает описание поля для пользовательских полей документов ||
-|| [catalog.userfield.document.update](./catalog-userfield-document-update.md) | Обновляет значения пользовательских полей документа складского учета ||
-|| [catalog.document.userfield.update](./catalog-userfield-document-update-rest-v3.md) | Обновляет значения пользовательских полей документа складского учета v 3.0 ||
 |#

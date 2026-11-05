@@ -48,7 +48,7 @@
 
 Идентификаторы и коды пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig-list.md).
 
-Ключи, которых нет у документов этого типа, метод пропускает без ошибки ||
+Ключи, которых нет у документов этого типа, метод пропускает без ошибки. Чтобы очистить значение, передайте пустую строку или `null`. Для поля с одним значением передавайте строку или число: массив в таком поле вызывает ошибку сервера ||
 |#
 
 Метод изменяет значения и у проведенного документа.
@@ -73,7 +73,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":325,"fields":{"docType":"A","userFields":{"FIELD_7097":"1"}}}' \
+    -d '{"id":351,"fields":{"docType":"A","userFields":{"FIELD_7097":"Поставка по договору № 15"}}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.userfield.update
     ```
 
@@ -83,7 +83,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":325,"fields":{"docType":"A","userFields":{"FIELD_7097":"1"}},"auth":"**put_access_token_here**"}' \
+    -d '{"id":351,"fields":{"docType":"A","userFields":{"FIELD_7097":"Поставка по договору № 15"}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.document.userfield.update
     ```
 
@@ -107,11 +107,11 @@
       const response = await $b24.actions.v3.call.make<DocumentUserfieldUpdateResult>({
         method: 'catalog.document.userfield.update',
         params: {
-          id: 325,
+          id: 351,
           fields: {
             docType: 'A',
             userFields: {
-              FIELD_7097: '1',
+              FIELD_7097: 'Поставка по договору № 15',
             },
           },
         },
@@ -142,11 +142,11 @@
           const response = await $b24.actions.v3.call.make({
             method: 'catalog.document.userfield.update',
             params: {
-              id: 325,
+              id: 351,
               fields: {
                 docType: 'A',
                 userFields: {
-                  FIELD_7097: '1',
+                  FIELD_7097: 'Поставка по договору № 15',
                 },
               },
             },
@@ -211,11 +211,11 @@
             ->call(
                 'catalog.document.userfield.update',
                 [
-                    'id' => 325,
+                    'id' => 351,
                     'fields' => [
                         'docType' => 'A',
                         'userFields' => [
-                            'FIELD_7097' => '1',
+                            'FIELD_7097' => 'Поставка по договору № 15',
                         ],
                     ],
                 ]
@@ -239,11 +239,11 @@
     BX24.callMethod(
         'catalog.document.userfield.update',
         {
-            id: 325,
+            id: 351,
             fields: {
                 docType: 'A',
                 userFields: {
-                    FIELD_7097: '1',
+                    FIELD_7097: 'Поставка по договору № 15',
                 },
             },
         },
@@ -266,11 +266,11 @@
     $result = CRest::call(
         'catalog.document.userfield.update',
         [
-            'id' => 325,
+            'id' => 351,
             'fields' => [
                 'docType' => 'A',
                 'userFields' => [
-                    'FIELD_7097' => '1',
+                    'FIELD_7097' => 'Поставка по договору № 15',
                 ],
             ],
         ]
@@ -286,11 +286,11 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.document.userfield.update", b24.Params{
-    	"id":     325,
+    	"id":     351,
     	"fields": b24.Params{
     		"docType":    "A",
     		"userFields": b24.Params{
-    			"FIELD_7097": "1",
+    			"FIELD_7097": "Поставка по договору № 15",
     		},
     	},
     })
@@ -325,21 +325,21 @@ HTTP-статус: **200**
 {
     "result": {
         "item": {
-            "id": 325,
+            "id": 351,
             "docType": "A",
             "userFields": {
-                "FIELD_7097": "1"
+                "FIELD_7097": "Поставка по договору № 15"
             }
         }
     },
     "time": {
-        "start": 1792665382,
-        "finish": 1792665382.27269,
-        "duration": 0.2726900577545166,
+        "start": 1793875714,
+        "finish": 1793875714.931872,
+        "duration": 0.9318718910217285,
         "processing": 0,
-        "date_start": "2026-10-22T13:36:22+03:00",
-        "date_finish": "2026-10-22T13:36:22+03:00",
-        "operating_reset_at": 1792665960,
+        "date_start": "2026-11-05T13:48:34+03:00",
+        "date_finish": "2026-11-05T13:48:34+03:00",
+        "operating_reset_at": 1793876280,
         "operating": 0
     }
 }
@@ -408,7 +408,9 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Не заполнено значение хотя бы одного обязательного поля: id, filter | Передайте `id` документа. Вместе с этим сообщением приходит второе: «Должно быть передано только одно из значений: id, filter» ||
+|| `-` | Не заполнено значение хотя бы одного обязательного поля: id, filter | Передайте `id` документа. Вместе с этим сообщением приходит второе: «Должно быть передано только одно из значений: id, filter». Эта же пара сообщений приходит при `id`, равном `0` ||
+|| `-` | Должно быть передано только одно из значений: id, filter | Передан и `id`, и `filter`. Уберите `filter` ||
+|| `id` | Обязательное поле `id` не указано | В `id` передано не число. Передайте числовой идентификатор документа ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` ||
 || `-` | The docType field does not match the document | Передайте в `docType` тип документа `id` ||
 || `userFields` | В поле `userFields` требуется тип данных `array` для такого запроса | Передайте `userFields` объектом ||
@@ -429,7 +431,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Документа с таким идентификатором нет. Проверьте идентификатор методом [catalog.document.list](../document/catalog-document-list-rest-v3.md) ||
+|| `id` | Запись с ID = `999999` не найдена | Документа с таким идентификатором нет. Проверьте идентификатор методом [catalog.document.list](../document/catalog-document-list-rest-v3.md) ||
 |#
 
 #### Ошибка неизвестного поля
@@ -438,8 +440,23 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `UserfieldDocumentDto` | Передайте в `fields` только `docType` и `userFields` ||
+|| `-` | Неизвестное поле `bad` для сущности `UserfieldDocumentDto` | Передайте в `fields` только `docType` и `userFields` ||
 |#
+
+#### Ошибка сервера
+
+HTTP-статус: **500**
+
+Если в пользовательское поле с одним значением передать массив, метод вернет ошибку в формате предыдущей версии API, без объекта `error.code`:
+
+```json
+{
+    "error": "INTERNAL_SERVER_ERROR",
+    "error_description": "Internal server error"
+}
+```
+
+Передавайте в такое поле строку или число.
 
 #### Ошибка доступа
 
