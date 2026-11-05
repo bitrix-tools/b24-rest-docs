@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `humanresources.employee.multidepartment` возвращает сотрудников, которые состоят в нескольких отделах.
+Метод `humanresources.employee.multidepartment` возвращает сотрудников, которые состоят в нескольких отделах, и список этих отделов для каждого сотрудника. За один вызов возвращаются все такие сотрудники компании. Отделы считаются без учета прав текущего пользователя.
 
 ## Параметры метода
 
@@ -31,9 +31,9 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
-`https://{адрес_установки}/rest/api/{user_id}/{токен_вебхука}/humanresources.employee.multidepartment`
+`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/humanresources.employee.multidepartment`
 
 {% endnote %}
 
@@ -73,7 +73,7 @@
       employees: {
         userId: number
         name: string
-        workPosition: string
+        workPosition: string | null
         departments: {
           id: number
           name: string
@@ -160,9 +160,10 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -187,7 +188,7 @@
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -202,7 +203,7 @@
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -248,7 +249,7 @@ HTTP-статус: **200**
             {
                 "userId": 7,
                 "name": "Иван Петров",
-                "workPosition": "",
+                "workPosition": null,
                 "departments": [
                     {
                         "id": 15,
@@ -298,27 +299,43 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
-|| **employees**
-[`array`](../../data-types.md) | Массив сотрудников, которые состоят в нескольких отделах ||
-|| **employees[].userId**
-[`integer`](../../data-types.md) | Идентификатор пользователя ||
-|| **employees[].name**
-[`string`](../../data-types.md) | Имя сотрудника ||
-|| **employees[].workPosition**
-[`string`](../../data-types.md) | Должность сотрудника ||
-|| **employees[].departments[]**
-[`array`](../../data-types.md) | Массив отделов сотрудника ||
-|| **employees[].departments[].id**
-[`integer`](../../data-types.md) | Идентификатор отдела ||
-|| **employees[].departments[].name**
-[`string`](../../data-types.md) | Название отдела ||
-|| **total**
-[`integer`](../../data-types.md) | Количество найденных сотрудников ||
+|| **result.employees**
+[`object[]`](../../data-types.md) | Сотрудники, которые состоят в нескольких отделах. [Поля элемента](#employees). Если таких сотрудников нет, массив пустой ||
+|| **result.total**
+[`integer`](../../data-types.md) | Количество сотрудников в `employees` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива employees {#employees}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **userId**
+[`integer`](../../data-types.md) | Идентификатор пользователя ||
+|| **name**
+[`string`](../../data-types.md) | Имя и фамилия сотрудника ||
+|| **workPosition**
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Должность сотрудника. Если должность не указана, возвращается `null` ||
+|| **departments**
+[`object[]`](../../data-types.md) | Отделы сотрудника без команд. Поля элемента:
+- `id` — идентификатор отдела, `integer`
+- `name` — название отдела, `string` ||
+|#
+
 ## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": {
+        "code": "BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION",
+        "message": "Доступ запрещен"
+    }
+}
+```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
 
@@ -330,7 +347,7 @@ HTTP-статус: **200**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте, что текущий пользователь является сотрудником Битрикс24 ||
+|| `-` | Доступ запрещен | Проверьте, что текущий пользователь привязан к отделу в структуре компании ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

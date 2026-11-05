@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с доступом к Интернет-магазину
 
-Метод `sale.businessValuePersonDomain.list` получает список соответствий физическому или юридическому лицу. 
+Метод `sale.businessValuePersonDomain.list` возвращает список соответствий: какие типы плательщиков относятся к физическим лицам — домен `I`, а какие к юридическим — домен `E`. Подробнее — в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -28,14 +28,14 @@
 Если не передан или передан пустой массив, то будут выбраны все доступные поля соответствия физическому или юридическому лицу.
 
 Возможные значения элементов массива:
-- `personTypeId`
-- `domain` ||
+- `personTypeId` — идентификатор типа плательщика
+- `domain` — домен типа плательщика ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных соответствий физическому или юридическому лицу в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
 Возможные значения для `field`:
-- `personTypeId`
-- `domain` 
+- `personTypeId` — идентификатор типа плательщика
+- `domain` — домен: `I` — физическое лицо, `E` — юридическое лицо
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -45,13 +45,13 @@
 - `@` — IN, в качестве значения передается массив
 - `!@` — NOT IN, в качестве значения передается массив
 - `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно ||
+- `!=` — не равно ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных соответствий физическому или юридическому лицу в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field`:
 - `personTypeId`
-- `domain` 
+- `domain`
 
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
@@ -76,8 +76,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["personTypeId"],"filter":{"=domain":"I"},"order":{"personTypeId":"DESC"}}' \
@@ -86,8 +86,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"select":["personTypeId"],"filter":{"=domain":"I"},"order":{"personTypeId":"DESC"},"auth":"**put_access_token_here**"}' \
@@ -219,6 +219,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
 
@@ -234,7 +235,7 @@
                     'order' => ["personTypeId" => "DESC"]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -254,7 +255,7 @@
             select: ["personTypeId"],
             filter: {"=domain": "I"},
             order: {"personTypeId": "DESC"}
-        }, 
+        },
         function(result)
         {
             if(result.error())
@@ -355,13 +356,20 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **businessValuePersonDomains**
-[`sale_business_value_person_domain[]`](../data-types.md) | Массив объектов с информацией о выбранных соответствиях ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **businessValuePersonDomains**
+[`sale_business_value_person_domain[]`](../data-types.md#sale_business_value_person_domain) | Соответствия, которые подошли под фильтр ||
 |#
 
 ## Обработка ошибок
@@ -380,15 +388,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Нет доступа к чтению ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет доступа к чтению ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-business-value-person-domain-add.md)
 - [{#T}](./sale-business-value-person-domain-delete-by-filter.md)
 - [{#T}](./sale-business-value-person-domain-get-fields.md)

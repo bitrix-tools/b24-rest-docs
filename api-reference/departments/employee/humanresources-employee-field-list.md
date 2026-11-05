@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `humanresources.employee.field.list` возвращает список доступных полей сотрудника.
+Метод `humanresources.employee.field.list` возвращает описания доступных полей сотрудника: имя, тип и признаки каждого поля. Например, у поля `workPosition` тип `string`.
 
 ## Параметры метода
 
@@ -29,20 +29,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе.
+[`array`](../../data-types.md) | Какие свойства описания поля вернуть в ответе. Если `select` не передан, метод вернет все свойства.
 
-Доступные поля:
+Доступные свойства:
 
 - `name` — имя поля
 - `type` — тип данных
 - `title` — заголовок
 - `description` — описание
 - `validationRules` — правила валидации
-- `requiredGroups` — группы обязательности
-- `filterable` — признак доступности в фильтре
-- `sortable` — признак доступности в сортировке
-- `editable` — признак редактируемости
-- `multiple` — признак множественного значения
+- `requiredGroups` — операции, в которых поле обязательно
+- `filterable` — доступно ли поле в фильтре
+- `sortable` — доступно ли поле для сортировки
+- `editable` — можно ли изменить поле
+- `editableGroups` — операции, в которых поле можно задавать
+- `multiple` — множественное поле или одиночное
 - `elementType` — тип элемента для составных полей ||
 |#
 
@@ -52,9 +53,9 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
-`https://{адрес_установки}/rest/api/{user_id}/{токен_вебхука}/humanresources.employee.field.list`
+`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/humanresources.employee.field.list`
 
 {% endnote %}
 
@@ -229,9 +230,10 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -270,7 +272,7 @@
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -299,7 +301,7 @@
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -484,13 +486,57 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
-|| **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+|| **result.items**
+[`array`](../../data-types.md) | Описания полей сотрудника. [Свойства каждого элемента](#items) зависят от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива items {#items}
+
+Состав описания зависит от `select`, в таблице — все свойства, которые можно запросить. Поля сотрудника доступны только для чтения, поэтому признаки у всех полей одинаковые: например, `editable` у всех полей `false`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name**
+[`string`](../../data-types.md) | Имя поля: `userId`, `name`, `workPosition`, `avatar`, `url`, `departments`, `teams` ||
+|| **type**
+[`string`](../../data-types.md) | Тип поля: `int` у `userId`, `array` у `departments` и `teams`, `string` у остальных полей ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок поля. Совпадает с `name` ||
+|| **description**
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Описание поля. Для всех полей — `null` ||
+|| **validationRules**
+[`array`](../../data-types.md) | Правила валидации. Для всех полей — пустой массив `[]` ||
+|| **requiredGroups**
+[`array`](../../data-types.md) \| [`null`](../../data-types.md) | Операции, в которых поле обязательно. Для всех полей — `null` ||
+|| **filterable**
+[`boolean`](../../data-types.md) | `true` — поле доступно в фильтре, `false` — недоступно. Для всех полей — `false` ||
+|| **sortable**
+[`boolean`](../../data-types.md) | `true` — поле доступно для сортировки, `false` — недоступно. Для всех полей — `false` ||
+|| **editable**
+[`boolean`](../../data-types.md) | `true` — поле можно изменить, `false` — нельзя. Для всех полей — `false` ||
+|| **editableGroups**
+[`array`](../../data-types.md) \| [`null`](../../data-types.md) | Операции, в которых поле можно задавать. Для всех полей — `null` ||
+|| **multiple**
+[`boolean`](../../data-types.md) | `true` — поле множественное, `false` — одиночное. Для всех полей — `false` ||
+|| **elementType**
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Тип элемента составного поля. Для всех полей — `null` ||
+|#
+
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": {
+        "code": "BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION",
+        "message": "Неизвестное поле `foo` для сущности `DtoFieldDto`"
+    }
+}
+```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
 
@@ -502,7 +548,7 @@ HTTP-статус: **200**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для объекта `DtoFieldDto` | Передайте только поля описания из списка ||
+|| `select` | Неизвестное поле `#FIELD#` для объекта `DtoFieldDto` | Передайте в `select` только свойства из описания параметра ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`

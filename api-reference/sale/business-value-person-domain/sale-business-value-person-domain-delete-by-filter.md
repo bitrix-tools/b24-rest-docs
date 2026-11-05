@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.businessValuePersonDomain.deleteByFilter` удаляет соответствие физическому или юридическому лицу. 
+Метод `sale.businessValuePersonDomain.deleteByFilter` удаляет соответствие типа плательщика физическому или юридическому лицу. Метода изменения нет: чтобы сменить домен, удалите соответствие и создайте заново методом [sale.businessValuePersonDomain.add](./sale-business-value-person-domain-add.md).
 
 ## Параметры метода
 
@@ -23,24 +23,26 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для удаления соответствия физическому или юридическому лицу ||
+[`object`](../../data-types.md) | Поля соответствия, которое нужно удалить [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр**
+|| **Название**
 `тип` | **Описание** ||
 || **personTypeId***
-[`sale_person_type.id`](../data-types.md) | ID типа плательщика. Уникальный параметр. 
+[`sale_person_type.id`](../data-types.md) | Идентификатор типа плательщика. У каждого типа плательщика только одно соответствие.
 
 Получить идентификаторы типов плательщиков можно с помощью метода [sale.persontype.list](../person-type/sale-person-type-list.md) ||
 || **domain***
-[`string`](../../data-types.md) | Значение, которому соответствует тип плательщика: физическое лицо или юридическое лицо.
+[`string`](../../data-types.md) | Домен, который задан у типа плательщика:
 - `I` — физическое лицо
-- `E` — юридическое лицо ||
+- `E` — юридическое лицо
+
+Если домен не совпадет, метод ответит ошибкой `201440400003` ||
 |#
 
 ## Примеры кода
@@ -51,8 +53,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"personTypeId":3,"domain":"I"}}' \
@@ -61,8 +63,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"personTypeId":3,"domain":"I"},"auth":"**put_access_token_here**"}' \
@@ -172,6 +174,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
 
@@ -188,7 +191,7 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -203,7 +206,7 @@
 
     ```js
     BX24.callMethod(
-        'sale.businessValuePersonDomain.deleteByFilter', 
+        'sale.businessValuePersonDomain.deleteByFilter',
         {
             fields: {
                 personTypeId: 3,
@@ -288,9 +291,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления соответствия физическому или юридическому лицу ||
+[`boolean`](../../data-types.md) | `true` — соответствие удалено ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -299,7 +302,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 201440400003,
+    "error": "201440400003",
     "error_description": "business value person domain is not exists"
 }
 ```
@@ -309,20 +312,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201450000002` | Не передан параметр `personTypeId` ||
-|| `201450000003` | Не передан параметр `domian` ||
-|| `201440400003` | Для указанного `personTypeId` указанный `domain` не существует ||
-|| `200040300020` | Ошибка доступа к удалению ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не указан обязательный параметр ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `201440400003` | business value person domain is not exists | У типа плательщика нет соответствия с указанным `domain` ||
+|| `400` | `200040300020` | Access Denied | Нет прав на изменение соответствия ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: `список полей` | Не переданы обязательные поля `personTypeId` или `domain` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-business-value-person-domain-add.md)
 - [{#T}](./sale-business-value-person-domain-list.md)
 - [{#T}](./sale-business-value-person-domain-get-fields.md)

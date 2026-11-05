@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `log.blogcomment.user.get` возвращает список комментариев к сообщению Ленты новостей для указанного пользователя и информацию о прикрепленных файлах.
+Метод `log.blogcomment.user.get` возвращает комментарии пользователя к сообщениям Ленты новостей и сведения о прикрепленных к ним файлах.
 
 ## Параметры метода
 
@@ -23,17 +23,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **USER_ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя, чьи комментарии нужно получить. Если идентификатор не указан, метод вернет комментарии текущего пользователя.
+[`integer`](../../data-types.md) | Идентификатор пользователя, чьи комментарии нужно получить. Если параметр не передан или его передает не администратор, вернутся комментарии текущего пользователя.
 
-Если запрос выполняется администратором за другого пользователя, в ответе поле `text` может быть пустым.
+Комментарии другого пользователя может получить только администратор. Поле `text` в них пустое, кроме служебных комментариев: у них приходит служебный текст.
 
 Идентификатор пользователя можно получить с помощью метода [user.get](../../user/user-get.md) или [user.search](../../user/user-search.md) ||
 || **FIRST_ID**
-[`integer`](../../data-types.md) | Метод вернет комментарии с идентификаторами, которые больше указанного значения ||
+[`integer`](../../data-types.md) | Метод вернет комментарии, у которых `id` больше этого значения. Не передавайте сюда `comment_id`: это другой идентификатор ||
 || **LAST_ID**
-[`integer`](../../data-types.md) | Метод вернет комментарии с идентификаторами, которые меньше указанного значения ||
+[`integer`](../../data-types.md) | Метод вернет комментарии, у которых `id` меньше этого значения. Если передан и `FIRST_ID`, метод учтет только `FIRST_ID` ||
 || **LIMIT**
-[`integer`](../../data-types.md) | Количество записей в ответе. Максимальное значение — `1000`, большее значение заменяется на `1000`. По умолчанию возвращается `100` комментариев ||
+[`integer`](../../data-types.md) | Сколько комментариев вернуть, от `1` до `1000`. По умолчанию `100`. Большее значение метод заменит на `1000` ||
 |#
 
 ## Примеры кода
@@ -48,7 +48,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"USER_ID":28,"FIRST_ID":215,"LAST_ID":216}' \
+    -d '{"USER_ID":28,"FIRST_ID":215}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/log.blogcomment.user.get
     ```
 
@@ -58,7 +58,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"USER_ID":28,"FIRST_ID":215,"LAST_ID":216,"auth":"**put_access_token_here**"}' \
+    -d '{"USER_ID":28,"FIRST_ID":215,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/log.blogcomment.user.get
     ```
 
@@ -77,7 +77,7 @@
       COMMENTS: {
         id: number
         comment_id: number
-        log_id: number
+        post_id: number
         date: ISODate
         text: string
         attach: number[]
@@ -89,13 +89,14 @@
         type: string
         name: string
         size: number
-        image?: {
+        // Image or video preview size; false for other files
+        image: {
           width: number
           height: number
-        }
+        } | false
         authorId: number
         authorName: string
-        urlPreview: string
+        urlPreview: string | null
         urlShow: string
         urlDownload: string
       }>
@@ -107,7 +108,6 @@
         params: {
           USER_ID: 28,
           FIRST_ID: 215,
-          LAST_ID: 216,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -141,7 +141,6 @@
             params: {
               USER_ID: 28,
               FIRST_ID: 215,
-              LAST_ID: 216,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -173,7 +172,6 @@
         bitrix_response = client.log.blogcomment.user.get(
             user_id=28,
             first_id=215,
-            last_id=216,
         ).response
         result = bitrix_response.result
         print(result)
@@ -189,6 +187,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -200,7 +199,6 @@
                 [
                     'USER_ID' => 28,
                     'FIRST_ID' => 215,
-                    'LAST_ID' => 216,
                 ]
             );
 
@@ -219,8 +217,7 @@
     ```js
     BX24.callMethod('log.blogcomment.user.get', {
         USER_ID: 28,
-        FIRST_ID: 215,
-        LAST_ID: 216
+        FIRST_ID: 215
     },
     function(result) {
             if (result.error()) {
@@ -242,11 +239,10 @@
         [
             'USER_ID'  => 28,
             'FIRST_ID' => 215,
-            'LAST_ID'  => 216,
         ]
     );
 
-    if (!empty($result['error'])) {
+    if (array_key_exists('error', $result)) {
         echo 'Error: ' . $result['error_description'];
     } else {
         echo 'Comments: ' . print_r($result['result'], true);
@@ -260,7 +256,6 @@
     res, err := client.Core().Call(ctx, "log.blogcomment.user.get", b24.Params{
     	"USER_ID":  28,
     	"FIRST_ID": 215,
-    	"LAST_ID":  216,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("log.blogcomment.user.get: %w", err)
@@ -283,8 +278,8 @@ HTTP-статус: **200**
             {
                 "id": 4821,
                 "comment_id": 4821,
-                "log_id": 13579,
-                "date": "2025-01-28T11:05:42+03:00",
+                "post_id": 13579,
+                "date": "2024-10-14T11:05:42+03:00",
                 "text": "Поддерживаю идею!",
                 "attach": [
                     90210
@@ -294,7 +289,7 @@ HTTP-статус: **200**
         "FILES": {
             "90210": {
                 "id": 90210,
-                "date": "2025-01-28T11:02:18+03:00",
+                "date": "2024-10-14T11:02:18+03:00",
                 "type": "image",
                 "name": "diagram.png",
                 "size": 184320,
@@ -315,8 +310,8 @@ HTTP-статус: **200**
         "finish": 1728905100.498321,
         "duration": 0.38608813285827637,
         "processing": 0.14598798751831055,
-        "date_start": "2025-10-14T12:45:00+03:00",
-        "date_finish": "2025-10-14T12:45:00+03:00",
+        "date_start": "2024-10-14T14:25:00+03:00",
+        "date_finish": "2024-10-14T14:25:00+03:00",
         "operating": 0
     }
 }
@@ -328,27 +323,73 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой объект ответа. Содержит массив комментариев и информацию о прикрепленных файлах ||
+[`object`](../../data-types.md) | Корневой объект ответа. Содержит массив комментариев и информацию о прикрепленных файлах [(подробное описание)](#result) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Структура объекта `result`
+#### Объект result {#result}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **COMMENTS**
-[`object[]`](../../data-types.md) | Массив комментариев. Каждый элемент содержит поля:
-- `id`, `comment_id`, `log_id`, `date` — в формате ISO 8601
-- `text` и `attach` — массив идентификаторов файлов Диска из массива `FILES` ||
+[`object[]`](../../data-types.md) | Массив комментариев пользователя, от новых к старым: по убыванию `comment_id`. Структура элемента описана [ниже](#comments) ||
 || **FILES**
-[`object`](../../data-types.md) | Ассоциативный массив с описанием файлов, где ключ — идентификатор объекта Диска. Если файлов нет, возвращается пустой массив `[]`. Для каждого файла передаются `id`, `date`, `type`, `name`, `size`, сведения об авторе, а также прямые ссылки `urlPreview`, `urlShow`, `urlDownload` ||
+[`object`](../../data-types.md) \| [`array`](../../data-types.md) | Файлы, прикрепленные к комментариям, в формате `{"<идентификатор файла>": {…}}`. Ключ — идентификатор файла на Диске из массива `attach` комментария. Структура файла описана [ниже](#files).
+
+Если файлов нет, возвращается пустой массив `[]` ||
+|#
+
+#### Элемент массива COMMENTS {#comments}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор записи о комментарии в Ленте новостей. Его передают в `FIRST_ID` и `LAST_ID` ||
+|| **comment_id**
+[`integer`](../../data-types.md) | Идентификатор самого комментария. Передайте его в метод [log.blogcomment.delete](./log-blogcomment-delete.md) ||
+|| **post_id**
+[`integer`](../../data-types.md) | Идентификатор сообщения Ленты новостей, к которому оставлен комментарий ||
+|| **date**
+[`datetime`](../../data-types.md) | Дата и время создания комментария в формате ISO 8601 ||
+|| **text**
+[`string`](../../data-types.md) | Текст комментария. Если администратор запрашивает комментарии другого пользователя, текст пустой, кроме служебных комментариев ||
+|| **attach**
+[`integer[]`](../../data-types.md) | Идентификаторы файлов Диска, прикрепленных к комментарию. Описание файлов — в объекте `FILES` ||
+|#
+
+#### Объект файла в FILES {#files}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор файла на Диске ||
+|| **date**
+[`datetime`](../../data-types.md) | Дата и время загрузки файла в формате ISO 8601 ||
+|| **type**
+[`string`](../../data-types.md) | Тип файла: `image` — изображение, `video` — видео, `file` — другой файл ||
+|| **name**
+[`string`](../../data-types.md) | Имя файла ||
+|| **size**
+[`integer`](../../data-types.md) | Размер файла в байтах ||
+|| **image**
+[`object`](../../data-types.md) \| [`boolean`](../../data-types.md) | Размеры изображения или превью видео: `width` и `height` — ширина и высота в пикселях, целые числа. Для других файлов — `false` ||
+|| **authorId**
+[`integer`](../../data-types.md) | Идентификатор пользователя, который загрузил файл ||
+|| **authorName**
+[`string`](../../data-types.md) | Имя пользователя, который загрузил файл ||
+|| **urlPreview**
+[`string`](../../data-types.md) \| [`null`](../../data-types.md) | Ссылка на превью файла. Если превью нет, возвращается `null` ||
+|| **urlShow**
+[`string`](../../data-types.md) | Ссылка для просмотра изображения. Для других файлов совпадает со ссылкой на скачивание ||
+|| **urlDownload**
+[`string`](../../data-types.md) | Ссылка для скачивания файла ||
 |#
 
 ## Обработка ошибок
-
-Если идентификатор пользователя не указан или передано некорректное значение, метод возвращает комментарии текущего пользователя.
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -356,6 +397,7 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./log-blogcomment-add.md)
 - [{#T}](./log-blogcomment-get.md)
 - [{#T}](./log-blogcomment-delete.md)

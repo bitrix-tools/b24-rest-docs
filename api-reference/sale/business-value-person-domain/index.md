@@ -9,9 +9,12 @@
 
 {% endnote %}
 
-При создании [типа плательщика](../person-type/index.md) можно указать любое название, но нужно определить статус: 
-- `I` — физическое лицо,
-- `E` — юридическое лицо.
+Название [типа плательщика](../person-type/index.md) может быть любым, поэтому по нему не понять, кто платит — человек или компания. Кто платит, задает соответствие типа плательщика физическому или юридическому лицу. В REST API это объект `businessValuePersonDomain`. Каждому типу плательщика можно задать одно соответствие. Его значение называют доменом:
+
+- `I` — физическое лицо
+- `E` — юридическое лицо
+
+Домен нужен для выгрузки заказов в 1С и для настроек бизнес-смыслов. Бизнес-смыслы сопоставляют данные заказа с полями, которые нужны платежным системам и кассам. Тип плательщика без соответствия в настройках бизнес-смыслов не участвует.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -19,21 +22,21 @@
 
 ## Связь статусов типов плательщиков с другими объектами
 
-**Типы плательщиков.** Укажите тип плательщика, для которого настраиваете соответствие физическому или юридическому лицу. Получить доступные типы плательщиков можно с помощью метода [sale.persontype.list](../person-type/sale-person-type-list.md).
+**Типы плательщиков.** Соответствие задают для типа плательщика: его идентификатор передают в поле `personTypeId`. Идентификаторы типов плательщиков вернет метод [sale.persontype.list](../person-type/sale-person-type-list.md).
 
 ## Как начать работу
 
-1. Получите список типов плательщиков методом [sale.persontype.list](../person-type/sale-person-type-list.md).
-2. Выберите значение домена: `I` для физического лица или `E` для юридического лица.
-3. Создайте соответствие методом [sale.businessValuePersonDomain.add](./sale-business-value-person-domain-add.md).
-4. Проверьте список соответствий методом [sale.businessValuePersonDomain.list](./sale-business-value-person-domain-list.md).
-5. Если соответствие больше не нужно, удалите его методом [sale.businessValuePersonDomain.deleteByFilter](./sale-business-value-person-domain-delete-by-filter.md).
+1. Получите список типов плательщиков методом [sale.persontype.list](../person-type/sale-person-type-list.md)
+2. Проверьте, какие поля нужны для соответствия, методом [sale.businessValuePersonDomain.getFields](./sale-business-value-person-domain-get-fields.md)
+3. Проверьте, задано ли соответствие типу плательщика, методом [sale.businessValuePersonDomain.list](./sale-business-value-person-domain-list.md)
+4. Создайте соответствие методом [sale.businessValuePersonDomain.add](./sale-business-value-person-domain-add.md): `I` для физического лица или `E` для юридического лица
+5. Чтобы сменить домен, удалите соответствие методом [sale.businessValuePersonDomain.deleteByFilter](./sale-business-value-person-domain-delete-by-filter.md) и создайте заново: метода изменения нет
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: зависит от метода
 
 #|
 || **Метод** | **Описание** ||

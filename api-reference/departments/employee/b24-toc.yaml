@@ -5,7 +5,7 @@ items:
     href: index.md
   - name: Найти сотрудников
     href: humanresources-employee-search.md
-  - name: Получить подчиненных сотрудника
+  - name: Получить количество подчиненных сотрудника по отделам
     href: humanresources-employee-subordinates.md
   - name: Получить количество сотрудников
     href: humanresources-employee-count.md

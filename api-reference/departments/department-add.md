@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: пользователь с правами на изменение структуры
 
-Метод `department.add` добавляет новый отдел в структуру компании. 
+Метод `department.add` создает подразделение в структуре компании и возвращает его идентификатор. Новое подразделение входит в родительское, которое указано в `PARENT`.
+
+Метод относится к прежней версии API. Аналог в REST 3.0 — [humanresources.node.add](./node/humanresources-node-add.md), соответствие методов — в [обзоре раздела](./index.md#v2-v3).
 
 ## Параметры метода
 
@@ -29,9 +31,13 @@
 || **PARENT***
 [`integer`](../data-types.md) | Идентификатор родительского подразделения.
 
-Передавайте число. Если параметр не передан, метод вернет ошибку `Argument 'PARENT' is null or empty`. Если передана строка, которая не является числом, в том числе пустая, — ошибку `PARENT must be numeric.` ||
+Передавайте число. Если параметр не передан, метод вернет ошибку `Argument 'PARENT' is null or empty`. Если передана строка, которая не является числом, в том числе пустая, — ошибку `PARENT must be numeric.`
+
+Идентификатор подразделения можно получить методом [department.get](./department-get.md) ||
 || **UF_HEAD**
-[`integer`](../data-types.md) | Идентификатор пользователя, который станет руководителем подразделения ||
+[`integer`](../data-types.md) | Идентификатор пользователя, который станет руководителем подразделения. Метод не проверяет, есть ли такой пользователь в Битрикс24: с несуществующим идентификатором подразделение создастся без ошибки, и этот идентификатор сохранится в `UF_HEAD`.
+
+Идентификатор пользователя можно получить методом [user.get](../user/user-get.md) ||
 |#
 
 ## Примеры кода
@@ -42,58 +48,108 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "NAME": "Отдел изучения маглов",
+        "NAME": "Отдел продаж в регионах",
         "SORT": 450,
         "UF_HEAD": 1,
-        "PARENT": 15
+        "PARENT": 1
     }' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/department.add
     ```
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "NAME": "Отдел изучения маглов",
+        "NAME": "Отдел продаж в регионах",
         "SORT": 450,
         "UF_HEAD": 1,
-        "PARENT": 15,
+        "PARENT": 1,
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/department.add
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'department.add',
-    		{
-    			"NAME": "Отдел изучения маглов",
-    			"SORT": 450,
-    			"UF_HEAD": 1,
-    			"PARENT": 15
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<number>({
+        method: 'department.add',
+        params: {
+          NAME: 'Отдел продаж в регионах',
+          SORT: 450,
+          UF_HEAD: 1,
+          PARENT: 1,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Created department ID:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error.ex);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function addDepartment() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'department.add',
+            params: {
+              NAME: 'Отдел продаж в регионах',
+              SORT: 450,
+              UF_HEAD: 1,
+              PARENT: 1,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Created department ID:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', addDepartment)
+    </script>
     ```
 
 - Python
@@ -103,10 +159,10 @@
 
     try:
         bitrix_response = client.department.add(
-            name="Regional Sales Department",
-            parent=1,
-            sort=500,
+            name="Отдел продаж в регионах",
+            sort=450,
             uf_head=1,
+            parent=1,
         ).response
         result = bitrix_response.result
         print(result)
@@ -125,7 +181,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -133,13 +188,13 @@
             ->call(
                 'department.add',
                 [
-                    'NAME'   => 'Отдел изучения маглов',
-                    'SORT'   => 450,
+                    'NAME'    => 'Отдел продаж в регионах',
+                    'SORT'    => 450,
                     'UF_HEAD' => 1,
-                    'PARENT' => 15,
+                    'PARENT'  => 1,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -156,17 +211,17 @@
     BX24.callMethod(
         'department.add',
         {
-            "NAME": "Отдел изучения маглов",
-            "SORT": 450,
-            "UF_HEAD": 1,
-            "PARENT": 15
+            NAME: 'Отдел продаж в регионах',
+            SORT: 450,
+            UF_HEAD: 1,
+            PARENT: 1,
         },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error().ex);
-            else
-                console.log(result.data());
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
         }
     );
     ```
@@ -179,10 +234,10 @@
     $result = CRest::call(
         'department.add',
         [
-            'NAME' => 'Отдел изучения маглов',
-            'SORT' => 450,
+            'NAME'    => 'Отдел продаж в регионах',
+            'SORT'    => 450,
             'UF_HEAD' => 1,
-            'PARENT' => 15,
+            'PARENT'  => 1,
         ]
     );
 
@@ -196,10 +251,10 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "department.add", b24.Params{
-    	"NAME":    "Отдел изучения маглов",
+    	"NAME":    "Отдел продаж в регионах",
     	"SORT":    450,
     	"UF_HEAD": 1,
-    	"PARENT":  15,
+    	"PARENT":  1,
     })
     if err != nil {
     	return fmt.Errorf("department.add: %w", err)
@@ -239,9 +294,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../data-types.md) | Идентификатор созданного отдела ||
+[`integer`](../data-types.md) | Идентификатор созданного подразделения ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -250,8 +305,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_CORE",
-    "error_description": "Не введено название раздела.\u003Cbr\u003E"
+    "error": "",
+    "error_description": "Неверный раздел-родитель!<br>"
 }
 ```
 
@@ -260,18 +315,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_CORE` | Не введено название раздела.\u003Cbr\u003E | Не заполнен обязательный параметр `NAME` ||
-|| `ERROR_ARGUMENT` | Argument 'PARENT' is null or empty | Не передан обязательный параметр `PARENT`. В ответе есть поле `argument` со значением `PARENT` ||
-|| `ERROR_ARGUMENT` | PARENT must be numeric. | В `PARENT` передана строка, которая не является числом, в том числе пустая ||
-|| `ERROR_CORE` | В структуре компании должен быть только один раздел верхнего уровня | Неверно указан параметр `PARENT` ||
-|| `ERROR_CORE` | Access denied | Недостаточно прав для добавления отдела ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Не введено название раздела.<br>` | Не передан параметр `NAME` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'PARENT' is null or empty | Не передан обязательный параметр `PARENT`. В ответе есть поле `argument` со значением `PARENT` ||
+|| `400` | `ERROR_ARGUMENT` | PARENT must be numeric. | В `PARENT` передана строка, которая не является числом, в том числе пустая ||
+|| `400` | Пустое значение | `Неверный раздел-родитель!<br>` | Подразделения с идентификатором из `PARENT` нет ||
+|| `400` | `ERROR_CORE` | В структуре компании должен быть только один раздел верхнего уровня. | В `PARENT` передан `0`. Подразделение верхнего уровня в структуре компании может быть только одно ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет права изменять структуру компании ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./department-update.md)
 - [{#T}](./department-get.md)
 - [{#T}](./department-delete.md)
