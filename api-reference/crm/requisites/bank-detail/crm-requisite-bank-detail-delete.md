@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на удаление контакта или компании — владельца реквизита
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.bankrequisite.delete](../../rest-v3/requisites/crm-entity-requisite-bank-requisite-delete-rest-v3.md).
+
+{% endnote %}
+
 Метод удаляет банковский реквизит.
 
 ## Параметры метода

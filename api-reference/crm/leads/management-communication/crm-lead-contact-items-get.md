@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» лида
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.get](../../rest-v3/items/crm-entity-get-rest-v3.md). Привязки возвращает поле `contactsId`, основную привязку — поле `contactId`.
+
+{% endnote %}
+
 Метод `crm.lead.contact.items.get` возвращает набор контактов, связанных с указанным лидом.
 
 Он отдает все привязки лида целиком: параметров фильтрации, выборки полей и постраничной навигации у него нет. Чтобы изменить набор, используйте [crm.lead.contact.items.set](./crm-lead-contact-items-set.md), а чтобы добавить или убрать один контакт — [crm.lead.contact.add](./crm-lead-contact-add.md) и [crm.lead.contact.delete](./crm-lead-contact-delete.md). Как устроен объект привязки, описано в [обзоре раздела](./index.md).

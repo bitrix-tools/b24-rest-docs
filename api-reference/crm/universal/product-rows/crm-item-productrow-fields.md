@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.productrow.field.list](../../rest-v3/product-rows/index.md).
+
+{% endnote %}
+
 Метод `crm.item.productrow.fields` получает описание полей товарной позиции: тип значения, обязательность и доступность для записи.
 
 Вызовите метод перед [crm.item.productrow.add](./crm-item-productrow-add.md), [crm.item.productrow.update](./crm-item-productrow-update.md) или [crm.item.productrow.set](./crm-item-productrow-set.md), чтобы узнать, какие значения можно передать. Поля с `isReadOnly: true` метод рассчитывает сам и переданные значения игнорирует без ошибки.

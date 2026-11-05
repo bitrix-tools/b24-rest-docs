@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом редактирования элемента CRM, к которому привязывают дело, и с правом чтения хотя бы одного элемента, к которому дело уже привязано
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.binding.bind](../../../rest-v3/activities/crm-activity-binding-bind-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.activity.binding.add` добавляет связь дела с элементом CRM. После этого дело появится в таймлайне элемента.
 
 В REST 3.0 связь добавляет метод [crm.activity.binding.bind](../../../rest-v3/activities/crm-activity-binding-bind-rest-v3.md): элемент передают одним объектом `parent`, а в ответе приходят связи дела.

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для справочников используйте метод REST 3.0 [crm.dictionary.<справочник>.list](../rest-v3/dictionaries/crm-dictionary-list-rest-v3.md), для стадий сделок и смарт-процессов — [crm.<тип>.category.stage.list](../rest-v3/categories/crm-entity-category-stage-list-rest-v3.md). Стадий лидов, предложений и счетов и справочника статусов списков обзвона в REST 3.0 нет, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.status.entity.items` возвращает все элементы справочника по  идентификатору `ENTITY_ID` с сортировкой по полю `SORT`. 
 Метод аналогичен [crm.status.list](crm-status-list.md), за исключением того, что в последнем можно определить правила сортировки.
 

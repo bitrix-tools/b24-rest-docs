@@ -11,7 +11,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Для новой разработки очистите набор контактов методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7` и пустым массивом `contactIds`.
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.update](../../rest-v3/items/crm-entity-update-rest-v3.md). Чтобы удалить все привязки, передайте пустой массив `contactsId: []`.
 
 {% endnote %}
 

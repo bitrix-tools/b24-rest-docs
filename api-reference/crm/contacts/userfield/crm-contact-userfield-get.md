@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.contact.field.custom.get](../../rest-v3/fields/crm-entity-field-custom-get-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.contact.userfield.get` возвращает пользовательское поле контактов по идентификатору.
 
 ## Параметры метода

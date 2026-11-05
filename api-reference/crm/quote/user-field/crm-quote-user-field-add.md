@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.field.custom.add](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md). Поля типов «Список» `enumeration` и «Файл» `file` метод REST 3.0 не создает, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.quote.userfield.add` создает пользовательское поле во всех предложениях Битрикс24 и возвращает его идентификатор. Тип `USER_TYPE_ID`, код `FIELD_NAME` и множественность `MULTIPLE` после создания изменить нельзя.
 
 В REST 3.0 поле создает метод [crm.quote.field.custom.add](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md).

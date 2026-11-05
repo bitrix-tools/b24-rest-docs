@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: администратор CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.contact.field.custom.add](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md). Поля типов «Список» `enumeration` и «Файл» `file` метод REST 3.0 не создает, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.contact.userfield.add` создает новое пользовательское поле для контактов.
 
 ## Параметры метода

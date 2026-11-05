@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на добавление контакта или компании — владельца реквизита
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.bankrequisite.add](../../rest-v3/requisites/crm-entity-requisite-bank-requisite-add-rest-v3.md).
+
+{% endnote %}
+
 Метод создает новый банковский реквизит.
 
 ## Параметры метода

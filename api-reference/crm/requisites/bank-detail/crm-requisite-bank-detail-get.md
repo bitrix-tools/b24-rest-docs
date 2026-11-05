@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение контакта или компании — владельца реквизита
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.bankrequisite.get](../../rest-v3/requisites/crm-entity-requisite-bank-requisite-get-rest-v3.md).
+
+{% endnote %}
+
 Метод возвращает банковский реквизит по идентификатору.
 
 ## Параметры метода

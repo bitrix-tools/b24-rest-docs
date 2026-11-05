@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение объекта CRM, для которого получают связь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте методы REST 3.0 [crm.<тип>.clientrequisite.get](../../rest-v3/requisites/crm-entity-client-requisite-get-rest-v3.md) и [crm.<тип>.mycompanyrequisite.get](../../rest-v3/requisites/crm-entity-my-company-requisite-get-rest-v3.md). Реквизит моей компании методы REST 3.0 выбирают только в сделке и счете, для предложений и смарт-процессов используйте этот метод.
+
+{% endnote %}
+
 Метод возвращает связь реквизитов с объектом.
 
 ## Параметры метода
