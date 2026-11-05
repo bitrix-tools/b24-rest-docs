@@ -21,6 +21,8 @@
 
 Метод `catalog.document.mode.statusdetails` возвращает признак, включен ли складской учет, и режим его работы.
 
+Имя метода пишется в нижнем регистре: вызов `catalog.document.mode.statusDetails` вернет ошибку `BITRIX_REST_V3_EXCEPTION_METHODNOTFOUNDEXCEPTION`.
+
 ## Параметры метода
 
 Без параметров.
@@ -234,13 +236,13 @@ HTTP-статус: **200**
         "mode": "B24"
     },
     "time": {
-        "start": 1792665214,
-        "finish": 1792665214.350084,
-        "duration": 0.3500840663909912,
+        "start": 1793883037,
+        "finish": 1793883037.569866,
+        "duration": 0.5698659420013428,
         "processing": 0,
-        "date_start": "2026-10-22T13:33:34+03:00",
-        "date_finish": "2026-10-22T13:33:34+03:00",
-        "operating_reset_at": 1792665780,
+        "date_start": "2026-11-05T15:50:37+03:00",
+        "date_finish": "2026-11-05T15:50:37+03:00",
+        "operating_reset_at": 1793883600,
         "operating": 0
     }
 }
@@ -254,7 +256,12 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **result.enabled**
-[`boolean`](../../data-types.md) | `true` — складской учет включен, `false` — выключен ||
+[`boolean`](../../data-types.md) | Состояние складского учета.
+
+Возможные значения:
+
+- `true` — складской учет включен и доступен на тарифе
+- `false` — складской учет выключен или недоступен на тарифе ||
 || **result.mode**
 [`string`](../../data-types.md) или `null` | Режим складского учета.
 
@@ -262,7 +269,9 @@ HTTP-статус: **200**
 
 - `B24` — складской учет ведется в Битрикс24
 - `1C` — складской учет ведется в 1С
-- `null` — складской учет выключен ||
+- `null` — складской учет выключен в настройках
+
+Если складской учет включен в настройках, но недоступен на тарифе, `enabled` равно `false`, а `mode` содержит режим ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -301,4 +310,5 @@ HTTP-статус: **403**
 
 - [{#T}](./catalog-document-mode-status-rest-v3.md)
 - [{#T}](./catalog-document-mode-field-list.md)
+- [{#T}](./catalog-document-mode-field-get.md)
 - [{#T}](./catalog-document-conduct-rest-v3.md)

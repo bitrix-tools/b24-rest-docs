@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.document.element.list` возвращает позиции товаров, связанные с документами складского учета. Записи автоматически ограничиваются доступными типами документов и правами пользователя на склады.
+Метод `catalog.document.element.list` возвращает товарные позиции документов складского учета с фильтрацией, сортировкой и постраничной навигацией.
+
+В ответ попадают позиции только тех документов, на тип которых у пользователя есть право «Просмотр», и только тех складов, которые доступны по праву «Просмотр и выбор склада». Без права «Просмотр закупочной цены товара» поле `purchasingPrice` приходит со значением `null`.
 
 ## Параметры метода
 
@@ -23,32 +25,41 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../../data-types.md) |  Массив со списком полей [catalog_document_element](../../data-types.md#catalog_document_element), которые необходимо выбрать ||
+[`array`](../../../data-types.md) | Массив полей позиции, которые нужно вернуть. Доступные поля: `id`, `docId`, `elementId`, `storeFrom`, `storeTo`, `amount`, `purchasingPrice`. Описание полей — в объекте [catalog_document_element](../../data-types.md#catalog_document_element).
+
+Если массив не передан или пустой, метод вернет все поля. Неизвестные поля метод пропускает без ошибки. Имена полей пишите в camelCase: если в `select` нет ни одного известного поля, например `["ID", "AMOUNT"]`, метод вернет все поля ||
 || **filter**
-[`object`](../../../data-types.md) | Объект для фильтрации выбранных записей товаров в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
+[`object`](../../../data-types.md) | Объект для фильтрации позиций в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_document_element](../../data-types.md#catalog_document_element).
+Возможные значения для `field` — поля из списка в `select`. Например, `{"docId": 371}` вернет позиции документа `371`.
 
-Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-- `>=` — больше либо равно,
-- `>` — больше,
-- `<=` — меньше либо равно,
-- `<` — меньше,
-- `@` — IN, в качестве значения передается массив,
-- `!@` — NOT IN, в качестве значения передается массив,
-- `=` — равно, точное совпадение, используется по умолчанию,
-- `!=` — не равно,
+Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+- `>=` — больше либо равно
+- `>` — больше
+- `<=` — меньше либо равно
+- `<` — меньше
+- `@` — IN, в качестве значения передается массив
+- `!@` — NOT IN, в качестве значения передается массив
+- `=` — равно, точное совпадение (используется по умолчанию)
+- `!=` — не равно
 - `!` — не равно
-||
-|| **order**
-[`object`](../../../data-types.md) | Объект для сортировки выбранных записей товаров в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_document_element](../../data-types.md#catalog_document_element).
+Массив без префикса работает как IN: `{"id": [71, 101]}` вернет обе позиции. Значение `null` без префикса находит позиции с незаполненным полем, например `{"amount": null}`.
+
+Условия `<` и `<=` могут находить и позиции с незаполненным полем. Префиксы поиска по подстроке `%`, `=%`, `!%` к полям позиции не применяются: все поля числовые.
+
+Неизвестные поля и имена в верхнем регистре, например `AMOUNT`, метод пропускает без ошибки и возвращает позиции без учета такого условия. Проверяйте имена полей по списку выше ||
+|| **order**
+[`object`](../../../data-types.md) | Объект для сортировки позиций в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+
+Возможные значения для `field` — поля из списка в `select`.
 
 Возможные значения для `order`:
-- `asc` — в порядке возрастания,
-- `desc` — в порядке убывания 
-||
+
+- `asc` — в порядке возрастания
+- `desc` — в порядке убывания
+
+Регистр направления не важен: `DESC` и `desc` работают одинаково. Неизвестные поля в `order` метод пропускает без ошибки ||
 || **start**
 [`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -58,7 +69,9 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Если `start` больше количества найденных позиций, метод вернет пустой массив `documentElements` ||
 |#
 
 ## Примеры кода
@@ -73,7 +86,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","docId","elementId","amount","storeFrom","storeTo"],"filter":{"docId":64},"order":{"id":"ASC"}}' \
+    -d '{"select":["id","docId","elementId","amount","storeFrom","storeTo"],"filter":{"docId":371},"order":{"id":"ASC"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.element.list
     ```
 
@@ -83,7 +96,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","docId","elementId","amount","storeFrom","storeTo"],"filter":{"docId":64},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","docId","elementId","amount","storeFrom","storeTo"],"filter":{"docId":371},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.document.element.list
     ```
 
@@ -97,12 +110,12 @@
 
     declare const $b24: B24Frame
 
+    // Shape of one position (only the selected fields); empty fields come as null
     type DocumentElement = {
       id: number
       docId: number
-      elementId: number
-      amount: number
-      purchasingPrice: number
+      elementId: number | null
+      amount: number | null
       storeFrom: number | null
       storeTo: number | null
     }
@@ -130,7 +143,7 @@
             'storeTo',
           ],
           filter: {
-            docId: 64,
+            docId: 371,
           },
           order: {
             id: 'ASC',
@@ -181,7 +194,7 @@
                 'storeTo',
               ],
               filter: {
-                docId: 64,
+                docId: 371,
               },
               order: {
                 id: 'ASC',
@@ -225,7 +238,7 @@
                 "storeTo",
             ],
             filter={
-                "docId": 64,
+                "docId": 371,
             },
             order={
                 "id": "ASC",
@@ -266,7 +279,7 @@
                         'purchasingPrice'
                     ],
                     'filter' => [
-                        'docId' => 64
+                        'docId' => 371
                     ],
                     'order' => [
                         'id' => 'ASC'
@@ -301,7 +314,7 @@
                 'storeTo'
             ],
             filter: {
-                docId: 64
+                docId: 371
             },
             order: {
                 id: 'ASC'
@@ -313,8 +326,6 @@
                 console.error(result.error());
             else
                 console.log(result.data());
-
-            result.next();
         }
     );
     ```
@@ -336,7 +347,7 @@
                 'storeTo'
             ],
             'filter' => [
-                'docId' => 64
+                'docId' => 371
             ],
             'order' => [
                 'id' => 'ASC'
@@ -356,7 +367,7 @@
     res, err := client.Core().Call(ctx, "catalog.document.element.list", b24.Params{
     	"select": []string{"id", "docId", "elementId", "amount", "storeFrom", "storeTo"},
     	"filter": b24.Params{
-    		"docId": 64,
+    		"docId": 371,
     	},
     	"order": b24.Params{
     		"id": "ASC",
@@ -372,13 +383,14 @@
     	return fmt.Errorf("в ответе нет ключа documentElements")
     }
 
+    // Незаполненные поля приходят как null, поэтому для них указатели.
     var items []struct {
-    	Amount          int    `json:"amount"`
-    	DocID           b24.ID `json:"docId"`
-    	ElementID       b24.ID `json:"elementId"`
-    	ID              b24.ID `json:"id"`
-    	PurchasingPrice int    `json:"purchasingPrice"`
-    	StoreTo         int    `json:"storeTo"`
+    	Amount    *float64 `json:"amount"`
+    	DocID     b24.ID   `json:"docId"`
+    	ElementID *int     `json:"elementId"`
+    	ID        b24.ID   `json:"id"`
+    	StoreFrom *int     `json:"storeFrom"`
+    	StoreTo   *int     `json:"storeTo"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -399,33 +411,32 @@ HTTP-статус: **200**
     "result": {
         "documentElements": [
             {
-                "amount": 5,
-                "docId": 64,
-                "elementId": 312,
-                "id": 148,
-                "purchasingPrice": 1180,
+                "amount": 20,
+                "docId": 371,
+                "elementId": 6595,
+                "id": 71,
                 "storeFrom": null,
-                "storeTo": 2
+                "storeTo": 43
             },
             {
                 "amount": 12,
-                "docId": 64,
-                "elementId": 420,
-                "id": 149,
-                "purchasingPrice": 560,
+                "docId": 371,
+                "elementId": 6595,
+                "id": 101,
                 "storeFrom": null,
-                "storeTo": 2
+                "storeTo": 43
             }
         ]
     },
     "total": 2,
     "time": {
-        "start": 1759482402.511337,
-        "finish": 1759482402.642843,
-        "duration": 0.13150620460510254,
-        "processing": 0.02694106101989746,
-        "date_start": "2025-11-02T12:26:42+03:00",
-        "date_finish": "2025-11-02T12:26:42+03:00",
+        "start": 1793884005,
+        "finish": 1793884005.329118,
+        "duration": 0.329118013381958,
+        "processing": 0,
+        "date_start": "2026-11-05T16:06:45+03:00",
+        "date_finish": "2026-11-05T16:06:45+03:00",
+        "operating_reset_at": 1793884560,
         "operating": 0
     }
 }
@@ -438,12 +449,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **documentElements**
-[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Массив объектов с информацией о товарах документа, структура ответа зависит от параметра `select` ||
+|| **result.documentElements**
+[`catalog_document_element[]`](../../data-types.md#catalog_document_element) | Массив позиций. У каждой позиции только поля из `select`, незаполненные поля приходят со значением `null` ||
 || **next**
-[`integer`](../../../data-types.md) | Значение для получения следующей страницы ||
+[`integer`](../../../data-types.md) | Значение `start` для получения следующей страницы. Возвращается, если найдено больше 50 позиций ||
 || **total**
-[`integer`](../../../data-types.md) | Общее количество записей ||
+[`integer`](../../../data-types.md) | Общее количество найденных позиций ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -454,8 +465,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_DOCUMENT_RIGHTS",
-    "error_description": "Access denied"
+    "error": "100",
+    "error_description": "Invalid order \"BAD\""
 }
 ```
 
@@ -464,16 +475,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_DOCUMENT_RIGHTS` | Access denied | Недостаточно прав на чтение ||
-|| `0` |  | Прочие ошибки обработки ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_DOCUMENT_RIGHTS` | Access denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
+|| `400` | `100` | Invalid order "BAD" | В `order` передано направление, отличное от `asc` и `desc`. В тексте направление приведено к верхнему регистру ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {filter}. Should be value of type array. | В `filter` передан не объект. Такая же ошибка с `{select}` или `{order}` — если в них передан не массив и не объект ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
-- [{#T}](./catalog-document-element-get-fields.md)
 - [{#T}](./catalog-document-element-add.md)
 - [{#T}](./catalog-document-element-update.md)
 - [{#T}](./catalog-document-element-delete.md)
+- [{#T}](./catalog-document-element-get-fields.md)

@@ -46,6 +46,8 @@
 - `multiple` — признак множественного значения
 - `elementType` — тип элемента для составных полей
 
+Если передать строку, например `"name"`, метод вернет одно это свойство.
+
 По умолчанию: все свойства описания ||
 |#
 
@@ -287,28 +289,18 @@ HTTP-статус: **200**
         "items": [
             {
                 "name": "status",
-                "type": "string",
-                "title": "status",
-                "description": null,
-                "validationRules": [],
-                "requiredGroups": null,
-                "filterable": false,
-                "sortable": false,
-                "editable": false,
-                "editableGroups": null,
-                "multiple": false,
-                "elementType": null
+                "type": "string"
             }
         ]
     },
     "time": {
-        "start": 1792665217,
-        "finish": 1792665217.05726,
-        "duration": 0.05726003646850586,
+        "start": 1793883040,
+        "finish": 1793883040.12344,
+        "duration": 0.12344002723693848,
         "processing": 0,
-        "date_start": "2026-10-22T13:33:37+03:00",
-        "date_finish": "2026-10-22T13:33:37+03:00",
-        "operating_reset_at": 1792665780,
+        "date_start": "2026-11-05T15:50:40+03:00",
+        "date_finish": "2026-11-05T15:50:40+03:00",
+        "operating_reset_at": 1793883600,
         "operating": 0
     }
 }
@@ -383,18 +375,22 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из описания параметра `select` ||
+|| `select` | Неизвестное поле `bad` для сущности `DtoFieldDto` | Передайте только свойства из описания параметра `select`. Имена пишутся в camelCase, например `editableGroups` ||
 |#
 
 #### Ошибка формата `select`
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
 
+HTTP-статус: **400**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Не удается распознать выражение select `#SELECT#` | Передайте `select` массивом строк, например `["name","type"]` ||
+|| `select` | Не удается распознать выражение select `["name"]` | В `select` передан вложенный массив или объект. Передайте `select` массивом строк, например `["name","type"]` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -164,28 +164,27 @@
 || **id**
 [`integer`](../data-types.md) | Идентификатор документа складского учета ||
 || **docType**
-[`string`](../data-types.md) | Тип документа. Доступные типы можно получить методом  [catalog.enum.getStoreDocumentTypes](./enum/catalog-enum-get-store-document-types.md) ||
+[`string`](../data-types.md) | Тип документа. Доступные типы можно получить методом [catalog.enum.getStoreDocumentTypes](./enum/catalog-enum-get-store-document-types.md) ||
 || **docNumber**
-[`string`](../data-types.md) | Внутренний номер документа. Если не передать, генерируется автоматически ||
+[`string`](../data-types.md) | Номер документа. Если не передан — `null`, автоматически не создается ||
 || **title**
-[`string`](../data-types.md) | Название документа ||
+[`string`](../data-types.md) | Название документа. Может быть `null` ||
 || **siteId**
 [`string`](../data-types.md) | Код сайта, к которому относится документ. По умолчанию — `s1` ||
 || **responsibleId**
-[`integer`](../data-types.md) | Идентификатор ответственного ||
+[`integer`](../data-types.md) | Идентификатор ответственного. Может быть `null` ||
 || **createdBy**
 [`integer`](../data-types.md) | Идентификатор пользователя, создавшего документ ||
 || **modifiedBy**
 [`integer`](../data-types.md) | Идентификатор пользователя, изменившего документ ||
 || **status**
 [`string`](../data-types.md) | Статус документа:
-- `N` — черновик,
-- `Y` — проведен,
-- `C` — отменен.
+- `N` — черновик, в том числе после отмены проведения
+- `Y` — проведен
 
 Значение изменяется автоматически при проведении или отмене документа ||
 || **statusBy**
-[`integer`](../data-types.md) | Пользователь, изменивший статус документа ||
+[`integer`](../data-types.md) | Пользователь, изменивший статус документа. Может быть `null` ||
 || **dateStatus**
 [`datetime`](../data-types.md) | Дата изменения статуса ||
 || **dateCreate**
@@ -193,13 +192,13 @@
 || **dateModify**
 [`datetime`](../data-types.md) | Дата последнего изменения документа ||
 || **dateDocument**
-[`datetime`](../data-types.md) | Дата проведения документа ||
+[`datetime`](../data-types.md) | Дата документа. Может быть `null` ||
 || **currency**
-[`string`](../data-types.md) | Валюта документа ||
+[`string`](../data-types.md) | Код валюты. Не проверяется, после создания не меняется ||
 || **total**
-[`double`](../data-types.md) | Общая сумма по товарам документа. Значение рассчитывается автоматически после проведения, но может быть задано вручную ||
+[`double`](../data-types.md) | Сумма документа. Автоматически не пересчитывается, в том числе при проведении. Может быть `null` ||
 || **commentary**
-[`string`](../data-types.md) | Комментарий к документу ||
+[`string`](../data-types.md) | Комментарий к документу. Может быть `null` ||
 |#
 
 ### catalog_userfield_document
@@ -225,15 +224,15 @@
 || **docId**
 [`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета ||
 || **elementId**
-[`catalog_product.id`](#catalog_product) | Идентификатор товара каталога ||
+[`catalog_product.id`](#catalog_product) | Идентификатор товара каталога. В REST 2 может быть `null` ||
 || **storeFrom**
-[`catalog_store.id`](#catalog_store) | Идентификатор склада-источника. Используется для документов, где требуется списание ||
+[`catalog_store.id`](#catalog_store) | Идентификатор склада-источника. Используется в документах перемещения и списания. В REST 2 может быть `null` ||
 || **storeTo**
-[`catalog_store.id`](#catalog_store) | Идентификатор склада-получателя. Используется для документов поступления и перемещения ||
+[`catalog_store.id`](#catalog_store) | Идентификатор склада-получателя. Используется в документах прихода, оприходования, перемещения и возврата. В REST 2 может быть `null` ||
 || **amount**
-[`double`](../data-types.md) | Количество товара ||
+[`double`](../data-types.md) | Количество товара. В REST 2 может быть `null` ||
 || **purchasingPrice**
-[`double`](../data-types.md) | Закупочная цена ||
+[`double`](../data-types.md) | Закупочная цена. В REST 2 может быть `null` ||
 |#
 
 ### catalog_documentcontractor
@@ -247,8 +246,8 @@
 [`catalog_document.id`](#catalog_document) | Идентификатор документа складского учета, к которому привязан поставщик ||
 || **entityTypeId**
 [`integer`](../data-types.md) | Идентификатор типа объекта CRM:
-`3` — контакт
-`4` — компания  ||
+- `3` — контакт
+- `4` — компания ||
 || **entityId**
 [`integer`](../data-types.md) | Идентификатор поставщика: контакта или компании ||
 |#

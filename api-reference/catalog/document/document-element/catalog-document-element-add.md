@@ -11,11 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: 
-> - пользователь с правом «Создание и редактирование» на тип документа в запросе
-> - пользователь с правом «Просмотр и выбор склада» на склад прихода или списания
+> Кто может выполнять метод: пользователь с правом «Создание и редактирование» на документы этого типа и правом «Просмотр и выбор склада» на склады позиции
 
-Метод `catalog.document.element.add` добавляет товарную позицию в документ складского учета.
+Метод `catalog.document.element.add` добавляет товарную позицию в непроведенный документ складского учета.
 
 ## Параметры метода
 
@@ -25,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Поля добавляемого товара  ([подробное описание](#fields)) ||
+[`object`](../../../data-types.md) | Поля товарной позиции ([подробное описание](#fields)) ||
 |#
 
 ### Параметр fields {#fields}
@@ -36,18 +34,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **docId***
-[`catalog_document.id`](../../data-types.md#catalog_document) | Идентификатор документа складского учета, можно получить методом [catalog.document.list](../catalog-document-list.md). Документ должен иметь статус `N` — не проведен ||
-|| **elementId***
-[`catalog_product.id`](../../data-types.md#catalog_product) | Идентификатор товара каталога. Значение можно получить методами [catalog.product.*](../../product/index.md) ||
+[`catalog_document.id`](../../data-types.md#catalog_document) | Идентификатор документа складского учета. Документ должен быть не проведен, то есть иметь статус `N`.
+
+Идентификатор можно получить методом [catalog.document.list](../catalog-document-list.md) ||
+|| **elementId**
+[`catalog_product.id`](../../data-types.md#catalog_product) | Идентификатор простого товара или вариации.
+
+Идентификатор можно получить методами [catalog.product.list](../../product/catalog-product-list.md) и [catalog.product.offer.list](../../product/offer/catalog-product-offer-list.md).
+
+Метод не проверяет, что товар существует. Если поле не передано, метод создаст позицию без товара ||
 || **storeFrom**
-[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада-источника, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используется для документов списания ||
+[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада списания. Заполняется в документах перемещения и списания.
+
+Идентификатор можно получить методом [catalog.store.list](../../store/catalog-store-list.md) ||
 || **storeTo**
-[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада-получателя, можно получить методом [catalog.store.list](../../store/catalog-store-list.md). Используется для документов поступления и перемещения ||
+[`catalog_store.id`](../../data-types.md#catalog_store) | Идентификатор склада поступления. Заполняется в документах прихода, оприходования, перемещения и возврата.
+
+Идентификатор можно получить методом [catalog.store.list](../../store/catalog-store-list.md) ||
 || **amount**
-[`double`](../../../data-types.md) | Количество товара. Значение указывается в единицах учета документа ||
+[`double`](../../../data-types.md) | Количество товара. Значение, которое не является числом, метод сохраняет как `null` без ошибки ||
 || **purchasingPrice**
-[`double`](../../../data-types.md) | Закупочная цена в валюте документа ||
+[`double`](../../../data-types.md) | Закупочная цена за единицу в валюте документа. Значение, которое не является числом, метод сохраняет как `0` без ошибки ||
 |#
+
+Непереданные поля `elementId`, `storeFrom`, `storeTo`, `amount` и `purchasingPrice` в ответе равны `null`. Поле `id` метод заполняет сам: переданное значение и неизвестные поля метод пропускает без ошибки.
+
+Метод не проверяет, что склады существуют и подходят к типу документа. Идентификаторы складов передавайте числом: массив, например `[43]`, метод сохраняет как склад с идентификатором `1`.
 
 ## Примеры кода
 
@@ -61,7 +73,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"docId":64,"elementId":312,"storeTo":2,"amount":15,"purchasingPrice":1250.5}}' \
+    -d '{"fields":{"docId":371,"elementId":6595,"storeTo":43,"amount":15,"purchasingPrice":1250.5}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.element.add
     ```
 
@@ -71,7 +83,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"docId":64,"elementId":312,"storeTo":2,"amount":15,"purchasingPrice":1250.5},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"docId":371,"elementId":6595,"storeTo":43,"amount":15,"purchasingPrice":1250.5},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.document.element.add
     ```
 
@@ -88,13 +100,13 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type DocumentElementResult = {
       documentElement: {
-        amount: number
+        amount: number | null
         docId: number
-        elementId: number
+        elementId: number | null
         id: number
-        purchasingPrice: number
+        purchasingPrice: number | null
         storeFrom: number | null
-        storeTo: number
+        storeTo: number | null
       }
     }
 
@@ -103,9 +115,9 @@
         method: 'catalog.document.element.add',
         params: {
           fields: {
-            docId: 64,
-            elementId: 312,
-            storeTo: 2,
+            docId: 371,
+            elementId: 6595,
+            storeTo: 43,
             amount: 15,
             purchasingPrice: 1250.5,
           },
@@ -141,9 +153,9 @@
             method: 'catalog.document.element.add',
             params: {
               fields: {
-                docId: 64,
-                elementId: 312,
-                storeTo: 2,
+                docId: 371,
+                elementId: 6595,
+                storeTo: 43,
                 amount: 15,
                 purchasingPrice: 1250.5,
               },
@@ -177,9 +189,9 @@
     try:
         bitrix_response = client.catalog.document.element.add(
             fields={
-                "docId": 64,
-                "elementId": 312,
-                "storeTo": 2,
+                "docId": 371,
+                "elementId": 6595,
+                "storeTo": 43,
                 "amount": 15,
                 "purchasingPrice": 1250.5,
             },
@@ -209,9 +221,9 @@
                 'catalog.document.element.add',
                 [
                     'fields' => [
-                        'docId' => 64,
-                        'elementId' => 312,
-                        'storeTo' => 2,
+                        'docId' => 371,
+                        'elementId' => 6595,
+                        'storeTo' => 43,
                         'amount' => 15,
                         'purchasingPrice' => 1250.5,
                     ],
@@ -235,9 +247,9 @@
         'catalog.document.element.add',
         {
             fields: {
-                docId: 64,
-                elementId: 312,
-                storeTo: 2,
+                docId: 371,
+                elementId: 6595,
+                storeTo: 43,
                 amount: 15,
                 purchasingPrice: 1250.5
             }
@@ -261,9 +273,9 @@
         'catalog.document.element.add',
         [
             'fields' => [
-                'docId' => 64,
-                'elementId' => 312,
-                'storeTo' => 2,
+                'docId' => 371,
+                'elementId' => 6595,
+                'storeTo' => 43,
                 'amount' => 15,
                 'purchasingPrice' => 1250.5,
             ],
@@ -281,9 +293,9 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.document.element.add", b24.Params{
     	"fields": b24.Params{
-    		"docId":           64,
-    		"elementId":       312,
-    		"storeTo":         2,
+    		"docId":           371,
+    		"elementId":       6595,
+    		"storeTo":         43,
     		"amount":          15,
     		"purchasingPrice": 1250.5,
     	},
@@ -303,41 +315,42 @@
     	DocID           b24.ID  `json:"docId"`
     	ElementID       b24.ID  `json:"elementId"`
     	ID              b24.ID  `json:"id"`
-    	PurchasingPrice float64 `json:"purchasingPrice"`
+    	PurchasingPrice float371 `json:"purchasingPrice"`
     	StoreTo         int     `json:"storeTo"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Amount, item.DocID)
+    fmt.Println(item.ID, item.DocID)
     ```
 
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
         "documentElement": {
             "amount": 15,
-            "docId": 64,
-            "elementId": 312,
-            "id": 148,
+            "docId": 371,
+            "elementId": 6595,
+            "id": 101,
             "purchasingPrice": 1250.5,
             "storeFrom": null,
-            "storeTo": 2
+            "storeTo": 43
         }
     },
     "time": {
-        "start": 1759482001.102334,
-        "finish": 1759482001.215487,
-        "duration": 0.11315321922302246,
-        "processing": 0.018451929092407227,
-        "date_start": "2025-11-02T12:20:01+03:00",
-        "date_finish": "2025-11-02T12:20:01+03:00",
+        "start": 1793883862,
+        "finish": 1793883862.684503,
+        "duration": 0.6845030784606934,
+        "processing": 0,
+        "date_start": "2026-11-05T16:04:22+03:00",
+        "date_finish": "2026-11-05T16:04:22+03:00",
+        "operating_reset_at": 1793884440,
         "operating": 0
     }
 }
@@ -350,20 +363,20 @@ HTTP-код: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **documentElement**
-[`catalog_document_element`](../../data-types.md#catalog_document_element) | Объект с информацией о добавленном товаре ||
+|| **result.documentElement**
+[`catalog_document_element`](../../data-types.md#catalog_document_element) | Объект с полями добавленной позиции. Незаполненные поля приходят со значением `null` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "ERROR_DOCUMENT_STATUS",
-    "error_description": "Conducted document"
+    "error_description": "Document not found"
 }
 ```
 
@@ -372,17 +385,20 @@ HTTP-код: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_DOCUMENT_RIGHTS` | Access denied | Недостаточно прав на документ или один из указанных складов ||
-|| `ERROR_DOCUMENT_STATUS` | Document not found / Conducted document | Документ не найден, недоступен или уже проведен ||
-|| `0` | Error of adding new document element | Внутренняя ошибка при сохранении позиции ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_DOCUMENT_RIGHTS` | Access denied | У пользователя нет права «Создание и редактирование» на документы этого типа или права «Просмотр и выбор склада» на склад позиции ||
+|| `400` | `ERROR_DOCUMENT_STATUS` | Document not found | Документ с указанным `docId` не найден, `docId` не передан или не является числом ||
+|| `400` | `ERROR_DOCUMENT_STATUS` | Conducted document | Документ проведен. Чтобы изменить его позиции, отмените проведение методом [catalog.document.cancel](../catalog-document-cancel.md) ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {fields}. Should be value of type array. | В `fields` передан не объект ||
+|| `400` | `0` | Error of adding new document element | Не удалось сохранить позицию ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-document-element-update.md)
-- [{#T}](./catalog-document-element-delete.md)
 - [{#T}](./catalog-document-element-list.md)
+- [{#T}](./catalog-document-element-delete.md)
 - [{#T}](./catalog-document-element-get-fields.md)

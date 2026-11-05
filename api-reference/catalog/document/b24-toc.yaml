@@ -11,12 +11,12 @@ items:
     href: catalog-document-update.md
   - name: Изменить документ складского учета v 3.0
     href: catalog-document-update-rest-v3.md
+  - name: Получить документ складского учета по идентификатору
+    href: catalog-document-get.md
   - name: Получить список документов
     href: catalog-document-list.md
   - name: Получить список документов складского учета v 3.0
     href: catalog-document-list-rest-v3.md
-  - name: Получить документ складского учета по идентификатору
-    href: catalog-document-get.md
   - name: Удалить документ
     href: catalog-document-delete.md
   - name: Удалить документ складского учета v 3.0
