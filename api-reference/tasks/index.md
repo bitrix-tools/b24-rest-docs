@@ -234,12 +234,8 @@
     || [tasks.task.field.get](./tasks-task-field-get.md) | Получает описание поля задачи ||
     || [tasks.task.getaccess](./tasks-task-get-access.md) | Проверяет доступ к задаче ||
     || [tasks.task.access.get](./tasks-task-access-get.md) | Проверяет доступ к задаче v 3.0 ||
-    || [tasks.task.access.field.list](./tasks-task-access-field-list.md) | Получает список полей прав доступа ||
-    || [tasks.task.access.field.get](./tasks-task-access-field-get.md) | Получает описание поля прав доступа ||
     || [tasks.task.files.attach](./tasks-task-files-attach.md) | Прикрепляет файлы к задаче ||
     || [tasks.task.file.attach](./tasks-task-file-attach.md) | Прикрепляет файлы к задаче v 3.0 ||
-    || [tasks.task.file.field.list](./tasks-task-file-field-list.md) | Получает список полей файлов задачи ||
-    || [tasks.task.file.field.get](./tasks-task-file-field-get.md) | Получает описание поля файлов задачи ||
     || [tasks.task.chat.message.send](./tasks-task-chat-message-send.md) | Отправляет сообщение в чат задачи ||
     || [tasks.task.chat.message.field.list](./tasks-task-chat-message-field-list.md) | Получает список полей сообщения чата задачи ||
     || [tasks.task.chat.message.field.get](./tasks-task-chat-message-field-get.md) | Получает описание поля сообщения чата задачи ||
