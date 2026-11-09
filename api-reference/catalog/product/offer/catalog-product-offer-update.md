@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Редактирование товара», правом на изменение вариации в инфоблоке и одним из прав: «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара»
 
-Метод обновляет поля вариации товара. 
+Метод `catalog.product.offer.update` изменяет поля вариации товара и возвращает все ее поля после изменения.
 
 ## Параметры метода
 
@@ -23,181 +23,115 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_offer.id`](../../data-types.md#catalog_product_offer) | Идентификатор вариации товара.
+[`catalog_product_offer.id`](../../data-types.md#catalog_product_offer) | Идентификатор вариации.
 
-Для получения идентификаторов вариаций товара необходимо использовать [catalog.product.offer.list](./catalog-product-offer-list.md)
- ||
+Получить идентификаторы вариаций можно методом [catalog.product.offer.list](./catalog-product-offer-list.md) ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей для обновления вариации товара ||
+[`object`](../../../data-types.md) | Значения полей, которые нужно изменить ([подробное описание](#fields)).
+
+Метод меняет только переданные поля и свойства, остальные сохраняют прежние значения. Пустой объект `{}` метод принимает без ошибки и возвращает вариацию без изменений ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **iblockId**
+[`catalog_catalog.iblockId`](../../data-types.md#catalog_catalog) | Идентификатор инфоблока каталога вариаций. Передавать не нужно: перенести вариацию в другой инфоблок нельзя ||
 || **name**
-[`string`](../../../data-types.md) | Наименование вариации товара ||
+[`string`](../../../data-types.md) | Название вариации. Пустая строка не принимается ||
+|| **parentId**
+[`catalog_product_sku.id`](../../data-types.md#catalog_product_sku) | Идентификатор головного товара. Сменить головной товар этим методом нельзя: метод пропускает `parentId` без ошибки, привязка остается прежней ||
 || **active**
-[`string`](../../../data-types.md) | Признак активности. Возможные значения:
-- `Y` — да
-- `N` — нет
-||
+[`string`](../../../data-types.md) | Активность. Возможные значения:
+- `Y` — вариация активна
+- `N` — вариация неактивна
+
+Любое другое значение метод сохраняет как `N` ||
 || **code**
 [`string`](../../../data-types.md) | Символьный код ||
 || **xmlId**
 [`string`](../../../data-types.md) | Внешний код ||
-|| **barcodeMulti**
-[`string`](../../../data-types.md) | Уникальные штрихкоды для каждого экземпляра. Возможные значения:
-- `Y` — да
-- `N` — нет 
-||
-|| **canBuyZero**
-[`string`](../../../data-types.md) | Разрешается ли покупка вариации товара при ее отсутствии. Возможные значения:
-- `Y` — да
-- `N` — нет 
-||
-|| **createdBy**
-[`user.id`](../../../data-types.md) | Кем создан ||
+|| **sort**
+[`integer`](../../../data-types.md) | Сортировка. Значение, которое не является числом, метод сохраняет как `null` ||
 || **modifiedBy**
-[`user.id`](../../../data-types.md) | Кем изменен ||
-|| **dateActiveFrom**
-[`datetime`](../../../data-types.md) | Дата начала активности ||
-|| **dateActiveTo**
-[`datetime`](../../../data-types.md) | Дата окончания активности ||
-|| **dateCreate**
-[`datetime`](../../../data-types.md) | Дата создания ||
+[`user.id`](../../../data-types.md) | Идентификатор пользователя, который изменил вариацию. Метод проверяет, что пользователь существует ||
 || **iblockSectionId**
-[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела информационного блока ||
-|| **IblockSection**
-[`array`](../../../data-types.md)| Массив со всеми разделами, к которым привязана вариация ||
-|| **measure**
-[`catalog_measure.id`](../../data-types.md#catalog_measure) | Единица измерения ||
+[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела. Получить идентификатор можно методом [catalog.section.list](../../section/catalog-section-list.md).
+
+Для несуществующего раздела метод возвращает ошибку доступа `200040300050` ||
 || **previewText**
 [`string`](../../../data-types.md) | Описание для анонса ||
+|| **previewTextType**
+[`string`](../../../data-types.md) | Тип описания для анонса: `text` или `html` ||
 || **detailText**
 [`string`](../../../data-types.md) | Детальное описание ||
-|| **previewPicture**
-[`object`](../../../data-types.md) | Картинка для анонса. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате base64. 
-
-Для удаления картинки используется объект в формате `{remove: 'Y'}` ||
-|| **detailPicture**
-[`object`](../../../data-types.md) | Детальная картинка. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате base64. 
-
-Для удаления картинки используется объект в формате `{remove: 'Y'}` ||
-|| **previewTextType**
-[`string`](../../../data-types.md) | Тип описания для анонса. Возможные значения:
-- `text` — текст
-- `html` — HTML
-||
 || **detailTextType**
-[`string`](../../../data-types.md) | Тип детального описания. Возможные значения:
-- `text` — текст
-- `html` — HTML
-||
-|| **sort**
-[`integer`](../../../data-types.md) | Сортировка ||
-|| **subscribe**
-[`string`](../../../data-types.md) | Разрешение подписки на вариацию товара. Возможные значения:
-- `Y` — да
-- `N` — нет
-- `D` — по умолчанию
-||
+[`string`](../../../data-types.md) | Тип детального описания: `text` или `html` ||
+|| **previewPicture**
+[`object`](../../../data-types.md) | Картинка для анонса в формате `{"fileData": ["имя_файла.png", "содержимое_в_base64"]}`. Чтобы удалить картинку, передайте `{"remove": "Y"}` ||
+|| **detailPicture**
+[`object`](../../../data-types.md) | Детальная картинка в формате `{"fileData": ["имя_файла.png", "содержимое_в_base64"]}`. Чтобы удалить картинку, передайте `{"remove": "Y"}` ||
+|| **measure**
+[`catalog_measure.id`](../../data-types.md#catalog_measure) | Идентификатор единицы измерения ||
 || **vatId**
-[`catalog_vat.id`](../../data-types.md#catalog_vat) | Идентификатор НДС ||
+[`catalog_vat.id`](../../data-types.md#catalog_vat) | Идентификатор ставки НДС. Метод проверяет, что ставка существует ||
 || **vatIncluded**
-[`string`](../../../data-types.md) | Включен ли НДС в цену. Возможные значения:
-- `Y` — да
-- `N` — нет
-||
-|| **height**
-[`double`](../../../data-types.md) | Высота вариации товара ||
-|| **length**
-[`double`](../../../data-types.md) | Длина вариации товара ||
-|| **weight**
-[`double`](../../../data-types.md) | Вес вариации товара ||
-|| **width**
-[`double`](../../../data-types.md) | Ширина вариации товара ||
-|| **quantityTrace**
-[`string`](../../../data-types.md) | Режим количественного учета. Возможные значения:
-- `Y` — включен
-- `N` — выключен
-- `D` — по умолчанию
-||
-|| **purchasingCurrency**
-[`string`](../../../data-types.md) | Валюта закупочной цены.
-
-Список валют можно получить методом [crm.currency.list](../../../crm/currency/crm-currency-list.md).
-
-Не редактируется при включенном складском учете 
-||
+[`string`](../../../data-types.md) | Включен ли НДС в цену: `Y` или `N`. Любое другое значение метод сохраняет как `N` ||
 || **purchasingPrice**
-[`double`](../../../data-types.md) | Закупочная цена.
-
-Не редактируется при включенном складском учете 
-||
+[`double`](../../../data-types.md) | Закупочная цена ||
+|| **purchasingCurrency**
+[`string`](../../../data-types.md) | Валюта закупочной цены, например `RUB`. Метод проверяет, что валюта существует ||
 || **quantity**
-[`double`](../../../data-types.md) | Количество.
-
-Не редактируется при включенном складском учете 
-||
+[`double`](../../../data-types.md) | Доступное количество ||
 || **quantityReserved**
-[`double`](../../../data-types.md) | Зарезервированное количество.
-
-Не редактируется при включенном складском учете
-||
+[`double`](../../../data-types.md) | Зарезервированное количество ||
+|| **quantityTrace**
+[`string`](../../../data-types.md) | Количественный учет: `Y` — включен, `N` — выключен, `D` — по настройкам модуля ||
+|| **canBuyZero**
+[`string`](../../../data-types.md) | Разрешена ли покупка при отсутствии товара: `Y`, `N` или `D` — по настройкам модуля ||
+|| **subscribe**
+[`string`](../../../data-types.md) | Разрешена ли подписка на товар: `Y`, `N` или `D` — по настройкам модуля ||
+|| **barcodeMulti**
+[`string`](../../../data-types.md) | Уникальный штрихкод для каждого экземпляра: `Y` или `N` ||
+|| **weight**
+[`double`](../../../data-types.md) | Вес ||
+|| **length**
+[`double`](../../../data-types.md) | Длина ||
+|| **width**
+[`double`](../../../data-types.md) | Ширина ||
+|| **height**
+[`double`](../../../data-types.md) | Высота ||
 || **recurSchemeLength**
-[`integer`](../../../data-types.md) | Длина периода оплаты.
-
-Используется только в коробочной версии для продажи контента ||
+[`integer`](../../../data-types.md) | Длина периода оплаты. Используется только в коробочной версии для продажи контента ||
 || **recurSchemeType**
-[`string`](../../../data-types.md) | Единица времени периода оплаты. Возможные значения:
-- `H` — час
-- `D` — день
-- `W` — неделя
-- `M` — месяц
-- `Q` — квартал
-- `S` — полугодие
-- `Y` — год
-
-Используется только в коробочной версии для продажи контента
-||
+[`string`](../../../data-types.md) | Единица времени периода оплаты: `H`, `D`, `W`, `M`, `Q`, `S` или `Y`. Используется только в коробочной версии для продажи контента ||
 || **trialPriceId**
-[`integer`](../../../data-types.md) | Товар для пробной оплаты.
-
-Используется только в коробочной версии для продажи контента ||
+[`integer`](../../../data-types.md) | Товар для пробной оплаты. Используется только в коробочной версии для продажи контента ||
 || **withoutOrder**
-[`string`](../../../data-types.md) | Продление без оформления заказа. Возможные значения:
-- `Y` — да
-- `N` — нет
-
-Используется только в коробочной версии для продажи контента
-||
-|| **parentId**
-[`object`](../../../data-types.md) | Идентификатор головного товара. Значение указывается в формате `{value: value, valueId: valueId}`, где `value` — идентификатор головного товара, а `valueId` — идентификатор значения свойства.
-
-Для получения идентификаторов головных товаров необходимо использовать [catalog.product.sku.list](../sku/catalog-product-sku-list.md) 
-||
+[`string`](../../../data-types.md) | Продление без оформления заказа: `Y` или `N`. Используется только в коробочной версии для продажи контента ||
 || **propertyN**
-[`object`\|`array`](../../../data-types.md) | Значение свойства вариации товара, где `N` — идентификатор свойства. Свойств может быть несколько. 
+[`object`](../../../data-types.md) | Значение свойства вариации, где `N` — идентификатор свойства, например `property907`.
 
-Значение указывается в формате `{valueId: valueId, value: value}` либо в формате `[{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}]`, если свойство множественное. Здесь `valueId` — идентификатор значения свойства, а `value` — значение свойства. 
-
-Если не указать `valueId`, то существующее значение будет удалено из базы данных и заменено на новое, указанное в `value`. Если свойство множественное, то все существующие значения свойства, для которых не был указан `valueId`, будут удалены. Исключение — свойства типа «файл»: их значения, не переданные в запросе, сохраняются, но `valueId` оставшихся значений после удаления меняются.
-
-`valueId` всех свойств вариации товара можно получить с помощью методов [catalog.product.offer.get ](./catalog-product-offer-get.md) и [catalog.product.offer.list](./catalog-product-offer-list.md)
-||
+Передавайте значение объектом `{"value": значение}`, для множественного свойства — массивом таких объектов. Если передать значение числом или строкой без объекта, метод очистит свойство. Свойства, которых нет в `fields`, сохраняют прежние значения ||
 |#
 
-{% note warning "Работа с ценой товара" %}
+Поля `id`, `type`, `available`, `bundle` и `timestampX` метод пропускает в `fields` без ошибки. Неизвестные поля метод тоже пропускает.
 
-Чтобы изменить цену вариации, используйте методы [catalog.price.*](../../price/index.md).
+{% note warning "" %}
+
+Не передавайте поля `dateCreate`, `dateActiveFrom` и `dateActiveTo`. Сейчас метод заменяет дату создания на `2001-11-30T00:00:00` при любом значении `dateCreate`, а даты активности отклоняет в любом формате.
 
 {% endnote %}
+
+Поля `quantity` и `purchasingPrice` метод меняет и при включенном складском учете. Чтобы остатки на складах и закупочная цена совпадали с документами, при складском учете используйте методы [catalog.document.*](../../document/index.md). Цену вариации меняйте методами [catalog.price.*](../../price/index.md).
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+Пример меняет закупочную цену, количество, описание для анонса и цвет в свойстве `property891` вариации `7695`. Остальные поля и свойства, например размер в `property907`, сохраняют прежние значения.
 
 {% list tabs %}
 
@@ -207,7 +141,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1286,"fields":{"iblockId":24,"name":"Вариация товара","active":"Y","barcodeMulti":"Y","canBuyZero":"Y","code":"Tovar","createdBy":1,"dateActiveFrom":"2024-05-28T10:00:00","dateActiveTo":"2024-05-29T10:00:00","dateCreate":"2024-05-27T10:00:00","detailPicture":{"fileData":["detailPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"detailText":"","detailTextType":"text","height":100,"iblockSectionId":47,"length":100,"measure":5,"modifiedBy":1,"previewPicture":{"fileData":["previewPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"previewText":"","previewTextType":"text","purchasingCurrency":"RUB","purchasingPrice":1000,"quantity":10,"quantityReserved":1,"quantityTrace":"Y","recurSchemeLength":1,"recurSchemeType":"D","sort":100,"subscribe":"Y","trialPriceId":175,"vatId":1,"vatIncluded":"Y","weight":100,"width":100,"withoutOrder":"Y","xmlId":"1286","property261":{"value":"test","valueId":9868},"property262":[{"value":"test1","valueId":9869},{"value":"test2","valueId":9870}]}}' \
+    -d '{"id":7695,"fields":{"purchasingPrice":850,"quantity":30,"previewText":"Хлопок 100%, плотность 180 г/м²","property891":{"value":"Темно-красный"}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.update
     ```
 
@@ -217,7 +151,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1286,"fields":{"iblockId":24,"name":"Вариация товара","active":"Y","barcodeMulti":"Y","canBuyZero":"Y","code":"Tovar","createdBy":1,"dateActiveFrom":"2024-05-28T10:00:00","dateActiveTo":"2024-05-29T10:00:00","dateCreate":"2024-05-27T10:00:00","detailPicture":{"fileData":["detailPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"detailText":"","detailTextType":"text","height":100,"iblockSectionId":47,"length":100,"measure":5,"modifiedBy":1,"previewPicture":{"fileData":["previewPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"previewText":"","previewTextType":"text","purchasingCurrency":"RUB","purchasingPrice":1000,"quantity":10,"quantityReserved":1,"quantityTrace":"Y","recurSchemeLength":1,"recurSchemeType":"D","sort":100,"subscribe":"Y","trialPriceId":175,"vatId":1,"vatIncluded":"Y","weight":100,"width":100,"withoutOrder":"Y","xmlId":"1286","property261":{"value":"test","valueId":9868},"property262":[{"value":"test1","valueId":9869},{"value":"test2","valueId":9870}]},"auth":"**put_access_token_here**"}' \
+    -d '{"id":7695,"fields":{"purchasingPrice":850,"quantity":30,"previewText":"Хлопок 100%, плотность 180 г/м²","property891":{"value":"Темно-красный"}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.offer.update
     ```
 
@@ -231,99 +165,52 @@
 
     declare const $b24: B24Frame
 
-    // Shape of the payload returned in result (match the "response handling" section of the page)
-    type ProductOfferUpdateResult = {
-      offer: {
-        id: number
-        iblockId: number
-        iblockSectionId: number | null
-        name: string
-        active: string
-        available: string
-        bundle: string
-        canBuyZero: string
-        code: string
-        createdBy: number
-        modifiedBy: number
-        dateActiveFrom: ISODate | null
-        dateActiveTo: ISODate | null
-        dateCreate: ISODate | null
-        timestampX: ISODate | null
-        detailPicture: { id: string; url: string; urlMachine: string } | null
-        detailText: string | null
-        detailTextType: string
-        previewPicture: { id: string; url: string; urlMachine: string } | null
-        previewText: string | null
-        previewTextType: string
-        height: number
-        length: number
-        weight: number
-        width: number
-        measure: number
-        parentId: { value: string; valueId: string } | null
-        purchasingCurrency: string
-        purchasingPrice: string
-        quantity: number
-        quantityReserved: number
-        quantityTrace: string
-        sort: number
-        subscribe: string
-        type: number
-        vatId: number
-        vatIncluded: string
-        xmlId: string
-      }
+    type OfferProperty = {
+      value: string
+      valueId: string
+      valueEnum?: string
+    }
+
+    type OfferFile = {
+      id: string
+      url: string
+      urlMachine: string
+    }
+
+    // Shape of the offer returned in result (match the "response handling" section of the page)
+    type Offer = {
+      id: number
+      iblockId: number
+      name: string
+      active: string
+      code: string | null
+      xmlId: string
+      sort: number | null
+      type: number
+      available: string
+      parentId: OfferProperty | null
+      quantity: number | null
+      purchasingPrice?: string | null
+      purchasingCurrency?: string | null
+      previewPicture: OfferFile | null
+      detailPicture: OfferFile | null
+      dateCreate: ISODate
+      timestampX: ISODate
+      [key: `property${number}`]: OfferProperty | OfferProperty[] | null
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<ProductOfferUpdateResult>({
+      const response = await $b24.actions.v2.call.make<{ offer: Offer }>({
         method: 'catalog.product.offer.update',
         params: {
-          id: 1286,
+          id: 7695,
           fields: {
-            iblockId: 24,
-            name: 'Product variation',
-            active: 'Y',
-            barcodeMulti: 'Y',
-            canBuyZero: 'Y',
-            code: 'Tovar',
-            createdBy: 1,
-            dateActiveFrom: '2024-05-28T10:00:00',
-            dateActiveTo: '2024-05-29T10:00:00',
-            dateCreate: '2024-05-27T10:00:00',
-            detailPicture: {
-              fileData: ['detailPicture.png', '<base64-encoded-image>'],
+            purchasingPrice: 850,
+            quantity: 30,
+            previewText: 'Хлопок 100%, плотность 180 г/м²',
+            property891: {
+              value: 'Темно-красный',
             },
-            detailText: '',
-            detailTextType: 'text',
-            height: 100,
-            iblockSectionId: 47,
-            length: 100,
-            measure: 5,
-            modifiedBy: 1,
-            previewPicture: {
-              fileData: ['previewPicture.png', '<base64-encoded-image>'],
-            },
-            previewText: '',
-            previewTextType: 'text',
-            purchasingCurrency: 'RUB',
-            purchasingPrice: 1000,
-            quantity: 10,
-            quantityReserved: 1,
-            quantityTrace: 'Y',
-            recurSchemeLength: 1,
-            recurSchemeType: 'D',
-            sort: 100,
-            subscribe: 'Y',
-            trialPriceId: 175,
-            vatId: 1,
-            vatIncluded: 'Y',
-            weight: 100,
-            width: 100,
-            withoutOrder: 'Y',
-            xmlId: '1286',
-            property261: { value: 'test', valueId: 9868 },
-            property262: [{ value: 'test1', valueId: 9869 }, { value: 'test2', valueId: 9870 }],
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -334,7 +221,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.offer.id, result.offer.name, result.offer.active)
+        console.info('Updated offer:', result.offer.id, result.offer.timestampX)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -348,7 +235,7 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function updateProductOffer() {
+      async function updateOffer() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
@@ -356,53 +243,16 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.offer.update',
             params: {
-              id: 1286,
-              fields: {
-                iblockId: 24,
-                name: 'Product variation',
-                active: 'Y',
-                barcodeMulti: 'Y',
-                canBuyZero: 'Y',
-                code: 'Tovar',
-                createdBy: 1,
-                dateActiveFrom: '2024-05-28T10:00:00',
-                dateActiveTo: '2024-05-29T10:00:00',
-                dateCreate: '2024-05-27T10:00:00',
-                detailPicture: {
-                  fileData: ['detailPicture.png', '<base64-encoded-image>'],
+                  id: 7695,
+                  fields: {
+                    purchasingPrice: 850,
+                    quantity: 30,
+                    previewText: 'Хлопок 100%, плотность 180 г/м²',
+                    property891: {
+                      value: 'Темно-красный',
+                    },
+                  },
                 },
-                detailText: '',
-                detailTextType: 'text',
-                height: 100,
-                iblockSectionId: 47,
-                length: 100,
-                measure: 5,
-                modifiedBy: 1,
-                previewPicture: {
-                  fileData: ['previewPicture.png', '<base64-encoded-image>'],
-                },
-                previewText: '',
-                previewTextType: 'text',
-                purchasingCurrency: 'RUB',
-                purchasingPrice: 1000,
-                quantity: 10,
-                quantityReserved: 1,
-                quantityTrace: 'Y',
-                recurSchemeLength: 1,
-                recurSchemeType: 'D',
-                sort: 100,
-                subscribe: 'Y',
-                trialPriceId: 175,
-                vatId: 1,
-                vatIncluded: 'Y',
-                weight: 100,
-                width: 100,
-                withoutOrder: 'Y',
-                xmlId: '1286',
-                property261: { value: 'test', valueId: 9868 },
-                property262: [{ value: 'test1', valueId: 9869 }, { value: 'test2', valueId: 9870 }],
-              },
-            },
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -413,14 +263,14 @@
           }
 
           const result = response.getData().result
-          console.info(result.offer.id, result.offer.name, result.offer.active)
+          console.info('Updated offer:', result.offer.id, result.offer.timestampX)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', updateProductOffer)
+      document.addEventListener('DOMContentLoaded', updateOffer)
     </script>
     ```
 
@@ -431,69 +281,14 @@
 
     try:
         bitrix_response = client.catalog.product.offer.update(
-            bitrix_id=1286,
+            bitrix_id=7695,
             fields={
-                "iblockId": 24,
-                "name": "Вариация товара",
-                "active": "Y",
-                "barcodeMulti": "Y",
-                "canBuyZero": "Y",
-                "code": "Tovar",
-                "createdBy": 1,
-                "dateActiveFrom": "2024-05-28T10:00:00",
-                "dateActiveTo": "2024-05-29T10:00:00",
-                "dateCreate": "2024-05-27T10:00:00",
-                "detailPicture": {
-                    "fileData": [
-                        "detailPicture.png",
-                        "put_base64_file_content_here",
-                    ],
+                "purchasingPrice": 850,
+                "quantity": 30,
+                "previewText": "Хлопок 100%, плотность 180 г/м²",
+                "property891": {
+                    "value": "Темно-красный",
                 },
-                "detailText": "",
-                "detailTextType": "text",
-                "height": 100,
-                "iblockSectionId": 47,
-                "length": 100,
-                "measure": 5,
-                "modifiedBy": 1,
-                "previewPicture": {
-                    "fileData": [
-                        "previewPicture.png",
-                        "put_base64_file_content_here",
-                    ],
-                },
-                "previewText": "",
-                "previewTextType": "text",
-                "purchasingCurrency": "RUB",
-                "purchasingPrice": 1000,
-                "quantity": 10,
-                "quantityReserved": 1,
-                "quantityTrace": "Y",
-                "recurSchemeLength": 1,
-                "recurSchemeType": "D",
-                "sort": 100,
-                "subscribe": "Y",
-                "trialPriceId": 175,
-                "vatId": 1,
-                "vatIncluded": "Y",
-                "weight": 100,
-                "width": 100,
-                "withoutOrder": "Y",
-                "xmlId": "1286",
-                "property261": {
-                    "value": "test",
-                    "valueId": 9868,
-                },
-                "property262": [
-                    {
-                        "value": "test1",
-                        "valueId": 9869,
-                    },
-                    {
-                        "value": "test2",
-                        "valueId": 9870,
-                    },
-                ],
             },
         ).response
         result = bitrix_response.result
@@ -513,7 +308,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -521,68 +315,25 @@
             ->call(
                 'catalog.product.offer.update',
                 [
-                    'id' => 1286,
+                    'id'     => 7695,
                     'fields' => [
-                        'iblockId' => 24,
-                        'name' => 'Вариация товара',
-                        'active' => 'Y',
-                        'barcodeMulti' => 'Y',
-                        'canBuyZero' => 'Y',
-                        'code' => 'Tovar',
-                        'createdBy' => 1,
-                        'dateActiveFrom' => '2024-05-28T10:00:00',
-                        'dateActiveTo' => '2024-05-29T10:00:00',
-                        'dateCreate' => '2024-05-27T10:00:00',
-                        'detailPicture' => [
-                            'fileData' => ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
+                        'purchasingPrice' => 850,
+                        'quantity'        => 30,
+                        'previewText'     => 'Хлопок 100%, плотность 180 г/м²',
+                        'property891'     => [
+                            'value' => 'Темно-красный',
                         ],
-                        'detailText' => '',
-                        'detailTextType' => 'text',
-                        'height' => 100,
-                        'iblockSectionId' => 47,
-                        'length' => 100,
-                        'measure' => 5,
-                        'modifiedBy' => 1,
-                        'previewPicture' => [
-                            'fileData' => ['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
-                        ],
-                        'previewText' => '',
-                        'previewTextType' => 'text',
-                        'purchasingCurrency' => 'RUB',
-                        'purchasingPrice' => 1000,
-                        'quantity' => 10,
-                        'quantityReserved' => 1,
-                        'quantityTrace' => 'Y',
-                        'recurSchemeLength' => 1,
-                        'recurSchemeType' => 'D',
-                        'sort' => 100,
-                        'subscribe' => 'Y',
-                        'trialPriceId' => 175,
-                        'vatId' => 1,
-                        'vatIncluded' => 'Y',
-                        'weight' => 100,
-                        'width' => 100,
-                        'withoutOrder' => 'Y',
-                        'xmlId' => '1286',
-                        'property261' => ['value' => 'test', 'valueId' => 9868],
-                        'property262' => [
-                            ['value' => 'test1', 'valueId' => 9869],
-                            ['value' => 'test2', 'valueId' => 9870]
-                        ],
-                    ]
+                    ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        processData($result);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating product offer: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -590,60 +341,25 @@
 
     ```js
     BX24.callMethod(
-    'catalog.product.offer.update', 
-    {
-        'id': 1286,
-        'fields':{
-                iblockId: 24,
-                name: 'Вариация товара',
-                active: 'Y',
-                barcodeMulti: 'Y',
-                canBuyZero: 'Y',
-                code: 'Tovar',
-                createdBy: 1,
-                dateActiveFrom: '2024-05-28T10:00:00',
-                dateActiveTo: '2024-05-29T10:00:00',
-                dateCreate: '2024-05-27T10:00:00',
-                detailPicture: {
-                    'fileData':  ['detailPicture.png','iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']},
-                detailText: '',
-                detailTextType: 'text',
-                height: 100,
-                iblockSectionId: 47,
-                length: 100,
-                measure: 5,
-                modifiedBy: 1,
-                previewPicture: {
-                    'fileData':['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']},
-                previewText: '',
-                previewTextType: 'text',
-                purchasingCurrency: 'RUB',
-                purchasingPrice: 1000,
-                quantity: 10,
-                quantityReserved: 1,
-                quantityTrace: 'Y',
-                recurSchemeLength: 1,
-                recurSchemeType: 'D',
-                sort: 100,
-                subscribe: 'Y',
-                trialPriceId: 175,
-                vatId: 1,
-                vatIncluded: 'Y',
-                weight: 100,
-                width: 100,
-                withoutOrder: 'Y',
-                xmlId: '1286',
-                property261: {value: 'test', valueId: 9868},
-                property262: [{value: 'test1', valueId: 9869}, {value: 'test2', valueId: 9870}],
-    },
-    },
-    function(result)
-    {
-    if(result.error())
-    console.error(result.error());
-    else
-    console.log(result.data());
-    }
+        'catalog.product.offer.update',
+        {
+            id: 7695,
+            fields: {
+                purchasingPrice: 850,
+                quantity: 30,
+                previewText: 'Хлопок 100%, плотность 180 г/м²',
+                property891: {
+                    value: 'Темно-красный',
+                },
+            },
+        },
+        function(result)
+        {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
     );
     ```
 
@@ -655,55 +371,15 @@
     $result = CRest::call(
         'catalog.product.offer.update',
         [
-            'id' => 1286,
+            'id' => 7695,
             'fields' => [
-                'iblockId' => 24,
-                'name' => 'Вариация товара',
-                'active' => 'Y',
-                'barcodeMulti' => 'Y',
-                'canBuyZero' => 'Y',
-                'code' => 'Tovar',
-                'createdBy' => 1,
-                'dateActiveFrom' => '2024-05-28T10:00:00',
-                'dateActiveTo' => '2024-05-29T10:00:00',
-                'dateCreate' => '2024-05-27T10:00:00',
-                'detailPicture' => [
-                    'fileData' => ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
+                'purchasingPrice' => 850,
+                'quantity' => 30,
+                'previewText' => 'Хлопок 100%, плотность 180 г/м²',
+                'property891' => [
+                    'value' => 'Темно-красный',
                 ],
-                'detailText' => '',
-                'detailTextType' => 'text',
-                'height' => 100,
-                'iblockSectionId' => 47,
-                'length' => 100,
-                'measure' => 5,
-                'modifiedBy' => 1,
-                'previewPicture' => [
-                    'fileData' => ['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
-                ],
-                'previewText' => '',
-                'previewTextType' => 'text',
-                'purchasingCurrency' => 'RUB',
-                'purchasingPrice' => 1000,
-                'quantity' => 10,
-                'quantityReserved' => 1,
-                'quantityTrace' => 'Y',
-                'recurSchemeLength' => 1,
-                'recurSchemeType' => 'D',
-                'sort' => 100,
-                'subscribe' => 'Y',
-                'trialPriceId' => 175,
-                'vatId' => 1,
-                'vatIncluded' => 'Y',
-                'weight' => 100,
-                'width' => 100,
-                'withoutOrder' => 'Y',
-                'xmlId' => '1286',
-                'property261' => ['value' => 'test', 'valueId' => 9868],
-                'property262' => [
-                    ['value' => 'test1', 'valueId' => 9869],
-                    ['value' => 'test2', 'valueId' => 9870]
-                ],
-            ]
+            ],
         ]
     );
 
@@ -717,62 +393,13 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.offer.update", b24.Params{
-    	"id": 1286,
+    	"id":     7695,
     	"fields": b24.Params{
-    		"iblockId":       24,
-    		"name":           "Вариация товара",
-    		"active":         "Y",
-    		"barcodeMulti":   "Y",
-    		"canBuyZero":     "Y",
-    		"code":           "Tovar",
-    		"createdBy":      1,
-    		"dateActiveFrom": "2024-05-28T10:00:00",
-    		"dateActiveTo":   "2024-05-29T10:00:00",
-    		"dateCreate":     "2024-05-27T10:00:00",
-    		"detailPicture": b24.Params{
-    			"fileData": []string{"detailPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
-    		},
-    		"detailText":      "",
-    		"detailTextType":  "text",
-    		"height":          100,
-    		"iblockSectionId": 47,
-    		"length":          100,
-    		"measure":         5,
-    		"modifiedBy":      1,
-    		"previewPicture": b24.Params{
-    			"fileData": []string{"previewPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
-    		},
-    		"previewText":        "",
-    		"previewTextType":    "text",
-    		"purchasingCurrency": "RUB",
-    		"purchasingPrice":    1000,
-    		"quantity":           10,
-    		"quantityReserved":   1,
-    		"quantityTrace":      "Y",
-    		"recurSchemeLength":  1,
-    		"recurSchemeType":    "D",
-    		"sort":               100,
-    		"subscribe":          "Y",
-    		"trialPriceId":       175,
-    		"vatId":              1,
-    		"vatIncluded":        "Y",
-    		"weight":             100,
-    		"width":              100,
-    		"withoutOrder":       "Y",
-    		"xmlId":              "1286",
-    		"property261": b24.Params{
-    			"value":   "test",
-    			"valueId": 9868,
-    		},
-    		"property262": []b24.Params{
-    			{
-    				"value":   "test1",
-    				"valueId": 9869,
-    			},
-    			{
-    				"value":   "test2",
-    				"valueId": 9870,
-    			},
+    		"purchasingPrice": 850,
+    		"quantity":        30,
+    		"previewText":     "Хлопок 100%, плотность 180 г/м²",
+    		"property891":     b24.Params{
+    			"value": "Темно-красный",
     		},
     	},
     })
@@ -786,18 +413,30 @@
     	return fmt.Errorf("в ответе нет ключа offer")
     }
 
+    // Необязательные поля могут прийти как null, поэтому для них указатели.
     var item struct {
-    	Active     string `json:"active"`
-    	Available  string `json:"available"`
-    	Bundle     string `json:"bundle"`
-    	CanBuyZero string `json:"canBuyZero"`
-    	Code       string `json:"code"`
-    	CreatedBy  int    `json:"createdBy"`
+    	ID              b24.ID   `json:"id"`
+    	IblockID        int      `json:"iblockId"`
+    	Name            string   `json:"name"`
+    	Active          string   `json:"active"`
+    	Code            *string  `json:"code"`
+    	Sort            *int     `json:"sort"`
+    	Type            int      `json:"type"`
+    	Quantity        *float64 `json:"quantity"`
+    	PurchasingPrice *string  `json:"purchasingPrice"`
+    	ParentID        *struct {
+    		Value   string `json:"value"`
+    		ValueID string `json:"valueId"`
+    	} `json:"parentId"`
+    	PreviewPicture *struct {
+    		ID  string `json:"id"`
+    		URL string `json:"url"`
+    	} `json:"previewPicture"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Active, item.Available)
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -812,76 +451,82 @@ HTTP-статус: **200**
         "offer": {
             "active": "Y",
             "available": "Y",
+            "barcodeMulti": "N",
             "bundle": "N",
             "canBuyZero": "Y",
-            "code": "Tovar",
-            "createdBy": 1,
-            "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-            "dateActiveTo": "2024-05-29T10:00:00+03:00",
-            "dateCreate": "2024-05-27T10:00:00+03:00",
-            "detailPicture": {
-                "id": "6540",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6540\u0026fields%5BproductId%5D=1286",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6540\u0026fields%5BproductId%5D=1286"
-            },
+            "code": "tshirt-red-m",
+            "createdBy": 1269,
+            "dateActiveFrom": null,
+            "dateActiveTo": null,
+            "dateCreate": "2026-11-05T19:19:32+03:00",
+            "detailPicture": null,
             "detailText": null,
             "detailTextType": "text",
-            "height": 100,
-            "iblockId": 24,
+            "height": 20,
+            "iblockId": 27,
+            "iblockSection": null,
             "iblockSectionId": null,
-            "id": 1286,
-            "length": 100,
-            "measure": 5,
-            "modifiedBy": 1,
-            "name": "Вариация товара",
+            "id": 7695,
+            "length": 700,
+            "measure": 9,
+            "modifiedBy": 1269,
+            "name": "Футболка красная, M",
             "parentId": {
-                "value": "1275",
-                "valueId": "9867"
+                "value": "7603",
+                "valueId": "4149"
             },
             "previewPicture": {
-                "id": "6539",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6539\u0026fields%5BproductId%5D=1286",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6539\u0026fields%5BproductId%5D=1286"
+                "id": "40057",
+                "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=40057&fields%5BproductId%5D=7695",
+                "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=40057&fields%5BproductId%5D=7695"
             },
-            "previewText": null,
+            "previewText": "Хлопок 100%, плотность 180 г/м²",
             "previewTextType": "text",
-            "property261": {
-                "value": "test",
-                "valueId": "9868"
+            "property429": null,
+            "property891": {
+                "value": "Темно-красный",
+                "valueId": "4155"
             },
-            "property262": [
-                {
-                    "value": "test1",
-                    "valueId": "9869"
-                },
-                {
-                    "value": "test2",
-                    "valueId": "9870"
-                }
-            ],
+            "property895": null,
+            "property905": null,
+            "property907": {
+                "value": "1603",
+                "valueEnum": "M",
+                "valueId": "4157"
+            },
+            "property909": null,
+            "property911": null,
+            "property925": null,
+            "property937": null,
             "purchasingCurrency": "RUB",
-            "purchasingPrice": "1000.000000",
-            "quantity": 10,
-            "quantityReserved": 1,
+            "purchasingPrice": "850.00000000",
+            "quantity": 30,
+            "quantityReserved": null,
             "quantityTrace": "Y",
+            "recurSchemeLength": null,
+            "recurSchemeType": "D",
             "sort": 100,
             "subscribe": "Y",
-            "timestampX": "2024-06-17T13:12:43+03:00",
+            "timestampX": "2026-11-05T19:19:32+03:00",
+            "trialPriceId": null,
             "type": 4,
-            "vatId": 1,
+            "vatId": 3,
             "vatIncluded": "Y",
-            "weight": 100,
-            "width": 100,
-            "xmlId": "1286"
+            "weight": 200,
+            "width": 500,
+            "withoutOrder": "N",
+            "xmlId": "tshirt-red-m"
         }
     },
     "time": {
-        "start": 1718626362.930888,
-        "finish": 1718626363.968511,
-        "duration": 1.0376231670379639,
-        "processing": 0.6055271625518799,
-        "date_start": "2024-06-17T15:12:42+03:00",
-        "date_finish": "2024-06-17T15:12:43+03:00"
+        "start": 1793895572,
+        "finish": 1793895572.996419,
+        "duration": 0.9964189529418945,
+        "processing": 0,
+        "date_start": "2026-11-05T19:19:32+03:00",
+        "date_finish": "2026-11-05T19:19:32+03:00",
+        "operating_reset_at": 1793896140,
+        "operating": 0
     }
 }
 ```
@@ -893,10 +538,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **offer**
-[`catalog_product_offer`](../../data-types.md#catalog_product_offer) | Объект с информацией об обновленной вариации товара ||
+|| **result.offer**
+[`catalog_product_offer`](../../data-types.md#catalog_product_offer) | Объект со всеми полями и свойствами вариации после изменения ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -905,8 +550,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access denied"
+    "error": "",
+    "error_description": "offer does not exist."
 }
 ```
 
@@ -915,37 +560,22 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300043` | Недостаточно прав для обновления информационного блока
-|| 
-|| `200040300050` | Недостаточно прав для привязки элемента информационного блока к разделу
-|| 
-|| `200040300040` | Недостаточно прав для обновления вариации товара
-|| 
-|| `200040300000` | Информационный блок с указанным идентификатором не найден
-|| 
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан параметр `id`
-||
-|| `100` | Не указан или пустой параметр `fields`
-||
-|| `0` | Раздел с указанным идентификатором не существует
-|| 
-|| `0` | Ставка НДС с указанным идентификатором не существует
-|| 
-|| `0` | Указанная валюта закупочной цены не существует
-|| 
-|| `0` | Пользователь с указанным идентификатором, создавший вариацию товара, не существует
-|| 
-|| `0` | Пользователь с указанным идентификатором, изменивший вариацию товара, не существует
-|| 
-|| `0` | Вариация товара с указанным идентификатором не существует в информационном блоке с указанным идентификатором
-||
-|| `0` | Вариация товара с указанным идентификатором не существует
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр товаров каталога», ни права «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права «Редактирование товара» ||
+|| `400` | `200040300043` | Access Denied | У пользователя нет права на изменение этой вариации в инфоблоке ||
+|| `400` | `200040300050` | Access Denied | Раздел из `iblockSectionId` не существует или у пользователя нет права привязывать к нему элементы ||
+|| `400` | Пустое значение | offer does not exist. | Вариация с указанным `id` не найдена. Ту же ошибку метод возвращает, если в `id` передано не число ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | productType is not allowed for this catalog | В `id` передан идентификатор товара, а не вариации, или в `iblockId` передан инфоблок товаров ||
+|| `400` | `0` | Не введено название.<br> | В `name` передана пустая строка ||
+|| `400` | `0` | Wrong format of field `name`. | В поле передан объект или массив вместо значения. В тексте указано имя поля ||
+|| `400` | `0` | VAT vatId is not exists | Ставка НДС из `vatId` не найдена ||
+|| `400` | `0` | Currency purchasingCurrency is not exists | Валюта из `purchasingCurrency` не найдена ||
+|| `400` | `0` | User modifiedBy is not exists | Пользователь из `modifiedBy` не найден ||
+|| `400` | `0` | Неверный формат даты начала активности.<br> | Передано поле `dateActiveFrom`. Метод отклоняет дату в любом формате ||
+|| `400` | `0` | Неверный формат даты завершения активности.<br> | Передано поле `dateActiveTo`. Метод отклоняет дату в любом формате ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

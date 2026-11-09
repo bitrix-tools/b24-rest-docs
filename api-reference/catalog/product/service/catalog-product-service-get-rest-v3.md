@@ -409,7 +409,7 @@ HTTP-статус: **200**
         "item": {
             "id": 7551,
             "name": "Монтаж и настройка оборудования",
-            "xmlId": "DOCS-V3-SERVICE-1",
+            "xmlId": "installation-001",
             "active": "Y",
             "detailPicture": "39453",
             "iblockSectionId": 45,
@@ -580,7 +580,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Услуги с таким идентификатором нет. Ошибка приходит и для идентификатора товара другого типа. Проверьте идентификатор методом [catalog.product.service.list](./catalog-product-service-list-rest-v3.md) ||
+|| `id` | Запись с ID = `999999` не найдена | Услуги с таким идентификатором нет. Ошибка приходит и для идентификатора товара другого типа. Проверьте идентификатор методом [catalog.product.service.list](./catalog-product-service-list-rest-v3.md) ||
 |#
 
 #### Ошибки в параметре select
@@ -589,7 +589,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Передайте в `select` только поля из описания параметра `select` ||
+|| `select` | Неизвестное поле `foo` для сущности `ProductDto` | Передайте в `select` только поля из описания параметра `select` ||
 |#
 
 #### Ошибка доступа
@@ -607,7 +607,7 @@ HTTP-статус: **403**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-service-list-rest-v3.md)
 - [{#T}](./catalog-product-service-update-rest-v3.md)
+- [{#T}](./catalog-product-service-list-rest-v3.md)
 - [{#T}](./catalog-product-service-download-rest-v3.md)
 - [{#T}](./catalog-product-service-field-list.md)

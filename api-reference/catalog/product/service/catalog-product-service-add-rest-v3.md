@@ -272,7 +272,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":25,"name":"Монтаж оборудования","xmlId":"DOCS-V3-SERVICE-1","sort":100,"vatId":1,"vatIncluded":"Y","measure":9,"previewText":"Установка и подключение оборудования","iblockSectionId":45,"properties":{"PROPERTY_301":"SRV-001"}}}' \
+    -d '{"fields":{"iblockId":25,"name":"Монтаж оборудования","xmlId":"installation-001","sort":100,"vatId":1,"vatIncluded":"Y","measure":9,"previewText":"Установка и подключение оборудования","iblockSectionId":45,"properties":{"PROPERTY_301":"SRV-001"}}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.add
     ```
 
@@ -282,7 +282,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":25,"name":"Монтаж оборудования","xmlId":"DOCS-V3-SERVICE-1","sort":100,"vatId":1,"vatIncluded":"Y","measure":9,"previewText":"Установка и подключение оборудования","iblockSectionId":45,"properties":{"PROPERTY_301":"SRV-001"}},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"iblockId":25,"name":"Монтаж оборудования","xmlId":"installation-001","sort":100,"vatId":1,"vatIncluded":"Y","measure":9,"previewText":"Установка и подключение оборудования","iblockSectionId":45,"properties":{"PROPERTY_301":"SRV-001"}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.product.service.add
     ```
 
@@ -321,7 +321,7 @@
           fields: {
             iblockId: 25,
             name: 'Монтаж оборудования',
-            xmlId: 'DOCS-V3-SERVICE-1',
+            xmlId: 'installation-001',
             sort: 100,
             vatId: 1,
             vatIncluded: 'Y',
@@ -363,7 +363,7 @@
               fields: {
                 iblockId: 25,
                 name: 'Монтаж оборудования',
-                xmlId: 'DOCS-V3-SERVICE-1',
+                xmlId: 'installation-001',
                 sort: 100,
                 vatId: 1,
                 vatIncluded: 'Y',
@@ -405,7 +405,7 @@
             fields={
                 "iblockId": 25,
                 "name": "Монтаж оборудования",
-                "xmlId": "DOCS-V3-SERVICE-1",
+                "xmlId": "installation-001",
                 "sort": 100,
                 "vatId": 1,
                 "vatIncluded": "Y",
@@ -446,7 +446,7 @@
                     'fields' => [
                         'iblockId' => 25,
                         'name' => 'Монтаж оборудования',
-                        'xmlId' => 'DOCS-V3-SERVICE-1',
+                        'xmlId' => 'installation-001',
                         'sort' => 100,
                         'vatId' => 1,
                         'vatIncluded' => 'Y',
@@ -481,7 +481,7 @@
             fields: {
                 iblockId: 25,
                 name: 'Монтаж оборудования',
-                xmlId: 'DOCS-V3-SERVICE-1',
+                xmlId: 'installation-001',
                 sort: 100,
                 vatId: 1,
                 vatIncluded: 'Y',
@@ -515,7 +515,7 @@
             'fields' => [
                 'iblockId' => 25,
                 'name' => 'Монтаж оборудования',
-                'xmlId' => 'DOCS-V3-SERVICE-1',
+                'xmlId' => 'installation-001',
                 'sort' => 100,
                 'vatId' => 1,
                 'vatIncluded' => 'Y',
@@ -542,7 +542,7 @@
     	"fields": b24.Params{
     		"iblockId":        25,
     		"name":            "Монтаж оборудования",
-    		"xmlId":           "DOCS-V3-SERVICE-1",
+    		"xmlId":           "installation-001",
     		"sort":            100,
     		"vatId":           1,
     		"vatIncluded":     "Y",
@@ -590,7 +590,7 @@ HTTP-статус: **200**
             "iblockId": 25,
             "name": "Монтаж оборудования",
             "code": null,
-            "xmlId": "DOCS-V3-SERVICE-1",
+            "xmlId": "installation-001",
             "active": "Y",
             "sort": 100,
             "createdBy": 1,
@@ -844,9 +844,9 @@ HTTP-статус: **400**
 || `-` | Currency purchasingCurrency is not exists | Передайте код существующей валюты ||
 || `-` | User createdBy is not exists | Передайте в `createdBy` идентификатор существующего пользователя ||
 || `-` | User modifiedBy is not exists | Передайте в `modifiedBy` идентификатор существующего пользователя ||
-|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: `#KEYS#` | Передайте ключи свойств в формате `PROPERTY_{id}`, например `PROPERTY_301` ||
-|| `-` | The properties field names one property by several keys: `#KEYS#` | Передайте каждое свойство одним ключом ||
-|| `#FIELD#` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Передайте значение нужного типа ||
+|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: bad | Передайте ключи свойств в формате `PROPERTY_{id}`, например `PROPERTY_301` ||
+|| `-` | The properties field names one property by several keys: PROPERTY_301, 301 | Передайте каждое свойство одним ключом ||
+|| `sort` | В поле `sort` требуется тип данных `int` для такого запроса | Передайте значение нужного типа. В поле и тексте ошибки указано поле с неверным значением ||
 || `-` | Internal error adding product. Try adding again. | Повторите запрос ||
 |#
 
@@ -858,7 +858,7 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `name` | Не заполнено обязательное поле "name" | Передайте название услуги в `fields.name` ||
 || `iblockId` | Не заполнено обязательное поле "iblockId" | Передайте идентификатор каталога в `fields.iblockId` ||
-|| `#FIELD#` | Поле "#FIELD#" не доступно к заполнению | Уберите из `fields` поля только для чтения: `id`, `dateCreate`, `timestampX`, `type`, `available`, `bundle` ||
+|| `id` | Поле "id" не доступно к заполнению | Уберите из `fields` поля только для чтения: `id`, `dateCreate`, `timestampX`, `type`, `available`, `bundle` ||
 |#
 
 #### Ошибка неизвестного поля
@@ -867,7 +867,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
+|| `-` | Неизвестное поле `foo` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
 |#
 
 #### Ошибка доступа

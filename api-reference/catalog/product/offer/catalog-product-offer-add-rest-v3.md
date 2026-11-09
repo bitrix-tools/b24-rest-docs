@@ -69,9 +69,9 @@
 || **modifiedBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, который изменил запись. По умолчанию — текущий пользователь ||
 || **dateActiveFrom**
-[`datetime`](../../../data-types.md) | Дата начала активности в формате ISO 8601 ||
+[`datetime`](../../../data-types.md) | Дата начала активности. Сейчас метод отклоняет это поле в любом формате даты с ошибкой валидации запроса, поэтому не передавайте его ||
 || **dateActiveTo**
-[`datetime`](../../../data-types.md) | Дата окончания активности в формате ISO 8601 ||
+[`datetime`](../../../data-types.md) | Дата окончания активности. Сейчас метод отклоняет это поле в любом формате даты с ошибкой валидации запроса, поэтому не передавайте его ||
 || **previewText**
 [`string`](../../../data-types.md) | Описание для анонса ||
 || **previewTextType**
@@ -239,7 +239,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":27,"name":"DOCS-V3-OFFER Футболка синяя M","code":"docs-v3-offer-blue-m","measure":9,"vatId":1,"vatIncluded":"Y","weight":200,"properties":{"PROPERTY_101":7553}}}' \
+    -d '{"fields":{"iblockId":27,"name":"Футболка синяя M","code":"tshirt-blue-m","measure":9,"vatId":1,"vatIncluded":"Y","weight":200,"properties":{"PROPERTY_101":7553}}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.add
     ```
 
@@ -249,7 +249,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":27,"name":"DOCS-V3-OFFER Футболка синяя M","code":"docs-v3-offer-blue-m","measure":9,"vatId":1,"vatIncluded":"Y","weight":200,"properties":{"PROPERTY_101":7553}},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"iblockId":27,"name":"Футболка синяя M","code":"tshirt-blue-m","measure":9,"vatId":1,"vatIncluded":"Y","weight":200,"properties":{"PROPERTY_101":7553}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.product.offer.add
     ```
 
@@ -277,8 +277,8 @@
         params: {
           fields: {
             iblockId: 27,
-            name: 'DOCS-V3-OFFER Футболка синяя M',
-            code: 'docs-v3-offer-blue-m',
+            name: 'Футболка синяя M',
+            code: 'tshirt-blue-m',
             measure: 9,
             vatId: 1,
             vatIncluded: 'Y',
@@ -317,8 +317,8 @@
             params: {
               fields: {
                 iblockId: 27,
-                name: 'DOCS-V3-OFFER Футболка синяя M',
-                code: 'docs-v3-offer-blue-m',
+                name: 'Футболка синяя M',
+                code: 'tshirt-blue-m',
                 measure: 9,
                 vatId: 1,
                 vatIncluded: 'Y',
@@ -357,7 +357,7 @@
         bitrix_response = client.catalog.product.offer.add(
             fields={
                 "iblockId": 27,
-                "name": "DOCS-V3-OFFER Футболка синяя M",
+                "name": "Футболка синяя M",
                 "code": "docs-v3-offer-blue-m",
                 "measure": 9,
                 "vatId": 1,
@@ -396,8 +396,8 @@
                 [
                     'fields' => [
                         'iblockId' => 27,
-                        'name' => 'DOCS-V3-OFFER Футболка синяя M',
-                        'code' => 'docs-v3-offer-blue-m',
+                        'name' => 'Футболка синяя M',
+                        'code' => 'tshirt-blue-m',
                         'measure' => 9,
                         'vatId' => 1,
                         'vatIncluded' => 'Y',
@@ -429,8 +429,8 @@
         {
             fields: {
                 iblockId: 27,
-                name: 'DOCS-V3-OFFER Футболка синяя M',
-                code: 'docs-v3-offer-blue-m',
+                name: 'Футболка синяя M',
+                code: 'tshirt-blue-m',
                 measure: 9,
                 vatId: 1,
                 vatIncluded: 'Y',
@@ -461,8 +461,8 @@
         [
             'fields' => [
                 'iblockId' => 27,
-                'name' => 'DOCS-V3-OFFER Футболка синяя M',
-                'code' => 'docs-v3-offer-blue-m',
+                'name' => 'Футболка синяя M',
+                'code' => 'tshirt-blue-m',
                 'measure' => 9,
                 'vatId' => 1,
                 'vatIncluded' => 'Y',
@@ -486,8 +486,8 @@
     res, err := client.Core().Call(ctx, "catalog.product.offer.add", b24.Params{
     	"fields": b24.Params{
     		"iblockId": 27,
-    		"name": "DOCS-V3-OFFER Футболка синяя M",
-    		"code": "docs-v3-offer-blue-m",
+    		"name": "Футболка синяя M",
+    		"code": "tshirt-blue-m",
     		"measure": 9,
     		"vatId": 1,
     		"vatIncluded": "Y",
@@ -530,8 +530,8 @@ HTTP-статус: **200**
         "item": {
             "id": 7555,
             "iblockId": 27,
-            "name": "DOCS-V3-OFFER Футболка синяя M",
-            "code": "docs-v3-offer-blue-m",
+            "name": "Футболка синяя M",
+            "code": "tshirt-blue-m",
             "xmlId": "7555",
             "active": "Y",
             "sort": 500,
@@ -773,12 +773,13 @@ HTTP-статус: **400**
 || `-` | VAT vatId is not exists | Передайте идентификатор существующей ставки НДС ||
 || `-` | User createdBy is not exists | Передайте идентификатор существующего пользователя. Для `modifiedBy` приходит аналогичная ошибка ||
 || `-` | Currency purchasingCurrency is not exists | Передайте код существующей валюты ||
-|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: #KEYS# | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
-|| `-` | The properties field names one property by several keys: #KEYS# | Передайте каждое свойство под одним ключом ||
+|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: foo, bar | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
+|| `-` | The properties field names one property by several keys: PROPERTY_891, 891 | Передайте каждое свойство под одним ключом ||
 || `200040500010` | Parent product not found. | Передайте в свойстве привязки идентификатор существующего головного товара ||
 || `200040500020` | Invalid parent product type. | Головным может быть только простой товар или головной товар. Вариацию и услугу указать нельзя ||
 || `200040500020` | Invalid information block of the parent product. | Передайте головной товар из инфоблока товаров, к которому привязан каталог вариаций ||
 || `-` | Parent product must be a single value. | Передайте в свойстве привязки один идентификатор ||
+|| `-` | Wrong format of field `dateActiveFrom`. | Уберите `dateActiveFrom` и `dateActiveTo` из `fields`: сейчас метод не принимает даты активности ||
 |#
 
 #### Ошибка неизвестного поля
@@ -787,7 +788,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
+|| `-` | Неизвестное поле `foo` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
 |#
 
 #### Ошибка доступа
@@ -806,7 +807,7 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-offer-update-rest-v3.md)
 - [{#T}](./catalog-product-offer-get-rest-v3.md)
 - [{#T}](./catalog-product-offer-list-rest-v3.md)
-- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-download-rest-v3.md)
+- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-field-list.md)
 - [{#T}](./catalog-product-offer-field-get.md)

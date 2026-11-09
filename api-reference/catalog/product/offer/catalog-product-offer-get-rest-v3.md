@@ -331,7 +331,7 @@ HTTP-статус: **200**
         "item": {
             "id": 7555,
             "iblockId": 27,
-            "name": "DOCS-V3-OFFER Футболка синяя L",
+            "name": "Футболка синяя L",
             "type": 4,
             "available": "Y",
             "quantity": 0,
@@ -517,7 +517,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Записи нет или это не вариация. Головные товары получайте методом [catalog.product.sku.get](../sku/catalog-product-sku-get-rest-v3.md) ||
+|| `id` | Запись с ID = `999999` не найдена | Записи нет или это не вариация. Головные товары получайте методом [catalog.product.sku.get](../sku/catalog-product-sku-get-rest-v3.md) ||
 |#
 
 #### Ошибка неизвестного поля
@@ -526,7 +526,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Укажите в `select` только поля из описания параметра `select`. Для значений свойств используйте `properties` ||
+|| `select` | Неизвестное поле `foo` для сущности `ProductDto` | Укажите в `select` только поля из описания параметра `select`. Для значений свойств используйте `properties` ||
 |#
 
 #### Ошибка доступа
@@ -545,7 +545,7 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-offer-add-rest-v3.md)
 - [{#T}](./catalog-product-offer-update-rest-v3.md)
 - [{#T}](./catalog-product-offer-list-rest-v3.md)
-- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-download-rest-v3.md)
+- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-field-list.md)
 - [{#T}](./catalog-product-offer-field-get.md)

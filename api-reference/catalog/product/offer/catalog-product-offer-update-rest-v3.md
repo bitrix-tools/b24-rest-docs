@@ -59,21 +59,17 @@
 - `Y` — активен
 - `N` — неактивен
 
-Любое значение, кроме `Y`, сохраняется как `N`.
-
-По умолчанию: `Y` ||
+Любое значение, кроме `Y`, сохраняется как `N` ||
 || **sort**
-[`integer`](../../../data-types.md) | Сортировка.
-
-По умолчанию: `500` ||
+[`integer`](../../../data-types.md) | Сортировка ||
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, который создал запись. Идентификатор можно получить методом [user.get](../../../user/user-get.md) ||
 || **modifiedBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который изменил запись. По умолчанию — текущий пользователь ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который изменил запись ||
 || **dateActiveFrom**
-[`datetime`](../../../data-types.md) | Дата начала активности в формате ISO 8601 ||
+[`datetime`](../../../data-types.md) | Дата начала активности. Сейчас метод отклоняет это поле в любом формате даты с ошибкой валидации запроса, поэтому не передавайте его ||
 || **dateActiveTo**
-[`datetime`](../../../data-types.md) | Дата окончания активности в формате ISO 8601 ||
+[`datetime`](../../../data-types.md) | Дата окончания активности. Сейчас метод отклоняет это поле в любом формате даты с ошибкой валидации запроса, поэтому не передавайте его ||
 || **previewText**
 [`string`](../../../data-types.md) | Описание для анонса ||
 || **previewTextType**
@@ -82,9 +78,7 @@
 Возможные значения:
 
 - `text` — текст
-- `html` — HTML
-
-По умолчанию: `text` ||
+- `html` — HTML ||
 || **previewPicture**
 [`object`](../../../data-types.md) | Картинка для анонса. Сейчас метод не сохраняет значение поля, подробнее — в предупреждении ниже ||
 || **detailText**
@@ -95,9 +89,7 @@
 Возможные значения:
 
 - `text` — текст
-- `html` — HTML
-
-По умолчанию: `text` ||
+- `html` — HTML ||
 || **detailPicture**
 [`object`](../../../data-types.md) | Детальная картинка. Сейчас метод не сохраняет значение поля, подробнее — в предупреждении ниже ||
 || **iblockSectionId**
@@ -206,7 +198,7 @@
 - `N` — запрещена
 - `D` — по настройкам модуля ||
 || **properties**
-[`object`](../../../data-types.md) | Значения свойств, которые нужно изменить. Ключ — `PROPERTY_{id}`, где `{id}` — идентификатор свойства. Значение передавайте объектом `{"VALUE": ...}` или массивом таких объектов. Значение строкой или числом метод не сохраняет.
+[`object`](../../../data-types.md) | Значения свойств, которые нужно изменить. Ключ — `PROPERTY_{id}`, где `{id}` — идентификатор свойства. Значение передавайте объектом `{"VALUE": ...}` или массивом таких объектов. Значение строкой или числом метод не сохраняет и очищает свойство.
 
 Свойства, которые не переданы, сохраняют текущие значения.
 
@@ -239,7 +231,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":7555,"fields":{"name":"DOCS-V3-OFFER Футболка синяя L","weight":220}}' \
+    -d '{"id":7555,"fields":{"name":"Футболка синяя L","weight":220}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.update
     ```
 
@@ -249,7 +241,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":7555,"fields":{"name":"DOCS-V3-OFFER Футболка синяя L","weight":220},"auth":"**put_access_token_here**"}' \
+    -d '{"id":7555,"fields":{"name":"Футболка синяя L","weight":220},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.product.offer.update
     ```
 
@@ -275,7 +267,7 @@
         params: {
           id: 7555,
           fields: {
-            name: 'DOCS-V3-OFFER Футболка синяя L',
+            name: 'Футболка синяя L',
             weight: 220,
           },
         },
@@ -308,7 +300,7 @@
             params: {
               id: 7555,
               fields: {
-                name: 'DOCS-V3-OFFER Футболка синяя L',
+                name: 'Футболка синяя L',
                 weight: 220,
               },
             },
@@ -341,7 +333,7 @@
         bitrix_response = client.catalog.product.offer.update(
             id=7555,
             fields={
-                "name": "DOCS-V3-OFFER Футболка синяя L",
+                "name": "Футболка синяя L",
                 "weight": 220,
             },
         ).response
@@ -373,7 +365,7 @@
                 [
                     'id' => 7555,
                     'fields' => [
-                        'name' => 'DOCS-V3-OFFER Футболка синяя L',
+                        'name' => 'Футболка синяя L',
                         'weight' => 220,
                     ],
                 ]
@@ -399,7 +391,7 @@
         {
             id: 7555,
             fields: {
-                name: 'DOCS-V3-OFFER Футболка синяя L',
+                name: 'Футболка синяя L',
                 weight: 220,
             },
         },
@@ -424,7 +416,7 @@
         [
             'id' => 7555,
             'fields' => [
-                'name' => 'DOCS-V3-OFFER Футболка синяя L',
+                'name' => 'Футболка синяя L',
                 'weight' => 220,
             ],
         ]
@@ -442,7 +434,7 @@
     res, err := client.Core().Call(ctx, "catalog.product.offer.update", b24.Params{
     	"id": 7555,
     	"fields": b24.Params{
-    		"name": "DOCS-V3-OFFER Футболка синяя L",
+    		"name": "Футболка синяя L",
     		"weight": 220,
     	},
     })
@@ -479,8 +471,8 @@ HTTP-статус: **200**
         "item": {
             "id": 7555,
             "iblockId": 27,
-            "name": "DOCS-V3-OFFER Футболка синяя L",
-            "code": "docs-v3-offer-blue-m",
+            "name": "Футболка синяя L",
+            "code": "tshirt-blue-m",
             "xmlId": "7555",
             "active": "Y",
             "sort": 500,
@@ -695,8 +687,9 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `-` | Не заполнено значение хотя бы одного обязательного поля: id, filter | Передайте `id`. Вместе с этим сообщением приходит второе: «Должно быть передано только одно из значений: id, filter» ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` ||
-|| `-` | Product - #ID# is not exists in catalog - #IBLOCK_ID# | Уберите `iblockId` из `fields` или передайте текущий инфоблок записи ||
-|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: #KEYS# | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
+|| `-` | Product - 7685 is not exists in catalog - 25 | Уберите `iblockId` из `fields` или передайте текущий инфоблок записи ||
+|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: foo | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
+|| `-` | Wrong format of field `dateActiveFrom`. | Уберите `dateActiveFrom` из `fields`: сейчас метод не принимает даты активности. Для `dateActiveTo` текст ошибки — Wrong format of field `dateActiveTo`. ||
 |#
 
 #### Ошибки валидации объекта
@@ -705,7 +698,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `#FIELD#` | Поле "#FIELD#" не доступно к заполнению | Уберите из `fields` поля только для чтения: `id`, `type`, `available`, `bundle`, `dateCreate`, `timestampX` ||
+|| `available` | Поле "available" не доступно к заполнению | Уберите из `fields` поля только для чтения: `id`, `type`, `available`, `bundle`, `dateCreate`, `timestampX` ||
 |#
 
 #### Ошибка отсутствия объекта
@@ -714,7 +707,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Записи нет или это не вариация. Проверьте идентификатор методом [catalog.product.offer.list](./catalog-product-offer-list-rest-v3.md) ||
+|| `id` | Запись с ID = `999999` не найдена | Записи нет или это не вариация. Проверьте идентификатор методом [catalog.product.offer.list](./catalog-product-offer-list-rest-v3.md) ||
 |#
 
 #### Ошибка формата фильтра
@@ -723,7 +716,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter` | Не удается распознать выражение фильтра `filter` | Метод не поддерживает `filter`. Передайте `id` ||
+|| `filter` | Не удается распознать выражение фильтра `Unknown filter condition` | Метод не поддерживает `filter`. Передайте `id` ||
 |#
 
 #### Ошибка неизвестного поля
@@ -732,7 +725,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
+|| `-` | Неизвестное поле `foo` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
 |#
 
 #### Ошибка доступа
@@ -751,7 +744,7 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-offer-add-rest-v3.md)
 - [{#T}](./catalog-product-offer-get-rest-v3.md)
 - [{#T}](./catalog-product-offer-list-rest-v3.md)
-- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-download-rest-v3.md)
+- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-field-list.md)
 - [{#T}](./catalog-product-offer-field-get.md)

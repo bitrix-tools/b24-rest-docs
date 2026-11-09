@@ -239,7 +239,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":25,"name":"DOCS-V3-SKU Футболка","code":"docs-v3-sku-futbolka","iblockSectionId":31,"previewText":"Футболка из хлопка","sort":100}}' \
+    -d '{"fields":{"iblockId":25,"name":"Футболка","code":"futbolka","iblockSectionId":31,"previewText":"Футболка из хлопка","sort":100}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.add
     ```
 
@@ -249,7 +249,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":25,"name":"DOCS-V3-SKU Футболка","code":"docs-v3-sku-futbolka","iblockSectionId":31,"previewText":"Футболка из хлопка","sort":100},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"iblockId":25,"name":"Футболка","code":"futbolka","iblockSectionId":31,"previewText":"Футболка из хлопка","sort":100},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.product.sku.add
     ```
 
@@ -277,8 +277,8 @@
         params: {
           fields: {
             iblockId: 25,
-            name: 'DOCS-V3-SKU Футболка',
-            code: 'docs-v3-sku-futbolka',
+            name: 'Футболка',
+            code: 'futbolka',
             iblockSectionId: 31,
             previewText: 'Футболка из хлопка',
             sort: 100,
@@ -313,8 +313,8 @@
             params: {
               fields: {
                 iblockId: 25,
-                name: 'DOCS-V3-SKU Футболка',
-                code: 'docs-v3-sku-futbolka',
+                name: 'Футболка',
+                code: 'futbolka',
                 iblockSectionId: 31,
                 previewText: 'Футболка из хлопка',
                 sort: 100,
@@ -349,7 +349,7 @@
         bitrix_response = client.catalog.product.sku.add(
             fields={
                 "iblockId": 25,
-                "name": "DOCS-V3-SKU Футболка",
+                "name": "Футболка",
                 "code": "docs-v3-sku-futbolka",
                 "iblockSectionId": 31,
                 "previewText": "Футболка из хлопка",
@@ -384,8 +384,8 @@
                 [
                     'fields' => [
                         'iblockId' => 25,
-                        'name' => 'DOCS-V3-SKU Футболка',
-                        'code' => 'docs-v3-sku-futbolka',
+                        'name' => 'Футболка',
+                        'code' => 'futbolka',
                         'iblockSectionId' => 31,
                         'previewText' => 'Футболка из хлопка',
                         'sort' => 100,
@@ -413,8 +413,8 @@
         {
             fields: {
                 iblockId: 25,
-                name: 'DOCS-V3-SKU Футболка',
-                code: 'docs-v3-sku-futbolka',
+                name: 'Футболка',
+                code: 'futbolka',
                 iblockSectionId: 31,
                 previewText: 'Футболка из хлопка',
                 sort: 100,
@@ -441,8 +441,8 @@
         [
             'fields' => [
                 'iblockId' => 25,
-                'name' => 'DOCS-V3-SKU Футболка',
-                'code' => 'docs-v3-sku-futbolka',
+                'name' => 'Футболка',
+                'code' => 'futbolka',
                 'iblockSectionId' => 31,
                 'previewText' => 'Футболка из хлопка',
                 'sort' => 100,
@@ -462,8 +462,8 @@
     res, err := client.Core().Call(ctx, "catalog.product.sku.add", b24.Params{
     	"fields": b24.Params{
     		"iblockId": 25,
-    		"name": "DOCS-V3-SKU Футболка",
-    		"code": "docs-v3-sku-futbolka",
+    		"name": "Футболка",
+    		"code": "futbolka",
     		"iblockSectionId": 31,
     		"previewText": "Футболка из хлопка",
     		"sort": 100,
@@ -502,8 +502,8 @@ HTTP-статус: **200**
         "item": {
             "id": 7553,
             "iblockId": 25,
-            "name": "DOCS-V3-SKU Футболка",
-            "code": "docs-v3-sku-futbolka",
+            "name": "Футболка",
+            "code": "futbolka",
             "xmlId": "7553",
             "active": "Y",
             "sort": 100,
@@ -771,8 +771,8 @@ HTTP-статус: **400**
 || `-` | VAT vatId is not exists | Передайте идентификатор существующей ставки НДС ||
 || `-` | User createdBy is not exists | Передайте идентификатор существующего пользователя. Для `modifiedBy` приходит аналогичная ошибка ||
 || `-` | Currency purchasingCurrency is not exists | Передайте код существующей валюты ||
-|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: #KEYS# | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
-|| `-` | The properties field names one property by several keys: #KEYS# | Передайте каждое свойство под одним ключом ||
+|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: foo | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
+|| `-` | The properties field names one property by several keys: PROPERTY_303, PROPERTY_0303 | Передайте каждое свойство под одним ключом ||
 |#
 
 #### Ошибка неизвестного поля
@@ -781,7 +781,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
+|| `-` | Неизвестное поле `foo` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
 |#
 
 #### Ошибка доступа

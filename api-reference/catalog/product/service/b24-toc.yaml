@@ -1,6 +1,6 @@
 title: Услуги
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Добавить услугу
@@ -11,7 +11,7 @@ items:
     href: catalog-product-service-update.md
   - name: Обновить поля услуги v 3.0
     href: catalog-product-service-update-rest-v3.md
-  - name: Получить значения полей услуги 
+  - name: Получить значения полей услуги
     href: catalog-product-service-get.md
   - name: Получить значения полей услуги v 3.0
     href: catalog-product-service-get-rest-v3.md
