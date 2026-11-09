@@ -11,7 +11,7 @@
 
 С помощью методов REST вы можете создать простые товары или услуги, а также товары с вариациями.
 
-Простой товар или услуга — это одна учетная позиция с наименованием и единицей измерения. Вариация товара — это торговое предложение, в котором у товара есть дополнительные характеристики: цвет и размер. Для каждого сочетания характеристик создается отдельная учетная позиция с уникальным артикулом.
+Простой товар или услуга — это одна учетная позиция с наименованием и единицей измерения. Вариация товара — это торговое предложение, в котором у товара есть дополнительные характеристики, например цвет и размер. Для каждого сочетания характеристик создается отдельная учетная позиция с уникальным артикулом.
 
 Для простого товара используйте методы `catalog.product.*`, для услуги — `catalog.product.service.*`. Товар с вариациями создавайте через головной товар `catalog.product.sku.*` и связанные с ним вариации `catalog.product.offer.*`. Состав полей каждого типа приведен в [типах данных Каталога](../data-types.md); доступные поля конкретного каталога можно получить методом `getFieldsByFilter` соответствующей группы.
 
@@ -104,7 +104,7 @@
     #|
     || **Событие** | **Вызывается** ||
     || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении товара ||
-    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении товара ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При изменении товара ||
     || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении товара ||
     |#
 
@@ -142,7 +142,7 @@
     #|
     || **Событие** | **Вызывается** ||
     || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении услуги ||
-    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении услуги ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При изменении услуги ||
     || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении услуги ||
     |#
 
@@ -180,7 +180,7 @@
     #|
     || **Событие** | **Вызывается** ||
     || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении головного товара ||
-    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении головного товара ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При изменении головного товара ||
     || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении головного товара ||
     |#
 
@@ -218,7 +218,7 @@
     #|
     || **Событие** | **Вызывается** ||
     || [CATALOG.PRODUCT.ON.ADD](./events/catalog-product-on-add.md) | При добавлении вариации ||
-    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При обновлении вариации ||
+    || [CATALOG.PRODUCT.ON.UPDATE](./events/catalog-product-on-update.md) | При изменении вариации ||
     || [CATALOG.PRODUCT.ON.DELETE](./events/catalog-product-on-delete.md) | При удалении вариации ||
     |#
 

@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `CATALOG.PRODUCT.ON.DELETE` срабатывает при удалении товара.
+Событие `CATALOG.PRODUCT.ON.DELETE` срабатывает при удалении товара, комплекта, головного товара, вариации или услуги.
 
 {% note info "" %}
 
@@ -87,21 +87,24 @@
 [`catalog_product.id`](../../data-types.md#catalog_product)\|
 [`catalog_product_sku.id`](../../data-types.md#catalog_product_sku)\|
 [`catalog_product_offer.id`](../../data-types.md#catalog_product_offer)\|
-[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор товара. Получить все поля товара по его идентификатору можно с помощью методов:
-- [catalog.product.get](../catalog-product-get.md) — для простых товаров
+[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор товара. Получить все поля товара по его идентификатору можно методами:
+
+- [catalog.product.get](../catalog-product-get.md) — для простых товаров и комплектов
 - [catalog.product.sku.get](../sku/catalog-product-sku-get.md) — для головных товаров
 - [catalog.product.offer.get](../offer/catalog-product-offer-get.md) — для вариаций
-- [catalog.product.service.get](../service/catalog-product-service-get.md) — для услуг
-||
+- [catalog.product.service.get](../service/catalog-product-service-get.md) — для услуг ||
 || **TYPE***
 [`integer`](../../../data-types.md) | Тип товара:
+
 - `1` — простой товар
+- `2` — комплект
 - `3` — головной товар с вариациями
 - `4` — вариация
-- `5` — вариация без товара
+- `5` — вариация без головного товара
 - `6` — головной товар без вариаций
 - `7` — услуга
-||
+
+Справочник типов возвращает метод [catalog.product.type.list](../catalog-product-type-list.md) ||
 |#
 
 ### Параметр auth {#auth}

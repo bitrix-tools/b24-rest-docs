@@ -1,6 +1,6 @@
 title: Товар
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Добавить товар
@@ -11,7 +11,7 @@ items:
     href: catalog-product-update.md
   - name: Обновить товар v 3.0
     href: catalog-product-update-rest-v3.md
-  - name: Получить товар по id
+  - name: Получить товар по идентификатору
     href: catalog-product-get.md
   - name: Получить товар по идентификатору v 3.0
     href: catalog-product-get-rest-v3.md

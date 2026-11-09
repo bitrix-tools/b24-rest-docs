@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на просмотр каталога товаров
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара»
 
-Метод `catalog.product.getFieldsByFilter` получает описания полей товара для указанного каталога. Ответ показывает доступные поля и их признаки `isRequired`, `isReadOnly` и `isImmutable`; по ним можно подготовить запросы [catalog.product.add](./catalog-product-add.md) и [catalog.product.update](./catalog-product-update.md).
+Метод `catalog.product.getFieldsByFilter` возвращает описание полей простого товара в указанном каталоге, включая свойства каталога.
 
 ## Параметры метода
 
@@ -22,23 +22,24 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **filter*** 
-[`object`](../../data-types.md) | Фильтр для получения всех полей товара ||
+|| **filter***
+[`object`](../../data-types.md) | Объект с идентификатором каталога [(подробное описание)](#filter) ||
 |#
 
-### Параметр filter
+### Параметр filter {#filter}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **iblockId*** 
-[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор информационного блока.
+|| **iblockId***
+[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога товаров. Получить идентификатор можно методом [catalog.catalog.list](../catalog/catalog-catalog-list.md).
 
-Для получения существующих идентификаторов информационных блоков необходимо использовать [catalog.catalog.list](../catalog/catalog-catalog-list.md)
- ||
+Для каталога вариаций метод вернет ошибку `productType is not allowed for this catalog` ||
 |#
+
+Метод всегда возвращает поля простого товара. Ключ `productType` в `filter` не учитывается.
 
 ## Примеры кода
 
@@ -52,7 +53,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"iblockId":23}}' \
+    -d '{"filter":{"iblockId":25}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.getFieldsByFilter
     ```
 
@@ -62,7 +63,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"iblockId":23},"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"iblockId":25},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.getFieldsByFilter
     ```
 
@@ -98,7 +99,7 @@
         method: 'catalog.product.getFieldsByFilter',
         params: {
           filter: {
-            iblockId: 23,
+            iblockId: 25,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -132,7 +133,7 @@
             method: 'catalog.product.getFieldsByFilter',
             params: {
               filter: {
-                iblockId: 23,
+                iblockId: 25,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -164,7 +165,7 @@
     try:
         bitrix_response = client.catalog.product.get_fields_by_filter(
             filter={
-                "iblockId": 23,
+                "iblockId": 25,
             },
         ).response
         result = bitrix_response.result
@@ -184,7 +185,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -193,11 +193,11 @@
                 'catalog.product.getFieldsByFilter',
                 [
                     'filter' => [
-                        'iblockId' => 23,
+                        'iblockId' => 25,
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -212,10 +212,10 @@
 
     ```js
     BX24.callMethod(
-        'catalog.product.getFieldsByFilter', 
+        'catalog.product.getFieldsByFilter',
         {
             filter: {
-                iblockId: 23,
+                iblockId: 25,
             }
         },
         function(result) {
@@ -236,7 +236,7 @@
         'catalog.product.getFieldsByFilter',
         [
             'filter' => [
-                'iblockId' => 23
+                'iblockId' => 25
             ]
         ]
     );
@@ -252,7 +252,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.getFieldsByFilter", b24.Params{
     	"filter": b24.Params{
-    		"iblockId": 23,
+    		"iblockId": 25,
     	},
     })
     if err != nil {
@@ -299,13 +299,6 @@ HTTP-статус: **200**
                 "name": "Наличие набора",
                 "type": "char"
             },
-            "canBuyZero": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Разрешение покупки при отсутствии товара",
-                "type": "char"
-            },
             "code": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -313,25 +306,11 @@ HTTP-статус: **200**
                 "name": "Символьный код",
                 "type": "string"
             },
-            "createdBy": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Кто создал",
-                "type": "integer"
-            },
             "dateActiveFrom": {
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
                 "name": "DATE_ACTIVE_FROM",
-                "type": "datetime"
-            },
-            "dateActiveTo": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "DATE_ACTIVE_TO",
                 "type": "datetime"
             },
             "dateCreate": {
@@ -348,33 +327,19 @@ HTTP-статус: **200**
                 "name": "Детальная картинка",
                 "type": "file"
             },
-            "detailText": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Детальное описание",
-                "type": "string"
-            },
-            "detailTextType": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Тип детального описания",
-                "type": "string"
-            },
-            "height": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Высота",
-                "type": "double"
-            },
             "iblockId": {
                 "isImmutable": true,
                 "isReadOnly": false,
                 "isRequired": true,
                 "name": "Идентификатор инфоблока",
                 "type": "integer"
+            },
+            "iblockSection": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Разделы",
+                "type": "list"
             },
             "iblockSectionId": {
                 "isImmutable": false,
@@ -390,25 +355,11 @@ HTTP-статус: **200**
                 "name": "Идентификатор",
                 "type": "integer"
             },
-            "length": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Длина",
-                "type": "double"
-            },
             "measure": {
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
                 "name": "Единица измерения",
-                "type": "integer"
-            },
-            "modifiedBy": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Кто изменил",
                 "type": "integer"
             },
             "name": {
@@ -418,13 +369,6 @@ HTTP-статус: **200**
                 "name": "Наименование",
                 "type": "string"
             },
-            "negativeAmountTrace": {
-                "isImmutable": false,
-                "isReadOnly": true,
-                "isRequired": false,
-                "name": "NEGATIVE_AMOUNT_TRACE",
-                "type": "char"
-            },
             "previewPicture": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -432,48 +376,27 @@ HTTP-статус: **200**
                 "name": "Картинка анонса",
                 "type": "file"
             },
-            "previewText": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Описание для анонса",
-                "type": "string"
-            },
-            "previewTextType": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Тип описания для анонса",
-                "type": "string"
-            },
-            "priceType": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Тип оплаты",
-                "type": "char"
-            },
-            "property258": {
+            "property301": {
                 "isDynamic": true,
                 "isImmutable": false,
                 "isMultiple": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "name": "Новая строка",
+                "name": "Артикул",
                 "propertyType": "S",
                 "type": "productproperty",
                 "userType": ""
             },
-            "property259": {
+            "property305": {
                 "isDynamic": true,
                 "isImmutable": false,
                 "isMultiple": true,
                 "isReadOnly": false,
                 "isRequired": false,
-                "name": "Новая строка 2",
+                "name": "Материал",
                 "propertyType": "S",
                 "type": "productproperty",
-                "userType": ""
+                "userType": null
             },
             "purchasingCurrency": {
                 "isImmutable": false,
@@ -496,41 +419,6 @@ HTTP-статус: **200**
                 "name": "Доступное количество",
                 "type": "double"
             },
-            "quantityReserved": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Зарезервированное количество",
-                "type": "double"
-            },
-            "quantityTrace": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Режим количественного учета",
-                "type": "char"
-            },
-            "sort": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Индекс сортировки",
-                "type": "integer"
-            },
-            "subscribe": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Разрешение подписки на товар",
-                "type": "char"
-            },
-            "timestampX": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Дата изменения",
-                "type": "datetime"
-            },
             "type": {
                 "isImmutable": false,
                 "isReadOnly": true,
@@ -552,20 +440,6 @@ HTTP-статус: **200**
                 "name": "НДС включен в цену",
                 "type": "char"
             },
-            "weight": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Вес",
-                "type": "double"
-            },
-            "width": {
-                "isImmutable": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Ширина",
-                "type": "double"
-            },
             "xmlId": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -576,15 +450,19 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1717598883.81413,
-        "finish": 1717598884.460406,
-        "duration": 0.6462759971618652,
-        "processing": 0.15173888206481934,
-        "date_start": "2024-06-05T17:48:03+03:00",
-        "date_finish": "2024-06-05T17:48:04+03:00"
+        "start": 1793892123,
+        "finish": 1793892123.226906,
+        "duration": 0.22690606117248535,
+        "processing": 0,
+        "date_start": "2026-11-05T18:22:03+03:00",
+        "date_finish": "2026-11-05T18:22:03+03:00",
+        "operating_reset_at": 1793892720,
+        "operating": 0
     }
 }
 ```
+
+Метод возвращает описание всех полей товара и свойств каталога. В примере показана часть полей.
 
 ### Возвращаемые данные
 
@@ -592,11 +470,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Результат запроса с описанием полей товара ||
+[`object`](../../data-types.md) | Корневой элемент ответа ||
 || **result.product**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_product`](../data-types.md#catalog_product), а `value` — объект типа [`rest_field_description`](../data-types.md#rest_field_description). ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product](../data-types.md#catalog_product), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description).
+
+Свойства каталога возвращаются с ключом `property{id}`, например `property301`. В их описании есть дополнительные поля:
+
+- `isDynamic` — `true`, поле является свойством каталога
+- `isMultiple` — `true`, если свойство множественное
+- `propertyType` — базовый тип свойства: `S` — строка, `N` — число, `L` — список, `F` — файл, `E` — привязка к элементам, `G` — привязка к разделам
+- `userType` — пользовательский тип свойства, например `directory` или `Date`. Если тип не задан — `null` или пустая строка ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -605,8 +490,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -616,17 +501,17 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `200040300010` | `Access Denied` | Нет права на просмотр каталога товаров ||
+|| `400` | `200040300010` | `Access Denied` | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
 || `400` | `100` | `Could not find value for parameter {filter}` | Не передан обязательный параметр `filter` ||
-|| `400` | `0` | `Incorrect filter format` | Параметр `filter` передан не как объект ||
-|| `400` | `0` | `parameter - iblockId is empty` | Не указан `filter.iblockId` ||
-|| `400` | `0` | `iblock is not catalog` | Указанный инфоблок не является торговым каталогом ||
-|| `400` | `0` | `productType is not allowed for this catalog` | Тип товара не разрешен для указанного каталога ||
+|| `400` | `0` | `Incorrect filter format` | Параметр `filter` передан не объектом, например строкой ||
+|| `400` | `0` | `parameter - iblockId is empty` | В `filter` не передан ключ `iblockId` или его значение не число ||
+|| `400` | `0` | `iblock is not catalog` | Инфоблок с указанным `iblockId` не существует или не является торговым каталогом ||
+|| `400` | `0` | `productType is not allowed for this catalog` | Передан идентификатор каталога вариаций. Передайте идентификатор каталога товаров ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-product-add.md)
 - [{#T}](./catalog-product-update.md)
@@ -634,3 +519,4 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-list.md)
 - [{#T}](./catalog-product-download.md)
 - [{#T}](./catalog-product-delete.md)
+- [{#T}](./catalog-product-fields-get-by-filter.md)

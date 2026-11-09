@@ -59,7 +59,7 @@
 
 Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
-`https://{адрес_установки}/rest/api/{user_id}/{токен_вебхука}/catalog.product.fields.getbyfilter`
+`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/catalog.product.fields.getbyfilter`
 
 {% endnote %}
 

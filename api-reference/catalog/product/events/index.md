@@ -23,6 +23,12 @@
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../events/test-handler.md).
 
+## Данные событий
+
+Все три события передают в `data.FIELDS` два поля: `ID` — идентификатор товара и `TYPE` — тип товара. Справочник типов возвращает метод [catalog.product.type.list](../catalog-product-type-list.md).
+
+Чтобы получить остальные поля, вызовите метод `get` для типа товара: [catalog.product.get](../catalog-product-get.md), [catalog.product.sku.get](../sku/catalog-product-sku-get.md), [catalog.product.offer.get](../offer/catalog-product-offer-get.md) или [catalog.product.service.get](../service/catalog-product-service-get.md). После события `CATALOG.PRODUCT.ON.DELETE` товар удален, и получить его поля нельзя.
+
 ## Доступность серверов для отправки и получения событий
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../_includes/events-index.md) %}
@@ -36,6 +42,6 @@
 #|
 || **Событие** | **Вызывается** ||
 || [CATALOG.PRODUCT.ON.ADD](./catalog-product-on-add.md) | При добавлении товара, услуги, головного товара или вариации вручную или методами [catalog.product.add](../catalog-product-add.md), [catalog.product.service.add](../service/catalog-product-service-add.md), [catalog.product.sku.add](../sku/catalog-product-sku-add.md), [catalog.product.offer.add](../offer/catalog-product-offer-add.md) ||
-|| [CATALOG.PRODUCT.ON.UPDATE](./catalog-product-on-update.md) | При обновлении товара, услуги, головного товара или вариации вручную или методами [catalog.product.update](../catalog-product-update.md), [catalog.product.service.update](../service/catalog-product-service-update.md), [catalog.product.sku.update](../sku/catalog-product-sku-update.md), [catalog.product.offer.update](../offer/catalog-product-offer-update.md) ||
+|| [CATALOG.PRODUCT.ON.UPDATE](./catalog-product-on-update.md) | При изменении товара, услуги, головного товара или вариации вручную или методами [catalog.product.update](../catalog-product-update.md), [catalog.product.service.update](../service/catalog-product-service-update.md), [catalog.product.sku.update](../sku/catalog-product-sku-update.md), [catalog.product.offer.update](../offer/catalog-product-offer-update.md) ||
 || [CATALOG.PRODUCT.ON.DELETE](./catalog-product-on-delete.md) | При удалении товара, услуги, головного товара или вариации вручную или методами [catalog.product.delete](../catalog-product-delete.md), [catalog.product.service.delete](../service/catalog-product-service-delete.md), [catalog.product.sku.delete](../sku/catalog-product-sku-delete.md), [catalog.product.offer.delete](../offer/catalog-product-offer-delete.md) ||
 |#

@@ -779,7 +779,7 @@ HTTP-статус: **400**
 || `-` | User modifiedBy is not exists | Передайте идентификатор существующего пользователя ||
 || `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: #KEYS# | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
 || `-` | The properties field names one property by several keys: #KEYS# | Укажите каждое свойство одним ключом, например только `PROPERTY_301` ||
-|| `dateActiveFrom` | Wrong format of field `dateActiveFrom`. | Сейчас дату нельзя задать методами REST 3.0. Передайте `null` или не передавайте поле ||
+|| `-` | Wrong format of field `dateActiveFrom`. | Сейчас дату нельзя задать методами REST 3.0. Передайте `null` или не передавайте поле ||
 || `dateActiveFrom` | В поле `dateActiveFrom` требуется тип данных `DateTime` для такого запроса | Сейчас дату нельзя задать методами REST 3.0. Передайте `null` или не передавайте поле ||
 || `sort` | В поле `sort` требуется тип данных `int` для такого запроса | Передайте целое число ||
 |#

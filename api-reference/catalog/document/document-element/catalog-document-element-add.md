@@ -315,7 +315,7 @@
     	DocID           b24.ID  `json:"docId"`
     	ElementID       b24.ID  `json:"elementId"`
     	ID              b24.ID  `json:"id"`
-    	PurchasingPrice float371 `json:"purchasingPrice"`
+    	PurchasingPrice float64 `json:"purchasingPrice"`
     	StoreTo         int     `json:"storeTo"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
