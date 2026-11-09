@@ -11,9 +11,22 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: создатель или администратор потока
+> Кто может выполнять метод: администратор Битрикс24, создатель или администратор потока
 
 Метод `tasks.flow.Flow.update` изменяет поток.
+
+{% note warning "" %}
+
+Метод сбрасывает к значениям по умолчанию настройки, которых нет в `flowData`:
+- описание `description`
+- флаги `matchWorkTime`, `matchSchedule`, `responsibleCanChangeDeadline`, `notifyAtHalfTime`, `taskControl`
+- уведомления `notifyOnQueueOverflow`, `notifyOnTasksInProgressOverflow`, `notifyWhenEfficiencyDecreases`
+
+Например, вызов только с `id` и `name` переименует поток, сотрет его описание и выключит уведомления.
+
+Чтобы изменить одно поле и не потерять остальные, получите поток методом [tasks.flow.Flow.get](./tasks-flow-flow-get.md) и передайте вместе с изменением текущие значения этих настроек.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -22,53 +35,50 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **flowData*** 
-[`object`](../../data-types.md) | Значения полей для изменения потока (подробное описание приведено ниже) ||
+|| **flowData***
+[`object`](../../data-types.md) | Значения полей для изменения потока [(подробное описание)](#flowdata) ||
 |#
 
-### Параметр flowData
+### Параметр flowData {#flowdata}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id*** 
-[`integer`](../../data-types.md) | Идентификатор потока, который нужно изменить. 
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор потока, который нужно изменить.
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
-|| **name** 
-[`string`](../../data-types.md) | Название потока. Должно быть уникальным для каждого потока. 
+Идентификатор вернет метод [tasks.flow.Flow.create](./tasks-flow-flow-create.md) при создании потока, а для задачи из потока — метод [tasks.task.get](../tasks-task-get.md) ||
+|| **name**
+[`string`](../../data-types.md) | Название потока, от 1 до 255 символов. Должно быть уникальным в Битрикс24.
 
-Для проверки названия можно воспользоваться методом [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md) ||
-|| **description** 
-[`string`](../../data-types.md) | Описание потока ||
-|| **groupId** 
-[`integer`](../../data-types.md) | Идентификатор группы, к которой будет привязан поток. 
-
-Если не указать, то автоматически создается новая группа ||
-|| **ownerId** 
-[`integer`](../../data-types.md) | Идентификатор администратора потока. 
-
-Если не указать, администратором будет создатель потока ||
-|| **templateId** 
+Проверить название можно методом [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md) ||
+|| **description**
+[`string`](../../data-types.md) | Описание потока. Если не передать, описание станет пустым ||
+|| **groupId**
+[`integer`](../../data-types.md) | Идентификатор группы, к которой будет привязан поток. Если не передать, группа не изменится ||
+|| **ownerId**
+[`integer`](../../data-types.md) | Идентификатор администратора потока. Если не передать, администратор не изменится ||
+|| **templateId**
 [`integer`](../../data-types.md) | Идентификатор шаблона, по которому пользователи будут добавлять задачи в поток ||
-|| **plannedCompletionTime***
-[`integer`](../../data-types.md) | Планируемое время выполнения задачи в секундах ||
-
-|| **distributionType***
+|| **plannedCompletionTime**
+[`integer`](../../data-types.md) | Сколько секунд дается на выполнение задачи, не меньше `3600` — одного часа. От этого времени поток считает крайний срок задачи. Если не передать, время не изменится ||
+|| **distributionType**
 [`string`](../../data-types.md) | Тип распределения:
 - `manually` — ручное распределение
 - `queue` — распределение по очереди
 - `himself` — самостоятельное распределение
 
-Подробнее о типах распределения — в статье [{#T}](./index.md) ||
-|| **responsibleList***
-[`array`](../../data-types.md) | Идентификаторы сотрудников, которые получат задачи.
+Подробнее о типах распределения — в статье [{#T}](./index.md).
 
-Для ручного распределения укажите идентификатор модератора потока.
+Если не передать, тип распределения не изменится ||
+|| **responsibleList**
+[`array`](../../data-types.md) | Сотрудники или отделы, которые получат задачи. Каждый элемент — пара «тип — идентификатор».
 
-Для самостоятельного распределения или распределения по очереди укажите идентификаторы сотрудников или отделы. Например:
+Для ручного распределения укажите одну пару с модератором потока, например `["user", "1"]`.
+
+Для самостоятельного распределения или распределения по очереди укажите сотрудников или отделы. Например:
 
 ```js
 [
@@ -79,11 +89,13 @@
         'department','17:F'
     ]
 ]
-``` 
+```
 
-Если не добавить суффикс `:F`, система выберет все подотделы указанного отдела по структуре компании ||
+Отдел без суффикса `:F` система возьмет вместе со всеми подотделами по структуре компании. С суффиксом `:F` — только сам отдел.
+
+Если не передать, список ответственных не изменится ||
 || **taskCreators**
-[`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате `{"<тип-сущности>": "<идентификатор-сущности>"}`. Например
+[`array`](../../data-types.md) | Кто может ставить задачи в поток: пользователи или отделы. Каждый элемент — пара `["<тип-объекта>", "<идентификатор-объекта>"]`, например:
 
 ```js
 [
@@ -96,37 +108,43 @@
 ]
 ```
 
-Если не добавить суффикс `:F`, система выберет все подотделы указанного отдела по структуре компании
+Отдел без суффикса `:F` система возьмет вместе со всеми подотделами по структуре компании. С суффиксом `:F` — только сам отдел
 
-Чтобы задачи могли добавлять все пользователи, укажите значение`{"meta-user": "all-users"}` ||
-|| **matchWorkTime** 
-[`integer`](../../data-types.md) | Пропускать выходные и праздничные дни для рассчета крайнего срока задачи. 
+Чтобы задачи могли добавлять все пользователи, передайте пару `["meta-user", "all-users"]`.
 
-Принимает значения `0` и `1`. По умолчанию `1` ||
-|| **responsibleCanChangeDeadline** 
-[`integer`](../../data-types.md) | Может ли ответственный менять дедлайн задачи. 
+Если не передать, список не изменится ||
+|| **matchWorkTime**
+[`integer`](../../data-types.md) | Пропускать выходные и праздничные дни для расчета крайнего срока задачи.
 
-Принимает значения `0` и `1`. По умолчанию `0` ||
-|| **notifyAtHalfTime** 
-[`integer`](../../data-types.md) | Уведомлять исполнителя на половине срока задачи. 
+Принимает значения `0` и `1`. Если не передать — `1` ||
+|| **matchSchedule**
+[`integer`](../../data-types.md) | Считать срок выполнения задачи только в рабочие часы по графику работы.
 
-Принимает значения `0` и `1`. По умолчанию `0` ||
-|| **taskControl** 
-[`integer`](../../data-types.md) | Отправлять выполненную задачу постановщику для проверки. 
+Принимает значения `0` и `1`. Если не передать — `0` ||
+|| **responsibleCanChangeDeadline**
+[`integer`](../../data-types.md) | Может ли ответственный менять крайний срок задачи.
 
-Принимает значения `0` и `1`. По умолчанию `0` ||
-|| **notifyOnQueueOverflow** 
-[`integer`](../../data-types.md) | Уведомлять администратора потока, когда задач в очереди более этого параметра. 
+Принимает значения `0` и `1`. Если не передать — `1` ||
+|| **notifyAtHalfTime**
+[`integer`](../../data-types.md) | Уведомлять исполнителя на половине срока задачи.
 
-По умолчанию `null` (не уведомлять) ||
-|| **notifyOnTasksInProgressOverflow** 
-[`integer`](../../data-types.md) | Уведомлять администратора потока, когда задач в работе больше этого параметра. 
+Принимает значения `0` и `1`. Если не передать — `0` ||
+|| **taskControl**
+[`integer`](../../data-types.md) | Отправлять выполненную задачу постановщику для проверки.
 
-По умолчанию `50` ||
-|| **notifyWhenEfficiencyDecreases** 
-[`integer`](../../data-types.md) | Уведомлять администратора потока, когда эффективность упала ниже этого параметра. 
+Принимает значения `0` и `1`. Если не передать — `0` ||
+|| **notifyOnQueueOverflow**
+[`integer`](../../data-types.md) | Количество задач в очереди, при превышении которого администратор потока получит уведомление.
 
-По умолчанию `null` (не уведомлять) ||
+Если не передать, уведомление выключится ||
+|| **notifyOnTasksInProgressOverflow**
+[`integer`](../../data-types.md) | Количество задач в работе, при превышении которого администратор потока получит уведомление.
+
+Если не передать, уведомление выключится ||
+|| **notifyWhenEfficiencyDecreases**
+[`integer`](../../data-types.md) | Эффективность в процентах, при снижении ниже которой администратор потока получит уведомление.
+
+Если не передать, уведомление выключится ||
 |#
 
 ## Примеры кода
@@ -140,6 +158,7 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
         "flowData": {
             "id": 517,
@@ -153,7 +172,7 @@
             "notifyAtHalfTime": 0
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.flow.Flow.update
     ```
 
 - cURL (OAuth)
@@ -161,7 +180,7 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
         "flowData": {
             "id": 517,
@@ -173,9 +192,10 @@
             "taskCreators": [["meta-user","all-users"]],
             "matchWorkTime": 1,
             "notifyAtHalfTime": 0
-        }
+        },
+        "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.update
+    https://**put_your_bitrix24_address**/rest/tasks.flow.Flow.update
     ```
 
 - JS (TS)
@@ -206,10 +226,11 @@
       demo: boolean
       responsibleCanChangeDeadline: boolean
       matchWorkTime: boolean
+      matchSchedule: boolean
       taskControl: boolean
       notifyAtHalfTime: boolean
       notifyOnQueueOverflow: number | null
-      notifyOnTasksInProgressOverflow: number
+      notifyOnTasksInProgressOverflow: number | null
       notifyWhenEfficiencyDecreases: number | null
       taskCreators: string[][]
       team: string[][]
@@ -383,13 +404,13 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating flow: ' . $e->getMessage();
@@ -516,12 +537,12 @@ HTTP-статус: **200**
         "id": 517,
         "creatorId": 1,
         "ownerId": 1,
-        "groupId": 178,
+        "groupId": 7,
         "templateId": 0,
-        "efficiency": 0,
+        "efficiency": 100,
         "active": true,
         "plannedCompletionTime": 7200,
-        "activity": "2024-09-02T15:27:29+00:00",
+        "activity": "2026-11-06T12:06:34+03:00",
         "name": "Updated Flow Name",
         "description": "Updated description",
         "distributionType": "manually",
@@ -534,24 +555,23 @@ HTTP-статус: **200**
         "demo": false,
         "responsibleCanChangeDeadline": true,
         "matchWorkTime": true,
+        "matchSchedule": false,
         "taskControl": false,
         "notifyAtHalfTime": false,
-        "notifyOnQueueOverflow": 10,
-        "notifyOnTasksInProgressOverflow": 50,
+        "notifyOnQueueOverflow": null,
+        "notifyOnTasksInProgressOverflow": null,
         "notifyWhenEfficiencyDecreases": null,
-        "taskCreators": [
-            [
-                "meta-user",
-                "all-users"
-            ]
-        ],
-        "team": [
-            [
-                "user",
-                "3"
-            ]
-        ],
+        "taskCreators": [],
+        "team": [],
         "trialFeatureEnabled": false
+    },
+    "time": {
+        "start": 1793956397,
+        "finish": 1793956397.557803,
+        "duration": 0.5578029155731201,
+        "processing": 0,
+        "date_start": "2026-11-06T12:13:17+03:00",
+        "date_finish": "2026-11-06T12:13:17+03:00"
     }
 }
 ```
@@ -561,62 +581,75 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
-[`object`](../../data-types.md) | Объект с данными потока ||
-|| **id** 
-[`integer`](../../data-types.md) | Идентификатор созданного потока ||
-|| **creatorId** 
-[`integer`](../../data-types.md) | Идентификатор создателя потока. Только для чтения ||
-|| **ownerId** 
+|| **result**
+[`object`](../../data-types.md) | Объект с данными потока [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор измененного потока ||
+|| **creatorId**
+[`integer`](../../data-types.md) | Идентификатор создателя потока ||
+|| **ownerId**
 [`integer`](../../data-types.md) | Идентификатор администратора потока ||
-|| **groupId** 
+|| **groupId**
 [`integer`](../../data-types.md) | Идентификатор группы, к которой привязан поток ||
-|| **templateId** 
+|| **templateId**
 [`integer`](../../data-types.md) | Идентификатор шаблона, по которому создаются задачи в потоке ||
-|| **efficiency** 
-[`integer`](../../data-types.md) | Эффективность потока в процентах. Только для чтения ||
-|| **active** 
-[`boolean`](../../data-types.md) | Статус активности потока ||
-|| **plannedCompletionTime** 
-[`integer`](../../data-types.md) | Планируемое время выполнения задачи в секундах ||
-|| **activity** 
-[`string`](../../data-types.md) | Дата и время последней активности в потоке. Только для чтения ||
-|| **name** 
+|| **efficiency**
+[`integer`](../../data-types.md) | Эффективность потока в процентах ||
+|| **active**
+[`boolean`](../../data-types.md) | Включен ли поток ||
+|| **plannedCompletionTime**
+[`integer`](../../data-types.md) | Сколько секунд дается на выполнение задачи, не меньше `3600` — одного часа. От этого времени поток считает крайний срок задачи ||
+|| **activity**
+[`datetime`](../../data-types.md) | Дата и время последней активности в потоке ||
+|| **name**
 [`string`](../../data-types.md) | Название потока ||
-|| **description** 
+|| **description**
 [`string`](../../data-types.md) | Описание потока ||
-|| **distributionType** 
+|| **distributionType**
 [`string`](../../data-types.md) | Тип распределения задач в потоке ||
 || **responsibleList**
-[`array`](../../data-types.md) | Список ответственных за задачи в потоке. Для ручного распределения это модератор потока ||
-|| **demo** 
-[`boolean`](../../data-types.md) | Является ли поток демонстрационным. Системный параметр. Только для чтения ||
-|| **responsibleCanChangeDeadline** 
-[`boolean`](../../data-types.md) | Может ли ответственный менять дедлайн задачи ||
-|| **matchWorkTime** 
+[`array`](../../data-types.md) | Список ответственных за задачи в потоке, элементы — пары «тип — идентификатор». Для ручного распределения это модератор потока ||
+|| **demo**
+[`boolean`](../../data-types.md) | Является ли поток демонстрационным. Системный параметр ||
+|| **responsibleCanChangeDeadline**
+[`boolean`](../../data-types.md) | Может ли ответственный менять крайний срок задачи ||
+|| **matchWorkTime**
 [`boolean`](../../data-types.md) | Пропускать ли выходные и праздничные дни при расчете крайнего срока задачи ||
-|| **taskControl** 
+|| **matchSchedule**
+[`boolean`](../../data-types.md) | Считать ли срок выполнения задачи только в рабочие часы по графику работы ||
+|| **taskControl**
 [`boolean`](../../data-types.md) | Отправлять ли выполненную задачу постановщику для проверки ||
-|| **notifyAtHalfTime** 
+|| **notifyAtHalfTime**
 [`boolean`](../../data-types.md) | Уведомлять ли исполнителя на половине срока задачи ||
-|| **notifyOnQueueOverflow** 
-[`integer`](../../data-types.md) | Количество задач в очереди, при превышении которого будет отправлено уведомление администратору потока (если `null`, то уведомления выключены) ||
-|| **notifyOnTasksInProgressOverflow** 
-[`integer`](../../data-types.md) | Количество задач в работе, при превышении которого будет отправлено уведомление администратору потока (если `null`, то уведомления выключены) ||
-|| **notifyWhenEfficiencyDecreases** 
-[`integer`](../../data-types.md) | Эффективность в процентах, при снижении до которой будет отправлено уведомление администратору потока (если `null`, то уведомления выключены) ||
-|| **taskCreators** 
-[`object`](../../data-types.md) | Список пользователей, которые могут добавлять задачи в поток в формате `{"<тип-объекта>": "<идентификатор-объекта>"}`. Например, `[{"user": 3}, {"department": "17:F"}]`.
+|| **notifyOnQueueOverflow**
+[`integer`](../../data-types.md) | Количество задач в очереди, при превышении которого администратор потока получит уведомление. `null` — уведомление выключено ||
+|| **notifyOnTasksInProgressOverflow**
+[`integer`](../../data-types.md) | Количество задач в работе, при превышении которого администратор потока получит уведомление. `null` — уведомление выключено ||
+|| **notifyWhenEfficiencyDecreases**
+[`integer`](../../data-types.md) | Эффективность в процентах, при снижении ниже которой администратор потока получит уведомление. `null` — уведомление выключено ||
+|| **taskCreators**
+[`array`](../../data-types.md) | Кто может ставить задачи в поток. Каждый элемент — пара «тип — идентификатор», например `["user", "3"]` или `["department", "17:F"]`. Пара `["meta-user", "all-users"]` означает, что задачи могут ставить все пользователи.
 
-Элемент `{"meta-user": "all-users"}` означает, что задачи могут добавлять все пользователи ||
+В ответе этого метода поле приходит пустым, даже если постановщики сохранены. Актуальный список вернет метод [tasks.flow.Flow.get](./tasks-flow-flow-get.md) ||
 || **team**
-[`object`](../../data-types.md) | Команда потока.
+[`array`](../../data-types.md) | Команда потока.
 
-Для ручного распределения это все участники проекта, к которому привязан поток, кроме модератора. 
+Для ручного распределения это все участники группы, к которой привязан поток, кроме модератора.
 
-Для распределения по очереди и самостоятельного распределения команда та же, что и в `responsibleList` ||
-|| **trialFeatureEnabled** 
-[`boolean`](../../data-types.md) | Включен ли демонстрационный период для потока. Системный параметр. Только для чтения ||
+Для распределения по очереди и самостоятельного распределения команда та же, что и в `responsibleList`.
+
+Элементы — пары «тип — идентификатор», как в `taskCreators`. В ответе этого метода поле приходит пустым, актуальную команду вернет метод [tasks.flow.Flow.get](./tasks-flow-flow-get.md) ||
+|| **trialFeatureEnabled**
+[`boolean`](../../data-types.md) | Включен ли демонстрационный период для потока. Системный параметр ||
 |#
 
 ## Обработка ошибок
@@ -626,7 +659,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "0",
-    "error_description": "Flow not found"
+    "error_description": "'id': field's value must be greater than 0"
 }
 ```
 
@@ -635,17 +668,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на изменение потока ||
-|| `0` | `Unknown error` | Неизвестная ошибка ||
-|| `0` | `'distributionType': field's value has an invalid value` | Некорретное значение `distributionType`. Аналогично с другими параметрами ||
-|| `0` | Поток с таким названием уже существует | ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | 'id': field's value must be greater than 0 | Не передан `flowData.id` или передано значение меньше `1` ||
+|| `400` | `0` | Доступ запрещен или поток не найден | У пользователя нет права менять поток или потока с таким `id` нет ||
+|| `400` | `0` | 'plannedCompletionTime': field's value must be greater than 3600 | Время выполнения меньше часа: `plannedCompletionTime` меньше `3600` секунд ||
+|| `400` | `0` | distributionType: unexpected value | В `distributionType` передано значение не из списка ||
+|| `400` | `0` | Поток с таким названием уже существует | Поток с таким названием уже есть в Битрикс24. Проверить название заранее можно методом [tasks.flow.Flow.isExists](./tasks-flow-flow-is-exists.md) ||
+|| `400` | `0` | Неизвестная ошибка [Flow: 267] | Потока с таким `id` нет. Эту ошибку получает администратор Битрикс24, другие пользователи — ошибку доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-flow-flow-create.md)
 - [{#T}](./tasks-flow-flow-get.md)
 - [{#T}](./tasks-flow-flow-delete.md)

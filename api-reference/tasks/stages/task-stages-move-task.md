@@ -12,14 +12,12 @@
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - любой пользователь для стадий «Моего плана»
-> - любой пользователь с доступом к группе для стадий канбана
+> - любой пользователь для стадий своего «Моего плана»
+> - пользователь с правом сортировать задачи в группе для стадий канбана группы
 
-Метод `task.stages.movetask` перемещает задачу из одной стадии в другую и позволяет изменить положение задачи в рамках канбана группы или «Моего плана».
+Метод `task.stages.movetask` перемещает задачу в другую стадию и может поставить ее перед другой задачей или после нее.
 
-Метод работает следующим образом:
-- Если передана стадия группы, перемещение происходит в рамках канбана группы
-- Если передана стадия «Моего плана», перемещение происходит в нем
+Метод определяет канбан по стадии `stageId`: если стадия принадлежит группе, задача перемещается в канбане группы, если «Моему плану» — в «Моем плане».
 
 ## Параметры метода
 
@@ -40,13 +38,15 @@
 
 {% note info %}
 
-Параметры `before` и `after` — взаимоисключающие. Указывается или тот, или другой параметр.
+Параметры `before` и `after` передают по одному, не вместе. Если передать оба, метод учтет только `before`. В примерах ниже задача встает перед задачей `3`. Чтобы поставить ее после другой задачи, передайте `after` вместо `before`.
 
-Если оба параметры не заполнены, задача добавляется в колонку стадии согласно настройкам проекта или «Моего плана».
+Если не передать ни `before`, ни `after`, задача встанет в стадии по настройкам группы или «Моего плана».
 
 {% endnote %}
 
 ## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -55,13 +55,13 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
     "id": 1,
     "stageId": 2,
-    "before": 3,
-    "after": 4
+    "before": 3
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.movetask
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.stages.movetask
     ```
 
 - cURL (OAuth)
@@ -69,14 +69,14 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
     "id": 1,
     "stageId": 2,
     "before": 3,
-    "after": 4
+    "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/task.stages.movetask
+    https://**put_your_bitrix24_address**/rest/task.stages.movetask
     ```
 
 - JS (TS)
@@ -99,7 +99,6 @@
           id: 1,
           stageId: 2,
           before: 3,
-          after: 4,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -134,7 +133,6 @@
               id: 1,
               stageId: 2,
               before: 3,
-              after: 4,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -167,7 +165,6 @@
             bitrix_id=1,
             stage_id=2,
             before=3,
-            after=4,
         ).response
         result = bitrix_response.result
         print(result)
@@ -193,21 +190,20 @@
             ->call(
                 'task.stages.movetask',
                 [
-                    'id'     => $taskId,
-                    'stageId' => $stageId,
-                    'before' => 3,
-                    'after'  => 4
+                    'id'      => 1,
+                    'stageId' => 2,
+                    'before'  => 3
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error moving task stage: ' . $e->getMessage();
@@ -224,8 +220,7 @@
         {
             id: taskId,
             stageId: stageId,
-            before: 3,
-            after: 4
+            before: 3
         },
         function(res)
         {
@@ -248,8 +243,7 @@
         [
             'id' => $taskId,
             'stageId' => $stageId,
-            'before' => 3,
-            'after' => 4
+            'before' => 3
         ]
     );
 
@@ -269,7 +263,6 @@
     	"id":      1,
     	"stageId": 2,
     	"before":  3,
-    	"after":   4,
     })
     if err != nil {
     	return fmt.Errorf("task.stages.movetask: %w", err)
@@ -286,11 +279,19 @@
 
 ## Обработка ответа
 
-HTTP-Статус: **200**
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
+    }
 }
 ```
 
@@ -299,9 +300,11 @@ HTTP-Статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
-[`boolean`](../../data-types.md) | Возвращает `true` в случае успешного перемещения стадии
+|| **result**
+[`boolean`](../../data-types.md) | Возвращает `true` в случае успешного перемещения задачи
 ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -320,19 +323,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED_MOVE` | Вы не можете перемещать эту задачу ||
-|| `TASK_NOT_FOUND` | Задача не найдена или доступ к ней запрещен ||
-|| `NOT_FOUND` | Стадия не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `NOT_FOUND` | Стадия не найдена | Стадии с идентификатором `stageId` нет ||
+|| `400` | `TASK_NOT_FOUND` | Задача не найдена или доступ к ней запрещен | Задачи с идентификатором `id` нет или у пользователя нет к ней доступа ||
+|| `400` | `ACCESS_DENIED_MOVE` | Вы не можете перемещать эту задачу | У пользователя нет права сортировать задачи в группе или стадия из чужого «Моего плана» ||
+|| `400` | `DIFFERENT_STAGES` | Стадия и задача находятся в разных группах | Стадия `stageId` относится к канбану другой группы, а не той, в которой задача ||
+|| `400` | `DISPATCHER_ERROR` | Argument "id" is required, but no value passed for task.stages.movetask | Не передан обязательный параметр `id`. Если не передан `stageId`, в тексте ошибки будет его имя ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-stages-add.md)
 - [{#T}](./task-stages-update.md)
 - [{#T}](./task-stages-get.md)
-- [{#T}](./task-stages-can-move-task.md)
 - [{#T}](./task-stages-delete.md)
+- [{#T}](./task-stages-can-move-task.md)

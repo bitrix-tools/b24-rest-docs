@@ -12,8 +12,8 @@
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - любой пользователь для стадий «Моего плана»
-> - любой пользователь с доступом к группе для стадий канбана
+> - любой пользователь для стадий своего «Моего плана»
+> - владелец или модератор группы для стадий канбана группы
 
 Метод `task.stages.add` добавляет стадию канбана или «Моего плана».
 
@@ -25,12 +25,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления новой стадии ||
+[`object`](../../data-types.md) | Значения полей для добавления новой стадии [(подробное описание)](#fields) ||
 || **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала ||
+[`boolean`](../../data-types.md) | Если передать `true`, метод не проверяет права в группе. Параметр действует только для администратора Битрикс24, у других пользователей права проверяются как обычно. По умолчанию — `false` ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -38,21 +38,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **TITLE***
-[`string`](../../data-types.md) | Заголовок стадии ||
+[`string`](../../data-types.md) | Название стадии ||
 || **COLOR**
-[`string`](../../data-types.md) | Цвет стадии в формате RGB ||
+[`string`](../../data-types.md) | Цвет стадии — шестнадцатеричный код RGB из 6 символов без `#`, например `FFAAEE`.
+
+Метод не проверяет формат. Если передать `#FFAAEE`, сохранится обрезанное значение `#FFAAE` ||
 || **AFTER_ID**
 [`integer`](../../data-types.md) | Идентификатор стадии, после которой надо добавить новую стадию.
 
-Если не указано или равно `0`, то добавится в начало ||
+Если не передать или передать `0`, стадия встанет первой. Если стадии с таким идентификатором нет, стадия встанет последней ||
 || **ENTITY_ID**
-[`integer`](../../data-types.md)| Идентификатор объекта.
+[`integer`](../../data-types.md) | Где создать стадию:
+- `ID` группы — в канбане группы
+- `0` или не передан — в «Моем плане» текущего пользователя
 
-Может равняться `ID` группы, тогда стадия добавится в канбан группы.
-
-Если равняется `0` или отсутствует, то стадия добавляется в «Мой план» текущего пользователя.
-
-При недостаточном уровне прав выводится ошибка доступа  ||
+Если пользователь не владелец и не модератор группы, метод вернет ошибку доступа ||
 |#
 
 ## Примеры кода
@@ -66,16 +66,17 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
     "fields": {
         "TITLE": "Название стадии",
-        "COLOR": "#FFAAEE",
+        "COLOR": "FFAAEE",
         "AFTER_ID": 1,
         "ENTITY_ID": 1
     },
     "isAdmin": false
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.add
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.stages.add
     ```
 
 - cURL (OAuth)
@@ -83,17 +84,18 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
     "fields": {
         "TITLE": "Название стадии",
-        "COLOR": "#FFAAEE",
+        "COLOR": "FFAAEE",
         "AFTER_ID": 1,
         "ENTITY_ID": 1
     },
-    "isAdmin": false
+    "isAdmin": false,
+    "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/task.stages.add
+    https://**put_your_bitrix24_address**/rest/task.stages.add
     ```
 
 - JS (TS)
@@ -115,8 +117,8 @@
         method: 'task.stages.add',
         params: {
           fields: {
-            TITLE: 'Stage title',
-            COLOR: '#FFAAEE',
+            TITLE: 'Название стадии',
+            COLOR: 'FFAAEE',
             AFTER_ID: 1,
             ENTITY_ID: 1,
           },
@@ -153,8 +155,8 @@
             method: 'task.stages.add',
             params: {
               fields: {
-                TITLE: 'Stage title',
-                COLOR: '#FFAAEE',
+                TITLE: 'Название стадии',
+                COLOR: 'FFAAEE',
                 AFTER_ID: 1,
                 ENTITY_ID: 1,
               },
@@ -188,7 +190,7 @@
 
     fields = {
         "TITLE": "Название стадии",
-        "COLOR": "#FFAAEE",
+        "COLOR": "FFAAEE",
         "AFTER_ID": 1,
         "ENTITY_ID": 1,
     }
@@ -224,22 +226,22 @@
                 [
                     'fields' => [
                         'TITLE'    => 'Название стадии',
-                        'COLOR'    => '#FFAAEE',
+                        'COLOR'    => 'FFAAEE',
                         'AFTER_ID' => 1,
                         'ENTITY_ID' => 1
                     ],
                     'isAdmin' => false,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding task stage: ' . $e->getMessage();
@@ -254,7 +256,7 @@
         {
             fields: {
                 TITLE: 'Название стадии',
-                COLOR: '#FFAAEE',
+                COLOR: 'FFAAEE',
                 AFTER_ID: 1,
                 ENTITY_ID: 1
             },
@@ -277,7 +279,7 @@
 
     $fields = [
         "TITLE" => "Название стадии",
-        "COLOR" => "#FFAAEE",
+        "COLOR" => "FFAAEE",
         "AFTER_ID" => 1,
         "ENTITY_ID" => 1
     ];
@@ -306,7 +308,7 @@
     res, err := client.Core().Call(ctx, "task.stages.add", b24.Params{
     	"fields": b24.Params{
     		"TITLE":     "Название стадии",
-    		"COLOR":     "#FFAAEE",
+    		"COLOR":     "FFAAEE",
     		"AFTER_ID":  1,
     		"ENTITY_ID": 1,
     	},
@@ -331,7 +333,15 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": 1
+    "result": 1,
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
+    }
 }
 ```
 
@@ -340,8 +350,10 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
+|| **result**
 [`integer`](../../data-types.md) | Идентификатор добавленной стадии ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -360,18 +372,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `EMPTY_TITLE` | Не указан заголовок стадии ||
-|| `ACCESS_DENIED` | Вы не можете управлять стадиями ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `EMPTY_TITLE` | Не указан заголовок стадии | Не передан `TITLE` или передана пустая строка ||
+|| `400` | `ACCESS_DENIED` | Вы не можете управлять стадиями | Пользователь не владелец и не модератор группы из `ENTITY_ID` или группы с таким идентификатором нет ||
+|| `400` | `DISPATCHER_ERROR` | Argument "fields" is required, but no value passed for task.stages.add | Не передан обязательный параметр `fields` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-stages-update.md)
 - [{#T}](./task-stages-get.md)
+- [{#T}](./task-stages-delete.md)
 - [{#T}](./task-stages-can-move-task.md)
 - [{#T}](./task-stages-move-task.md)
-- [{#T}](./task-stages-delete.md)
