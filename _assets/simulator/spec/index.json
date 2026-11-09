@@ -1,7 +1,7 @@
 {
   "$v": 1,
   "generator": "simulator/generate-spec.js",
-  "count": 1596,
+  "count": 1592,
   "methods": [
     {
       "method": "access.name",
@@ -13063,24 +13063,6 @@
       "title": "Изменить поток tasks.flow.Flow.update"
     },
     {
-      "method": "tasks.task.access.field.get",
-      "scope": "tasks",
-      "kind": "read",
-      "page": "/api-reference/tasks/tasks-task-access-field-get.html",
-      "executable": false,
-      "deprecated": false,
-      "title": "Получить поле прав доступа задачи tasks.task.access.field.get"
-    },
-    {
-      "method": "tasks.task.access.field.list",
-      "scope": "tasks",
-      "kind": "read",
-      "page": "/api-reference/tasks/tasks-task-access-field-list.html",
-      "executable": false,
-      "deprecated": false,
-      "title": "Получить список полей прав доступа задачи tasks.task.access.field.list"
-    },
-    {
       "method": "tasks.task.access.get",
       "scope": "tasks",
       "kind": "read",
@@ -13232,24 +13214,6 @@
       "executable": false,
       "deprecated": false,
       "title": "Прикрепить файлы к задаче v 3.0 tasks.task.file.attach"
-    },
-    {
-      "method": "tasks.task.file.field.get",
-      "scope": "tasks",
-      "kind": "read",
-      "page": "/api-reference/tasks/tasks-task-file-field-get.html",
-      "executable": false,
-      "deprecated": false,
-      "title": "Получить поле файлов задачи tasks.task.file.field.get"
-    },
-    {
-      "method": "tasks.task.file.field.list",
-      "scope": "tasks",
-      "kind": "read",
-      "page": "/api-reference/tasks/tasks-task-file-field-list.html",
-      "executable": false,
-      "deprecated": false,
-      "title": "Получить список полей файлов задачи tasks.task.file.field.list"
     },
     {
       "method": "tasks.task.files.attach",
